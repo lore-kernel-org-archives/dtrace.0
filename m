@@ -1,188 +1,354 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0211F13C9A7
-	for <dtrace@lists.linux.dev>; Fri, 26 Apr 2024 11:39:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714131600; cv=fail; b=Yx6WuNCILags2h2898w3GoEG9efa1tGHchegjAMWi2tnl1wJOfCngBGPy68jfOlm9iCRxH0S24XEZ/3If1vCEGWGhwlignW5Ik1hBM6y5CMfzowDJobzqn74hlVIinS9tqErOk04WhZPcF4+WOBvC5u8FkV03oumiLW6ZDDgbEE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714131600; c=relaxed/simple;
-	bh=puThMo08534rWJPPoftw9I/w8KcAjL2EQ7GyQiyjPjc=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	 Content-Type:MIME-Version; b=kdgXUdhC0bbQgVn4fo1355/TuZaOvu3YIEgsSAvXUdcPE7rWJa6f6lXOvXcWCS+51BMoRhQ+TOlJdqpFM9V1d6opdEcYUpONpWLaOMllf7WRX6SskHrbD76R8Fly8N3FW6kS4126ByK/VgS06C9nDKKKAp1x27sdGF8gpkF/eyk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=g6t7Lwch; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=DVjG49ko; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF74145B1C
+	for <dtrace@lists.linux.dev>; Fri, 26 Apr 2024 13:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714138414; cv=none; b=Aq29b3aqWzjFV/anVtBtQQ6/t8U8sWjH1fzjxEun+XBHhu61rhZ93sKPq/7imb8OEaPUfMW2S3YZEzkhFH7fxhT1xIEAgfpOuizgg6kCZetPGiatZ02uUYiZtYS1WDzT7y+TJULlnv0pKF4EWJ8AUDnpmyqq4oA1+iRppPRk+Do=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714138414; c=relaxed/simple;
+	bh=CFQE/ippBNVUAMGynLb9z9qrUKjnuEnCUqEyz9gY44w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZRWk/hZT1aqs6Jwf/b2YuadqCwsgmQtES5ysuUL6oFB1NyPTzpl/KbHVBu0tGLVFtqwsHk2Tl9IdVpo7P6HQfHSz4fY5LKbi7c4K+HyjiSa8OE7BR+wNdl7UVaDlRKRPM8Fz+BNQo53UocJQibokZLEKgAsTfPopKexTU7974xU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Okw9x36A; arc=none smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="g6t7Lwch";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="DVjG49ko"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43Q8Tc1N005243
-	for <dtrace@lists.linux.dev>; Fri, 26 Apr 2024 11:39:58 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Okw9x36A"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43Q8Tkxv008320
+	for <dtrace@lists.linux.dev>; Fri, 26 Apr 2024 13:33:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : references : date : in-reply-to : message-id : content-type :
- mime-version; s=corp-2023-11-20;
- bh=ywPqVPo2dFiDBg7K+2068zyoJTcCuITfNEzZCsenLnI=;
- b=g6t7Lwchz3CIfsnH4T+SBU/CUVMNaRtv7evrzectd/ApM8N/cSjy63a3LNGxjxbs60nU
- pQQ5g79ZeauSL1fvEtsE1ycVuD6qt7vm/8/Yqx0GUB2jdomVxdxmmu4y2fhkLHWV+VYZ
- l+f0SEWHz9bG/lyXrnD9UIFYbQXz6zmUMjr+IN1HuywCy5yVjguqQzRpduCfYYFXzSNU
- meA8rrBOgAQ1H3KnBXV5iu6RneghSQfbdNKVi9mmV90IeMUhz53MZ6opYzO4u1jGHN33
- r7+kg/XKPats34KWFg2OemDCpf72uK2y1yzzoR45yKYZDdPYcxHpFpxkC/f4eXR9wOGe 5w== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3xm68vnts7-1
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-11-20; bh=qctHdv58rQM5QWpDSl8UbFT1phRlOQk7w/Wz63t7IzU=;
+ b=Okw9x36A2PDMFfs8kry7oAftAFVM/lBWfWQcq4Q1b0KdonfFyeZZi/tKTbdZGofoZ19i
+ FEwGh3RK4I/1nkaMqMIzLiazeBPMc+dOI0WIWzUMJraAKIkXHgGtKtbPJahZUuWptqnf
+ oRpcbiqB9jL+I/qO7TliOOfjEc0ML43w9FVxCho21YVp1/KbghbYTBDldgloD19M9MBq
+ SkFiNeTED/d5oEIR4IBIhFmEsGJcufG9o3GuHq181Mj81OxVX5uYeuvksHLrfmSVQpvm
+ Wa1/2QZb/H3MCuuFOYsC+uvEZzQDstUqJAgoGU0Te+139pPCSAMb0wdPvFpiAgFnptmL iA== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3xm5kbwv4k-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 26 Apr 2024 11:39:57 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 43Q9AmS0006169
-	for <dtrace@lists.linux.dev>; Fri, 26 Apr 2024 11:39:56 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3xm45bmjhr-2
+	for <dtrace@lists.linux.dev>; Fri, 26 Apr 2024 13:33:31 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 43QCI0pH001805
+	for <dtrace@lists.linux.dev>; Fri, 26 Apr 2024 13:33:30 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3xm45cdrf3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 26 Apr 2024 11:39:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A0pNk0HxhIC/xw2xWMlEWkeIcmkq+Z6PDQRJqZDHHsO1xu6n6iJIaYOTqKWQbYSq0l4vfsk8Qmx2ZxkyrQjA1RI+vg/awTC8NKv/xsDmmjWYjui3F2u/ccPZJ9KzHFz/uBc3WOA95ib34wJjVe/kvm2QTjCmE5sQR3CTZkC0QcKlqbDH/2gTQmalBJGKUcSANWtro+tNEY+6vN91AM2PPKSnlxCiqXrOHHpOb1uIzr6YlzcZlp6OrywoZWDczbzWhyULvgMZSIfLVgHIDMjpLpXylQT3eU2LwYmJP3XdyReXFoVYNJ0nZmg8QSclD/1zQjlJwVRrini6upVIIEyLWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ywPqVPo2dFiDBg7K+2068zyoJTcCuITfNEzZCsenLnI=;
- b=W4UPaLkkI4536wg5LO4JU32p4lKh/nPSPeEjJ5IOPy9oRUW0NzbDldWfYdh774h3LPFhx31E0XZt1CEuRsB6fLzOepJzzdzJAOI2DPOFKzHckK/wyD5cyKn4b556b0XZQX+VN98uJpvpqdhDRJbxTfWvaNbw51zqOA1Jd169LfxI3YKSjR8QzVOxI1d7VpzKbjK6u/w2Lz1XglsL43UbpX34RevmmiSqs7NpqEJLXHFt4ooWhLXuZzw1Hq3a8dsFpxWWjh1s42OWHUO0z6qBzaIsclSTzgW2sOxHSj1FmrQ6pMN47XK6vF29eFc6GOB8uZ+ZXO1ZL7LVefJxMZXbpg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ywPqVPo2dFiDBg7K+2068zyoJTcCuITfNEzZCsenLnI=;
- b=DVjG49koq8iBOaMIJa3feTOv5VFVK1vVau0VkcBbs8dhPjB26poR7G6gy3k3ax6ZrcMYwDZDrus8/W+3e3WTwTIgZxRZCEUaPXvc3gE3/AbqluGezmNfmLhQNNSKB5N6bSDXGi5aKismwRSiZi+3sis8YoISbxahERw/KIG1ktA=
-Received: from MW4PR10MB6608.namprd10.prod.outlook.com (2603:10b6:303:22e::8)
- by SA1PR10MB7738.namprd10.prod.outlook.com (2603:10b6:806:3ac::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.48; Fri, 26 Apr
- 2024 11:39:52 +0000
-Received: from MW4PR10MB6608.namprd10.prod.outlook.com
- ([fe80::67a4:9544:7249:7751]) by MW4PR10MB6608.namprd10.prod.outlook.com
- ([fe80::67a4:9544:7249:7751%7]) with mapi id 15.20.7472.044; Fri, 26 Apr 2024
- 11:39:52 +0000
-From: Nick Alcock <nick.alcock@oracle.com>
-To: Kris Van Hees <kris.van.hees@oracle.com>
-Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH] test: use a more stable data item
-References: <202404260431.43Q4VLTS004320@pps.reinject>
-Emacs: if SIGINT doesn't work, try a tranquilizer.
-Date: Fri, 26 Apr 2024 12:39:49 +0100
-In-Reply-To: <202404260431.43Q4VLTS004320@pps.reinject> (Kris Van Hees's
-	message of "Fri, 26 Apr 2024 00:31:20 -0400")
-Message-ID: <87wmokl5dm.fsf@esperi.org.uk>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.3 (gnu/linux)
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0492.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1ab::11) To MW4PR10MB6608.namprd10.prod.outlook.com
- (2603:10b6:303:22e::8)
+	for <dtrace@lists.linux.dev>; Fri, 26 Apr 2024 13:33:29 +0000
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 43QDXT9w009511
+	for <dtrace@lists.linux.dev>; Fri, 26 Apr 2024 13:33:29 GMT
+Received: from bpf.uk.oracle.com (dhcp-10-175-218-239.vpn.oracle.com [10.175.218.239])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3xm45cdrdr-1;
+	Fri, 26 Apr 2024 13:33:29 +0000
+From: Alan Maguire <alan.maguire@oracle.com>
+To: dtrace@lists.linux.dev
+Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
+Subject: [PATCH v3 1/2] print() action: identify ctf object used for print
+Date: Fri, 26 Apr 2024 14:33:26 +0100
+Message-Id: <20240426133327.578092-1-alan.maguire@oracle.com>
+X-Mailer: git-send-email 2.39.3
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
 List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR10MB6608:EE_|SA1PR10MB7738:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1776d19c-d027-4f8a-5ec4-08dc65e59682
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?BcM6ARaHDAQz8oOHzGHOvJMSjX8gPLn6JAhehxB60e5db8pTaXeQlRDyNqT2?=
- =?us-ascii?Q?SldbP3IrpZuatGb1Ga3j5G4YhSDlvtO5VY7JcT2TH4Nf9TPeKf0yU9kEx710?=
- =?us-ascii?Q?q8IS7LzgohLtXivdLkzasA4IPn6idjjWKqsAEGTDxI3uQCjcukmUKRwS3k+6?=
- =?us-ascii?Q?zE70x1GJuVi32YEVAjUMd7NBl21qe/G4wM2snBVlyFigqapHbes3WtQZoWN/?=
- =?us-ascii?Q?FRkXWiVzboPYjr07xoSbt5SbxMqZ/qhte8W6O8sELz8BjiElPXBpiMuJ4ndW?=
- =?us-ascii?Q?3kqUW94PhbdJ/TWvdFoeeOZhjLAA/BSNMQQT2Rfi1pvc+l6Dg4x9OK6W2V1+?=
- =?us-ascii?Q?VWoVadPA8BQ3g05YBLrb58yS74mwWzg4iojIc5wcO4VzIuHUd9jtp4KS1VsU?=
- =?us-ascii?Q?+AyGptt0LJ0yh3AU64s9suS51wjn9E0tl5iZ9oXwdqXnkYp4Z9uXuFvhCyEw?=
- =?us-ascii?Q?zV40db64xqldxENHOs6+XV9RQTwrmk/a241WkbmejF7Bb2I+DJaIPP1bd7cM?=
- =?us-ascii?Q?ahMZiINc82w0BpmuS4JLJ4eBJ4nl23uRpxMtMaTzUxz/iKSIfF3SwRcmf1ZD?=
- =?us-ascii?Q?i5DTCX9aLwq+550ym8FFwrdONH+JUS9EsEeDnEmPrgjt4N1/F7ji0mfdEWOz?=
- =?us-ascii?Q?Ri8mv2yQ42GbDbr8pAgu4u0LjqB9znJeGHNFmQJmLFWinDDp8X6aGsc/nkU3?=
- =?us-ascii?Q?vVwFigb7ErYcrfboUQBcYjP1hgQP9MPxnItG7K6vopNAg0ugJqf+IGgGkJje?=
- =?us-ascii?Q?ON1ULqfEhG4pIxIOiVwVF8gsdfaIT/3OQGs8FscBo7YpcU/mh7f9oB85lwfs?=
- =?us-ascii?Q?Ss4jww4+HETNvzdaNay8MuH0K+utrdiEALQMtJlk/SbIP9EznUHYLcx+5erT?=
- =?us-ascii?Q?CI8Tylv0e8rIgdi/yj0YKYGFpEpf+f07gyKW1wKL1Z/WoKF2l+g2GzloLmP+?=
- =?us-ascii?Q?mkWL5IE58lbEHkLHzvHLvwvCcDbAol2G1VJ7Pl13f180MNExF+VBsYSjcwkZ?=
- =?us-ascii?Q?vh+GjNOx8nEOtr86uqHPecv7A7LWB5Dba5ZKqaqiOWovHaW+itPoMWj9e9Kn?=
- =?us-ascii?Q?B+j7qrbZ+ZTPGujWQNgVahIb3RFnUyfmTMnUicmWjx/fx1+azey8yBmoyhaG?=
- =?us-ascii?Q?W6Wved1JE8dWP5wfiYe68Y6yCQJEhsl+iIuTXfF1mnojM8GR0clOt7FVJEh+?=
- =?us-ascii?Q?OXipFanEKb9D7blRIhYfIYvBXd+nrBNTxqsH89oWxxVleAbt6Kq8JLlk0ztj?=
- =?us-ascii?Q?o2ZpbWdMrRJVvXvxpts+H4TGBYXZyOb2geWQHTJOUA=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR10MB6608.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?OS1EJbOdZKdo1ujPUqvH7lkp0YPNX63qx9KG6eXenmeCivhk9o293ItqUbtt?=
- =?us-ascii?Q?m9o6IatDUob13Kq7aB+UntDfqGuFU0BEJSo5Tl0r7Lz++Akwu7BDDUGsefnE?=
- =?us-ascii?Q?UaPL908l4zHVAzuJdShI/1QSI/+XPngmEbvNonBvPaQ0dXIjfbYouIoIo4Y0?=
- =?us-ascii?Q?ypV3Nog56BGjcsCHBrgx6p1IXIZlxaIVmKBJtBqXNXpqsJ9FDmLGlx+0UXi3?=
- =?us-ascii?Q?qjLFYsXR8S3H6L5z1ICC6n9CKiYWRQhNyYvQwkLsUy0B/1wOAzAcx9mHAP48?=
- =?us-ascii?Q?CWFbhfGxuhfXzqaAs7b0gmYRy1XVR9Vod5V5aV+o+WbbUFIOAhkNvE3R8k+K?=
- =?us-ascii?Q?/OA/fsKunWySSrdNDBYJUs8vm29Q9nBPfHX+t99OY+aEVGVIXbFGCoDFex3C?=
- =?us-ascii?Q?ktShLkTv1SqpzMu/riaM72FJlPQP7ha/Um97nT2OisfCyrxek+s3jtOSJMgE?=
- =?us-ascii?Q?ojJABbQEfoJqGQLK/s1wA/t/v6HzTSfXB31QXxjg5q7wUubh4Zju9+oxwATB?=
- =?us-ascii?Q?wXOQ651KNfuyrAhDAflA9tXydPHgoZovMeOKVzv8N/3sr1PbtE8VO6F9JKj3?=
- =?us-ascii?Q?+jOqDXrhoBt6hkTUO300OC9JO1nbRkKjQzZVgK5iq7akRKQaBSwUvsiQJcaS?=
- =?us-ascii?Q?gDkKJr+6QDW1zM+SL3WGub92hGC0A+Btsk6xhKv9STuHNLfmD3BsXBzvhcnb?=
- =?us-ascii?Q?/CFHc2WYqopITlMU6o1a9fhkpXKoeVUjsd2V9T9S/1d2TQWCvY6SPjjnR9qN?=
- =?us-ascii?Q?MIrtM1CoKVfOCSx59LPtVBeES4WwrztTilx2ZjQqjePLDNdVKTbyKKLT/JHr?=
- =?us-ascii?Q?ubdC9dM/ThbLN4VIpFOG63XCwCrW3UXWvIm5ylqraa6f1QFe8CGPRJSdS9H2?=
- =?us-ascii?Q?AOGWWWwmXpzdD6gt96ToNBjbhWNnui3PRzBD8ve+Gcy3Ny4JP5LXwMBawi5c?=
- =?us-ascii?Q?dOxFGZ1pUp3JYnU7QQIrYVHTTfXOO/uVm5EaH+lBrCA0J8aCSGL5kVyn/WYJ?=
- =?us-ascii?Q?UIi8reUNrTxH8PtHHCdKfynSJFqshJSqYsY05QAHzO6ojJYHHEdowqWz0wKT?=
- =?us-ascii?Q?5fMHYp59eHtjQCRvma3aBdU4YUBEjF3BLOXZqIsXOBjjx4i+0HFR8sppt5vY?=
- =?us-ascii?Q?Sdaa7oqsmmhH67IycClLvuEtHNuX4ShqWNKN775IE8Qi+1PbaiKmd4aX4t0O?=
- =?us-ascii?Q?jqub8wXFqIQ+KCyd+vGAZ//TnIBDlTen4nXF8He4zb09Dr+C/Ft3rcnTf5Wc?=
- =?us-ascii?Q?rpKtcMgLyIpnXMBGafTqnuJFAth9KYck5ED62J1WSEPVhTqZqvgRuFqXkPYl?=
- =?us-ascii?Q?Je8tvJBUExPHCLfn4gIyWl4DrN1U/qKSmaPETwWsnJ9aa6Ux7YZiQQ/R4cUX?=
- =?us-ascii?Q?XgAM0BeX5hekGP0iV1aF/6w5Yomcek4ziNjXNCfQivJ84sC6BQHbxUgGcdZb?=
- =?us-ascii?Q?/E9Ld2mwF98oF4vN7A70AO7j+O6P1+b7bUkZR8j5VfMKxt7iiMFaL4O11giS?=
- =?us-ascii?Q?YGq22dilQvJOTd6K5R4I7pHlLRbPZCZS7zCysATI+f1658vkbHOyn7pXQf32?=
- =?us-ascii?Q?78Hjyb7HYoz6JgXDFZhg7foJ8C5uTq/ok1Mxg8tLL9MGczO5fzCLS/byk1UM?=
- =?us-ascii?Q?lA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	gQWzZe5S+qBtT2IW/xu2uSfzGVU3rHd583adZLQZ00p9coZMS9dnT7FyrIdiYXOZVvp39X/kZJ4gQr8VAvhBJ/P33O5pWyO8F+fpCg6slnH2Ewm/uuFO07oSrEFG+6x/URxklHXXjmInBisKdMJvOlF88wroEIDJO+yXI7gmhBXjOmK7sV7fcTc8+yNXQZO1kk7/E55ys6dngpSqRp6P2T2qyieufhng61adRblQca5oMnEu8dqKO0uUgBZh6E7bTe0Ex2aO7BLRO29AoF32NnxisPWjsysTDcHc+Xtl//TDZgmpsY3dBtMjM1scvggXWhtliZcHjjlhyauEMOQNKIghNSU3IDWwMdKUhoOnWJp3jKm/ZUkDIJWiRdliMbbgZ5+djud3Kp4eeBqDjb95TsjjYsX+BKc5BoPoxjl71lYcbA5+p9b9Laq6408EeXhEN/5FqLRx08b+qaHL8UDaAw+miN8rjWEm6s7+FeiapHS+DXWC/NAUPW63QiyfVfI5yuEKeEgLJDhSl7bCpPK/n2lWtPKOsMawS0TlY1q3E14iSHWbjU09cD5Fpzktwl9lmMbrkEMSbCcpYy3IzGDEdjxpQlojmOwwdj5G75ie1UE=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1776d19c-d027-4f8a-5ec4-08dc65e59682
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR10MB6608.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2024 11:39:52.7557
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v11Juhvrhg6aD+J2glogxtEkl7YMYAl9+2jxNVkboD9/+Rtt9IGNGtZWiGhH86/mcdwGV6jBK51ERP/XtnDw+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB7738
+Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
  definitions=2024-04-26_12,2024-04-26_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0 spamscore=0
- bulkscore=0 suspectscore=0 mlxlogscore=999 adultscore=0 phishscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 suspectscore=0 bulkscore=0
+ mlxlogscore=999 spamscore=0 malwarescore=0 mlxscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2404010000
- definitions=main-2404260077
-X-Proofpoint-GUID: FdW6TH9eZcKtw3sMj4z7NNa1KlkUZsgs
-X-Proofpoint-ORIG-GUID: FdW6TH9eZcKtw3sMj4z7NNa1KlkUZsgs
+ definitions=main-2404260089
+X-Proofpoint-GUID: 3Q44KBd6CGeZsTvv8whDj3YJV_XJdGKG
+X-Proofpoint-ORIG-GUID: 3Q44KBd6CGeZsTvv8whDj3YJV_XJdGKG
 
-On 26 Apr 2024, Kris Van Hees said:
+when generating code for print() action we need to identify source
+of CTF; is it shared CTF, cdefs or ddefs or another module?
+Introduce a module id scheme where the module id can be stored
+at cg time for later retrieval at print time; this allows us
+to later look up the module and its associated CTF without relying
+on possibly freed pointers.
 
-> The runtime bounds check exception for dynamically sized arrays in
-> kernel structures depended on a kernel symbol that is not quite as
-> stable as expected.  Use a member from the mm_struct instead.
+Under the hood, the id scheme uses a monotonic counter coupled
+with the hash of the modules name; the latter allows us to quickly
+look up the right bucket via dt_htab_find_hval().
 
-Your assumption that it was analyzed in any way for stability is
-touching, but inaccurate :P
+This fixes an issue encountered when using a shared kernel type
+with alloca()ed memory; DTrace assumed the type was in ddefs
+and it wasn't so it wasn't displayed.  This change fixes that and
+all tests continue to pass.  Also tested that it works with
+kernel module-defined types now:
 
-Pure gut feeling replaced with something a bit more obviously sorta
-stable (at least it needs more work to massively change it upstream,
-and massive mm changes are fairly rare):
+dtrace: description 'fbt::ieee80211_rx_napi:entry ' matched 1 probe
+CPU     ID                    FUNCTION:NAME
+  7 123161          ieee80211_rx_napi:entry 0xffff9f8980fa08e0 = *
+                                            (struct ieee80211_hw) {
+                                             .conf = (struct ieee80211_conf) {
+                                              .listen_interval = (u16)10,
+                                              .long_frame_max_tx_count = (u8)4,
+                                              .short_frame_max_tx_count = (u8)7,
+                                             },
 
-> Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+---
+ libdtrace/dt_cg.c      |  7 ++++++-
+ libdtrace/dt_consume.c |  7 +++++--
+ libdtrace/dt_htab.c    | 17 +++++++++++++++++
+ libdtrace/dt_htab.h    |  2 ++
+ libdtrace/dt_impl.h    |  1 +
+ libdtrace/dt_module.c  | 30 ++++++++++++++++++++++++++++++
+ libdtrace/dt_module.h  |  1 +
+ libdtrace/dt_printf.c  | 12 +++++++++---
+ libdtrace/dt_printf.h  |  2 +-
+ 9 files changed, 72 insertions(+), 7 deletions(-)
 
-Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
+diff --git a/libdtrace/dt_cg.c b/libdtrace/dt_cg.c
+index 27246a40..30cccdaf 100644
+--- a/libdtrace/dt_cg.c
++++ b/libdtrace/dt_cg.c
+@@ -20,6 +20,7 @@
+ #include <dt_dctx.h>
+ #include <dt_cg.h>
+ #include <dt_grammar.h>
++#include <dt_module.h>
+ #include <dt_parser.h>
+ #include <dt_printf.h>
+ #include <dt_provider.h>
+@@ -2832,7 +2833,9 @@ dt_cg_act_print(dt_pcb_t *pcb, dt_node_t *dnp, dtrace_actkind_t kind)
+ 	ctf_id_t	type = addr->dn_type;
+ 	char		n[DT_TYPE_NAMELEN];
+ 	size_t		size;
++	dt_module_t	*dmp;
+ 
++	dmp = dt_module_lookup_by_ctf(dtp, fp);
+ 	type = ctf_type_reference(fp, type);
+ 	if (type == CTF_ERR)
+ 		longjmp(yypcb->pcb_jmpbuf, EDT_CTF);
+@@ -2842,9 +2845,11 @@ dt_cg_act_print(dt_pcb_t *pcb, dt_node_t *dnp, dtrace_actkind_t kind)
+ 			"print( ) argument #1 reference has type '%s' with size 0; cannot print( ) it.\n",
+ 			ctf_type_name(fp, type, n, sizeof(n)));
+ 
+-	/* reserve space for addr/type, data/size */
++	/* reserve space for addr/type, module identification, data/size */
+ 	addr_off = dt_rec_add(dtp, dt_cg_fill_gap, DTRACEACT_PRINT,
+ 			      sizeof(uint64_t), 8, NULL, type);
++	dt_rec_add(dtp, dt_cg_fill_gap, DTRACEACT_PRINT,
++		   sizeof(uint64_t), 8, NULL, (uint64_t)dmp->dm_id);
+ 	data_off = dt_rec_add(dtp, dt_cg_fill_gap, DTRACEACT_PRINT,
+ 			      size, 8, NULL, size);
+ 
+diff --git a/libdtrace/dt_consume.c b/libdtrace/dt_consume.c
+index dec2314b..432b4e12 100644
+--- a/libdtrace/dt_consume.c
++++ b/libdtrace/dt_consume.c
+@@ -1987,9 +1987,11 @@ static int
+ dt_print_print(dtrace_hdl_t *dtp, FILE *fp, dtrace_recdesc_t *rec,
+ 	       const caddr_t buf)
+ {
+-	dtrace_recdesc_t *data_rec = rec + 1;
++	dtrace_recdesc_t *ctf_rec = rec + 1;
++	dtrace_recdesc_t *data_rec = rec + 2;
+ 	size_t max_size = dtp->dt_options[DTRACEOPT_PRINTSIZE];
+ 	size_t size = (size_t)data_rec->dtrd_arg;
++	unsigned long dm_id = (unsigned long)ctf_rec->dtrd_arg;
+ 	uint64_t printaddr;
+ 
+ 	if (size > max_size)
+@@ -1998,7 +2000,8 @@ dt_print_print(dtrace_hdl_t *dtp, FILE *fp, dtrace_recdesc_t *rec,
+ 	if (dt_read_scalar(buf, rec, &printaddr) < 0)
+ 		return dt_set_errno(dtp, EDT_PRINT);
+ 
+-	return dt_print_type(dtp, fp, printaddr, (ctf_id_t)rec->dtrd_arg,
++	return dt_print_type(dtp, fp, printaddr, dm_id,
++			     (ctf_id_t)rec->dtrd_arg,
+ 			     (caddr_t)buf + data_rec->dtrd_offset, size);
+ }
+ 
+diff --git a/libdtrace/dt_htab.c b/libdtrace/dt_htab.c
+index 478c728a..3c167cb5 100644
+--- a/libdtrace/dt_htab.c
++++ b/libdtrace/dt_htab.c
+@@ -229,6 +229,23 @@ void *dt_htab_find(const dt_htab_t *htab, const void *entry,
+ 	return ent;
+ }
+ 
++/* Find an entry in the hashtable, using the provided callback function as a
++ * secondary comparison function to differentiate between entries in a bucket.
++ * A pre-computed hash value is passed in.
++ */
++void *dt_htab_find_hval(const dt_htab_t *htab, uint32_t hval,
++			dt_htab_ecmp_fn *cmpf, void *arg)
++{
++	int		idx = hval & htab->mask;
++	dt_hbucket_t	*bucket;
++
++	for (bucket = htab->tab[idx]; bucket; bucket = bucket->next) {
++		if (cmpf(bucket->head, arg))
++			return bucket->head;
++	}
++	return NULL;
++}
++
+ /*
+  * Remove an entry from the hashtable.  If we are deleting the last entry in a
+  * bucket, get rid of the bucket.
+diff --git a/libdtrace/dt_htab.h b/libdtrace/dt_htab.h
+index d39ae65e..1ce5a80d 100644
+--- a/libdtrace/dt_htab.h
++++ b/libdtrace/dt_htab.h
+@@ -100,6 +100,8 @@ extern void *dt_htab_lookup(const dt_htab_t *htab, const void *entry);
+ typedef int dt_htab_ecmp_fn(const void *entry, void *arg);
+ extern void *dt_htab_find(const dt_htab_t *htab, const void *entry,
+ 			  dt_htab_ecmp_fn *cmpf, void *arg);
++extern void *dt_htab_find_hval(const dt_htab_t *htab, uint32_t hval,
++			       dt_htab_ecmp_fn *cmpf, void *arg);
+ extern size_t dt_htab_entries(const dt_htab_t *htab);
+ extern int dt_htab_delete(dt_htab_t *htab, void *entry);
+ extern void *dt_htab_next(const dt_htab_t *htab, dt_htab_next_t **it);
+diff --git a/libdtrace/dt_impl.h b/libdtrace/dt_impl.h
+index 2dfb64d6..2bd1dafe 100644
+--- a/libdtrace/dt_impl.h
++++ b/libdtrace/dt_impl.h
+@@ -136,6 +136,7 @@ typedef struct dt_module {
+ 	dt_list_t dm_list;	/* list forward/back pointers */
+ 	char dm_name[DTRACE_MODNAMELEN]; /* string name of module */
+ 	char dm_file[PATH_MAX]; /* file path of module */
++	unsigned long dm_id;	/* id of module */
+ 	uint_t dm_flags;	/* module flags (see below) */
+ 	struct dt_hentry dm_he;	/* htab links */
+ 	dtrace_hdl_t *dm_dtp;	/* backpointer to the dtrace instance */
+diff --git a/libdtrace/dt_module.c b/libdtrace/dt_module.c
+index 1e730426..7697f73b 100644
+--- a/libdtrace/dt_module.c
++++ b/libdtrace/dt_module.c
+@@ -35,6 +35,8 @@
+ #define KSYM_NAME_MAX 128		    /* from kernel/scripts/kallsyms.c */
+ #define GZCHUNKSIZE (1024*512)		    /* gzip uncompression chunk size */
+ 
++unsigned int module_idx = 0;
++
+ static void
+ dt_module_unload(dtrace_hdl_t *dtp, dt_module_t *dmp);
+ 
+@@ -50,6 +52,12 @@ dt_module_hval(const dt_module_t *mod)
+ 	return str2hval(mod->dm_name, 0);
+ }
+ 
++/* id is combination of hash and index */
++static void dt_module_init_id(dt_module_t *dmp)
++{
++	dmp->dm_id = ((unsigned long)dt_module_hval(dmp)) << 32 | module_idx++;
++}
++
+ static int
+ dt_module_cmp(const dt_module_t *p, const dt_module_t *q)
+ {
+@@ -150,6 +158,7 @@ dt_module_create(dtrace_hdl_t *dtp, const char *name)
+ 
+ 	memset(dmp, 0, sizeof(dt_module_t));
+ 	strlcpy(dmp->dm_name, name, sizeof(dmp->dm_name));
++	dt_module_init_id(dmp);
+ 	if (dt_htab_insert(dtp->dt_mods, dmp) < 0) {
+ 		free(dmp);
+ 		return NULL;
+@@ -193,6 +202,27 @@ dt_module_lookup_by_ctf(dtrace_hdl_t *dtp, ctf_file_t *ctfp)
+ 	return ctfp ? ctf_getspecific(ctfp) : NULL;
+ }
+ 
++static int
++dt_module_idmatch(const dt_module_t *m1, dt_module_t *m2)
++{
++	return m1->dm_id == m2->dm_id;
++}
++
++/* High-order 32 bits of id are hash value, low order the module index.
++ * This allows us to limit cost of search based on bucket size.
++ */
++dt_module_t *
++dt_module_lookup_by_id(dtrace_hdl_t *dtp, unsigned long id)
++{
++	uint32_t hval = id >> 32;
++	dt_module_t tmpl;
++
++	tmpl.dm_id = id;
++
++	return dt_htab_find_hval(dtp->dt_mods, hval, (dt_htab_ecmp_fn *)dt_module_idmatch,
++				 &tmpl);
++}
++
+ static int
+ dt_module_init_elf(dtrace_hdl_t *dtp, dt_module_t *dmp)
+ {
+diff --git a/libdtrace/dt_module.h b/libdtrace/dt_module.h
+index 56df17a6..68dadfc6 100644
+--- a/libdtrace/dt_module.h
++++ b/libdtrace/dt_module.h
+@@ -18,6 +18,7 @@ extern dt_module_t *dt_module_create(dtrace_hdl_t *, const char *);
+ 
+ extern dt_module_t *dt_module_lookup_by_name(dtrace_hdl_t *, const char *);
+ extern dt_module_t *dt_module_lookup_by_ctf(dtrace_hdl_t *, ctf_file_t *);
++extern dt_module_t *dt_module_lookup_by_id(dtrace_hdl_t *, unsigned long);
+ 
+ extern ctf_file_t *dt_module_getctf(dtrace_hdl_t *, dt_module_t *);
+ extern dt_ident_t *dt_module_extern(dtrace_hdl_t *, dt_module_t *,
+diff --git a/libdtrace/dt_printf.c b/libdtrace/dt_printf.c
+index 50842216..108adc23 100644
+--- a/libdtrace/dt_printf.c
++++ b/libdtrace/dt_printf.c
+@@ -14,6 +14,7 @@
+ #include <limits.h>
+ #include <port.h>
+ 
++#include <dt_module.h>
+ #include <dt_printf.h>
+ #include <dt_string.h>
+ #include <dt_impl.h>
+@@ -2236,13 +2237,18 @@ err:
+ 
+ int
+ dt_print_type(dtrace_hdl_t *dtp, FILE *fp, uint64_t printaddr,
+-	      ctf_id_t type, caddr_t data, size_t size)
++	      unsigned long dm_id, ctf_id_t type, caddr_t data, size_t size)
+ {
+ 	struct dt_visit_arg dva;
++	dt_module_t *dmp = dt_module_lookup_by_id(dtp, dm_id);
+ 
++	if (!dmp) {
++		dt_dprintf("error retrieving CTF for print() action\n");
++		return dt_set_errno(dtp, EDT_CTF);
++	}
++	dva.dv_ctfp = dt_module_getctf(dtp, dmp);
+ 	dva.dv_dtp = dtp;
+ 	dva.dv_fp = fp;
+-	dva.dv_ctfp = dtp->dt_ddefs->dm_ctfp;
+ 	dva.dv_data = data;
+ 	dva.dv_size = size;
+ 	dva.dv_last_depth = 0;
+@@ -2260,5 +2266,5 @@ dt_print_type(dtrace_hdl_t *dtp, FILE *fp, uint64_t printaddr,
+ 	if (dt_print_close_parens(&dva, 0) < 0)
+ 		return -1;
+ 
+-	return 2;
++	return 3;
+ }
+diff --git a/libdtrace/dt_printf.h b/libdtrace/dt_printf.h
+index 9771c4a8..8d55d82b 100644
+--- a/libdtrace/dt_printf.h
++++ b/libdtrace/dt_printf.h
+@@ -108,7 +108,7 @@ extern int dt_print_ustack(dtrace_hdl_t *, FILE *,
+     const char *, caddr_t, uint64_t);
+ extern int dt_print_mod(dtrace_hdl_t *, FILE *, const char *, caddr_t);
+ extern int dt_print_umod(dtrace_hdl_t *, FILE *, const char *, caddr_t);
+-extern int dt_print_type(dtrace_hdl_t *, FILE *, uint64_t, ctf_id_t,
++extern int dt_print_type(dtrace_hdl_t *, FILE *, uint64_t, unsigned long, ctf_id_t,
+ 			 caddr_t, size_t);
+ 
+ #ifdef	__cplusplus
+-- 
+2.39.3
+
