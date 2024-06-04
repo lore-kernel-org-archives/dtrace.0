@@ -1,78 +1,79 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DAB149DE2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8882149006
 	for <dtrace@lists.linux.dev>; Tue,  4 Jun 2024 18:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717524722; cv=fail; b=X2ErLXc84oMspzGiitaZcOAGAjEqD/iNd0VXgfOG/FrlyrmkaVbAKSTij7HnK/nGYBQAk+5rfqf566PyXLkKqxOBDQ9Mifso5bk6SaDLiSUAOVI5MpANiLJ2C0jerEKP0uqeqf2h0M0d7ZG+JqtNbAG7/G9hi12Ho/gWJ2I2YzI=
+	t=1717524722; cv=fail; b=pQyoX4EfvhbUbHDYJkd0ZoBb6S3dLZkM0XnvRZeWVF4G+TIIocX1PAfFvafIGPL+zHzak7AnWkJK4VKNXt2paqyCAo7LuB2BXrMbRc9rOboVqv57+XiVoqLfHNYZy+kF/BKozUD6U5a+qWftr2+ZTVxaH+GAXZPdCJ8un9S3pwE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1717524722; c=relaxed/simple;
-	bh=okRnJbLlBHpyks+fWRNcQ7tTHwXoOYiTofLne/AnQT0=;
+	bh=r0Ki3Or1FEOAklT3kx2j/2rPqr8I4HTXiy+j9yTpX0A=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=reFJ8a417+SEkqaEzyFzlH22woF8KerSQCqU/BTT5iNzasO4/XC1MkIUTw2yr4rkt8N624lVn+LAihwU5OAq5ZbNJGgfAZoZOVTNQoKymd/7hznKiEoqH+wzkqWCdbI3yyDn0GdBE9HnKrCjpQIrwtJz18hOS8err/o4EHfWYAg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Type:MIME-Version; b=f1DvqlNO+4uMq8uGrb4luICrb50hYTxxEOn8RqMRQGWN/yzueccxRq9UBn6y0BHZM1qPtUE/WuEcbsfFvIvl0fyiURKpRP9KGGTmCeA2O1MaNxmcceuT6/X9e3ZdVDoKvqPo7kuMZecHMig8CNMw/SJ3xnvXwQ4YotqVxlEGAHo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 454Bn2DY013802
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 454BnST4026512
 	for <dtrace@lists.linux.dev>; Tue, 4 Jun 2024 18:12:00 GMT
 DKIM-Signature: =?UTF-8?Q?v=3D1;_a=3Drsa-sha256;_c=3Drelaxed/relaxed;_d=3Doracle.com;_h?=
  =?UTF-8?Q?=3Dcontent-type:date:from:in-reply-to:message-id:mime-version:r?=
- =?UTF-8?Q?eferences:subject:to;_s=3Dcorp-2023-11-20;_bh=3D32rCe+aP4dJLELi?=
- =?UTF-8?Q?oZsiISBQmQupMo0hgXJDGojbQjZk=3D;_b=3DQ71HJb78DciN6RpURPopeB33T+?=
- =?UTF-8?Q?QGqjxcFTWai9+boJRsKhj27laaPllEaYz8wVtpUi2J_EepYr7KXcobl4wLUu21i?=
- =?UTF-8?Q?NKUleJhD4gcReRIjjOy7VMQ/q+toWPkFFRKLvS95gYKFFEOW_p4C2hVQ5KxyBOr?=
- =?UTF-8?Q?gKwuPOPnD0zff9lX90VIdvewxJ16xmLjhGyGmcVZBIuh0FZ1h61cKx_Obca85dP?=
- =?UTF-8?Q?YBQ4EwjwTLE9bbq5zGynTDRruu/ElGLO2buhICqxo481U3WzxpM1M0gK6wMs_fd?=
- =?UTF-8?Q?m/xCoALf9Mm4B1itEJg+kTZanXZE+1YR6Ce+i4PrRl3gKuJRWxQir81pKyomW1B?=
- =?UTF-8?Q?M/2_UQ=3D=3D_?=
+ =?UTF-8?Q?eferences:subject:to;_s=3Dcorp-2023-11-20;_bh=3DZaVV8Mxe/o17nK9?=
+ =?UTF-8?Q?VCWlmWlHCL9SMX6nHmpmHDKhvFWQ=3D;_b=3DcvFYHCq2us5xP+w/U5JSFBPv5y?=
+ =?UTF-8?Q?AMwprCvLX/qJupmsr0U0HCf3VX+VGXm0rxQ18Hmhud_4MdqcJGRc2hNzHrOTe4w?=
+ =?UTF-8?Q?4omlaUyM0ptPaTJAwut725ZXpNG+6i4Od+sCdeJT1pCJTzst_qoFV8oRCXqkKlv?=
+ =?UTF-8?Q?qSsUC0yxI9HGNc5OxLkxkq9VDQlf9mA2/NPBWxFVKPFzQeCdOAP2sl_yXZTm/YX?=
+ =?UTF-8?Q?acVt2efSx0AEDNmYrSVLC44LtlNKBbE4h1aIn2uxfx2KRslLcliFpK3w1eFm_S8?=
+ =?UTF-8?Q?A6Qr9r1j1DxXQROsUMkYQcD1fLOJJYchWW6JHnrujzR8C4hk6FER8d6QYYWqt5r?=
+ =?UTF-8?Q?L+i_iw=3D=3D_?=
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3yfuwm5mfd-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3yfv07wmuu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <dtrace@lists.linux.dev>; Tue, 04 Jun 2024 18:11:59 +0000
 Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 454HtMhl020558
-	for <dtrace@lists.linux.dev>; Tue, 4 Jun 2024 18:11:58 GMT
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 454HtMhm020558
+	for <dtrace@lists.linux.dev>; Tue, 4 Jun 2024 18:11:59 GMT
 Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2041.outbound.protection.outlook.com [104.47.56.41])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3ygrj2cpnp-4
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3ygrj2cpnp-5
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 04 Jun 2024 18:11:58 +0000
+	for <dtrace@lists.linux.dev>; Tue, 04 Jun 2024 18:11:59 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XQh0ZUtdamKh+juasDxOVE6wEILfL4fkjJCfuEmAuLGlawrYFPQXDj6SKnb1lDSMw9d2v4J0xvsOZ04udVdYh2cYIno7kdOrZiA0UzIeFzTiRwYmMRMPB79CxEvl9zsFNUJtgJFzMOQJdC47mLhfIxaVFRqQwxPZzGF/C0AeSUVTbWzzOoXw6tlKDdmNdGnXSD//5Ltakbl++CdMLzvlQLHo5aLGU/aPDi/HGb1kUaX98bCysL3iGzF/ewbc4Wt/PnDOKWmowCni3Q5ENuz3pHSO1iPtxUn2p4S2i+HmVa8yYcwc86UOSBDeowY8UbaQS1kAkJH2bfyoF888LgMXpw==
+ b=PG3MXKY2pLtXct3nFCnz22V497Kg9bMBWR07w8jeTWYziE2VpBXCrXt4d7zN61CxVTiWCVLOT0RvmLnhivojPLtwIQ5h0PKWixmR5xnQvX89Up3DUHzPGauObFvsfpQ/EK8cHsNh3U81IF8I893sSFGvgMvapJ12St1AdWin947ZlDDrzyYqIkfQFwLzuKdcezbb5CJyETkgWabMINhpulNu6DwSCXRT4DF0FGYSqJd7GwlcuHxT9Qf4k2r9lzqYdSgYU5rwt9worzun9l31ZkRuX1l1L0XfXGGpSoIssfn0fNiBWoqVxA+gcGqj0XUcPY/kd7CHkBv4VpTllvUvtg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=32rCe+aP4dJLELioZsiISBQmQupMo0hgXJDGojbQjZk=;
- b=kIWXRU+TOsHMknVAQjtTF/CtbBGKszUVT+l0gmTn1S8T0W2xJrktHpFaDuOdhZpNw/QpVM4fDmq49wOvVmdMDJ03HKmXzhPgkVUpTzmLBETrVqlHNEByVLi+np5f2cLx4PCXx4tNAPWxZk4bXCHii+M+78/gXZw8ZOZvZLIaYASbB1IsNRaAVxdLfffyWxllTHd6CkgU0LSW9EDO4xoMZdCvUr3GRYSetcCLOYDwLouG0BbV4cMuTjec37Sanc47pCu29xP3G646HR3lD0fMEgh6JrXSZhkmMibLSF6qG2zewWh9ARugUkveqaQKM2PWcS8MMo17ahSQ4Sp/FYACXg==
+ bh=ZaVV8Mxe/o17nK9VCWlmWlHCL9SMX6nHmpmHDKhvFWQ=;
+ b=EN9hPXZK4VNHc4idzI9uDcLbWUh7CryxAFbZmujW358QOiFofNazEPwEXYGL4NH2F4b4THutprqYqENbC6L6Kin4W8AVehwbWGB5B3oz0Hk96GK1gew5lD+g0g+FEB80FC7UXQgn4PsuMxk0uuRkMEjwL5tUNOtr5wdDunogjtuptI4DYxUm9MK3FRDI9W1yQOtQdzT4kJ93pPgkzEGyYf2hVK9xFBWunmq+VhTyzS1Jq+wI3aPGoErsSuZzoRgsauRtaG/aASqxKNgScvpL/j0nbatIBEY3QWQvpwWEkUOCfYLOc4CCfmSo8YdLS8946Wx4qizxN8/Rd7oJxAurzw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=32rCe+aP4dJLELioZsiISBQmQupMo0hgXJDGojbQjZk=;
- b=kwgg8ydmu/XmjrtFGqY3no+uzz6y57rsV6UTD5dmJSqoKPJfro7d+jqLfZ0ix6GEM7Yv0pFv7vEHvQSbo0++RC/erDIVvDHl03hC8cDMw7JsvfYPtgdcLBYYxwsZBCloca5QUcV4SPOukJjN7z0E71w3gvs4tI4Z8CPIZe90P4Y=
+ bh=ZaVV8Mxe/o17nK9VCWlmWlHCL9SMX6nHmpmHDKhvFWQ=;
+ b=PQQbmrQ7xqPm6UqRmWFyyHD/VhU2rtrIuDcefZxkayIca+wA6XcJFACv4oFNGMChYEiLCRhW4NAYhMvXfjxQtoRALO1S5bWVSs9v7cuL8keigJwmyR74cKDiEat+/OjHND+7CgfR1ImIP1EL6khPzm/Rfx2w2cPHnBAYrZwmAvE=
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
  by DS7PR10MB5197.namprd10.prod.outlook.com (2603:10b6:5:3ab::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.25; Tue, 4 Jun
- 2024 18:11:51 +0000
+ 2024 18:11:55 +0000
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69%4]) with mapi id 15.20.7633.021; Tue, 4 Jun 2024
- 18:11:51 +0000
+ 18:11:55 +0000
 From: eugene.loh@oracle.com
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH 08/14] Use uprobes map to call clauses conditionally
-Date: Tue,  4 Jun 2024 14:11:07 -0400
-Message-Id: <20240604181113.11505-9-eugene.loh@oracle.com>
+Subject: [PATCH 09/14] Systemwide USDT WIP
+Date: Tue,  4 Jun 2024 14:11:08 -0400
+Message-Id: <20240604181113.11505-10-eugene.loh@oracle.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20240604181113.11505-1-eugene.loh@oracle.com>
 References: <20240604181113.11505-1-eugene.loh@oracle.com>
 Content-Type: text/plain
-X-ClientProxiedBy: BYAPR01CA0044.prod.exchangelabs.com (2603:10b6:a03:94::21)
- To CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
+X-ClientProxiedBy: SJ0PR13CA0118.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c5::33) To CO6PR10MB5636.namprd10.prod.outlook.com
+ (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -81,77 +82,77 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|DS7PR10MB5197:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4cedb43e-aee8-408b-9565-08dc84c1cefe
+X-MS-Office365-Filtering-Correlation-Id: 9e05d8fa-121c-42c1-ad1b-08dc84c1d018
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|1800799015|376005;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?Z8PLf3Wd/2IkNf9/oTJBjS6N0d5jlUMPOH2wGKoYIwzqG4a2HHVbYAIP3j0k?=
- =?us-ascii?Q?H+kM8CN4ppEY4CWuh1Pa7EnZS93OXjWwOpRMmMqXr5pJDxkvcbrOjriwz1LW?=
- =?us-ascii?Q?ztL9p5eBLrQjN4ynrOcgts9wgbymUJaxiGcpmh+6NPBsq5ZzgX4PlXGsmYoV?=
- =?us-ascii?Q?vyeVkXv0VnCEeMg1XQqsbj0jf5GoJXIgp4XZuO5J6o7zgfueB+0oOrfisUz9?=
- =?us-ascii?Q?GQdv3mniHTQfpmHANSnujHf2s21CEKnHxyD9kNZ6r8BL5h27+YYoqf0CXJDD?=
- =?us-ascii?Q?0K3Ti3zCmde4O6NSHS7n3oPSAxqI0vBbLPRFr4RSGslPH/AuMMzwX1plhcsm?=
- =?us-ascii?Q?uA9CVEBGqoZznX2cC5hjfZCaRE8k5L4H6I8ku1eF9YkCkGweNxFT7Yd7BwKE?=
- =?us-ascii?Q?lmQu4KErC79Mw17PMBvPhaNaWrDTbOedkWTbZayEsnNwivz4mSqom06R29aQ?=
- =?us-ascii?Q?oqcmTbikql99RP7J4xds0Xm57So+Z5KW1kTJ+MfEwWo5kLIobYFuLeCs2mJ3?=
- =?us-ascii?Q?gMSm3+w9MX8NP/VgFknIcwXFF37zOpmOHFRgnlYTApmzHBys2Yd6T2wOlQYN?=
- =?us-ascii?Q?xGzVvk0aYKv6AH+kwgCEks83TYvabzh8/wAUcxOkcl9xewY4Up/7mEkDKBCf?=
- =?us-ascii?Q?TvzFUYz9iqh6Cv04o0+fE0aWVX2XrWQ1q/cybkfFARxPDR2A178DrDCs0nVY?=
- =?us-ascii?Q?F7CI/Oe0SOxpE1WPPaVJ46WrczOcNBLmNJQTZiL8+MI/oT31livR9XvYhi/x?=
- =?us-ascii?Q?pKUIQztBnyaSZSt15oG4bBD0Jb5J67MENT4wyNmRETGvfnnBKw+wB7lMRrLy?=
- =?us-ascii?Q?QiWVcuEeZS65Y2FYhUW6GfrJ08r09VZJAsZdujzxdjfvyxfjkS9xOA3CEga/?=
- =?us-ascii?Q?yemrQAP47/D0yr8cM03jEF4AXhILEjPwI+RPCCfEsKL7tRptUmPJVc4BuuFg?=
- =?us-ascii?Q?MUcgpjreMwx4xM4nLy6nJXhM3CJDb5XcoWncE8hBYYs+k6VIO5p54havIki4?=
- =?us-ascii?Q?7UtNZqQ+7vHovuqu8sn95nqRki0ckgmOXMcVMp/AduNV0Ya+PDQWeXIVM84y?=
- =?us-ascii?Q?YGnPn2j4tV4U7jpGsnH3wYCR6YppaiEixyTQE3iBzuL6HU/CYlIuFm+irM8p?=
- =?us-ascii?Q?Z/LsQj0FYcnn/vKr0cPMMIxGEYH7UcEmzLcs38LEgEmxu0Sql05LDikkQtMH?=
- =?us-ascii?Q?eB/lVdKrpQW2HrlIBnpBVvNFKz1jDY/yp+4UZawSZd0lzuB9smdGIADxISrN?=
- =?us-ascii?Q?EN15fxK7GB7c3oaOThFzNsqPjZNQqlZMs+9tP1uNuw=3D=3D?=
+	=?us-ascii?Q?uXdsBMo5CspphYD5J+qmEuxGHs+vCRep8QjstbJ5QZpuYDQihAx4oWBneD+7?=
+ =?us-ascii?Q?KY1/7an3sUZmeec45exXswetc3vc1KT5rtohpwDsdE+kqQ84PJNgp+E+CTgJ?=
+ =?us-ascii?Q?LQSoQ6u3yTscDoxedp2Ic292Tt75LM861WcBI+e70OINWFLUCc3RNTIcpnH6?=
+ =?us-ascii?Q?aoREP95aBxJwyovjdppSSvlRTeBn2GMW4zyOKDS4SBg9VRhu0b9T8Muu1dIf?=
+ =?us-ascii?Q?dJw2cIck5/nZ66LXBpltUNJgUD9utT2NpqzSmrBbsBIA6UsPiY3rkhyCe5Ax?=
+ =?us-ascii?Q?bsrq9ULUW0YSDYZp4nUHeG4cYBBnNdiVz1E1H7+9sWc9xfG04TcevkE2Ey6m?=
+ =?us-ascii?Q?xE/7gRnisioMtL2B4OlI/DGban2L3EsGZK5lUXsaqJCiKzONrBf5aphMMqbB?=
+ =?us-ascii?Q?j6VcMfNKXrosrgOGwd6dzUpArChL8lQMBm2IPNBZpGIf2eIAVNO7z+nJkQX/?=
+ =?us-ascii?Q?910yQgjbawB+uep6QBOReWJU0xBpO+ajDoOU8+mvAMPR5tbVFid+USNPz4yK?=
+ =?us-ascii?Q?BAI8l7E9/S8alE+ngwgMx6xCSukItpoTxz2cRcCVbkS0wwl+cNtisqVQJSg1?=
+ =?us-ascii?Q?Tdy+xj5VtWu3cNzcAw8D27aM7bWRLLL0tDGuEw6YKVy3L4tVzhVgynY11Vne?=
+ =?us-ascii?Q?uixPSpy3NJfbgOzNW6kjc4+py4/N4FGL16h4FacdvS5fVG6FXUEHxcFQz0MM?=
+ =?us-ascii?Q?MnLuyUq9xhjmlJR1p4hNKpdRzojXhghME1KhL0XWqPaNgRoOItJ2yqn7o1dX?=
+ =?us-ascii?Q?6n9ffoS5QocZEoIUQROwFWUmH8VWR9k8cJwq1/UrUToDo87zaMKVpg4BVWFb?=
+ =?us-ascii?Q?EGqDdaW/YprewCWBMSzRcSNdeDLzk9HrDwWXgF9ZfEqDMmsmwMjjbF4XyzQN?=
+ =?us-ascii?Q?aeYab9FR0BMzfF31HI8n1Oznph9hLIKrX/QK1s+5h/i2mZKKd6EVow2jJEhF?=
+ =?us-ascii?Q?VeACmf7+2DmR9+A/q3/1B6gWc+WNILvcA6ntJm8DACujvwuNFvRKUeC25F7o?=
+ =?us-ascii?Q?8oTAD1lLmyQbZ1YiNkhxks2VG8qiXQRzmRTPn7ClTaZvodDNOkAkp7tlkz5R?=
+ =?us-ascii?Q?2NB/c11FhZ4OO6l5CUTPDEK+1f9i+nl2Y4PFpyfX4qoGcNuGac+H4jFxgf+e?=
+ =?us-ascii?Q?7B+1qcSIxXspRydVMuQ1Za6c/7cqozrBAIOth6B8cOXPcOzBjKs2w3TdlGPj?=
+ =?us-ascii?Q?YIcPawpsWo5I5ySqMbOIsK4SqpsEg/Z3E8JFZ9ro2lUYlMYFG6D2nAXdRuy5?=
+ =?us-ascii?Q?bvu5y77jAod6T5LsG/RDdy7ocmo3bW4a/GGGfhIjxg=3D=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?25AtM34s+ke+wfDUMsuqVz5jZ+3QT4+72WhQXnM9YY1vdhtfMWgtP/mD2Ez7?=
- =?us-ascii?Q?gOfURjphK8UQLbwKTtIAm/x8t+WThEkJG9IM8PRKU8ITrrp3iYe2AtaPZ5HZ?=
- =?us-ascii?Q?NP6a0gc0TgwH9xjgGM5VeXByHMrsJeY0qBHCqw+1P1QHK8F7hOSjRpMeidBd?=
- =?us-ascii?Q?zzWgar6crgFmBA3Ykx+ijpvnX9TmEEI4puRG06WO8QAvViPqDmlfizd9+sBR?=
- =?us-ascii?Q?WOXYDhkSVtSHCs9RHZPqgdrPgPbSctV5Wl09SctuA0Y2dkvwoQiSVxXF9p8Q?=
- =?us-ascii?Q?R37UPFjYmjavgcDDkpgxerdVTOxh2c4kCyq+m0TdRvVRwQZgT3jzMsmg0VmA?=
- =?us-ascii?Q?CVZ5zxedFKescnl/96TEfkYwNXufRF9rUn+7oN4UOIdFjnPR/FM7oIyN3ln6?=
- =?us-ascii?Q?uYXxLxaX7x6Lce3EnfC7a72t4QffWokGbUzZNPbsTr0WkVf5dz09V/W7NitE?=
- =?us-ascii?Q?C0wTMGvFxUxKKPUjAe2tlX54WTMYbc72KwuDj5Z/sHhxW/N82p3yZ8j+NqKz?=
- =?us-ascii?Q?KxUtCfRFuJrBr4tiXTY+SAVdZdpIkCnObQbGi+RTTrZYWNZF3UL4nrR5fNrw?=
- =?us-ascii?Q?7iZgeykhkO1J8NaIL7paWJOx30T8+9FxFDlG9+evAqTfI98G9xisDj6DGprB?=
- =?us-ascii?Q?a4qIiDd88EYI5J9avu6ESQymJ0KW8oFPrPljHOlw6P3qoyopJoSVgg3vvI+L?=
- =?us-ascii?Q?fORmfCLInoferepM95qq8Jrv9nhcYc0VawsmbFAjFssAwkhEDFDeNJ7gC0hw?=
- =?us-ascii?Q?XRTYjIik51nfYKfQB/VeBVPXw978m+HyFYm0XkptuEVc/IWWw7Czr8OaTnHS?=
- =?us-ascii?Q?6i9Osi8WruvkSDx5hqiHBK6tAZ76bUYodISKaBECV9u388J0xYFLVXbCSvds?=
- =?us-ascii?Q?W/On6bcNITkVJb8MQB9ZP74YBYeN6Th0OJCy3islM9I0p2t194PYvXaKw3em?=
- =?us-ascii?Q?Awd2HYW1izKq8nitLNU7bwc2i5vr8YxWZsUZNyEU0ClhVQSM524Lo/wMOLOH?=
- =?us-ascii?Q?IZMi7VfNHE5jPzjSztiD5bQ2YC6uD3y1L1zGuQk11Q7vcw5krpG9iS0GMpd4?=
- =?us-ascii?Q?sdznY0ZIIYZK6fBGuGDK3CdDzr+dE/RyQlLquNCycymyqXldc9EQm+PJPHCV?=
- =?us-ascii?Q?VGFU39/29kvxGdIWnh2bqBz+LJMz2e+/afRGxo5+1c9zqVOQiGYVTmx15wat?=
- =?us-ascii?Q?i+v2EFX/rsXfwDR4YhB0uF4DehYeZDq6E6k14ooHi7cBPgLuEclVCnM80HOy?=
- =?us-ascii?Q?yPb9CrlzIPmaYWzVOP42m3faDHPMf8rVi9F3b13+O57MKq1dRJYKZcFyE8TK?=
- =?us-ascii?Q?AmX6Z4XJkq34Fl91W2VMe9yYY7o3WfAWlGRK2Nj3be5JJ+UQ31aD3uezwBBk?=
- =?us-ascii?Q?+JGPgpuMLXE2XMJMRHuxXN5RP10VJQ0ri+TTjeHH4HnCqXqYROD84nmXANMT?=
- =?us-ascii?Q?PK25cxIw2O98b867cCDqMuEDMJxcz/6HHTM+S494XJZ5NEf8l1ILj3mHiG+c?=
- =?us-ascii?Q?wPxH8YEiM7ZW/nSOk07vA/LqKbcUCmkm06b36dSFIa2qQo9S3A+lsHmRl4OT?=
- =?us-ascii?Q?lbNnLgDSEAE9yn62h/UaOTvys2ICuFSfbKiXtgcY?=
+	=?us-ascii?Q?WIyLzcSiicOQ6sKo+7iBMtw+eiVf6daBskegrA5PbVET0YEjlnjc0jFJkTkW?=
+ =?us-ascii?Q?2L/btgwHA/srHMCgnNihLdPC28M6SuaV03b5YyaBXuIN4b9VOonGqiZ4UOL0?=
+ =?us-ascii?Q?bK1eSdJTT/cVnysUfqeGkOYAeuB4LvVS7h71abrBH6KnpFFWy2pbZgIA6Mb5?=
+ =?us-ascii?Q?1EQnsklZeTK6eYulAsDkb00s3pDoUy1L552Je8XoP42ZfSKJE3/omK6ZDwer?=
+ =?us-ascii?Q?rrqXpr5tzIZ/M+m9zwivhuAz+JZ3Cxl+rnEx1ak0l8/Nq01PEHaXDjRXAthC?=
+ =?us-ascii?Q?EjO339z8Yz8B+Pc5x0l06KC753AIC7ocHGJdH8RiH3jP3fZ63XXgoMaS67Vm?=
+ =?us-ascii?Q?MOY1dDHTk55rDA8YoQnZGn6Y0/2dDteLJX2DwW454+xVD1zGqfntwP9R3cWA?=
+ =?us-ascii?Q?lpVZKaGC4j7UOz0B03f4FKnELVNYzBqsjcz/aP6R3BFW9whO8m6ZObX/x/SB?=
+ =?us-ascii?Q?8GCw6l6btscn1KJCAR9nzdAU68/nygbZqGxFyARF8bhZqvdRiBSB0jXFqF53?=
+ =?us-ascii?Q?bxilCb90rzVfRod4MaQXIXkKf9WUyIL1K9jcOZSAuCavV3dv5knAuXxUF0tz?=
+ =?us-ascii?Q?PnLO5X1xEYjgnu3wAz6aYYBKmQYFBmuLrWwdwm5YDFarx33Uv77Ze3YDoxgm?=
+ =?us-ascii?Q?jg/+84kYHm2VtLvUrTGR/MCffdwVjVckKUlZXpZ7+7O2H+uj4CH1VNGcbj1L?=
+ =?us-ascii?Q?lEwNcurBT634a03XNW5g3K4GLv6YsvZQjHaJtoxUWTGBXKazDSKbD9VKMtLf?=
+ =?us-ascii?Q?oaiobH3zb1KtCr/AraqrmAZzsKLOVN0MK+Oiw/Z33jrpa2QaI79ttGih/yDt?=
+ =?us-ascii?Q?1vVEtF6svgSLT3vFUur54qNHkICSpEvgHaQp/oVvPJ19a9B9Clr0I3ZbooOP?=
+ =?us-ascii?Q?7oh5+t8FQa6/weEe28eFqgQql5n/Tl4OuBkjOGkfnehjL7Kd6KMITo0ua3UO?=
+ =?us-ascii?Q?pVOyvnYtGXyY4hTdCWXCP7NJNBRdR5cS30KhbIcFXRWuVzsm8sJHCHMG7U4E?=
+ =?us-ascii?Q?SfVVEebfzG37Jc2yx+KISChko0LWVMV2SVpOmYbnepG0KwjG7Rxpc9Q9OkOO?=
+ =?us-ascii?Q?ZnfX+wy7V97vNcAxj/S3Az4ptXy3u7CEuXTOGzmaqVSq00COg0XwG5kqCVk2?=
+ =?us-ascii?Q?pn85AdlwyaYF3GbDQ/ptWJ+qinlIKafA+olz2w+zEpiHVSic2furKDnPwmhu?=
+ =?us-ascii?Q?uVdOpG6hBmFJ/AJZgpj+koH8yx5LVeClFpATR5/VzNMjX/xlo3yFBamfIRiv?=
+ =?us-ascii?Q?Z3RsZ3hYdjQR5mtNUfsAIsys7LzlwNCOmiIB05TFDSxYUEIuWvXJKGG8tTLl?=
+ =?us-ascii?Q?wFqtSrNfA9ncIGXwxlhocEjt3iwtxs/1Sq7ElJe1mv3H3Syw2ZVkRgjhDkso?=
+ =?us-ascii?Q?lb86HHHUnKgLnfxM50S0L1N11QBMpwuxoH/OGUmXr+uJV3HAXUzTk2sB+O0X?=
+ =?us-ascii?Q?ThG8yVMU9mWNyjLd3XTKPhM+mtUuilCnSt01spOqTgxa73Py1NgQWmywGKPh?=
+ =?us-ascii?Q?jVp0/IKctq6YdUwWeE+FFEXepkrZWvM29GAtVF3LFS0+aB3gcL5NoVZb8hfn?=
+ =?us-ascii?Q?4Z10OYLUwso56iEAbNDUnwiBrr9HCxgQzBRm61nQ?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	bLhrSWobFYLFuncJRgwhnG5WHd6VQnhmyMQ93LfPiRp4lhq8rxDA3pu5eqki5DRQMXkGZ2MkbzzgMr/NZ3cP6p03szsyTOvteRU7omsGyBMmltNM1hab1Neeg1LFe+kX/SX7mm/ko3paprAG6CJnIPsqXNi1n8DvERbCDT8ZdfxN2T4hiN0gM20717PeI7JTmCHKm20jedBOWR3Vbkwdq/481T9Bo/kyRpFYGn3jV0aDH9N6R/72Ew4FeALwdMaqR46i47Qw/f422UuQOkCORurov7XVfRYnO/1GtGSsqBdOWa0mUQuSej2P4osfbUoxiz3xFcHrL/6e5RWcDneMuUBPCB8EWsbriZwtBWHXrz2VgIpHsrEEN1CrKucmA6GyVJAAGxonLN8fzXFW/wVLpRrQadocoGM9ybKrRSd/R52IyEQW+NP4KuXaiNQUekuTkzegnXlZMjleVELD20qMQ3l1ANXRWYtCyuHy9lK0s2Nq0Ytw4e4zrHhhkAwrMJdjHk4U5qGj932+l+RH/8OATI9Mi37KYUZAOSFdFxJfcSIWVhu+AKhzczyJHMOYd33EodTZYNG3hcrmNdPjNYurAKXByXSU2MVppt62puHfo1w=
+	a0ZBWpX/Npx0hP2eTfJ9pcbg7OBAAlP9i7fVO8mVzcL9Mz/uwbCGW8b/4ntLFLbdqvGuLNO+P6TvmIStnZ8Qs/sX/f6vMPdvLIUGrOioiZTxbMlyZl4uobkjPsq0KNqC8w1HUzffWh1jQUbIYqsvJWaDwl0RaMWTQQy82glToQ2IM2Nz/uMAbKWnlEwIW765W2c/JvAZUxwKG+MA4ubDPXGEYwYXYRDbFP7+cPiEPFfvu7WPafb1ZMpzXTdxFJWsWEb4DSo1T97Gz/p2iyyKQbxweg5xSiPiG86wiDBMH8ef3X1dQl1VRbr3E3ECv56JWo/v+ai4Xf8pe3UdlYfy8gInjNkhuVxRDbYtpazWzbIc9C+m2iBFkpP0d7tLoqx/i4FijrdrmHMr/fK5TYEkxgEb/AtzkgGxTnFwfL7htIH4EF//D9Hpy/nTkpEzTwurfPR/awfOmS0mUY3lFVlqh3Q5rv3NhG/1OTmdctYk0ahXTI1In8Rk2vDywTigIdVp/0xjGeqdwy/syfMHgi+eFf1GA+gLP834r4tK33/pFnkY/E8wIKKtKnkhd+O3emaSjE9wfvok3jHsqDvPFD185D5M7wIghHJTxmeifTxX2T4=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4cedb43e-aee8-408b-9565-08dc84c1cefe
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e05d8fa-121c-42c1-ad1b-08dc84c1d018
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2024 18:11:51.7156
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2024 18:11:53.9655
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IB2vpl0/CyqgOOc8+QmvwR00bEr8we8V0dzxtn+/D2x3jtiLCj9xHHar7tNAHatW0if1kmJSS2jlwT1WJF+/mg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: WvgcHxmcGZFccB3hK6xBhQpbsoolLSqbf5NMDzy+sGVbQIcA7RDyyozHQyX/s4V6nXCiqrADWw06FhI1wOKNDA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5197
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
@@ -160,129 +161,273 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishs
  adultscore=0 spamscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2405010000
  definitions=main-2406040146
-X-Proofpoint-GUID: vxIlIItFodLIVMqBipVvk6I-l4WakFnu
-X-Proofpoint-ORIG-GUID: vxIlIItFodLIVMqBipVvk6I-l4WakFnu
+X-Proofpoint-GUID: P-p7OPLdKjTvhjtG1836dSHVtqSiC_Ie
+X-Proofpoint-ORIG-GUID: P-p7OPLdKjTvhjtG1836dSHVtqSiC_Ie
 
 From: Eugene Loh <eugene.loh@oracle.com>
 
+need to:
+- review tests
+- add process monitoring
+- deal with FIXMEs
+
 Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 ---
- libdtrace/dt_prov_uprobe.c | 88 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 87 insertions(+), 1 deletion(-)
+ libdtrace/dt_cc.c                             |   3 +-
+ libdtrace/dt_pid.c                            | 136 +++++++++++++++---
+ libdtrace/dt_prov_uprobe.c                    |   1 +
+ .../dtrace-util/tst.ListProbesNameUSDT.sh     |   1 -
+ .../dtrace-util/tst.ListProbesProviderUSDT.sh |   1 -
+ 5 files changed, 122 insertions(+), 20 deletions(-)
 
-diff --git a/libdtrace/dt_prov_uprobe.c b/libdtrace/dt_prov_uprobe.c
-index 591f2fab..cb79e0a3 100644
---- a/libdtrace/dt_prov_uprobe.c
-+++ b/libdtrace/dt_prov_uprobe.c
-@@ -498,7 +498,7 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
- 	dt_irlist_t		*dlp = &pcb->pcb_ir;
- 	const dt_probe_t	*uprp = pcb->pcb_probe;
- 	const dt_uprobe_t	*upp = uprp->prv_data;
--	const list_probe_t	*pop;
-+//	const list_probe_t	*pop;
- 	uint_t			lbl_exit = pcb->pcb_exitlbl;
+diff --git a/libdtrace/dt_cc.c b/libdtrace/dt_cc.c
+index 6bff7e0f..eddf8252 100644
+--- a/libdtrace/dt_cc.c
++++ b/libdtrace/dt_cc.c
+@@ -279,7 +279,8 @@ dt_setcontext(dtrace_hdl_t *dtp, const dtrace_probedesc_t *pdp)
+ 	 * and tag -- we just have to longjmp() out of here.
+ 	 */
+ 	if (pdp->prv && pdp->prv[0] &&
+-	    isdigit(pdp->prv[strlen(pdp->prv) - 1]) &&
++	    (isdigit(pdp->prv[strlen(pdp->prv) - 1]) ||
++	             pdp->prv[strlen(pdp->prv) - 1] == '*') &&
+ 	    ((pvp = dt_provider_lookup(dtp, pdp->prv)) == NULL ||
+ 	     pvp->pv_flags & DT_PROVIDER_PID) &&
+ 	    dt_pid_create_probes((dtrace_probedesc_t *)pdp, dtp, yypcb) != 0) {
+diff --git a/libdtrace/dt_pid.c b/libdtrace/dt_pid.c
+index 93a7ce76..e07a3a4b 100644
+--- a/libdtrace/dt_pid.c
++++ b/libdtrace/dt_pid.c
+@@ -780,8 +780,8 @@ validate_dof_record(const char *path, const dof_parsed_t *parsed,
+ /*
+  * Create underlying probes relating to the probespec passed on input.
+  *
+- * If dpr is set, just set up probes relating to mappings found in that one
+- * process.  (dpr must in this case be locked.)
++ * dpr must be set and locked.  Just set up probes relating to mappings found
++ * in this one process.
+  *
+  * Return 0 on success or -1 on error.  (Failure to create specific underlying
+  * probes is not an error.)
+@@ -795,9 +795,6 @@ dt_pid_create_usdt_probes(dtrace_hdl_t *dtp, dt_proc_t *dpr, dtrace_probedesc_t
+ 	char *probepath = NULL;
+ 	glob_t probeglob = {0};
  
- 	dt_cg_tramp_prologue(pcb);
-@@ -522,6 +522,7 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
- 	emit(dlp,  BPF_CALL_HELPER(BPF_FUNC_get_current_pid_tgid));
- 	emit(dlp,  BPF_ALU64_IMM(BPF_RSH, BPF_REG_0, 32));
+-	/*
+-	 * Systemwide probing: not yet implemented.
+-	 */
+ 	assert(dpr != NULL && dpr->dpr_proc);
+ 	assert(MUTEX_HELD(&dpr->dpr_lock));
  
-+#if 0
- 	/*
- 	 * Generate a composite conditional clause:
- 	 *
-@@ -565,6 +566,91 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
- 		emitl(dlp, lbl_next,
- 			   BPF_NOP());
- 	}
-+#else
-+	dt_ident_t	*uprobes = dt_dlib_get_map(pcb->pcb_hdl, "uprobes");
-+	list_clause_t	*cl;
-+
-+	assert(uprobes != NULL);
-+
+@@ -1104,22 +1101,96 @@ dt_pid_get_pid(const dtrace_probedesc_t *pdp, dtrace_hdl_t *dtp, dt_pcb_t *pcb,
+ 	return pid;
+ }
+ 
++static char *
++convert_pidglob(char *s)       // FIXME expect const char *?
++{
 +	/*
-+	 * Look up in the BPF uprobes map.  Space for the look-up key will be used
-+	 * on the BPF stack at %r9-sizeof(uprobe_map_key_t).  The key comprises the
-+	 * pid (in %r0) and the underlying-probe prid.
++	 * Convert a glob for "pid[1-9][0-9]*" into one for just the numerical
++	 * portion.  It will always be a subset of the input string.  A NULL
++	 * pointer is returned if there is no such string -- e.g., if the input
++	 * string is "foo1234".
++	 *
++	 * There is no need to check the entire string for legality.  E.g., if
++	 * the input string is "pid*q*", we can simply return "*q*".  Then, this
++	 * string will not match any "[1-9][0-9]*";  we do not need to intervene.
 +	 */
-+	emit(dlp,  BPF_STORE(BPF_W, BPF_REG_9, (int)(-sizeof(uprobe_map_key_t)), BPF_REG_0));
-+	emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_9, (int)(-sizeof(dtrace_id_t)) /* or -sizeof(uprobe_map_key_t) + sizeof(pid_t) */, uprp->desc->id));
-+	dt_cg_xsetx(dlp, uprobes, DT_LBL_NONE, BPF_REG_1, uprobes->di_id);
-+	emit(dlp,  BPF_MOV_REG(BPF_REG_2, BPF_REG_9));
-+	emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, (int)(-sizeof(uprobe_map_key_t))));
-+	emit(dlp,  BPF_CALL_HELPER(BPF_FUNC_map_lookup_elem));
-+	emit(dlp,  BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_0, 0, lbl_exit));
++	char	*p;
++	int	nchars = 0;	/* number of chars of "pid" we have seen so far */
 +
-+	/* Read the PRID from the table lookup and store to mst->prid. */
-+	emit(dlp,  BPF_LOAD(BPF_W, BPF_REG_1, BPF_REG_0, 0));
-+	emit(dlp,  BPF_STORE(BPF_W, BPF_REG_7, DMST_PRID, BPF_REG_1));
-+
-+	/* Read the bit mask from the table lookup in %r6. */    // FIXME someday, extend this past 64 bits
-+	emit(dlp,  BPF_LOAD(BPF_DW, BPF_REG_6, BPF_REG_0, offsetof(uprobe_map_val_t, mask)));
-+
-+	/*
-+	 * Now loop over clauses.
-+	 *
-+	 * How do we know which clauses are called by this underlying probe?
-+	 * Each dt_probe_t has a "clauses" list, but that's built by
-+	 *
-+	 *     dt_program.c
-+	 *         dtrace_program_exec()
-+	 *             dtrace_stmt_iter(..., dt_prog_stmt, ...);
-+	 *         dt_prog_stmt()
-+	 *             dt_probe_iter(..., dt_stmt_probe, ...);
-+	 *         dt_stmt_probe()
-+	 *             dt_probe_add_clause(...);
-+	 *
-+	 * which is to say that the "clauses" list will be built for overlying
-+	 * probes, while we are interested here in underlying probes.  Should
-+	 * dt_probe_add_clause() also take some provider-specific action?
-+	 *
-+	 * For now, let's just look up the clause using what we know about
-+	 * the clause numbering.
-+	 */
-+	/*
-+	 * Hold the bit mask in %r6.
-+	 */
-+	for (cl = dt_list_next(&upp->clauses); cl != NULL; cl = dt_list_next(cl)) {
-+		char		nm[32];       // FIXME hardwired size
-+		dt_ident_t	*idp;
-+		uint_t		lbl_next = dt_irlist_label(dlp);
-+
-+		sprintf(nm, "dt_clause_%d", cl->clause);
-+		idp = dt_idhash_lookup(pcb->pcb_hdl->dt_bpfsyms, nm);       // FIXME what if idp is NULL?
-+
-+		/* Test the lowest bit. */
-+		emit(dlp,  BPF_MOV_REG(BPF_REG_1, BPF_REG_6));
-+		emit(dlp,  BPF_ALU64_IMM(BPF_AND, BPF_REG_1, 1));
-+		emit(dlp,  BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_1, 0, lbl_next));
-+
-+		/*
-+		 *      if (*dctx.act != act)   // ldw %r0, [%r9 + DCTX_ACT]
-+		 *	      goto exit;      // ldw %r0, [%r0 + 0]
-+		 *			      // jne %r0, act, lbl_exit
-+		 */
-+		emit(dlp,  BPF_LOAD(BPF_DW, BPF_REG_0, BPF_REG_9, DCTX_ACT));
-+		emit(dlp,  BPF_LOAD(BPF_W, BPF_REG_0, BPF_REG_0, 0));
-+		emit(dlp,  BPF_BRANCH_IMM(BPF_JNE, BPF_REG_0, DT_ACTIVITY_ACTIVE, lbl_exit));
-+
-+		/* dctx.mst->scratch_top = 8 */
-+		emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_7, DMST_SCRATCH_TOP, 8));
-+
-+		/* Call clause. */
-+		emit(dlp,  BPF_MOV_REG(BPF_REG_1, BPF_REG_9));
-+		emite(dlp, BPF_CALL_FUNC(idp->di_id), idp);
-+
-+		/* Finished this clause. */
-+		emitl(dlp, lbl_next,
-+			   BPF_NOP());
-+		emit(dlp,  BPF_ALU64_IMM(BPF_RSH, BPF_REG_6, 1));
++	for (p = s; ; p++) {
++		switch (*p) {
++// FIXME:  I think this passes stuff like "pd1234", "id1234" etc.  So make sure 'p' 'i' and 'd' are hit or else there is a '*' to jump over them.
++		case 'p':
++			if (nchars > 0)
++				return NULL;
++			nchars = 1;
++			break;
++		case 'i':
++			if (nchars > 1)
++				return NULL;
++			nchars = 2;
++			break;
++		case 'd':
++			if (nchars > 2)
++				return NULL;
++			nchars = 3;
++			break;
++		case '*':
++			break;
++		case '\0':
++			if (p == s)
++				return NULL;
++			if (*(p - 1) != '*')
++				return p;
++			return p - 1;
++		default:
++			if (*p < '0' || *p > '9')
++				return NULL;
++			if (p == s)
++				return NULL;
++			if (*(p - 1) != '*')
++				return p;
++			return p - 1;
++		}
 +	}
++}
++
+ int
+ dt_pid_create_probes(dtrace_probedesc_t *pdp, dtrace_hdl_t *dtp, dt_pcb_t *pcb)
+ {
+-	char provname[DTRACE_PROVNAMELEN];
+ 	dt_proc_t *dpr;
+ 	pid_t pid;
+-	int err = 0;
++	int err = 0, i, nmatches = 0;
++	glob_t globbuf;
++	char globpat[256];             // FIXME hardwired size
+ 
+ 	assert(pcb != NULL);
+ 
+-	if ((pid = dt_pid_get_pid(pdp, dtp, pcb, NULL)) == -1)
++	/* Exclude pid0 from being specifically requested. */
++	if (strcmp(pdp->prv, "pid0") == 0) {
++		dt_pid_error(dtp, pcb, NULL, D_PROC_BADPID,
++			     "pid0 does not contain a valid pid");
+ 		return -1;
++	}
++
++	/*
++	 * Try pid probes.
++	 */
++	sprintf(globpat, "/proc/%s/map_files", convert_pidglob(pdp->prv));
++	nmatches = glob(globpat, 0, NULL, &globbuf) ? 0 : globbuf.gl_pathc;
++	for (i = 0; i < nmatches; i++) {
++		if (strncmp(globbuf.gl_pathv[i], "/proc/self", 10) == 0)
++			continue;
+ 
+-	snprintf(provname, sizeof(provname), "pid%d", (int)pid);
++		pid = strtol(globbuf.gl_pathv[i] + strlen("/proc/"), NULL, 10);    // FIXME need error checking or anything?
++
++#if 1
++		// FIXME: omit this check?
++		char provname[DTRACE_PROVNAMELEN];
++		snprintf(provname, sizeof(provname), "pid%d", (int)pid);
++		assert(gmatch(provname, pdp->prv) != 0);
 +#endif
  
- 	dt_cg_tramp_return(pcb);
+-	if (gmatch(provname, pdp->prv) != 0) {
+ 		if (dt_proc_grab_lock(dtp, pid, DTRACE_PROC_WAITING) < 0) {
+ 			dt_pid_error(dtp, pcb, NULL, D_PROC_GRAB,
+ 			    "failed to grab process %d", (int)pid);
+@@ -1129,14 +1200,45 @@ dt_pid_create_probes(dtrace_probedesc_t *pdp, dtrace_hdl_t *dtp, dt_pcb_t *pcb)
+ 		dpr = dt_proc_lookup(dtp, pid);
+ 		assert(dpr != NULL);
  
+-		err = dt_pid_create_pid_probes(pdp, dtp, pcb, dpr);
++		// FIXME handle err better
++		err = dt_pid_create_pid_probes(pdp, dtp, pcb, dpr);        // FIXME rename to dt_pid_create_pid_probe()?
+ 		dt_proc_release_unlock(dtp, pid);
+ 	}
++	globfree(&globbuf);
+ 
+ 	/*
+-	 * If it's not strictly a pid provider, we might match a USDT provider.
++	 * Try USDT probes.
+ 	 */
+-	if (strcmp(provname, pdp->prv) != 0) {
++	sprintf(globpat, "%s/probes/*/%s/%s/%s/%s", dtp->dt_dofstash_path,
++		pdp->prv,
++		pdp->mod[0] == '\0' ? "*" : pdp->mod,
++		pdp->fun[0] == '\0' ? "*" : pdp->fun,
++		pdp->prb[0] == '\0' ? "*" : pdp->prb);
++	nmatches = glob(globpat, 0, NULL, &globbuf) ? 0 : globbuf.gl_pathc;
++
++	for (i = 0; i < nmatches; i++) {
++		char *s = strdup(globbuf.gl_pathv[i] + strlen(dtp->dt_dofstash_path) + strlen("/probes/"));
++		// FIXME: do we really need to strdup/free this, or can modify in-place?
++		char *p = strchr(s, '/'), *q;
++		char nullchar = '\0';
++		dtrace_probedesc_t pdptmp;
++
++		*p = '\0';
++		p++;
++		q = strchr(p, '/');
++		*q = '\0'; q++;
++// FIXME should also check dof_version, though that doesn't do much yet
++		pid = atoll(s);
++
++		// Check, since dtprobed takes a while to clean up dead processes.
++		if (!Pexists(pid))
++			continue;
++
++		pdptmp.prv = p;
++		pdptmp.mod = &nullchar; pdptmp.mod = q; q = strchr(q, '/'); *q = '\0'; q++;
++		pdptmp.fun = &nullchar; pdptmp.fun = q; q = strchr(q, '/'); *q = '\0'; q++;
++		pdptmp.prb = &nullchar; pdptmp.prb = q;
++
+ 		if (dt_proc_grab_lock(dtp, pid, DTRACE_PROC_WAITING |
+ 				      DTRACE_PROC_SHORTLIVED) < 0) {
+ 			dt_pid_error(dtp, pcb, NULL, D_PROC_GRAB,
+@@ -1147,17 +1249,17 @@ dt_pid_create_probes(dtrace_probedesc_t *pdp, dtrace_hdl_t *dtp, dt_pcb_t *pcb)
+ 		dpr = dt_proc_lookup(dtp, pid);
+ 		assert(dpr != NULL);
+ 
+-		err = dt_pid_create_usdt_probes(dtp, dpr, pdp, pcb);
++		err = dt_pid_create_usdt_probes(dtp, dpr, &pdptmp, pcb);  // FIXME: we care about not just the last err
+ 
+ 		/*
+ 		 * Put the module name in its canonical form.
+ 		 */
+-		dt_pid_fix_mod(NULL, pdp, dtp, dpr->dpr_pid);
++		dt_pid_fix_mod(NULL, &pdptmp, dtp, dpr->dpr_pid);
+ 
+ 		dt_proc_release_unlock(dtp, pid);
++		free(s);
+ 	}
+-
+-	/* (USDT systemwide probing goes here.)  */
++	globfree(&globbuf);
+ 
+ 	return err ? -1 : 0;
+ }
+diff --git a/libdtrace/dt_prov_uprobe.c b/libdtrace/dt_prov_uprobe.c
+index cb79e0a3..618219b8 100644
+--- a/libdtrace/dt_prov_uprobe.c
++++ b/libdtrace/dt_prov_uprobe.c
+@@ -766,6 +766,7 @@ static int trampoline_is_enabled(dt_pcb_t *pcb, uint_t exitlbl)
+ 		emit(dlp,  BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_0, pid, lbl_assign));
+ 	}
+ 	emit(dlp,  BPF_JUMP(lbl_exit));
++
+ 	copyout_val(pcb, lbl_assign, 1, 0);
+ 
+ 	dt_cg_tramp_return(pcb);
+diff --git a/test/unittest/dtrace-util/tst.ListProbesNameUSDT.sh b/test/unittest/dtrace-util/tst.ListProbesNameUSDT.sh
+index c5dfc72b..9d8f06e9 100755
+--- a/test/unittest/dtrace-util/tst.ListProbesNameUSDT.sh
++++ b/test/unittest/dtrace-util/tst.ListProbesNameUSDT.sh
+@@ -5,7 +5,6 @@
+ # Licensed under the Universal Permissive License v 1.0 as shown at
+ # http://oss.oracle.com/licenses/upl.
+ #
+-# @@xfail: dtv2
+ 
+ ##
+ #
+diff --git a/test/unittest/dtrace-util/tst.ListProbesProviderUSDT.sh b/test/unittest/dtrace-util/tst.ListProbesProviderUSDT.sh
+index 644da2ac..6eae82ed 100755
+--- a/test/unittest/dtrace-util/tst.ListProbesProviderUSDT.sh
++++ b/test/unittest/dtrace-util/tst.ListProbesProviderUSDT.sh
+@@ -5,7 +5,6 @@
+ # Licensed under the Universal Permissive License v 1.0 as shown at
+ # http://oss.oracle.com/licenses/upl.
+ #
+-# @@xfail: dtv2
+ 
+ ##
+ #
 -- 
 2.18.4
 
