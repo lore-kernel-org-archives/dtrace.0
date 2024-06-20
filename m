@@ -1,84 +1,79 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEA31B0115
-	for <dtrace@lists.linux.dev>; Thu, 20 Jun 2024 17:55:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7DF1BA860
+	for <dtrace@lists.linux.dev>; Thu, 20 Jun 2024 18:28:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718906127; cv=fail; b=LfcPs/NSNlMz6McCxhOmguWC/J4HUSJXwtVoQfdZ4imVnuXup+vdx+wwfbiXq214SHiftFGY/JFoJJ8NMoh6G8A/GPfS4aFWrart1mqu5E++GLpA6hHHwNmAzUTVtN1dbQoxh66Q+T5h0SNkoT01TcAC/hFjiiS7h4UcgpCswZI=
+	t=1718908141; cv=fail; b=afs7rv+NeJpzgvR5F9p+9ave+WPeblMtGcU4fpqtGK3msfiPCh1w1e6mf+dkBGdB3M3opf4tQ4GsC9v60U1kyWRij+wYi1/ox39pgeMlWZSaMdRRJKI03Qgf+/R3UzU+0H9vS3lr0SUCTHLVaCPTg+zU4YT97yDiKw+/dd1LWxc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718906127; c=relaxed/simple;
-	bh=1/xFtSgLUpHpbIX9NUIqLlruHSafyYk6CEOtv52RoUs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=nPlzNbeMdhx880fRa/O7Sd4kT9D6bQ3U5OEt4eALKKHBOJ6vedDZn6F5ZRUIgTHKLXY2k8s8N1RX2x/zRc6YDxuroboYOq5E3BX4XT8jIvhmvnpo8Km+GRJODPilURwGycDaz4FV/WoBHt+sROY/ObwonhheTHiUDrnoQ+kLd6w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=JSoxAtTT; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=DPDPnSCv; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1718908141; c=relaxed/simple;
+	bh=PgB8HpXmtNc2Wq2CpX73YOXtwXsusQVX7dyzOuzJs/c=;
+	h=Date:From:To:Subject:Content-Type:Message-ID:MIME-Version; b=hr0gEekZpJBN/STrYootY0xBrxDMuOXkk5pRXxnj3YotjIhnKwbDwVaSuL8qe2saSXYWhMHSZuBa5BSV+firm8WAtYWa7q0fb0RF8WSFuyQVhxC1SxKZrvE0OHsCC9eNqBKAqbu4QkVE4lxXq4+9x4lleyw23b578AcEW6RPZDQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Fk72D2k3; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=yO03Sj8U; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JSoxAtTT";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="DPDPnSCv"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45KHAhg5015010
-	for <dtrace@lists.linux.dev>; Thu, 20 Jun 2024 17:55:24 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Fk72D2k3";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="yO03Sj8U"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45KHAjbT001413
+	for <dtrace@lists.linux.dev>; Thu, 20 Jun 2024 18:28:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	date:from:to:cc:subject:message-id:references:content-type
-	:in-reply-to:mime-version; s=corp-2023-11-20; bh=BnJFIUuRSVE0aGn
-	Po7ZOnm85/WE/D6LauIIK/edeQM0=; b=JSoxAtTTVMWvQ0goBEvlM2F4ytOWEAG
-	F7bJT93+77m+WvGSKn5YmByVGNTeGu2zYKAF39pEUHDMU4jLDk9ySsde7B+nX6c5
-	o1AxsjUnDOSG2/xLXxS2A87OtQaZPLHathuW7W+pd3kgW5973j+m1qScHkGxWYGE
-	Ci0hnTO5B81qLoLwm3sNvVmKfva4a/DqrM4lpUJSw6r5rTyalfC2503nnnDl8Jxd
-	6Fb6GsvfwIXoIHXb5QSap+/TOOvThBaz+Jk0VjDDp4mfiGMWITepI1oX1pybqU4a
-	6f/M3kTHN/lKBnoLjAFmGShctP8byzrM2n41d7Pr0IQezkpnLvhwTTQ==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3yvrka02pq-1
+	date:from:to:subject:content-type:message-id:mime-version; s=
+	corp-2023-11-20; bh=Syys9hwx3SHiU68d7+yy45i2DlRiUNANwApB5I+bB6o=; b=
+	Fk72D2k3m5NH4Gv+fZY47QYIw0bhxNCSK3wgbsWHPHmwsxdNyy/dBGdyiif3xDmd
+	5WmmQ8dBAZyJCXiz8K1wlQcLCOBMjNuV8le+dktDWKI9Vxrc2pI0M258CEk0NrQk
+	UmD3CIvNl3faj9420kDpmhvDJ2f7UMaBo4P2pZNiZoMUY3VxYHxLoToL233v857K
+	ipRpP+FWTMLqcx4Or3occawXDBr6RMXghENt3Vg7pIi7zfQigDzDdl5O8PAGYj08
+	Y+q5u3DptvNNY5R3sSMyTDGWcdg6nP0pkLtUUFrCbnOt9vO1T0yv1/ARKb7bDqzo
+	RaShzYxUPjU5Fk3w9TYLyw==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3yvrkd052a-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 20 Jun 2024 17:55:24 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 45KHE5PD025429
-	for <dtrace@lists.linux.dev>; Thu, 20 Jun 2024 17:55:23 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2047.outbound.protection.outlook.com [104.47.55.47])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3yvrn51j3p-2
+	for <dtrace@lists.linux.dev>; Thu, 20 Jun 2024 18:28:56 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 45KHEIH7019476
+	for <dtrace@lists.linux.dev>; Thu, 20 Jun 2024 18:28:55 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3yvrn9asst-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 20 Jun 2024 17:55:23 +0000
+	for <dtrace@lists.linux.dev>; Thu, 20 Jun 2024 18:28:55 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Owuzyq+vPHgaUbJ41ircF9EbEKO9o+KndOAgJ/kdgQeSNYZS52Mmp4Gh05UPGiZh+HOH1VlT30v/Wlt6BtZGk1bOtrtpbCRWaPrxGswT3lcoTz8Zk8Ahf/8/v+b8YxLwYqDnFuEOwSy0IJbAaxCj+ESEIzP95+YBx8ycTAzl1aDlkePksmS8zPc0HTGw7wH3eeRqBt/fAygANjJfRq3iwOhtooA8jw0rlXy+saSGpHmh050416Jrvb9AiGZ0MjEVs5WTWoIwC/wdkHhOzUMnNc1IaVGLP5/Y8SPRg5DI6rrNo+WQxhUZ1jmRS0vQnE2hBPQ/9sEFlFchFTOTSCY6Iw==
+ b=QT0MymBjCUHvand6s331s+/TT08IPdOxedjKUHCF+x3blBJL6C2A44z175TzSSVVIaeyxEi7EUI37SLv66mdvvN/7UQmAJ/dbEJuYuwO8loSmnIbMslBz9mReO18vzQjsp1XRw5AC5LASo4gwEmlpRFc0KnEUPzW9prdtv9JSU2o9SrgJ790CHzsJF8dBirSS/YZmz/uJ56RtGX1DMmoe982ldqtiaSM5Gu1c6+epOGIDt0HSds6utH9JXMa2OcFYWY2UJeQdBUhEoQCAN8ljMzl4Lp2zxUt6wqTJaD14sESPqRLhUmhTCzXDWM7H0UrlBiDfJGusMZPPqU/FpExHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BnJFIUuRSVE0aGnPo7ZOnm85/WE/D6LauIIK/edeQM0=;
- b=Dvqha/iqu44qd2Kq4x11DKUJjj9sIDEQLgDWFAS+tx3ykg6xL1u6q0BHxF+twPAAtJXTyp0z430+wa3E3IJm5cMBLyXqjs72PbPdqwUH4DDcheLQLBURKEcDZxt5U0erKNYoV7iYL0vYY70lj36rGtHLj1iMTUKOrfB7d7/KctshvnaImlgwjMbE2LLP0+V1c1kqo9cS+8vGWAXkZGG0gU3lc6EmuOHeA/B+0PH8kfLBUJ1XMqIegjhRP/oQ3MFonPItvy2E9MqNiRviCVMotvTGBQztiwUk+YdkdihDbt75PWAFTChrKWqJuoLO7fn1fpbYWjEGQ45INmwBQBAUog==
+ bh=Syys9hwx3SHiU68d7+yy45i2DlRiUNANwApB5I+bB6o=;
+ b=Fc+VLgMib+Q2xdISk6GLyIYI8HbA/gM8p07qwqH/JlEvHpS1CIkZZzgK9eRF1K9D+y2NU67CEiALbbkuwopBJr9mdbE1gC0BKEvU2eEhEAY0yt6KN4EDUzAXdCY7JqkOAtdtI9y3+QLgWVBSo/BMzEae4tlnAokssfTYVouKVsAL00dMdcj0Tu/fDbGX0y43uW2Glki/XfSeVYY9BpRXGICC7vA261iIW1W1ABjx3qinovVDMhm1S3BMjUjWVyMqApJ1MQ9Rj2o10e0fianPRuqaPiHoABfwQ5Af9B6N/I0+qP1wTFfsvzzNdA/i6VVMxY1h5apyVDl4B+uTbxbcFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BnJFIUuRSVE0aGnPo7ZOnm85/WE/D6LauIIK/edeQM0=;
- b=DPDPnSCv7OQIceo4bcOrBYuV288ukCOGgvmjY8CO5Z5UFb1PLUF8X1aMeNp4/92/V2UNe1+K/XxJysjonyTQ2XAGhmHlXmO0bINnUwkHnRaT5m9btWrYZWyomayortIpr/hHWh6yng8t2wJ+WAoh8IzDiI3/0v83TivtrayJ3q8=
+ bh=Syys9hwx3SHiU68d7+yy45i2DlRiUNANwApB5I+bB6o=;
+ b=yO03Sj8UeXyyFp+U3tZSHiDL0hprosbvbPdqTc1tiesFdKdi05zAc8NugJ22MUHFver/60aIP1qSAMIjCPKhapz9t9ihjTTFPR62qcCxjxsDY/ALsEKWj36Wd6r6FkUUiDSPyoD+6c8I9S3aZJecHigT8rWxhtZEPJ3bK9vtJD0=
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
- by IA1PR10MB6028.namprd10.prod.outlook.com (2603:10b6:208:388::8) with
+ by LV3PR10MB8130.namprd10.prod.outlook.com (2603:10b6:408:28d::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.31; Thu, 20 Jun
- 2024 17:55:20 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.19; Thu, 20 Jun
+ 2024 18:28:53 +0000
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29]) by SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29%3]) with mapi id 15.20.7698.020; Thu, 20 Jun 2024
- 17:55:20 +0000
-Date: Thu, 20 Jun 2024 13:55:14 -0400
+ 18:28:53 +0000
+Date: Thu, 20 Jun 2024 14:28:49 -0400
 From: Kris Van Hees <kris.van.hees@oracle.com>
-To: Nick Alcock <nick.alcock@oracle.com>
-Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com,
-        kris.van.hees@oracle.com
-Subject: Re: [PATCH v3] translators: support 6.10
-Message-ID: <ZnRtAmWKoPKcpVtY@oracle.com>
-References: <20240607184155.316904-1-nick.alcock@oracle.com>
- <20240619132109.5566-1-nick.alcock@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240619132109.5566-1-nick.alcock@oracle.com>
-X-ClientProxiedBy: LO4P123CA0323.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:197::22) To SN7PR10MB6287.namprd10.prod.outlook.com
+To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: [PATCH] dlibs: move x86_64 dlib directories to x.y names to match
+ aarch64
+Content-Type: text/plain
+X-ClientProxiedBy: LNXP123CA0015.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:d2::27) To SN7PR10MB6287.namprd10.prod.outlook.com
  (2603:10b6:806:26d::14)
+Message-ID: 
+ <SN7PR10MB628753BEAEB05A7B65F25569C2C82@SN7PR10MB6287.namprd10.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -86,167 +81,719 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|IA1PR10MB6028:EE_
-X-MS-Office365-Filtering-Correlation-Id: f9c9b01c-8d3a-4ffe-8b32-08dc91522683
+X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|LV3PR10MB8130:EE_
+X-MS-Office365-Filtering-Correlation-Id: 564c4d71-395b-4433-fcf7-08dc9156d646
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230037|376011|1800799021|366013;
+X-Microsoft-Antispam: BCL:0;ARA:13230037|366013|1800799021|376011;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?baSxopI2mCzree3GUrSOh2DrHeYxNUsUrod8aWt7SImrzKmUH47iyWFq1pkw?=
- =?us-ascii?Q?02xp1bqdfKgR0bBnH0ULmgb2ibuSKUOKYicBXaUVP9qDtkGKtPqIg/XaThvD?=
- =?us-ascii?Q?jMCxuxCuUxbLeqpYzY7xBGZ4pdze6jIDELnpq93MgF4913ghiMegY7DIi86U?=
- =?us-ascii?Q?Fwtuvhd7iYsp5/Riqz9N0yOvtq/IssMmBZUPSEtn8mF8KAP5wexA5zcAKzWW?=
- =?us-ascii?Q?SGsq87Yt9Y6nKqfREaWyuQPUUQo8f17bfI+5Ta9YkPw2A/kYlyPPoM1DQsk8?=
- =?us-ascii?Q?zo4IFiIQCk0ypyDy7kgI2stdccQvGQPttu7o0nTIi6OigzZIvlC9C+KQD47n?=
- =?us-ascii?Q?TG9d6GfGPuVjRPKQfBBpdgifqAvfv7JsTwDholv1uOh9BjcxgkvZSAXkRghZ?=
- =?us-ascii?Q?Zsyrtyam2ZMEEZykpAP2pPOL0HAqrwLaJvCY+HZpvK7A4nu1bByqcIZhjMf5?=
- =?us-ascii?Q?kx/xYBrpAq2VGCkDweadSGWWM4b1PMPy3AQrvuRw5UohRCM8EnMxN5Y626n6?=
- =?us-ascii?Q?45WypzjfnqqgCnruYlq8wCc0gDpJ8Odwq9UWS6A80ot1s10TG4mmM+1AIpJa?=
- =?us-ascii?Q?gFDcJvW9lzvkzWDxR92dWh+Vabu+pp3qyHzKXPEX/Z9RppZbfnaOybJgcpj1?=
- =?us-ascii?Q?7e9g+MUA84Ll0l+IZVH/FgxJZUQKJoZKmspJU6g9QeC2K2yT/CRarYNcG7sL?=
- =?us-ascii?Q?4+CO/7MRGq5r/JquqBzY5BoUJJVZ7YGV+LSrx4Awc6hHUONgB1n8rC1S4ryA?=
- =?us-ascii?Q?+p/QcL51iTCJLktr34D2SLPnE6qhs99SXp7ngIc9QCm9qlznYbLB7npGENAC?=
- =?us-ascii?Q?a7NoM9LmgaeyZtXARLIST8HwsLrM+YcgHOvhzzI0P+5U6eNm+Aqq1ZjWZsfR?=
- =?us-ascii?Q?w0YrDY6ngNFZNNMxis/vG/P2jzB4hmAKeMQib1m+rB5AGuXPxOyrF4QfKKur?=
- =?us-ascii?Q?gd3t4mIcJroxOdoHvS2ygfq9/tocr1F99YW3mD0u8KxNRsqOGVS3e4VjaYXy?=
- =?us-ascii?Q?3VCcrIb5pfECv3MvBCPDHpW8SAs6O4+1yOll/AtZ+tQmYhCOllwN5TgWyZW8?=
- =?us-ascii?Q?KUcd2ZYEQrJc3SCqLY5nF2hwO/RudaFE/m4SEqbRfvGlr6atn7NTU0Kpv5Lx?=
- =?us-ascii?Q?dOcxr9teobNaWBwdj48vVeNVgpaIY8rNpk53Ft3Sc2EZxB2AgCBx/0dTMxFA?=
- =?us-ascii?Q?0+46cHfjDid55lY2Y7WFchnNyvUW3Bj8ko8le0NmvKb9KQOKEoFwC/xyBaCv?=
- =?us-ascii?Q?OQKu8NtmL6YLDel/x3v9?=
+	=?us-ascii?Q?XL6SPSy/ok3fg02/vUdiw6lwMyhxcf2GLU+9+C/U7cYf3d/n50FGsd7JF4BJ?=
+ =?us-ascii?Q?TyU9mkcdOuaxVA0ZSrct9+6gdjQWTq/lhx2k4vm8j0ONs9slAK153R9DHe5k?=
+ =?us-ascii?Q?EP4GFPvSa6L5PV48ohoCRg0YPbTJvEVscnaU+/nmlz/f6mvltkt9pRBh3UUF?=
+ =?us-ascii?Q?04NB8aOco6c6w3CgTPLxC5zl5eUtmLgp4Qssz6lX88cayJfskCH6T6bNoCpq?=
+ =?us-ascii?Q?hm0/HZ1htm8rePUA3tOdY9dv4teH/wT095fiYBJTEcvdXwg53g804gX1ccDO?=
+ =?us-ascii?Q?IVTXR/jn9LZ2FL26W0FHmReD85S3FjKZI/PYItVsmKC4QNiQSdfia9EnjLHl?=
+ =?us-ascii?Q?fKEQxwtDhy2rkTTk7Jku0mk99ObYvWHFKpGLAPZ2q99oNW0pIqoxMZC9Zi8m?=
+ =?us-ascii?Q?yoUXP0oQ0EZXI4BwONirxCgp+3guY059IS1L6lz1+Xq2StFPWPfAXu0X7E2w?=
+ =?us-ascii?Q?peQ1M29IgfrAcJNzOJgnDYQigA+3UAKLeABmludRbgPpeZ4DdTDvYIOx8LuZ?=
+ =?us-ascii?Q?m6bzpCn0W30YauCDZHZoI5ACf2reUSXkM82BRHPFJ3NrBQrRvi8bsknFxs0S?=
+ =?us-ascii?Q?nC2anFJYRUTXOO1OCAqy7Zqm8XEma3G+W2oZa26WXQT1fUy2ul3gS5//2UNS?=
+ =?us-ascii?Q?pQu1NqQZ0p4bb7KQTuSTPYaCs5Cur7h807PuuhhxTh7ANiQm9v9dnoF3aBbx?=
+ =?us-ascii?Q?FIs464vtSaPwJp8fPUzGiSqMatq3pAw/+fcxT5d8RUqJScpyFS83MlhanbJN?=
+ =?us-ascii?Q?kbHVBUDuNLWSuzhXRb09XvgUgI7gyGaaherqC5BiWWhr9yQiWrZac/dD20Il?=
+ =?us-ascii?Q?k15dDRTGdL+iKMKLX81KOZfa3WrIs01WtcdTAc8ekwGPbAWjL6vuBd/EfE9c?=
+ =?us-ascii?Q?VD7KkS2CSLx50oXIxeTA/tiKa0Vf0OLsA0gVCS8tAhME69m+2jl1Uc8EHeBn?=
+ =?us-ascii?Q?FrcojpcK8EDAdt/bZETKCN/5UJfyhdTY5A7P+h5z+hShJv6zmVOIIEXcf5al?=
+ =?us-ascii?Q?yru3q/UkMT+cPreC3IC1y0+YbezEN6J4T63xHBzWXUGMKjaY282AIA/yRPZy?=
+ =?us-ascii?Q?LBp71IB2JADLmrFVTpY3V1ueh2pj5U6w5MShEDsU4ByhbxiyNg3fuXU91ltj?=
+ =?us-ascii?Q?Uto4X4ojOhvfatc9vtDQvPbaGPkxVdRnD694HT0vIEbuZ0+7kf2m61GZreNj?=
+ =?us-ascii?Q?i6tc4svBUv2NyoQDcbuwBF04pHw8Q7+Txm0KsNJTpevpxvOzW7zB9RpB9K6+?=
+ =?us-ascii?Q?v0bXb/f/RlTNy1HcJo1/8/hoxNOuq9JkWNlXTk1rEK+yUCeoNo0ZoG5X6kRW?=
+ =?us-ascii?Q?yzohwerQmJ/vG9kpgM+27iOq?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(376011)(1800799021)(366013);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(366013)(1800799021)(376011);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?vdHg+s8FYER0SIJ1wGT2pSnfpaTGFV2Xfsm+GpvBTBCB9GQWugJoJKx8It4D?=
- =?us-ascii?Q?xmudpWiXhWzawzqdyTbfrGzuuITM/voNqMkceEgqONk6AeCKv+BR44oE9Hgx?=
- =?us-ascii?Q?xO9F0FH3zdByituhQK0strO9noNv9onUexuxN0qYcC3LUK4mhh+yARG1Dcaa?=
- =?us-ascii?Q?gBBcNkINY2vzmt88ADxj4F0qQZ3sMYH8emih0KaEb8hMF3mj/V78cqRjk9Ik?=
- =?us-ascii?Q?A+kyezunH9DLFHb5fRSTFVM7uo4fcedMOPHCD9sTHebSpc6+tvMGrby2fgi7?=
- =?us-ascii?Q?LRcT/4cYIGkKLK+iLMfWmiy+fx4p/mw1dQmnp1gDbXqI4VerFppNC0t+1R4g?=
- =?us-ascii?Q?Nno8KPrn9lj9aMsLYfzjKiD8EQ37kDWgw/eeQNpsQqPIjG9Xl2S6L7Uvvjv8?=
- =?us-ascii?Q?ydMz/xi59Lkc430pNjx5bCIuU7Kb8EED+T3gEPRfWRPZMX8UTdoNKp4zrLkS?=
- =?us-ascii?Q?Re9h1DdY9q0eFOEPoVS/lsU6sNf9TT+pUFxHqnEAnAe4do6gige7efhFuPZS?=
- =?us-ascii?Q?PmDRoHwkcJFWTpNhw+UmbgWjJ860aY8Z5kivxhyRA/kmWDC++kRusn/ur8MU?=
- =?us-ascii?Q?KCPCrDa/3u6VGzMTMp9uvQ9D2gzoU3lyEETBQXuCuvAliBUUfQsThoLHc6YR?=
- =?us-ascii?Q?VHpmM2Z2dOJhO4Me+w7qV/0chTtvg5sAXZFbHE4oej9A/2T1Eg47r/SfNCyj?=
- =?us-ascii?Q?rA/nC8W7HEMxeT3uhLYuzcRj/ZqFy4l3xLws6TJ6+EyEJznLDjaemd6oKN98?=
- =?us-ascii?Q?uCHswzR9JH9Saa7MlC9zKgCql3BWb88HquwsUatG3T2+y1I2zrjxxH3u0fQ+?=
- =?us-ascii?Q?P6G+X8oVMelZRQdz229gpUSJS8w82rGUH0Rnwmlnqgc3vj6qlmCulKbpbqZT?=
- =?us-ascii?Q?T8UlkFlTuQtJMsQ9z7OLG/HVUfH+2bzcIkHAfJeADl6PVJTDyTCwZGUopYG0?=
- =?us-ascii?Q?UYC3COPz66ArzlYIbZpPlp2VyS8dzntUxl6MSgzIQVi5GsRtVnMgtgJN5VuN?=
- =?us-ascii?Q?8vF7K15XtGbZy0EGFPZIwN96CPN2NGU8+t323os6kqHSni71iKwtI/KpRy1g?=
- =?us-ascii?Q?F0d+yNNpDduLKXUk1QxYJub0h8+N6H42DsypFiXgFq684p6P/IJpDxGkiv6F?=
- =?us-ascii?Q?PkpC8BMEOZv1pAe4Y/AuOn81skR6Fy1GNjDTmFrB86dlJ8fye2sRLMZ1hGqP?=
- =?us-ascii?Q?9RNOaijHpU0D8htt6049cyLDoKQRTWOU1/C5kFhT4lgATDh989k3NQ8KxqX9?=
- =?us-ascii?Q?i1h/axzC7T7WkUK5yNxgTPknRthYyDTViP0PJF5ybdFPtxX8RqZbMbtRU6f6?=
- =?us-ascii?Q?XtB105PKjm+9eDNLCXVO882eI+ba9IyieWLHRBQn8or7VaSHQVa6ycjKW+Q3?=
- =?us-ascii?Q?QJlEbPPm74N9uL5iFNd0Cc5oFP43IcrW2B1wqk/bYgQ0Qts9c5E/SlpFgfp2?=
- =?us-ascii?Q?4zkQg1IVB9FVxDTT2PsMFXXsJ/Kl5xBBSIrLyG7VqWzptust2CFEtesOoI92?=
- =?us-ascii?Q?p8/ClVQDEtsDOf7lZKj//veg21J/xYRiXfDIUZ7Yq4WWbBlhLzKSE6CokhCh?=
- =?us-ascii?Q?EZfe3i2XATqtIHYrchAnDkKEVb9//dXW3jsm94okshdqADRUD9c9GFYgaUcT?=
- =?us-ascii?Q?9Q=3D=3D?=
+	=?us-ascii?Q?FmjK0nOJQ+CbMn8w2Al8Uo17gUr/aPq75SGK46EEXaYcQPyrUL8tAs8VZbhW?=
+ =?us-ascii?Q?N4r2pBJeEDLPOetg3D3qZ88H3jDbzCHR1tJxstTLf9yhQpmJKD8ZZ968UHSZ?=
+ =?us-ascii?Q?omYV7W41R9WPhRkxGxY896x8tpXEtLWR6UGAx6YoEcXZX8MYKH/+XtB8ZPl0?=
+ =?us-ascii?Q?+WNIzrzGMC0wFYu3RmO6fRSmMYBXkhxKd9M4nlUWSpSdW7BBnOxhQ5SG+T1C?=
+ =?us-ascii?Q?py1LMsUMZbi6ixjEA1fAugCOW5j1UUOX70yITMnRVNp4jmLMxztQn6gedCTk?=
+ =?us-ascii?Q?/j6OD1V2IjHzCCWZ6kFpAT7HknhFKr9c2X0geHk1SOqaDWEFBNI8n0p3h+e5?=
+ =?us-ascii?Q?M1aNpGZ142/jtdCmhHc5t8zuLtpt9dzpL5eqSMrT7/lfE+z9vjAbjgenDiEz?=
+ =?us-ascii?Q?CY9U8ZUXAn4wnmsPMbyYZ5xcIuf296Z5YjIYIXWVxmkGtD6pOFCA30MvXp3e?=
+ =?us-ascii?Q?Ua24p1nNGXYTogw8xeAvl0a0jTAPz4HC9G6EecpOm9CGUdA1evBtlw7W7MT7?=
+ =?us-ascii?Q?GV1P+hgX13fS+0IgTx9KY0/BFAFBoLK0vO4i/SlQthig92bhRxVmYk1KsKJT?=
+ =?us-ascii?Q?+qLelG5S79NJ6/gqiltzLX/d5OqKtUI/WVq7n4lMry+6JTS6kHqAUkgPlyDp?=
+ =?us-ascii?Q?OF/VzvnuLnEpLNV8JEPo864gsHZOCvL0PBGac5v6ZbebVi9Oq7lqedfZGNNc?=
+ =?us-ascii?Q?aleldjFcwbupR6DDFM2PbbkNAD3cjtO+2O+4VaVaV9dRhUaFLX49unk4mBCg?=
+ =?us-ascii?Q?I8rXQRIiIrWw5Kq82O3z7ffa2xLTBDQhf6OF7QSemUNeyscev8NGhuBSWXiA?=
+ =?us-ascii?Q?gJMfSU+vqyzZadHSv4EIiyHXbD4TYxQ4uzp1ds5mne0qV38mnJWhorZjz6gs?=
+ =?us-ascii?Q?GLCJAPeOWquN2Z9hXqo/2oCOw5JGkASUo/6DnhnBnd0St92A8XA+kQi8fNnN?=
+ =?us-ascii?Q?888r0NzOoAfGSRIZH+fgHHkUm1oPR3A4oq117BBprlFekQB9w7S8O85kIs+2?=
+ =?us-ascii?Q?it8k1Z/49uz3UyanAkfRazGG9/mBnogyuYBB3ObDe95RFJEaW6xrvVeiVPID?=
+ =?us-ascii?Q?aMEQhcjS1CafVHSAx2+HC4N417foUU72fxtH16W03HpUboDiDMRkkv8+FZwg?=
+ =?us-ascii?Q?DlQ9ApzQ59+Pe30p2q/mR2HAeHodfMQ2GqbeVblgdhxCGC30btLNkGhVnDSr?=
+ =?us-ascii?Q?afVA4vCgmR9OYRy3p238TpXApQPJk4GVnrM65gmhrZSweVJKLZM6rwDOiYu5?=
+ =?us-ascii?Q?RH98MNg5XQJPl5OXvT4OTJDW4EhXEBsF5VYoUynjpD9LwjjjIRshhRw1bD7J?=
+ =?us-ascii?Q?5tfVTP00Ym/0BHM7MQMkobjgPM/7xc1yJRlU6R8+XWDljb7gt6Y9cqAF7yEl?=
+ =?us-ascii?Q?mbr3XmevJTqcTs4RB58uXid71yXM/pFpI4QEP5XdTQh83VlFJkYhH7l0ysAW?=
+ =?us-ascii?Q?nggxN+Q9Y4IIeH/fIdVyNZWXA8anKPsAnbJRhrSw7adv53JcMDVUZ2Jq9RIj?=
+ =?us-ascii?Q?zzskEpa4jL/mgNv5pNKaSxxgVaINtvSPx2HrUIw/kOurSPIhBqiIvdJDcLCt?=
+ =?us-ascii?Q?8HQgVyPfbQH+pXhQnWQqq83pyiizJRf+ueuE+Q8a3Rszw8/6uM4hKJIAEftD?=
+ =?us-ascii?Q?x5F+aHT0J3UvsTiJ5faDw7M=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	/5vfHs7CHcuZzzdcOKhSFH++GDz85/ySM65otjaSo6YkfkXBheh/r5ow52e5HJoKejop2waZap8lb2wPT01CjJYz6do7qO+lMs3ksJLAQ3ICYM66fI207xEUftGsdIjEwI+0m4aYr+I6kVeTjsfg40DL8EDyzLPuHHfAgDMLO9HrURE3jdubaqLt8QLAzQqqhig1zecgs2w66Q7kN4zGkGx8VGgEJ1oyrars0DxuVcf/HOZTRSJRrrDMgrmntPoFEXa9VcCrsBMIbMCrZxZLDrkJ3wvzLaNZTan1cdfpCMoaAeDdYCmYlv37slikasQ70LZeY9wy7XGDnhMKwIn/TpD5Q3t68F69guHcraxvK76OMSegHe7cFvZLmH3FMenNSqHPBl4mUyumFKSjcV7F9gu/Fb3im5ZH9YGfZbk6QxqcmOEHL/l+eM3nOv1kVOnAdnXKu73tv9eTF56TtpJ2hNQpKtrRCMIJBEV0YU8rUMCcKthEYcDnJzX6U0V0u/NfObiCg2yo2Hwq1OqtnQ1GPvTashcs193SQDtv67GxoOxixTDLy8DIE/HQgPKJVy+Hyg3lZeVFFCwVuTbyXscQAfJvbtx4aNKZmL6guv+95rk=
+	+SCaljf7O1dXKX6exVkzz/z3kJT6OSxQymorW0v8JDTBXIyjSaStJ3QHUJKFNXpRdDUEp+jYIz6+G755IyY9mVuRmImlhvj1SDP+/PFV/fCBIBoESU01LsuGjV8qmnP6gSo0PY7KFSasaRiR2ws4UghNcfNszRcHOaOMF+vuQj4cYFz2k8Oj6oRRUpCacPcgyhrkknugzxmKhpMo7g+JzcEXZRtSCmJFg8HzguXg1eeCAyp/GoToEPDLdWs19LwXhTPBkdyV9X6o73CzB0gEMkP7SNhqL1c+OPJK9zP2XZ6qBEL7y9/iGBJjHEAlxICsji4CRaNh781vsmjGKsVDLF7IHkPUOL8+c+OZDDs1q+B3+xUw8Gy4IWYf5XagoFEnXNTtRIlHp4EEA6wk8HXAhvyhZt5qso4lSXWhP3X3T6sqzrv0HiBYTUlMU6JbFOTTrJ3I5YUeTgPR+/LItM0FYcSGz0lGjMRsPsWniMF+jcuBhSMyHAKTBMhzgOVHtsjaKPGcUxuU4eLTjc08JnHXRb83fmhHZWrF0Y3AH1u47FBtGPVdgyJdrK1gcOQLhGhzII2uIqMkYw5L7q55en409eR8+kEw9HPIEDe1BOZLllQ=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9c9b01c-8d3a-4ffe-8b32-08dc91522683
+X-MS-Exchange-CrossTenant-Network-Message-Id: 564c4d71-395b-4433-fcf7-08dc9156d646
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR10MB6287.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2024 17:55:20.0204
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2024 18:28:53.0672
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MYrJEQfm1m08R0SsJoqBdg2taVBHPEfLiYk4S5CwOSnaerdwOY87EVqnPPy2AX9SWOifW1tUKj/1s8LtjsB2efjMvW0Fx0iWyg7nPCvo/RQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB6028
+X-MS-Exchange-CrossTenant-UserPrincipalName: A4vdcWG3W7ixuy5bomIq9FcLkX0xIYVWJzZS1JfCWMRfvpCvoh8Pzql7+07HjB4b3RcafIVqUX6anB6tr6Y3inNRLMUptlgu33362dusnWM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR10MB8130
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-06-20_08,2024-06-20_04,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0
- mlxlogscore=999 phishscore=0 adultscore=0 malwarescore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2406180000 definitions=main-2406200129
-X-Proofpoint-GUID: wQcD0o6qZ4ir8XwNsugPqfQu3liMHpHj
-X-Proofpoint-ORIG-GUID: wQcD0o6qZ4ir8XwNsugPqfQu3liMHpHj
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0 bulkscore=0
+ phishscore=0 spamscore=0 mlxscore=0 mlxlogscore=943 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2406180000
+ definitions=main-2406200134
+X-Proofpoint-GUID: AU2e0nFZu-2nLXXkd89U1xqIYdJKrL_R
+X-Proofpoint-ORIG-GUID: AU2e0nFZu-2nLXXkd89U1xqIYdJKrL_R
 
-On Wed, Jun 19, 2024 at 02:21:09PM +0100, Nick Alcock wrote:
-> This changed the block device into a component of an atomic
-> flags word (so we need to change the .d.in as well to pull in
-> the relevant #define for the blockdev portion of that flags word).
-> 
-> See kernel commit 1116b9fa15c09748ae05d2365a305fa22671eb1e.
-> 
-> Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
+Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+---
+ dlibs/x86_64/{5.11.0 => 5.11}/errno.d    | 0
+ dlibs/x86_64/{5.11.0 => 5.11}/io.d       | 0
+ dlibs/x86_64/{5.11.0 => 5.11}/ip.d       | 0
+ dlibs/x86_64/{5.11.0 => 5.11}/lockstat.d | 0
+ dlibs/x86_64/{5.11.0 => 5.11}/net.d      | 0
+ dlibs/x86_64/{5.11.0 => 5.11}/pcap.d     | 0
+ dlibs/x86_64/{5.11.0 => 5.11}/procfs.d   | 0
+ dlibs/x86_64/{5.11.0 => 5.11}/regs.d     | 0
+ dlibs/x86_64/{5.11.0 => 5.11}/sched.d    | 0
+ dlibs/x86_64/{5.11.0 => 5.11}/signal.d   | 0
+ dlibs/x86_64/{5.11.0 => 5.11}/tcp.d      | 0
+ dlibs/x86_64/{5.11.0 => 5.11}/udp.d      | 0
+ dlibs/x86_64/{5.11.0 => 5.11}/unistd.d   | 0
+ dlibs/x86_64/{5.12.0 => 5.12}/errno.d    | 0
+ dlibs/x86_64/{5.12.0 => 5.12}/io.d       | 0
+ dlibs/x86_64/{5.12.0 => 5.12}/ip.d       | 0
+ dlibs/x86_64/{5.12.0 => 5.12}/lockstat.d | 0
+ dlibs/x86_64/{5.12.0 => 5.12}/net.d      | 0
+ dlibs/x86_64/{5.12.0 => 5.12}/pcap.d     | 0
+ dlibs/x86_64/{5.12.0 => 5.12}/procfs.d   | 0
+ dlibs/x86_64/{5.12.0 => 5.12}/regs.d     | 0
+ dlibs/x86_64/{5.12.0 => 5.12}/sched.d    | 0
+ dlibs/x86_64/{5.12.0 => 5.12}/signal.d   | 0
+ dlibs/x86_64/{5.12.0 => 5.12}/tcp.d      | 0
+ dlibs/x86_64/{5.12.0 => 5.12}/udp.d      | 0
+ dlibs/x86_64/{5.12.0 => 5.12}/unistd.d   | 0
+ dlibs/x86_64/{5.14.0 => 5.14}/errno.d    | 0
+ dlibs/x86_64/{5.14.0 => 5.14}/io.d       | 0
+ dlibs/x86_64/{5.14.0 => 5.14}/ip.d       | 0
+ dlibs/x86_64/{5.14.0 => 5.14}/lockstat.d | 0
+ dlibs/x86_64/{5.14.0 => 5.14}/net.d      | 0
+ dlibs/x86_64/{5.14.0 => 5.14}/pcap.d     | 0
+ dlibs/x86_64/{5.14.0 => 5.14}/procfs.d   | 0
+ dlibs/x86_64/{5.14.0 => 5.14}/regs.d     | 0
+ dlibs/x86_64/{5.14.0 => 5.14}/sched.d    | 0
+ dlibs/x86_64/{5.14.0 => 5.14}/signal.d   | 0
+ dlibs/x86_64/{5.14.0 => 5.14}/tcp.d      | 0
+ dlibs/x86_64/{5.14.0 => 5.14}/udp.d      | 0
+ dlibs/x86_64/{5.14.0 => 5.14}/unistd.d   | 0
+ dlibs/x86_64/{5.16.0 => 5.16}/errno.d    | 0
+ dlibs/x86_64/{5.16.0 => 5.16}/io.d       | 0
+ dlibs/x86_64/{5.16.0 => 5.16}/ip.d       | 0
+ dlibs/x86_64/{5.16.0 => 5.16}/lockstat.d | 0
+ dlibs/x86_64/{5.16.0 => 5.16}/net.d      | 0
+ dlibs/x86_64/{5.16.0 => 5.16}/pcap.d     | 0
+ dlibs/x86_64/{5.16.0 => 5.16}/procfs.d   | 0
+ dlibs/x86_64/{5.16.0 => 5.16}/regs.d     | 0
+ dlibs/x86_64/{5.16.0 => 5.16}/sched.d    | 0
+ dlibs/x86_64/{5.16.0 => 5.16}/signal.d   | 0
+ dlibs/x86_64/{5.16.0 => 5.16}/tcp.d      | 0
+ dlibs/x86_64/{5.16.0 => 5.16}/udp.d      | 0
+ dlibs/x86_64/{5.16.0 => 5.16}/unistd.d   | 0
+ dlibs/x86_64/{5.2.0 => 5.2}/errno.d      | 0
+ dlibs/x86_64/{5.2.0 => 5.2}/io.d         | 0
+ dlibs/x86_64/{5.2.0 => 5.2}/ip.d         | 0
+ dlibs/x86_64/{5.2.0 => 5.2}/lockstat.d   | 0
+ dlibs/x86_64/{5.2.0 => 5.2}/net.d        | 0
+ dlibs/x86_64/{5.2.0 => 5.2}/pcap.d       | 0
+ dlibs/x86_64/{5.2.0 => 5.2}/procfs.d     | 0
+ dlibs/x86_64/{5.2.0 => 5.2}/regs.d       | 0
+ dlibs/x86_64/{5.2.0 => 5.2}/sched.d      | 0
+ dlibs/x86_64/{5.2.0 => 5.2}/signal.d     | 0
+ dlibs/x86_64/{5.2.0 => 5.2}/tcp.d        | 0
+ dlibs/x86_64/{5.2.0 => 5.2}/udp.d        | 0
+ dlibs/x86_64/{5.2.0 => 5.2}/unistd.d     | 0
+ dlibs/x86_64/{5.6.0 => 5.6}/errno.d      | 0
+ dlibs/x86_64/{5.6.0 => 5.6}/io.d         | 0
+ dlibs/x86_64/{5.6.0 => 5.6}/ip.d         | 0
+ dlibs/x86_64/{5.6.0 => 5.6}/lockstat.d   | 0
+ dlibs/x86_64/{5.6.0 => 5.6}/net.d        | 0
+ dlibs/x86_64/{5.6.0 => 5.6}/pcap.d       | 0
+ dlibs/x86_64/{5.6.0 => 5.6}/procfs.d     | 0
+ dlibs/x86_64/{5.6.0 => 5.6}/regs.d       | 0
+ dlibs/x86_64/{5.6.0 => 5.6}/sched.d      | 0
+ dlibs/x86_64/{5.6.0 => 5.6}/signal.d     | 0
+ dlibs/x86_64/{5.6.0 => 5.6}/tcp.d        | 0
+ dlibs/x86_64/{5.6.0 => 5.6}/udp.d        | 0
+ dlibs/x86_64/{5.6.0 => 5.6}/unistd.d     | 0
+ dlibs/x86_64/{6.1.0 => 6.1}/errno.d      | 0
+ dlibs/x86_64/{6.1.0 => 6.1}/io.d         | 0
+ dlibs/x86_64/{6.1.0 => 6.1}/ip.d         | 0
+ dlibs/x86_64/{6.1.0 => 6.1}/lockstat.d   | 0
+ dlibs/x86_64/{6.1.0 => 6.1}/net.d        | 0
+ dlibs/x86_64/{6.1.0 => 6.1}/pcap.d       | 0
+ dlibs/x86_64/{6.1.0 => 6.1}/procfs.d     | 0
+ dlibs/x86_64/{6.1.0 => 6.1}/regs.d       | 0
+ dlibs/x86_64/{6.1.0 => 6.1}/sched.d      | 0
+ dlibs/x86_64/{6.1.0 => 6.1}/signal.d     | 0
+ dlibs/x86_64/{6.1.0 => 6.1}/tcp.d        | 0
+ dlibs/x86_64/{6.1.0 => 6.1}/udp.d        | 0
+ dlibs/x86_64/{6.1.0 => 6.1}/unistd.d     | 0
+ dlibs/x86_64/{6.10.0 => 6.10}/errno.d    | 0
+ dlibs/x86_64/{6.10.0 => 6.10}/io.d       | 0
+ dlibs/x86_64/{6.10.0 => 6.10}/ip.d       | 0
+ dlibs/x86_64/{6.10.0 => 6.10}/lockstat.d | 0
+ dlibs/x86_64/{6.10.0 => 6.10}/net.d      | 0
+ dlibs/x86_64/{6.10.0 => 6.10}/pcap.d     | 0
+ dlibs/x86_64/{6.10.0 => 6.10}/procfs.d   | 0
+ dlibs/x86_64/{6.10.0 => 6.10}/regs.d     | 0
+ dlibs/x86_64/{6.10.0 => 6.10}/sched.d    | 0
+ dlibs/x86_64/{6.10.0 => 6.10}/signal.d   | 0
+ dlibs/x86_64/{6.10.0 => 6.10}/tcp.d      | 0
+ dlibs/x86_64/{6.10.0 => 6.10}/udp.d      | 0
+ dlibs/x86_64/{6.10.0 => 6.10}/unistd.d   | 0
+ 104 files changed, 0 insertions(+), 0 deletions(-)
+ rename dlibs/x86_64/{5.11.0 => 5.11}/errno.d (100%)
+ rename dlibs/x86_64/{5.11.0 => 5.11}/io.d (100%)
+ rename dlibs/x86_64/{5.11.0 => 5.11}/ip.d (100%)
+ rename dlibs/x86_64/{5.11.0 => 5.11}/lockstat.d (100%)
+ rename dlibs/x86_64/{5.11.0 => 5.11}/net.d (100%)
+ rename dlibs/x86_64/{5.11.0 => 5.11}/pcap.d (100%)
+ rename dlibs/x86_64/{5.11.0 => 5.11}/procfs.d (100%)
+ rename dlibs/x86_64/{5.11.0 => 5.11}/regs.d (100%)
+ rename dlibs/x86_64/{5.11.0 => 5.11}/sched.d (100%)
+ rename dlibs/x86_64/{5.11.0 => 5.11}/signal.d (100%)
+ rename dlibs/x86_64/{5.11.0 => 5.11}/tcp.d (100%)
+ rename dlibs/x86_64/{5.11.0 => 5.11}/udp.d (100%)
+ rename dlibs/x86_64/{5.11.0 => 5.11}/unistd.d (100%)
+ rename dlibs/x86_64/{5.12.0 => 5.12}/errno.d (100%)
+ rename dlibs/x86_64/{5.12.0 => 5.12}/io.d (100%)
+ rename dlibs/x86_64/{5.12.0 => 5.12}/ip.d (100%)
+ rename dlibs/x86_64/{5.12.0 => 5.12}/lockstat.d (100%)
+ rename dlibs/x86_64/{5.12.0 => 5.12}/net.d (100%)
+ rename dlibs/x86_64/{5.12.0 => 5.12}/pcap.d (100%)
+ rename dlibs/x86_64/{5.12.0 => 5.12}/procfs.d (100%)
+ rename dlibs/x86_64/{5.12.0 => 5.12}/regs.d (100%)
+ rename dlibs/x86_64/{5.12.0 => 5.12}/sched.d (100%)
+ rename dlibs/x86_64/{5.12.0 => 5.12}/signal.d (100%)
+ rename dlibs/x86_64/{5.12.0 => 5.12}/tcp.d (100%)
+ rename dlibs/x86_64/{5.12.0 => 5.12}/udp.d (100%)
+ rename dlibs/x86_64/{5.12.0 => 5.12}/unistd.d (100%)
+ rename dlibs/x86_64/{5.14.0 => 5.14}/errno.d (100%)
+ rename dlibs/x86_64/{5.14.0 => 5.14}/io.d (100%)
+ rename dlibs/x86_64/{5.14.0 => 5.14}/ip.d (100%)
+ rename dlibs/x86_64/{5.14.0 => 5.14}/lockstat.d (100%)
+ rename dlibs/x86_64/{5.14.0 => 5.14}/net.d (100%)
+ rename dlibs/x86_64/{5.14.0 => 5.14}/pcap.d (100%)
+ rename dlibs/x86_64/{5.14.0 => 5.14}/procfs.d (100%)
+ rename dlibs/x86_64/{5.14.0 => 5.14}/regs.d (100%)
+ rename dlibs/x86_64/{5.14.0 => 5.14}/sched.d (100%)
+ rename dlibs/x86_64/{5.14.0 => 5.14}/signal.d (100%)
+ rename dlibs/x86_64/{5.14.0 => 5.14}/tcp.d (100%)
+ rename dlibs/x86_64/{5.14.0 => 5.14}/udp.d (100%)
+ rename dlibs/x86_64/{5.14.0 => 5.14}/unistd.d (100%)
+ rename dlibs/x86_64/{5.16.0 => 5.16}/errno.d (100%)
+ rename dlibs/x86_64/{5.16.0 => 5.16}/io.d (100%)
+ rename dlibs/x86_64/{5.16.0 => 5.16}/ip.d (100%)
+ rename dlibs/x86_64/{5.16.0 => 5.16}/lockstat.d (100%)
+ rename dlibs/x86_64/{5.16.0 => 5.16}/net.d (100%)
+ rename dlibs/x86_64/{5.16.0 => 5.16}/pcap.d (100%)
+ rename dlibs/x86_64/{5.16.0 => 5.16}/procfs.d (100%)
+ rename dlibs/x86_64/{5.16.0 => 5.16}/regs.d (100%)
+ rename dlibs/x86_64/{5.16.0 => 5.16}/sched.d (100%)
+ rename dlibs/x86_64/{5.16.0 => 5.16}/signal.d (100%)
+ rename dlibs/x86_64/{5.16.0 => 5.16}/tcp.d (100%)
+ rename dlibs/x86_64/{5.16.0 => 5.16}/udp.d (100%)
+ rename dlibs/x86_64/{5.16.0 => 5.16}/unistd.d (100%)
+ rename dlibs/x86_64/{5.2.0 => 5.2}/errno.d (100%)
+ rename dlibs/x86_64/{5.2.0 => 5.2}/io.d (100%)
+ rename dlibs/x86_64/{5.2.0 => 5.2}/ip.d (100%)
+ rename dlibs/x86_64/{5.2.0 => 5.2}/lockstat.d (100%)
+ rename dlibs/x86_64/{5.2.0 => 5.2}/net.d (100%)
+ rename dlibs/x86_64/{5.2.0 => 5.2}/pcap.d (100%)
+ rename dlibs/x86_64/{5.2.0 => 5.2}/procfs.d (100%)
+ rename dlibs/x86_64/{5.2.0 => 5.2}/regs.d (100%)
+ rename dlibs/x86_64/{5.2.0 => 5.2}/sched.d (100%)
+ rename dlibs/x86_64/{5.2.0 => 5.2}/signal.d (100%)
+ rename dlibs/x86_64/{5.2.0 => 5.2}/tcp.d (100%)
+ rename dlibs/x86_64/{5.2.0 => 5.2}/udp.d (100%)
+ rename dlibs/x86_64/{5.2.0 => 5.2}/unistd.d (100%)
+ rename dlibs/x86_64/{5.6.0 => 5.6}/errno.d (100%)
+ rename dlibs/x86_64/{5.6.0 => 5.6}/io.d (100%)
+ rename dlibs/x86_64/{5.6.0 => 5.6}/ip.d (100%)
+ rename dlibs/x86_64/{5.6.0 => 5.6}/lockstat.d (100%)
+ rename dlibs/x86_64/{5.6.0 => 5.6}/net.d (100%)
+ rename dlibs/x86_64/{5.6.0 => 5.6}/pcap.d (100%)
+ rename dlibs/x86_64/{5.6.0 => 5.6}/procfs.d (100%)
+ rename dlibs/x86_64/{5.6.0 => 5.6}/regs.d (100%)
+ rename dlibs/x86_64/{5.6.0 => 5.6}/sched.d (100%)
+ rename dlibs/x86_64/{5.6.0 => 5.6}/signal.d (100%)
+ rename dlibs/x86_64/{5.6.0 => 5.6}/tcp.d (100%)
+ rename dlibs/x86_64/{5.6.0 => 5.6}/udp.d (100%)
+ rename dlibs/x86_64/{5.6.0 => 5.6}/unistd.d (100%)
+ rename dlibs/x86_64/{6.1.0 => 6.1}/errno.d (100%)
+ rename dlibs/x86_64/{6.1.0 => 6.1}/io.d (100%)
+ rename dlibs/x86_64/{6.1.0 => 6.1}/ip.d (100%)
+ rename dlibs/x86_64/{6.1.0 => 6.1}/lockstat.d (100%)
+ rename dlibs/x86_64/{6.1.0 => 6.1}/net.d (100%)
+ rename dlibs/x86_64/{6.1.0 => 6.1}/pcap.d (100%)
+ rename dlibs/x86_64/{6.1.0 => 6.1}/procfs.d (100%)
+ rename dlibs/x86_64/{6.1.0 => 6.1}/regs.d (100%)
+ rename dlibs/x86_64/{6.1.0 => 6.1}/sched.d (100%)
+ rename dlibs/x86_64/{6.1.0 => 6.1}/signal.d (100%)
+ rename dlibs/x86_64/{6.1.0 => 6.1}/tcp.d (100%)
+ rename dlibs/x86_64/{6.1.0 => 6.1}/udp.d (100%)
+ rename dlibs/x86_64/{6.1.0 => 6.1}/unistd.d (100%)
+ rename dlibs/x86_64/{6.10.0 => 6.10}/errno.d (100%)
+ rename dlibs/x86_64/{6.10.0 => 6.10}/io.d (100%)
+ rename dlibs/x86_64/{6.10.0 => 6.10}/ip.d (100%)
+ rename dlibs/x86_64/{6.10.0 => 6.10}/lockstat.d (100%)
+ rename dlibs/x86_64/{6.10.0 => 6.10}/net.d (100%)
+ rename dlibs/x86_64/{6.10.0 => 6.10}/pcap.d (100%)
+ rename dlibs/x86_64/{6.10.0 => 6.10}/procfs.d (100%)
+ rename dlibs/x86_64/{6.10.0 => 6.10}/regs.d (100%)
+ rename dlibs/x86_64/{6.10.0 => 6.10}/sched.d (100%)
+ rename dlibs/x86_64/{6.10.0 => 6.10}/signal.d (100%)
+ rename dlibs/x86_64/{6.10.0 => 6.10}/tcp.d (100%)
+ rename dlibs/x86_64/{6.10.0 => 6.10}/udp.d (100%)
+ rename dlibs/x86_64/{6.10.0 => 6.10}/unistd.d (100%)
 
-Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
+diff --git a/dlibs/x86_64/5.11.0/errno.d b/dlibs/x86_64/5.11/errno.d
+similarity index 100%
+rename from dlibs/x86_64/5.11.0/errno.d
+rename to dlibs/x86_64/5.11/errno.d
+diff --git a/dlibs/x86_64/5.11.0/io.d b/dlibs/x86_64/5.11/io.d
+similarity index 100%
+rename from dlibs/x86_64/5.11.0/io.d
+rename to dlibs/x86_64/5.11/io.d
+diff --git a/dlibs/x86_64/5.11.0/ip.d b/dlibs/x86_64/5.11/ip.d
+similarity index 100%
+rename from dlibs/x86_64/5.11.0/ip.d
+rename to dlibs/x86_64/5.11/ip.d
+diff --git a/dlibs/x86_64/5.11.0/lockstat.d b/dlibs/x86_64/5.11/lockstat.d
+similarity index 100%
+rename from dlibs/x86_64/5.11.0/lockstat.d
+rename to dlibs/x86_64/5.11/lockstat.d
+diff --git a/dlibs/x86_64/5.11.0/net.d b/dlibs/x86_64/5.11/net.d
+similarity index 100%
+rename from dlibs/x86_64/5.11.0/net.d
+rename to dlibs/x86_64/5.11/net.d
+diff --git a/dlibs/x86_64/5.11.0/pcap.d b/dlibs/x86_64/5.11/pcap.d
+similarity index 100%
+rename from dlibs/x86_64/5.11.0/pcap.d
+rename to dlibs/x86_64/5.11/pcap.d
+diff --git a/dlibs/x86_64/5.11.0/procfs.d b/dlibs/x86_64/5.11/procfs.d
+similarity index 100%
+rename from dlibs/x86_64/5.11.0/procfs.d
+rename to dlibs/x86_64/5.11/procfs.d
+diff --git a/dlibs/x86_64/5.11.0/regs.d b/dlibs/x86_64/5.11/regs.d
+similarity index 100%
+rename from dlibs/x86_64/5.11.0/regs.d
+rename to dlibs/x86_64/5.11/regs.d
+diff --git a/dlibs/x86_64/5.11.0/sched.d b/dlibs/x86_64/5.11/sched.d
+similarity index 100%
+rename from dlibs/x86_64/5.11.0/sched.d
+rename to dlibs/x86_64/5.11/sched.d
+diff --git a/dlibs/x86_64/5.11.0/signal.d b/dlibs/x86_64/5.11/signal.d
+similarity index 100%
+rename from dlibs/x86_64/5.11.0/signal.d
+rename to dlibs/x86_64/5.11/signal.d
+diff --git a/dlibs/x86_64/5.11.0/tcp.d b/dlibs/x86_64/5.11/tcp.d
+similarity index 100%
+rename from dlibs/x86_64/5.11.0/tcp.d
+rename to dlibs/x86_64/5.11/tcp.d
+diff --git a/dlibs/x86_64/5.11.0/udp.d b/dlibs/x86_64/5.11/udp.d
+similarity index 100%
+rename from dlibs/x86_64/5.11.0/udp.d
+rename to dlibs/x86_64/5.11/udp.d
+diff --git a/dlibs/x86_64/5.11.0/unistd.d b/dlibs/x86_64/5.11/unistd.d
+similarity index 100%
+rename from dlibs/x86_64/5.11.0/unistd.d
+rename to dlibs/x86_64/5.11/unistd.d
+diff --git a/dlibs/x86_64/5.12.0/errno.d b/dlibs/x86_64/5.12/errno.d
+similarity index 100%
+rename from dlibs/x86_64/5.12.0/errno.d
+rename to dlibs/x86_64/5.12/errno.d
+diff --git a/dlibs/x86_64/5.12.0/io.d b/dlibs/x86_64/5.12/io.d
+similarity index 100%
+rename from dlibs/x86_64/5.12.0/io.d
+rename to dlibs/x86_64/5.12/io.d
+diff --git a/dlibs/x86_64/5.12.0/ip.d b/dlibs/x86_64/5.12/ip.d
+similarity index 100%
+rename from dlibs/x86_64/5.12.0/ip.d
+rename to dlibs/x86_64/5.12/ip.d
+diff --git a/dlibs/x86_64/5.12.0/lockstat.d b/dlibs/x86_64/5.12/lockstat.d
+similarity index 100%
+rename from dlibs/x86_64/5.12.0/lockstat.d
+rename to dlibs/x86_64/5.12/lockstat.d
+diff --git a/dlibs/x86_64/5.12.0/net.d b/dlibs/x86_64/5.12/net.d
+similarity index 100%
+rename from dlibs/x86_64/5.12.0/net.d
+rename to dlibs/x86_64/5.12/net.d
+diff --git a/dlibs/x86_64/5.12.0/pcap.d b/dlibs/x86_64/5.12/pcap.d
+similarity index 100%
+rename from dlibs/x86_64/5.12.0/pcap.d
+rename to dlibs/x86_64/5.12/pcap.d
+diff --git a/dlibs/x86_64/5.12.0/procfs.d b/dlibs/x86_64/5.12/procfs.d
+similarity index 100%
+rename from dlibs/x86_64/5.12.0/procfs.d
+rename to dlibs/x86_64/5.12/procfs.d
+diff --git a/dlibs/x86_64/5.12.0/regs.d b/dlibs/x86_64/5.12/regs.d
+similarity index 100%
+rename from dlibs/x86_64/5.12.0/regs.d
+rename to dlibs/x86_64/5.12/regs.d
+diff --git a/dlibs/x86_64/5.12.0/sched.d b/dlibs/x86_64/5.12/sched.d
+similarity index 100%
+rename from dlibs/x86_64/5.12.0/sched.d
+rename to dlibs/x86_64/5.12/sched.d
+diff --git a/dlibs/x86_64/5.12.0/signal.d b/dlibs/x86_64/5.12/signal.d
+similarity index 100%
+rename from dlibs/x86_64/5.12.0/signal.d
+rename to dlibs/x86_64/5.12/signal.d
+diff --git a/dlibs/x86_64/5.12.0/tcp.d b/dlibs/x86_64/5.12/tcp.d
+similarity index 100%
+rename from dlibs/x86_64/5.12.0/tcp.d
+rename to dlibs/x86_64/5.12/tcp.d
+diff --git a/dlibs/x86_64/5.12.0/udp.d b/dlibs/x86_64/5.12/udp.d
+similarity index 100%
+rename from dlibs/x86_64/5.12.0/udp.d
+rename to dlibs/x86_64/5.12/udp.d
+diff --git a/dlibs/x86_64/5.12.0/unistd.d b/dlibs/x86_64/5.12/unistd.d
+similarity index 100%
+rename from dlibs/x86_64/5.12.0/unistd.d
+rename to dlibs/x86_64/5.12/unistd.d
+diff --git a/dlibs/x86_64/5.14.0/errno.d b/dlibs/x86_64/5.14/errno.d
+similarity index 100%
+rename from dlibs/x86_64/5.14.0/errno.d
+rename to dlibs/x86_64/5.14/errno.d
+diff --git a/dlibs/x86_64/5.14.0/io.d b/dlibs/x86_64/5.14/io.d
+similarity index 100%
+rename from dlibs/x86_64/5.14.0/io.d
+rename to dlibs/x86_64/5.14/io.d
+diff --git a/dlibs/x86_64/5.14.0/ip.d b/dlibs/x86_64/5.14/ip.d
+similarity index 100%
+rename from dlibs/x86_64/5.14.0/ip.d
+rename to dlibs/x86_64/5.14/ip.d
+diff --git a/dlibs/x86_64/5.14.0/lockstat.d b/dlibs/x86_64/5.14/lockstat.d
+similarity index 100%
+rename from dlibs/x86_64/5.14.0/lockstat.d
+rename to dlibs/x86_64/5.14/lockstat.d
+diff --git a/dlibs/x86_64/5.14.0/net.d b/dlibs/x86_64/5.14/net.d
+similarity index 100%
+rename from dlibs/x86_64/5.14.0/net.d
+rename to dlibs/x86_64/5.14/net.d
+diff --git a/dlibs/x86_64/5.14.0/pcap.d b/dlibs/x86_64/5.14/pcap.d
+similarity index 100%
+rename from dlibs/x86_64/5.14.0/pcap.d
+rename to dlibs/x86_64/5.14/pcap.d
+diff --git a/dlibs/x86_64/5.14.0/procfs.d b/dlibs/x86_64/5.14/procfs.d
+similarity index 100%
+rename from dlibs/x86_64/5.14.0/procfs.d
+rename to dlibs/x86_64/5.14/procfs.d
+diff --git a/dlibs/x86_64/5.14.0/regs.d b/dlibs/x86_64/5.14/regs.d
+similarity index 100%
+rename from dlibs/x86_64/5.14.0/regs.d
+rename to dlibs/x86_64/5.14/regs.d
+diff --git a/dlibs/x86_64/5.14.0/sched.d b/dlibs/x86_64/5.14/sched.d
+similarity index 100%
+rename from dlibs/x86_64/5.14.0/sched.d
+rename to dlibs/x86_64/5.14/sched.d
+diff --git a/dlibs/x86_64/5.14.0/signal.d b/dlibs/x86_64/5.14/signal.d
+similarity index 100%
+rename from dlibs/x86_64/5.14.0/signal.d
+rename to dlibs/x86_64/5.14/signal.d
+diff --git a/dlibs/x86_64/5.14.0/tcp.d b/dlibs/x86_64/5.14/tcp.d
+similarity index 100%
+rename from dlibs/x86_64/5.14.0/tcp.d
+rename to dlibs/x86_64/5.14/tcp.d
+diff --git a/dlibs/x86_64/5.14.0/udp.d b/dlibs/x86_64/5.14/udp.d
+similarity index 100%
+rename from dlibs/x86_64/5.14.0/udp.d
+rename to dlibs/x86_64/5.14/udp.d
+diff --git a/dlibs/x86_64/5.14.0/unistd.d b/dlibs/x86_64/5.14/unistd.d
+similarity index 100%
+rename from dlibs/x86_64/5.14.0/unistd.d
+rename to dlibs/x86_64/5.14/unistd.d
+diff --git a/dlibs/x86_64/5.16.0/errno.d b/dlibs/x86_64/5.16/errno.d
+similarity index 100%
+rename from dlibs/x86_64/5.16.0/errno.d
+rename to dlibs/x86_64/5.16/errno.d
+diff --git a/dlibs/x86_64/5.16.0/io.d b/dlibs/x86_64/5.16/io.d
+similarity index 100%
+rename from dlibs/x86_64/5.16.0/io.d
+rename to dlibs/x86_64/5.16/io.d
+diff --git a/dlibs/x86_64/5.16.0/ip.d b/dlibs/x86_64/5.16/ip.d
+similarity index 100%
+rename from dlibs/x86_64/5.16.0/ip.d
+rename to dlibs/x86_64/5.16/ip.d
+diff --git a/dlibs/x86_64/5.16.0/lockstat.d b/dlibs/x86_64/5.16/lockstat.d
+similarity index 100%
+rename from dlibs/x86_64/5.16.0/lockstat.d
+rename to dlibs/x86_64/5.16/lockstat.d
+diff --git a/dlibs/x86_64/5.16.0/net.d b/dlibs/x86_64/5.16/net.d
+similarity index 100%
+rename from dlibs/x86_64/5.16.0/net.d
+rename to dlibs/x86_64/5.16/net.d
+diff --git a/dlibs/x86_64/5.16.0/pcap.d b/dlibs/x86_64/5.16/pcap.d
+similarity index 100%
+rename from dlibs/x86_64/5.16.0/pcap.d
+rename to dlibs/x86_64/5.16/pcap.d
+diff --git a/dlibs/x86_64/5.16.0/procfs.d b/dlibs/x86_64/5.16/procfs.d
+similarity index 100%
+rename from dlibs/x86_64/5.16.0/procfs.d
+rename to dlibs/x86_64/5.16/procfs.d
+diff --git a/dlibs/x86_64/5.16.0/regs.d b/dlibs/x86_64/5.16/regs.d
+similarity index 100%
+rename from dlibs/x86_64/5.16.0/regs.d
+rename to dlibs/x86_64/5.16/regs.d
+diff --git a/dlibs/x86_64/5.16.0/sched.d b/dlibs/x86_64/5.16/sched.d
+similarity index 100%
+rename from dlibs/x86_64/5.16.0/sched.d
+rename to dlibs/x86_64/5.16/sched.d
+diff --git a/dlibs/x86_64/5.16.0/signal.d b/dlibs/x86_64/5.16/signal.d
+similarity index 100%
+rename from dlibs/x86_64/5.16.0/signal.d
+rename to dlibs/x86_64/5.16/signal.d
+diff --git a/dlibs/x86_64/5.16.0/tcp.d b/dlibs/x86_64/5.16/tcp.d
+similarity index 100%
+rename from dlibs/x86_64/5.16.0/tcp.d
+rename to dlibs/x86_64/5.16/tcp.d
+diff --git a/dlibs/x86_64/5.16.0/udp.d b/dlibs/x86_64/5.16/udp.d
+similarity index 100%
+rename from dlibs/x86_64/5.16.0/udp.d
+rename to dlibs/x86_64/5.16/udp.d
+diff --git a/dlibs/x86_64/5.16.0/unistd.d b/dlibs/x86_64/5.16/unistd.d
+similarity index 100%
+rename from dlibs/x86_64/5.16.0/unistd.d
+rename to dlibs/x86_64/5.16/unistd.d
+diff --git a/dlibs/x86_64/5.2.0/errno.d b/dlibs/x86_64/5.2/errno.d
+similarity index 100%
+rename from dlibs/x86_64/5.2.0/errno.d
+rename to dlibs/x86_64/5.2/errno.d
+diff --git a/dlibs/x86_64/5.2.0/io.d b/dlibs/x86_64/5.2/io.d
+similarity index 100%
+rename from dlibs/x86_64/5.2.0/io.d
+rename to dlibs/x86_64/5.2/io.d
+diff --git a/dlibs/x86_64/5.2.0/ip.d b/dlibs/x86_64/5.2/ip.d
+similarity index 100%
+rename from dlibs/x86_64/5.2.0/ip.d
+rename to dlibs/x86_64/5.2/ip.d
+diff --git a/dlibs/x86_64/5.2.0/lockstat.d b/dlibs/x86_64/5.2/lockstat.d
+similarity index 100%
+rename from dlibs/x86_64/5.2.0/lockstat.d
+rename to dlibs/x86_64/5.2/lockstat.d
+diff --git a/dlibs/x86_64/5.2.0/net.d b/dlibs/x86_64/5.2/net.d
+similarity index 100%
+rename from dlibs/x86_64/5.2.0/net.d
+rename to dlibs/x86_64/5.2/net.d
+diff --git a/dlibs/x86_64/5.2.0/pcap.d b/dlibs/x86_64/5.2/pcap.d
+similarity index 100%
+rename from dlibs/x86_64/5.2.0/pcap.d
+rename to dlibs/x86_64/5.2/pcap.d
+diff --git a/dlibs/x86_64/5.2.0/procfs.d b/dlibs/x86_64/5.2/procfs.d
+similarity index 100%
+rename from dlibs/x86_64/5.2.0/procfs.d
+rename to dlibs/x86_64/5.2/procfs.d
+diff --git a/dlibs/x86_64/5.2.0/regs.d b/dlibs/x86_64/5.2/regs.d
+similarity index 100%
+rename from dlibs/x86_64/5.2.0/regs.d
+rename to dlibs/x86_64/5.2/regs.d
+diff --git a/dlibs/x86_64/5.2.0/sched.d b/dlibs/x86_64/5.2/sched.d
+similarity index 100%
+rename from dlibs/x86_64/5.2.0/sched.d
+rename to dlibs/x86_64/5.2/sched.d
+diff --git a/dlibs/x86_64/5.2.0/signal.d b/dlibs/x86_64/5.2/signal.d
+similarity index 100%
+rename from dlibs/x86_64/5.2.0/signal.d
+rename to dlibs/x86_64/5.2/signal.d
+diff --git a/dlibs/x86_64/5.2.0/tcp.d b/dlibs/x86_64/5.2/tcp.d
+similarity index 100%
+rename from dlibs/x86_64/5.2.0/tcp.d
+rename to dlibs/x86_64/5.2/tcp.d
+diff --git a/dlibs/x86_64/5.2.0/udp.d b/dlibs/x86_64/5.2/udp.d
+similarity index 100%
+rename from dlibs/x86_64/5.2.0/udp.d
+rename to dlibs/x86_64/5.2/udp.d
+diff --git a/dlibs/x86_64/5.2.0/unistd.d b/dlibs/x86_64/5.2/unistd.d
+similarity index 100%
+rename from dlibs/x86_64/5.2.0/unistd.d
+rename to dlibs/x86_64/5.2/unistd.d
+diff --git a/dlibs/x86_64/5.6.0/errno.d b/dlibs/x86_64/5.6/errno.d
+similarity index 100%
+rename from dlibs/x86_64/5.6.0/errno.d
+rename to dlibs/x86_64/5.6/errno.d
+diff --git a/dlibs/x86_64/5.6.0/io.d b/dlibs/x86_64/5.6/io.d
+similarity index 100%
+rename from dlibs/x86_64/5.6.0/io.d
+rename to dlibs/x86_64/5.6/io.d
+diff --git a/dlibs/x86_64/5.6.0/ip.d b/dlibs/x86_64/5.6/ip.d
+similarity index 100%
+rename from dlibs/x86_64/5.6.0/ip.d
+rename to dlibs/x86_64/5.6/ip.d
+diff --git a/dlibs/x86_64/5.6.0/lockstat.d b/dlibs/x86_64/5.6/lockstat.d
+similarity index 100%
+rename from dlibs/x86_64/5.6.0/lockstat.d
+rename to dlibs/x86_64/5.6/lockstat.d
+diff --git a/dlibs/x86_64/5.6.0/net.d b/dlibs/x86_64/5.6/net.d
+similarity index 100%
+rename from dlibs/x86_64/5.6.0/net.d
+rename to dlibs/x86_64/5.6/net.d
+diff --git a/dlibs/x86_64/5.6.0/pcap.d b/dlibs/x86_64/5.6/pcap.d
+similarity index 100%
+rename from dlibs/x86_64/5.6.0/pcap.d
+rename to dlibs/x86_64/5.6/pcap.d
+diff --git a/dlibs/x86_64/5.6.0/procfs.d b/dlibs/x86_64/5.6/procfs.d
+similarity index 100%
+rename from dlibs/x86_64/5.6.0/procfs.d
+rename to dlibs/x86_64/5.6/procfs.d
+diff --git a/dlibs/x86_64/5.6.0/regs.d b/dlibs/x86_64/5.6/regs.d
+similarity index 100%
+rename from dlibs/x86_64/5.6.0/regs.d
+rename to dlibs/x86_64/5.6/regs.d
+diff --git a/dlibs/x86_64/5.6.0/sched.d b/dlibs/x86_64/5.6/sched.d
+similarity index 100%
+rename from dlibs/x86_64/5.6.0/sched.d
+rename to dlibs/x86_64/5.6/sched.d
+diff --git a/dlibs/x86_64/5.6.0/signal.d b/dlibs/x86_64/5.6/signal.d
+similarity index 100%
+rename from dlibs/x86_64/5.6.0/signal.d
+rename to dlibs/x86_64/5.6/signal.d
+diff --git a/dlibs/x86_64/5.6.0/tcp.d b/dlibs/x86_64/5.6/tcp.d
+similarity index 100%
+rename from dlibs/x86_64/5.6.0/tcp.d
+rename to dlibs/x86_64/5.6/tcp.d
+diff --git a/dlibs/x86_64/5.6.0/udp.d b/dlibs/x86_64/5.6/udp.d
+similarity index 100%
+rename from dlibs/x86_64/5.6.0/udp.d
+rename to dlibs/x86_64/5.6/udp.d
+diff --git a/dlibs/x86_64/5.6.0/unistd.d b/dlibs/x86_64/5.6/unistd.d
+similarity index 100%
+rename from dlibs/x86_64/5.6.0/unistd.d
+rename to dlibs/x86_64/5.6/unistd.d
+diff --git a/dlibs/x86_64/6.1.0/errno.d b/dlibs/x86_64/6.1/errno.d
+similarity index 100%
+rename from dlibs/x86_64/6.1.0/errno.d
+rename to dlibs/x86_64/6.1/errno.d
+diff --git a/dlibs/x86_64/6.1.0/io.d b/dlibs/x86_64/6.1/io.d
+similarity index 100%
+rename from dlibs/x86_64/6.1.0/io.d
+rename to dlibs/x86_64/6.1/io.d
+diff --git a/dlibs/x86_64/6.1.0/ip.d b/dlibs/x86_64/6.1/ip.d
+similarity index 100%
+rename from dlibs/x86_64/6.1.0/ip.d
+rename to dlibs/x86_64/6.1/ip.d
+diff --git a/dlibs/x86_64/6.1.0/lockstat.d b/dlibs/x86_64/6.1/lockstat.d
+similarity index 100%
+rename from dlibs/x86_64/6.1.0/lockstat.d
+rename to dlibs/x86_64/6.1/lockstat.d
+diff --git a/dlibs/x86_64/6.1.0/net.d b/dlibs/x86_64/6.1/net.d
+similarity index 100%
+rename from dlibs/x86_64/6.1.0/net.d
+rename to dlibs/x86_64/6.1/net.d
+diff --git a/dlibs/x86_64/6.1.0/pcap.d b/dlibs/x86_64/6.1/pcap.d
+similarity index 100%
+rename from dlibs/x86_64/6.1.0/pcap.d
+rename to dlibs/x86_64/6.1/pcap.d
+diff --git a/dlibs/x86_64/6.1.0/procfs.d b/dlibs/x86_64/6.1/procfs.d
+similarity index 100%
+rename from dlibs/x86_64/6.1.0/procfs.d
+rename to dlibs/x86_64/6.1/procfs.d
+diff --git a/dlibs/x86_64/6.1.0/regs.d b/dlibs/x86_64/6.1/regs.d
+similarity index 100%
+rename from dlibs/x86_64/6.1.0/regs.d
+rename to dlibs/x86_64/6.1/regs.d
+diff --git a/dlibs/x86_64/6.1.0/sched.d b/dlibs/x86_64/6.1/sched.d
+similarity index 100%
+rename from dlibs/x86_64/6.1.0/sched.d
+rename to dlibs/x86_64/6.1/sched.d
+diff --git a/dlibs/x86_64/6.1.0/signal.d b/dlibs/x86_64/6.1/signal.d
+similarity index 100%
+rename from dlibs/x86_64/6.1.0/signal.d
+rename to dlibs/x86_64/6.1/signal.d
+diff --git a/dlibs/x86_64/6.1.0/tcp.d b/dlibs/x86_64/6.1/tcp.d
+similarity index 100%
+rename from dlibs/x86_64/6.1.0/tcp.d
+rename to dlibs/x86_64/6.1/tcp.d
+diff --git a/dlibs/x86_64/6.1.0/udp.d b/dlibs/x86_64/6.1/udp.d
+similarity index 100%
+rename from dlibs/x86_64/6.1.0/udp.d
+rename to dlibs/x86_64/6.1/udp.d
+diff --git a/dlibs/x86_64/6.1.0/unistd.d b/dlibs/x86_64/6.1/unistd.d
+similarity index 100%
+rename from dlibs/x86_64/6.1.0/unistd.d
+rename to dlibs/x86_64/6.1/unistd.d
+diff --git a/dlibs/x86_64/6.10.0/errno.d b/dlibs/x86_64/6.10/errno.d
+similarity index 100%
+rename from dlibs/x86_64/6.10.0/errno.d
+rename to dlibs/x86_64/6.10/errno.d
+diff --git a/dlibs/x86_64/6.10.0/io.d b/dlibs/x86_64/6.10/io.d
+similarity index 100%
+rename from dlibs/x86_64/6.10.0/io.d
+rename to dlibs/x86_64/6.10/io.d
+diff --git a/dlibs/x86_64/6.10.0/ip.d b/dlibs/x86_64/6.10/ip.d
+similarity index 100%
+rename from dlibs/x86_64/6.10.0/ip.d
+rename to dlibs/x86_64/6.10/ip.d
+diff --git a/dlibs/x86_64/6.10.0/lockstat.d b/dlibs/x86_64/6.10/lockstat.d
+similarity index 100%
+rename from dlibs/x86_64/6.10.0/lockstat.d
+rename to dlibs/x86_64/6.10/lockstat.d
+diff --git a/dlibs/x86_64/6.10.0/net.d b/dlibs/x86_64/6.10/net.d
+similarity index 100%
+rename from dlibs/x86_64/6.10.0/net.d
+rename to dlibs/x86_64/6.10/net.d
+diff --git a/dlibs/x86_64/6.10.0/pcap.d b/dlibs/x86_64/6.10/pcap.d
+similarity index 100%
+rename from dlibs/x86_64/6.10.0/pcap.d
+rename to dlibs/x86_64/6.10/pcap.d
+diff --git a/dlibs/x86_64/6.10.0/procfs.d b/dlibs/x86_64/6.10/procfs.d
+similarity index 100%
+rename from dlibs/x86_64/6.10.0/procfs.d
+rename to dlibs/x86_64/6.10/procfs.d
+diff --git a/dlibs/x86_64/6.10.0/regs.d b/dlibs/x86_64/6.10/regs.d
+similarity index 100%
+rename from dlibs/x86_64/6.10.0/regs.d
+rename to dlibs/x86_64/6.10/regs.d
+diff --git a/dlibs/x86_64/6.10.0/sched.d b/dlibs/x86_64/6.10/sched.d
+similarity index 100%
+rename from dlibs/x86_64/6.10.0/sched.d
+rename to dlibs/x86_64/6.10/sched.d
+diff --git a/dlibs/x86_64/6.10.0/signal.d b/dlibs/x86_64/6.10/signal.d
+similarity index 100%
+rename from dlibs/x86_64/6.10.0/signal.d
+rename to dlibs/x86_64/6.10/signal.d
+diff --git a/dlibs/x86_64/6.10.0/tcp.d b/dlibs/x86_64/6.10/tcp.d
+similarity index 100%
+rename from dlibs/x86_64/6.10.0/tcp.d
+rename to dlibs/x86_64/6.10/tcp.d
+diff --git a/dlibs/x86_64/6.10.0/udp.d b/dlibs/x86_64/6.10/udp.d
+similarity index 100%
+rename from dlibs/x86_64/6.10.0/udp.d
+rename to dlibs/x86_64/6.10/udp.d
+diff --git a/dlibs/x86_64/6.10.0/unistd.d b/dlibs/x86_64/6.10/unistd.d
+similarity index 100%
+rename from dlibs/x86_64/6.10.0/unistd.d
+rename to dlibs/x86_64/6.10/unistd.d
+-- 
+2.42.0
 
-> ---
->  libdtrace/io.d.in | 6 +++---
->  libdtrace/io.m4   | 8 ++++++--
->  2 files changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/libdtrace/io.d.in b/libdtrace/io.d.in
-> index b3da517778264..f44f53f092dce 100644
-> --- a/libdtrace/io.d.in
-> +++ b/libdtrace/io.d.in
-> @@ -1,6 +1,6 @@
->  /*
->   * Oracle Linux DTrace.
-> - * Copyright (c) 2012, 2023, Oracle and/or its affiliates. All rights reserved.
-> + * Copyright (c) 2012, 2024, Oracle and/or its affiliates. All rights reserved.
->   * Licensed under the Universal Permissive License v 1.0 as shown at
->   * http://oss.oracle.com/licenses/upl.
->   */
-> @@ -69,7 +69,7 @@ inline int REQ_SYNC = REQ_SYNC_VAL;
->  define_for_kernel([[__bi_rw]], [[(m4_kver(4,8,0), [[bi_opf]])]], [[bi_rw]])
->  define_for_kernel([[__disk]], [[(m4_kver(5,12,0), [[bi_bdev->bd_disk]]), (m4_kver(4,14,0), [[bi_disk]])]], [[bi_bdev->bd_disk]])
->  define_for_kernel([[__disk_chk]], [[(m4_kver(5,12,0), [[bi_bdev]]), (m4_kver(4,14,0), [[bi_disk]])]], [[bi_bdev]])
-> -define_for_kernel([[__bio_partno]], [[(m4_kver(5,12,0), [[bi_bdev->bd_partno]]), (m4_kver(4,14,0), [[bi_partno]])]], [[bi_bdev->bd_part->partno]])
-> +define_for_kernel([[__bio_partno]], [[(m4_kver(6,10,0), [[bi_bdev->__bd_flags.counter & BD_PARTNO]]), (m4_kver(5,12,0), [[bi_bdev->bd_partno]]), (m4_kver(4,14,0), [[bi_partno]])]], [[bi_bdev->bd_part->partno]])
->  define_for_kernel([[__bio_part_dev]], [[(m4_kver(5,12,0), [[bi_bdev->bd_dev]]), (m4_kver(5,11,0), [[bi_disk->part_tbl->part[B->bi_partno]->bd_dev]]), (m4_kver(4,14,0), [[bi_disk->part_tbl->part[B->bi_partno]->__dev.devt]])]], [[bi_bdev->bd_part->__dev.devt]])
->  
->  #pragma D binding "1.6.3" translator
-> @@ -98,7 +98,7 @@ typedef struct devinfo {
->  } devinfo_t;
->  
->  define_for_kernel([[__bh_bdev_dev]], [[(m4_kver(5,11,0), [[b_bdev->bd_disk->part0->bd_device]])]], [[b_bdev->bd_disk->part0.__dev]])
-> -define_for_kernel([[__bdev_partno]], [[(m4_kver(5,11,0), [[bd_partno]])]], [[bd_part->partno]])
-> +define_for_kernel([[__bdev_partno]], [[(m4_kver(6,10,0), [[__bd_flags.counter & BD_PARTNO]]), (m4_kver(5,11,0), [[bd_partno]])]], [[bd_part->partno]])
->  #pragma D binding "1.0" translator
->  translator devinfo_t < struct buffer_head *B > {
->  	dev_major = getmajor(B->b_bdev->bd_dev);
-> diff --git a/libdtrace/io.m4 b/libdtrace/io.m4
-> index e837ef65b86f7..d57225c911059 100644
-> --- a/libdtrace/io.m4
-> +++ b/libdtrace/io.m4
-> @@ -1,6 +1,6 @@
->  /*
->   * Oracle Linux DTrace.
-> - * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
-> + * Copyright (c) 2005, 2024, Oracle and/or its affiliates. All rights reserved.
->   * Licensed under the Universal Permissive License v 1.0 as shown at
->   * http://oss.oracle.com/licenses/upl.
->   */
-> @@ -11,7 +11,8 @@
->   * to replace those tokens with their values to create the finished io.d.
->   */
->  
-> -/* #include <linux/buffer_head.h> */
-> +#include <linux/kconfig.h>
-> +#include <linux/buffer_head.h>
->  #include <sys/file.h>
->  #if 0
->  #ifndef __USE_UNIX98
-> @@ -43,4 +44,7 @@ DEF_REPLACE(O_NOFOLLOW)
->  DEF_REPLACE(O_CLOEXEC)
->  DEF_REPLACE(O_DSYNC)
->  DEF_REPLACE(O_RSYNC)
-> +#ifdef BD_PARTNO
-> +DEF_REPLACE(BD_PARTNO)
-> +#endif
->  #include "io.platform.m4"
-> 
-> base-commit: 454c6d47bf408415f7eb52ea701779f041aa6957
-> -- 
-> 2.45.1.275.g567cb0950c
