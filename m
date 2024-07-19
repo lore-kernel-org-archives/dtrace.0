@@ -1,83 +1,83 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AF13C39
-	for <dtrace@lists.linux.dev>; Fri, 19 Jul 2024 21:02:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B286C3C39
+	for <dtrace@lists.linux.dev>; Fri, 19 Jul 2024 21:08:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721422969; cv=fail; b=sZiNnDdGI6l6nyeGAG3LiZNW3D5kOjHFXUC7CKuQaE749j3lSDbGeP0Q5mAwspv/BJPnRSKq9yBlRw7npd0ukvb0EoTI19WewulMWCsann4Cw4q4ZW5xLL5rrCqOKdpr70ox1zc8IkDEWzQqmu1FB0yO/MTFyXgmDqxDKFNnPLw=
+	t=1721423312; cv=fail; b=Od9fNcluzSj7kTx4SHgbslbJlYoxqUarqOMs0ZQ6x5EMDfopZ2T0dmgQ3gShV1miqVfAIXzmdbrm7SM6x3tR8TWFh5D4gw2ppb5vZl+6ya3NGbDlYicBWJteVxJFvmRVviEhn2QsoA3BdaEQucVsXnbKmIYYhClkWJL9LZ+DP78=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721422969; c=relaxed/simple;
-	bh=QjWeOWm+6MTcImdlQIvBWRyLeC3o+/pJfgok5MkfW2I=;
+	s=arc-20240116; t=1721423312; c=relaxed/simple;
+	bh=0MeVOlLQK4RsKq8MEkQyL8btHxibtgXQ6g5ic7LReDE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=EKOS+MC9Lp/lC6NUS2wfR4sWFsxMrX/j1lQooaly7PpIO9NDtC5k7ztMY4JJWMFMj/CjKJXawGzf2NO4/zasErGy9xnY/FFwrK5djQQEqoznbVQa01PhGVk8SCq0tSyNdEqMcdfQZAKhgrUDM1jBhP7euPSyZCr4KGcsc7BQgMQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Hx71lNa2; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=W367m2u+; arc=fail smtp.client-ip=205.220.165.32
+	 Content-Disposition:In-Reply-To:MIME-Version; b=CFp2oLKnqZSLg8k3kArelQ/sSPQ26lyUX75q9V3YHJs0l2EY8L+Knneyiz1j1metIdTlLibEdSNrWhAlZL/1KfZV7V4SAoNg4XbDPRxwGnBtTPML2DJLSfMg0JMYxpZPb/VB6YpEqgBWJ3v8857hXkSHvVebzn+voGqijPFNXJY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=NakzeRsq; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Koqu/E3f; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Hx71lNa2";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="W367m2u+"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46JL0hxq005813
-	for <dtrace@lists.linux.dev>; Fri, 19 Jul 2024 21:02:46 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="NakzeRsq";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Koqu/E3f"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46JKFn2d026077
+	for <dtrace@lists.linux.dev>; Fri, 19 Jul 2024 21:08:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	date:from:to:cc:subject:message-id:references:content-type
-	:in-reply-to:mime-version; s=corp-2023-11-20; bh=7N92eEt/972E2yC
-	rW9OjrgkttayGBzXd5a02QX50yqg=; b=Hx71lNa283TxUuuF9VdzF0IWMh6Dx73
-	wu9+xmPOccEhtRYoLKAnOjbPRUeIy+7rWJ6SOItUzPa42Ua+ftilJCGWJZqigFcc
-	22JPXtLWrGjKK8OilvcZwcSGUbjH9pFYlvmhn7DNrcrFyFSQnbcdPICBdzkBEafI
-	FYNa/w8sRDl8G2GWAkpnv9Jj18v0gipj3u+wAjlmrZ29RLpSX180UmCtg7Ju4N2+
-	Ez4qXZOcyKmWQpqxvyq7s28/kFRMUlKsukRQ6lwOMa5xtlQGcbhVcOHrV5MITqVX
-	kalA1TZOpsIxuoFNb2xev+0katuSQmLUSPnidYzSk2fAmIxQhjAJejw==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 40fyp6003d-1
+	:in-reply-to:mime-version; s=corp-2023-11-20; bh=sy0kaNi26zfAYmd
+	mJ2HWjHvoNiVh9iw6SGV/7BjooYM=; b=NakzeRsqnKJvOgB/0JLuibfA98Adr/U
+	l7XM+EFX0LgY1aKB2CHjwK7A/tRkZA4kAJQ78j6/VrPKBnpp22A8pEJu7Pa60kpW
+	e+BRGsTzyH7x/nOBeRbtns4V78uM3Z4nbLlcHgMA8FN9wIEbBjefrilIEoqr6cAj
+	sts3qVloEMpCo7lo2vjGWkrTmRcuL6Uo0gIzo+HgajSy0y8+YwgcxDwDW8Od+IqK
+	xSo+sQOyd73BpNILKS/ZXknwHWZ8ad48fVuCvorEXFdg/lZjpSe3+NB1JDNX4K1E
+	8jzjZJWv+s4dHYoMB2fyAwlbDIQOIhZ1An4fbNQzb+Isoti2jNHmERg==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 40fy1283hq-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 19 Jul 2024 21:02:46 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 46JJJH56021737
-	for <dtrace@lists.linux.dev>; Fri, 19 Jul 2024 21:02:45 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 40dwewcqh5-2
+	for <dtrace@lists.linux.dev>; Fri, 19 Jul 2024 21:08:28 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 46JL7LfV039536
+	for <dtrace@lists.linux.dev>; Fri, 19 Jul 2024 21:08:28 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2046.outbound.protection.outlook.com [104.47.66.46])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 40dwey4rr7-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 19 Jul 2024 21:02:45 +0000
+	for <dtrace@lists.linux.dev>; Fri, 19 Jul 2024 21:08:27 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MdVr8Kbl0kc6LA6lpp3/kxja2R9q6TQ9zRX7nihDhCjmKSAdJ2YgcCOnowxieuXnqd66HbPy+vGSmKbtc52Z4nQRA8+jbMrxbTVkKz7we/Krxz6NFliCKE4M2WnsLVPP5tKNs+Up+jrUHG+zSPwwMb4GI+WuQmuXI1VH4tyFAVlcDSvkemPiTXDh89SHoHCE7X2qW4qg+5Q5LLeWwYldmkuLI0nWKugNDjc4Iw9eu24Jkw2XyyJ04+OiF5nY9269WfdQxCM9Xt11j/8JYYb8VKEew0+JuQK7XeJsRXaq+Mz6DEU+pe4dNrAG+5aJZVWLXw1wAbA8TGkhBvxv1h1D7A==
+ b=sHrjKanDHlJJULDJtDn+IXri0JfGcb7j2LuhIbo67ra/Ire//DmU3NkB3zO7+8HKdlbBpk25xPkWUP3Hg8e6S+WYT8Mx5Xcn3pA20/ZrnQwNTzDrIHq0Mcsewm7sN+bKqKfQBle37oc+ke+lLSG+qz5aH9BDYwRTxIfODMMmMw6kXJBbkq1cHq6m3//UwQw8n7DQJq62uqUY9qUklfAXTRdvsOCpOFWHNaRhFuoNQ64VGsqFSIAqSKwtMXSlQFUb66GUo5dKCuHcihFFx+ad9/TyqWlGy+EigHV3Zs/lBI9NMlIor9Lg7K0QvG71TYRNZWuKLCT5j6SOaYRmKcw/Ug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7N92eEt/972E2yCrW9OjrgkttayGBzXd5a02QX50yqg=;
- b=FTXtQe9ZNDJhIDCK/O6/+qoDaMLz5MTUILuWB0X9Vz+4lPQz/ykH6xHcsNV6TTtWC1+M9I8YQvLURla+tDSKxVJPuGULH9ANn4YWRNgGnK0NZekPkV9RA90bs9l1IVDy7HioB7eQYhQoYf7O93V4fq9dQNLAwH9L2cqB1kQQ2xnqAx+U/8RFx3KHkirBb7usjWfHS0pOB2ozoUs133lBWpbjTrecEy04c0j0oSGJg/AKcsotXmpGqhBLtXqjnzuukdwzoFuccA1Btra8tn33nY5gsXd1i/CdxjoI0MyXIm47u06PVelMlWHqMyVQuM3YfRIVDCdPYAFhHhTknbfHaA==
+ bh=sy0kaNi26zfAYmdmJ2HWjHvoNiVh9iw6SGV/7BjooYM=;
+ b=uIqGxCJYW47F7Hz6ymw+ypAb8fEJ0276rjl6HGqUayXIiRw8I75HujTwbRofgF/rFfWRn3bXozLWzvR5XZE5LEAPS/jlJq7GqZPeBScBI+k69hbPZgb3ay4FdKJZrX8APeDy+mbkcJNFFswW5ZhfoSMVCzdqteonuJfZaZyZjePZKNphCBhtSs2yOWNysrGwjFW6BJew9VUdAVLNcn5tHO3q7I2UIx+BqhNmKapz+bI9K69N0O9WEfoGlkZJOP3YrqfcBc4mug433UfAMJqVs5xpaW8uUCqeJ0ObT6PKGubF2d6J95E5y15Pn4IRjwJfJP1cSjFYYATb+GBxeZSBUQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7N92eEt/972E2yCrW9OjrgkttayGBzXd5a02QX50yqg=;
- b=W367m2u+0D79a91ofAGB+QdjWst20bCD3h+D1VO819m4TiI1BSDj7AKOUHgLbUPJ4eMyQTmGB9gnUxa3FPV/UpKtrI2HDeuj65IWCAo4pjk5pdqCccSnASeMOblpW0q8O3zlDJ2wbO06uPq3TH+IpT5S9/xdYnM0jehcQNm0yrs=
+ bh=sy0kaNi26zfAYmdmJ2HWjHvoNiVh9iw6SGV/7BjooYM=;
+ b=Koqu/E3fQjAp67e7IJC/oxhj5UKg1ZQzeit6qu/BacIKVz6VFsNEuWdIFKl0Ra2IHbFjqHdoa8EnrLaebUIFC77CZCAK8xCTe62hawoaaPZ3/pXUjKEVfOXnnsZYGmjdQCUTAUWdOYLzYtXH/4b4YLT/XiJ3KaZ/CpXBqi4Tm84=
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
- by SJ0PR10MB4656.namprd10.prod.outlook.com (2603:10b6:a03:2d1::20) with
+ by CH0PR10MB4828.namprd10.prod.outlook.com (2603:10b6:610:c8::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.17; Fri, 19 Jul
- 2024 21:02:42 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.18; Fri, 19 Jul
+ 2024 21:08:24 +0000
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29]) by SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29%3]) with mapi id 15.20.7762.027; Fri, 19 Jul 2024
- 21:02:41 +0000
-Date: Fri, 19 Jul 2024 17:02:35 -0400
+ 21:08:24 +0000
+Date: Fri, 19 Jul 2024 17:08:21 -0400
 From: Kris Van Hees <kris.van.hees@oracle.com>
 To: eugene.loh@oracle.com
 Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH 24/38] test: Make test independent of specific PC
-Message-ID: <ZprUa707RqQzlT1T@oracle.com>
+Subject: Re: [PATCH 25/38] test: Clean up tests still expecting obsolete "at
+ DIF offset NN"
+Message-ID: <ZprVxS6lFNcuH5MN@oracle.com>
 References: <20240627053904.21996-1-eugene.loh@oracle.com>
- <20240627053904.21996-5-eugene.loh@oracle.com>
+ <20240627053904.21996-6-eugene.loh@oracle.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240627053904.21996-5-eugene.loh@oracle.com>
-X-ClientProxiedBy: LO4P123CA0196.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a4::21) To SN7PR10MB6287.namprd10.prod.outlook.com
- (2603:10b6:806:26d::14)
+In-Reply-To: <20240627053904.21996-6-eugene.loh@oracle.com>
+X-ClientProxiedBy: BYAPR01CA0013.prod.exchangelabs.com (2603:10b6:a02:80::26)
+ To SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -85,138 +85,300 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|SJ0PR10MB4656:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9e94263c-88f1-423a-a1ea-08dca83620dd
+X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|CH0PR10MB4828:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4beb608d-b68a-4692-72c8-08dca836ed8e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?n7E/DvutgOzDm2fnSQbqhF1M9fXOpRBp43B6NkNgbxlgZHAqhQeNPVXYcBzu?=
- =?us-ascii?Q?uH1kV6TkabsyWvdTIbbQjX+31ThpKYdR8P3CozHFMjM7tHysYV1i3a5hPFVT?=
- =?us-ascii?Q?Jhyhr9lOBuB7PjDPd7IfWhVNY/MH9GCpRILPwTMgLA3ybWHNezzMN1HttGId?=
- =?us-ascii?Q?34KI6Ccp8Nz7hfPd3tW1//JtasHuVZGl90V7jzfQo/56v9Cx0XJKQeeogkDo?=
- =?us-ascii?Q?JELf4F9azKmzrSzXgQrPcIg5M3mRk2bI+Kybqba1ycYfTzSqfUWmv8AsWQ01?=
- =?us-ascii?Q?F0F/FBH/XQCkM0lyDsIPnmgTRgVB4Ei0XdnVX2loIcjEJ54jBmSkcHjgco5B?=
- =?us-ascii?Q?E9nDKs7v1d7cBNccZ0vt1nF0up6HX3T0VmmnEZSaWdxc5hJ3yQaOCM1hWXnA?=
- =?us-ascii?Q?2/k+WngkOnnU8RvC3ncS+zmUdEtK/KVpcDLyEH54RDKmtumNW+pj9bbG+D1/?=
- =?us-ascii?Q?cUHkiB+PHRs6LeBRFIsg0CsPV7yv9RMWXnOz9o06dPm+R7B5RlQLLXCKap+/?=
- =?us-ascii?Q?e9+wwK2A0qE2NBDfvUWkGv+c/dG5ZoqGqc0ufMdetnSbK70zOc0r13ig6lM3?=
- =?us-ascii?Q?sW+Eg5sbsvFYzFaHkcYB3w4Tuk7oMYmMovI0sU7urT74BHrkETV38kSEro6t?=
- =?us-ascii?Q?XqXlEcmIgwNQl1zSZZF4w0VzL7fCg08GYIBO/8TuDBzfz/bf1AkNzQtoOwwQ?=
- =?us-ascii?Q?1DsobfHRJTSYTkadUOZBRUuUeSGs3u+H+Hcfzh0IeIG5NAIEXf/VDQ6YMIq6?=
- =?us-ascii?Q?v9ilB3FTKA9jOdlHxsDG2U6HrjqxGimISsQjAr0Skl8xqB0VQexwbrX6GvA2?=
- =?us-ascii?Q?iAC8wQTe/1MBwaSKncWyiyq5m9kxtJf7tmnhNik5EpXaK076tEsH8p6aVUbF?=
- =?us-ascii?Q?DPNALvvVBXWqlF82swPznsHmAWu6o0coMd1pmVQexQn7sAIY2WWoPK0chsRQ?=
- =?us-ascii?Q?cUEWtmKWMP+Pbr6I5uXiXR1BDQ6RuJOUPGC6NYqWc0Xjs26G9HALGd8r9bfK?=
- =?us-ascii?Q?/ed9DMT9zY4LELCu2R5oiPHFrtdxneO746XkBba6r0Upp6soEbRzeSC5/tUI?=
- =?us-ascii?Q?Y33ltUYAt8uUxEC18TlYedEqX4wPsbFedfqV3mYlTC9ko1+Q/WfhGNygnYr3?=
- =?us-ascii?Q?WTYcVjRaa3TalIkPmYrVC37W2CvFuVTPZVHGspQAZgJxQj9Ay/4uxD0JdKOZ?=
- =?us-ascii?Q?6xH6Jr99luRwDb1L9cDEuThSZLDuyRtcQYmlNbrxV4HjaSGLgbUPaRHoCVZ1?=
- =?us-ascii?Q?GVXq/vvS4QUOnsdbKvNYkYEeHNRV/Vplp8Vt5NbP6qdNm3uWab5WBWBCgnP8?=
- =?us-ascii?Q?zSx2i2vZ/YnK5H9FAunsldN9mUp4BAfV46384JaFpjHekg=3D=3D?=
+	=?us-ascii?Q?RZF5ymCqXz2//KwqkUjy5KW75IQFcIi6OtYFvYZ1nHg0OX+cemqrYghOopxD?=
+ =?us-ascii?Q?lYAPtqGehEAcRO2VvP7q7tBVsw4YT0kWJoB4Xt8bs95s4JOVnzzd/3FCXMGm?=
+ =?us-ascii?Q?M9DcrdyE9yojlhKgmA9DbKyBOk75/Nm2lqes9xTkUAxnxeF+I/1k0r8FVmzI?=
+ =?us-ascii?Q?ks/TGVOWERNPVt0yA1Ry/xk9LWCdF4srsJaTNWUDONM+cyiWTjbeDW93X2g8?=
+ =?us-ascii?Q?GOrhLfIo9YgpTu8f8/Lrtpr9t7au8QNOzDgqCq7p5d2RjDUvIVNzFkhIdjFv?=
+ =?us-ascii?Q?jfyHgdtYSXBlIIq7xkEjHwfgRt7jfpdo0NMTXWmXkr+MMQ/3hLkWca9/pQO3?=
+ =?us-ascii?Q?txdaBU2q5LOxs58NDVGnJLUliXG/hHniMn3YAfwiOxlUvz7tsaVvNqJWKOfw?=
+ =?us-ascii?Q?54AeDp5Vl84D+oSBUelbRDIeTZUv8ZNAKK8V+YZCCZEnKBFj22mINmhwoqoI?=
+ =?us-ascii?Q?74M34cCQJCRGfl3GU5OoI/Pu4gxcqiP8Cyu0DC8iPkXxdL92ZaRE0B5rNChB?=
+ =?us-ascii?Q?omQtbeWSzrEzClxNDo1aWiXVQJiniRcA9krjgudvkUb/9bhWU9vmi3g8hmcO?=
+ =?us-ascii?Q?oZdUpyHXcy896X6dHZOZ0bZSriFRMkY8sFRoeY1xOszupRT8U00sm9zj2/1M?=
+ =?us-ascii?Q?tcm5ukf5gPeyLRBguIILt7RCWogIuszPQzj4JJAT29Jr+xhDx6l6BUd+luxv?=
+ =?us-ascii?Q?nkaNeMJun0MvWpKE70np1VmPEjmYJUfjQqaU+izegxtRrO+fFVAaa9b3zzlm?=
+ =?us-ascii?Q?NnUyyOpcm5X8caoHoyRCETsGapQ1WLUKlRH9zNpJi6gqXHrHTU3bBzCo9CdC?=
+ =?us-ascii?Q?PJU3n5vZ/Ladn+G6wyzKO0h7ZxJkZqza5q0/mPiVfdqCcSznL+I4Unv5foeh?=
+ =?us-ascii?Q?S6z/qesfpCnzsY52LmBtzYziYDwKjuojtgsKOgoemtBI1ndU5yw9NJ1J4Afk?=
+ =?us-ascii?Q?FA1qTKQZMqA5MmIYY1G7lHT+pTTBkwxPBSeZzzQskpuQhq3884vcSnLr4ThQ?=
+ =?us-ascii?Q?gYVVr+bLJBJ4RhLTdK+SRZEsGz9ZubgNpG2R4v8kZpjDtzaZeCGPQgxx+DIl?=
+ =?us-ascii?Q?p0stGphLt00o3I7C/1ctRaXh8x/DlBbdFiMxNQpVY5iLkfuUpNekhUmuM9+H?=
+ =?us-ascii?Q?2QqHMaIB7rMb7r4JZL8vrKqOr2lcGqrjRHjVoZMUBG2fHqWicD7Kb8bPtLcP?=
+ =?us-ascii?Q?t/SSpmVp7UGrTqKOFTTvOb76QfAG19vZH6McIe40pCJZ147lkIfGLcTNwaxP?=
+ =?us-ascii?Q?FfeYYTv1iLLSv8KGojg/1mSr+1DL6e0LIA0dhbQNAGxWS0n1k4PypyR3p1jC?=
+ =?us-ascii?Q?b51M7qX5Q7uXBOci1DdqqwXUPPDjo77qX1glwy3Zu2kJr7wT1i48pDNKHGeb?=
+ =?us-ascii?Q?PFL+6bQ=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?WHcdzhph5L8hlBQnpbiHwFcUUq200T35CEWNb+1JmhtiXZF5GHrYcQd8icS9?=
- =?us-ascii?Q?h5o5zUkHiZmiFRZk+PEjGDdD+l6m0Nf+tbhwFxYSdnpUxV7cryxu5BTRp18K?=
- =?us-ascii?Q?5Y2jQg6E9fTqaUAiKj72/0llYG4oawU0AJ0kM84RD1y5o2JTyZUs6D4mxJ4Q?=
- =?us-ascii?Q?G7pxax3/HEokewN14U1YXFseuc6LhfhlC9cKWuGjl1zTFqp/E4/wx9/9aGfu?=
- =?us-ascii?Q?ji0HxJQ1MH4jT3aV0FRlfpHz54VYQE/OVGpPHS1OBAvs/OHzuoVp08YZgc+l?=
- =?us-ascii?Q?vCXANVTHmkxa9vmW1TJ8Ks/68qXfd/4mY7FpCJ71LtI6lZcHcRRhB8MzKQXs?=
- =?us-ascii?Q?1z1B6yyBqcxoCMtsd5vqLyclnQCORv+IdVepWRCn7Dr4yRrkiyXt8j8qqvJn?=
- =?us-ascii?Q?0UaX/tlw+yNofT1PdEuX21r/N2CWh9eVLQaWIYS7fajMzBHoN2biq1uUe4kc?=
- =?us-ascii?Q?MntNng/4zva+XCSYzzh5fjE8bzEyhcMEhczEJcBeP4tcn/lbEeIKuJM6hh/z?=
- =?us-ascii?Q?8ULEF1vQrJD5Ka3CcdVWKBQEDxuCF98QKpOUA9Blur0u6gSYlhknWnUOxMmo?=
- =?us-ascii?Q?hBCegui8klf1aPQ8vY1FLDzICsWbAQHTyV13RA3Fn3xlBqFYocrsorlS9A0F?=
- =?us-ascii?Q?jPWDG58gmTwuOTCWmzwe1pDy/XaHr6EKRhh+GG++OOwwshVnut8LGkdm3i6Z?=
- =?us-ascii?Q?Y4AiYyhLwkryjadcc6LEvomq9A6jTWLXwun2ZCN9WlvNdu93IN7nKaF/meIt?=
- =?us-ascii?Q?U/nrHxcZqqFvxcg3ZssN4m7cCmOxVs1qFAp/LUbGXJdEDNGG7u68lBNGQVBh?=
- =?us-ascii?Q?um4uI9R9Vv3nbI9TO9yJRR0BPvKr88YHmVg09U+UL3ynswblgtk7gft8+7s4?=
- =?us-ascii?Q?xzm/+2HtsaSCg+FxF7o2/IOuscUpgmWw1MkyQip2bAgc305QCgpROQIu5V/b?=
- =?us-ascii?Q?LfN58EkU14X+94ck+8IMnMIFbypCVZWXDssxVwA8uKBav6zT8q0n5UZr64NE?=
- =?us-ascii?Q?l3SgT8Tyz0cZyoCtIOvfW6BxmRMpXoqSqxRszXwB+ZX7OkkLxUa4QRrcwSyy?=
- =?us-ascii?Q?7Dowao3zyqZ/DSYniGpUGee4K34AaPdqKZgcXHq/XekwWWx2oaWISk8sZdm2?=
- =?us-ascii?Q?pTYQyaulf6qE7YkhhRHDx1ZEsbLPMZE6/Z4+8IMXt0sVV5pXKLYpP3Gdpiwh?=
- =?us-ascii?Q?58zn3IUeBe9MVkT5pfjaPbXmXRU4uAYO3/icy5X2hLM3Q2/wDFagg1011oic?=
- =?us-ascii?Q?nhHmOJoDv1s61qymbgSCphbRbMEd+d9bLXk6ZyQXb6/rg4PZWptcb1slFFcy?=
- =?us-ascii?Q?E1rBo3hNKeGNKRI6I35gKwkQIqlUx97nx7hhMrzccGbMkyxg4BdnkRuovhxd?=
- =?us-ascii?Q?tJz/5dBwe8q2XB7WQuk99ImH7EvxLY47drt9W7psT/NoDPbdkIuUOEKmpqtt?=
- =?us-ascii?Q?PFryS+zbUZkLKDyqn2ZP/ruEnl9+v3sxyQqw8kd3n1CvV6bxbERnKepxEhSA?=
- =?us-ascii?Q?A64AwD6tR13tiOvjpxh7u6FdYH+M8ZvZQnd/s6TOYHGzMjaZ+S/wo9P9kh8N?=
- =?us-ascii?Q?6RV+ArlYffRmxkKilOIGZBUtP7E8wiCHVHX23afHGOz7zkv8GggAkF0E++oA?=
- =?us-ascii?Q?5w=3D=3D?=
+	=?us-ascii?Q?6FMATzOkyfmt9URfvSaojwrkeZ3tK1JFQ1zw1WcTACB1to9fVr5SWvzl3RJt?=
+ =?us-ascii?Q?tSVh8HHjNfbrmaLl7z/Gop7G1m1/PAuc0eJulU7ihMIoJ3s+rAiz81G9PysY?=
+ =?us-ascii?Q?QDgOoDdVk/Y7Q3wL7IuZFsVEFb1OLefiT+Fiz1CMpfYvgIDUYb4SaBl9UbHg?=
+ =?us-ascii?Q?RvsOTBheZ7bXcbuM10iEkeQI9jpMZT/OvWKbsYl1dmfi0g0BMF0Z9ghvedwV?=
+ =?us-ascii?Q?W61Ntb6U80UQuUktbW26vwaBICE7n/5w0crDFcpg7xhFq8OhtamatDoDQmQQ?=
+ =?us-ascii?Q?oPgxGBeYai0PUw/zInpcdUKdcqk8D40ocraI/ihJPBaxTsEhwuEpQzgodWKl?=
+ =?us-ascii?Q?cLntJ+2HKyIaA0cTlwWRu0UrypO2t2KEap8VQzKrA32/b3+P9+L7r2gVMsmV?=
+ =?us-ascii?Q?gJjLOZ7f/JdQzSvUXLeh3GRQgQvECqeMEt+KbSY5tjXxbUmzoqDWGbFYEEHB?=
+ =?us-ascii?Q?RVgCoBeNOTdYz1qNxYKreRVYqdbPmsUDt6oM0hC3R6jOMEunHomF5XaUC7Gb?=
+ =?us-ascii?Q?CTsDMe1aC+Co5IUGGMVzUG68z3ntdltD9Zy5/0fqDmKfVr7PDuG5iwwRinvR?=
+ =?us-ascii?Q?pjl/yyvloHxB9XXkwKK6XzYEwjOmZvhgsDKiZK4Sb6D0mxiANwl3/TDbU7pA?=
+ =?us-ascii?Q?ZQFnHs8EYddNAaRqSTG2ebM1XI9rkDNP0TZ03TKXzOU4wrRTvUvlUv8OzldY?=
+ =?us-ascii?Q?/NUff6Tx0ZksNwYs8NtiUEWOyAJaV8ufkhTNDFjJXC0m0BnL6+LjWwbhlhBl?=
+ =?us-ascii?Q?/3jSUr2SaPTWZijCMceN3E58PefP0RPLd0wxQYX/Ml6H+cBo6xHKtE0ekhoO?=
+ =?us-ascii?Q?6UlvNF9ZpuiKf4+C+8qTabpf2oVHptjHmV0aQq9WTEd+nbEO4iQReS4fT21Y?=
+ =?us-ascii?Q?WpRvgBopgQzCHc9bUAK+aAy6wT8Ah9IazWEHt8ybz1zmkWt/pKh1iTnQoAZN?=
+ =?us-ascii?Q?Zvr7zd1LPtyCKJfYYUxXP52N2miWfXSuMlPRjh/LzScGNIHIluIZDkxZSc5R?=
+ =?us-ascii?Q?ASfStBmwZqFII8D7p5LszF2e7Fvcp7KucaQDuhbmnuMYqTcDYz7l5D7FD8uK?=
+ =?us-ascii?Q?d+MEjt0tRSuxrrT4WI2cNjC2lQDQ9JSdT6NgIfVLUe6r/EXvtFA07lSEoniF?=
+ =?us-ascii?Q?ZVfLo4Sp1GSYkEF8r35skGhXlNVyP/NZy0CoTmG4lnheULuFFDX0DjdFvLeq?=
+ =?us-ascii?Q?VkjqckKUrOXQvx73yUFvUkzBbvS7FVT+yZFw6/L9nA1bIKqXcdw5V+jL9Jo/?=
+ =?us-ascii?Q?RILPnvvrCcRebyyXmzMpaTuN1fSrgqORZwrbRmueqkvtbksnZkdWHNOnRatC?=
+ =?us-ascii?Q?95Jsl3yjG4i9BzBL5AcWasT8q2ZrMSMhF6WqZ1bDwTQ9b3Pvw1STk9h5fNCE?=
+ =?us-ascii?Q?kpnKdd0d3AjFjBcJkxMIv6875qvdPlQioR9zOUErqn9ofsdGAGnWjQ+xaqIy?=
+ =?us-ascii?Q?H5ydWVJvn4WBIjOHzJ1s1L/hjvlCwDPTYTv9usy8zMsTiEclQL0OY5B0ft7b?=
+ =?us-ascii?Q?HtZoxdSgj+gQ7gOvsuO8H/KhwrieIi6DtfqfzboRzwr7xS63uQFXuU0NraqT?=
+ =?us-ascii?Q?8TIMLLDhZy1Mnx8nE+sA7hffaxF9uhpuZy8VE6cdCVgDYsx56mjULRJeTN/P?=
+ =?us-ascii?Q?9g=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	LBhzT3+xQGchjpYnCt4G08fQJ3M5j4tabeZcGiymgVYurb7oCBaSdlBhTFWVqgGUUf/by95f2McWWnGpPkoeTtfTX5fYZicOKEwLNwvQBEelYibRsYsqWlH5qKSG2DUl8NWs1bhKH85UGniuus8NHKIjXUtpbl8no14bVtW1QrPWEKtnSNxkzftslR0zo6TTk2pThhG3ICVT/BZKLVH8YFg65B1w7Ie0i9TUHL+7OjDqlGzqDJYnEznvILRk9Zmfo/k06/Aw+328pka/HMhhGUGK7ykEDwuDfv35sF2Q72SgmcoasDdNQ6CmlHdOz2YsbubjLKMOEzUEg17gYDxS4tHZiHDFggBefA6vuhIttb48XccIhGQUayBwFGbU7B/s8VvEyEpJhNsmrO78+ZJJq5dpdZYR+rHeXlO+5CIAb2kA8aiK9tVrVh3ouYJ40HhcM6nuHh14r6MNjji3yUjMksJErNcZ/6J8+2I49V4tXBFA8Mzqs2DKS0CxZMyXcUOWotff1Vw8aErAkG2q1QqjhiIiTEhv1hs0Q8NjncFl/q71whWoQBRKczByR0UFwUq5rJ1wa5Fnq8xE/vFNNpO2VeYyTC40H/MsvdhpcJeWUsA=
+	D3TQCy5XKp3e8IC5ftyiBQB3JAVFxCWdHSW8cCKtyxUvbTtX83Nt0jGjPyXnuWUBlQdO2Hl8ZJ6APsgpSqiBksOMCkjhtbEC6kgZp3IFYPKtB9OBqwDl68AT6+M1sGsmiAGFFUWTFV2nubP96Uh10yZCL0tLbDBCz8hBHtJol6VEMl+zSujQEDx69CJahNORSuMwYl97edfd788devGGFH5KeAkpKrkFvhMuDqAPn6bDYelHl6i8Yuws17s3EXB/CpqREIeLCRpPN8kCGO0dXaKZn11l5hP43spI2f45mXyAb4fHRwAhbvSuw/uZhbGnzkdkeJwi0XlPrF1jXntiD43d3sm3zZ3xP+tSnG/G/h9Oc+Dm+s3282hqsb0jGviuJQ7GjTAjoMXeS20ti6LrFWUIY5GZgFibx/y4dUEB6axUnRrNajN4ea+fHyXUgw7qzej/2y4GGC7bDn9c824c/1b+ihSmgPEw4mj1svuw3zv0EEi6CXQUvQJb/oB/laZtWCSjMzqBx6TD64SOS3Cx5AuYjxfj0bGiMIpwocgNCYC/OQnoOej2ndKXLg/FJXvpChntO/gnH+fXceNkJU5o+ro5OSEEfVowC3qr1HtaHiU=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e94263c-88f1-423a-a1ea-08dca83620dd
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4beb608d-b68a-4692-72c8-08dca836ed8e
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR10MB6287.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2024 21:02:41.3873
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2024 21:08:24.8780
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vAVSKPIwlol2yi8+vorR3Vtnl24HHjc8BsDhgr5TLyWDXDshphWsClh+eB5/g9FuT0WoB199IPtDiIsvzRuu+h4ubNf+CQ0Ez4b9uyto4Bo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4656
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0PH1bC4ux8e84KhY95CqR+92xlpFrsHatpja1eXcdETciKej+0qVgrV9NQeAgMQ4LxCovAXLTb8P9g+fDRs+82ViCY0cWmYo1XHv83eKFmE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB4828
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-07-19_08,2024-07-18_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0 bulkscore=0
- mlxscore=0 spamscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2407110000
- definitions=main-2407190155
-X-Proofpoint-ORIG-GUID: ImCSyd2CiC-mAX7UyRCu1-yU0OBMJyMf
-X-Proofpoint-GUID: ImCSyd2CiC-mAX7UyRCu1-yU0OBMJyMf
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
+ suspectscore=0 spamscore=0 bulkscore=0 mlxscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2407110000 definitions=main-2407190156
+X-Proofpoint-GUID: GXYJAYQd1tp9WzmLzCl0C8lPMtvhZtrL
+X-Proofpoint-ORIG-GUID: GXYJAYQd1tp9WzmLzCl0C8lPMtvhZtrL
 
-On Thu, Jun 27, 2024 at 01:38:50AM -0400, eugene.loh@oracle.com wrote:
+On Thu, Jun 27, 2024 at 01:38:51AM -0400, eugene.loh@oracle.com wrote:
 > From: Eugene Loh <eugene.loh@oracle.com>
+> 
+> Also, the numbering of EPIDs has changed.
 
-I agree in principle that this test should not depend on a specific PC value,
-but that leaves the issue that with this patch, I do not think there is any
-real test to verify that the PC value is sane.  So, that probably should be
-added.
+Good catch on the DIF offset stuff that certainly should have been gone a long
+time ago.
 
 > Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+
+Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
+
 > ---
->  test/unittest/error/tst.DTRACEFLT_UNKNOWN.d | 6 +++---
->  test/unittest/error/tst.DTRACEFLT_UNKNOWN.r | 2 +-
->  2 files changed, 4 insertions(+), 4 deletions(-)
+>  test/demo/dtrace/error.d                                | 1 -
+>  test/demo/dtrace/error.r                                | 2 +-
+>  test/unittest/assocs/tst.invalidref.r                   | 4 ++--
+>  test/unittest/drops/drp.DTRACEDROP_DBLERROR.r           | 2 +-
+>  test/unittest/error/tst.DTRACEFLT_UNKNOWN.d             | 1 -
+>  test/unittest/error/tst.DTRACEFLT_UNKNOWN.r             | 4 ++--
+>  test/unittest/error/tst.DTRACEFLT_UNKNOWN.sparc64.r     | 5 -----
+>  test/unittest/pointers/err.BadAlign.d                   | 1 -
+>  test/unittest/pointers/err.BadAlign.r                   | 2 +-
+>  test/unittest/pointers/err.InvalidAddress2.d            | 1 -
+>  test/unittest/pointers/err.InvalidAddress2.r            | 2 +-
+>  test/unittest/pointers/err.InvalidAddress3.r            | 2 +-
+>  test/unittest/pointers/err.InvalidAddress4.d            | 1 -
+>  test/unittest/pointers/err.InvalidAddress4.r            | 2 +-
+>  test/unittest/regression/tst.DTRACEFLT_BADADDR.d_path.d | 2 +-
+>  test/unittest/regression/tst.DTRACEFLT_BADADDR.d_path.r | 4 ++--
+>  16 files changed, 13 insertions(+), 23 deletions(-)
+>  delete mode 100644 test/unittest/error/tst.DTRACEFLT_UNKNOWN.sparc64.r
 > 
+> diff --git a/test/demo/dtrace/error.d b/test/demo/dtrace/error.d
+> index 5700dd33..d55fb090 100644
+> --- a/test/demo/dtrace/error.d
+> +++ b/test/demo/dtrace/error.d
+> @@ -5,7 +5,6 @@
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+>  
+> -/* @@xfail: dtv2 */
+>  /* @@trigger: none */
+>  
+>  BEGIN
+> diff --git a/test/demo/dtrace/error.r b/test/demo/dtrace/error.r
+> index d894776b..d3904f47 100644
+> --- a/test/demo/dtrace/error.r
+> +++ b/test/demo/dtrace/error.r
+> @@ -3,4 +3,4 @@
+>  
+>  -- @@stderr --
+>  dtrace: script 'test/demo/dtrace/error.d' matched 2 probes
+> -dtrace: error on enabled probe ID 1 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at DIF offset 16 at BPF pc NNN
+> +dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
+> diff --git a/test/unittest/assocs/tst.invalidref.r b/test/unittest/assocs/tst.invalidref.r
+> index b050e436..20f131b4 100644
+> --- a/test/unittest/assocs/tst.invalidref.r
+> +++ b/test/unittest/assocs/tst.invalidref.r
+> @@ -1,4 +1,4 @@
+>  
+>  -- @@stderr --
+> -dtrace: error on enabled probe ID (ID: profile:::tick-1s): invalid address ({ptr}) in action #2 at DIF offset 64 at BPF pc NNN
+> -dtrace: error on enabled probe ID (ID: profile:::tick-1s): invalid address ({ptr}) in action #2 at DIF offset 64 at BPF pc NNN
+> +dtrace: error on enabled probe ID (ID: profile:::tick-1s): invalid address ({ptr}) in action #2 at BPF pc NNN
+> +dtrace: error on enabled probe ID (ID: profile:::tick-1s): invalid address ({ptr}) in action #2 at BPF pc NNN
+> diff --git a/test/unittest/drops/drp.DTRACEDROP_DBLERROR.r b/test/unittest/drops/drp.DTRACEDROP_DBLERROR.r
+> index 14654676..9fa54dd9 100644
+> --- a/test/unittest/drops/drp.DTRACEDROP_DBLERROR.r
+> +++ b/test/unittest/drops/drp.DTRACEDROP_DBLERROR.r
+> @@ -4,4 +4,4 @@
+>  -- @@stderr --
+>  dtrace: script 'test/unittest/drops/drp.DTRACEDROP_DBLERROR.d' matched 3 probes
+>  dtrace: [DTRACEDROP_DBLERROR] 1 error in ERROR probe enabling
+> -dtrace: error on enabled probe ID 1 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at DIF offset 16 at BPF pc NNN
+> +dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
 > diff --git a/test/unittest/error/tst.DTRACEFLT_UNKNOWN.d b/test/unittest/error/tst.DTRACEFLT_UNKNOWN.d
-> index 001903ff..bfc77bf5 100644
+> index bfc77bf5..c74762ae 100644
 > --- a/test/unittest/error/tst.DTRACEFLT_UNKNOWN.d
 > +++ b/test/unittest/error/tst.DTRACEFLT_UNKNOWN.d
-> @@ -1,6 +1,6 @@
->  /*
->   * Oracle Linux DTrace.
-> - * Copyright (c) 2006, 2020, Oracle and/or its affiliates. All rights reserved.
-> + * Copyright (c) 2006, 2024, Oracle and/or its affiliates. All rights reserved.
+> @@ -4,7 +4,6 @@
 >   * Licensed under the Universal Permissive License v 1.0 as shown at
 >   * http://oss.oracle.com/licenses/upl.
 >   */
-> @@ -19,8 +19,8 @@
+> -/* @@xfail: dtv2 */
 >  
->  ERROR
->  {
-> -	printf("The arguments are %u %u %u %u %u\n",
-> -		arg1, arg2, arg3, arg4, arg5);
-> +	printf("The arguments are %u %u PC %u %u\n",
-> +		arg1, arg2, arg4, arg5);
->  	printf("The value of arg4 = %u\n", DTRACEFLT_UNKNOWN);
->  	exit(0);
->  }
+>  /*
+>   * ASSERTION:
 > diff --git a/test/unittest/error/tst.DTRACEFLT_UNKNOWN.r b/test/unittest/error/tst.DTRACEFLT_UNKNOWN.r
-> index b11f6c99..3e7caac4 100644
+> index 3e7caac4..1e4fdd64 100644
 > --- a/test/unittest/error/tst.DTRACEFLT_UNKNOWN.r
 > +++ b/test/unittest/error/tst.DTRACEFLT_UNKNOWN.r
-> @@ -1,4 +1,4 @@
-> -The arguments are 2 2 4 1 64
-> +The arguments are 2 2 PC 1 64
+> @@ -1,5 +1,5 @@
+> -The arguments are 2 2 PC 1 64
+> +The arguments are 3 1 PC 1 64
 >  The value of arg4 = 0
 >  
 >  -- @@stderr --
+> -dtrace: error on enabled probe ID 2 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #2 at DIF offset 4 at BPF pc NNN
+> +dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
+> diff --git a/test/unittest/error/tst.DTRACEFLT_UNKNOWN.sparc64.r b/test/unittest/error/tst.DTRACEFLT_UNKNOWN.sparc64.r
+> deleted file mode 100644
+> index 3944c138..00000000
+> --- a/test/unittest/error/tst.DTRACEFLT_UNKNOWN.sparc64.r
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -The arguments are 2 2 4 1 0
+> -The value of arg4 = 0
+> -
+> --- @@stderr --
+> -dtrace: error on enabled probe ID 2 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #2 at DIF offset 4
+> diff --git a/test/unittest/pointers/err.BadAlign.d b/test/unittest/pointers/err.BadAlign.d
+> index cd4138ae..e859dd75 100644
+> --- a/test/unittest/pointers/err.BadAlign.d
+> +++ b/test/unittest/pointers/err.BadAlign.d
+> @@ -4,7 +4,6 @@
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+> -/* @@xfail: dtv2 */
+>  
+>  /*
+>   * ASSERTION: This test reproduces the alignment error.
+> diff --git a/test/unittest/pointers/err.BadAlign.r b/test/unittest/pointers/err.BadAlign.r
+> index 4328aac4..187543b6 100644
+> --- a/test/unittest/pointers/err.BadAlign.r
+> +++ b/test/unittest/pointers/err.BadAlign.r
+> @@ -1,3 +1,3 @@
+>  
+>  -- @@stderr --
+> -dtrace: error on enabled probe ID 1 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #2 at DIF offset 4
+> +dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
+> diff --git a/test/unittest/pointers/err.InvalidAddress2.d b/test/unittest/pointers/err.InvalidAddress2.d
+> index 682ad650..b22f08fb 100644
+> --- a/test/unittest/pointers/err.InvalidAddress2.d
+> +++ b/test/unittest/pointers/err.InvalidAddress2.d
+> @@ -4,7 +4,6 @@
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+> -/* @@xfail: dtv2 */
+>  
+>  /*
+>   * ASSERTION: D pointers do not allow invalid pointer accesses.
+> diff --git a/test/unittest/pointers/err.InvalidAddress2.r b/test/unittest/pointers/err.InvalidAddress2.r
+> index d866eae1..187543b6 100644
+> --- a/test/unittest/pointers/err.InvalidAddress2.r
+> +++ b/test/unittest/pointers/err.InvalidAddress2.r
+> @@ -1,3 +1,3 @@
+>  
+>  -- @@stderr --
+> -dtrace: error on enabled probe ID 1 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #4 at DIF offset 8
+> +dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
+> diff --git a/test/unittest/pointers/err.InvalidAddress3.r b/test/unittest/pointers/err.InvalidAddress3.r
+> index 069ee1de..187543b6 100644
+> --- a/test/unittest/pointers/err.InvalidAddress3.r
+> +++ b/test/unittest/pointers/err.InvalidAddress3.r
+> @@ -1,3 +1,3 @@
+>  
+>  -- @@stderr --
+> -dtrace: error on enabled probe ID 1 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #2 at DIF offset 8
+> +dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
+> diff --git a/test/unittest/pointers/err.InvalidAddress4.d b/test/unittest/pointers/err.InvalidAddress4.d
+> index 1e2b4f62..586cddf9 100644
+> --- a/test/unittest/pointers/err.InvalidAddress4.d
+> +++ b/test/unittest/pointers/err.InvalidAddress4.d
+> @@ -4,7 +4,6 @@
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+> -/* @@xfail: dtv2 */
+>  
+>  /*
+>   * ASSERTION: Demonstrating valid memory access.
+> diff --git a/test/unittest/pointers/err.InvalidAddress4.r b/test/unittest/pointers/err.InvalidAddress4.r
+> index d866eae1..187543b6 100644
+> --- a/test/unittest/pointers/err.InvalidAddress4.r
+> +++ b/test/unittest/pointers/err.InvalidAddress4.r
+> @@ -1,3 +1,3 @@
+>  
+>  -- @@stderr --
+> -dtrace: error on enabled probe ID 1 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #4 at DIF offset 8
+> +dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
+> diff --git a/test/unittest/regression/tst.DTRACEFLT_BADADDR.d_path.d b/test/unittest/regression/tst.DTRACEFLT_BADADDR.d_path.d
+> index c23f9503..13032f77 100644
+> --- a/test/unittest/regression/tst.DTRACEFLT_BADADDR.d_path.d
+> +++ b/test/unittest/regression/tst.DTRACEFLT_BADADDR.d_path.d
+> @@ -4,7 +4,7 @@
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+> -/* @@xfail: dtv2 */
+> +/* @@xfail: dtv2 d_path */
+>  
+>  /*
+>   * ASSERTION:
+> diff --git a/test/unittest/regression/tst.DTRACEFLT_BADADDR.d_path.r b/test/unittest/regression/tst.DTRACEFLT_BADADDR.d_path.r
+> index 8c601a43..54ffb47f 100644
+> --- a/test/unittest/regression/tst.DTRACEFLT_BADADDR.d_path.r
+> +++ b/test/unittest/regression/tst.DTRACEFLT_BADADDR.d_path.r
+> @@ -1,6 +1,6 @@
+> -The arguments are 2 1 28 1 24
+> +The arguments are 3 1 28 1 24
+>  The value of arg4 should be 1
+>  The value of arg5 should be 24
+>  
+>  -- @@stderr --
+> -dtrace: error on enabled probe ID 2 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at DIF offset 28 at BPF pc NNN
+> +dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
 > -- 
 > 2.18.4
 > 
