@@ -1,727 +1,206 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A982A154C11
-	for <dtrace@lists.linux.dev>; Wed, 24 Jul 2024 09:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721813017; cv=none; b=vEfD5pBNZ5+UsfBGmgrvZjaL2NvDLpqA24AK5aZRLG4/cZsSsKe600lXxMvKmd7xA+wPU+U1DdHB4byWNLqKZn4T2pay9a6eGq/DG9wpZl0sW/sfpWZnKNl9L/1zv33o47JsJGktmum9rtlfSdvE8P4NNOZ/ECSkcfDgA9DFFrw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721813017; c=relaxed/simple;
-	bh=XXnm8Ozh64EcskBUPUjep5In5cZqwADfiW4cB+a6H9U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MQs9Ztg8oa4gr88T2N6mYmVRKWTyzqMBJubuuZPQ97ug77Hgm8TQippnSUb9hA81XFGKhrzSugWdqEV5ZEQCfb8WwRpQd/C3jo5Z06IEOSc2CiBrwh+q7FN6fAWsWYbTuQ7ZKGER9qphzmcICXr7l/ddmB6O5Gv7Y7SyLyPMHPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=gIm5Le4Y; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C26C1799D
+	for <dtrace@lists.linux.dev>; Thu, 25 Jul 2024 04:56:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721883382; cv=fail; b=P97BWUmlJiyF08LIhiGR4yTC1Dcy7z8aZm6ajtO3eyhlIsiII6IQqtxkrUuISc9tSjh6fssaUt8Cr1sqZifhesN++mMvh2V4lYiIfibvQqOHKBUJv3f69dvR78aaKL7l7HhwPViJTocdnkIxHUXTEegl0ShookUDVm4TbM3aIDQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721883382; c=relaxed/simple;
+	bh=sQcrXn0+0BfiP8vN4fk7ltd9f7eHhCzcVteiDW01P40=;
+	h=Date:From:To:Subject:Content-Type:Message-ID:MIME-Version; b=aNm14y7KfKTRnR8wCxYr1sRU+kYKhlKJzY2VgnnTl6laal5jVITKGHsxspMfYpfztdw5iER6fwnoHxRNasM+d4N8qCZepvFeXjL7U66r94/WCz0qPXzZO/cTsduYC6iAC/8AlvGVyiwoxbQPC6eXaRPgOEsV4A3siah1yHEbxEI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=R3fVp8Jw; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=UV5UcWfi; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="gIm5Le4Y"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46O5oqUZ004799
-	for <dtrace@lists.linux.dev>; Wed, 24 Jul 2024 09:23:34 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="R3fVp8Jw";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="UV5UcWfi"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46OJe4jx024709
+	for <dtrace@lists.linux.dev>; Thu, 25 Jul 2024 04:56:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=corp-2023-11-20; bh=r
-	MK1Dcq6qI3C3S6zuiEMzvb4xcmxCj0lJfaZ6GWXwHA=; b=gIm5Le4YH1DFvpGDf
-	5nAsCPuqRtdOePCWmGqaKLvYHEN9LD8YYuZpgEk5UA9LD50LEnmeUnZzVzAKT3kL
-	PFOQhSBRl4bUXp/rnzROX0iTG62imWie9WFKUpW+GmKwG+8NO6fypARE4L4v/WtR
-	mdCZczfDlwIZHNTQr+MVtQJrG4YdbQmO86gi2eBM3KOuUEUkXnY57VawlVb6u8ro
-	UKUUX36rDET2wl8Hiq69c7cMbbO+UMCrI2di6XQR9gFgAZWfNbaeoID9Zl3Wm6L3
-	JoBY+sSorLmYQewsZNQYXSLK7bWVCHvzjq4AcSNQZHOhl7EGLXUkiko8ntt7soHO
-	+Flgw==
+	date:from:to:subject:content-type:message-id:mime-version; s=
+	corp-2023-11-20; bh=gdPCmz3MQdRnhdeuhPoQTucoVhA6JcT0LQYwkFjd5KE=; b=
+	R3fVp8JwDMd0N25ImHZ6g86b0n8AK6d82M7wAeHUQdckJQS9/uJSK2hC3r+8Dk27
+	DmL8KyPG6q9YtHYRyfNIHY3+JLQmn2RT2Aax5oMqqds9YxpTPhqr/6kJLnx2tuWT
+	his/GBsY4h7KNiJ3EN6xp/dxW122DnVtqxB/oeE6EYZpfKH9b3SMKJORrlwa01y6
+	lX0oxoU4U0rDbAmWjQM83Y40bh7YvsNmrbwcjLW1o13x2nyMs+XA6MVvp8ROkxFZ
+	hxxkx2zvmqt2a2QB1AHri8mgXRVb+eBOW0NOCjY1Kvd6x1GuiFy1ciJgz8P7yoCd
+	tCvrHQGuR/HwQlKJU09D1A==
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 40hgcrgjnf-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 40hgkr2dn7-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 24 Jul 2024 09:23:33 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Thu, 25 Jul 2024 04:56:19 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 46O8rb1b040096
-	for <dtrace@lists.linux.dev>; Wed, 24 Jul 2024 09:23:32 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 40h26nkhh7-1
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 46P45WvZ040050
+	for <dtrace@lists.linux.dev>; Thu, 25 Jul 2024 04:56:18 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 40h26pt0q2-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 24 Jul 2024 09:23:32 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 46O9NUeR021748
-	for <dtrace@lists.linux.dev>; Wed, 24 Jul 2024 09:23:31 GMT
-Received: from bpf.uk.oracle.com (dhcp-10-175-217-11.vpn.oracle.com [10.175.217.11])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 40h26nkhf9-2;
-	Wed, 24 Jul 2024 09:23:31 +0000
-From: Alan Maguire <alan.maguire@oracle.com>
-To: dtrace@lists.linux.dev
-Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
-Subject: [PATCH 2/2] selftests/usdt: add test for USDT note-defined probe firing, args
-Date: Wed, 24 Jul 2024 10:23:28 +0100
-Message-ID: <20240724092328.653371-2-alan.maguire@oracle.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20240724092328.653371-1-alan.maguire@oracle.com>
-References: <20240724092328.653371-1-alan.maguire@oracle.com>
+	for <dtrace@lists.linux.dev>; Thu, 25 Jul 2024 04:56:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eWYYGg1ud4RfqxxNBSHAHuCzD8byJ+IB19BvDyPjKX4Fdbnydx0R9DUghN7i5zJiN9hCxdzQuqR4JwaTMm6NntP3BUxz2JCW3iANoZeUpdKfZ4oGEgk3438I3gQvFIoeB7G4vazB3gpdvACgkdCib9j83qc1cmRp797oSpC7Z9azaKeH2jMnHBshCJg/tAGahHIZkbB66GWPRseU6E8eKmi3xWOEIlJxADjjNVI0qEG3SrnCSwIgwP9rRfR6Fe1RXG2pdR4w7/zqvIa1vh/lkZxBEKKlV5n44yawGBLEIlibe++jYAtyBemRllPEBSIN23Q+Dd40zoXkZyHjCbgomg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gdPCmz3MQdRnhdeuhPoQTucoVhA6JcT0LQYwkFjd5KE=;
+ b=a7vuMVIhcaa4nnjNPLlXEcgvhjyS4em44rIfXsVcIUMXIqmBz6Rc7p5sTLqpS0ccDOIjmy662wK5fSFg6rdWSYKF3k6Y/Ztyg2FiNZYnHn7BxYy4XmCUVeBDxt+mtu8R9fzYepXfN7sljrz4HtS7MPMOwxjxe9rLwJyLPNzMWrO8zAPKKE3kI+kOsw/fhxKHOqJ7EENmNddf2QzBZJfbAfV7AIgURoVlluchjQITOtZclmG0lNYVeXoKc50mqPYzGOBEG+BocPt40rZoytNrgvzUbPFsiL7LaiwpTlyI2ggWJoJ2gzEs1QAwf1Qs2+GxeYdeys+ABAa3YMoXfj/9JQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gdPCmz3MQdRnhdeuhPoQTucoVhA6JcT0LQYwkFjd5KE=;
+ b=UV5UcWfiWr8a/oAJwjEEtS+uAhlwH0q6liOHjTpJBevNVDTq0xKjfDLmFFlgzO37GSY1Ksd+vB50SoWZZw0HIWhFkBB2d9LZjHbcwELi9j5VAQBAxZoNpZzhbbPL+ype2ng2+rCBb1AudqGKAzFU7K4/59a9Wy9gscZEseoBfXI=
+Received: from SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
+ by SJ0PR10MB5648.namprd10.prod.outlook.com (2603:10b6:a03:3e0::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.28; Thu, 25 Jul
+ 2024 04:56:13 +0000
+Received: from SN7PR10MB6287.namprd10.prod.outlook.com
+ ([fe80::5a47:2d75:eef9:1d29]) by SN7PR10MB6287.namprd10.prod.outlook.com
+ ([fe80::5a47:2d75:eef9:1d29%3]) with mapi id 15.20.7762.027; Thu, 25 Jul 2024
+ 04:56:13 +0000
+Date: Thu, 25 Jul 2024 00:56:11 -0400
+From: Kris Van Hees <kris.van.hees@oracle.com>
+To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: [PATCH] btf: ensure BTF-to-CTF conversion works for modules
+Content-Type: text/plain
+X-ClientProxiedBy: BL0PR02CA0022.namprd02.prod.outlook.com
+ (2603:10b6:207:3c::35) To SN7PR10MB6287.namprd10.prod.outlook.com
+ (2603:10b6:806:26d::14)
+Message-ID:
+ <SN7PR10MB6287CB0F14DD5FBF62319CBDC2AB2@SN7PR10MB6287.namprd10.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
 List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|SJ0PR10MB5648:EE_
+X-MS-Office365-Filtering-Correlation-Id: aca15944-72cc-479f-a351-08dcac661bd0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?sngiK+qLYEC7HyFGZ1CfbSn1undmX9xfejLq1ovDBOcqdHDPzDEq/IIzonrH?=
+ =?us-ascii?Q?vlOFOoUTg2qec6vxvISyq/8xemS3bTc5XifZI+EXr+SQee/f9jBdmCznTMn7?=
+ =?us-ascii?Q?or0ezmjLrMXvMNE3mvB7ID8YolROrgYDIQ3iMlPWgxB7ML/GbvsQX8BnshqB?=
+ =?us-ascii?Q?cQJDqUvrB7guVgghwsNUYVZhke5eSWOkd46aVlbvG+IPsL7N0m0nSk3Od8tq?=
+ =?us-ascii?Q?22Dr3x2CeSprDgozJ3n95+U+jkPKcTUU2zJ3xhUSDnu43ZkNhrilM9M12e8t?=
+ =?us-ascii?Q?AMM/TlAq0m3wsPIsFmSe4m0oXjiQ4ih4B8C38SgbogiOYe4i+Nl7zcCgYCU1?=
+ =?us-ascii?Q?H1N8eRDUOFDBSq7apJypaPYMDrWI2quSecsSkFkGzheF5jD2Fbeq6WDHzS7L?=
+ =?us-ascii?Q?J4+WlP4F+PNNXGn7ux0KoWMHS7BDaXSwkDceZZomXeUnA2TdK6GysBIUja//?=
+ =?us-ascii?Q?NBC2/rF8bnCw6nM9VEESjcq6JYDJ9nSvG+11OYt63vkyeU9hfkn1+C53ZFqr?=
+ =?us-ascii?Q?gwuzuhcuqWfSdEJ7avuS3qmz3LsCupnZNZzA/QHIEUIzMPJoYE3bZiJ5K4ZT?=
+ =?us-ascii?Q?MUYeQdd11wW11tOHAj4PmQN3ZM4bo98LA/mf+WnB4SdkOSxWncIc4FtofwFK?=
+ =?us-ascii?Q?AjIlUJuxzyjVDs2HBddd4q9fMFuRg3qH233VeaUfwPwYXCOlKtenXlTDVXl3?=
+ =?us-ascii?Q?tHU9SuBSpPJSGHgRDXdwK0qfyJfHpI9z7ylvPyqOEHQ751Rdsr1v3z1YCzt0?=
+ =?us-ascii?Q?unVhkK4Q5IaSC2YtswhnU57AxdaEwntqejEVF4pI+PytSC5cl9jkeEebaFHY?=
+ =?us-ascii?Q?zxIit3DGuz4ln1yf4cAPimfvfjUxEBqnaV0IZ0UFS7uon29cznFkig4XvBBj?=
+ =?us-ascii?Q?2a2D4NAUrSvvofgtZaxs9vZ0SMwc92rgPMGb9ycg9hsmzznfaP+b8gGN5ex9?=
+ =?us-ascii?Q?UuSCH3wQ0i2VW35VnDeyJR59oA1bVIsU6fjKObnpqT7LsuQzrO4swdmK74p5?=
+ =?us-ascii?Q?deTVOUddpnH7zY/1Jse5s81dAolpa3ZRBwXYLKJ3UfrjUk+Q5ZQ+pL5GHvHu?=
+ =?us-ascii?Q?/V5/zqTdiHxas2toNBkVIAS2IW0GE94DP90iD9JnGK76ArvGdfmboCtzRT3r?=
+ =?us-ascii?Q?DNZcxlHphzNKjOn6zvl3dSseam8k/oTc9Z+oJr2QDFX6lNDx/3HsDiwMIMmp?=
+ =?us-ascii?Q?qln0WMVt/5F2vJhFMzUFflL3pnXnKkcsBxiYM8Qd+5StZnm8hMZ/MBQq0LVI?=
+ =?us-ascii?Q?ta+X4rTc5OzNIXuBj9x9L8OeewfyRdOtpXzuAYP8Zo/jfbzS1JSywqb4SfjZ?=
+ =?us-ascii?Q?L77BUTwK8bmDZTTe00o4w3c2ez2ECQGG3M9zr+PrNYV4Kw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?VeGZxodc0UE8yondYBNIpFM+/Oz70LYVY2QE6aVgnuwxnty6tiJW/Uz1zuvA?=
+ =?us-ascii?Q?AjsX0H5Obz8QijDkznR2nATRf3ydHU2Vrm0flOFBf68rSFKhO6b2EP2882ra?=
+ =?us-ascii?Q?GAQNawbLy+Ubo/6H1s7SuzkUns3jC5czdyKN9SCamYpB5gYySNGvImBT/63P?=
+ =?us-ascii?Q?sBtT68vPi3zUoW++eQkpGGFMmhFWlIqQUgcp7jkhLbBMQb8FmvSOBtCyxpFS?=
+ =?us-ascii?Q?DH9LiwswN9cnI/Y0Y9SrVaGPNX5GNcrgCOtoPRPGkEz86Dx7u9Dj4yVasvVZ?=
+ =?us-ascii?Q?8OJmvz74AvjU8x7Qxnm0+PzuQ49c9PJTcO3GhyGch6f9b13TWT6lysaxQnYp?=
+ =?us-ascii?Q?C8nIjYP1PNdTfRyi3sSq1qXy1M6uY2nCFosOb4IlzYCCE/279ct1Ti5mZR82?=
+ =?us-ascii?Q?ubWNnslc7e0O1rCWO5S1zuo+qvrGsPpfJMLMkAqv6Lm65QfHMF19h7RjMBOj?=
+ =?us-ascii?Q?oXhruXE68/OdoJ2uBjeILUUTPdpwzDuy/YiSZxUZd9WmLMQHOprXcXeRR4Yk?=
+ =?us-ascii?Q?qIgb8QFQBvKtwnOSXlgF5TF1AWy/BKQdy0aNkArB7g/kufxAkYQY+9E3epLX?=
+ =?us-ascii?Q?d417wHHEPYbmYZ0hsemfJ05dBWwSiXIkLt+0F8Nsx8b6UebxX3ORftp8zs8d?=
+ =?us-ascii?Q?xoqflwMvggo9DMbVlI8nyZsweg45a58e5UCb9YXPQLJOaRluLtQO0ut7pYcY?=
+ =?us-ascii?Q?20COeXeoNXS8hnvTJIW6icrYMoupDQa7U2aXT5Wz7MGWQunJQY3/JDKGF+GN?=
+ =?us-ascii?Q?/t6GQJB0YQN+mwgBaarF5OQcCQjEV8gA0qVFr28NQ6ClRhNuAGd09FjOGDl5?=
+ =?us-ascii?Q?UrPdhULzgiuZklPqdULHZs6zMcQ3ODRK56AryUir1doMFDIcsUMlYM0WdXTg?=
+ =?us-ascii?Q?Rw5oO8lgDngzxn18rOOgl7wRMtp7kR6Mx+X+3Pv98RXXipaf+gSQwJz8a/8X?=
+ =?us-ascii?Q?8dxvAqhj1B2zsM19k4g/khfejhB19INrBHcfn+CQ348A2kUE3HDlSNlF+OCx?=
+ =?us-ascii?Q?+CcmePAz+spKUNED1h/vqsLb85O42xRRtaHZH+UMkp0/DVEuKm78uQY8JV7z?=
+ =?us-ascii?Q?iiZ3s2xBrFsK9bBwnXkjZT1y8FTR121wrP0nWgDNnjNq6uvvrRaCe2SF/Qep?=
+ =?us-ascii?Q?y503F38UlGlOt3qWrIUFHGqJUB39qV8CFErl89GnLpC46qAnAAUUGP7Klvdp?=
+ =?us-ascii?Q?agJYocu/+lyGHtRQP0idAdk4Ce0CSWIE9y0GRrvG8cWPECygEiroYuXvVpU/?=
+ =?us-ascii?Q?1e26r6z8HICePDJPv8hkTA1qjJ+0jJqsftQwAHp+W4Lg6bVsxwIe0MZsBg0+?=
+ =?us-ascii?Q?3D8OhwingMQ7KLxM7jwZUK50SYKqeDJzcnL+V8iUWSqRj/8Wvpz3mIhV8+4b?=
+ =?us-ascii?Q?4NrPdOK0LfebVezMqL/glVUon1aC4qZ4Q6YY7fAn8sfMmAzEM6IKewE7Iv2v?=
+ =?us-ascii?Q?IZuM3FjftYjp12wJLIDBuz/9LsTx2JwkN9KLeQpdFN0fvZebTSCyQXdF8r5C?=
+ =?us-ascii?Q?OTKGb67QOoHGvZt1Kmmli/PHUP7cZioRVWPX29F08vaeynFKd8z+M/QpqPyW?=
+ =?us-ascii?Q?4tFGZ3nzNAG06i10EIgMg7u1uyl8TuVuSb5ZokzPrTSl+5XYlOaS4L5ykzHg?=
+ =?us-ascii?Q?kw=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	wZDJ1yVODPG2X3464+cZZVaK6r1gLpG+LK5xGafp078Rd0Rxhe7cSUk+dYusNlzk9rQtoMc4qOfZmXWQXmFViXPP8yr245BxUorKkOknvB1tnmSnZVwYvPiLSv9wZxXtJfw/N7LLBtMJ3Bqa9Yh+IUg2/CEhXZa9pbd+OwQQBn7i+XcGtzmmxD7Sw7FvCK0e6Sg/R3wGB5hrkDAamZ7LUEFNkHdfbD3kWC1ePrLEXm9ezoflMf2zVAvNPTJIAzaWxQwVaDCfJShU7xrZemWa4LOeBwTWszPlSTiUsR4GrdTRvzRXbNqVlYCi++pEW85L5fDA6U/jWco5jWhDtxmGAJQ/tY5fcXPJkrpWzpHrRLHSWYreLBrWVyhqqEPyFRurhrBeOlNuevP1uVlQHKRkd6znjetAWDpBE7KLwrkR/MFgcrVfCJOHBQVnaID61luaurkEW49s3A4JsKbcFMmr1qKF5MtG4qehXv9yDkEoW7lgZsAzHMmrfS7TBRDbOBqjVdveUsaklYqdUkqUMh8jEs0mAUOLYbMmEZIvpK13gjU+R4lP1DfVeAQ0r5XYsDY6ybaFUeoHivM/ISz+4ouY7vwUbJ/dmQTXs73XCWwumFA=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aca15944-72cc-479f-a351-08dcac661bd0
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR10MB6287.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2024 04:56:13.3965
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Sy9oMM2AhLs0ZfEgkyWTGQXBNREAcwTGcsDDJCWuUDeJBMJydt+EFMoOJZC73Eed76kGsW/El92gKoJ2cMvDRt3HMTmpd3XwYPA3FyKY+UU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5648
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-24_07,2024-07-23_02,2024-05-17_01
+ definitions=2024-07-25_05,2024-07-25_01,2024-05-17_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 adultscore=0 mlxlogscore=999 phishscore=0
+ suspectscore=0 malwarescore=0 adultscore=0 mlxlogscore=788 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2407110000
- definitions=main-2407240069
-X-Proofpoint-GUID: 9l-02P5zdRTgpf7weMEGhis6eEn-bSW2
-X-Proofpoint-ORIG-GUID: 9l-02P5zdRTgpf7weMEGhis6eEn-bSW2
+ definitions=main-2407250030
+X-Proofpoint-ORIG-GUID: qHC7NdfhcFRMakvwF1wXr3eNsNaVIzw-
+X-Proofpoint-GUID: qHC7NdfhcFRMakvwF1wXr3eNsNaVIzw-
 
-Add test identical to the args tests to verify probe firing and
-arg retrieval work for USDT notes-defined DTRACE_PROBEn() probes.
-Need a copy of the sdt.h file which is public domain, so add it
-in the test directory.
+The recent introduction of code to always load BTF data for modules
+broke the BTF-to-CTF conversion for modules.  This patch ensures that
+the BTF-to-CTF convertor code is called from any module that does not
+contain CTF data.
 
-Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
 ---
- test/unittest/usdt/sdt_notes.h       | 504 +++++++++++++++++++++++++++
- test/unittest/usdt/tst.usdt-notes.sh | 121 +++++++
- 2 files changed, 625 insertions(+)
- create mode 100644 test/unittest/usdt/sdt_notes.h
- create mode 100755 test/unittest/usdt/tst.usdt-notes.sh
+ libdtrace/dt_module.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/test/unittest/usdt/sdt_notes.h b/test/unittest/usdt/sdt_notes.h
-new file mode 100644
-index 00000000..ec5423e2
---- /dev/null
-+++ b/test/unittest/usdt/sdt_notes.h
-@@ -0,0 +1,504 @@
-+/* <sys/sdt.h> - Systemtap static probe definition macros.
-+
-+   This file is dedicated to the public domain, pursuant to CC0
-+   (https://creativecommons.org/publicdomain/zero/1.0/)
-+*/
-+
-+#ifndef _SYS_SDT_H
-+#define _SYS_SDT_H    1
-+
-+/*
-+  This file defines a family of macros
-+
-+       STAP_PROBEn(op1, ..., opn)
-+
-+  that emit a nop into the instruction stream, and some data into an auxiliary
-+  note section.  The data in the note section describes the operands, in terms
-+  of size and location.  Each location is encoded as assembler operand string.
-+  Consumer tools such as gdb or systemtap insert breakpoints on top of
-+  the nop, and decode the location operand-strings, like an assembler,
-+  to find the values being passed.
-+
-+  The operand strings are selected by the compiler for each operand.
-+  They are constrained by gcc inline-assembler codes.  The default is:
-+
-+  #define STAP_SDT_ARG_CONSTRAINT nor
-+
-+  This is a good default if the operands tend to be integral and
-+  moderate in number (smaller than number of registers).  In other
-+  cases, the compiler may report "'asm' requires impossible reload" or
-+  similar.  In this case, consider simplifying the macro call (fewer
-+  and simpler operands), reduce optimization, or override the default
-+  constraints string via:
-+
-+  #define STAP_SDT_ARG_CONSTRAINT g
-+  #include <sys/sdt.h>
-+
-+  See also:
-+  https://sourceware.org/systemtap/wiki/UserSpaceProbeImplementation
-+  https://gcc.gnu.org/onlinedocs/gcc/Constraints.html
-+ */
-+
-+
-+
-+#ifdef __ASSEMBLER__
-+# define _SDT_PROBE(provider, name, n, arglist)	\
-+  _SDT_ASM_BODY(provider, name, _SDT_ASM_SUBSTR_1, (_SDT_DEPAREN_##n arglist)) \
-+  _SDT_ASM_BASE
-+# define _SDT_ASM_1(x)			x;
-+# define _SDT_ASM_2(a, b)		a,b;
-+# define _SDT_ASM_3(a, b, c)		a,b,c;
-+# define _SDT_ASM_5(a, b, c, d, e)	a,b,c,d,e;
-+# define _SDT_ASM_STRING_1(x)		.asciz #x;
-+# define _SDT_ASM_SUBSTR_1(x)		.ascii #x;
-+# define _SDT_DEPAREN_0()				/* empty */
-+# define _SDT_DEPAREN_1(a)				a
-+# define _SDT_DEPAREN_2(a,b)				a b
-+# define _SDT_DEPAREN_3(a,b,c)				a b c
-+# define _SDT_DEPAREN_4(a,b,c,d)			a b c d
-+# define _SDT_DEPAREN_5(a,b,c,d,e)			a b c d e
-+# define _SDT_DEPAREN_6(a,b,c,d,e,f)			a b c d e f
-+# define _SDT_DEPAREN_7(a,b,c,d,e,f,g)			a b c d e f g
-+# define _SDT_DEPAREN_8(a,b,c,d,e,f,g,h)		a b c d e f g h
-+# define _SDT_DEPAREN_9(a,b,c,d,e,f,g,h,i)		a b c d e f g h i
-+# define _SDT_DEPAREN_10(a,b,c,d,e,f,g,h,i,j)		a b c d e f g h i j
-+# define _SDT_DEPAREN_11(a,b,c,d,e,f,g,h,i,j,k)		a b c d e f g h i j k
-+# define _SDT_DEPAREN_12(a,b,c,d,e,f,g,h,i,j,k,l)	a b c d e f g h i j k l
-+#else
-+#if defined _SDT_HAS_SEMAPHORES
-+#define _SDT_NOTE_SEMAPHORE_USE(provider, name) \
-+  __asm__ __volatile__ ("" :: "m" (provider##_##name##_semaphore));
-+#else
-+#define _SDT_NOTE_SEMAPHORE_USE(provider, name)
+diff --git a/libdtrace/dt_module.c b/libdtrace/dt_module.c
+index 5e608446..cbbb1d3c 100644
+--- a/libdtrace/dt_module.c
++++ b/libdtrace/dt_module.c
+@@ -962,8 +962,8 @@ dt_kern_module_find_ctf(dtrace_hdl_t *dtp, dt_module_t *dmp)
+ 			dt_dprintf("Cannot open CTF archive %s: %s; "
+ 				   "looking for in-module CTF instead.\n",
+ 				   ctfa_name, ctf_errmsg(dtp->dt_ctferr));
+-#endif
+ 			return;
 +#endif
-+
-+# define _SDT_PROBE(provider, name, n, arglist) \
-+  do {									    \
-+    _SDT_NOTE_SEMAPHORE_USE(provider, name); \
-+    __asm__ __volatile__ (_SDT_ASM_BODY(provider, name, _SDT_ASM_ARGS, (n)) \
-+			  :: _SDT_ASM_OPERANDS_##n arglist);		    \
-+    __asm__ __volatile__ (_SDT_ASM_BASE);				    \
-+  } while (0)
-+# define _SDT_S(x)			#x
-+# define _SDT_ASM_1(x)			_SDT_S(x) "\n"
-+# define _SDT_ASM_2(a, b)		_SDT_S(a) "," _SDT_S(b) "\n"
-+# define _SDT_ASM_3(a, b, c)		_SDT_S(a) "," _SDT_S(b) "," \
-+					_SDT_S(c) "\n"
-+# define _SDT_ASM_5(a, b, c, d, e)	_SDT_S(a) "," _SDT_S(b) "," \
-+					_SDT_S(c) "," _SDT_S(d) "," \
-+					_SDT_S(e) "\n"
-+# define _SDT_ASM_ARGS(n)		_SDT_ASM_TEMPLATE_##n
-+# define _SDT_ASM_STRING_1(x)		_SDT_ASM_1(.asciz #x)
-+# define _SDT_ASM_SUBSTR_1(x)		_SDT_ASM_1(.ascii #x)
-+
-+# define _SDT_ARGFMT(no)                _SDT_ASM_1(_SDT_SIGN %n[_SDT_S##no]) \
-+                                        _SDT_ASM_1(_SDT_SIZE %n[_SDT_S##no]) \
-+                                        _SDT_ASM_1(_SDT_TYPE %n[_SDT_S##no]) \
-+                                        _SDT_ASM_SUBSTR(_SDT_ARGTMPL(_SDT_A##no))
-+
-+
-+# ifndef STAP_SDT_ARG_CONSTRAINT
-+# if defined __powerpc__
-+# define STAP_SDT_ARG_CONSTRAINT        nZr
-+# elif defined __arm__
-+# define STAP_SDT_ARG_CONSTRAINT        g
-+# else
-+# define STAP_SDT_ARG_CONSTRAINT        nor
-+# endif
-+# endif
-+
-+# define _SDT_STRINGIFY(x)              #x
-+# define _SDT_ARG_CONSTRAINT_STRING(x)  _SDT_STRINGIFY(x)
-+/* _SDT_S encodes the size and type as 0xSSTT which is decoded by the assembler
-+   macros _SDT_SIZE and _SDT_TYPE */
-+# define _SDT_ARG(n, x)				    \
-+  [_SDT_S##n] "n" ((_SDT_ARGSIGNED (x) ? (int)-1 : 1) * (-(((int) _SDT_ARGSIZE (x)) << 8) + (-(0x7f & __builtin_classify_type (x))))), \
-+  [_SDT_A##n] _SDT_ARG_CONSTRAINT_STRING (STAP_SDT_ARG_CONSTRAINT) (_SDT_ARGVAL (x))
+ 		}
+ 
+ 		if (dtp->dt_ctfa_path == NULL)
+@@ -1018,6 +1018,11 @@ dt_kern_module_find_ctf(dtrace_hdl_t *dtp, dt_module_t *dmp)
+ 
+ 		dmp->dm_flags |= DT_DM_CTF_ARCHIVED;
+ 		ctf_setspecific(dmp->dm_ctfp, dmp);
++#ifdef HAVE_LIBCTF
++	} else {
++		/* Generate CTF from BTF for the module. */
++		dt_kern_module_ctf_from_btf(dtp, dmp);
 +#endif
-+#define _SDT_ASM_STRING(x)		_SDT_ASM_STRING_1(x)
-+#define _SDT_ASM_SUBSTR(x)		_SDT_ASM_SUBSTR_1(x)
-+
-+#define _SDT_ARGARRAY(x)	(__builtin_classify_type (x) == 14	\
-+				 || __builtin_classify_type (x) == 5)
-+
-+#ifdef __cplusplus
-+# define _SDT_ARGSIGNED(x)	(!_SDT_ARGARRAY (x) \
-+				 && __sdt_type<__typeof (x)>::__sdt_signed)
-+# define _SDT_ARGSIZE(x)	(_SDT_ARGARRAY (x) \
-+				 ? sizeof (void *) : sizeof (x))
-+# define _SDT_ARGVAL(x)		(x)
-+
-+# include <cstddef>
-+
-+template<typename __sdt_T>
-+struct __sdt_type
-+{
-+  static const bool __sdt_signed = false;
-+};
-+  
-+#define __SDT_ALWAYS_SIGNED(T) \
-+template<> struct __sdt_type<T> { static const bool __sdt_signed = true; };
-+#define __SDT_COND_SIGNED(T,CT)						\
-+template<> struct __sdt_type<T> { static const bool __sdt_signed = ((CT)(-1) < 1); };
-+__SDT_ALWAYS_SIGNED(signed char)
-+__SDT_ALWAYS_SIGNED(short)
-+__SDT_ALWAYS_SIGNED(int)
-+__SDT_ALWAYS_SIGNED(long)
-+__SDT_ALWAYS_SIGNED(long long)
-+__SDT_ALWAYS_SIGNED(volatile signed char)
-+__SDT_ALWAYS_SIGNED(volatile short)
-+__SDT_ALWAYS_SIGNED(volatile int)
-+__SDT_ALWAYS_SIGNED(volatile long)
-+__SDT_ALWAYS_SIGNED(volatile long long)
-+__SDT_ALWAYS_SIGNED(const signed char)
-+__SDT_ALWAYS_SIGNED(const short)
-+__SDT_ALWAYS_SIGNED(const int)
-+__SDT_ALWAYS_SIGNED(const long)
-+__SDT_ALWAYS_SIGNED(const long long)
-+__SDT_ALWAYS_SIGNED(const volatile signed char)
-+__SDT_ALWAYS_SIGNED(const volatile short)
-+__SDT_ALWAYS_SIGNED(const volatile int)
-+__SDT_ALWAYS_SIGNED(const volatile long)
-+__SDT_ALWAYS_SIGNED(const volatile long long)
-+__SDT_COND_SIGNED(char, char)
-+__SDT_COND_SIGNED(wchar_t, wchar_t)
-+__SDT_COND_SIGNED(volatile char, char)
-+__SDT_COND_SIGNED(volatile wchar_t, wchar_t)
-+__SDT_COND_SIGNED(const char, char)
-+__SDT_COND_SIGNED(const wchar_t, wchar_t)
-+__SDT_COND_SIGNED(const volatile char, char)
-+__SDT_COND_SIGNED(const volatile wchar_t, wchar_t)
-+#if defined (__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 4))
-+/* __SDT_COND_SIGNED(char16_t) */
-+/* __SDT_COND_SIGNED(char32_t) */
-+#endif
-+
-+template<typename __sdt_E>
-+struct __sdt_type<__sdt_E[]> : public __sdt_type<__sdt_E *> {};
-+
-+template<typename __sdt_E, size_t __sdt_N>
-+struct __sdt_type<__sdt_E[__sdt_N]> : public __sdt_type<__sdt_E *> {};
-+
-+#elif !defined(__ASSEMBLER__)
-+__extension__ extern unsigned long long __sdt_unsp;
-+# define _SDT_ARGINTTYPE(x)						\
-+  __typeof (__builtin_choose_expr (((__builtin_classify_type (x)	\
-+				     + 3) & -4) == 4, (x), 0U))
-+# define _SDT_ARGSIGNED(x)						\
-+  (!__extension__							\
-+   (__builtin_constant_p ((((unsigned long long)			\
-+			    (_SDT_ARGINTTYPE (x)) __sdt_unsp)		\
-+			   & ((unsigned long long)1 << (sizeof (unsigned long long)	\
-+				       * __CHAR_BIT__ - 1))) == 0)	\
-+    || (_SDT_ARGINTTYPE (x)) -1 > (_SDT_ARGINTTYPE (x)) 0))
-+# define _SDT_ARGSIZE(x)	\
-+  (_SDT_ARGARRAY (x) ? sizeof (void *) : sizeof (x))
-+# define _SDT_ARGVAL(x)		(x)
-+#endif
-+
-+#if defined __powerpc__ || defined __powerpc64__
-+# define _SDT_ARGTMPL(id)	%I[id]%[id]
-+#elif defined __i386__
-+# define _SDT_ARGTMPL(id)	%k[id]  /* gcc.gnu.org/PR80115 sourceware.org/PR24541 */
-+#else
-+# define _SDT_ARGTMPL(id)	%[id]
-+#endif
-+
-+/* NB: gdb PR24541 highlighted an unspecified corner of the sdt.h
-+   operand note format.
-+
-+   The named register may be a longer or shorter (!) alias for the
-+   storage where the value in question is found.  For example, on
-+   i386, 64-bit value may be put in register pairs, and the register
-+   name stored would identify just one of them.  Previously, gcc was
-+   asked to emit the %w[id] (16-bit alias of some registers holding
-+   operands), even when a wider 32-bit value was used.
-+
-+   Bottom line: the byte-width given before the @ sign governs.  If
-+   there is a mismatch between that width and that of the named
-+   register, then a sys/sdt.h note consumer may need to employ
-+   architecture-specific heuristics to figure out where the compiler
-+   has actually put the complete value.
-+*/
-+
-+#ifdef __LP64__
-+# define _SDT_ASM_ADDR	.8byte
-+#else
-+# define _SDT_ASM_ADDR	.4byte
-+#endif
-+
-+/* The ia64 and s390 nop instructions take an argument. */
-+#if defined(__ia64__) || defined(__s390__) || defined(__s390x__)
-+#define _SDT_NOP	nop 0
-+#else
-+#define _SDT_NOP	nop
-+#endif
-+
-+#define _SDT_NOTE_NAME	"stapsdt"
-+#define _SDT_NOTE_TYPE	3
-+
-+# define _SDT_ASM_AUTOGROUP "?"
-+
-+#define _SDT_DEF_MACROS							     \
-+	_SDT_ASM_1(.altmacro)						     \
-+	_SDT_ASM_1(.macro _SDT_SIGN x)				     	     \
-+	_SDT_ASM_3(.pushsection .note.stapsdt,"","note")		     \
-+	_SDT_ASM_1(.iflt \\x)						     \
-+	_SDT_ASM_1(.ascii "-")						     \
-+	_SDT_ASM_1(.endif)						     \
-+	_SDT_ASM_1(.popsection)						     \
-+	_SDT_ASM_1(.endm)						     \
-+	_SDT_ASM_1(.macro _SDT_SIZE_ x)					     \
-+	_SDT_ASM_3(.pushsection .note.stapsdt,"","note")		     \
-+	_SDT_ASM_1(.ascii "\x")						     \
-+	_SDT_ASM_1(.popsection)						     \
-+	_SDT_ASM_1(.endm)						     \
-+	_SDT_ASM_1(.macro _SDT_SIZE x)					     \
-+	_SDT_ASM_1(_SDT_SIZE_ %%((-(-\\x*((-\\x>0)-(-\\x<0))))>>8))	     \
-+	_SDT_ASM_1(.endm)						     \
-+	_SDT_ASM_1(.macro _SDT_TYPE_ x)				             \
-+	_SDT_ASM_3(.pushsection .note.stapsdt,"","note")		     \
-+	_SDT_ASM_2(.ifc 8,\\x)					     	     \
-+	_SDT_ASM_1(.ascii "f")						     \
-+	_SDT_ASM_1(.endif)						     \
-+	_SDT_ASM_1(.ascii "@")						     \
-+	_SDT_ASM_1(.popsection)						     \
-+	_SDT_ASM_1(.endm)						     \
-+	_SDT_ASM_1(.macro _SDT_TYPE x)				     	     \
-+	_SDT_ASM_1(_SDT_TYPE_ %%((\\x)&(0xff)))			     \
-+	_SDT_ASM_1(.endm)
-+
-+#define _SDT_UNDEF_MACROS						      \
-+  _SDT_ASM_1(.purgem _SDT_SIGN)						      \
-+  _SDT_ASM_1(.purgem _SDT_SIZE_)					      \
-+  _SDT_ASM_1(.purgem _SDT_SIZE)						      \
-+  _SDT_ASM_1(.purgem _SDT_TYPE_)					      \
-+  _SDT_ASM_1(.purgem _SDT_TYPE)
-+
-+#define _SDT_ASM_BODY(provider, name, pack_args, args, ...)		      \
-+  _SDT_DEF_MACROS							      \
-+  _SDT_ASM_1(990:	_SDT_NOP)					      \
-+  _SDT_ASM_3(		.pushsection .note.stapsdt,_SDT_ASM_AUTOGROUP,"note") \
-+  _SDT_ASM_1(		.balign 4)					      \
-+  _SDT_ASM_3(		.4byte 992f-991f, 994f-993f, _SDT_NOTE_TYPE)	      \
-+  _SDT_ASM_1(991:	.asciz _SDT_NOTE_NAME)				      \
-+  _SDT_ASM_1(992:	.balign 4)					      \
-+  _SDT_ASM_1(993:	_SDT_ASM_ADDR 990b)				      \
-+  _SDT_ASM_1(		_SDT_ASM_ADDR _.stapsdt.base)			      \
-+  _SDT_SEMAPHORE(provider,name)						      \
-+  _SDT_ASM_STRING(provider)						      \
-+  _SDT_ASM_STRING(name)							      \
-+  pack_args args							      \
-+  _SDT_ASM_SUBSTR(\x00)							      \
-+  _SDT_UNDEF_MACROS							      \
-+  _SDT_ASM_1(994:	.balign 4)					      \
-+  _SDT_ASM_1(		.popsection)
-+
-+#define _SDT_ASM_BASE							      \
-+  _SDT_ASM_1(.ifndef _.stapsdt.base)					      \
-+  _SDT_ASM_5(		.pushsection .stapsdt.base,"aG","progbits",	      \
-+							.stapsdt.base,comdat) \
-+  _SDT_ASM_1(		.weak _.stapsdt.base)				      \
-+  _SDT_ASM_1(		.hidden _.stapsdt.base)				      \
-+  _SDT_ASM_1(	_.stapsdt.base: .space 1)				      \
-+  _SDT_ASM_2(		.size _.stapsdt.base, 1)			      \
-+  _SDT_ASM_1(		.popsection)					      \
-+  _SDT_ASM_1(.endif)
-+
-+#if defined _SDT_HAS_SEMAPHORES
-+#define _SDT_SEMAPHORE(p,n) \
-+	_SDT_ASM_1(		_SDT_ASM_ADDR p##_##n##_semaphore)
-+#else
-+#define _SDT_SEMAPHORE(p,n) _SDT_ASM_1(		_SDT_ASM_ADDR 0)
-+#endif
-+
-+#define _SDT_ASM_BLANK _SDT_ASM_SUBSTR(\x20)
-+#define _SDT_ASM_TEMPLATE_0		/* no arguments */
-+#define _SDT_ASM_TEMPLATE_1		_SDT_ARGFMT(1)
-+#define _SDT_ASM_TEMPLATE_2		_SDT_ASM_TEMPLATE_1 _SDT_ASM_BLANK _SDT_ARGFMT(2)
-+#define _SDT_ASM_TEMPLATE_3		_SDT_ASM_TEMPLATE_2 _SDT_ASM_BLANK _SDT_ARGFMT(3)
-+#define _SDT_ASM_TEMPLATE_4		_SDT_ASM_TEMPLATE_3 _SDT_ASM_BLANK _SDT_ARGFMT(4)
-+#define _SDT_ASM_TEMPLATE_5		_SDT_ASM_TEMPLATE_4 _SDT_ASM_BLANK _SDT_ARGFMT(5)
-+#define _SDT_ASM_TEMPLATE_6		_SDT_ASM_TEMPLATE_5 _SDT_ASM_BLANK _SDT_ARGFMT(6)
-+#define _SDT_ASM_TEMPLATE_7		_SDT_ASM_TEMPLATE_6 _SDT_ASM_BLANK _SDT_ARGFMT(7)
-+#define _SDT_ASM_TEMPLATE_8		_SDT_ASM_TEMPLATE_7 _SDT_ASM_BLANK _SDT_ARGFMT(8)
-+#define _SDT_ASM_TEMPLATE_9		_SDT_ASM_TEMPLATE_8 _SDT_ASM_BLANK _SDT_ARGFMT(9)
-+#define _SDT_ASM_TEMPLATE_10		_SDT_ASM_TEMPLATE_9 _SDT_ASM_BLANK _SDT_ARGFMT(10)
-+#define _SDT_ASM_TEMPLATE_11		_SDT_ASM_TEMPLATE_10 _SDT_ASM_BLANK _SDT_ARGFMT(11)
-+#define _SDT_ASM_TEMPLATE_12		_SDT_ASM_TEMPLATE_11 _SDT_ASM_BLANK _SDT_ARGFMT(12)
-+#define _SDT_ASM_OPERANDS_0()		[__sdt_dummy] "g" (0)
-+#define _SDT_ASM_OPERANDS_1(arg1)	_SDT_ARG(1, arg1)
-+#define _SDT_ASM_OPERANDS_2(arg1, arg2) \
-+  _SDT_ASM_OPERANDS_1(arg1), _SDT_ARG(2, arg2)
-+#define _SDT_ASM_OPERANDS_3(arg1, arg2, arg3) \
-+  _SDT_ASM_OPERANDS_2(arg1, arg2), _SDT_ARG(3, arg3)
-+#define _SDT_ASM_OPERANDS_4(arg1, arg2, arg3, arg4) \
-+  _SDT_ASM_OPERANDS_3(arg1, arg2, arg3), _SDT_ARG(4, arg4)
-+#define _SDT_ASM_OPERANDS_5(arg1, arg2, arg3, arg4, arg5) \
-+  _SDT_ASM_OPERANDS_4(arg1, arg2, arg3, arg4), _SDT_ARG(5, arg5)
-+#define _SDT_ASM_OPERANDS_6(arg1, arg2, arg3, arg4, arg5, arg6) \
-+  _SDT_ASM_OPERANDS_5(arg1, arg2, arg3, arg4, arg5), _SDT_ARG(6, arg6)
-+#define _SDT_ASM_OPERANDS_7(arg1, arg2, arg3, arg4, arg5, arg6, arg7) \
-+  _SDT_ASM_OPERANDS_6(arg1, arg2, arg3, arg4, arg5, arg6), _SDT_ARG(7, arg7)
-+#define _SDT_ASM_OPERANDS_8(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) \
-+  _SDT_ASM_OPERANDS_7(arg1, arg2, arg3, arg4, arg5, arg6, arg7), \
-+    _SDT_ARG(8, arg8)
-+#define _SDT_ASM_OPERANDS_9(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9) \
-+  _SDT_ASM_OPERANDS_8(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8), \
-+    _SDT_ARG(9, arg9)
-+#define _SDT_ASM_OPERANDS_10(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) \
-+  _SDT_ASM_OPERANDS_9(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9), \
-+    _SDT_ARG(10, arg10)
-+#define _SDT_ASM_OPERANDS_11(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11) \
-+  _SDT_ASM_OPERANDS_10(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10), \
-+    _SDT_ARG(11, arg11)
-+#define _SDT_ASM_OPERANDS_12(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12) \
-+  _SDT_ASM_OPERANDS_11(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11), \
-+    _SDT_ARG(12, arg12)
-+
-+/* These macros can be used in C, C++, or assembly code.
-+   In assembly code the arguments should use normal assembly operand syntax.  */
-+
-+#define STAP_PROBE(provider, name) \
-+  _SDT_PROBE(provider, name, 0, ())
-+#define STAP_PROBE1(provider, name, arg1) \
-+  _SDT_PROBE(provider, name, 1, (arg1))
-+#define STAP_PROBE2(provider, name, arg1, arg2) \
-+  _SDT_PROBE(provider, name, 2, (arg1, arg2))
-+#define STAP_PROBE3(provider, name, arg1, arg2, arg3) \
-+  _SDT_PROBE(provider, name, 3, (arg1, arg2, arg3))
-+#define STAP_PROBE4(provider, name, arg1, arg2, arg3, arg4) \
-+  _SDT_PROBE(provider, name, 4, (arg1, arg2, arg3, arg4))
-+#define STAP_PROBE5(provider, name, arg1, arg2, arg3, arg4, arg5) \
-+  _SDT_PROBE(provider, name, 5, (arg1, arg2, arg3, arg4, arg5))
-+#define STAP_PROBE6(provider, name, arg1, arg2, arg3, arg4, arg5, arg6)	\
-+  _SDT_PROBE(provider, name, 6, (arg1, arg2, arg3, arg4, arg5, arg6))
-+#define STAP_PROBE7(provider, name, arg1, arg2, arg3, arg4, arg5, arg6, arg7) \
-+  _SDT_PROBE(provider, name, 7, (arg1, arg2, arg3, arg4, arg5, arg6, arg7))
-+#define STAP_PROBE8(provider,name,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8) \
-+  _SDT_PROBE(provider, name, 8, (arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8))
-+#define STAP_PROBE9(provider,name,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9)\
-+  _SDT_PROBE(provider, name, 9, (arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9))
-+#define STAP_PROBE10(provider,name,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) \
-+  _SDT_PROBE(provider, name, 10, \
-+	     (arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10))
-+#define STAP_PROBE11(provider,name,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11) \
-+  _SDT_PROBE(provider, name, 11, \
-+	     (arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11))
-+#define STAP_PROBE12(provider,name,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12) \
-+  _SDT_PROBE(provider, name, 12, \
-+	     (arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12))
-+
-+/* This STAP_PROBEV macro can be used in variadic scenarios, where the
-+   number of probe arguments is not known until compile time.  Since
-+   variadic macro support may vary with compiler options, you must
-+   pre-#define SDT_USE_VARIADIC to enable this type of probe.
-+
-+   The trick to count __VA_ARGS__ was inspired by this post by
-+   Laurent Deniau <laurent.deniau@cern.ch>:
-+       http://groups.google.com/group/comp.std.c/msg/346fc464319b1ee5
-+
-+   Note that our _SDT_NARG is called with an extra 0 arg that's not
-+   counted, so we don't have to worry about the behavior of macros
-+   called without any arguments.  */
-+
-+#define _SDT_NARG(...) __SDT_NARG(__VA_ARGS__, 12,11,10,9,8,7,6,5,4,3,2,1,0)
-+#define __SDT_NARG(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12, N, ...) N
-+#ifdef SDT_USE_VARIADIC
-+#define _SDT_PROBE_N(provider, name, N, ...) \
-+  _SDT_PROBE(provider, name, N, (__VA_ARGS__))
-+#define STAP_PROBEV(provider, name, ...) \
-+  _SDT_PROBE_N(provider, name, _SDT_NARG(0, ##__VA_ARGS__), ##__VA_ARGS__)
-+#endif
-+
-+/* These macros are for use in asm statements.  You must compile
-+   with -std=gnu99 or -std=c99 to use the STAP_PROBE_ASM macro.
-+
-+   The STAP_PROBE_ASM macro generates a quoted string to be used in the
-+   template portion of the asm statement, concatenated with strings that
-+   contain the actual assembly code around the probe site.
-+
-+   For example:
-+
-+	asm ("before\n"
-+	     STAP_PROBE_ASM(provider, fooprobe, %eax 4(%esi))
-+	     "after");
-+
-+   emits the assembly code for "before\nafter", with a probe in between.
-+   The probe arguments are the %eax register, and the value of the memory
-+   word located 4 bytes past the address in the %esi register.  Note that
-+   because this is a simple asm, not a GNU C extended asm statement, these
-+   % characters do not need to be doubled to generate literal %reg names.
-+
-+   In a GNU C extended asm statement, the probe arguments can be specified
-+   using the macro STAP_PROBE_ASM_TEMPLATE(n) for n arguments.  The paired
-+   macro STAP_PROBE_ASM_OPERANDS gives the C values of these probe arguments,
-+   and appears in the input operand list of the asm statement.  For example:
-+
-+	asm ("someinsn %0,%1\n" // %0 is output operand, %1 is input operand
-+	     STAP_PROBE_ASM(provider, fooprobe, STAP_PROBE_ASM_TEMPLATE(3))
-+	     "otherinsn %[namedarg]"
-+	     : "r" (outvar)
-+	     : "g" (some_value), [namedarg] "i" (1234),
-+	       STAP_PROBE_ASM_OPERANDS(3, some_value, some_ptr->field, 1234));
-+
-+    This is just like writing:
-+
-+	STAP_PROBE3(provider, fooprobe, some_value, some_ptr->field, 1234));
-+
-+    but the probe site is right between "someinsn" and "otherinsn".
-+
-+    The probe arguments in STAP_PROBE_ASM can be given as assembly
-+    operands instead, even inside a GNU C extended asm statement.
-+    Note that these can use operand templates like %0 or %[name],
-+    and likewise they must write %%reg for a literal operand of %reg.  */
-+
-+#define _SDT_ASM_BODY_1(p,n,...) _SDT_ASM_BODY(p,n,_SDT_ASM_SUBSTR,(__VA_ARGS__))
-+#define _SDT_ASM_BODY_2(p,n,...) _SDT_ASM_BODY(p,n,/*_SDT_ASM_STRING */,__VA_ARGS__)
-+#define _SDT_ASM_BODY_N2(p,n,no,...) _SDT_ASM_BODY_ ## no(p,n,__VA_ARGS__)
-+#define _SDT_ASM_BODY_N1(p,n,no,...) _SDT_ASM_BODY_N2(p,n,no,__VA_ARGS__)
-+#define _SDT_ASM_BODY_N(p,n,...) _SDT_ASM_BODY_N1(p,n,_SDT_NARG(0, __VA_ARGS__),__VA_ARGS__)
-+
-+#if __STDC_VERSION__ >= 199901L
-+# define STAP_PROBE_ASM(provider, name, ...)		\
-+  _SDT_ASM_BODY_N(provider, name, __VA_ARGS__)					\
-+  _SDT_ASM_BASE
-+# define STAP_PROBE_ASM_OPERANDS(n, ...) _SDT_ASM_OPERANDS_##n(__VA_ARGS__)
-+#else
-+# define STAP_PROBE_ASM(provider, name, args)	\
-+  _SDT_ASM_BODY(provider, name, /* _SDT_ASM_STRING */, (args))	\
-+  _SDT_ASM_BASE
-+#endif
-+#define STAP_PROBE_ASM_TEMPLATE(n) _SDT_ASM_TEMPLATE_##n,"use _SDT_ASM_TEMPLATE_"
-+
-+
-+/* DTrace compatible macro names.  */
-+#define DTRACE_PROBE(provider,probe)		\
-+  STAP_PROBE(provider,probe)
-+#define DTRACE_PROBE1(provider,probe,parm1)	\
-+  STAP_PROBE1(provider,probe,parm1)
-+#define DTRACE_PROBE2(provider,probe,parm1,parm2)	\
-+  STAP_PROBE2(provider,probe,parm1,parm2)
-+#define DTRACE_PROBE3(provider,probe,parm1,parm2,parm3) \
-+  STAP_PROBE3(provider,probe,parm1,parm2,parm3)
-+#define DTRACE_PROBE4(provider,probe,parm1,parm2,parm3,parm4)	\
-+  STAP_PROBE4(provider,probe,parm1,parm2,parm3,parm4)
-+#define DTRACE_PROBE5(provider,probe,parm1,parm2,parm3,parm4,parm5)	\
-+  STAP_PROBE5(provider,probe,parm1,parm2,parm3,parm4,parm5)
-+#define DTRACE_PROBE6(provider,probe,parm1,parm2,parm3,parm4,parm5,parm6) \
-+  STAP_PROBE6(provider,probe,parm1,parm2,parm3,parm4,parm5,parm6)
-+#define DTRACE_PROBE7(provider,probe,parm1,parm2,parm3,parm4,parm5,parm6,parm7) \
-+  STAP_PROBE7(provider,probe,parm1,parm2,parm3,parm4,parm5,parm6,parm7)
-+#define DTRACE_PROBE8(provider,probe,parm1,parm2,parm3,parm4,parm5,parm6,parm7,parm8) \
-+  STAP_PROBE8(provider,probe,parm1,parm2,parm3,parm4,parm5,parm6,parm7,parm8)
-+#define DTRACE_PROBE9(provider,probe,parm1,parm2,parm3,parm4,parm5,parm6,parm7,parm8,parm9) \
-+  STAP_PROBE9(provider,probe,parm1,parm2,parm3,parm4,parm5,parm6,parm7,parm8,parm9)
-+#define DTRACE_PROBE10(provider,probe,parm1,parm2,parm3,parm4,parm5,parm6,parm7,parm8,parm9,parm10) \
-+  STAP_PROBE10(provider,probe,parm1,parm2,parm3,parm4,parm5,parm6,parm7,parm8,parm9,parm10)
-+#define DTRACE_PROBE11(provider,probe,parm1,parm2,parm3,parm4,parm5,parm6,parm7,parm8,parm9,parm10,parm11) \
-+  STAP_PROBE11(provider,probe,parm1,parm2,parm3,parm4,parm5,parm6,parm7,parm8,parm9,parm10,parm11)
-+#define DTRACE_PROBE12(provider,probe,parm1,parm2,parm3,parm4,parm5,parm6,parm7,parm8,parm9,parm10,parm11,parm12) \
-+  STAP_PROBE12(provider,probe,parm1,parm2,parm3,parm4,parm5,parm6,parm7,parm8,parm9,parm10,parm11,parm12)
-+
-+
-+#endif /* sys/sdt.h */
-diff --git a/test/unittest/usdt/tst.usdt-notes.sh b/test/unittest/usdt/tst.usdt-notes.sh
-new file mode 100755
-index 00000000..8fd725d3
---- /dev/null
-+++ b/test/unittest/usdt/tst.usdt-notes.sh
-@@ -0,0 +1,121 @@
-+#!/bin/bash
-+#
-+# Oracle Linux DTrace.
-+# Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-+# Licensed under the Universal Permissive License v 1.0 as shown at
-+# http://oss.oracle.com/licenses/upl.
-+
-+# This test covers all USDT probes fired by the DTRACE_PROBEn macros.
-+# Arguments values are checked only for first 10 arguments because
-+# there is support for arg0 ... arg9 only at this moment.
-+
-+if [ $# != 1 ]; then
-+	echo expected one argument: '<'dtrace-path'>'
-+	exit 2
-+fi
-+
-+dtrace=$1
-+CC=/usr/bin/gcc
-+CFLAGS="-I${PWD}/test/unittest/usdt"
-+
-+DIRNAME="$tmpdir/usdt-notes.$$.$RANDOM"
-+mkdir -p $DIRNAME
-+cd $DIRNAME
-+
-+cat > test.c <<EOF
-+#include <sdt_notes.h>
-+
-+int
-+main(int argc, char **argv)
-+{
-+	DTRACE_PROBE(test_prov, zero);
-+	DTRACE_PROBE1(test_prov, one, 1);
-+	DTRACE_PROBE2(test_prov, two, 2, 3);
-+	DTRACE_PROBE3(test_prov, three, 4, 5, 7);
-+	DTRACE_PROBE4(test_prov, four, 7, 8, 9, 10);
-+	DTRACE_PROBE5(test_prov, five, 11, 12, 13, 14, 15);
-+	DTRACE_PROBE6(test_prov, six, 16, 17, 18, 19, 20, 21);
-+	DTRACE_PROBE7(test_prov, seven, 22, 23, 24, 25, 26, 27, 28);
-+	DTRACE_PROBE8(test_prov, eight, 29, 30, 31, 32, 33, 34, 35, 36);
-+	DTRACE_PROBE9(test_prov, nine, 37, 38, 39, 40, 41, 42, 43, 44, 45);
-+	DTRACE_PROBE10(test_prov, ten, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55);
-+	DTRACE_PROBE11(test_prov, eleven, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66);
-+	DTRACE_PROBE12(test_prov, twelve, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78);
-+}
-+EOF
-+
-+${CC} ${CFLAGS} -o test test.c
-+if [ $? -ne 0 ]; then
-+	echo "failed to compile test.c" >& 2
-+	exit 1
-+fi
-+
-+$dtrace -c ./test -qs /dev/stdin <<EOF
-+test_prov\$target:::zero
-+{
-+	printf("%s:%s:%s\n", probemod, probefunc, probename);
-+}
-+
-+test_prov\$target:::one
-+{
-+	printf("%s:%s:%s:%li\n", probemod, probefunc, probename, arg0);
-+}
-+
-+test_prov\$target:::two
-+{
-+	printf("%s:%s:%s:%li:%li\n", probemod, probefunc, probename, arg0, arg1);
-+}
-+
-+test_prov\$target:::three
-+{
-+	printf("%s:%s:%s:%li:%li:%li\n", probemod, probefunc, probename, arg0, arg1,
-+	       arg2);
-+}
-+
-+test_prov\$target:::four
-+{
-+	printf("%s:%s:%s:%li:%li:%li:%li\n", probemod, probefunc, probename, arg0, arg1,
-+	       arg2, arg3);
-+}
-+
-+test_prov\$target:::five
-+{
-+	printf("%s:%s:%s:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
-+	       arg0, arg1, arg2, arg3, arg4);
-+}
-+
-+test_prov\$target:::six
-+{
-+	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
-+	       arg0, arg1, arg2, arg3, arg4, arg5);
-+}
-+
-+test_prov\$target:::seven
-+{
-+	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
-+	       arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-+}
-+
-+test_prov\$target:::eight
-+{
-+	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
-+	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-+}
-+
-+test_prov\$target:::nine
-+{
-+	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
-+	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-+}
-+
-+test_prov\$target:::ten,
-+test_prov\$target:::eleven,
-+test_prov\$target:::twelve
-+{
-+	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
-+	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-+}
-+EOF
-+status=$?
-+
-+exit $status
+ 	}
+ 
+ 	/*
 -- 
-2.39.3
+2.42.0
 
