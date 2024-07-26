@@ -1,78 +1,83 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6847838DEE
-	for <dtrace@lists.linux.dev>; Fri, 26 Jul 2024 19:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74FA6026A
+	for <dtrace@lists.linux.dev>; Fri, 26 Jul 2024 22:44:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722022742; cv=fail; b=Ksw6h3qlLcneCqeTgH+KK2WGq9fj4COeEjPgpvsWi01j0eTG6mGM5n+isau42WaeZXw78CrlbBluEFTfhqvOKw9GWlH00/95zwmiH/hj/MvrJ/WHdJWO1cRLUs8eFBfqvFQStjhOFJP9PRizA0zRHkar1WJPpQdk4GCSlLdN6tE=
+	t=1722033873; cv=fail; b=cq5ZnGmjzpLpIHAalqz1asOksfEq5sCjnwmJTIw7dtDBeVnKMDPfSHxO3BTRE4eZN7lXRKNMSmUnJGzG5R8Qybri8F77kBnyAS25XzKYGlmHMrP8nORv6ISP/zdzd/szXhCEu9fpR8KzdnL4Z3Q/vE1CEsBK7owypDZQBvzbYsY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722022742; c=relaxed/simple;
-	bh=Tlcn8mUd7XtqKaBZol7oapfwGBKQciHn/SRTM0a8DEg=;
-	h=Date:From:To:Subject:Content-Type:Message-ID:MIME-Version; b=Ilk+nkSNG4m0kWXe73YaL0F4XFigvsxPEFnLPQaT4T730LOi7Yxjcz1P6+vxT3up2lC8fgvg9xNe7Ruj5ZUFjn+qbAlsbbRw/DeK6XF93EqC6cIUGmKsABI5vJP2/88ma4fabyVltbYbCvurbfelaRfvYZT9a0buRBWzP0QBMGk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=fD5LWnd9; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=aqpML4wv; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1722033873; c=relaxed/simple;
+	bh=y2ux+u/X3aTMqhjDZmB0eR7IMDNxlNP4oP3UJTWbdks=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=RuqHR9aOy1GWDxWqr92E5FvNa6bCV87+MrZFDcgOLucBZcy1SHvneYpXb+eDcxoX3yvVzO/4Bsi79Q8KxV6gqkWmnPrQodiREYr7wz4tThIw1g3+KZPNN475GQ1FJlDwmc9BXm43GlG73g4mID+vzPq+s0tolKVsTgp4nU2gXcY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Shu04HzG; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=zoKnSTPk; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fD5LWnd9";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="aqpML4wv"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46QIAEQp022678
-	for <dtrace@lists.linux.dev>; Fri, 26 Jul 2024 19:38:59 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Shu04HzG";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="zoKnSTPk"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46QKhJIO028587
+	for <dtrace@lists.linux.dev>; Fri, 26 Jul 2024 22:44:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	date:from:to:subject:content-type:message-id:mime-version; s=
-	corp-2023-11-20; bh=ycw9ncrGdB2KW0i6D6yi5pFNP9w7e1ygBS+cm4g8v7M=; b=
-	fD5LWnd9vSlX1w5sw/OnZHlT3lm/AXimODCN6h+ObgKIDRsmozI88xdbYEbpbakq
-	CZBrktLW72gGWSSBwsyIAVKe/PqGmd09PkKM25SdNBnGVrMsWBh7aQTG4GLfHN9Q
-	Wmr4+zfg/k78MgCcW+mItDlUDs8na6UejvyHkCulqvlu0HduZmGMUqsQuC6GcdZI
-	puMa4JXl3DgU5mNGKVbzE/PuUpoj/7JUxMPHCpfXiwYPXdUZZnZJL09Am9jK+NCF
-	9Md5/++jEEu8tvewDhw9WDn8belWJ/JXYHCTwuZLR1ZP5nKQCHEQX6Xxqp/4k8cy
-	SvSvMHfffckX3Hpsz0u07Q==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 40hgcrpauu-1
+	date:from:to:cc:subject:message-id:references:content-type
+	:in-reply-to:mime-version; s=corp-2023-11-20; bh=ePM8nzeyHkACg3Z
+	3ZdYiQKv7Zz8IDpS4u/bZ66tJgsc=; b=Shu04HzGKknr6z26+zW4rJebW8ocSH3
+	RqKN9V4HqXH2HZN8v3b1ZDZIE9uZDiYtw8UudeuJ0GL8eKtFgtZKwX3EQerEhZjI
+	pNVmwtgMq2IZWznRXu+SU3Htp4wSUSm7O+EI/8bgmsINLpHCe6k9hnREwVITTahl
+	6r/LC7S09UJLlSTJnTX9+OHT4tF54xibSzSrAwPslToUYFQU6SvBAspI31dgnuJn
+	+O1Lxp3PT+l7/i7mkQYoSm1DuJ9yyeQQYxDWJhz2Mlmv1F3g0z71cc6vi+Y+PYj/
+	c0KvkKIzhcuYeKGFJKdL6SSoNbRGl0Oe2DZUKECR2Ddomqby07zB8+w==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 40hfe7pngm-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 26 Jul 2024 19:38:59 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 46QJ7OZt038904
-	for <dtrace@lists.linux.dev>; Fri, 26 Jul 2024 19:35:57 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 40h26s2x80-2
+	for <dtrace@lists.linux.dev>; Fri, 26 Jul 2024 22:44:29 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 46QLNTHv013437
+	for <dtrace@lists.linux.dev>; Fri, 26 Jul 2024 22:44:29 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2047.outbound.protection.outlook.com [104.47.70.47])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 40h2a67xmv-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 26 Jul 2024 19:35:57 +0000
+	for <dtrace@lists.linux.dev>; Fri, 26 Jul 2024 22:44:28 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bND3PHNsU88YDko0zkE+O/kTczarto9zfvxmCd6SqW2PnsgxgZCrr6gpbvVON46yW7KisloRSj9NzCT1FigY98SF2jU/eiC/WQWYi4Az/wAR8RSuHZNEnt8Rv+OdjpeTE4K3QayzN/jBLZGzYaqjNcWC2VZxc32t/AZdagy6PRxYEe//XrolH4inrzl8oNEn41WvtXf5hYK2E1GM1/HfDogLHUMRkhj0VTEW8ue9jhCV+wj4Lts8PQogfiXlmS4WkxpHtcUz7qiJpU/hRokX1QeEgpT/UiqkuOz+GOQOAnTt49dHAVIh2hVflhUjmWwE+zzGWWRNLSiIJHUXblNSqg==
+ b=bBY2X5F1SfS7CZW0H5qKTgBk5nU6zauvTwbmxWrg/y7Xx9tZQIRw/jozTxYQz3L2cv1DMq7cIAeE/EGtvfmQFHd49/d3zDwvU/LnQ8/dmjmgxIqaTn05emixRYTjVnszFDtRaICocWB0y/vWA+oXvuZe5kX7k4uDcOLoinFUj/gBwdnEdjM1jzg3Xy9gsxSUcNIuACAa6d8WRpGMPmnoC2z+mB1J36aSTgHOuOMuE3knTFp4jM/jrGht8oGbzoDeET1ocTuPjNyZgXWVrUn4xlTPUWRw2Cgu8qSoOEhtWQ57vQqFZKYB4lEGm0JUylVMAESHj0NEfY2gcDNV/aHIyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ycw9ncrGdB2KW0i6D6yi5pFNP9w7e1ygBS+cm4g8v7M=;
- b=O3JlR8dCTXCsonna07ySvv5WJ9blqhnphSp8L47Jmt8WsCADpTGt9M9jaPvfhyo9oqBCKGVIh+ZiO1BDr+fQg10FVTM46npXM779HgAsSENIDpstA2kcnXB9+Q8Imj7dBKRaqNtvkYNBLL42n7RWE3Z/ZVyLM0JezX5V4Ni5CeLk+90vZMfW3gksZKYCCFEpm8EDw8qWfQZX4bAQnuAu3bD/B+cKdh9raS45iI2RACwY8E9T+8HrYe6+CsnVcd6ROyRERc83/bMnBcyWMyXvWm+xPupf41EPc2P2IDl2DIMs57gZO+7Cjw0Z3CN4nbCA4JJVCxKn8bR7zBEs886E+g==
+ bh=ePM8nzeyHkACg3Z3ZdYiQKv7Zz8IDpS4u/bZ66tJgsc=;
+ b=aYUB8+XqISw/3+KUzJja0ppWNoXxfg5FlJrAgzDkyHGK0HJ+PLuisFdNrMwYtaGpXt0FtjShEiAun1pnF68mCfJNvHjDxs7uvun//veasF8+iuPyxruj2VugDLALkxWUzBX79zaakKAD3RJqr+O7MaXMT3O3a3+JsNeNqKXmerv1lqdBp0yOTfO7L29UAt+PLmm2z61tz3AW98n3jzROJ0NFIWUbjFSP8X8KL28dxXoGmRMD3LM/GDJ5pmf0zhvwCp4FJL8h1RW94n0kLGL2iq0P9N2BzlA/fnIcRr9HG1HLVb3liBaGEapnWKNNK4o8xYvgGm/nSuJRerU/X2nnZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ycw9ncrGdB2KW0i6D6yi5pFNP9w7e1ygBS+cm4g8v7M=;
- b=aqpML4wvgGmAoUuYMJWjbpoe+Ug4Xv+MykYTX+t8l1S47SPujepL5sKsY2Da59PSU+8qGXeze8viPQw21Fc1524noVDU6fOflVhLuxJk9J9epTuGO35aCUhMpxADA4Ge8hk1MSXU1Yhl+PIiL7ontq7lqtX0JIuE6b59H5fb7q8=
+ bh=ePM8nzeyHkACg3Z3ZdYiQKv7Zz8IDpS4u/bZ66tJgsc=;
+ b=zoKnSTPkRoalIldY9ZFgIHiExV6lpBgb+5JZJM9K4b21k+pog7Cpy0DfSBB5sowiD4TnFHyoMQuPk6ZLDpUz3QPTSRE/KKPeY20bu5xg1ojN1RC78Nly4R9sxVvmdmFSMwDvgHhKZ+1pHDmDeJPFe8uSTbhGYQj+tTVW9kcEek0=
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
- by SN4PR10MB5639.namprd10.prod.outlook.com (2603:10b6:806:20a::21) with
+ by IA1PR10MB7417.namprd10.prod.outlook.com (2603:10b6:208:448::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.28; Fri, 26 Jul
- 2024 19:35:54 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.19; Fri, 26 Jul
+ 2024 22:44:26 +0000
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29]) by SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29%3]) with mapi id 15.20.7784.020; Fri, 26 Jul 2024
- 19:35:54 +0000
-Date: Fri, 26 Jul 2024 15:35:49 -0400
+ 22:44:26 +0000
+Date: Fri, 26 Jul 2024 18:44:23 -0400
 From: Kris Van Hees <kris.van.hees@oracle.com>
-To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH] dlibs: fix access to `major_names data
-Content-Type: text/plain
-X-ClientProxiedBy: LO6P123CA0029.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:313::14) To SN7PR10MB6287.namprd10.prod.outlook.com
+To: eugene.loh@oracle.com
+Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: Re: [DTrace-devel] [PATCH v2 3/7] Generate clearer error message
+ when dtrace is run not as root
+Message-ID: <ZqQmxw7nV3gKldTN@oracle.com>
+References: <20240725050048.28226-1-eugene.loh@oracle.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240725050048.28226-1-eugene.loh@oracle.com>
+X-ClientProxiedBy: BY3PR03CA0019.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::24) To SN7PR10MB6287.namprd10.prod.outlook.com
  (2603:10b6:806:26d::14)
-Message-ID:
- <SN7PR10MB6287FF4B1172CD80B733E84BC2B42@SN7PR10MB6287.namprd10.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -80,326 +85,138 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|SN4PR10MB5639:EE_
-X-MS-Office365-Filtering-Correlation-Id: bb3860fc-3635-4630-6272-08dcadaa2a12
+X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|IA1PR10MB7417:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2f65685-a2a8-46ac-9605-08dcadc480ba
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?dqLTO8SpCqqzhUY582tYg368rSADvfDNvM4u6kmDV/i1jiAGRYE0uscdLHsY?=
- =?us-ascii?Q?tFIIu3wLnxAvtJ59iobYLxeXp3AduF/kFBv6hfA32WMsol3xxJ8GbFEi5ZUQ?=
- =?us-ascii?Q?aXn9gR0WYApvHdXofaALDVEBJ6vAYPzPylrrtgerBJccmyYjwyOVZ/LJRU+N?=
- =?us-ascii?Q?xSGMEx7IOMCD8j3ZZEO7VB65NEqyBSBy5W3DnPyj/RUZ4sUHaogdFuCV9Oex?=
- =?us-ascii?Q?nQKGL3HgLzao20y/koh9ybGIMNVZ5MDMKQF2Qc2iBbzx2cQ5W8zKCHHkXouy?=
- =?us-ascii?Q?kDueem/l6Fi+3TGFIttkASgQYVu3KfhB7HrmZ1PfMPkQshMy1ELVWKGt8Al/?=
- =?us-ascii?Q?/Xll+m1Yc4rurYua3T46N/LSWyNbCIoVFHTWK3XjOQlBqqqbg8tZuK3o6t9r?=
- =?us-ascii?Q?Zsen6WxiWfZUwhe3nfhLzxWgdsE2freci5EcjZZrwy6ijL2j/EbNZKRK2C8T?=
- =?us-ascii?Q?0un9fx65rmISEr7+eO7Z1hwltXtv4fCjZ/VirXeJM7Lx46qe5xFgCbfa8047?=
- =?us-ascii?Q?28UtkQWOEN58VYadRtzf1tCstqs6WVzz/RBn9Lm6rZ+Oy1kmPLX4Xkxbc0SK?=
- =?us-ascii?Q?4iQ+QaPXuNrfvpnm3BolvUYB4U18OxpG21cSnYYEJKu983e1eTyV6jOLpT6T?=
- =?us-ascii?Q?KF4odlEy/7FwN7+w5tvIQaGQIyIr326b3X3i4q4547q6btyJcSj+srdz9jI2?=
- =?us-ascii?Q?f7zGiWQANJa0nFECDdneXsWTvAlnvWweIy1XmFsW9DgPh7slrXaQmwzZAlzC?=
- =?us-ascii?Q?JafueBIJBaoq9Rf8hxHY5Equwm6HVqk1oT0hVggjoPa50+FXWxVrQIEtWjpy?=
- =?us-ascii?Q?/cpnvAZ7GNYs/K3VoqSoxIX/dfHQq8c80qMuT8R7R5doKOishe+CtONfUq2o?=
- =?us-ascii?Q?EX/QuhBPTfbPR3/HqTuK8hCgMMn7kawuL4GagUnCv7QDxw4ufgKg5PRfoaVo?=
- =?us-ascii?Q?ciCiiIXib5dEGxXBrpjtKstdxWzbtUj7tiyfOHmVTKAczOtaaBo6xZhu2Jn3?=
- =?us-ascii?Q?de9rUOwBU7LMdzzHsKvgbpcrAdrKzKcYXqDVdx46DlR/UD4XeyxTiiCKYTS7?=
- =?us-ascii?Q?byrur9fndTF3jz/57wBnQF16muoMcUwxotDE68Zy+gTCInm6NM++auHfKhEt?=
- =?us-ascii?Q?qN70nonY4akVztzYTI2pR2+6IlRFVaOCQHTe/gtncKKQO0eI+3+EhyX4yqb0?=
- =?us-ascii?Q?0rfmya8bQheoaghiUKdlYKhQ6pxPQXCx+8z0Xgg1a39DiztFxdMkHaOvODNq?=
- =?us-ascii?Q?V9zWnjoQQ8D9Zz0acKeZ9vHNtS1FYBMnA+0uKlDFd65aYiRndhZiXZ5O7o2K?=
- =?us-ascii?Q?8v7df3atoPIHmjkFNEMIo1h4cSmFWv8SsPNyah3cZZ+YsA=3D=3D?=
+	=?us-ascii?Q?oSoJY8El4N80Z5lE8f3KE23eX7bslCFtadbtQI23/02cAlzN+vBp0EKoTXTT?=
+ =?us-ascii?Q?BqNcYaJUIcx9p9574A673lhdSbtEmgzsEGCATrh8QjTqeZOxT7xUJzHeYvGr?=
+ =?us-ascii?Q?r91J0XZb3p6JKk1mKKiREsTxE2oCLwWi5r4pwRixJaZoDUmhBi+Ka+8cAm1u?=
+ =?us-ascii?Q?mOXdyYykdtPViqhxbKA9TZB/qzxbT8tdcFCRoasP4pYBDbAGaQJ6Y6Z1OOwq?=
+ =?us-ascii?Q?0h1k+Ah2iYeNuSbfc6d5eLcCFw3a8JVa+Kzcd8Or6Y5toxyJo+cXhzRQe5o2?=
+ =?us-ascii?Q?mJuLprsXkSTs6LXiycatCRUukixW0IdNM/ZcSSQfuieTUH37lFgt1Yn0AcN0?=
+ =?us-ascii?Q?wBDQ9jrKfRr1UnhQTNp3FIWKYQMYl8ibv15LHDCZOMy+YW63m9UvLMC0p8um?=
+ =?us-ascii?Q?JuvyIhIIoZVXkEc2jB2Br2Zcti61Ifdie6POw9adhDW3Q0iYB+izgNL+1vGJ?=
+ =?us-ascii?Q?zEK6BoSFy+sm5zv7OF4nf3JsuAVuT9jusY3RjBiFqlpSn+H6XOZz5gXd3mcf?=
+ =?us-ascii?Q?34+f1V/fwEVYdVP5uyR///Tn8Dynim+mBrTHC1vOXLvN4DjR2QwB2n/WsjQJ?=
+ =?us-ascii?Q?ArpZM3DwqZji1JJ0V0VUHJIh0YhuQwYi5Nm1yU1Eni1XsKSBPud6cWyE60kc?=
+ =?us-ascii?Q?yCzzRxDReu6gcE3FNHwj/5cuu1hecDQZTbnzWa8ATtlRSgZyuKY6yAW5r0gl?=
+ =?us-ascii?Q?D8CLEDMKGdtl6hXd3EsycPPsEclz6gVNn+nJ0faMwnCtG0pDbCTVlOMrLOBX?=
+ =?us-ascii?Q?dAx2kyYx0sVTfusaC4YjPYCkeSMEM55mmxYYFl1iMi/qiDCSOgGMCy+qWKEM?=
+ =?us-ascii?Q?e/8lhHCQMgME76VWxht8SVuVWGDmOyXq7JOn4BrfoGXrA2ATEJ+hIBeLRvV/?=
+ =?us-ascii?Q?jVfzvqcdjXDasCayWbpUptFAx7bx6yY3IIF0ayJHrVA7lFjhaIPKrnvbkJ1J?=
+ =?us-ascii?Q?kPIZLH+lCuVj0mwANS8TGFeGNbyxq23N3NQwIb3dMYYysTUz+LSmKrJNxESf?=
+ =?us-ascii?Q?zL4uoOSs5I236q12XCjMrtJgmd6x8clOIJGFDPzFqgTp9wePVoPD7CdY/oKi?=
+ =?us-ascii?Q?TBC5hbTDmR6nt2TsfIqt+Ua232KlGlXEhA27DQTrVKjHIlJoHREn6f0jvEZ9?=
+ =?us-ascii?Q?IRRmyv9KQ7UZxjrGqpU2Isht4Q5vJUbcso7VwQ4US8Ct7Y7n00tSm4w8aANP?=
+ =?us-ascii?Q?NAOh7iZ3Si3ZWalzA6tDUWez0quw2bX0UkP8h3js4XutwfUul0QN0rYooMZo?=
+ =?us-ascii?Q?vun0ZNx7vo/d9BLhrI1yWikZGQF/+e+RYpNzlqEwNkUtHTMMZdkfRiVWQHbE?=
+ =?us-ascii?Q?8934ZGgL8PqdP0aajnlUG21ZnDk5c2ggWfPPpOapkQDAZQ=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ER9sJfdr+zN28hXbiodSyQwE5rdDxYVpF/b0MSZc+HNEygDa1oI/Y6FGWlf7?=
- =?us-ascii?Q?V8WNXXYGR8QBCuD30OqDfHru8TiNS904kXJ9wAwMWaD7S9yP9IKYONskbEFo?=
- =?us-ascii?Q?4lI5iozAVaPyV8IxQzFl5KUzbDNiFzjHAKEzLO+8CWuCozJy7h4DDGAhWpE0?=
- =?us-ascii?Q?TF0yo+W5unZOPneCLWU6VURF3Gf0gqFEl73ILutLyzu5qafVcp7uRIvU8HOG?=
- =?us-ascii?Q?17C9Igv7I1Agu/yOgEtL/W5P9BqHT5s/qDipKsKzo01jG8HimZ+eDl3e5SSl?=
- =?us-ascii?Q?i9i8YtRKuEbxPXt8OhoHQ5osHh5HMXO/4CdR/Ah3WaPEEIaHnPwYm71DiORd?=
- =?us-ascii?Q?UpZbF1QISNfnXo7xdSKgRZ/SrJ+0pQbJ5PaL4I0c9ZkNGovE6kBn8a/Q0H7E?=
- =?us-ascii?Q?0UCI07DX4zTN4kM5ekDjpjHQloBbzfFh/CyFy5sb9dBsT6FnmlZrqEt+ukgh?=
- =?us-ascii?Q?3dQrWwp4fo7TeogE1e8sHX1VOk65pALPXCH93vJ1pQX6hLdTFNScxpm5G7ag?=
- =?us-ascii?Q?9G6+6Q9fVYiFGze1UeRj+TH5T/KB6M/E1/ddiwgNi6CcXWk1c6LkQ4PANIZT?=
- =?us-ascii?Q?dEVVGdQ2WxzyPXSSAuC4UDFjA3atacd3W9gyJTcHc3TaGPcZ6QK/CgIb25aU?=
- =?us-ascii?Q?r6w5/FyzF2+xZGmWX+IqIo2WEJk7eEqLmeJL0dLp9S8C5zCAAHV0LUDkwAkH?=
- =?us-ascii?Q?8KVpnA/k3RAW0aopvghU0GXVbnjl+BXEJE9aEOseDKWSvuEGaYefqA4Y1xvL?=
- =?us-ascii?Q?qNVnpSs0NhihbC71HD/+Y8EBtWNY5Ql2vlzq2mZUEc37Qh403F/Yq2bWWI6c?=
- =?us-ascii?Q?dOOGI05hldFwDvz9P9R7WyCYkR+oMKKtdcWjJW0qBZE7ppg1lCLcdu62JoZN?=
- =?us-ascii?Q?fRbYArjCVKQWm+nT7P07oAvGKZWHzMmtWLdzCOvco9xmLnILHJ6Zq4FmSU3M?=
- =?us-ascii?Q?j4frRZ6HhZYEiQl/HDMMKsOrPhHrRvA9r1frmbyS3WvLojfGgyNcuYFnw4Rg?=
- =?us-ascii?Q?HqAC2xTCN+F+1R75myuFN5F/1iz43A5Tz2+0DB34PCYUI9CuF9/RmNrKvmNd?=
- =?us-ascii?Q?zC7zaRSrbsQGfw/fVgAHRNXcFisjjtGzfHrzkB37aEdrmKkjTYhqNWy9DvzP?=
- =?us-ascii?Q?dxRLm2lEMkwYO5P9aXwlOAiRK6cUCFN34R9Iw37yqEQeIJb+UVaTPow57gxX?=
- =?us-ascii?Q?qej43rykV7OAt2ejL4KdLJsJCjn+1E6u8j3u7C5yOpG9WB45dA0Q7FO81jGI?=
- =?us-ascii?Q?JPrY1fCY1hxbkMJKx6liVSmOHCDun6MFGu2FqogHtzQoMvnsAZq63oxKWmLs?=
- =?us-ascii?Q?3DlsSDPH+gF3yTh6f+7jURBfHSSeSiHTXLJg9Rn8uqqDImd9RxTmabFCT0tW?=
- =?us-ascii?Q?p051dMRaOG2jDKMQkOcTu+2qG9g6NS2yNUzKX3QJuxPJpIFH+nQ0vD+JEgky?=
- =?us-ascii?Q?oPoM7ps9bzEiJH18f1omL3xknvWn+aS8jXqhK1gWU3ZzPs2IODAapTgMvWKP?=
- =?us-ascii?Q?YnVuepCXyrYaRl5NjNVVWlxvqaoZkdLKM1WKnrWsg2jWUZpYHbayQFpYRY28?=
- =?us-ascii?Q?cOT3d2ezALUDgj7lqznqsAS4ovidnL0Q0vrfn1o+DL1qPFN8zQauTVSwEYaa?=
- =?us-ascii?Q?OzGG/SLjGZ/J5vtAkYCjeNU=3D?=
+	=?us-ascii?Q?8k2+0GIPy3HM6ksSzpXr/RAJB9rSlNy7FFPehFa4YTUJZv7pTDdiHR4l6g/i?=
+ =?us-ascii?Q?LB23VEo/G2JXAhWWCckpAdF3DtfOToJxOfflcnGEZSNVEPd5g7VDTjPyoQuD?=
+ =?us-ascii?Q?lmlPd7dKvBxE7aGn6SzxNF+pCEWnrqq3a5bjp0ClHCHeFxEBw9wQ4/G86ee8?=
+ =?us-ascii?Q?kROFYNkJB574jMFzvKGPnBioG5a81tIGayf+V8SXHvTRaayALJUVLY8NIbXa?=
+ =?us-ascii?Q?xRWdi/BrXbXrJmPCp3rL3vFsbIglcQyGnTdKCD4tAKwE3HrVqRFdrdPnhWRA?=
+ =?us-ascii?Q?6xgneMU9+INLng+epSFa7ntYzmhgoPQniewciNQeJmGSN5Kp03ll0Y5aw2W+?=
+ =?us-ascii?Q?liFYOuhLEtMACmoa9nx/3nPzHfMpesTiOJSl/3GJvq88FNeDgxrPn4haBtG3?=
+ =?us-ascii?Q?SVaq9To93l4rGZtO2P080yCLats5AlUwcbesyQIXeasMewpm2+v6+60T46q2?=
+ =?us-ascii?Q?iQExW4p5MH0JH4C2pOVBL7hzFkcd3VTxS4TPJeFI9PVcF/pvjf9Y8dEPiz6o?=
+ =?us-ascii?Q?JXbBBqjMtKhUzSBK7s7Mc7mOweD/f9b7uN5mRoSG+/RG5hr0nyw7VNuj1mNi?=
+ =?us-ascii?Q?CkLqlar4rr1yEJC1/pZWhWICOcl4C6PUYQFuvK9IoOs52Xvu2T0jPlFgzabA?=
+ =?us-ascii?Q?rLBkfZd5FpfMFiRzsmckzdxbBxqxeA/YU+KbX0Cose5Iz+lOIMJ8Deq5IFyq?=
+ =?us-ascii?Q?AoIWfE5z0Mial82I2VL4fc5RNPXhrZ0feTJ0yrPF/xcXNuWFMGbFimVmeZD0?=
+ =?us-ascii?Q?TGl9oP3HV0fkDtLqWPfuLiYc7+ciyHuICy2FOEBfxZ5jZeo6aLCJGC9ejXy1?=
+ =?us-ascii?Q?g06uCCA5zBlAjKErXbpXcmzYQsmZkRNvavm3qSZSyHZ8oUWyC/80RuidW4BG?=
+ =?us-ascii?Q?rM8ZH9HOzUPeAdy6km6SLoKUbN83qslqCG5TVZqUTtBpj1s//kibxzz0afVs?=
+ =?us-ascii?Q?CrNlifGOgb6mSm124ODCANYPRDVp5S2yz9uU5J5J5+b0WX/NFQLS/7rc2UCa?=
+ =?us-ascii?Q?HbIRJM2eyJ6YxWK2LSbbo3IhfJICAbKUZmpZvbvuJ050HBE1kaf3vlMT3AEV?=
+ =?us-ascii?Q?1eqpqkNrLEsiPi7cJnAQmLBZkSln6AsolcwS6CYh6mdXN2BV+fwNOXWUjl6t?=
+ =?us-ascii?Q?EU/bpumEe3yYl3igMDMAixpju2VyA5RbqrsSsm4PD8127dxNapbtOFsSvLF2?=
+ =?us-ascii?Q?vPeEkl8mg+fwY7ajzlkgsuLGHMrKeqtvEkblY4lGk6P3qpYFFkkr/DnRSszR?=
+ =?us-ascii?Q?LY106DAQn4R9ZQ8yYO4MKwT7EmpazojMDQMCeGS6kcUuVb1NjPwyi0Tcyz3E?=
+ =?us-ascii?Q?EV126+dO7DT0N9FeDr7gIgf2zC02geULAQ2hGjdfF6VTA82s+a3fYFazm8n0?=
+ =?us-ascii?Q?kvQaP6C/uTiTTeZGmkEZjwDN/nrbbcN0f/SSiaZhDQ5Ni1wNSO4v0/PPy8zm?=
+ =?us-ascii?Q?NeudvwBLOwwdcvX24WBsoLseO1D59yCM4cgMMT/yyq4M6CSat7mxSg6m/7BH?=
+ =?us-ascii?Q?11PqW0Cj5/pGUyG9DJ3ltYWvGMgv4UDKkR51YiArt6gtUvgozw6fd96/1+5Z?=
+ =?us-ascii?Q?/PKi2p38uBZypt3O5lrErY3xnwOzFp+ddMmM7D3SrqiFG42HZfZRV65SikSM?=
+ =?us-ascii?Q?8w=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	Uqxf4KSJFRTo2AHP1SCePWFSZl+3BzZBfIuyfh85smIXUSTSdcpCl8z4o901LHYjLM+NJj43U/LTq4qluHIuZN+GdDS9m3jInfuBjY37Fe+mUpEvLcjvBN19GkR9MGb7p2g6sNvczOLWSJdpDKaSsLucUrrhKcrbmNQBdWhqNKRWfm74mm4oIEW2DxRnrUmYJpUnFR0JrDwXbeR20y8PEuuRR/pEFT8QCiXvUi6UEjHMIHNeQukx097ca4Oeguap8jeTiVGNYjq05sAsDS8bxVrS19zhAhtCFchbObJx3kjTPEOY7TIWKlycIjegSq414Pyup2yi1YQ5p95dGp3sjRVKFqrnIzXxpfAROOT7QaxZ6NdKDyzWupjg8TNK/LPPdXAkWIy+3HrMCxPI3qTm4ToWw2UW087hlug4N7XNnKKa6YiHyjaCBeY8sxq6C3iyL3Pw28vMDivva23y2WcAAN/fn4Fz44ByxKRFFTddlrRuq01vSE3IvIiWEXetCZKSwXxdWjCSx+ac7W3i/jFWGpxEOBSLvkrxlDxzUG1gyg8nPX8VO7WeXAqmL8EEHCENd0r2i5iGQSJ51lIJuq+WlLE0PBrxqiDgOQp2hmUIfhc=
+	F+V2Oxr83veimlH64NoPtf71LcVIAKGYO7buJgsB64A6pAZx6Hqf188Drxfg7h7+yAvMrUqobRH5M0WlPMmDaOu0eeKEh4tERyXXH5CkAAyU+2dwjmMhfCw6pm9zlW1b7SusYLPWt9VGWa/8dzoRZr6/AOizCjerXe7uzxD1dq5YN6Bk03SnqU2e6Z8QfYiOQoeA/nHpzrfWkr0hcYBdI8cPu21NOo7fyelgIOwZoEp7Ef3KL86Uwpv0wpNufwbKwMzHw0uH00Xs0DrsruJbVbMMu9YJVgjZD3s4yszNCVgcHeEku2VoID9Fn7KwqMC7gJG6pxXXWl3LjKwM1+8PYEf/vNyleawpx6VYC/oZRs+euOWYZKcA8MwXWrr3tH5vdvnRuHjSpzflsy/7Xu3+tzhUiquicOLXFa/UJje+6M5CrrsLGxUwfcvPIQol5ZDtL0U6fR5+3Ilmg23eMG03WUIl3UA5iBeT7bDYq5tPKjfp4FLktJ3DQNkS1FPc3WpjnSXyC9NH4SxeevTYAcu+XzPGcNR1fpkQVeGUBguEhqUpvudCPQmjZAALQgo/u5uv3vhpxP0kYk7u2AMm+EXqnBgKBKwKvCye3BH6zuJsf6g=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb3860fc-3635-4630-6272-08dcadaa2a12
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2f65685-a2a8-46ac-9605-08dcadc480ba
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR10MB6287.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2024 19:35:54.3603
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2024 22:44:26.5593
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vmaxEkeKpNH/wTiC3A5ke5r3xcH556JgrVyTKiVQ3pPtaflcOivcQiHHuItcD0eCUjqG08+E4pr7Djia675+qYKRu2LP/CUnVoKKYPcbksc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR10MB5639
+X-MS-Exchange-CrossTenant-UserPrincipalName: UMZqNsSFg++q3ywcp8toukfLJdGi54i6FyUicG7zfbbd+WxctN6fPHJ93VcJQMpR+l5XSPLWfYuKbdF+WVAioiYXmufurZgPML2Pg/cZJts=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB7417
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-26_12,2024-07-26_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 adultscore=0 mlxlogscore=999 phishscore=0
+ definitions=2024-07-26_13,2024-07-26_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 mlxscore=0 mlxlogscore=999 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2407110000
- definitions=main-2407260133
-X-Proofpoint-GUID: mf6EBbJ6nZqcio8bpZYWorjOtUnmCyFr
-X-Proofpoint-ORIG-GUID: mf6EBbJ6nZqcio8bpZYWorjOtUnmCyFr
+ definitions=main-2407260153
+X-Proofpoint-GUID: W9B9zVQuooAu-6fAt2a8-2wcCpymqkdl
+X-Proofpoint-ORIG-GUID: W9B9zVQuooAu-6fAt2a8-2wcCpymqkdl
 
-On systems that lack CTF data, all kernel variable have a default type of
-uintptr_t.  That means that an explicit &-operator needs to be applied
-is the kernel variable is e.g. the address of an array because it will not
-be recognized as a ref-type.
+On Thu, Jul 25, 2024 at 01:00:48AM -0400, eugene.loh--- via DTrace-devel wrote:
+> From: Eugene Loh <eugene.loh@oracle.com>
+> 
+> It is a relatively simple mistake to run dtrace not as root, but
+> the resulting error message is not very clear.  Specifically, it
+> currently reports a very specific -xlockmem=unlimited message that
+> is no longer a common failure.  Generate a clearer message.
+> 
+> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 
-Fix this for `major_names access in the io translators.
+Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
 
-Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
----
- dlibs/aarch64/5.11/io.d | 2 +-
- dlibs/aarch64/5.12/io.d | 2 +-
- dlibs/aarch64/5.14/io.d | 2 +-
- dlibs/aarch64/5.16/io.d | 2 +-
- dlibs/aarch64/5.2/io.d  | 2 +-
- dlibs/aarch64/5.6/io.d  | 2 +-
- dlibs/aarch64/6.1/io.d  | 2 +-
- dlibs/aarch64/6.10/io.d | 2 +-
- dlibs/x86_64/5.11/io.d  | 2 +-
- dlibs/x86_64/5.12/io.d  | 2 +-
- dlibs/x86_64/5.14/io.d  | 2 +-
- dlibs/x86_64/5.16/io.d  | 2 +-
- dlibs/x86_64/5.2/io.d   | 2 +-
- dlibs/x86_64/5.6/io.d   | 2 +-
- dlibs/x86_64/6.1/io.d   | 2 +-
- dlibs/x86_64/6.10/io.d  | 2 +-
- 16 files changed, 16 insertions(+), 16 deletions(-)
-
-diff --git a/dlibs/aarch64/5.11/io.d b/dlibs/aarch64/5.11/io.d
-index b1958418..c153d5a2 100644
---- a/dlibs/aarch64/5.11/io.d
-+++ b/dlibs/aarch64/5.11/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_disk == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->bd_dev) % 255
- 				   ]->name);
- 	dev_statname = B->bi_disk == NULL ? "nfs" :
-diff --git a/dlibs/aarch64/5.12/io.d b/dlibs/aarch64/5.12/io.d
-index 8c2830cd..09968d5a 100644
---- a/dlibs/aarch64/5.12/io.d
-+++ b/dlibs/aarch64/5.12/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_bdev == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_bdev->bd_dev) % 255
- 				   ]->name);
- 	dev_statname = B->bi_bdev == NULL ? "nfs" :
-diff --git a/dlibs/aarch64/5.14/io.d b/dlibs/aarch64/5.14/io.d
-index 8c2830cd..09968d5a 100644
---- a/dlibs/aarch64/5.14/io.d
-+++ b/dlibs/aarch64/5.14/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_bdev == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_bdev->bd_dev) % 255
- 				   ]->name);
- 	dev_statname = B->bi_bdev == NULL ? "nfs" :
-diff --git a/dlibs/aarch64/5.16/io.d b/dlibs/aarch64/5.16/io.d
-index 8c2830cd..09968d5a 100644
---- a/dlibs/aarch64/5.16/io.d
-+++ b/dlibs/aarch64/5.16/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_bdev == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_bdev->bd_dev) % 255
- 				   ]->name);
- 	dev_statname = B->bi_bdev == NULL ? "nfs" :
-diff --git a/dlibs/aarch64/5.2/io.d b/dlibs/aarch64/5.2/io.d
-index 972917fb..5111df28 100644
---- a/dlibs/aarch64/5.2/io.d
-+++ b/dlibs/aarch64/5.2/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_disk == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->__dev.devt) % 255
- 				   ]->name);
- 	dev_statname = B->bi_disk == NULL ? "nfs" :
-diff --git a/dlibs/aarch64/5.6/io.d b/dlibs/aarch64/5.6/io.d
-index 972917fb..5111df28 100644
---- a/dlibs/aarch64/5.6/io.d
-+++ b/dlibs/aarch64/5.6/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_disk == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->__dev.devt) % 255
- 				   ]->name);
- 	dev_statname = B->bi_disk == NULL ? "nfs" :
-diff --git a/dlibs/aarch64/6.1/io.d b/dlibs/aarch64/6.1/io.d
-index 8c2830cd..09968d5a 100644
---- a/dlibs/aarch64/6.1/io.d
-+++ b/dlibs/aarch64/6.1/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_bdev == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_bdev->bd_dev) % 255
- 				   ]->name);
- 	dev_statname = B->bi_bdev == NULL ? "nfs" :
-diff --git a/dlibs/aarch64/6.10/io.d b/dlibs/aarch64/6.10/io.d
-index ffccf5b3..d6cb0c83 100644
---- a/dlibs/aarch64/6.10/io.d
-+++ b/dlibs/aarch64/6.10/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_bdev == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_bdev->bd_dev) % 255
- 				   ]->name);
- 	dev_statname = B->bi_bdev == NULL ? "nfs" :
-diff --git a/dlibs/x86_64/5.11/io.d b/dlibs/x86_64/5.11/io.d
-index a9f718dd..ae4b62c3 100644
---- a/dlibs/x86_64/5.11/io.d
-+++ b/dlibs/x86_64/5.11/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_disk == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->bd_dev) % 255
- 				   ]->name);
- 	dev_statname = B->bi_disk == NULL ? "nfs" :
-diff --git a/dlibs/x86_64/5.12/io.d b/dlibs/x86_64/5.12/io.d
-index 3101a4ec..0432b02c 100644
---- a/dlibs/x86_64/5.12/io.d
-+++ b/dlibs/x86_64/5.12/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_bdev == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_bdev->bd_dev) % 255
- 				   ]->name);
- 	dev_statname = B->bi_bdev == NULL ? "nfs" :
-diff --git a/dlibs/x86_64/5.14/io.d b/dlibs/x86_64/5.14/io.d
-index 3101a4ec..0432b02c 100644
---- a/dlibs/x86_64/5.14/io.d
-+++ b/dlibs/x86_64/5.14/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_bdev == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_bdev->bd_dev) % 255
- 				   ]->name);
- 	dev_statname = B->bi_bdev == NULL ? "nfs" :
-diff --git a/dlibs/x86_64/5.16/io.d b/dlibs/x86_64/5.16/io.d
-index 3101a4ec..0432b02c 100644
---- a/dlibs/x86_64/5.16/io.d
-+++ b/dlibs/x86_64/5.16/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_bdev == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_bdev->bd_dev) % 255
- 				   ]->name);
- 	dev_statname = B->bi_bdev == NULL ? "nfs" :
-diff --git a/dlibs/x86_64/5.2/io.d b/dlibs/x86_64/5.2/io.d
-index 20b6c3a9..415bbb4c 100644
---- a/dlibs/x86_64/5.2/io.d
-+++ b/dlibs/x86_64/5.2/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_disk == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->__dev.devt) % 255
- 				   ]->name);
- 	dev_statname = B->bi_disk == NULL ? "nfs" :
-diff --git a/dlibs/x86_64/5.6/io.d b/dlibs/x86_64/5.6/io.d
-index 20b6c3a9..415bbb4c 100644
---- a/dlibs/x86_64/5.6/io.d
-+++ b/dlibs/x86_64/5.6/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_disk == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->__dev.devt) % 255
- 				   ]->name);
- 	dev_statname = B->bi_disk == NULL ? "nfs" :
-diff --git a/dlibs/x86_64/6.1/io.d b/dlibs/x86_64/6.1/io.d
-index 3101a4ec..0432b02c 100644
---- a/dlibs/x86_64/6.1/io.d
-+++ b/dlibs/x86_64/6.1/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_bdev == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_bdev->bd_dev) % 255
- 				   ]->name);
- 	dev_statname = B->bi_bdev == NULL ? "nfs" :
-diff --git a/dlibs/x86_64/6.10/io.d b/dlibs/x86_64/6.10/io.d
-index de693c18..d67181b4 100644
---- a/dlibs/x86_64/6.10/io.d
-+++ b/dlibs/x86_64/6.10/io.d
-@@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
- 	dev_instance = 0;
- 	dev_name = B->bi_bdev == NULL
- 			? "nfs"
--			: stringof(((struct blk_major_name **)`major_names)[
-+			: stringof(((struct blk_major_name **)&`major_names)[
- 					getmajor(B->bi_bdev->bd_dev) % 255
- 				   ]->name);
- 	dev_statname = B->bi_bdev == NULL ? "nfs" :
--- 
-2.45.2
-
+> ---
+>  cmd/dtrace.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/cmd/dtrace.c b/cmd/dtrace.c
+> index 9c820686..ab5817ef 100644
+> --- a/cmd/dtrace.c
+> +++ b/cmd/dtrace.c
+> @@ -1036,6 +1036,21 @@ main(int argc, char *argv[])
+>  		}
+>  	}
+>  
+> +	/*
+> +	 * Generate a helpful error message if the user forgets to run as root.
+> +	 *
+> +	 * Note that DMODE_VERS has already been handled, and DMODE_HEADER and
+> +	 * DMODE_LINK are okay without root.
+> +	 *
+> +	 * Insist on root for tracing, but also for DMODE_LIST and even for
+> +	 * DMODE_EXEC with g_exec==0, since otherwise too many probes will
+> +	 * simply not be recognized, likely causing puzzling behavior.
+> +	 */
+> +	if (getuid() != 0 && (g_mode == DMODE_LIST || g_mode == DMODE_EXEC)) {
+> +		fprintf(stderr, "%s: run as root for tracing and listing probes\n", g_pname);
+> +		return E_USAGE;
+> +	}
+> +
+>  	/*
+>  	 * If we're in linker mode and the data model hasn't been specified,
+>  	 * we try to guess the appropriate setting by examining the object
+> -- 
+> 2.43.5
+> 
+> 
+> _______________________________________________
+> DTrace-devel mailing list
+> DTrace-devel@oss.oracle.com
+> https://oss.oracle.com/mailman/listinfo/dtrace-devel
