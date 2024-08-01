@@ -1,83 +1,83 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F041A0728
-	for <dtrace@lists.linux.dev>; Thu,  1 Aug 2024 13:23:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F4D19F475
+	for <dtrace@lists.linux.dev>; Thu,  1 Aug 2024 13:23:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722518586; cv=fail; b=kMM9VQ3attpNmgjWgtejffsoOBj7TsVlLdNmXy+rSXi+RoMBMo635WNvpVp9s6HlSRPIvjhdJCkLjt9e60c/CPrLwOsPUwOW5bkIX1g6NLNkKcr+KGmUfWlBzxEnk5lzhs/hzXW+TIwK6mwO/fYO3CcfUr9WZyUsmlMMIBZOAI8=
+	t=1722518590; cv=fail; b=YgTnWAVCSXh6/OEVd1ALRBXRlL1doJgXYo0RUWtqQfbuo5DcHMkIkWNbx0MnHNPxuVutXW4ZhbWFXuEq2y/aRIpqiNHU+sf+c9I80aD/i+GHcQo0Ib+MldciOrT7GwGRWlH1i4RtYgEDm6cPr4YyLlaoE5OVBdVXZyruaOwb9Sg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722518586; c=relaxed/simple;
-	bh=mO+nnZm9b3VaypaaOpiDV8zZVvYKMfo98Z+K3Fei/4g=;
+	s=arc-20240116; t=1722518590; c=relaxed/simple;
+	bh=mOKOWGELv1TtFrUA4ZoNDYknSujLqbHRUBPYcDtBYRw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=lnDjxBAuEiOrVgLRSNVD33CIer6A87GZiVv+Cwgl1zSgncwkrvUmNec3kPhtsNCXEDhe4bbRbz7iCeBkgsaSlOvoqbdTwq/t/4mDIcvRmCDF6huryKD5t7/g/JLjVXhp3E3tLBfcV7grMTXmJLAVtRUfNSl6Zqi0oHVpohm8w90=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=M9UY/qp8; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=WNR7/LnZ; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Type:MIME-Version; b=Ah9AwATZGTbqIUnmIxHcbUd9n4mO3G1rlBfwZMUrFTIiOcw7YDPq1fhnOufbA6FGcPbW3GPOVc3UKXYNyAZLiKhwI3R2xUZexQzqVIarK898DBbzbysm8OkzuNm9N57wqyzkpGkXAkbhz2kioRXK0/oQ7DpgPoFca+rBiZ0RrRQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=YkXiSQm8; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=wTF6hqMA; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="M9UY/qp8";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="WNR7/LnZ"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4717trUG023473
-	for <dtrace@lists.linux.dev>; Thu, 1 Aug 2024 13:23:03 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="YkXiSQm8";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="wTF6hqMA"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4717tYRP024306
+	for <dtrace@lists.linux.dev>; Thu, 1 Aug 2024 13:23:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:content-transfer-encoding:content-type:mime-version; s=
-	corp-2023-11-20; bh=hhjwoG/n6uogq9PCD92MuTHoHOgD8oc/qbXYeJCHCgc=; b=
-	M9UY/qp8FhN472e0TTOwhs4pEF+l60P8Jfqwb5RFFAuJGgD5BfShxTa01JfWQ4uU
-	6ITv+gNe42+ldO2Mcp2SOYI19JQ4DRUbtQvNf8MDPV3rKLGfed5hmKoPyViErmM8
-	NixatkmWZU7p31Kd4VYTUkeS6bBtC8UfwRLkig4Wyfjb2n6iN2lDC3U3o21hj7gy
-	+h7IsBj8rn6ZagRKCI/yTYGDZ6pPykiwkjspIHUVNCsKdxMZYVAf4V8CZbwDBndT
-	dsKUuMvEWpUoLrjPhEf9MxPh4zFw9B2fT9j7BQ356yis8qw0qc0s5Ts/70y8fdGF
-	7Ogcl45i5epcleL+/WH1mQ==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 40mqp21u7b-1
+	corp-2023-11-20; bh=t/BElYK5GPz0l5Rnaq98lDIyhrpkzx0Q8P2VpMtR+L4=; b=
+	YkXiSQm8u0USLyV4+szjJtzcGPpoviZPCFwsrluTKo159N4GyoslFgLsr8lyqQVk
+	7wx1R9upPa0vOinZ7jR6A6F9WUlb1cDnpgXykrKI8Qv7pzE7Y3RFIwl/PT0qO7YE
+	6u24Gh9MXX2cI8xtH4RKmGCThrnI5kwMM1LXkpw/l6tIZY97gnFw4rD0tlM0uTgO
+	ki7h62wj+haSag81REnKp3cCfoj30uRfJHIUk32qQXfqZijlB1JQkwqESy+wWebx
+	F4OovjVajAcvZNTpA1pseQG7ng/LglvGgWrdjanFUqDILX5y42u5h87bxQ+CrUlD
+	KiUpRFhiixuZBT8ygKVCbg==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 40mqacsr58-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 01 Aug 2024 13:23:03 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 471D257g029016
-	for <dtrace@lists.linux.dev>; Thu, 1 Aug 2024 13:23:03 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 40qmpt0mm1-2
+	for <dtrace@lists.linux.dev>; Thu, 01 Aug 2024 13:23:07 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 471C97GW037273
+	for <dtrace@lists.linux.dev>; Thu, 1 Aug 2024 13:23:06 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2047.outbound.protection.outlook.com [104.47.66.47])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 40nvp06gjk-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 01 Aug 2024 13:23:02 +0000
+	for <dtrace@lists.linux.dev>; Thu, 01 Aug 2024 13:23:06 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kf8GPblUoOAukNBXZyRfBurXWfd8OzdWQZGFmnqbfKGD0lUWmAJ3IEXpzpA3VUUOKgQpoOVzT9OUpMz3YWUlt2iSsb7SnxAy7nmQynx8AcuZcwSUzsCc+NlzO/V0nlpapuDxgycU7Uco6aVlFxHiHYec5SJaSLVGGStXF46T2fjETK+r4Bmw1R1BtLD0OwUxac0spIEzVYpaiZxV2Rz22EITM1lGE8Ad3Lv/gTfMZuLUmcYSk9jzI93ViQNnGO6n+Yy6AFVviy2gBKpducYlEVJC1p49DfwuHTG/BUt9TzHalPmolbHVrf2wx8Td1jMCDy24mM301h8/hb+TSY7Vig==
+ b=bZDVOVAWHeCf4OErrpeGSxIye5uJQZUZ2Co176vZuLwZc36MkYfhQWVl4ekBc0gYMEHL/pYsS2yfMlX0HQfNmOBkhF1QDEcOnxTOf5hhoDQAK+ZWx1UMf8VagHSVYL9QU35A5laZnmCMsQWIROFqhsiaMzxE9l6Friie0fObyrPuWt2netYzOBWLAryE0Yw8P/0mwuqVXWzgovC0RBpz9nB48xCDRDUjSrUCeRlT4Ud45K7mXUJkY1rukeFV9EWJdFZSE6s2ipcYKNvt+wOhjXjwKEGmUyoRvYELelcdDxWLOfYio7bDmFKAi1LT0wndd2uAVlsbfK1jMj3KBhm4TA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hhjwoG/n6uogq9PCD92MuTHoHOgD8oc/qbXYeJCHCgc=;
- b=oIncYgyB2qJaD5pINX/d6Fxpc1ksg72SAlGUDbrlzglScQJgPJn6YZr71KBmlu9fyyOE5X8BXCDQ3nTYETv7LkaIKF/xdwgJA9WXos+GE0gTi+Nd67Tch2l0BFHuyAHOFYr7XqtXhL6X7gVP9ELZdB3YBaKlzFFv2dcDXL3e8qXV7qbUdXHx3PttNY+1bjdhsb3EJoj/kJw0CAwxDRrtIl1W6MtQpgQOkzo1qQY3nYgdAqblwn2VK+iqISJtffc9TG2owTWZ5vC5VfAu21qI0q/sFmq866K6P+CNZpUPIlDAQDH+RQMskAD5QF8Xz7Fy5Nw4fFZP6bKdmtBhuFV00Q==
+ bh=t/BElYK5GPz0l5Rnaq98lDIyhrpkzx0Q8P2VpMtR+L4=;
+ b=D6XGZVUUII53LhKENFwYYS6EfSmouBUeQ59pjrNWCJno2iSUuGuRYhccmCpLwYO48Nh11Y5UjEKkkv284U2gAwGuaoGZ3Vgjq2VBNzSg5lP/3v7NkGkOeZxUAVn9UCzMXfxfxQ0fs6c0dns4+2LPZMlUA+OKb3e1wexaRPP0xB0Csh6jt++AUcGMvpA2KeLZRbUKqQdg7bcth2lhfVFaw6+p/A4wxcBI5WKj6swhEzqIMlULmQjprxnfnjAJOZeC7B+yv5Uox6hwd88Owr5paxJ8ELk2XG7fmYBIvTYiQwc0ABL2NdGgFv5egNeVgyOhIdTlxs2TB5Of0QuYIyQbow==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hhjwoG/n6uogq9PCD92MuTHoHOgD8oc/qbXYeJCHCgc=;
- b=WNR7/LnZeQUNlpXkqXJS6gHxrrTjQ1oUCN4wfGaIRkjt4GI8kWkW+osY6YBlthgJl/5IuN9XvIm6B7fSo5royQtGhYKugNG6iHs/foU8hOscRz0L0WTQ42tDrWPI5KIPQSUukWX3npyuvSWzUfOhY7v0a1Ls9t9Sh4ZqbogbQOI=
+ bh=t/BElYK5GPz0l5Rnaq98lDIyhrpkzx0Q8P2VpMtR+L4=;
+ b=wTF6hqMAeGLZPpAWQkDt+JCtIm6rc/yoxktRKpDG1Qhkdr9rGee1vJmSdawvU09dlHhno3jE3EFAMZPrKc+esxR+MvBwLicH88hT+OLymhRU4uzYvoaJVyggM9t2PVA6SRGTPcQWX+2bx0Ftzvfn+uefgUuSbg0Ew7jOsFHg980=
 Received: from SN7PR10MB6595.namprd10.prod.outlook.com (2603:10b6:806:2ab::18)
  by BLAPR10MB4881.namprd10.prod.outlook.com (2603:10b6:208:327::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.22; Thu, 1 Aug
- 2024 13:23:00 +0000
+ 2024 13:23:03 +0000
 Received: from SN7PR10MB6595.namprd10.prod.outlook.com
  ([fe80::4384:e7a8:8394:dfbf]) by SN7PR10MB6595.namprd10.prod.outlook.com
  ([fe80::4384:e7a8:8394:dfbf%4]) with mapi id 15.20.7828.021; Thu, 1 Aug 2024
- 13:23:00 +0000
+ 13:23:03 +0000
 From: Nick Alcock <nick.alcock@oracle.com>
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
 Cc: kris.van.hees@oracle.com
-Subject: [PATCH v2 7/9] runtest: remove obsolete kernel coverage data collection
-Date: Thu,  1 Aug 2024 14:21:54 +0100
-Message-ID: <20240801132156.286780-8-nick.alcock@oracle.com>
+Subject: [PATCH v2 8/9] build: make dtrace and dtprobed relocatable
+Date: Thu,  1 Aug 2024 14:21:55 +0100
+Message-ID: <20240801132156.286780-9-nick.alcock@oracle.com>
 X-Mailer: git-send-email 2.46.0.277.ge12b8151ed
 In-Reply-To: <20240801132156.286780-1-nick.alcock@oracle.com>
 References: <20240801132156.286780-1-nick.alcock@oracle.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P265CA0288.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:38f::16) To SN7PR10MB6595.namprd10.prod.outlook.com
+X-ClientProxiedBy: LO2P265CA0406.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:f::34) To SN7PR10MB6595.namprd10.prod.outlook.com
  (2603:10b6:806:2ab::18)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -87,170 +87,220 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN7PR10MB6595:EE_|BLAPR10MB4881:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6a9259f0-d73f-47c6-5261-08dcb22d1098
+X-MS-Office365-Filtering-Correlation-Id: 94c1a451-5dbf-4bfd-5605-08dcb22d1288
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?f0621EiZ3D3vlS6JZlUK8+RMUooasmuFcMHmcE9e5R9jqIZl3iUbLHwZx6h2?=
- =?us-ascii?Q?D722huaZn2DbYWYPHe2WsFQ/HwGKxkuknrIqlVKg0abZ1Y+RuSbb2iUbM2e7?=
- =?us-ascii?Q?l10LoiJjy1t8wkQpR6h3yshZ9Z4CUQ93QOtnV+50UXlkzmkk8eHsgHPvzKZ/?=
- =?us-ascii?Q?7a3bKcVYQlg6krsF78yfj+OuMqRVMivl9fBwrISwbGB+pDxqeL9o6GrFv42s?=
- =?us-ascii?Q?3wU27i1uo3m6tl4vweVHsmdxYmYnx013kR4Ae+1FeUb8sNTOXVqtZoFKqAvr?=
- =?us-ascii?Q?Puz5NWu+qBHgfyUHSGF7K2FUL05gLEPcWue1n4O2n7CkcnOwpFBDsaiOfYnY?=
- =?us-ascii?Q?z5o2K8RjqL8Vb723aZ5F7Mn2OjymGL4SrkE1BgYmUhBwurBql70trg4Ob7pN?=
- =?us-ascii?Q?kJqrSBdc6pPk7JL7EzZdhWK4ftNLZwBcfvGI40zXZz7Y1N8KyrSpFy9xUqvd?=
- =?us-ascii?Q?c8AZvLglSMMaKrTg91QlX48nyi5MqFhaRUv80DHaB+HKXCOqWUWl/dhiP0/3?=
- =?us-ascii?Q?ybXvGzgBQm6xwBmqnHp8x8SvsVCoVVdLXnZ2h8HWgOAZGwgQp6v/Q7Oz8gBt?=
- =?us-ascii?Q?inb7yTAKbuXh4p6nKWh8ulJn2dPEvTta9LmvpL/92fdauIZvOjAD6vsQ+dmK?=
- =?us-ascii?Q?kMKa78tBgWHBMZ4QxxTFDr6BDa22ozdK/UlIC1beFKl+7PuT6HdbKtjZ7dpy?=
- =?us-ascii?Q?XAG3ic96yRJ1VLxAadRY/NDFrG+RZ6ZqVqDaVlO8IFjYE3PFkKZIakuXwuoD?=
- =?us-ascii?Q?y+8cCoFObXgtKaWNuLO37cZ7EXcF4Wzaten5k1uN19+pOhlN6k3sATI8PDNY?=
- =?us-ascii?Q?UjE100/wiMSLCqZ5KYbDjK8oVSP5o4in1bGtye2riflSX1XmvOQK+Uku2A4X?=
- =?us-ascii?Q?Bp5cV7WnqgR5Niw0dRJ/btYePbty8xDFZbB3Pti2/KhBuIBZk0U7/LnQ+Lf/?=
- =?us-ascii?Q?ArF/apboKSRsb8Pz29Fh5Da08Fi67zD1GXAkLMAqGbJ2kL3UQra/m+6pU1AY?=
- =?us-ascii?Q?d0nsRlEuIxL/F6sFE3RerFiOnixHGBsQKOFBaKTgRlGtwKSMzqUsPX5EvVUD?=
- =?us-ascii?Q?tW7lqItP9ifipm/tUEegeG2RMTcTvGqzwHdwVZmVT4uOkagY678BOqG9vK7n?=
- =?us-ascii?Q?JTD8Mkxrq6nryBMR0OSkxdJJ+QrUvU56UStWOhhejHzgfiss67Fn5c8qBWBy?=
- =?us-ascii?Q?flOyqrJ/3cCL9kV9YOADcr0LUV8YwCF9URuzUmbh2v66FafiEMpQhU8yLEnJ?=
- =?us-ascii?Q?Z1d2D0H1koIkEaRxxdXueCywDk5NgfHVaK2GOZzoUuMkFafH06YjHOUf7IEu?=
- =?us-ascii?Q?OG/dzfKG1LrWeyo1YfpWuK+SXFp9jDwLJxCm5vuUHYCVLg=3D=3D?=
+	=?us-ascii?Q?/SbKQAaNiGCQ6gMtPbsHUPVxlxr0XKcbgDfyJS11GYdQa8rQm0nHR61ar371?=
+ =?us-ascii?Q?M5ZtSBb7tp9hZ6mB2k3Jlr84rtdPBooaoFbwSdMfHpracvtsSYO0puFMIHCz?=
+ =?us-ascii?Q?5NEesnn47Q9XvSEqCP5QUbMRfU+yqGKGwiQkia+OivAXmvzC1V0Ulahkr38E?=
+ =?us-ascii?Q?z/zY8q9Uu9MN0eTdi4QIw2jvS4XcBTwZhgSKloHxFRHfrikeQxnbC8V/QozE?=
+ =?us-ascii?Q?glMX7XeVlsxJ67tD9Qjl5YbhusQHgdyiQH/uozjSosH81pv1YqhLUIDmqwfQ?=
+ =?us-ascii?Q?emsb01FekxHJ8oyuB90m40vu7JR2oX3BnFgw9+hXQprhF71sLtJiaJuWJjVA?=
+ =?us-ascii?Q?Xzg2Iu2xfsP0QZYMcMMfzl7yZ86VBNzNKEdKXVEZuqSCEma/+4eBf4GRSGg2?=
+ =?us-ascii?Q?ACn1Ij6xsWqidl+JYVEiZNlXWFNgBoI6cFqViagwbI3C6qG+0xU7CsPVtfh/?=
+ =?us-ascii?Q?g3GiULS3zotDb8mO82Ei0m9SoTvfIO2sdSe+OPa5yv60rXYqVzIVV56T6sIn?=
+ =?us-ascii?Q?L3XZ4FDsYFbSGe+Xdh90T49cfS78QIj510ngaJkWJLeL8FJwTlxTPDWATif3?=
+ =?us-ascii?Q?kF6+mdBMpCe4qe68PMVaJidnSyGUn6nPjNfB3VDQUpHFDJvRtNgxjM/IqTRn?=
+ =?us-ascii?Q?xbetvNJ59Hpap0t8VJtT86cww2jghZnNrAu9yo5HfDT+XPuSXGSd4NXac9Kx?=
+ =?us-ascii?Q?wef3KNabnvVRAKEgC0za/LzrKJe46fm742WxSzpp1TR5gpurUuD4xtz2XVMg?=
+ =?us-ascii?Q?AFv3t+rgecn8CbLiX5WuprDtLZ2vf4cbkkR6tp7cf/+wL2iwsQ7Ehie1soH7?=
+ =?us-ascii?Q?ujQ4UnbvmhJ2Mt20h5E8mDuGFkPuhXOTyyIBfa1LPbuFDC/19lvQNgzqD1vJ?=
+ =?us-ascii?Q?sUKhIvtfDnq4XDpAY11cYb2PvIIQ6I+5AeMORr0iC2KEe6jVPNiUNe08vL0D?=
+ =?us-ascii?Q?rVx9YK67t0SnXMFT3oCJVKo9kpantGPDzul5F9kzyq9X4jJPbFTkpT11nr+m?=
+ =?us-ascii?Q?4W2taomzOqGwPccRtx6Zk2ZEx6FPo9Bpla7/yRnOAnFEPJELRatmSqsf0D/I?=
+ =?us-ascii?Q?n+Jnqyapdj0UYqCSGU7mxYa5EAalj/4fae8VEz2MAf+8R2mRhHdkViUWSk4P?=
+ =?us-ascii?Q?bNMa376d5jAv5etNMn+f4EN9eGHNOaBloP5IqckzJF1+ucNnLd0q+d4BoOCV?=
+ =?us-ascii?Q?C0M6d9o9zanRKOOcE8ierBZ1GwgMkgeYKWnN7fQ6acytqqwNLyIBeQ1n5VSL?=
+ =?us-ascii?Q?5CuD1ullc0UJJhAxXnbgfXEyqclZFzTlteVQ861YVcivmcvEdiy2uNj0kWiz?=
+ =?us-ascii?Q?DsV3fjUf0Z/snCb8E3m7vE7KdxTaf9tcA6WGnOHF3eFI67UTCkFMgE5fJsW5?=
+ =?us-ascii?Q?5UZ3h9U=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6595.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?yJzutPWUnIzYexxh6OqDzwbPOQCZWdgv4XxW9EV3IBzf3BgiKJHFcFXr0JKd?=
- =?us-ascii?Q?F6o70N2oUdUq8475HOqqk3KiZDz4h9jmu5GaR/6JJUYvqd3dDEJh/NXihBsj?=
- =?us-ascii?Q?7/wcMogafrtoC7se0fxAHAoQoW2KgHHO03fwiEvaOdQFcLFCESzhdtu5gcjp?=
- =?us-ascii?Q?yKzDp7Lj7+V3exEbPj+fGkV3XI9QlgS6LoKRKCu0aWIV8pcSWsRthUekQ5rz?=
- =?us-ascii?Q?126054NLGZcEdsYu4cE6FdWCO9QbCurdHVboyWcsoRHbPcWLDKWL6Bmi4qRn?=
- =?us-ascii?Q?Z+ev0CA2tEMFqs9l03WVHbktgoBzs0clSM35biqCQvzb/wSm1sofbJtBJjzI?=
- =?us-ascii?Q?W+lVREDllKA9jfuZb0EXWz+FpOmhsbqUuEbrMOIkjNtbzADj80qW7XUdhMRD?=
- =?us-ascii?Q?BqIEn6gr9O21ozMx7GH4yNMxxBHhnxttr6MN1wjqpYJ0g0mqHvONdyZ7R0h3?=
- =?us-ascii?Q?KQVqCYjZMk4N8AE59lospo8DIduUHjwnlWoR84FxuBdq6en/kVZc8XSf+cne?=
- =?us-ascii?Q?VDlPRxemrrt4BwLMDe5cR6cHMmPkmeIp1Xxr42eQyRe4trjw5oN+nkTrqVZM?=
- =?us-ascii?Q?O79QKDeJF0JSHwD+NNQTyP2/xG98BJ5z7rrAJ0Nj4dQcCrMTI0RN8Jf0rjUn?=
- =?us-ascii?Q?vvcfgIDO3oYnmVcLz9cUIY+epnCJlH4MgerKyL80l/bvkpSiAJzqLs4ZRpYg?=
- =?us-ascii?Q?6lHpraU+nRHeWnACPps8A/2JQskQQHsl/2wLsXbkSLHL64NMwh4CTQtEl8Ej?=
- =?us-ascii?Q?b/GLfryObN5oJMnq8yZnqBeGIl6Eh6WD83vZaVJU5hmhUZXbJNFXZRdQdlap?=
- =?us-ascii?Q?r0vuCfvXZY8yJPJ+h7Z0u4tgSwLZJ7KrkYxzQnLjn/YilFhggw1LE11weAXV?=
- =?us-ascii?Q?UYt49du9Uc8+0nD6xChj/XMeWBLsgmgBhDMPbx7qXmqDv1qGxkDMvoFXRgEe?=
- =?us-ascii?Q?H46tCPH6TiErJzhaP1VwSf04CZaog6T6lUmdO83PXZCMQg9EiB6oZHhlVn1U?=
- =?us-ascii?Q?QEkpkxoCAAo3LyThShYVp2AFB8D6G8aVTqD5TPK2R/bFa3JCXghpYo/ppvR1?=
- =?us-ascii?Q?vKJB4ql81Mv37+qhdh4HL/ytszHpSY/fwQ+WIYg1gliB26cR5hbxhiuX0SrP?=
- =?us-ascii?Q?dHvF8FXhTBtc14Te9zYAl9CQePJUPPx+93rSkAWCyfoop/o6fQlTQ0SI/TE8?=
- =?us-ascii?Q?CObzGy6J3i51HLoq0u3O/cEwg7AhTP05jFlqfp1VpANurMjTKcCOn1W+DLxh?=
- =?us-ascii?Q?fxX/RrLewrS+XLtvtxlzA5z+FBDBWt6pQcLycYGTtJJS9fpr8SaazGWH30PA?=
- =?us-ascii?Q?t1CK1BycKgD+ZoMTElJc+dHRvs2CbaHjDDaFo7vySMYIfR3sV1Yz4VzajuGy?=
- =?us-ascii?Q?iKommSPtdUzwh1ZyUEd0nfUgz1/FQr7XInHc36tOrnQLftyE5GRLblOyeFtt?=
- =?us-ascii?Q?hTw70rB3n7rb6KCqHI0np3ZhTN4cAu78jAk8PZ0DfY2lp4bmrCoV58I4gaWa?=
- =?us-ascii?Q?ZieZkZQRCKZugzXD10f3wBVhjfV9dNjo/VCOwbLRyGGRAFILuZ8dAlxzqLb0?=
- =?us-ascii?Q?rh9ZArNKnxK14vsUQLpwNIUrCbdygEPmAb2bxWFa1Mi+4+oQZroDeGg+wr+5?=
- =?us-ascii?Q?1w=3D=3D?=
+	=?us-ascii?Q?2/LcemieBhsasicAIlVnhaCv9fthkKXWzVhc8tOEvOX5nyvjvPsu5vl2yKw3?=
+ =?us-ascii?Q?y+o+esfVOQWllvpvHF84Tsqxwu9kOTPLkAv+lhvZdGJ5myCGH/Jypz77oi8y?=
+ =?us-ascii?Q?HZAc6TwRD6rfBtx+2Egbk5DXXuaqUcIN8yr+O1na8MRGwCCccERMx8Kk6lF/?=
+ =?us-ascii?Q?/r2VTUFg/qsdgJHTKaOwxtFM4187FDx6fGdNHutHmFdfz7DjcU1UUqz82DLz?=
+ =?us-ascii?Q?tVlY4CBPFMdTX0Noq0hxOf5pHXFp4pUnDN4xGx8BS9Z3owHxR0yLCYRGOWKK?=
+ =?us-ascii?Q?vqJOtAShNZ7f18xJui56be9guJ48VlD15OQg66CwBMaaA8zLJCsCkqxz2QQ2?=
+ =?us-ascii?Q?aTi8FBIQjltn+kJRWI2EaWZEe4mZLSey9+S5rCEDPoQQcGgxoIbgH5TBvQR5?=
+ =?us-ascii?Q?BsDSfjapwTkDBlmL/f9YjQjoEXHhvWxdoern3JOTYV/Ho3RoLj8XSxSXNe1m?=
+ =?us-ascii?Q?ctDK1+XNDDuvio4uWJ5r9bll0b1FRIgcQoc8nz3d7nuybYSX2vnqQ9EalN0r?=
+ =?us-ascii?Q?Wg+ni/bGZuZ1Iho3vt4nYvB/KWrsosbW5z/DBn1K0nahjsOr0oKNgChyZMtY?=
+ =?us-ascii?Q?Isv75O9diLTjbHq9y+XY/W0c6xxNJ5kR7xvLVLCHgzQ0MU19106X+5885Kga?=
+ =?us-ascii?Q?UvGQvE2QHwwC4jZkVk5+3QeT1yMAnJ6uNaSMSR9KEMetUgqyqnJ30SKYGLBa?=
+ =?us-ascii?Q?wjK9vMVgEFtC70Gp3duWZGepvUwvVDXmLFl97ypgUXZ7+3r/e54PFfHIzQK+?=
+ =?us-ascii?Q?EHDgswYNzObMe6TP8nz89sf1TkpzyIw/bzueK7v8/MJ+pTM+F35MhbuVREE+?=
+ =?us-ascii?Q?9yFrgRbuIUanpQ6wm2pWv4wdUBrTBh31ERjJe0NdG25fXE7RX95rNygXQfmN?=
+ =?us-ascii?Q?cXHlbDENCwzTnxIw99/5KYO5B5WFi3RY23DbM/r7OxwDdZKdIYwNPjSrz2LZ?=
+ =?us-ascii?Q?mgU1Rfj/SVKF23hqqJTIZdDlAuvtxANh7ESxzjIK93oE+T5YlRnSlJdwROTK?=
+ =?us-ascii?Q?pmKHtyOG1Xb09fGsJ6cOlCfbREd9CD5tJXtSgt6pswy13iHYAUpF3QXAeIUR?=
+ =?us-ascii?Q?NnG8LpPmo6SWNh/vuRHfWJSyYP+FJtEW06gEHNHkshFrW3KpP5J9tZkpAm8h?=
+ =?us-ascii?Q?H2BQAQVJ1TrBUAE5CFCA5ESVnAeQMH3APuqv4UFQg8tvn4bC7nKA6nEgawVN?=
+ =?us-ascii?Q?NAr9GwUhSL8tmNQzWxwy+NHYeZmlu+mL+2n+peOUAAoHkbHKxU50kC0NqbKf?=
+ =?us-ascii?Q?35pD/3w/Ynfkf9KrzJ98b6k7HzGszeNGA0CmlfSvPiIoqlTAedx52mmu5dkl?=
+ =?us-ascii?Q?RBa2/baikeB8TX/sq59Z5JlTGLseQl6Sg6JIOK6bIhP9w8PawoSVH1PAqYrq?=
+ =?us-ascii?Q?J8svXBb1GuQyitgRVWtn6pb6muCrMMz1w0e4Kewz41IUHfj5nlMC8uTy5lIy?=
+ =?us-ascii?Q?hx5LxTMFCpnyzROcU1uFy3CLiVDq+QhujfFShceyafXcAw9YjmfBVHz2Cndv?=
+ =?us-ascii?Q?/RlU6Ox14sGEgdA0HzCxz+RZNWeNTa1G2L9QMUQXPDf9HBbp/nCzHm1V7Wr4?=
+ =?us-ascii?Q?Z9kDsG19FZ1ZN2BGJOWwOIusUmCLDHVxEFxWq3wVVdk7Kky33KNnPiPQlCEg?=
+ =?us-ascii?Q?IA=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	Q5xK1/GtfOelgg2D0qc7H6xVnBKK1RYSvMsDDf8S7nN9Ptb3QRnSUlqooJnkR/bEfTOa3Ehp05NM24ILV1GsiP3sRmZB+EL7h0xWbfEvTmlfFoCKIkaQClYhQkyvb3zyH75DHn1Qn1h/mxyDmxxGujy+xEl0r/6plVkW5wbCj65roFN1PQrQ8KzSjGAyuMEF3Ly+vHjZIzM6lpZXh8FgiqQBX0sHEZVN5ufgtGewc2pYBijDHTbDKtusjJO6Ozy805beUuTPpdkxbVWbvFuk2wEG71xlyARLGtz5bwVzEe5cxDSfEvA0bKLNhJ+UvIvW2wArnYu/WqF3JItKQq7pt7hRV4IdewsVe9RLrxi5UGyPEFdSTiJqBvWk96fF0Ao5hlSKxmTMRA0gfzmms0Fx5wx2sj0UcgxBQV3x8M8UrSc9IKFKxzNSrNlEkM0snP6a6HYHRAzPDfyx9r7Cba7UfjTrv92A4zzEFFKvFRSDw5UG1aXyW1JXWdsEHaG09ERpTfCM6q2JNYWqr3fUAXDhKhqnzm/KPsq0USAtOwFntHZ5b8ntwmXrhXogWZM+KGujlouHtB8uvp4T7B5VIzT8TF4ktq2ZI5iQ47hBLWSAm8o=
+	Tz0TU9JkQBfjKTrPsn8H1ae+26u19qP8PfggcoDLpql7R/hy5rliSZF24lEUiuJAhsipM+uX/qqxBjUe2k9mbe4Rh5/MpkA5V+Kt79Yxrn0gjb7eWX/zBkqxtvUsLnYIPGv+mnIAiMYO8GIrs7nEdPxwayYCiskVhQageUFnR5cx84j05xJ44T+urKYzd8N9Sgq8Rs8wTrDdtOOFfvFZ91619RyJtxZ13scd7W0TU0g1tfoOGhmcX+VtM3IqYiCSOqvuufzb9h8JQGbrteW5C7dL3OFpl/uNVo6y++Ud7SftIJYza+rkeF1EjfIAaCaRIPYJwb3jiZvBR+0fp8cyeU5zEcaGntu+ufPHtXc9NKNonz6A4OW9xuibs35U1cKqKnbDGtmXm0NEyWsKVLvoT9NDJbkQxzj5WKmxknIMAlWC+90L6B+VVMjRZ41y0FGK9h/BdF+wLvQti2lh/fjUKdJ+SaIvx2iyA0OlexixwofBZJfutDaO+1rEsasT+O3/8fj8c+47I0/wZTeEX8wG0QYNOKlZlW+kEkgXkgpOxgKWDaT0+eRhZ/PlBk1sl+yGjO983U8nGN10wM6gL2uKF2BjyD+wXOJcrQ5WMjlo3IQ=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a9259f0-d73f-47c6-5261-08dcb22d1098
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94c1a451-5dbf-4bfd-5605-08dcb22d1288
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR10MB6595.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2024 13:23:00.3251
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2024 13:23:03.4729
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cJf0hfz9XgMLPWrJIkb+QUCs4yWFwAQEjT6uJv+PtQWTs1dHomLFtCqRLUw1z4Pd4H8EYkFhD2ljMj/9IVzjsg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: KMBo7cy8op84m3Cu5kj24IzZa4MweopQ+BEW24YOrNEGFuxBh+3zoK7d3rFen2/sflDo9CUeXvxJ1E4/7OpdrA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4881
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-08-01_10,2024-08-01_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999 mlxscore=0
- malwarescore=0 suspectscore=0 phishscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2407110000
- definitions=main-2408010086
-X-Proofpoint-ORIG-GUID: 7lvBQaXHg14WaEaE4Hv5v_1AzAiLAjO_
-X-Proofpoint-GUID: 7lvBQaXHg14WaEaE4Hv5v_1AzAiLAjO_
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0
+ mlxlogscore=999 mlxscore=0 suspectscore=0 malwarescore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2407110000 definitions=main-2408010086
+X-Proofpoint-ORIG-GUID: kErnb5-tMuSvzmC9xf-ARrfzOqh4oN9o
+X-Proofpoint-GUID: kErnb5-tMuSvzmC9xf-ARrfzOqh4oN9o
 
-The DTrace kernel module is long dead: we don't need kernel coverage any
-more.  Delete the example runtest.conf as well, and drop loading it, since
-it served no purpose but to point to the kernel tree used for coverage.
+The majority of the complexity here involves figuring out what to
+do about the systemd service file.  We presume that if the user
+is installing such that the service file lands inone of the two fixed
+locations systemd knows how to find persistent service files in, or
+if the user has explicitly passed --systemd-unit-dir to configure,
+it makes sense to install the systemd service file (because systemd
+will find it): otherwise, we avoid installing it and print a
+warning that the user must do so if dtprobed is to be properly
+started.
+
+Provide a new installation target, install-dtprobed-autostart, to do
+so.
+
+(Regardless, the service file is changed to substitute in the real
+installed path of dtprobed.)
 
 Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
 ---
- runtest.conf.example | 10 ----------
- runtest.sh           | 28 ----------------------------
- 2 files changed, 38 deletions(-)
- delete mode 100644 runtest.conf.example
+ Maketargets                                   |  3 ++
+ cmd/Build                                     |  4 +--
+ dtprobed/Build                                | 36 ++++++++++++++-----
+ .../{dtprobed.service => dtprobed.service.in} |  2 +-
+ 4 files changed, 34 insertions(+), 11 deletions(-)
+ rename dtprobed/{dtprobed.service => dtprobed.service.in} (95%)
 
-diff --git a/runtest.conf.example b/runtest.conf.example
-deleted file mode 100644
-index c92aa6b96cff..000000000000
---- a/runtest.conf.example
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# Test configuration file.
--#
--# Copy this file to runtest.conf and edit it.
--
--# Kernel build directory.
--#
--# If this is not specified, kernel test coverage information will not
--# be available.
--
--# KERNEL_BUILD_DIR=
-diff --git a/runtest.sh b/runtest.sh
-index 817f4a90487d..16a1a77bd394 100755
---- a/runtest.sh
-+++ b/runtest.sh
-@@ -21,8 +21,6 @@ export LC_COLLATE="C"
+diff --git a/Maketargets b/Maketargets
+index 11ad9fed4dcf..5b4906a86d26 100644
+--- a/Maketargets
++++ b/Maketargets
+@@ -14,6 +14,9 @@ help::
+ 	@printf "dlibs                          Build translator files\n" >&2
+ 	@printf "install                        Install (DESTDIR supported)\n" >&2
+ 	@printf "install-test                   Install testsuite (DESTDIR supported)\n" >&2
++	@printf "install-dtprobed-autostart     Install udev / systemd rules to start dtprobed" >&2
++	@printf "                               (done by make install unless prefix or sbindir" >&2
++	@printf "                                are changed)" >&2
+ 	@printf "clean / realclean              Clean up build tree\n" >&2
+ 	@printf "TAGS / tags / gtags            Make tags files\n" >&2
+ 	@printf "\n" >&2
+diff --git a/cmd/Build b/cmd/Build
+index 55c622c19dc0..68800fbeb5fc 100644
+--- a/cmd/Build
++++ b/cmd/Build
+@@ -1,5 +1,5 @@
+ # Oracle Linux DTrace.
+-# Copyright (c) 2011, 2023, Oracle and/or its affiliates. All rights reserved.
++# Copyright (c) 2011, 2024, Oracle and/or its affiliates. All rights reserved.
+ # Licensed under the Universal Permissive License v 1.0 as shown at
+ # http://oss.oracle.com/licenses/upl.
  
- arch="$(uname -m)"
+@@ -36,7 +36,7 @@ if [[ -z \$$_DTRACE_CHECK_INSTALLED ]]; then\n\
+     export LD_LIBRARY_PATH=$(objdir)\n\
+     dtrace_cmd=$(objdir)/dtrace\n\
+ else\n\
+-    dtrace_cmd=/usr/sbin/dtrace\n\
++    dtrace_cmd=$(SBINDIR)/dtrace\n\
+ fi\n\
+ \n\
+ if [[ -n \$$DTRACE_GDB ]]; then\n\
+diff --git a/dtprobed/Build b/dtprobed/Build
+index 0f5d1c08aee8..9132c3e31c8a 100644
+--- a/dtprobed/Build
++++ b/dtprobed/Build
+@@ -42,17 +42,13 @@ dtprobed.c_CFLAGS := -Wno-pedantic
+ seccomp-assistance.c_CFLAGS := -fno-lto
+ endif
  
--[[ -f ./runtest.conf ]] && . ./runtest.conf
--
- load_modules()
- {
-     # If running as root, pull in appropriate modules
-@@ -644,15 +642,6 @@ if [[ -n $NOBADDOF ]]; then
-                  --quiet -o $logdir/coverage/initial.lcov 2>/dev/null
-         fi
-     done
--
--    if [[ -n $KERNEL_BUILD_DIR ]] && [[ -d $KERNEL_BUILD_DIR ]] &&
--       [[ -d /sys/kernel/debug/gcov/$KERNEL_BUILD_DIR/kernel/dtrace ]]; then
--            rm -rf $KERNEL_BUILD_DIR/coverage
--            mkdir -p $KERNEL_BUILD_DIR/coverage
--            lcov --zerocounters --quiet
--            lcov --capture --base-directory $KERNEL_BUILD_DIR --initial \
--                 --quiet -o $KERNEL_BUILD_DIR/coverage/initial.lcov 2>/dev/null
--    fi
- fi
+-install::
+-	mkdir -p $(INSTSBINDIR)
+-	$(call describe-install-target,$(INSTSBINDIR),dtprobed)
+-	install -m 755 $(objdir)/dtprobed $(INSTSBINDIR)
+-	mkdir -p $(INSTUDEVDIR)
+-	$(call describe-install-target,$(INSTUDEVDIR),60-dtprobed.rules)
+-	install -m 644 $(dtprobed_DIR)60-dtprobed.rules $(INSTUDEVDIR)
++install-dtprobed-autostart::
+ ifdef HAVE_LIBSYSTEMD
+ 	mkdir -p $(INSTSYSTEMDUNITDIR) $(INSTSYSTEMDPRESETDIR)
+ 	$(call describe-install-target,$(INSTSYSTEMDUNITDIR),dtprobed.service)
+-	install -m 644 $(dtprobed_DIR)dtprobed.service $(INSTSYSTEMDUNITDIR)
++	sed 's,@SBINDIR@,$(SBINDIR),' < $(dtprobed_DIR)dtprobed.service.in > $(INSTSYSTEMDUNITDIR)/dtprobed.service
++        chown root:root $(INSTSYSTEMDUNITDIR)/dtprobed.service
++	chmod 0644 $(INSTSYSTEMDUNITDIR)/dtprobed.service
+ 	$(call describe-install-target,$(INSTSYSTEMDUNITDIR),dtrace-usdt.target)
+ 	install -m 644 $(dtprobed_DIR)dtrace-usdt.target $(INSTSYSTEMDUNITDIR)
+ 	$(call describe-install-target,$(INSTSYSTEMDPRESETDIR),50-dtprobed.preset)
+@@ -61,3 +57,27 @@ ifdef HAVE_LIBSYSTEMD
+ 		systemctl enable dtprobed.service dtrace-usdt.target; \
+ 	fi
+ endif
++
++install::
++	mkdir -p $(INSTSBINDIR)
++	$(call describe-install-target,$(INSTSBINDIR),dtprobed)
++	install -m 755 $(objdir)/dtprobed $(INSTSBINDIR)
++	mkdir -p $(INSTUDEVDIR)
++	$(call describe-install-target,$(INSTUDEVDIR),60-dtprobed.rules)
++	install -m 644 $(dtprobed_DIR)60-dtprobed.rules $(INSTUDEVDIR)
++	if [[ "$(SYSTEMDUNITDIR)" = /usr/lib/systemd/system ]] || \
++	   [[ "$(SYSTEMDUNITDIR)" = /usr/local/lib/systemd/system ]] || \
++	   [[ -n "$(filter SYSTEMDUNITDIR,$(CONFIGURED_VARS))" ]] ; then \
++		$(MAKE) install-dtprobed-autostart; \
++	else \
++		echo " === WARNING WARNING WARNING === " >&2; \
++		echo "systemd service files for dtprobed not installed." >&2; \
++		echo "USDT probes (and the testsuite) will not work unless this is" >&2; \
++		echo "done.  Try make install-dtprobed-autostart, but this may not" >&2; \
++		echo "be enough: you may need to manually move the systemd service" >&2; \
++		echo "files somewhere udev and systemd will find them." >&2; \
++		echo "If there is already a running dtprobed, it may or may not work" >&2; \
++		echo "in conjunction with this DTrace." >&2; \
++		echo "Configure with --systemd-unit-dir to override this decision." >&2; \
++		echo " === WARNING WARNING WARNING === " >&2; \
++	fi
+diff --git a/dtprobed/dtprobed.service b/dtprobed/dtprobed.service.in
+similarity index 95%
+rename from dtprobed/dtprobed.service
+rename to dtprobed/dtprobed.service.in
+index 8e491fe28ad1..2e590701d03e 100644
+--- a/dtprobed/dtprobed.service
++++ b/dtprobed/dtprobed.service.in
+@@ -12,7 +12,7 @@ Before=basic.target
  
- load_modules
-@@ -1592,23 +1581,6 @@ for name in build*; do
-     fi
- done
- 
--if [[ -n $KERNEL_BUILD_DIR ]] && [[ -d $KERNEL_BUILD_DIR ]] &&
--       [[ -d /sys/kernel/debug/gcov/$KERNEL_BUILD_DIR/kernel/dtrace ]]; then
--    force_out "Coverage info for kernel:\n"
--
--    lcov --capture --base-directory $KERNEL_BUILD_DIR \
--         --quiet -o $KERNEL_BUILD_DIR/coverage/coverage.lcov
--    lcov --add-tracefile $KERNEL_BUILD_DIR/coverage/initial.lcov \
--         --add-tracefile $KERNEL_BUILD_DIR/coverage/coverage.lcov \
--         --quiet -o $KERNEL_BUILD_DIR/coverage/coverage.lcov
--
--    genhtml --frames --show-details -o $KERNEL_BUILD_DIR/coverage \
--            --title "DTrace kernel coverage" --highlight --legend \
--            $KERNEL_BUILD_DIR/coverage/coverage.lcov | \
--        awk 'BEGIN { quiet=1; } { if (!quiet) { print ($0); } } /^Overall coverage rate:$/ { quiet=0; }' | \
--        tee -a $LOGFILE $SUMFILE
--fi
--
- if [[ -n $ERRORS ]]; then
-     exit 1
- fi
+ [Service]
+ Type=notify
+-ExecStart=/usr/sbin/dtprobed -F
++ExecStart=@SBINDIR@/dtprobed -F
+ Restart=on-failure
+ RestartPreventExitStatus=1
+ ProtectSystem=strict
 -- 
 2.46.0.277.ge12b8151ed
 
