@@ -1,78 +1,82 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91B31DD384
-	for <dtrace@lists.linux.dev>; Mon, 19 Aug 2024 23:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA44315AAB8
+	for <dtrace@lists.linux.dev>; Mon, 19 Aug 2024 23:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724109045; cv=fail; b=mYI5ILOtm6xTG1W4SHbuRLKU1SxRLPM8fjbK2SWO1MSGLeJvDfVbImhzshLfYoLzc/k3YbuYnjKzgpHahDdjJBeQ9iHDpI3AeGjRI9UTJ5l+0J+N1J5bsfKAv2qG10A3WDQoVyB7gtV48NuZCe08oyRnH2u2xFGPkpYkFJN+c7M=
+	t=1724109127; cv=fail; b=q3A8EEwZBIyJ7o2/AK6KWgnnd229Bah2F3XjkaZyoX8zK2Y5jbVx7yXRnl89mSUhhIhY9n1QY8FsUkKXLVPgZxx+3WyZfQtT46qrlFOjJ6e9DfIkUiHg9aPxm5YfPL8vzPb7/jmKiTwThJ1amRZqD3RkRbEWgc9cHYjydB8hZBQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724109045; c=relaxed/simple;
-	bh=TSjFUYYF3L0pcnqQqE67S3fAYGTyntk1rd3rCoqUtb4=;
-	h=Date:From:To:Subject:Content-Type:Message-ID:MIME-Version; b=tRYsv5eahryCtz1VPFz3irrpm3eqRMwUH/hOdDmRMrPgBCz59B9AKqkTy/8UfjWGRgdcs7QkhFv8klWFp9oNrc2qXYHUMmKqYCk0NhKn4l5+uAt77j+BLriY33HZ6uszCrGQXeHqISBRpTxySlDtsn0+YnCNfp8f4Q35Psa9taE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ScBJwmR5; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=LMxtXIHl; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1724109127; c=relaxed/simple;
+	bh=2Gkv63JPAfmrApvg+tu+MPk5FOLKJsOcVSW2DrqhrvM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=sWci1sdD1VPUXG4r9bu1LMa6StLO/sUBsYmZyBERFjSXbSI5kev/mkxy+eC8N8MaIPWpGmoMPBUKrfuimvUQnmOUCmCJg783vJ1E1yfD7eOhWo7BxsIThn9ZyO9B34JGRtu5R4jVmDP+kK5cPYp9F+4pbppRkCB5Fet7eGr7a+4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=X+gH/lcc; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=zWvIO/FI; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ScBJwmR5";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="LMxtXIHl"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47JLKTHe008458
-	for <dtrace@lists.linux.dev>; Mon, 19 Aug 2024 23:10:42 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="X+gH/lcc";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="zWvIO/FI"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47JLKHUj014732
+	for <dtrace@lists.linux.dev>; Mon, 19 Aug 2024 23:12:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	date:from:to:subject:content-type:message-id:mime-version; s=
-	corp-2023-11-20; bh=7O/L0KZ5XFEAlb2h30VzIyQqIbt5i4dj3SDkUtKqkHk=; b=
-	ScBJwmR5ZwR/Bju1nHuMEQgPbV9RGxsqJeOKe4VAZec5uZNqbof+Z5R6VJ2RJlYO
-	sgDmaEqn6Ofdz6gYx61PaVTn1+3TRlGRRLu5F8L6iiVnIIN/1Wl08qMSDgL4Ez3R
-	7VqeVlA49G6zgtphrGVG2vDY/gThvINO2v3oEvis7vMX6qHbwN7vNKT0Xq9G5Dn1
-	UsoaB4JPrXwyZ+J2SRoIFze0+YeL0yzjGLCQCIIqw+24T9emhLe2+P+1HJkZ+wB4
-	64Cj2jslmNuf2bKpSpD+VaK9piCR7GlAulWy1SCMxYkLDqbrVTRMhDWe4hkRrL2N
-	q7Nubcd6FekTcCgeEekqTA==
+	date:from:to:cc:subject:message-id:references:content-type
+	:in-reply-to:mime-version; s=corp-2023-11-20; bh=jIx2Fq0m1rOoaoN
+	aV1FJu9iXj2zAFI93UNpxbXvaJ/k=; b=X+gH/lccgUG+qq3e/f5SRzlOoSFwYd9
+	m3q+gHU1wostP16MIlsIDtX/VwWuro+gvmTmwdhq4RP2rX5N9CLPZbaFXZjAiG8G
+	rmEgQjDdKDDpuQF0EL4Q/mwxTPlqpgSXXpbi/7R4fv/o5EwdwW5t2OHfLCDfdeM7
+	ylxbDM4c/oo6tnt8ZqdGln6HdFhB++LC1SDL0TpePUlrGBR6dSrNufVf1JArtphZ
+	ku55yfodItHqi4BAsNpHwGgmxp4noeS6m5ci//lgrXaxb9jT/rDAcACIcYKI2qnO
+	HJ9JLEc6YE00K7jMsfWs7NCFDCmZl1JO5vZWlHQ3IIe+IqzGFDXw31g==
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 412m4uuske-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 412m6gbstc-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 19 Aug 2024 23:10:41 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Mon, 19 Aug 2024 23:12:03 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47JMx1A8027465
-	for <dtrace@lists.linux.dev>; Mon, 19 Aug 2024 23:10:41 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2168.outbound.protection.outlook.com [104.47.73.168])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 414faw0a04-2
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47JMx6WQ027546
+	for <dtrace@lists.linux.dev>; Mon, 19 Aug 2024 23:12:02 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2048.outbound.protection.outlook.com [104.47.55.48])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 414faw0awp-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 19 Aug 2024 23:10:41 +0000
+	for <dtrace@lists.linux.dev>; Mon, 19 Aug 2024 23:12:02 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RaT+hKLuyJAxqDR+bDU3eyZQKSaEcB9THmeVeI6kjn8wqHPkJ842VKNuKmbYr+zHxNtQYOTWeAdpy8PiRk8TQ1vkOENp6IC549bbEWBnYx5/6gLUFDlZh5nW4AHp0ZVhXayS9hwZ0OgIHMT3VBYc4Nv6BMOujCW53OMo6fWNXlNN+h/TqQa/GURVNhxWCgosY71g2u6uz8Y7GTTEpvw5AlNaP1HMe/VN9bA16f+VhDPstg4l5/K0Smged8qGpSJg03Bk6qre2ugAINMlU/PoW2I/Zcmhd4JsuFH75seI5rE5LcUOw7Rafd4vK6+4/zqV6BwCkmtHQ8S7y5LKzbQjSw==
+ b=hQWrT5mjT78GaJOkTQXoNnB1dlJ8d/52RESz0DMgrhsm1v7jWV4Pw83Yjpe5VKk6CVSn7dNGGKpUw0ZhyHhou5FWY3EwnmZ+ykB3EaEGbVBdEaSozkpZT7ENc/tHvZeU3ooeSoiCEqMh9zgJMkgR3qDUEXqsZwTOkcriDXozZAIXFH9a2b2P1sz8M10MsEF8cMyCfUlKbz/VLMQbXiHKDi0S6lAT3dYQrSOMjDtKWp0Ft30VH2JKaxBRDTPvlVByys1y5DAMP2wNb2t7O8awLxyoz2eRYjTN+5X5fTfUDL8mD3taIfeGZt+5ftZTk8H82jVzK9YAV5e0/K7e+e/LLw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7O/L0KZ5XFEAlb2h30VzIyQqIbt5i4dj3SDkUtKqkHk=;
- b=lyV399f6EdXacp1afrJIooJOswNmxAGiWcPJi8tV8tkTTAiRStxYRVr9V2nHEzGku+R5ltxQpyQa3ZtZN1ZKumPI7ZF4XGWRiX7hVxwUiXzuQLMl4ctBvbMGQaHJfC6nYxdoMnjTwDwzjd65pb+3fJeE0p6lyDbm25q6cKFOn7aiCo3fGJKp5qcnhnctXBADH1+U/bxV/2MOtiGA6N3ke0o3x3GLULnHEKADmx5gtI6ldLigZ0Q/UY9g++BXYM5eSV6oV6QpnT9TIs0xVhxSAD+oPsYsrd/3UnpS/JW+5tulW1sJQEp9o5a467tJQPkExgpfbW4ywvVpDzVBsIzLcg==
+ bh=jIx2Fq0m1rOoaoNaV1FJu9iXj2zAFI93UNpxbXvaJ/k=;
+ b=bhHX4ppzp9dthv/mGX+yw/9tCsIEYyf6QN7+9/I7NvVGfmCGu/QwyvWyKKewxVSNbX3n1JE1WefoXslm/4zsyJc6bOLz5MSXracx88djasnA2/GfIKju8D3VSJRmYjGCKK02VutfhjRs26PSfP9tBc/U8wEoqf1BteRAxC4lb0VZaPWXI4Bf3UxLBVoav30AGWwogW2rRUlG23AIuWIS/LCaiHnD3R0npBD+5MWRSYL0DTHZc+1RpT4Mvsf7Raokbdd7BQ0kkrhuHVm+Gnsa5/ePB3Zf68pT0B/XQVRyrbvYM2u7sGYbt08CE64DG4vG1c6LdV9Wmiciu/jr52NGVQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7O/L0KZ5XFEAlb2h30VzIyQqIbt5i4dj3SDkUtKqkHk=;
- b=LMxtXIHl0DUBLjWXEdojYELLidVnEjB3gCxEapAGS5vaHAx9trfAjlp/NpWpusjXDPfpQvWmu4Tx7d6THAzEmazWUsWXfuF9vIYl7ZolUm+vzvj1TMgsAdrFSpeydCbeD0YK6BxTvsAikNmieQ4fKQjklhSZdW6aAgPmLWy2dtA=
+ bh=jIx2Fq0m1rOoaoNaV1FJu9iXj2zAFI93UNpxbXvaJ/k=;
+ b=zWvIO/FI/iO+uRSLVH/DBKT7PwkNqRa9y4Enw5jhmZi1vYNh+GXyMS+jzWMMkimV3RHNWL2ca34vDD9OKTb9lH/1U4m6qyI+2KiBXEYI6Kh5rv+hBV4btK9bVvPEYR6+nwhAjUIkny+jEDQ3UQ9WtAGODw75AzPVmwgic+PWh/c=
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
- by SA1PR10MB6445.namprd10.prod.outlook.com (2603:10b6:806:29d::6) with
+ by MN2PR10MB4269.namprd10.prod.outlook.com (2603:10b6:208:1d1::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.11; Mon, 19 Aug
- 2024 23:10:37 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.13; Mon, 19 Aug
+ 2024 23:11:59 +0000
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29]) by SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29%3]) with mapi id 15.20.7897.007; Mon, 19 Aug 2024
- 23:10:37 +0000
-Date: Mon, 19 Aug 2024 19:10:36 -0400
+ 23:11:59 +0000
+Date: Mon, 19 Aug 2024 19:11:57 -0400
 From: Kris Van Hees <kris.van.hees@oracle.com>
-To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH] doc: updates to README
-Content-Type: text/plain
-X-ClientProxiedBy: BN9PR03CA0285.namprd03.prod.outlook.com
- (2603:10b6:408:f5::20) To SN7PR10MB6287.namprd10.prod.outlook.com
+To: eugene.loh@oracle.com
+Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: Re: [PATCH 1/8] test: Allow aggpercpu test to omit some CPUs
+Message-ID: <ZsPRPUXZkD8RRWGf@oracle.com>
+References: <20240604180008.11331-1-eugene.loh@oracle.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240604180008.11331-1-eugene.loh@oracle.com>
+X-ClientProxiedBy: BL1PR13CA0304.namprd13.prod.outlook.com
+ (2603:10b6:208:2c1::9) To SN7PR10MB6287.namprd10.prod.outlook.com
  (2603:10b6:806:26d::14)
-Message-ID:
- <SN7PR10MB628746AEDD5AF32C30E29A0DC28C2@SN7PR10MB6287.namprd10.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -80,81 +84,81 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|SA1PR10MB6445:EE_
-X-MS-Office365-Filtering-Correlation-Id: 62adddaf-d386-47b5-2201-08dcc0a42336
+X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|MN2PR10MB4269:EE_
+X-MS-Office365-Filtering-Correlation-Id: 29017834-b789-4146-5ded-08dcc0a45411
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?63tLZr3LygnvlzOym1HnJ5zpyXpz41Rj9ur3LOqGfQ8Mim9Ertn85Uc9X6B4?=
- =?us-ascii?Q?FDiNMoriKfvAbfsleBEbMDf/MlFtiNROGX3rrhw9I5J3frBvaVEEgxJVC6Z/?=
- =?us-ascii?Q?epN6jgvfqHVbJX/vcGUd2SBiuSTqejNQBDpWhZp6eVwjAoXb70+C/8FAF06j?=
- =?us-ascii?Q?9YCvuMqLu8eV6TSKT2oWBd7PDk3cucFj5zsPIcpzaB7d8QK33Ng+MVjrVvBo?=
- =?us-ascii?Q?P4rmZUHWm98R3weiZbwe7kr+O40VtV4p7Oq4WUzBWc81LAyiC9HPwI6u5JaF?=
- =?us-ascii?Q?7Bpa6D81DOQwA2RTppvvAsQYtBnMJs2owFqbk7/B1xdsxzZbOLGHzf9Wof3Y?=
- =?us-ascii?Q?7r15TnQyaispSlU3iKV7roa4jX6ynOv47mbebt8xbDmJ7dkYs/1KyvUnlVjU?=
- =?us-ascii?Q?UDhuNMfYEUhm9uRq5csX/WKi5QDKbld0IDFoIcLVTaSb59FL+cBVdlSQq9hc?=
- =?us-ascii?Q?rqRrdpjj7xcc0aURNfksBSrl/+ybhl5yDuM8I9fJfhnlfZLmjDpvAboo20bj?=
- =?us-ascii?Q?Uc1grxiFQFOInVMFWsK+aiaLIGh/tyOU0PDlWFEP0485xdnuhP0/ZT3lkdfO?=
- =?us-ascii?Q?K3A1J3xuZe33y14SjrSAKlS+zVYQ2tQSSx8auqChRRpPckIpUlBpyj86kkVt?=
- =?us-ascii?Q?8nLOW1gfp1TXdEqnizt4zp1yPvfSxCMxvEqcu8V4PUzDVHvK828kvxDKJVaT?=
- =?us-ascii?Q?d9j49CTWHPMibtdmGcuy5O7sF8gNPBnp0KHdUlBsEEiZuF/5IiYxoeCPUC9d?=
- =?us-ascii?Q?gknffeYaHRWrcHGh127e/Yv+yjatP7fw8Le+y/8oQ2nPHOowRdvdK4Bcwh03?=
- =?us-ascii?Q?uc5i4aNvH7vU/LHPlytVzfV9S5Q+qTsFru8j3jzTeEAByjSFJznB1zLJfa65?=
- =?us-ascii?Q?esWrnj203K5dArO0ON/A0l7jxQ1sQAVrUDsoszX6kyEoXbtuSDliTU7l9+1b?=
- =?us-ascii?Q?wUfMr9imaynGoRU+Tsj3YB0pGzzu0o3Gnq3/1EV0YRq0ElsLZ099ozYFpHD7?=
- =?us-ascii?Q?/dXjwVw9URs8mqni+weBuxPQoorARFTDswLfQRjjLCBBr/ms3ku0cfjq4qtV?=
- =?us-ascii?Q?oxKwUo6qycW4AUSl8DCYa8x88O1tEtYKwd5/RfTwUc9YqBZYe+zxAQM1Tsm3?=
- =?us-ascii?Q?1ggHqEQI58LmvTEA2UFDPyQItFElcovu2I+GcABzptTmscnx7WaaBNtpzIRM?=
- =?us-ascii?Q?D/QUMHGc1NnQg8nsFulMgcYlG/1aNzjUubmD2gKjTXfcnQpS3DKpFBlnLOVX?=
- =?us-ascii?Q?3V+ICrDjrTEPmqhp8eWvPzXgfLj06eGisAnHneI9IMilcyw+WfeT4PJ2l6hi?=
- =?us-ascii?Q?PKXSKmnttoAU/oAAkQ+CC7S+?=
+	=?us-ascii?Q?FqgPsvIFqMCOR+yTqDORiBQRwQf8OFqd+LYwRJPlXqLZ3TVmNfl45bhawf91?=
+ =?us-ascii?Q?7iPOMyVRg2RqXjxPrnn13KbGgst1gbEZS1dE5JZw+GJ8wCmHpWYFLBrbRjSy?=
+ =?us-ascii?Q?Sw8O3Q0YDau1EJNOdLentWtbBafwb1GHXmUEIneYtcVl4O/aHaAc8ZtAe9Lp?=
+ =?us-ascii?Q?UjzR0EdjwQM+/shVCNaC4BGtqD3E6L+VYSLGDLgW14fjGSV+zTvhDNKeG8NL?=
+ =?us-ascii?Q?pzbJGp1spb3iZ7GjMuIHiG9kD4857lxhzYSk5SuzaVwHSByiZbNH6B2x3xVo?=
+ =?us-ascii?Q?YpLlFOosqTm9So/nuWWxNn0A79zWjNrLXZT3HWJCnK2PZW93BMJlE0BN9q5+?=
+ =?us-ascii?Q?Z4VDCVGTWEaerAUutZfsEfsuhdDH1VW8if0OUuorH+8RBaiaVXV9G/EmxAuA?=
+ =?us-ascii?Q?lAwNSkj6ix2cIh7csOXS0i9ALPbRjNlQPBDZAtaEevG3JhWSxGnsNJt64ksq?=
+ =?us-ascii?Q?lHWzfj1IAxScTb+bUr3UlO8yqMoks4YmmpUy0xSDtJZFfXhau6AJLJ4GqVbq?=
+ =?us-ascii?Q?sBfaR2o1pFkOUB5ZXgr1JY15y0RUyuONyYjGsonLi9bM9bKXFuvhvN3OYfHy?=
+ =?us-ascii?Q?2jOqrgcXW24GKytT8ONUAJfvFmRvH4VMrjHw9VsLv6KOEg+rtanjVNlWUd1x?=
+ =?us-ascii?Q?WBRpy/UzBDhgrH6AlhKkVp/tn99IOVzOHiTpKkIMdvnXUF8+0RBM3mgZ2go0?=
+ =?us-ascii?Q?C7E/OttWHCkEobWo4iEhMLRMJbzltVXs0MGJTg12v+eYnDdLmKNHWIO02TgR?=
+ =?us-ascii?Q?a4kp51u4wbcBCGpKPNbS2vv5+POObi+yIvnycG+OD5vQFobpawJy41gXBgMF?=
+ =?us-ascii?Q?rway7OlvYThAaOeeT6kf9PyNhQoaCynKr9QFIybe10goFhYCgy5mwk4wDMyT?=
+ =?us-ascii?Q?gLy9jeaz692BYfMqERzPxPkIypx+f261KbRAbSGt9c4ZVu+hHlYS/wX40LeC?=
+ =?us-ascii?Q?vROQty/2lUT75qaqY0Vsrykac7wV6cI40dFg0oKYgialGXt8iXHLP10bsyQ8?=
+ =?us-ascii?Q?hDjaVzhvbZ+z2Vl9CD//lK+kVjU3H6pe0re8ZyvzeUgWKQMrEOattWI5Idp8?=
+ =?us-ascii?Q?kGDRozJw76lo9MtOGCW/xjUxX2j8K1uwdxg1TFOdxSXmgbB5UJK1MFSZ7YLi?=
+ =?us-ascii?Q?NKpC58iuZeLlyRLeYZP5O7z1PTTimDeW+LDJu6GeUW58K6M9p9uihSJ6E2Zs?=
+ =?us-ascii?Q?D8SOFMv/OZ9xqQo7CGkv86wR4viBJaEJ0f9J65SHwy30nQ73aSF69ZOFyvbp?=
+ =?us-ascii?Q?67vy+HVjieuQjBTKO7B9Lfmiq6WM8aUQUi5i6ac5boHVt775Tv3le3X9hhpu?=
+ =?us-ascii?Q?yGuwlvuX4UNEq7+zAZysfqDdcFccnmXjXrS/H+tr8FHjUA=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?wiDp8qNRBfQb55WazYlIeeda6DobYFPXrgu0EnFxa04RBqVHNK4H9F129w2I?=
- =?us-ascii?Q?n5d8VtHAVsmNPPa9TN//4REQ0tsIGwyquS+JpqiWionPx8/r2R45LYg+8nWM?=
- =?us-ascii?Q?3+7SxG4leeCWk8pfdV0dDeGb5ONENLcEG4yLXgbWp9N+B47Adr5nyXXKNF0j?=
- =?us-ascii?Q?Q894b67l9wY4TMV3PaMtQmAdX9/Qfo/4q9qHH81HHaC38FgjxTLwrUMKD49o?=
- =?us-ascii?Q?ur43ZIp3e9whk0AtCJ9DllamyOBwxsI2spYkS+0vt26dctRr6ey4Q0ov7at4?=
- =?us-ascii?Q?3ew3K348d6sKz7mCRINU5e594qVwutEknpF94B0+55PZKauKAhsyAfHoZRpv?=
- =?us-ascii?Q?ifPZsd2udop7Fy5Ty+42lozqzL9CH2AHU8sRxEPe0bROGqplah6ZFuVPSqqv?=
- =?us-ascii?Q?c7GvVrqaLhkZ/GIG/4LrA45mexVXVFviUXWCJwzLZ/lpNhg9wuFbimErze+X?=
- =?us-ascii?Q?OcspLjpjDAT7deIoy8FxsrfDyMrAVmg4MfGy3YLMcNUIalTGfF7rY0aTZf5I?=
- =?us-ascii?Q?OXv6V3ZX5Q7LTdsin/pq4orMW9iFMLdw29oTnYRERse0d0c14N2jAYe6uiHC?=
- =?us-ascii?Q?Wi/WC3mZEpOLkbJ88fcXShs7scE2rNCKxavQARZMDSCI7NmfWzE11EJYZ3iF?=
- =?us-ascii?Q?f8HrXmBPAp0CwVA0sn1p4pr4YDQylYZ7iA394XNnOJtX3OAcOX6CsEiEIZ2V?=
- =?us-ascii?Q?7JxnQ3c84Gt12aLMqBGeDy8cpK0RZUjEVs0u2Rl5wBso2JXIeB39SwIbxrRM?=
- =?us-ascii?Q?phYyIshs6Rz459VL7DuhkBuIr5ZZHpGO6jgDU35cqtnSOKQnN3iT6/fxs+/5?=
- =?us-ascii?Q?Ybh8wDCBK+30c0IfPD3teebhOpFxV3psPABor6EchcbVmKuxKkSCslL//P9M?=
- =?us-ascii?Q?JKYjde7yC0BpbYcOnZ6r7jLP+bagRH2joENWy0uNTllpKEgelR51GLgXAC8m?=
- =?us-ascii?Q?bXeMbNRBdVhBjoeLe+8PRXO1qmPR4Xb1ZEDTbtBN54qgFnU0gWB9gPlchMsM?=
- =?us-ascii?Q?XYEh6478y+gFYYLN7cVMd0fsA3eF/ntgb19oj4OLYgXkHnvyO60Uz4746Rt9?=
- =?us-ascii?Q?okS9TgaQwwwU9q5hLXeOWRjv3R9uxbhGAD7SGHshQOaHXwWOXPxS1NvWztuW?=
- =?us-ascii?Q?VZ2QiAH1NjZgP+9ZdbfkUBoyVO9ZKRUOqhgvFBlLjHS6VwbWRXCR7092PzqQ?=
- =?us-ascii?Q?sBLO9ssZPkFyoghgkU7xjW9uJEWMTrv9OKMuCnzJttnwfOGR01E5S/wsnr4R?=
- =?us-ascii?Q?lsvKUUCU0njDxhGY+o8P+N+CJV0dc4AokWs1gu/+1A0jQvj/mcxZPDCy2kdn?=
- =?us-ascii?Q?Jl8kH4bdbQbBuI1En1nAwv94Hqql75cby4TgiXUYnrj3iTC09b+wBu6fw9ep?=
- =?us-ascii?Q?W/FwRq/BXpT5gbHCwJ4LV3FjX3IlGyj8G2YEOX0VqDTOMLfbRnhWZGJ5QO5d?=
- =?us-ascii?Q?JiX3EJR/t3kfvRLZeaxOB4mwWA6oAH6X3V5qjj/E/Zsuzpxv/OYNLCLU3bKA?=
- =?us-ascii?Q?tzFn2G+QhwcSxyYuD+57TGMpAo2kVx/XI1Qcv5kbEMqHVlMt3U1CHlcXdzxk?=
- =?us-ascii?Q?Hyw+XodN40LWqsF4wynPIF70zaUhmhM+gxtEPcECYaIY2W/z/lLttx6tGRvL?=
- =?us-ascii?Q?GG2HiTMoYkeqdCxjU2aSD90=3D?=
+	=?us-ascii?Q?QMZMo0HMDcxpM8xOTi540PYmpI1wDYnFVLNeiZgGUc9TJpylPCcYX9N5/KdK?=
+ =?us-ascii?Q?s6SCBSzPW/SyAvCom5eM+5bJ4Ob1Qcxi1kfw86hij6yLPV3jeQ+YuaAOFFCI?=
+ =?us-ascii?Q?vcze8Okdfr/moPhLdSRyZekZQknM5Z2YNQcIWpnUAA/HXkZnk0XAwBrEcXPS?=
+ =?us-ascii?Q?qpZx+t7It8HdnGOYvN9n82+/WPEfUc2dqtc56KAJRzPdvqkKY7hRCIY8CzQf?=
+ =?us-ascii?Q?+WtK+zUDbrd+dhM2RJEJPGeFwzxLrLZwza6QR4kun3nTOJmrEjkG/sWT4OLI?=
+ =?us-ascii?Q?iU9TR/M/xWNIjgvK5PRHLLKA98VI0FBq7DL7JabCq7cW9HO0j6Cqq2rz7q+X?=
+ =?us-ascii?Q?haEgPTkgw6SoV/cZ8wfqZjzf55t/+zYhZa7klHClayU6jqzMUsQObti3Y6tl?=
+ =?us-ascii?Q?BEvCL2qraVC4hsyStwPc3ja7mH4RdQz2hXcFSILtFzEyn/Xs9Oc3FEvCMmAf?=
+ =?us-ascii?Q?Q6K4z6pxQ3XRge0FnCQtOrzGoXLVCl0Oh4uyWLHfmGO8E07C5Q/f26JSdURp?=
+ =?us-ascii?Q?7NO0rDX9gau/MHTWLe4xWdKjTZuYbAU2Iyvfi33jyJCzfTtBHIMDKtQ8awnV?=
+ =?us-ascii?Q?HpGnttMEqBpdY0zIm4rZ3WXOlYrCNNxE9MMftqP68WCbWiQ7N6xxHfk7ow6C?=
+ =?us-ascii?Q?u0//XtpQ0BWNQBU1xMGMoysMNux3mM5l6fHDBnSWuSo9g5cXX4IfZWaclOSV?=
+ =?us-ascii?Q?T1J+vp7n2lgo21dDa6PZsRx2BOQ8WrwUYov2Xsv6cMWeEXdyTp7cXZ0/CN5K?=
+ =?us-ascii?Q?Cf6QiqrpO5IyalCnVzLi45lDlzPB4njDXbK6mNWssUIjjeT9KJAJDkrzd9zP?=
+ =?us-ascii?Q?dLhI5wCUUtnAbpuArp6rfStxZYqbqlyLPJmXODSFd9tTUd5zROWzWPWtgseh?=
+ =?us-ascii?Q?WNzeYjIIECeeO+z0Eb1ekW9xQl9MGiT7gVFyBi+ART9DL2PbH9NDqI8WbD2b?=
+ =?us-ascii?Q?laLz9rtVj3VdD4mGJmIc5cUz00O/UKK6z88rhdLiDJ5iU+DxHFpHBev6d2nC?=
+ =?us-ascii?Q?AY8L8jdGUowJnEd+LvhAfMxDVMDzdfWnF6SsJUKpQoD8c/KG4UeukFpaypZI?=
+ =?us-ascii?Q?J/9TnEOHzLwuO+TLPGkwlg08xbz1LeBysgZTamF5aM79pJ0mqMIE6DgmIhZJ?=
+ =?us-ascii?Q?TgMMm1yU2PBKoQ3fCSYt0X8dcuKRs4DnhVf0hsGO/5e1AL0gP5MrDRrXYoXB?=
+ =?us-ascii?Q?JN1ytMufvNUP6yOBBNHN4mqJF693AK1zLpykJ3LRO8ACujyMHxRWkVeuZZZD?=
+ =?us-ascii?Q?tcoPNFf2HNNraZet67lA1zDUJxgYqHDn/sdR7JlCJhACA8YGpbHY+XJCDmty?=
+ =?us-ascii?Q?YF2BPVnyRgzeWzJnrgKvmdJE+YzM5MIATozKomF5mXWByetEKxqljmc9OORo?=
+ =?us-ascii?Q?ZiqnxJOkoaZxHnaGIyGHtnLfijZJcUBN1K9UyMZPu/U/aPDcIXDDwTUBuh4/?=
+ =?us-ascii?Q?szDWY/cWmUwnNi/FC4tmRRFEOddv5yMiIh5ohopCCJ/uUklJ6xA4uDvKP8AY?=
+ =?us-ascii?Q?yB0W8bYmZuw7PzOJIqyhvBhErzkwebe7nMoBQB7xXUUEgGq/CfYk8YVUmcRf?=
+ =?us-ascii?Q?D2xLnKBbkB2dpCtLKlbU2SFbtgwSdjpx7WkX+RfKcOJkdHPfipL9ddP9kffW?=
+ =?us-ascii?Q?hQ=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	e0KUYyIXIcQsA6rKpjFgqicS9aG/SmVYSX3q3TdTcA1i2HqznQMRjLvx0N+C3JyCMNepPUtkTQzTDUbT+0SeNEf7T8CjLs9IJAO3y0O4hwXi0MFbXsty7Z7tQoBNV4vG7f6nmL1DUsFpA4c+4bQGBsSmLTKYn2MNCl+S84r1Uhj5B9mMMlrnmE0LQT5jwYoGxSEO03t8jeAR0459Jux7C6ViIygV0UhtKjRIF+Ea2v6GpF6DOqS8TI20XRvnNt3vA/tt0cHsTJMG63bHsv/BjS3H76SsW1CIMHxRuy5wR5tIixFtbHEW4cJKbFWGU3DodaZ2sSVn8pOy62i39MGZY/Da+XeIBC3lq8o28KBjAEhgdHUBFTfagNg7DzyEFKebFuGUYG6nEgy5CIctK8RXZhby+VeNgCjKBa7As3TaXMtfAcDbzYo5NIzsh/zMzBk+InMZYRIpX5ZjeOWY9OWSdDQl1k7L43sWBHDW640OKvvf1vJPcTSE4aJX0/xAR0D/gnGR+MKf8Deb7a5fWGjslXMGcYvdufBCz6lx25zzYcVSxIjhKDJa59HqxRiTvw/FeZKRnQz4aOojQZGcKUgiANDiXehgHAMoPlqbYmqqLgs=
+	QpbtO4KUSRYUON025ICpjw3tj1MYTQTyn2CPR28YL1KNCcsZbMQtNnqyRjOh0QGsAP4sP0JUw2swZh4kRUzwRo6PLgBZ87HyjoOR5Z0ZEh2K261KmKqWIAMX5g65X2SaFrNZ/qI5FAsyBO8U73nX+T813OOe2x9DHrEGTF7/p2YgqTKda1V4FCSFIVqImo0NibJvu9S55Jm4NMpemUz5NrTRuUK+n1TJfFx4J6Tqht/3BvtFLwGbyGoQkj8k7zvSp48tIDRXJ0rCQlseVhsYYBfIRKjx6WmXYugKyhLmBt+5lm8itf+pRdka0z6IFz7XFSVliGfHpAwWYKJ9jiEuOut1t/ik18sWKNEUGf3WTFQFiJrugHxUBDgmMEJwZ8mBKYB/G00qw/9kKnOqiGTPoaDN/S2sSZkmNpq0LptFK8WR3kY/mdLTpR/4XbkzPRomPLzS4yK1VVn74Ph5aIl72ILoDzPSjhpZhq+OkXPwO5yvuBKJdrH97ZPgpuBM6yuX0mZiUx3l0q8/4X8Ezc+ZTqx6JXNprJhzPIo+KxTj7ROI6iQb/0XU6n9ZxmR+YgrHPgGkxsfWM7wh+Y038LszDwP1wCI6GtPEzUvpTSIC94U=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62adddaf-d386-47b5-2201-08dcc0a42336
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29017834-b789-4146-5ded-08dcc0a45411
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR10MB6287.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2024 23:10:37.9044
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2024 23:11:59.8421
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yzVdrrEJ873+1Sd93aYW3kLr5WutPzrYgXxEt2asKXxot2NgBBJjF7jSI64iv/c+AHR1+5BvL/y/sQ6ITr/jhRfH4/yf00Ytk+tGqDZ6gAI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB6445
+X-MS-Exchange-CrossTenant-UserPrincipalName: goCgrEcsrRm72BYTOq745ci9b4hBaWgOeC+gB0DMjPYDcrUynnZVaA7C+luahb72md0Gjsvb1FHKmXTpawEomW3uGN/lW7mKNIR0jhnpFq8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4269
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-08-19_16,2024-08-19_03,2024-05-17_01
@@ -162,281 +166,130 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlo
  adultscore=0 mlxscore=0 malwarescore=0 phishscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2407110000
  definitions=main-2408190155
-X-Proofpoint-ORIG-GUID: LH9y4EYk_vRs18vIYe-1UR0dmeCEKiPI
-X-Proofpoint-GUID: LH9y4EYk_vRs18vIYe-1UR0dmeCEKiPI
+X-Proofpoint-ORIG-GUID: lpH3a7fW0Aqz-ib4bt68FIKR-e3yplpY
+X-Proofpoint-GUID: lpH3a7fW0Aqz-ib4bt68FIKR-e3yplpY
 
-Remove obsolete reference to kernel source and headers for building
-DTrace.
+On Tue, Jun 04, 2024 at 02:00:01PM -0400, eugene.loh@oracle.com wrote:
+> From: Eugene Loh <eugene.loh@oracle.com>
+> 
+> The aggpercpu test uses profile-* to fire aggregations on every CPU.
+> But whether for good (offline CPUs) or bad (unreliable probe) reasons,
+> a CPU might not aggregate any values.
+> 
+> Allow this test to skip over such CPUs.  That is, while a BPF agg map
+> might have the correct default value for the aggregation function, it
+> may not see any anticipated data.  The quality of profile-* probes
+> should be checked by a different test.
+> 
+> Also, when computing avg() and stddev() in the awk check program,
+> truncate results to ints more often to mimic the algorithms in DTrace
+> for more robust checks.
+> 
+> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 
-Move build instructions for pre-1.13.2 versions to a new file.
+Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
 
-Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
----
- README.md         |  86 ++------------------------
- README.pre-1.13.2 | 152 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 156 insertions(+), 82 deletions(-)
- create mode 100644 README.pre-1.13.2
-
-diff --git a/README.md b/README.md
-index 9c506694..5855a55a 100644
---- a/README.md
-+++ b/README.md
-@@ -128,24 +128,9 @@ make BPFC=bpf-gcc BPFLD=bpf-ld
- sudo make install
- ```
- 
--In this scenario the build system expects that kernel sources can be found at
--`/lib/modules/$(uname -r)/build`.  It is also expected that the kernel used for
--userspace build is compatible with the utils (the exported userspace headers in
--the `include/uapi/linux/dtrace` are compatible with the utils version being
--built).
--
--You can point at a different kernel version with the KERNELS variable, e.g.
--```
--make KERNELS="5.16.8"
--```
--as long as the source tree that kernel was built with remains where it was
--when that kernel was installed.
--
- See `./configure --help`, `make help`, and the top-level GNUmakefile for a
--full list of options (building translators against multiple different
--kernels at once, building against kernel sources found in different places,
--building against a kernel built with O=, installing in different places,
--etc.)
-+full list of options (installing in different places, building translators for
-+kernels, etc.)
- 
- Some of the options (e.g., those specifying paths) may need to be specified
- when installing as well as when building.  To avoid this, you can use the
-@@ -200,68 +185,5 @@ Support for DTrace is included in Oracle Linux support subscriptions. Individual
- 
- ## 7. Building Previous Releases of DTrace
- 
--For versions of DTrace prior to 2.0.0-1.13.2 a small number of kernel patches
--patches are needed, which are
--[here](https://github.com/oracle/dtrace-linux-kernel).  Branches named
--starting v2/* are suitable.
--
--To build such versions of dtrace follow the steps below.
--
--### 7.1. Prerequisites
--
--See [above](#21-prerequisites).
--
--At this point, you will need an additional step:
--
--### 7.2. Build a kernel with add-on features that DTrace uses
--
--DTrace 2.0.0-1.13.1 and earlier depend on a few extra kernel features that are
--not available in the upstream kernel:
--
--- CTF type information extraction
--- /proc/kallmodsyms
--- New system call: waitfd()
--
--As noted above, patches that implement these features are available from the
--v2/* branches in our Linux kernel repository for features that DTrace uses:
--https://github.com/oracle/dtrace-linux-kernel
--
--The customary way to obtain these patches is to clone an appropriate upstream
--kernel version (5.8.1 or later) and to merge our
--[updated tree](https://github.com/oracle/dtrace-linux-kernel/tree/v2/5.8.1)
--into it.  The patch set is quite small, but may need some tweaking if it is
--being merged into a newer tree.  We occasionally push a new patched tree to our
--github repo, so do look around the repo to see if there is a branch with better
--match.
--
--Oracle Linux's [UEK7](https://github.com/oracle/linux-uek/tree/uek7/ga)
--provides a simple alternative if you don't want to patch your own kernel.
--
--Building of a patched kernel from sources is also straightforward.
--Please consult `Documentation/process/changes.rst` in the kernel source tree
--to ensure all required dependencies are installed first.  The following steps
--should build and install the kernel.
--
--```
--# Start with your preferred .config options.  Features DTrace needs should
--# enable themselves automatically.
--make olddefconfig
--make
--
--# This step will produce vmlinux.ctfa, which holds all CTF data for the kernel
--# and its modules.  If it doesn't work, you don't have a toolchain that is
--# recent enough.
--make ctf
--
--# Install with root privileges.
--sudo make INSTALL_MOD_STRIP=1 modules_install
--sudo make install
--```
--
--It is preferred (but not required) to reboot into your new kernel before
--trying to build DTrace.  (If you don't reboot into it, you need to specify
--some extra options when running make.)
--
--### 7.3. Build DTrace
--
--See [above](#22-build-dtrace).
-+Refer to [these instructions](./README.pre-1.13.2.md) to build DTrace versions
-+prior to 2.0.0-1.13.2.
-diff --git a/README.pre-1.13.2 b/README.pre-1.13.2
-new file mode 100644
-index 00000000..1509ec65
---- /dev/null
-+++ b/README.pre-1.13.2
-@@ -0,0 +1,152 @@
-+ Linux DTrace
-+
-+For versions of DTrace prior to 2.0.0-1.13.2 a small number of kernel patches
-+patches are needed, which are
-+[here](https://github.com/oracle/dtrace-linux-kernel).  Branches named
-+starting v2/* are suitable.
-+
-+To build such versions of dtrace follow the steps below.
-+
-+## 1. Prerequisites
-+
-+Please read this section carefully before moving over to the build
-+documentation to ensure your environment is properly configured.
-+
-+### 1.1. Verify that binutils is recent enough...
-+
-+DTrace uses a type introspection system called CTF.  This is supported by
-+upstream GCC and GNU Binutils.  Make sure you have binutils 1.36 or later
-+installed.
-+
-+If your distro provides libctf.so in a binutils development package, you need
-+to install that too.
-+
-+### 1.2. or install a recent-enough binutils
-+
-+If your distro provides binutils 1.36 or later, you should install it.  If not,
-+you can build your own local copy (which can be configured with a --prefix
-+specific to itself to avoid disturbing the distro version).
-+
-+### 1.3. Install other necessary packages
-+
-+A few other packages are required, either for building or at runtime.  They
-+should be part of most Linux distributions today and can be installed via the
-+package manager of your distro.  The table below gives package names for Debian
-+and Oracle Linux.
-+
-+For building:
-+
-+| Prerequisite       | Debian                      | Oracle Linux              |
-+|:-------------------|:----------------------------|:--------------------------|
-+| glibc headers      | libc6-dev                   | glibc-headers             |
-+| glibc (static)     | (in libc6-dev)              | glibc-static              |
-+| glibc (32-bit dev) | libc6-dev-i386              | glibc-devel.i686          |
-+| bison              | bison                       | bison                     |
-+| flex               | flex                        | flex                      |
-+| BPF gcc            | gcc-bpf                     | gcc-bpf-unknown-none      |
-+| BPF binutils       | binutils-bpf                | binutils-bpf-unknown-none |
-+| libpcap dev        | libpcap-dev                 | libpcap-devel             |
-+| wireshark          | wireshark                   | wireshark                 |
-+| valgrind           | valgrind                    | valgrind-devel            |
-+| fuse3 or fuse      | libfuse3-dev or libfuse-dev | fuse3-devel or fuse-devel |
-+| kernel headers     | linux-headers-<kver>-<arch> | kernel-uek-devel-<kver>   |
-+|                    | linux-headers-<kver>-common |                           |
-+
-+At runtime:
-+
-+| Prerequisite       | Debian                 | Oracle Linux              |
-+|:-------------------|:-----------------------|:--------------------------|
-+| wireshark          | wireshark              | wireshark                 |
-+| fuse3 or fuse      | libfuse3-3 or libfuse2 | fuse3-devel or fuse-devel |
-+
-+## 2. Build a kernel with add-on features that DTrace uses
-+
-+DTrace 2.0.0-1.13.1 and earlier depend on a few extra kernel features that are
-+not available in the upstream kernel:
-+
-+- CTF type information extraction
-+- /proc/kallmodsyms
-+- New system call: waitfd()
-+
-+As noted above, patches that implement these features are available from the
-+v2/* branches in our Linux kernel repository for features that DTrace uses:
-+https://github.com/oracle/dtrace-linux-kernel
-+
-+The customary way to obtain these patches is to clone an appropriate upstream
-+kernel version (5.8.1 or later) and to merge our
-+[updated tree](https://github.com/oracle/dtrace-linux-kernel/tree/v2/5.8.1)
-+into it.  The patch set is quite small, but may need some tweaking if it is
-+being merged into a newer tree.  We occasionally push a new patched tree to our
-+github repo, so do look around the repo to see if there is a branch with better
-+match.
-+
-+Oracle Linux's [UEK7](https://github.com/oracle/linux-uek/tree/uek7/ga)
-+provides a simple alternative if you don't want to patch your own kernel.
-+
-+Building of a patched kernel from sources is also straightforward.
-+Please consult `Documentation/process/changes.rst` in the kernel source tree
-+to ensure all required dependencies are installed first.  The following steps
-+should build and install the kernel.
-+
-+```
-+ Start with your preferred .config options.  Features DTrace needs should
-+ enable themselves automatically.
-+make olddefconfig
-+make
-+
-+ This step will produce vmlinux.ctfa, which holds all CTF data for the kernel
-+ and its modules.  If it doesn't work, you don't have a toolchain that is
-+ recent enough.
-+make ctf
-+
-+ Install with root privileges.
-+sudo make INSTALL_MOD_STRIP=1 modules_install
-+sudo make install
-+```
-+
-+It is preferred (but not required) to reboot into your new kernel before
-+trying to build DTrace.  (If you don't reboot into it, you need to specify
-+some extra options when running make.)
-+
-+## 3. Build DTrace
-+
-+The simplest way of building DTrace is done by issuing the following commands
-+from the DTrace source tree:
-+
-+```
-+make
-+sudo make install
-+```
-+
-+Some distributions install the BPF gcc and binutils under different names.  You
-+can specify the executables to use using the **BPFC** and **BPFLD** variables.
-+E.g. on Debian you could use:
-+
-+```
-+make BPFC=bpf-gcc BPFLD=bpf-ld
-+sudo make install
-+```
-+
-+In this scenario the build system expects that kernel sources can be found at
-+`/lib/modules/$(uname -r)/build`.  It is also expected that the kernel used for
-+userspace build is compatible with the utils (the exported userspace headers in
-+the `include/uapi/linux/dtrace` are compatible with the utils version being
-+built).
-+
-+You can point at a different kernel version with the KERNELS variable, e.g.
-+```
-+make KERNELS="5.16.8"
-+```
-+as long as the source tree that kernel was built with remains where it was
-+when that kernel was installed.
-+
-+See `./configure --help`, `make help`, and the top-level GNUmakefile for a
-+full list of options (building translators against multiple different
-+kernels at once, building against kernel sources found in different places,
-+building against a kernel built with O=, installing in different places,
-+etc.)
-+
-+Some of the options (e.g., those specifying paths) may need to be specified
-+when installing as well as when building.  To avoid this, you can use the
-+configure script: it bakes variable settings into the makefile so that they
-+persist across multiple invocations, including `make install`.
--- 
-2.42.0
-
+> ---
+>  test/unittest/aggs/tst.aggpercpu.sh | 62 +++++++++++++++++++++--------
+>  1 file changed, 45 insertions(+), 17 deletions(-)
+> 
+> diff --git a/test/unittest/aggs/tst.aggpercpu.sh b/test/unittest/aggs/tst.aggpercpu.sh
+> index be74890a..6092bd17 100755
+> --- a/test/unittest/aggs/tst.aggpercpu.sh
+> +++ b/test/unittest/aggs/tst.aggpercpu.sh
+> @@ -46,7 +46,8 @@ fi
+>  awk '
+>      # The expected value for the aggregation is aggval.
+>      # The expected value on a CPU is (m * cpu + b).
+> -    function check(label, aggval, m, b) {
+> +    # The default value on a CPU that did not fire is defval.
+> +    function check(label, aggval, m, b, defval) {
+>          # Check the aggregation over all CPUs.
+>          getline;
+>          print "check:", $0;
+> @@ -54,12 +55,38 @@ awk '
+>  
+>          # Check the per-CPU values.
+>          for (i = 1; i <= ncpu; i++) {
+> -            getline;
+> -            print "check:", $0;
+> -            if (match($0, "^    \\[CPU ") != 1 ||
+> -                strtonum($2) != cpu[i] ||
+> -                strtonum($3) != m * cpu[i] + b)
+> -                printf("ERROR: %s, agg per cpu %d, line: %s\n", label, cpu[i], $0);
+> +            do {
+> +                getline;
+> +                print "check:", $0;
+> +
+> +                # pass is +1 for pass, -1 for error, 0 for skip CPU
+> +                pass = 0;
+> +
+> +                if (match($0, "^    \\[CPU ") != 1) {
+> +                    print "ERROR: no CPU to read"
+> +                    pass = -1;
+> +                } else if (strtonum($2) > cpu[i]) {
+> +                    print "ERROR: skipped over expected CPU"
+> +                    pass = -1;
+> +                } else if (strtonum($2) == cpu[i]) {
+> +                    if (strtonum($3) != m * cpu[i] + b) {
+> +                        print "ERROR: wrong value"
+> +                        pass = -1;
+> +                    } else {
+> +                        # right value
+> +                        pass = +1;
+> +                    }
+> +                } else if ($3 != defval) {
+> +                    print "ERROR: wrong default value"
+> +                    pass = -1;
+> +                } else {
+> +                    # skip over CPU that apparently did not fire
+> +                    pass = 0;
+> +                }
+> +
+> +                if (pass == -1)
+> +                    printf("ERROR: %s, agg per cpu %d, line: %s\n", label, cpu[i], $0);
+> +            } while (pass == 0);
+>          }
+>      }
+>  
+> @@ -99,13 +126,14 @@ awk '
+>      {
+>          # First we finish computing our estimates for avg and stddev.
+>          # (The other results require no further action.)
+> +        # (We keep truncating to ints to mimic DTrace algorithms.)
+>  
+> -        xavg /= xcnt;
+> +        xavg /= xcnt;             xavg = int(xavg);
+>  
+> -        xstm /= xcnt;
+> -        xstd /= xcnt;
+> +        xstm /= xcnt;             xstm = int(xstm);
+> +        xstd /= xcnt;             xstd = int(xstd);
+>          xstd -= xstm * xstm;
+> -        xstd = int(sqrt(xstd));
+> +        xstd = sqrt(xstd);        xstd = int(xstd);
+>  
+>          # Sort the cpus.
+>  
+> @@ -113,12 +141,12 @@ awk '
+>  
+>          # Now read the results and compare.
+>  
+> -        check("cnt", xcnt,  0,   1);
+> -        check("avg", xavg, 10,   3);
+> -        check("std", xstd,  0,   0);
+> -        check("min", xmin, 30, -10);
+> -        check("max", xmax, 40, -15);
+> -        check("sum", xsum, 50,   0);
+> +        check("cnt", xcnt,  0,   1, "0");
+> +        check("avg", xavg, 10,   3, "0");
+> +        check("std", xstd,  0,   0, "0");
+> +        check("min", xmin, 30, -10,  "9223372036854775807");
+> +        check("max", xmax, 40, -15, "-9223372036854775808");
+> +        check("sum", xsum, 50,   0, "0");
+>  
+>          printf("done\n");
+>      }
+> -- 
+> 2.18.4
+> 
