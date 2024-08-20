@@ -1,25 +1,25 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24B6367
-	for <dtrace@lists.linux.dev>; Tue, 20 Aug 2024 00:11:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F366A1849
+	for <dtrace@lists.linux.dev>; Tue, 20 Aug 2024 00:11:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724112682; cv=none; b=nvfucjuDpG6xq+13xXZw3RCmHgHON8NoT4Yflp1D5nFL9YzxAYy3RbLeteNdnAIhee6IddOPZ5tu8Zc6xwwtaWfVN3WHQEXOBq+ry0Jb6s8AOdmq8pOjihALOFRojU1NdpIq29dljdkxt1EnzpagoZB6gQXL34SDTxcZd3Vvp3k=
+	t=1724112683; cv=none; b=dR7eliiLJewfOx0IqlVwlWYv4M+LLCvd+elF7s24pHcWv0m0gkzdOD+7wqxnPNaM5WnhMut2mLu+m9X2FuFMvKDvmR8Yjy0VYtzg8mf9HaymQIlDzbR/hhsorOrjB6GpeXiuZVhnS9Bb8IMbfKxJKEMDIG/adKYeie2tYKfLbwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724112682; c=relaxed/simple;
-	bh=bzXolucePV8K3A3VwIrFAcI2pjoZOIBBpSaykPq3zhI=;
+	s=arc-20240116; t=1724112683; c=relaxed/simple;
+	bh=wvFjaQmIJZUrNMJ3EUyhtob/cgFNo7Tw0WWrH5oV+FY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cx5nYMtjQ0GWibLTgrvzQ8Jgu8ijU4vr2gs5oHj8v8Lq0VTY6FE6TvpWYC7sUyhzoWvBv3k59zRP7WJCAn8RPMm2ULBnwIeWjZXsBdlTFveYybmjbr0+LDrYyeubLehAIgds3EApQhodq+k55PkxNoVZDoTUrCF4fGbWWOMZcBw=
+	 MIME-Version; b=eQl1KZl6DOXp1LY/Zc7GpLcEtV7BPsGCXhmeA5in40GPtt5L/gJYAMpsBi790av3aAbzqtt78mmjDIFU3Z5FCoVUmWZ4Vryqq5wuvKqTGIXIdqS5CBxFKu+J2cJfASF4wA9S64Ux8DSm9QWAfJGac9INFfTHKIj2GpypRmL6K+Y=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
 From: Sam James <sam@gentoo.org>
 To: dtrace@lists.linux.dev
 Cc: Sam James <sam@gentoo.org>
-Subject: [PATCH 1/3] test: fix exit code in tst.ipv4remotetcp.sh
-Date: Tue, 20 Aug 2024 01:10:20 +0100
-Message-ID: <4c6a974d2b5fa9a0ff8935428b5c3026109e5127.1724112622.git.sam@gentoo.org>
+Subject: [PATCH 2/3] test: fix exit code typo in tst.core.sh
+Date: Tue, 20 Aug 2024 01:10:21 +0100
+Message-ID: <158b036865f5b67c25de44972fcf74b2ba8f2f6d.1724112622.git.sam@gentoo.org>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <cover.1724112622.git.sam@gentoo.org>
 References: <cover.1724112622.git.sam@gentoo.org>
@@ -31,29 +31,21 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-$? was clobbered by the status=$? assignment above, see:
-```
-$ bash -c 'false ; x=$? ; echo $? ; echo ${x}'
-0
-1
-```
-
-We could just drop the status assignment but I just chose to do this
-instead.
+$rcc is not set, but $rc is. Use that.
 ---
- test/unittest/ip/tst.ipv4remotetcp.sh | 2 +-
+ test/unittest/options/tst.core.sh | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/test/unittest/ip/tst.ipv4remotetcp.sh b/test/unittest/ip/tst.ipv4remotetcp.sh
-index 32c3435a..99ba1161 100755
---- a/test/unittest/ip/tst.ipv4remotetcp.sh
-+++ b/test/unittest/ip/tst.ipv4remotetcp.sh
-@@ -98,4 +98,4 @@ EODTRACE
+diff --git a/test/unittest/options/tst.core.sh b/test/unittest/options/tst.core.sh
+index 48a58508..18727c6a 100755
+--- a/test/unittest/options/tst.core.sh
++++ b/test/unittest/options/tst.core.sh
+@@ -16,4 +16,4 @@ file core | tee /dev/stderr | \
+ rc=$?
+ rm -f core
  
- status=$?
- 
--exit $?
-+exit ${status}
+-exit $rcc
++exit $rc
 -- 
 2.46.0
 
