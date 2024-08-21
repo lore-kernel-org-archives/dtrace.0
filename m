@@ -1,106 +1,61 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CB3A920
-	for <dtrace@lists.linux.dev>; Wed, 21 Aug 2024 00:11:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2305167DB7
+	for <dtrace@lists.linux.dev>; Wed, 21 Aug 2024 06:38:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724199098; cv=none; b=gTzsq+w5d0Xww9iinA27CiS8UmCho/hQtzsvm/MmsS3u2CDzuX27NfX4ebRXN7uWCBq4mpDmcw4QFEZfuLs+EcojkRbssB8A6TnoqAjVo5QHWxH7Gssq9m04Nh40fH06ci8vL2nDR5TCjpx+dwbX5cWBTj8O078lYGgJoIX7wC8=
+	t=1724222324; cv=none; b=FSTvnAYsNTcnG7nqmOKWXFhiriT+0u4nmsUtQHggA8F0YGDX/3fu3wzLxNnLFYZNxhyEJBlm79dEMzk2gL+PxVlNO5K6hCklIf8AGGXjtQWpgZNoZQQN/JohVrodTkCR5r1KRqHvD7TeEpoxAq8yCY0AIh4hr8NUn1NAQwEpHrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724199098; c=relaxed/simple;
-	bh=MGWcRmaNgxNPHtSkR+vt874xA2jsworPxB33y+TvT7w=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ogOnAcDpYPDjLy4z0Acej8nv8rgEGG5P1Od6GGHo0t7FrNyavZFOCCw6e8yp9xVvyloU3aRax/svyGDYzwRjsj2cQKbcNQsa0BYumQXlpDfsbTt0HvPcJ3QoNbE/mJnkghyFvcY8+X6neGBNFXxbIaYs5mvD4aRdhIfdXzPTKdU=
+	s=arc-20240116; t=1724222324; c=relaxed/simple;
+	bh=NsuhfFwYlktLWzUlRgnhK1BTjy9EnOKIJI6mtCNQIzk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jqzmS5WFqvg309dE4lrLg9DsB8qTTFX4BHTwoCFNi38lNwwhtFCK1qWWWUTaPqUkHZ0TpTf4w5G53WyNTsXKiM0XSJ3c4k3kpa+gm6VSgyBZR228HvIc4lXjO3pPPbS134Jxu5VGP011qmy62/GXrwUOhjBAa21WbRzzOIs68DA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
 From: Sam James <sam@gentoo.org>
 To: dtrace@lists.linux.dev
-Subject: Followup on doc issues with USDT
-Organization: Gentoo
-Date: Wed, 21 Aug 2024 01:11:29 +0100
-Message-ID: <87msl6ohu6.fsf@gentoo.org>
+Cc: Sam James <sam@gentoo.org>
+Subject: [PATCH 1/2] test: fix missing line continuation in tst.perf-types.sh
+Date: Wed, 21 Aug 2024 07:38:30 +0100
+Message-ID: <d37b6af95e62cb8d03b7adb182106bfa909f4ea8.1724222311.git.sam@gentoo.org>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
 List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
 
---=-=-=
-Content-Type: text/plain
-
-Hi!
-
-This is a followup to
-https://lore.kernel.org/dtrace/87jzgfr2m8.fsf@gentoo.org/.
-
-Carrying on with the USDT tutorial and reference, I noticed a few other
-issues.
-
-* In the guide/reference [0], under "Adding Probes to an Application" ->
-"Using Statically Defined Probes", a script is provided as 'testscript'.
-
-Unfortunately, the script is broken (it's missing a heredoc for the
-Makefile at the very least; there's nothing in the script to stsrt
-creating a Makefile, it just launches into some of its (truncated) contents):
+shellcheck reports:
 ```
-$ bash /tmp/x
-/tmp/x: line 36: test.o:: command not found
-test.c:2:10: fatal error: prov.h: No such file or directory
-    2 | #include "prov.h"
-      |          ^~~~~~~~
-compilation terminated.
-/tmp/x: line 39: prov.o:: command not found
-dtrace: failed to link script prov: failed to open test.o: No such file or directory
-/tmp/x: line 42: test:: command not found
-/usr/lib/gcc/x86_64-pc-linux-gnu/15/../../../../x86_64-pc-linux-gnu/bin/ld: cannot find prov.o: No such file or directory
-/usr/lib/gcc/x86_64-pc-linux-gnu/15/../../../../x86_64-pc-linux-gnu/bin/ld: cannot find test.o: No such file or directory
-collect2: error: ld returned 1 exit status
-/tmp/x: line 44: EOF: command not found
-cc     test.c   -o test
-test.c:2:10: fatal error: prov.h: No such file or directory
-    2 | #include "prov.h"
-      |          ^~~~~~~~
-compilation terminated.
-make: *** [<builtin>: test] Error 1
-dtrace: No such process
+In test/unittest/sdt/tst.perf-types.sh line 14:
+    -n 'END / hitany == 0 / { exit(1); }'
+    ^-- SC2215 (warning): This flag is used as a command name. Bad line break or missing [ .. ]?
 ```
 
-* In the tutorial [1], under "Using USDT Probes", the 'list the probes'
-  instructions don't work.
+Add the missing '\'.
+---
+ test/unittest/sdt/tst.perf-types.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I get the same "No probe matches description" even when `prime` is
-certainly running in another terminal. I've also verified USDT
-functionality works using the DTrace testsuite and via manually
-constructing examples with an actual probe enabled (not just listing).
+diff --git a/test/unittest/sdt/tst.perf-types.sh b/test/unittest/sdt/tst.perf-types.sh
+index 636ed029..2b076110 100755
+--- a/test/unittest/sdt/tst.perf-types.sh
++++ b/test/unittest/sdt/tst.perf-types.sh
+@@ -10,5 +10,5 @@
+ dtrace=$1
+ 
+ exec $dtrace $dt_flags -c "find /dev/dtrace -exec /bin/true ;" \
+-    -n 'perf:::sched_process_fork { trace(args[0]->pid); trace (args[1]->pid); hitany = 1; }'
++    -n 'perf:::sched_process_fork { trace(args[0]->pid); trace (args[1]->pid); hitany = 1; }' \
+     -n 'END / hitany == 0 / { exit(1); }'
 
-```
-# dtrace -l -P 'prime*'
-  ID   PROVIDER            MODULE                          FUNCTION NAME
-dtrace: failed to match prime*:::: No probe matches description
-```
+base-commit: c84954cdc6fb017034e2c3fe4445a7c8981d35e9
+prerequisite-patch-id: a4540f51354b7c598c0dcd82d58673b6a4a9b500
+prerequisite-patch-id: e90d8bdf0311e4fee22a9c739cd11ebe55bd50d7
+prerequisite-patch-id: 29233b111338f9765741269a440bae137b06a80d
+-- 
+2.46.0
 
-When doing `dtrace -l`, it doesn't know to wildcard match USDT (or pid)
-probes.
-
-[0] https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/dtrace-ref-StaticallyDefinedTracingofUserApplications.html#dt_uusdt_sdt
-[1] https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-tutorial/dtrace-tutorial-TracingUserSpaceApplications.html#dtrace_use_usdtprobes
-
-thanks,
-sam
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZsUwsl8UgAAAAAAuAChp
-c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
-NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MA8cc2FtQGdlbnRv
-by5vcmcACgkQc4QJ9SDfkZAEqAEAvo8gQNBtac5e6jiOc+oQFQ+g8FSJfDV81ZC8
-17SvNUsBAJdLd0vhL5gHAN1ytaIN0O42lhwCQpOC0+SW8Uq0GlMD
-=IV47
------END PGP SIGNATURE-----
---=-=-=--
