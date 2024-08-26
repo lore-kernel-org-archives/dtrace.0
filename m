@@ -1,78 +1,83 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F631CB33A
-	for <dtrace@lists.linux.dev>; Thu, 22 Aug 2024 17:29:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58A7146D5A
+	for <dtrace@lists.linux.dev>; Mon, 26 Aug 2024 14:30:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724347762; cv=fail; b=Oojeg4znv/kvnYBAfzELExO+L3w8KNe1v0QdnxECWJWumQ6BGbAegSZ6aRlUTCJaXjQiI+CFGyKyamPxWrnM2+BFuRl/ByMEQ0UEGaEoDqWckLiJcViZMlBfDh9YMxgOIL5StW/thGrzLRHs2JFbM/jrdMaEBESwnBNPruJ01Qo=
+	t=1724682618; cv=fail; b=KrJ4HJiS1RkCHjY+TcMs6TWJ7cyCMZxMKxbeMfauJZCclQtOFCmoyzPRnRNPtJ1uwTwjnMU1WYZBuiF82vHj4McYiUl+MDoeEAhXGGXm5EbZ1ittLfhrZnnkCc/aWVTgH1fZrRotI+1M5mMzUvqdn3MecZataeXpUSNLhfw5ef4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724347762; c=relaxed/simple;
-	bh=JCgKo3Dz0gQD0TaiGfTETPFif1XGX8F2+JMdPY9nsm8=;
-	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=UpzXfQoNjhafjwufqeFRiz2n7pA9c73FMqNArqa4x8EAHyL0s7fOOtAOlT/Zd60C65COkqjYPnZkhbx1Fb713jePeR0NsTqj2VbiA9Je2FCYjC+KYNXcLrdAJcVUygLJFQhhtGX2bKcJO5GJhn+WtPJ/WQQNqEngTWWr3VcZJkI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=JiGE+iQk; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ArvAEFzI; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1724682618; c=relaxed/simple;
+	bh=7CDMgi7tHYLVeNgV7CMEArudwCjiRwOdBax9hH8+LcY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=mjtJInWNE4aVsbIKp+qy8hQVm8XiXQxJKWRSuHsJJ3uafUN5H69TGTePT6Zs4GxbrjQfTYDOCHgJr6RHdN3u5ICmB/+uPDS8j+s5Q+Pu84qNTRsxKm+SRuqI0w9tT/hvNAVLxItgP+p4LWateZMQotNj0uOqELlF5nU9HGYnNkE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ZEiS3K6L; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=hHFEUW4D; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JiGE+iQk";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ArvAEFzI"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47MEQVAd002395
-	for <dtrace@lists.linux.dev>; Thu, 22 Aug 2024 17:29:19 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZEiS3K6L";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="hHFEUW4D"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47QE2YxF016139
+	for <dtrace@lists.linux.dev>; Mon, 26 Aug 2024 14:30:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	from:to:subject:date:message-id:content-type:mime-version; s=
-	corp-2023-11-20; bh=kHBJ6hJMZRX9ySBcw3dCby8t7Tl2CX/Jnu1DGObI6nw=; b=
-	JiGE+iQkl+QyaXN8uUb5kp5vWkTpjnRl0DjjK/gyrSFTdHm7z0E38vOKz3+y5VTR
-	3aXZqLb1U5LCq+KOzgG7SdxSMqnmh44zY4dQBr3HV4HgvuhMi1+sCkHhoImv8r2y
-	seHRCSDp5i/8FEpwRYSzZCLJ2e/98IRHX3fyOIQg39Q6Yr4Re/jV7/KNOXIcS9Kz
-	7u52U9uCP2YaH4Ea7kHu05k2b2eUY2ge9oW8eUpxDX9PQAZBh82rA+/E9/SkhzuR
-	WimANsthLnb7Lhy3lcOH4l1tbzG67xRjqgaSW6hS961rJQYLmbXVajJTFDVPq+uT
-	kegXuBwZq1WVcoZc29pJ0Q==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 412m6gjnbm-1
+	date:from:to:cc:subject:message-id:references:content-type
+	:in-reply-to:mime-version; s=corp-2023-11-20; bh=wM8RG3exIKnrcLH
+	CMckYCCnPsylZzXh3tYMCuFtys8s=; b=ZEiS3K6LCGCbHH2t65i8RPIq7uXhQTA
+	mSlRXnWIz2RCXdzT5WYrOHNvp0pcWYvYsn+AQRaJXCy8iaRzSsK0JMyL1mduAb7q
+	AWUI0gGBpJ+4LaMTeaZH+TOgABDE5E6MOisARmTHIfRalbt0tYDf2/W1yk1I812r
+	bA1/KPSY6l1MAHch9TwgOBXePs+ysVXB5FBtqN7JN5V5wtKjAK2fnYJY0vGqtM4p
+	4pOLI6YmDOlQ+gQPz+ffwcFffuL5aLyiuSvLRpBjKjkDwRQeSaeLxC5r1/SaxwCZ
+	lma4PtT2Jlm0QcQzKiu06L0DSyyw4MgXp+2Uk8cN5pdkiKzSVW/6s8Q==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4177u6kaak-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 22 Aug 2024 17:29:18 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47MGxbku033586
-	for <dtrace@lists.linux.dev>; Thu, 22 Aug 2024 17:29:18 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2174.outbound.protection.outlook.com [104.47.57.174])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4169bbh57b-1
+	for <dtrace@lists.linux.dev>; Mon, 26 Aug 2024 14:30:13 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47QD1CQf010461
+	for <dtrace@lists.linux.dev>; Mon, 26 Aug 2024 14:30:13 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2040.outbound.protection.outlook.com [104.47.73.40])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 41894kkygc-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 22 Aug 2024 17:29:18 +0000
+	for <dtrace@lists.linux.dev>; Mon, 26 Aug 2024 14:30:12 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uqiSnx98NnAo4si/L6Ivp/EbWvji/tLX3ept4zmyQrIBu/AeaSaOTZkOcMdeeDYE8QjwpwMUxhlqNPJK3mhPSpQBOhwopCbG3XZXvi8A3JBBNECe8fnjxHN8F4N5tJnjFFSpeD3Smu2JW7n/roN6vxOT4VW77nKdMFUhwf/Ko5RLFg9Lk1XIZIVx0FMCnRuGnGZ/0Nctdj7AoWRZ/yWA1T/C93aRkEQRTXdc9umUdBWf6eDN+ryxcMgCZLtrC7ZBg+DSmb3DW2aq1xVtvsIazoH2N66RmYr5W3fc6owvNWV0e1ii9b2dq/x/p2wG9Mah+wS1+G7iVEu0gAhg6dPKnw==
+ b=eaSKc56mlvVP4BxmdlpIdt4H/X4d7dvDwiww95fDWvZ3mG7yx03FSDdIavQF6JAmZ2c8x5luiICBkBH46xoF/1w+O90TZsFgkp4F4TNVA6cQ/GWUmcme/mHJCklTitha3tyfhYuIlMLVqXT5uTFyDz2WXE8EL9rImOFFD9FnsoYB/hI44JTLgqqJsOj2ufLbKgnplRTYD2jVxh5/jLx4vpgLxkJ3xEfBtCzStVOonYO3fv18dbVngskaaU6meHK8tB8/fPOR7fOV3bgTVcelOdCGelXl2KEYVBJBbOuRipIB5bj/QV7dfERJ/KLlBD9KJNgnbbxnkJhGz7NnuXNHNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kHBJ6hJMZRX9ySBcw3dCby8t7Tl2CX/Jnu1DGObI6nw=;
- b=SxP9IehwKAzvBcarm/qHYXD6FS+VKVf2BqvS3dALHltgfmRDvp3kCMUQlFdsLpE5fo9URTC1P1pZuj5f9Vf1MEisrQWLnpaQqZHfyiPdu/fSAwlGa+SXpZSDDsj/XadTxSAOhvQM2eZ9E0eXHR1DUnVZy3GITEMssrpvfKZDDTNrv1NlG+q7Md9vBIC8szUeIst2Kllbp2yTfxJegpceTcfFyw+A2pmMddsmkfKws6ch2AN9hyWisr8lhFjVLt0TFhVSXvbBECx5207Hp9QA9Bshl+dEVHvKpm409M4lXHjOHvk6QsRv3bGt2Tx8f+RTqMTrn50n9eHMVF2Z+y4eNQ==
+ bh=wM8RG3exIKnrcLHCMckYCCnPsylZzXh3tYMCuFtys8s=;
+ b=pC1KIlFdpXVsXW17TCta7ZvXwSSibT1jzDcruOhbfwXw8rLtRNAftZZDTEFss0k0yvD9V4zAjtdyHpNBR0mP8DUZ2Ipo0ZjoTE9ysTNyLoRLoKV3hQhQmSrhcYekVx/tQBL6Yl6ixO70YNhyr5BRHfb6McI4Z2td9JGstPq61RjjaSZIUOOuxHv7VW+Ea2RmuEYs/BOPwGjBGfNXOihsG2++Roru4G7kd2hnDZ8woaAiJ2bTSk4d7mu5FrVDt7wfX7Rv0XfZYAPZtrrr649NeYBcMuTttIPoWR/IQWWlG/8QtltHxO9O46vpvHRvO1fZa9B5bVGK+jhnDZPfQC9nYQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kHBJ6hJMZRX9ySBcw3dCby8t7Tl2CX/Jnu1DGObI6nw=;
- b=ArvAEFzIIGujeAFM4/OjQUmVBhpEN2D3BEKADDF9su6KPgbWezmgx4CG/VopUD9vEwg8s8XdGnSQQwnU+0e7iskgcOg7d/KmgyrMbq7NrH10k+tIgA+yyEalk+doZTy2buQ4HerMBgqFthdIpvfkojEVNvTbNFEPFUDR7w492CA=
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by PH0PR10MB4455.namprd10.prod.outlook.com (2603:10b6:510:36::9) with
+ bh=wM8RG3exIKnrcLHCMckYCCnPsylZzXh3tYMCuFtys8s=;
+ b=hHFEUW4D9rldifMXwPVibXLmwH/AQuLs/NeWW9RtaSiWCyRewFdE2BSXKJyQqAxMm9OBySKYkmfwFmYMI7/wsVOiCiEJI44MEFObhI0651SjWa4WdUM5SXoZFR25f5SxzRw5kB27LHA2/0Fy5mR2XxXtzp6e3/mpb5rZWM8tphg=
+Received: from SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
+ by SN7PR10MB6381.namprd10.prod.outlook.com (2603:10b6:806:26f::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.16; Thu, 22 Aug
- 2024 17:28:39 +0000
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::8b24:5536:3259:5a69%3]) with mapi id 15.20.7897.014; Thu, 22 Aug 2024
- 17:28:39 +0000
-From: eugene.loh@oracle.com
-To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH v3] Action clear() should clear only one aggregation
-Date: Thu, 22 Aug 2024 13:28:36 -0400
-Message-Id: <20240822172836.8444-1-eugene.loh@oracle.com>
-X-Mailer: git-send-email 2.18.4
-Content-Type: text/plain
-X-ClientProxiedBy: BY1P220CA0021.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:5c3::16) To CO6PR10MB5636.namprd10.prod.outlook.com
- (2603:10b6:303:14b::20)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.14; Mon, 26 Aug
+ 2024 14:30:08 +0000
+Received: from SN7PR10MB6287.namprd10.prod.outlook.com
+ ([fe80::5a47:2d75:eef9:1d29]) by SN7PR10MB6287.namprd10.prod.outlook.com
+ ([fe80::5a47:2d75:eef9:1d29%5]) with mapi id 15.20.7918.012; Mon, 26 Aug 2024
+ 14:30:08 +0000
+Date: Mon, 26 Aug 2024 10:30:06 -0400
+From: Kris Van Hees <kris.van.hees@oracle.com>
+To: eugene.loh@oracle.com
+Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: Re: [PATCH 31/38] Fix dt_pebs_init() call
+Message-ID: <ZsyRbgnYtFelMhM8@oracle.com>
+References: <20240627053904.21996-1-eugene.loh@oracle.com>
+ <20240627053904.21996-12-eugene.loh@oracle.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240627053904.21996-12-eugene.loh@oracle.com>
+X-ClientProxiedBy: BL0PR02CA0028.namprd02.prod.outlook.com
+ (2603:10b6:207:3c::41) To SN7PR10MB6287.namprd10.prod.outlook.com
+ (2603:10b6:806:26d::14)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -80,339 +85,417 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|PH0PR10MB4455:EE_
-X-MS-Office365-Filtering-Correlation-Id: b1d9c2be-671a-4c51-8ae3-08dcc2cfdc3f
+X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|SN7PR10MB6381:EE_
+X-MS-Office365-Filtering-Correlation-Id: 824a589e-6057-4f1d-8839-08dcc5db95bd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?v8DKNOK/bYmSlOLAtk5WOd0cKo5MnI0ikdFB7fsGSXjQvqWXmKHn4NCw7AvZ?=
- =?us-ascii?Q?2yyQHZFhqcFLpk9X66djGsNf2EC0VrUb1VAtZ5raq7cOc3CJrRgDgMMwX3b/?=
- =?us-ascii?Q?BVgNqczWAbMbjf7gGkRFbfWC3iM/M3Uyjcwmng8lAW2B/memXdYvg5Zb8jr6?=
- =?us-ascii?Q?fIlmcGgZyQYgiKm0cEQ3xlHHkZ9aYwwXTkCprmPXXbeZne877XU5FTagpP+R?=
- =?us-ascii?Q?Z9sztrCvROfyyxkn4ItxNr1MwNfAcihJaeMMGyKl2exz7HHQfRK9bxcXSQ24?=
- =?us-ascii?Q?GfHaDYBHBdkEQnJI8RjwprPUxsZgZqOz5vjWIBkS2b0Q+LOPLWnnHUc0w+1u?=
- =?us-ascii?Q?RrEjO6ku3LMdIbCMIMdEybaM8nlG0EZIB+HJ9gfRQ2nax4goeyt6iHyC9tg6?=
- =?us-ascii?Q?6O0CfoJ6Hcw6n4TP+GXQtXBlydq5FT6IFIoqRYvcI3t2YDQ69FYhUq6S8MRT?=
- =?us-ascii?Q?BlhKR/tsMDk6ac+6SeOGgbt53C3O59brIUE+jzKuWEr93fbxkUeXAPF7iIXE?=
- =?us-ascii?Q?mqorUiZF/Hae/5NsU9lLwifq4vilYP/EVQscoEsV6qNTTTZfWuw+/p1VVtuP?=
- =?us-ascii?Q?OdBO7mo/SSEARj8VBVuIzFwx76n3Zt+NgLdPV/bsYHL0CyxTF5I0nnXRTB9d?=
- =?us-ascii?Q?z4mI54iHl5Q7dfQ3UreUDjQcNr9GR8nq3YB+7mRKAcuIhCC8oiypbDeVUJ2u?=
- =?us-ascii?Q?i1TfDJDGKvZPGIKEoTsH860lTi09FIALM5Md/9QQHuIzWmSFTT88OerbNemx?=
- =?us-ascii?Q?eqQmMrO55b2MZ7F+y4dR8I8vQTWmWa9JQ1fy5P+qOpn+6JJ7JsCHiurSQNU4?=
- =?us-ascii?Q?yEhpqbl6m4nrQmxgRgE6LSrKhwIPnFFOIiroDikDkSZYGx0KZdRwYmcpt+Vs?=
- =?us-ascii?Q?GgCfDe9lrMWu9kasqKfb/4w8WjHS0CKx6OTOrNVzutE8VxvIw36nYNj5QHUB?=
- =?us-ascii?Q?5FSRSmhDsGRbEK4Dy4MeXRh3OQbJ9qkVCL/58XDchOz1AFqzxr9KpzImO7mB?=
- =?us-ascii?Q?wr1e5PsJ/gtnNG2bNN62UqReSqL9Bn+g4z7ZLNN2Fw2UuBVLFhEwnoAAQIrd?=
- =?us-ascii?Q?B2mEof/Jl3Hem0hEbWstDwbovnvaDHkDMiq4FjyYTCOjtsZ7TfXdw5CPe3Z6?=
- =?us-ascii?Q?Jpu/eQ6oDU+oxNTyeGs5oWm8g/xVhW2Sg0+TY9KHAM2sEDX/9gKSkCsmnf4Q?=
- =?us-ascii?Q?da3XalvuaSENTaRRzJ2eEAd8OYA9JEaVCwBGh7fZKjo+onNlwOFkeD4D5b9U?=
- =?us-ascii?Q?nUsGAJvwLSs/QqlyRxHeUP1JmCx477WXMWv/EIFwrmFjf5y8+kc/X+Xj/LOH?=
- =?us-ascii?Q?6Os=3D?=
+	=?us-ascii?Q?Bt5ld6DWhsGWWKU5ZcFS00/jyMZRkDUKVB/n1ZfRmhSuA3zsyAE29AMAvrUF?=
+ =?us-ascii?Q?L2JGxToPzgLuxgpmJZz362iB8jQgM9TveBTE3prf079S1WWktqXIK+NB3n0W?=
+ =?us-ascii?Q?ST/nrIfgkJXW2mL8h/ORgJHMePi91N5POZaPNwE8o9YNtve6kTTsjrZPLRYA?=
+ =?us-ascii?Q?tvreM6aCwzFjOw54WrgEbuWo5PBdwpRTm8jzPswCWQWYvMmbHGEbnKGp+BFk?=
+ =?us-ascii?Q?lbvy0aRbrrjgxtNzKCpaOxEWci9YBYtm9ntltOY7jxeopQxSVhxBFNmlKHcQ?=
+ =?us-ascii?Q?uTr1mW0MASbmzjswwCfbI82uK+DLfNcCrX+Vmzt135mhif6e2rAlqiG4vFJk?=
+ =?us-ascii?Q?gnMsrlhSF3/pGu38hNPfu/aPzXRgTTflYEekn057rtsYO91di+C4qmTrSgU/?=
+ =?us-ascii?Q?AipYST9WE5bUTC7osjfuSBROdaK3QYTt/VRgULdOrhvdVmVww7u7HtFm8aF6?=
+ =?us-ascii?Q?UT4ucsPRY8NVN1sy92PT0paYGqWkgO2YbZk+QWteMP2WJDvnJ3SUMHN3yFuK?=
+ =?us-ascii?Q?U36BC8ey0eASwqlKfwQIz/rkuEzvolARjyL0Vi1qIfFjC3JJyfTjIe+8e7l/?=
+ =?us-ascii?Q?rB9gqUkfALDF2sltHwP9oE25mLyhO6UwcT4Uz19fRPKGoHt5D15rbQZH89W5?=
+ =?us-ascii?Q?kXqXzPc12KoNGe6xok0cXfPV2mKTtGTUQS6djjkivkHd70lXiQ7h4DZi7+YZ?=
+ =?us-ascii?Q?9Ybm3ElP0ehj9Cdc+G0Rz7kgzh+nZakGO/PCuXkT5A57ZG3KPQ2JhqKw0tBu?=
+ =?us-ascii?Q?7xe3DOcu4cA+STJVtZXsJk3Ntz47KPogY7kASQsbZpN+xpHXXN5ELKjcR4Tj?=
+ =?us-ascii?Q?rGxSg3BFBYCVpGEGDpzaZdnaDBxYi+Xsy7henkcGIzoLyCf4+KGUGUT+aG3i?=
+ =?us-ascii?Q?+ZmhcBBd2Q8fCfGbxXIPp6B1dN4Q0IsHh4wepdJarSWOqC/eRH6h4yO8wGji?=
+ =?us-ascii?Q?yGO1fDTQkX8l9DebYCVGmB3W9CMpY0hJ7rztzeGBB0M0p//SWmGzqXOT+WfE?=
+ =?us-ascii?Q?gkcnMgHtqiTPxyNXy1jdX65jDGHtD4NilBlNURVDl8c4cHTGo58zHtiTBwnK?=
+ =?us-ascii?Q?0cFZJ7rOOTHJYJEopXw3HRvTq5+bPW8FMTycJzZ+IZm0ABR2uguA4sn3MS+K?=
+ =?us-ascii?Q?Hod21gJyk5IW6IIa1QbZMPAc26M0Tnx5cnmU2S2j/hgXlCbAeSpCQmFsrlCn?=
+ =?us-ascii?Q?UgreuOzTP0Qm9jGOugLTWK4GxqsD0FH2K35tjREgMVHgcyUoJGg/njiH7f3A?=
+ =?us-ascii?Q?s+G1FdGhRya/5D9UEJy6Wgaoyac7+NFRXFIMUvJj6HsKQkYhFozyxw0saw2b?=
+ =?us-ascii?Q?7Lw=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?m1a67M2WB7hjik9AzxvbNWwho+6jOGWHzsdlplJftrXV3CrwdPzfICnK3fZX?=
- =?us-ascii?Q?8bEA+E5wud8tvPyYP13Sq+njF8UsyJbw8okWvhL6XjXVKKG+waepHCqz/v5A?=
- =?us-ascii?Q?+Jb53pI9Q4yoJuOhy7zcaM1YlEMngdP4W23qn+dvoOUovRQA1GrpXNCwbWGP?=
- =?us-ascii?Q?GZLtbOrkviPkALfKxbk3coPt0IQSk5HWIJUpsHuBp0i0eF1eCEFRzw8DgYpr?=
- =?us-ascii?Q?VSQR6nYHnibkW+c97KxnwP2PcH5T1rNMGQVjurkrWCNQk0pzseootWI1JTAO?=
- =?us-ascii?Q?mB+EjvKYjXWxGPq/XPQq7aAytngFaeL0DnoeVjutctqmnvcpgvrWXVh+tdFG?=
- =?us-ascii?Q?KNkuQhpmTqAaLlmVLN9uds2ya0CwZueJxlRIjCbb9dKRn235mtlvuOFoA0oh?=
- =?us-ascii?Q?8HW6IqAr0QCuMkHV/04kM9zUrs8MKzICggEYgLIfahwdKz1zsgNilrqBBwut?=
- =?us-ascii?Q?+b9ri/PZBNSGm6LAJTOgeThjdYgSaw22vj2Vdod9WAYVNpKTp4/lczoc08Pe?=
- =?us-ascii?Q?+1V+1bGMYR/PFQ0BbNBOgmMul7C+UVIqdXMIaVR7M+v2lVWns4YctuhwfolL?=
- =?us-ascii?Q?oDblgL/KLlm+NWMLqTmkaWP5s2Mr9vMxRhV+AYYy8KcJHwoZMAuVk5WYO7iX?=
- =?us-ascii?Q?QeIjVn9CNIPo/hnTBBFuw0kM1/xMnkUVl+Thvoui2fgMCOm2pdhuP+GAB77t?=
- =?us-ascii?Q?YGtuC4/EV4TwTFxGaL/g17cStc8D3/Wmf22o+10fr6nkv9vxSFrbszMFNr7f?=
- =?us-ascii?Q?L1YUXF8RBEU3MKmDYz1pkDOBCqahWPIsI6O98rK9sz9bb8DyubQU67jLj4eM?=
- =?us-ascii?Q?G0P4r2mn4AlsADyQehvJ0/ujXQV/etvZan5zJzyekDdRS69FRTQ17re1E52x?=
- =?us-ascii?Q?M8kpXwsaF176JfOlScefOxqZNs3BHFwNZuMNWyyPMYrFGdD5ZDRPa6ZbGQeh?=
- =?us-ascii?Q?BaeD73DfFPS+2VRtq8L+zkxl07iooSsGC0iRSFoINX5SLl2x2uQGvqnZThBD?=
- =?us-ascii?Q?MDf0fb6dTelOEeQWWAnxh0fJjM4VHMl9j9oGZ5Arsd0g/VFGA5duqR70sOaf?=
- =?us-ascii?Q?eKGujXQ9ArA8SHhkNZreF5RYtpcZc4WgIUYPKN1WWJ5Z0QfqQPAtLwv1UTfz?=
- =?us-ascii?Q?rdvn+EifLhfB1YhBL2JAxgRfU89vmz2JY2ueyBaJ2q7Nr3LXBoGZM5YlRubD?=
- =?us-ascii?Q?fL1m1pDGEk4jhOVYrq+Ly5Cq2EppXc3wS7VqNmPSc+TpcJi6erSee65QVh0C?=
- =?us-ascii?Q?W9ku9+zYAjPHql6vjjoVNmmr9YgoM82qvcvI56Ademv1o3VUvcw1qKURQS5R?=
- =?us-ascii?Q?CwOYBkpJ0iZYsCWO8lG+XcJczM13G7uv7CVRfMyutDYu5huiRYEBWg+KmHe8?=
- =?us-ascii?Q?HXSsPwn+xZkNUdFK0f9W8RVN17cb8WfNrXtdE+89tP3C9foT3ZHuJCto0nCl?=
- =?us-ascii?Q?A21HkKqSccICjJ1zKMF8mrphpvFEoZh1RDrMYDrA/J7tBPMccGaJY8+JdLBx?=
- =?us-ascii?Q?Ja/jMkxhWE1YaULpia3nHVipEcw9ZTShq8IBlyZmwAGN9EnwUhkRmz663zz+?=
- =?us-ascii?Q?I6dwSYKJyF+URERrU6UeLSVsW3vG8udSxxM7Jumr?=
+	=?us-ascii?Q?H9IjQyl1V5uutLgjX+KltuuSxXJo+NgliezW9u8IwqsYibS+RehJHlMaI5o+?=
+ =?us-ascii?Q?Xh0Vk7W7fM+Ncq9/UryV2ertoL5s628zKqyEMKQiWm8ncq8jwh31WeS6zzsW?=
+ =?us-ascii?Q?WutZMBRqviXHtjDGsrF+qNxE1EdDiogu0edI6P4F3WsEPIWL/xSTp54GDDys?=
+ =?us-ascii?Q?lmegS1QxB3OiHdk0UrL4scl8SNbEsdObl9/JTERFBTOFuV67+ZZvrjnUxT4v?=
+ =?us-ascii?Q?jDAwEPXyWldNrYcaO6z1YbYWm57OZh7h3wnPS2NNuPdRZyZWlm512ddNzqL5?=
+ =?us-ascii?Q?9Lel3111qtoz/JWCmT2l2iRBvNxmedWMYGbwpJzWBVq4XJL7PZ1bNiluGI4R?=
+ =?us-ascii?Q?wz1fscSf1xskxvev9cT8tpj95vZAlywUT8gdYKr02+SIcqz5uU2dAfRuN+6i?=
+ =?us-ascii?Q?J3kDcqB8bVXDoH9DDXeaC9HlWdzHiXBA/lBuQn3cvUgBm6MyUJ+fGShwy8I/?=
+ =?us-ascii?Q?uA3i0k8JNPxQw45Kf0uSPrzqu74hDsq7/OtMKQndZ8XFcyIf0WQv3bR7TjHS?=
+ =?us-ascii?Q?fNvIYwbukBOZ6iimgWu0RKA2FkjBKNr9MtYLd4H27nKqjhIzDwqjLTKpiZRY?=
+ =?us-ascii?Q?IeTWbgbU820+JzArHUsXwZYBfXSE7qGgclGzZej2nYG4pft6Q/4dQA24Ni6Y?=
+ =?us-ascii?Q?kbRlWUElqwBwWN2leGp7SSNyqn+sKyvRdbYYB6Eon8Mly4CLniRm3FxYA/HE?=
+ =?us-ascii?Q?KGJr3npi7G9ZvvLygZbuaj5tlvvrqoEDycT1RBiu7VnX24/Otetnc260fFMh?=
+ =?us-ascii?Q?GpAjXeIQNvN90CS/kRKyqMhrSkyUseE6XwTJoQ3SXeYqa2uhdsjmwBEdYYlp?=
+ =?us-ascii?Q?b3dHlXwt5B7tigQ4DF8TNHGT4DqCu5aSuftSW+zkPKd1BcKOQ0+AWzmgVyI9?=
+ =?us-ascii?Q?vk6Ud1KK7ka3w/kHMwHCJHX2BPUay1oyp2OAR9tqvjWBbIWART0WDvTLhx1D?=
+ =?us-ascii?Q?O8uTjBTiw80PeL0FyoI18FQ9vIjnSF5lKBYISw4RXryWXCLbDQsaUSslsGvP?=
+ =?us-ascii?Q?1t+hiwxySVoSylKiyCaZBAjX1xPelEdHHod6/BakG3vSMfai1zPtjaNOW3gv?=
+ =?us-ascii?Q?pCyfpZHEDbp66EUPsbRclx8cyoI+Nx62rgSTuNRsbmLf8UPjGYjOg/6EWXSY?=
+ =?us-ascii?Q?wFHnAkv7LSER1cmdQFomvAJ2lAgM9O+ML1hqXhT5pKN4GyTGyjcAsD7KO39a?=
+ =?us-ascii?Q?wPDL44Fs9dCr+4qTiFQK1DLnwlL/hJTDFHfBqRIQvvtS3UOzZdYEEmlkDGwr?=
+ =?us-ascii?Q?ZJxa/mbSXTaQk2/E7LLM9OaJu1iQKjeHS9f4pa/SRdZj0sKiDwldmVwoqNHj?=
+ =?us-ascii?Q?Znn+XNPGGu0Qax/7qiodQC9Vd7pYHEkVyolUekgYzUoiM64QPIUpMXMzVLSS?=
+ =?us-ascii?Q?z6YXm9sTmljXcmOzeB2rHiSF2KAMIp5p5iLtNBw0B2QO7iiVQyHO9ZBSZTS7?=
+ =?us-ascii?Q?I9lxj1gI1A8NasfKE8n+ftNvsFKXyBtUXcX/xLABV+SmVgERyL22yhB4NFWc?=
+ =?us-ascii?Q?OcgE0YkbgHfDT8X9BYcnT/bbbNhqUujCvhzI/6/yCArmQqofUxOhLzQx5bo1?=
+ =?us-ascii?Q?wclVxWQCuGKuMhNofeamC5yV6srjlBTjrl0DjfHWqz+8+I4duB6z0xKo9zXb?=
+ =?us-ascii?Q?WA=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	wH3b/4S10dPB576UhYFbEqePSsC1gArEegDBgq+4Ja5V/F49Phh7EKsVexJWoKac0Q0i2HiX5YjwRxhTIGCjxt3XksMMpcNX3/nJ1Wa80BJ4a4t5PNy5lYbn86MTHfQelKP0hfTU/xZPXb1ue9M6DlCUHwtoyDlVfexvvQ71iz5pepEoIhmppPB6q4lBgvnzczVWiSb9oO0rjswIIUDzvAqniug/o3mp7MMspoq7DRXNtgFvutKWQanwpd2C4+zasMr2KVQT3lhV9IZV/+OyEFwEtkTYSbQxTs9S25VCzZMxxNLnpNBvc9JTws5upXBIQAbrk+l686HRc90KAwLbhM/FlmGE0GUxeXGjQz8r6+/TPW7c+njfxjhQ3QGOKvIFObGaca5ub9Lbk6IQ/L1+J6zdB6v0U+Q+94asfffeKl/RL2427shbLrfmil0iXyjjKf0Rtkjw0fFZATBigAcD+e1vBl+LmzYfEFq4hrcsbz517nu4xYZGrZD3+xCWhPHjA83m+jcXhxS4AzEI6+Sy3SsIZDHs2jNHdh+U63M4YjaPwXYuSu/w5zFnB8Zzivvkb2oaLE1PI2qxmR+TDYJuGAmohhg4nccS8tXwFTfWktM=
+	eDcQ3N6MlCjxIpELSSuKYekw8SE9y8m0bdOm7p40oWTgJ+RVfwjIba/uVUkbIupRLXWvxpCPSt0rEKVNjj/zLBVpKl9wO4uGRiaPshmZ7xDaa+I0zwQwghrpDZVGuCd273XutToWqNi8Vgrn0ERiwfCMvw+UO7lI4hbb349flSAeyu4t0SJBtxHVK9tvzBskTMnl1S6ys3qhd/C6sDt+tvxQziacZ23Brg+WRw1ObYrACbAdetNU8HC7J7iYbpUPKFxJ/8Dro4gawmp/7uB2Oob2x2yIqaBlD8ugcS6oOLFGsJHQAO3XntAYgfpJBA8m4L6PwVTRMFvLeM8GNUl0GUgNH2cqqTAAvBmY7DOB00SIZoneT3ruP2P8YoL6Q8N1CMzaiaa5Nf2+1HvjooFs6hPxvTom78mfFsKzy4oyCFwrdFysIc20kR3T3Sv2B0EGTxs53azVVpAnwGBKCaifh/8bVdPC1uT723c9lXTuzVhYybsIeyyfKDxSVIi3P9DfRVeYEZTvxigzLNlXPcg8InkHqQ2u7q62qDu2kRWgQcd1ooiDKHfRQKiK4fNn4zkAlt9x2M/xC9W2eBduRfgTZbnDqcJ61Yp1iEC4y8JocEk=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1d9c2be-671a-4c51-8ae3-08dcc2cfdc3f
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 824a589e-6057-4f1d-8839-08dcc5db95bd
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR10MB6287.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2024 17:28:39.0009
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2024 14:30:08.1714
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RN0eiupnputXLXLZ8IiifWI1zmrtyJAqXy1lWrLTK2dovQWtzQY1sFEdXxIViahhAH96QCcnKNmuutHOxJA5AA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4455
+X-MS-Exchange-CrossTenant-UserPrincipalName: B/f4tgWPIbjqaiJEj8Qs79NKqFZwerenBKk/1WbrqaTJ2QlO+MAz6WcipVwx8dlyWd40fvPGOqyK9M9ymj46UazaYrdDbV6T8SOTtZNZH4I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB6381
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-22_11,2024-08-22_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- mlxscore=0 spamscore=0 adultscore=0 phishscore=0 mlxlogscore=999
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2407110000 definitions=main-2408220131
-X-Proofpoint-ORIG-GUID: TkjjF2J4tW7NEd5vdwhu9wZiqrx93lF-
-X-Proofpoint-GUID: TkjjF2J4tW7NEd5vdwhu9wZiqrx93lF-
+ definitions=2024-08-26_11,2024-08-26_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0 spamscore=0
+ mlxlogscore=999 adultscore=0 suspectscore=0 phishscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2407110000
+ definitions=main-2408260111
+X-Proofpoint-ORIG-GUID: CS9_pqU8_O3W0k5u8J5VVJqlQrXFg0os
+X-Proofpoint-GUID: CS9_pqU8_O3W0k5u8J5VVJqlQrXFg0os
 
-From: Eugene Loh <eugene.loh@oracle.com>
+This patch goes against the intent of the code, as far as I can see.  The
+point of performing the size check prior to increasing the buffer size was
+to enforce the limit on the size that was explicit set by the user.  Then,
+if that size was sufficient, then DTrace is at liberty to increase that
+size to a whole multiple of the page size.
 
-In dt_clear(), we:
+But if I were to insist that a buffer can only be 24 bytes, and 24 bytes are
+not enough to store a single trace record, DTrace should report an error
+rather than increasing my bufsize setting on its own.
 
-*)  extract an aggregation ID (dtrace_aggid_t)
-
-*)  increment the gen counter for this aggregation ID
-
-*)  clear the consumer copy of the aggregation, using:
-
-      /* Also clear our own copy of the data, in case it gets printed. */
-      dtrace_aggregate_walk(dtp, dt_aggregate_clear_one, dtp);
-
-However, this clears all the aggregations.  While the next snapshot of
-the aggregations will refresh our copies of the aggregations -- after all,
-dtrace_aggregate_snap() itself starts with a call to dtrace_aggregate_clear()
--- if we print aggregations before the next snapshot, we would display an
-erroneously cleared aggregation.
-
-Therefore, change dt_clear() to clear only those aggregations that
-correspond to the specified aggregation ID.
-
-In order that only a specific aggregation ID can be cleared, we
-modify the last argument to dt_aggregate_clear_one() to be not
-simply the dtp, but a pointer to a struct that has both the dtp
-and the aggregation ID.  The previous "clear all" behavior can be
-specified with an aggregation ID of DTRACE_AGGVARIDNONE.
-
-Though trunc() appears not to be similarly afflicted, add a test for
-it too.
-
-Orabug: 36900180
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
----
- libdtrace/dt_aggregate.c           | 16 ++++++++++++---
- libdtrace/dt_aggregate.h           |  5 +++++
- libdtrace/dt_consume.c             |  4 +++-
- test/unittest/aggs/tst.clear-one.d | 33 ++++++++++++++++++++++++++++++
- test/unittest/aggs/tst.clear-one.r | 13 ++++++++++++
- test/unittest/aggs/tst.trunc-one.d | 33 ++++++++++++++++++++++++++++++
- test/unittest/aggs/tst.trunc-one.r | 10 +++++++++
- 7 files changed, 110 insertions(+), 4 deletions(-)
- create mode 100644 test/unittest/aggs/tst.clear-one.d
- create mode 100644 test/unittest/aggs/tst.clear-one.r
- create mode 100644 test/unittest/aggs/tst.trunc-one.d
- create mode 100644 test/unittest/aggs/tst.trunc-one.r
-
-diff --git a/libdtrace/dt_aggregate.c b/libdtrace/dt_aggregate.c
-index 76f1d8ad..e3380b13 100644
---- a/libdtrace/dt_aggregate.c
-+++ b/libdtrace/dt_aggregate.c
-@@ -504,7 +504,9 @@ dt_aggregate_clear_one_percpu(const dtrace_aggdata_t *agd,
- int
- dt_aggregate_clear_one(const dtrace_aggdata_t *agd, void *arg)
- {
--	dtrace_hdl_t		*dtp = arg;
-+	dt_clear_arg_t		*dca = arg;
-+	dtrace_hdl_t		*dtp = dca->dtp;
-+	dtrace_aggid_t		aid = dca->aid;
- 	dtrace_aggdesc_t	*agg = agd->dtada_desc;
- 	dtrace_recdesc_t	*rec = &agg->dtagd_drecs[DT_AGGDATA_RECORD];
- 	int64_t			*vals = (int64_t *)
-@@ -512,6 +514,9 @@ dt_aggregate_clear_one(const dtrace_aggdata_t *agd, void *arg)
- 	uint64_t		agen;
- 	int			max_cpus = dtp->dt_conf.max_cpuid + 1;
- 
-+	if (aid != DTRACE_AGGVARIDNONE && aid != agg->dtagd_varid)
-+		return DTRACE_AGGWALK_NEXT;
-+
- 	/*
- 	 * We can pass the entire key because we know that the first uint32_t
- 	 * in the key is the aggregation ID we need.
-@@ -609,7 +614,9 @@ dt_aggregate_snap_one(dtrace_hdl_t *dtp, int aggid, int cpu, const char *key,
- 		 */
- 		hgen = *(int64_t *)agd->dtada_data;
- 		if (dgen > hgen) {
--			dt_aggregate_clear_one(agd, dtp);
-+			dt_clear_arg_t arg = { dtp, DTRACE_AGGVARIDNONE };
-+
-+			dt_aggregate_clear_one(agd, &arg);
- 			hgen = *(int64_t *)agd->dtada_data;
- 		}
- 
-@@ -1859,10 +1866,13 @@ dtrace_aggregate_print(dtrace_hdl_t *dtp, FILE *fp,
- 	return 0;
- }
- 
-+/* FIXME: dtrace_aggregate_clear() is called from only one site.  Should we inline it? */
- void
- dtrace_aggregate_clear(dtrace_hdl_t *dtp)
- {
--	dtrace_aggregate_walk(dtp, dt_aggregate_clear_one, dtp);
-+	dt_clear_arg_t arg = { dtp, DTRACE_AGGVARIDNONE };
-+
-+	dtrace_aggregate_walk(dtp, dt_aggregate_clear_one, &arg);
- }
- 
- void
-diff --git a/libdtrace/dt_aggregate.h b/libdtrace/dt_aggregate.h
-index 4f8d09bf..0dc126e9 100644
---- a/libdtrace/dt_aggregate.h
-+++ b/libdtrace/dt_aggregate.h
-@@ -12,6 +12,11 @@
- extern "C" {
- #endif
- 
-+typedef struct dt_clear_arg {
-+	dtrace_hdl_t	*dtp;
-+	dtrace_aggid_t	aid;
-+} dt_clear_arg_t;
-+
- typedef struct dt_aggregate dt_aggregate_t;
- 
- #define DT_AGGDATA_COUNTER	0
-diff --git a/libdtrace/dt_consume.c b/libdtrace/dt_consume.c
-index 9e536b19..88083b19 100644
---- a/libdtrace/dt_consume.c
-+++ b/libdtrace/dt_consume.c
-@@ -1536,6 +1536,7 @@ dt_clear(dtrace_hdl_t *dtp, caddr_t base, dtrace_recdesc_t *rec)
- 	dtrace_aggid_t	aid;
- 	uint64_t	gen;
- 	caddr_t		addr;
-+	dt_clear_arg_t	arg = { dtp, 0 };
- 
- 	/* We have just one record: the aggregation ID. */
- 	addr = base + rec->dtrd_offset;
-@@ -1552,7 +1553,8 @@ dt_clear(dtrace_hdl_t *dtp, caddr_t base, dtrace_recdesc_t *rec)
- 		return -1;
- 
- 	/* Also clear our own copy of the data, in case it gets printed. */
--	dtrace_aggregate_walk(dtp, dt_aggregate_clear_one, dtp);
-+	arg.aid = aid;
-+	dtrace_aggregate_walk(dtp, dt_aggregate_clear_one, &arg);
- 
- 	return 0;
- }
-diff --git a/test/unittest/aggs/tst.clear-one.d b/test/unittest/aggs/tst.clear-one.d
-new file mode 100644
-index 00000000..f96c2db0
---- /dev/null
-+++ b/test/unittest/aggs/tst.clear-one.d
-@@ -0,0 +1,33 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/*
-+ * ASSERTION: Clearing one aggregation clears only that one.
-+ *
-+ * SECTION: Aggregations/Clearing aggregations
-+ */
-+/* @@nosort */
-+
-+#pragma D option quiet
-+
-+BEGIN
-+{
-+	@a[1] = sum(100);
-+	@a[2] = sum( 20);
-+	@a[3] = sum(  3);
-+	@b[4] = sum(400);
-+	@b[5] = sum( 50);
-+	@b[6] = sum(  6);
-+	@c[7] = sum(700);
-+	@c[8] = sum( 80);
-+	@c[9] = sum(  9);
-+	clear(@b);
-+	printa(@a);
-+	printa(@b);
-+	printa(@c);
-+	exit(0);
-+}
-diff --git a/test/unittest/aggs/tst.clear-one.r b/test/unittest/aggs/tst.clear-one.r
-new file mode 100644
-index 00000000..101d173f
---- /dev/null
-+++ b/test/unittest/aggs/tst.clear-one.r
-@@ -0,0 +1,13 @@
-+
-+        3                3
-+        2               20
-+        1              100
-+
-+        4                0
-+        5                0
-+        6                0
-+
-+        9                9
-+        8               80
-+        7              700
-+
-diff --git a/test/unittest/aggs/tst.trunc-one.d b/test/unittest/aggs/tst.trunc-one.d
-new file mode 100644
-index 00000000..0556bb34
---- /dev/null
-+++ b/test/unittest/aggs/tst.trunc-one.d
-@@ -0,0 +1,33 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/*
-+ * ASSERTION: Truncating one aggregation truncates only that one.
-+ *
-+ * SECTION: Aggregations/Clearing aggregations
-+ */
-+/* @@nosort */
-+
-+#pragma D option quiet
-+
-+BEGIN
-+{
-+	@a[1] = sum(100);
-+	@a[2] = sum( 20);
-+	@a[3] = sum(  3);
-+	@b[4] = sum(400);
-+	@b[5] = sum( 50);
-+	@b[6] = sum(  6);
-+	@c[7] = sum(700);
-+	@c[8] = sum( 80);
-+	@c[9] = sum(  9);
-+	trunc(@b);
-+	printa(@a);
-+	printa(@b);
-+	printa(@c);
-+	exit(0);
-+}
-diff --git a/test/unittest/aggs/tst.trunc-one.r b/test/unittest/aggs/tst.trunc-one.r
-new file mode 100644
-index 00000000..a611026d
---- /dev/null
-+++ b/test/unittest/aggs/tst.trunc-one.r
-@@ -0,0 +1,10 @@
-+
-+        3                3
-+        2               20
-+        1              100
-+
-+
-+        9                9
-+        8               80
-+        7              700
-+
--- 
-2.43.5
-
+On Thu, Jun 27, 2024 at 01:38:57AM -0400, eugene.loh@oracle.com wrote:
+> From: Eugene Loh <eugene.loh@oracle.com>
+> 
+> The function had a few issues, mainly with its comments,
+> ranging from typos to incorrect descriptions of behavior.
+> 
+> The function has only one caller.  The enforcement of a
+> size minimum was problematic in a number of respects:
+> - it was missing 4 bytes
+> - it was enforcing the minimum before the size was
+>     increased by the caller
+> - it was checking dt_pebs_init()==-1,
+>     missing errors with other negative return values
+> 
+> So change the function to accept a minimum and change its
+> return values.
+> 
+> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+> ---
+>  libdtrace/dt_peb.c                          | 27 ++++++++++-----------
+>  libdtrace/dt_peb.h                          |  2 +-
+>  libdtrace/dt_work.c                         | 15 +++++++-----
+>  test/unittest/options/err.b-too-low.d       | 22 +++++++++--------
+>  test/unittest/options/err.bufsize-too-low.d | 22 +++++++++--------
+>  test/unittest/options/tst.b.d               | 22 +++++++++--------
+>  test/unittest/options/tst.bufsize.d         | 22 +++++++++--------
+>  7 files changed, 71 insertions(+), 61 deletions(-)
+> 
+> diff --git a/libdtrace/dt_peb.c b/libdtrace/dt_peb.c
+> index 5268f089..4983ba91 100644
+> --- a/libdtrace/dt_peb.c
+> +++ b/libdtrace/dt_peb.c
+> @@ -136,18 +136,14 @@ dt_pebs_exit(dtrace_hdl_t *dtp)
+>  }
+>  
+>  /*
+> - * Initialize the perf event buffers (one per online CPU).  Each buffer will
+> - * the given number of pages (i.e. the total size of each buffer will be
+> - * num_pages * getpagesize()).  The  allocated memory for each buffer is mmap'd
+> - * so the kernel can write to it, and its representative file descriptor is
+> - * recorded in the 'buffers' BPF map so that BPF code knows where to write
+> - * trace data for a specific CPU.
+> + * Initialize the perf event buffers, one per online CPU.  Each buffer will
+> + * have num_pages * getpagesize()).  The dt_peb_open() call mmaps the allocated
+> + * memory so the kernel can write to it.  The file descriptor is recorded in
+> + * the 'buffers' BPF map and added to the event polling file descriptor.
+>   *
+> - * An event polling file descriptor is created as well, and it is configured to
+> - * monitor all perf event buffers at once.  This file descriptor is returned
+> - * upon success..  Failure is indicated with a -1 return value.
+> + * The return value indicates success (0) or failure (-1).
+>   */
+> -int dt_pebs_init(dtrace_hdl_t *dtp, size_t bufsize)
+> +int dt_pebs_init(dtrace_hdl_t *dtp, size_t bufsize, size_t bufsizemin)
+>  {
+>  	int		i;
+>  	int		mapfd;
+> @@ -166,12 +162,15 @@ int dt_pebs_init(dtrace_hdl_t *dtp, size_t bufsize)
+>  		fprintf(stderr, "bufsize increased to %lu\n",
+>  			num_pages * getpagesize());
+>  
+> +	if (num_pages * getpagesize() < bufsizemin)
+> +		return dt_set_errno(dtp, EDT_BUFTOOSMALL);
+> +
+>  	/*
+>  	 * Determine the fd for the 'buffers' BPF map.
+>  	 */
+>  	idp = dt_dlib_get_map(dtp, "buffers");
+>  	if (idp == NULL || idp->di_id == DT_IDENT_UNDEF)
+> -		return -ENOENT;
+> +		return dt_set_errno(dtp, EDT_NOMEM);    // FIXME we used to do something more akin to ENOENT
+>  
+>  	mapfd = idp->di_id;
+>  
+> @@ -180,7 +179,7 @@ int dt_pebs_init(dtrace_hdl_t *dtp, size_t bufsize)
+>  	 */
+>  	dtp->dt_pebset = dt_zalloc(dtp, sizeof(dt_pebset_t));
+>  	if (dtp->dt_pebset == NULL)
+> -		return -ENOMEM;
+> +		return dt_set_errno(dtp, EDT_NOMEM);
+>  
+>  	/*
+>  	 * Allocate the per-CPU perf event buffers.
+> @@ -189,7 +188,7 @@ int dt_pebs_init(dtrace_hdl_t *dtp, size_t bufsize)
+>  			 sizeof(struct dt_peb));
+>  	if (pebs == NULL) {
+>  		dt_free(dtp, dtp->dt_pebset);
+> -		return -ENOMEM;
+> +		return dt_set_errno(dtp, EDT_NOMEM);
+>  	}
+>  
+>  	dtp->dt_pebset->pebs = pebs;
+> @@ -241,5 +240,5 @@ int dt_pebs_init(dtrace_hdl_t *dtp, size_t bufsize)
+>  fail:
+>  	dt_pebs_exit(dtp);
+>  
+> -	return -1;
+> +	return dt_set_errno(dtp, EDT_NOMEM);  // FIXME need something better
+>  }
+> diff --git a/libdtrace/dt_peb.h b/libdtrace/dt_peb.h
+> index e0f408f2..9ad23252 100644
+> --- a/libdtrace/dt_peb.h
+> +++ b/libdtrace/dt_peb.h
+> @@ -43,7 +43,7 @@ typedef struct dt_pebset {
+>  } dt_pebset_t;
+>  
+>  extern void dt_pebs_exit(dtrace_hdl_t *);
+> -extern int dt_pebs_init(dtrace_hdl_t *, size_t);
+> +extern int dt_pebs_init(dtrace_hdl_t *, size_t, size_t);
+>  
+>  #ifdef	__cplusplus
+>  }
+> diff --git a/libdtrace/dt_work.c b/libdtrace/dt_work.c
+> index 69a86358..7a0eb1da 100644
+> --- a/libdtrace/dt_work.c
+> +++ b/libdtrace/dt_work.c
+> @@ -267,18 +267,21 @@ dtrace_go(dtrace_hdl_t *dtp, uint_t cflags)
+>  		return dt_set_errno(dtp, errno);
+>  
+>  	/*
+> -	 * We need enough space for the pref_event_header, a 32-bit size, a
+> +	 * We need enough space for the perf_event_header, a 32-bit size, a
+>  	 * 4-byte gap, and the largest trace data record we may be writing to
+>  	 * the buffer.  In other words, the buffer needs to be large enough to
+>  	 * hold at least one perf-encapsulated trace data record.
+> +	 *
+> +	 * While dt_pebs_init() rounds the requested size up, size==0 is a
+> +	 * special case.
+>  	 */
+>  	dtrace_getopt(dtp, "bufsize", &size);
+> -	if (size == 0 ||
+> -	    size < sizeof(struct perf_event_header) + sizeof(uint32_t) +
+> -		   dtp->dt_maxreclen)
+> +	if (size == 0)
+>  		return dt_set_errno(dtp, EDT_BUFTOOSMALL);
+> -	if (dt_pebs_init(dtp, size) == -1)
+> -		return dt_set_errno(dtp, EDT_NOMEM);
+> +	if (dt_pebs_init(dtp, size,
+> +			 sizeof(struct perf_event_header) + sizeof(uint32_t)
+> +			 + 4 + dtp->dt_maxreclen) == -1)
+> +		return -1;
+>  
+>  	/*
+>  	 * We must initialize the aggregation consumer handling before we
+> diff --git a/test/unittest/options/err.b-too-low.d b/test/unittest/options/err.b-too-low.d
+> index bb77e37c..f62155dd 100644
+> --- a/test/unittest/options/err.b-too-low.d
+> +++ b/test/unittest/options/err.b-too-low.d
+> @@ -1,6 +1,6 @@
+>  /*
+>   * Oracle Linux DTrace.
+> - * Copyright (c) 2022, Oracle and/or its affiliates. All rights reserved.
+> + * Copyright (c) 2022, 2024, Oracle and/or its affiliates. All rights reserved.
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+> @@ -12,19 +12,21 @@
+>   */
+>  
+>  /*
+> - * We use a buffer size of 59 because that should be just too small to hold the
+> - * trace records generated in this script:
+> - *	- perf_event_header (40 bytes)
+> - *	- size (4 bytes)
+> - *	- gap (4 bytes)
+> - *	- EPID (4 bytes)
+> - *	- tag (4 bytes)
+> - *	- exit value (4 bytes)
+> + * We need over 4k bytes for the 4 string trace records generated in this script
+> + * plus some meta data.
+> + * A bufsize of 1 to 4096 bytes is rounded up to 4096 and is insufficient.
+> + * A bufsize of 4097 to 8192 bytes is rounded up to 8192 and is sufficient.
+>   */
+> -/* @@runtest-opts: -b59 */
+> +/* @@runtest-opts: -b4096 */
+> +
+> +#pragma D option strsize=1024
+>  
+>  BEGIN
+>  {
+> +	trace("abc");
+> +	trace("def");
+> +	trace("ghi");
+> +	trace("jkl");
+>  	exit(0);
+>  }
+>  
+> diff --git a/test/unittest/options/err.bufsize-too-low.d b/test/unittest/options/err.bufsize-too-low.d
+> index bbbdb5c5..25efdf72 100644
+> --- a/test/unittest/options/err.bufsize-too-low.d
+> +++ b/test/unittest/options/err.bufsize-too-low.d
+> @@ -1,6 +1,6 @@
+>  /*
+>   * Oracle Linux DTrace.
+> - * Copyright (c) 2022, Oracle and/or its affiliates. All rights reserved.
+> + * Copyright (c) 2022, 2024, Oracle and/or its affiliates. All rights reserved.
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+> @@ -12,19 +12,21 @@
+>   */
+>  
+>  /*
+> - * We use a buffer size of 59 because that should be just too small to hold the
+> - * trace records generated in this script:
+> - *	- perf_event_header (40 bytes)
+> - *	- size (4 bytes)
+> - *	- gap (4 bytes)
+> - *	- EPID (4 bytes)
+> - *	- tag (4 bytes)
+> - *	- exit value (4 bytes)
+> + * We need over 4k bytes for the 4 string trace records generated in this script
+> + * plus some meta data.
+> + * A bufsize of 1 to 4096 bytes is rounded up to 4096 and is insufficient.
+> + * A bufsize of 4097 to 8192 bytes is rounded up to 8192 and is sufficient.
+>   */
+> -/* @@runtest-opts: -xbufsize=59 */
+> +/* @@runtest-opts: -xbufsize=4096 */
+> +
+> +#pragma D option strsize=1024
+>  
+>  BEGIN
+>  {
+> +	trace("abc");
+> +	trace("def");
+> +	trace("ghi");
+> +	trace("jkl");
+>  	exit(0);
+>  }
+>  
+> diff --git a/test/unittest/options/tst.b.d b/test/unittest/options/tst.b.d
+> index 57fa030d..3bf08edc 100644
+> --- a/test/unittest/options/tst.b.d
+> +++ b/test/unittest/options/tst.b.d
+> @@ -1,6 +1,6 @@
+>  /*
+>   * Oracle Linux DTrace.
+> - * Copyright (c) 2022, Oracle and/or its affiliates. All rights reserved.
+> + * Copyright (c) 2022, 2024, Oracle and/or its affiliates. All rights reserved.
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+> @@ -12,19 +12,21 @@
+>   */
+>  
+>  /*
+> - * We use a buffer size of 60 because that should be the exact size necessary
+> - * to hold the trace records generated in this script:
+> - *	- perf_event_header (40 bytes)
+> - *	- size (4 bytes)
+> - *	- gap (4 bytes)
+> - *	- EPID (4 bytes)
+> - *	- tag (4 bytes)
+> - *	- exit value (4 bytes)
+> + * We need over 4k bytes for the 4 string trace records generated in this script
+> + * plus some meta data.
+> + * A bufsize of 1 to 4096 bytes is rounded up to 4096 and is insufficient.
+> + * A bufsize of 4097 to 8192 bytes is rounded up to 8192 and is sufficient.
+>   */
+> -/* @@runtest-opts: -b60 */
+> +/* @@runtest-opts: -b4097 */
+> +
+> +#pragma D option strsize=1024
+>  
+>  BEGIN
+>  {
+> +	trace("abc");
+> +	trace("def");
+> +	trace("ghi");
+> +	trace("jkl");
+>  	exit(0);
+>  }
+>  
+> diff --git a/test/unittest/options/tst.bufsize.d b/test/unittest/options/tst.bufsize.d
+> index 96b0f1b8..23af81aa 100644
+> --- a/test/unittest/options/tst.bufsize.d
+> +++ b/test/unittest/options/tst.bufsize.d
+> @@ -1,6 +1,6 @@
+>  /*
+>   * Oracle Linux DTrace.
+> - * Copyright (c) 2022, Oracle and/or its affiliates. All rights reserved.
+> + * Copyright (c) 2022, 2024, Oracle and/or its affiliates. All rights reserved.
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+> @@ -12,19 +12,21 @@
+>   */
+>  
+>  /*
+> - * We use a buffer size of 60 because that should be the exact size necessary
+> - * to hold the trace records generated in this script:
+> - *	- perf_event_header (40 bytes)
+> - *	- size (4 bytes)
+> - *	- gap (4 bytes)
+> - *	- EPID (4 bytes)
+> - *	- tag (4 bytes)
+> - *	- exit value (4 bytes)
+> + * We need over 4k bytes for the 4 string trace records generated in this script
+> + * plus some meta data.
+> + * A bufsize of 1 to 4096 bytes is rounded up to 4096 and is insufficient.
+> + * A bufsize of 4097 to 8192 bytes is rounded up to 8192 and is sufficient.
+>   */
+> -/* @@runtest-opts: -xbufsize=60 */
+> +/* @@runtest-opts: -xbufsize=4097 */
+> +
+> +#pragma D option strsize=1024
+>  
+>  BEGIN
+>  {
+> +	trace("abc");
+> +	trace("def");
+> +	trace("ghi");
+> +	trace("jkl");
+>  	exit(0);
+>  }
+>  
+> -- 
+> 2.18.4
+> 
