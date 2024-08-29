@@ -1,80 +1,80 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB2E148838
-	for <dtrace@lists.linux.dev>; Thu, 29 Aug 2024 05:22:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA2B148FF0
+	for <dtrace@lists.linux.dev>; Thu, 29 Aug 2024 05:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724908949; cv=fail; b=QAaacn2HvgKGuU+lOdUJCnxDNRIWUweobEQDv+o0S0fewfHah0jPpMukTJ3JEPQCiIBztwF3Y2lMalI39HlAhVkdyzHtcsGvgU6ijQtWo6AtRxHYspI9k0A0b+AURLP8F481Mvc0YvFWlV9kOmDMLamW3E1BdrzjU+P5Q6Nub0A=
+	t=1724908950; cv=fail; b=q8/y6dFuVI5ytfYReTFd2hZbrpU3pRnyNbfUmmdSBhbUDNBTLnrPl8lQ3ktVSfMvkxny+LEynbO5+chiKtrRAsLgkKb8xFXk7McIIb8/A6eQOhiGnjMgCiz4vr/bcayvDj1WMkKGMHUzA1wNJcdvgg4jrt5K8WrrfdbknOzuRGM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724908949; c=relaxed/simple;
-	bh=uN4FVKATEJJykMg8iwUlIolaJqtPUg+4qs90Xe9lHI4=;
+	s=arc-20240116; t=1724908950; c=relaxed/simple;
+	bh=8RkfAmq4MoQNoZ2SzVZebuTu0SmBvPbr8imm3PcKCFU=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=I5SXEeIE0zkBYQoSCMOwPWZ01TnyG0NIGUOJSPctFyA7Abw6IoFt99vdm7R1f/+kBIUyEkKG2sAxj+fNAI69NJy/yBQQxN/GBeP+8ugQz3WCB6Aq/NHScfZx2f6S4G8OWm37QcTp8LJyEni8uKqovda4HRJqgDnbyhNyNoG6yOs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ZUfQoTKy; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=0IbcS4wm; arc=fail smtp.client-ip=205.220.165.32
+	 Content-Type:MIME-Version; b=XzE8XJYcP0SUcz8cxYage+ql+DzpNyVFwgwyAgxDp4V3Iw2WGsdbT3mrKSSs1KAq4NrXUQaJA/tB2eHBXxc/14XcL1QleYrl6VURyaygM2cvF0rEKsANxaprs3zl7v82jXj8IJQVNqsPAAr1I6SFV2pjjCZdt4cwOfHwMgaiXVw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=OtqgFA55; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=WpeoVST7; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZUfQoTKy";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="0IbcS4wm"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47T1fsmK032708
-	for <dtrace@lists.linux.dev>; Thu, 29 Aug 2024 05:22:26 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="OtqgFA55";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="WpeoVST7"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47T1fnVB005782
+	for <dtrace@lists.linux.dev>; Thu, 29 Aug 2024 05:22:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	from:to:subject:date:message-id:in-reply-to:references
-	:content-type:mime-version; s=corp-2023-11-20; bh=WhTkjp5agWJ6g1
-	yb7SRDRqk47FoURGQK0Y/IKGZZqJA=; b=ZUfQoTKy4YMGJVAvWadkCk095nW7+Y
-	cvf7zRLzH3KOP7pfv3nF7TZLEpk9Nq4BDLew2GVB1cHzyfowi8FBRL8HHxBP+7zR
-	BJXEnqzu7QOYARHiUqci4jgpSN08192NVivnYp+1e+yepi6BamhUm0CtEt9kzpS3
-	xkLevNredW08Zb9E2H+xpV2ehWJsnhxdWeVUhHZnP40XZuHThCslmHvG8CPDPAM1
-	qxwzZqOV9k5D8rzYs93qQmwr87Ua9t62PIoIstxjzmzaswTYtJ0ucKki95VqIkxj
-	HWG+01NcWjXGVJ+N/KUeZ8aGkIF+EC3qAF2RTP9CcGXN2Ul1NkQe9dkQ==
+	:content-type:mime-version; s=corp-2023-11-20; bh=37WidhwlNNTJgY
+	Qmd4Y9jQT4OsRnA8aVBawmGAHghyY=; b=OtqgFA55thiCA5su18Ibb1q0whtGtk
+	Ndqz455+gMFN2LOui8qdNRoVdVNxc9Q8bpP2lQoe/EdxAW0vDOaYgAIUOzYRqeR1
+	b35e3AC/iWes3FmW6+sUzN6Nvo1n+P3gnC1PJj61eTjw17H2chFUlphF9KK9Fhgw
+	v8ZMvK10KTX+ENPnyKNDhoRhdKefTLg8x8IhX5dYyqciKnH14eWUyZ9ixv4ilxSA
+	/D33zr2x+6CAdCkEGvFhPGJ+Rf6HihJzIoSlu77uO0scqaVRe7VIcvBL2JmzAGO0
+	u+Yt5Btif7j5dKpXr2fZo4UW/3gPVCxryEw5dBmixkyQ+O2OIl3zIg5A==
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 419pukub45-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 419pwyu98j-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 29 Aug 2024 05:22:26 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Thu, 29 Aug 2024 05:22:27 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47T53pGT034817
-	for <dtrace@lists.linux.dev>; Thu, 29 Aug 2024 05:22:25 GMT
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47T53pGV034817
+	for <dtrace@lists.linux.dev>; Thu, 29 Aug 2024 05:22:26 GMT
 Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2040.outbound.protection.outlook.com [104.47.70.40])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4189svfhhv-6
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4189svfhhv-8
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 29 Aug 2024 05:22:25 +0000
+	for <dtrace@lists.linux.dev>; Thu, 29 Aug 2024 05:22:26 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DbQQPi9OxNAMAWBxKpsKXoz0Hml6hKlR0e3iYzoxc9w6HUPuVWdN4ZWHwVJfpcYaC6JZhoAmJIRQDJJpUh1wJqySZlAf+RSllFWZoRUibwuOMf/kuBZIm0yDaEkWX75HGUQbi+waQyXuVxOTB8ZCTt0iKJDgtejw8lTtQ24IHj5ogB3um+ONVwJX6ichDBoR6x21JDPP8Cr6HxGhTCf68rGGKIXUAo/CADPBOJlmpJlnJusjfJ+hp720Jeh4owLos6m6CarCUpCMu9mjt7aIG/4J2TZ75hBeKSd1InamyIp2yU/dkKcqHZQ87WZEyqxLuPauTdimsGpgsG7xbz4A9A==
+ b=jUTzkNtr24iQ1ZOlS5lkl1bWIpVthYzHmhSuTFrMFr33FdEu5W99mdABasfaT2hjF6DsEhYBlYXZFhCVr0cGvfibVVRBVKikCcrTwaO9WMCQTHzJ686MzmY3B+BapIrT+yhGyJOY9n0rWRDX9PXIL8ZatC0PLIsRetIrLBhwOApYdNYnPsfrDu8Dh9P1CchmVMFJgdYI6dc1kij/9nIkenzEdO+kBt86f0xJYedYIdl9H05tgqdo/Ag9HhKXLEJqoh5h6IsvtiU1UrxUoNioxbkZEM6BKpkukss8scnpLVQAGWmtUi9C1MvC2KL/DN3G02mz98dmSHtGGJIR23qBKg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WhTkjp5agWJ6g1yb7SRDRqk47FoURGQK0Y/IKGZZqJA=;
- b=y+Nmh5CLjo350uJ+NC8mfsS28V8TFHy7byKGU8V8ud+M0X5TfS5souEY2yhyjm0vSuETEplkh9HLLCcYabXEj9u8X42khRieK6UBUJGGqwwTLVzceRzDrbG3I6foDU+Yzuz/1IttbnRg6e4KXEkRw9hSpNbh3+tuD5SF+eQNu9CWawbtUz2osmcPdr6O6PGw1bAlefYhWuBjBRcICDZx5oySHBLkbKAn8rxfJ3YIRrYN31ghmu4eUu/ZrpBYZYSXULxu04uFplVd44V22Dmcc/sSkDM5bkgvKPk3QYnlFXLmODcghy9M9IhVtKfqtxDrI5Ra72TQcQYNGDFosBf27Q==
+ bh=37WidhwlNNTJgYQmd4Y9jQT4OsRnA8aVBawmGAHghyY=;
+ b=FYDcNnTMIejnTQYQ4FR7zOXp77CtzArlMECPeE2gdD+kiw22eyq+gkEs1cyKTcVOP20KL2Z6zyyA0G++nPLFS09daOMCIs7YqE8J7SnHUbmExnUdgbs2S6kDIhLB+sZt3nxSesJKVGHX7ZJY0Qhq6Z2vhJwKGzTGMXUTr0vUtE9mztWSJIFzpndprH4ReVAkZvExjnub6PkVlil4xFDRGHgoAxFPSpclYB9urCvrbhb1tFqiPCfhXz1+R///K6i89PfwsI1yfzf0CqkGpOf5lQvUO6V8TVY4syUEp1vj7CJXal4cKZbK3aUq0rI6XhErCuU5eSs502BDwxwY3tJxzQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WhTkjp5agWJ6g1yb7SRDRqk47FoURGQK0Y/IKGZZqJA=;
- b=0IbcS4wmE5FHtWyWDT8O9uWmSglzn2ApFGD0GntK+PEh3DM2nwQeAUvMutSYnhhw79Oc3bqGhzNVLDkYjYqAyZ04vDng9zaHFuyu6tEVJ9RWlbusIp+TrtyzMokr2/S5QlA42dRxlPIPVlCgSkVWeIex0c9L6CPiBglROMkioIY=
+ bh=37WidhwlNNTJgYQmd4Y9jQT4OsRnA8aVBawmGAHghyY=;
+ b=WpeoVST7Cchg5kZc1I4eOw3Go3kda7k2G7WedMtKfCibdrlpQ9LXpINWQhgAfA+bVWYjiXPPeL0DdU5qbqOu5IJu0a68ajZA4iM+rCJpyTq72+4ndJel7TAm7CG3owE3AyWoKXhN+cAO1Ef5O5RMx8S20dS9qEYaz24wun52gRE=
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
  by SJ2PR10MB7656.namprd10.prod.outlook.com (2603:10b6:a03:53e::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.14; Thu, 29 Aug
- 2024 05:22:23 +0000
+ 2024 05:22:24 +0000
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69%3]) with mapi id 15.20.7918.017; Thu, 29 Aug 2024
- 05:22:23 +0000
+ 05:22:24 +0000
 From: eugene.loh@oracle.com
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH 03/22] Action clear() should clear only one aggregation
-Date: Thu, 29 Aug 2024 01:22:00 -0400
-Message-Id: <20240829052219.3234-3-eugene.loh@oracle.com>
+Subject: [PATCH 04/22] Remove unused "next" arg from dt_flowindent()
+Date: Thu, 29 Aug 2024 01:22:01 -0400
+Message-Id: <20240829052219.3234-4-eugene.loh@oracle.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20240829052219.3234-1-eugene.loh@oracle.com>
 References: <20240829052219.3234-1-eugene.loh@oracle.com>
 Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0212.namprd03.prod.outlook.com
- (2603:10b6:a03:39f::7) To CO6PR10MB5636.namprd10.prod.outlook.com
+X-ClientProxiedBy: SJ0PR13CA0226.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c1::21) To CO6PR10MB5636.namprd10.prod.outlook.com
  (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -84,78 +84,78 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|SJ2PR10MB7656:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6254e74a-b18c-4cce-a167-08dcc7ea900a
+X-MS-Office365-Filtering-Correlation-Id: c719ff28-4d30-4264-e763-08dcc7ea90e4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?VjYT9FoA2mwVnB3uEmjskXIUAetMnDc/QHmNmrP9QKG7V4QuboakdaqHr314?=
- =?us-ascii?Q?o7xppj6590Kj0EN7+7MRuWINit+793ANSbU90FM4ZaNBjwrsq0a7gehZkBo6?=
- =?us-ascii?Q?Bbmx4icQ4Ia/RxdD+ctO7DffrC0zpA81gW5+z3ThYqEb+va5JNqL0XzberDs?=
- =?us-ascii?Q?R6JH8by9UbhTyE39b4M2hL/yzvw5mvjIPfnBSLq4t8yipo3gg9vaBdbpGQkm?=
- =?us-ascii?Q?GZxXPhzwbdHZSVz30v6DOBANDJZyqpxyyuokletzpyvD8OGgnhELnQIibgnv?=
- =?us-ascii?Q?R+vXMJOskenr9zk8PVq4JGsk0+eoceNLqbbR68ajDGICuX3VFgojASPDfc8s?=
- =?us-ascii?Q?RnaH1P3kVgUPSD7OD5xxnTFs9iT1+CV5wB8X4N7e9awDvKstC73kSb5BJAGE?=
- =?us-ascii?Q?GgBdcrKchKtBnQptIJH7FCw6PZ+YfbvRFtQRcCDCtNcUUh1KctePqU/NgA2E?=
- =?us-ascii?Q?25YCtvqRBIuGkNbkzk4FNyTAB+9VG8hVC/NgLQ53d4Gl2oNEsUugGRcbddZ9?=
- =?us-ascii?Q?m6KYE0XcPSvxsyO0Ej7EVDkAzXCaGdICmxQ5VtxYc6lapY6Ti1UEbvOGb0m7?=
- =?us-ascii?Q?5RnPm4xhVb+Arm8PThfSCxJz1/zrsTPhVidL8iXdZggUtRd08dpNz73QrPh4?=
- =?us-ascii?Q?UISVKPip7URhUCa/lJ1X+9ZiEcqKNHz8/ite6SQle1p66IP9PxvOikucv3FA?=
- =?us-ascii?Q?s24ZfihRNJU9OGOEVL9LBhRLuM5yN0YGbBiRESYFJWJai8YPaVgZyp+RSOH8?=
- =?us-ascii?Q?qVCjF0/z35p7JFpk8y69k7vHj5Dm3pbXPF8CSEu2m2popaK1qFJflv2VGYkl?=
- =?us-ascii?Q?QLkQYQypZRqgPgsmtlgSotyQL7hy9rCW/Rb37NeG4Ej1WyJ3FzQZb1NGIeap?=
- =?us-ascii?Q?5mn+BDkk74HJObGadRCSGbQbH8fsFjVhBfnMMA3tAycV1T/WQL1lGKxck7I7?=
- =?us-ascii?Q?eZ3DtH05Mvtt1+SsOtkhZDvtWVB/pCosYofd9v+wwrlq7LD6fV0Scn4F3cwk?=
- =?us-ascii?Q?O3kvVKs4aZ/SVjYaAJv36u+YOUemilEZYDHxpmvWn8qLca8/MLQvg1h43tM1?=
- =?us-ascii?Q?D+3opIWeNdlB3dp1h1iPG0VKJqLsqmiEibIj5FKtwGi2ZA1Pjr4TvZgLqk90?=
- =?us-ascii?Q?1daHtS/h2SCxFYnyk1v9i1nqw5Avy/e33/zWg1PIbFuZY471mw1an8i3ULRS?=
- =?us-ascii?Q?HCbHuZmoE/maFmay5CRmXLzvcIKIXVWQw3j5GNoQYiwggXsHFCgMnY2jbSG7?=
- =?us-ascii?Q?kmazqg/3wkWN8YBH0fnwBpwBCSfqqwD9w1SECs0JdkmP92Jp3/LxTDLKlcK/?=
- =?us-ascii?Q?HFo=3D?=
+	=?us-ascii?Q?TuvLufuWvT1j/KiB8Wlbtp3hSFpXTaNJGgrg/zhheMsNX4Eaa+qbFkh41gUR?=
+ =?us-ascii?Q?+dzzzzdtAeOI/SUl6cCPU9GaNC2RCzRcxgxDBVU3XHvvu2TvyEOrO2/ffxFt?=
+ =?us-ascii?Q?YobfA/lPvHcMdzvjjmoJMt2OVhAWOUBz2gIw9wH0R7u4g6L+JHjWuGoJttr2?=
+ =?us-ascii?Q?+/XbZjDP6072Nj6HffIJRSguu0abxtZCQcVpec7LHJhQ10KPYej1bLH6YadV?=
+ =?us-ascii?Q?tmn0PW0WQeFAGUjd2rECSno1f1cDonM5VDyLNzZVZ3Dceo0uDowBf1BNs+Hu?=
+ =?us-ascii?Q?NtcBhT7Fskfmpem6cqcoeXQ/XcVwWcsn/f66S+Df5MuNBwipOodg1MzisNpe?=
+ =?us-ascii?Q?1ey2bgloJNlWhx4Ot4bqS0tKx5GGedXQGUUMzlpd0n/7Pdxv9OG5lST4bBEU?=
+ =?us-ascii?Q?rs1ZZNPOUSwiskaf5qhbY7q8uwm5j9mYyO1rooawr4YD3qBADGqAHpb5PO5E?=
+ =?us-ascii?Q?8RCL6Hvde2TXn/pItsaunKOIJAVqUyCLIEpP9wZVOcKKWVXzHfLB5zstbq5o?=
+ =?us-ascii?Q?XpsD+BCTgDlU1lwTN2/uGVU8lIsZWS9XrqDeNlm1TaqlPa0hKpfT7ThOOWWC?=
+ =?us-ascii?Q?PinTfTUAcmr9iLoVYZjEa7QNphDyrj8V3g3VgPU1dt+3VsfNPOrM2lB7lI9B?=
+ =?us-ascii?Q?lkvKs/QkZHvJ1tgc8CU8Z6tOvFs43FYWR9EKz8D2HTKvnzFZYzEXK2bOyLff?=
+ =?us-ascii?Q?0zLaooW1y6vBnDMHVAgIc5laRjBFQmeGBpwlsE87yAWSbbf8f0b88xGw4Tbg?=
+ =?us-ascii?Q?uYEHQOyyLZ8klf8i5+UlypfrGNAjqVBNi6zvkWMn577HtFgmU1NnWin11dXi?=
+ =?us-ascii?Q?LS6UP9Xglts+SFOTbChDtcp1q5yLzbaiLa//+6eWuBTdvow+nt97rIuv9O18?=
+ =?us-ascii?Q?zNiKjKaW2DJuAZmaBV5IDBjeGIK20PSIg4wGNMaTx6tDMS3PS5DR0O4mnsAx?=
+ =?us-ascii?Q?rHMBX1/qyHUvwwZ2je+EVU9pi3qZvsPOQ3Tw69Yuk84uaSLuW86ji7w3xsBh?=
+ =?us-ascii?Q?HWYRv8y5vRkqZAwO3Kx3OSDCTMmeMIuYc2xLF5dwHd5PJsEzbykUzTFXFcEr?=
+ =?us-ascii?Q?gYvutUnMNnVuAQNU5G2W7IU5fTjjWPNHSJ6XUxhzi1mXO4gVwwU00vTuLRZ/?=
+ =?us-ascii?Q?/o2Dwl9l8GBXdq/lNWsJr07kKmKzvRiDrtSxq75p4Ug8VM9vCLt04Il0NOdN?=
+ =?us-ascii?Q?TW6V/dmZ9WlufGpY/EI5jLzCFH+ax8+qd4Em4JzloM60jpqv8fJlQ7PMuFrO?=
+ =?us-ascii?Q?kELEHesQblqESNS/bgOxje04xBmJVpSYTcAdKUhEn9Kl38paRa9E5Jatp3qe?=
+ =?us-ascii?Q?vPXu7DGyb7q4XzOAkdFA7yPLVD3ffuIDTPBl2GkSJNP/2Q=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Fqb8nEkN1ieyFgUvbWVOgv08qBsPMMdmlSykmDSrNufDr1aF61wABQwy5END?=
- =?us-ascii?Q?3dYEKI1vu0df8mLViui8T8jD4ygoHLBVPGw+raWBnfV0rDztOXRPPEWko42C?=
- =?us-ascii?Q?R6t0o/BZ4QCni93uNQiVcEzN/Puji8ZPEqNQe0ORfmTwtwjYyzT1TsMLPUCi?=
- =?us-ascii?Q?5HyDRVEDnr9Ite+0YuFVm2tntIADO4iwwuM5EjA+eoVNYV4L5LDhJ+wdjomS?=
- =?us-ascii?Q?qLFp1IZsxtZdUSLuhwrk5HFObEJ4/g+3ib59ui76XSlJRQ+zAhaL8X9foBHj?=
- =?us-ascii?Q?ewXZfH1/NG4DXTwB+/ncnBve/c8zHE8rNsmNzkfesMSyoFK4gaHZMGUEjdCX?=
- =?us-ascii?Q?/SAhwrt6ZknSEOkAHnKlt8p/uuTc22F6yn2YeKC2IkJ288hvIAvgjvyJQbWU?=
- =?us-ascii?Q?F6R0Y+F1cFeQLsnrB6POVJujorsPKCEMukVPPC/cA7IsHTrbzwp5XXjp9aRP?=
- =?us-ascii?Q?mDyI4qQdyUP/vC4YZeDfaXhA6TutY2I1E1T+nh6BqcvUmldIBqaPATRXVGjL?=
- =?us-ascii?Q?+rZz3hp8hbU3xrd8f3iSXgXg2Ut608e6RhjMYHjTu3qex5VuQAEOudoWdqLn?=
- =?us-ascii?Q?BysGyBVGTMbXZldklXTmRaACJwIN6TqU5OF5j04H0UFXxOoOmeMG4djuYNCj?=
- =?us-ascii?Q?ykwE5NEsVJCKlu2fsvtkAn1jxF0a6xBY9A1u9RHpIGiuCLdagJh4FbyyQ3eE?=
- =?us-ascii?Q?SqtfRSHVRKKf5X1LSGYTTVxzJ/48CPuk/FiQK54VGAQbJez6urahrBKTAi+B?=
- =?us-ascii?Q?WY/+DKB8cst+Q7P/Fj4GdCry2TDgVUVJoxG3Wb8roSJOFvIGqGmV9aG33WFR?=
- =?us-ascii?Q?jvi22YhZ7HvLvepkGNB4xDBd2TuU5aFyJaEh2E5qvN9uwKlYEP6R/kkd6K2j?=
- =?us-ascii?Q?f/3cVB6Hh4cFXarQCyT1GZ4sW2DWlGT6d9seH82VJRY5oNW8swppW/nZGZLy?=
- =?us-ascii?Q?DrjWheqA7oLj+hZ5maCDCxJ/k9nqjtlKfkVPKIBix+en/wP2CLaPn4bi3gcA?=
- =?us-ascii?Q?R31JLdWVWqlMNTsklFm98RObQURrgkoCHaOw91KNA7IJzJzkh/cEif5c4o5i?=
- =?us-ascii?Q?0IuToLsK3I/QLa5WgdaSEzg5TXanAOL62ghZWttznOevigynZVJR+LCWShOn?=
- =?us-ascii?Q?Y0I8Fgb+moOJEVJMA6eAY+kp+Y70XGFBl0knh105H7AYltkix/mKLcnEBLBS?=
- =?us-ascii?Q?D9wobFBsl365CRNeU8TsY6rGmVFgd0RE7BnFP3CMq5sWe0/OEMt+sR0lZ/65?=
- =?us-ascii?Q?eKb4WSngg+4X+HyUe+2KktmpcuyG2EIv5T3luGPKqKzIKzVC5hrqR2J6LQJb?=
- =?us-ascii?Q?Nm/Tn+LtKUgrvMWkbW97++8b8ZGeDH/waVpwRtK76iNGlopT/4zoscNVKsd2?=
- =?us-ascii?Q?PBPAfO3w4ovOBtvYFIT3q8U7rXBXiLH8POvHszFAR2QMIV/EdCqKut+qDyB5?=
- =?us-ascii?Q?tgVp9kCFSzLcWl5dVdraC2O16/z+jB+zRTO4CZelhUXHzjOuvymH0Md3+oX2?=
- =?us-ascii?Q?+Bf5al9y/JJNSC5/2Ajg/UydAjcQohZS/WH/nHEp2YLQwz4ovlh1Xczt3aaf?=
- =?us-ascii?Q?vEudZfklA0ezmTCjHaCdeUmVrEKHq9VcndaIV8ef?=
+	=?us-ascii?Q?KqHeufsB3dZfRZgO4s/oioOh26sCT0NPqBWiLAuM02AQob53e8vMpyNzM7lN?=
+ =?us-ascii?Q?wKPNKRMIHtQ6mOFnj5GNw4R8QWvsCKZCUhLlmf+gMr5+50zodNgHUZ+ftMsL?=
+ =?us-ascii?Q?5Vmczh3ZbkXLUwLx+WiGRV6kBR9uZfk2DmZWSZACa4V0x1dgVUQ+u6B+Akbn?=
+ =?us-ascii?Q?gasRuw6JsmYGPHEzk/i7Yx231dHITS+1S/g1Cx+wPeC6UBGOg1cqhME2gFE/?=
+ =?us-ascii?Q?qhwOCmsnwlUACfvDKu2OMUaWW8Q7V8Xp10/p9FYOuet1vAyF4THAdERzttuC?=
+ =?us-ascii?Q?QcVOBOt4z4gfw9VJy63kkSr6L7nvGnWtrPvYBVD4koSzGE7CFErDYDQopgHe?=
+ =?us-ascii?Q?dVqyWFmAcsP37Qx/H31sWtiFsovtE1E0cSQi0bUh/epoBw7cx3uoq+8qiCTC?=
+ =?us-ascii?Q?y6uguY8BEjDwR2FimyCZ3jyZ3L4+f3mNAdbFqdQxsfY2DqLjHFVKQWiIKelT?=
+ =?us-ascii?Q?89mCetY2QlhYKgdflSRXNvDltL2R00w/oZi4MzohW6RjWMy9B86VLLwCvzkt?=
+ =?us-ascii?Q?wxvbZhlJiS1al5WRKMkL0tcUWFgMbLV1v0IzxbJCqnaGKOP1O992OwV0PZNo?=
+ =?us-ascii?Q?fLBWsUPuyivDgSIMEO3pxwInMLAxnNCf6gYQTHOd4ibpT/Z9CquSpwfgxYLG?=
+ =?us-ascii?Q?oN72N+Z350yW0ry/0kh+ddmPTfnygt+ZyLhCNkf4rmxc6IZSVz3dnQ77mKKm?=
+ =?us-ascii?Q?1j23zeFChhXLL3zlz6twBOVHOUmScHKkitTZq5foPzzkxgiH1EuPOFhqL/YQ?=
+ =?us-ascii?Q?9fVhY5qD9BpPD3RV7ichsMNagyGFgrIS9y0yR/ubXjGkHdMRTMapFgiMlpxN?=
+ =?us-ascii?Q?beiESMA664f4q7jiJBHPXajcEppLGtnZ0rAYLfLNJ7SScI7TQ+KnMZ6VaJfV?=
+ =?us-ascii?Q?wyIno5GtmyIa/FWywcEZHBrM1ZtuMbJlmRYyc/EY2uTvZmVwrAsR4nTockxv?=
+ =?us-ascii?Q?cFnYtwZbN/ABkq9oOovPv3pYhgc5c7g8kgtFurV/tcpYw76815SeWFElfSjk?=
+ =?us-ascii?Q?EzxW3ki0q4qUaxVkSe7yU9cHUMbIa2RoSFJDtdZk3LntDWmqH6xZM9BS5Q6j?=
+ =?us-ascii?Q?8/qe8lfdankoAmilLU6MpBudRS9BhyxgCMXKjyWiLZsTSZ98qk5eMmAv13hT?=
+ =?us-ascii?Q?+Hx5rooSLRg+bhDgikGVaK9A7Ko67EPd0P0LQk3AaV0jN9Jx7C2vQasdsMRP?=
+ =?us-ascii?Q?fKgOR7KpLh4IFe7SWxj876VHS7ZQN5Dv9xhPvvkVtasNkQaV9bgtJ+SmwpuT?=
+ =?us-ascii?Q?Lt0nVF8eTphDpUQ83cfQuTt5G8hd299lJ2YGxCf9Riwxu0r6Hs3D+YA9E3mO?=
+ =?us-ascii?Q?1oloAw5Ztktd6LUQSUrE9KwDfkevGTS73CqGMk2dLio31NjhSbeDXTVGKxzp?=
+ =?us-ascii?Q?s//4zcTet6VcoWfT/3ah8jXxOpsS8x1glinfqEDbw8PHyO+0EbvzQVB12LV3?=
+ =?us-ascii?Q?vPW4DM583hYIp/bJGLq0nWH5ZfBVKAaftYuG6pBItiY+KrANGwR9sz9lZNKw?=
+ =?us-ascii?Q?WwtiR12btTwbp+j59ax5xYbpD67J2es8C3H2Z2nP31bPlAEUXQRXoi/mafbg?=
+ =?us-ascii?Q?LUK/UT7EplJwMWCTmfzUs/bV3F+/B2GVjV7/1SVb?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	Pu5A3MLV7rWYuybcrKsqR8XVWq4wo6SQwrax76977mVo0WEaCLhtzd7VP0hd8/5FVRP0tdAxkr59YZ/f/cetGtBEDSnAtNYc+UMGkIC4iPrz6PzqzsI5i8OKWkJdyN7LQMiSdq6AQLVCAYcVhFQZ4jHhE1rf7y2yk0PzgfGVpLkKk0PhICjIz5c0E5wI7pkCRDkApz18sVSh0QwMwZ04+/Yb8m4uHrhxgVG/OUEAyunE4dy2KKVMIcoFxomnIiMqSnw4xABmw/mSdHBp8ebPjYOfFXKJIkQHm9rp/ye/5n7rrgW920cVHeoDV2o/KuSbwHEDElVwdflOO1A6j+74kN/nH75SrN9g9LjEtJj6KjjtZmZtEHuf1zWfqRTTN6stfHyGDwfQTip8QRGrwyy7b8EIc99ZEEhyZFeJCVyMFjXU6I28RPZuqtQBlUpcOs0CpEfopoqYG+dKPM89yF7ShFEedXD+CMQehqadXCHM5jdcrxURZkTdoAYq7oNxINQUC5I4q3MMtmNitDrgNqA18bYRjlS84b0fl5eHG3y43YQa47t/c5edYwlm5efvAdVmFFNCLYgfhOAOicDM9lZl5QBTkU3fqqgdEQQddgx4qxs=
+	RM+eH+64xzx7I50FpN/dKpvtYngjzPWsSgZh0xacq54OMmxjy/nbLDwua5xw2i3sHwKHnsnCjB/rBtP1IbN6v37srdRIs5Eq1DuVSr2jcyR4l1LcrXv9SqzzLpfnpInQTxdFTdFJop7ACXfbyOUCAD9JC+HGGBLce0d6/+k+ryF3h0b86AV0MRyEO9o9dqkkNaZC5lM3UL/YJ+53fUYEAozbXFV0Tnv/L0iRjo/gpyN2d7k5cTG2IiZP1LX+7bfqTgO/Wde3SuC8Y98HAff9X8SNVLDn2iWraj5hu9ild+JYdr2QYE3wLCPK3aGsH0IVKjD+BxQHDTEmkPfvY2dG2t2Ia0oZqXA2A7R2xHctnpWCGeIuYY0mn++VY979kh14zLogLbNMT1FB3qwUVS2BQXEwLSPRufgJcbGZaDekqB2Bj1n/rgfzUW52K2vP9yjfPZBwG8anCNDuj5CnkihA9n8387iLaU7wpkQNBOQGttdSFz16FsbyXBAVmOREUSjH6knbPlMlLdJbp8M8MEfRBeIKNOL8+90ka6UR21oGUxl7daUgpiRBAAT6McHVse/uI5riUMaJC324nSln2GBdVEqy0EUqRCZSU+zssli/uR4=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6254e74a-b18c-4cce-a167-08dcc7ea900a
+X-MS-Exchange-CrossTenant-Network-Message-Id: c719ff28-4d30-4264-e763-08dcc7ea90e4
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 05:22:23.4000
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 05:22:24.8199
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9cwA4HWbO+2sda43II/mP1MxTx5z+WQMvTM3NDFdQ2AOFh/1nvOP5vViIIMXpu44KeRM9IO62JcMs1CUOks9Zg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: nByh3jFv3sZTslxYbHo/yTJaTopGBHuiNtKECioqmvziSlBRPFrpuAcJeBGYIYURhLx2MWyvRkNPXpCPBk8DHg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR10MB7656
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
@@ -164,258 +164,73 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spam
  mlxlogscore=999 malwarescore=0 bulkscore=0 phishscore=0 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2407110000
  definitions=main-2408290037
-X-Proofpoint-ORIG-GUID: rgOVHzHTp9CZZbcON0n0Iq0tdsUZnGbK
-X-Proofpoint-GUID: rgOVHzHTp9CZZbcON0n0Iq0tdsUZnGbK
+X-Proofpoint-ORIG-GUID: TTmCdT5mz85Z0g2YNh0HXUly0c91XsdA
+X-Proofpoint-GUID: TTmCdT5mz85Z0g2YNh0HXUly0c91XsdA
 
 From: Eugene Loh <eugene.loh@oracle.com>
 
-In dt_clear(), we:
-
-*)  extract an aggregation ID (dtrace_aggid_t)
-
-*)  increment the gen counter for this aggregation ID
-
-*)  clear the consumer copy of the aggregation, using:
-
-      /* Also clear our own copy of the data, in case it gets printed. */
-      dtrace_aggregate_walk(dtp, dt_aggregate_clear_one, dtp);
-
-However, this clears all the aggregations.  While the next snapshot of
-the aggregations will refresh our copies of the aggregations -- after all,
-dtrace_aggregate_snap() itself starts with a call to dtrace_aggregate_clear()
--- if we print aggregations before the next snapshot, we would display an
-erroneously cleared aggregation.
-
-Therefore, change dt_clear() to clear only those aggregations that
-correspond to the specified aggregation ID.
-
-In order that only a specific aggregation ID can be cleared, we
-modify the last argument to dt_aggregate_clear_one() to be not
-simply the dtp, but a pointer to a struct that has both the dtp
-and the aggregation ID.  The previous "clear all" behavior can be
-specified with an aggregation ID of DTRACE_AGGVARIDNONE.
-
-Though trunc() appears not to be similarly afflicted, add a test for
-it too.
-
-Orabug: 36900180
 Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 ---
- libdtrace/dt_aggregate.c           | 16 ++++++++++++---
- libdtrace/dt_aggregate.h           |  5 +++++
- libdtrace/dt_consume.c             |  4 +++-
- test/unittest/aggs/tst.clear-one.d | 33 ++++++++++++++++++++++++++++++
- test/unittest/aggs/tst.clear-one.r | 13 ++++++++++++
- test/unittest/aggs/tst.trunc-one.d | 33 ++++++++++++++++++++++++++++++
- test/unittest/aggs/tst.trunc-one.r | 10 +++++++++
- 7 files changed, 110 insertions(+), 4 deletions(-)
- create mode 100644 test/unittest/aggs/tst.clear-one.d
- create mode 100644 test/unittest/aggs/tst.clear-one.r
- create mode 100644 test/unittest/aggs/tst.trunc-one.d
- create mode 100644 test/unittest/aggs/tst.trunc-one.r
+ libdtrace/dt_consume.c | 24 +++---------------------
+ 1 file changed, 3 insertions(+), 21 deletions(-)
 
-diff --git a/libdtrace/dt_aggregate.c b/libdtrace/dt_aggregate.c
-index 329b8ffa..8825739c 100644
---- a/libdtrace/dt_aggregate.c
-+++ b/libdtrace/dt_aggregate.c
-@@ -504,7 +504,9 @@ dt_aggregate_clear_one_percpu(const dtrace_aggdata_t *agd,
- int
- dt_aggregate_clear_one(const dtrace_aggdata_t *agd, void *arg)
- {
--	dtrace_hdl_t		*dtp = arg;
-+	dt_clear_arg_t		*dca = arg;
-+	dtrace_hdl_t		*dtp = dca->dtp;
-+	dtrace_aggid_t		aid = dca->aid;
- 	dtrace_aggdesc_t	*agg = agd->dtada_desc;
- 	dtrace_recdesc_t	*rec = &agg->dtagd_drecs[DT_AGGDATA_RECORD];
- 	int64_t			*vals = (int64_t *)
-@@ -512,6 +514,9 @@ dt_aggregate_clear_one(const dtrace_aggdata_t *agd, void *arg)
- 	uint64_t		agen;
- 	int			max_cpus = dtp->dt_conf.max_cpuid + 1;
- 
-+	if (aid != DTRACE_AGGVARIDNONE && aid != agg->dtagd_varid)
-+		return DTRACE_AGGWALK_NEXT;
-+
- 	/*
- 	 * We can pass the entire key because we know that the first uint32_t
- 	 * in the key is the aggregation ID we need.
-@@ -609,7 +614,9 @@ dt_aggregate_snap_one(dtrace_hdl_t *dtp, int aggid, int cpu, const char *key,
- 		 */
- 		hgen = *(int64_t *)agd->dtada_data;
- 		if (dgen > hgen) {
--			dt_aggregate_clear_one(agd, dtp);
-+			dt_clear_arg_t arg = { dtp, DTRACE_AGGVARIDNONE };
-+
-+			dt_aggregate_clear_one(agd, &arg);
- 			hgen = *(int64_t *)agd->dtada_data;
- 		}
- 
-@@ -1859,10 +1866,13 @@ dtrace_aggregate_print(dtrace_hdl_t *dtp, FILE *fp,
- 	return 0;
- }
- 
-+/* FIXME: dtrace_aggregate_clear() is called from only one site.  Should we inline it? */
- void
- dtrace_aggregate_clear(dtrace_hdl_t *dtp)
- {
--	dtrace_aggregate_walk(dtp, dt_aggregate_clear_one, dtp);
-+	dt_clear_arg_t arg = { dtp, DTRACE_AGGVARIDNONE };
-+
-+	dtrace_aggregate_walk(dtp, dt_aggregate_clear_one, &arg);
- }
- 
- void
-diff --git a/libdtrace/dt_aggregate.h b/libdtrace/dt_aggregate.h
-index 4f8d09bf..0dc126e9 100644
---- a/libdtrace/dt_aggregate.h
-+++ b/libdtrace/dt_aggregate.h
-@@ -12,6 +12,11 @@
- extern "C" {
- #endif
- 
-+typedef struct dt_clear_arg {
-+	dtrace_hdl_t	*dtp;
-+	dtrace_aggid_t	aid;
-+} dt_clear_arg_t;
-+
- typedef struct dt_aggregate dt_aggregate_t;
- 
- #define DT_AGGDATA_COUNTER	0
 diff --git a/libdtrace/dt_consume.c b/libdtrace/dt_consume.c
-index 0e30ddbd..f2d5cb74 100644
+index f2d5cb74..6aa9812e 100644
 --- a/libdtrace/dt_consume.c
 +++ b/libdtrace/dt_consume.c
-@@ -1552,6 +1552,7 @@ dt_clear(dtrace_hdl_t *dtp, caddr_t base, dtrace_recdesc_t *rec)
- 	dtrace_aggid_t	aid;
- 	uint64_t	gen;
- 	caddr_t		addr;
-+	dt_clear_arg_t	arg = { dtp, 0 };
+@@ -433,11 +433,9 @@ static dt_htab_ops_t dt_spec_buf_htab_ops = {
+ };
  
- 	/* We have just one record: the aggregation ID. */
- 	addr = base + rec->dtrd_offset;
-@@ -1568,7 +1569,8 @@ dt_clear(dtrace_hdl_t *dtp, caddr_t base, dtrace_recdesc_t *rec)
- 		return -1;
+ static int
+-dt_flowindent(dtrace_hdl_t *dtp, dtrace_probedata_t *data, dtrace_epid_t last,
+-	      dtrace_epid_t next)
++dt_flowindent(dtrace_hdl_t *dtp, dtrace_probedata_t *data, dtrace_epid_t last)
+ {
+-	dtrace_probedesc_t	*pd = data->dtpda_pdesc, *npd;
+-	dtrace_datadesc_t	*ndd;
++	dtrace_probedesc_t	*pd = data->dtpda_pdesc;
+ 	dtrace_flowkind_t	flow = DTRACEFLOW_NONE;
+ 	const char		*p = pd->prv;
+ 	const char		*n = pd->prb;
+@@ -448,7 +446,6 @@ dt_flowindent(dtrace_hdl_t *dtp, dtrace_probedata_t *data, dtrace_epid_t last,
+ 	static const char	*ent = "entry", *ret = "return";
+ 	static int		entlen = 0, retlen = 0;
+ 	dtrace_epid_t		id = data->dtpda_epid;
+-	int			rval;
  
- 	/* Also clear our own copy of the data, in case it gets printed. */
--	dtrace_aggregate_walk(dtp, dt_aggregate_clear_one, dtp);
-+	arg.aid = aid;
-+	dtrace_aggregate_walk(dtp, dt_aggregate_clear_one, &arg);
+ 	if (entlen == 0) {
+ 		assert(retlen == 0);
+@@ -486,21 +483,6 @@ dt_flowindent(dtrace_hdl_t *dtp, dtrace_probedata_t *data, dtrace_epid_t last,
+ 			flow = DTRACEFLOW_NONE;
+ 	}
  
- 	return 0;
- }
-diff --git a/test/unittest/aggs/tst.clear-one.d b/test/unittest/aggs/tst.clear-one.d
-new file mode 100644
-index 00000000..f96c2db0
---- /dev/null
-+++ b/test/unittest/aggs/tst.clear-one.d
-@@ -0,0 +1,33 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/*
-+ * ASSERTION: Clearing one aggregation clears only that one.
-+ *
-+ * SECTION: Aggregations/Clearing aggregations
-+ */
-+/* @@nosort */
-+
-+#pragma D option quiet
-+
-+BEGIN
-+{
-+	@a[1] = sum(100);
-+	@a[2] = sum( 20);
-+	@a[3] = sum(  3);
-+	@b[4] = sum(400);
-+	@b[5] = sum( 50);
-+	@b[6] = sum(  6);
-+	@c[7] = sum(700);
-+	@c[8] = sum( 80);
-+	@c[9] = sum(  9);
-+	clear(@b);
-+	printa(@a);
-+	printa(@b);
-+	printa(@c);
-+	exit(0);
-+}
-diff --git a/test/unittest/aggs/tst.clear-one.r b/test/unittest/aggs/tst.clear-one.r
-new file mode 100644
-index 00000000..101d173f
---- /dev/null
-+++ b/test/unittest/aggs/tst.clear-one.r
-@@ -0,0 +1,13 @@
-+
-+        3                3
-+        2               20
-+        1              100
-+
-+        4                0
-+        5                0
-+        6                0
-+
-+        9                9
-+        8               80
-+        7              700
-+
-diff --git a/test/unittest/aggs/tst.trunc-one.d b/test/unittest/aggs/tst.trunc-one.d
-new file mode 100644
-index 00000000..0556bb34
---- /dev/null
-+++ b/test/unittest/aggs/tst.trunc-one.d
-@@ -0,0 +1,33 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/*
-+ * ASSERTION: Truncating one aggregation truncates only that one.
-+ *
-+ * SECTION: Aggregations/Clearing aggregations
-+ */
-+/* @@nosort */
-+
-+#pragma D option quiet
-+
-+BEGIN
-+{
-+	@a[1] = sum(100);
-+	@a[2] = sum( 20);
-+	@a[3] = sum(  3);
-+	@b[4] = sum(400);
-+	@b[5] = sum( 50);
-+	@b[6] = sum(  6);
-+	@c[7] = sum(700);
-+	@c[8] = sum( 80);
-+	@c[9] = sum(  9);
-+	trunc(@b);
-+	printa(@a);
-+	printa(@b);
-+	printa(@c);
-+	exit(0);
-+}
-diff --git a/test/unittest/aggs/tst.trunc-one.r b/test/unittest/aggs/tst.trunc-one.r
-new file mode 100644
-index 00000000..a611026d
---- /dev/null
-+++ b/test/unittest/aggs/tst.trunc-one.r
-@@ -0,0 +1,10 @@
-+
-+        3                3
-+        2               20
-+        1              100
-+
-+
-+        9                9
-+        8               80
-+        7              700
-+
+-	/*
+-	 * If we're going to unindent this, it's more difficult to see if
+-	 * we don't actually want to unindent it -- we need to look at the
+-	 * _next_ EPID.
+-	 */
+-	if (flow == DTRACEFLOW_RETURN && next != DTRACE_EPIDNONE &&
+-	    next != id) {
+-		rval = dt_epid_lookup(dtp, next, &ndd, &npd);
+-		if (rval != 0)
+-			return rval;
+-
+-		if (npd->id == pd->id)
+-			flow = DTRACEFLOW_NONE;
+-	}
+-
+ 	if (flow == DTRACEFLOW_ENTRY || flow == DTRACEFLOW_RETURN)
+ 		data->dtpda_prefix = str;
+ 	else
+@@ -2327,7 +2309,7 @@ dt_consume_one_probe(dtrace_hdl_t *dtp, FILE *fp, char *data, uint32_t size,
+ 
+ 	if (data_recording) {
+ 		if (flow)
+-			dt_flowindent(dtp, pdat, *last, DTRACE_EPIDNONE);
++			dt_flowindent(dtp, pdat, *last);
+ 
+ 		rval = (*efunc)(pdat, arg);
+ 
 -- 
 2.43.5
 
