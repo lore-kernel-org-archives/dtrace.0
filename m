@@ -1,85 +1,86 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D8E190482
-	for <dtrace@lists.linux.dev>; Tue,  3 Sep 2024 17:47:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA08318EFF4
+	for <dtrace@lists.linux.dev>; Tue,  3 Sep 2024 17:49:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725385676; cv=fail; b=p0gX5q/hotT+hOZSo4JP7MuBzpsnFPXY8jHXme5/jt0L1V/xHPb/zsM8U6w74oL227NkfHQSdOFof43xDkwDNQ/ifwuvvVJ3JrZAVTHkcrAobZySZBHdxa2VSlGNze6lR2/wCE0+1nBeF6Ql70I6mjoSKEgLUNCFCS/rMyqdgZs=
+	t=1725385774; cv=fail; b=V4j1dTxA4o3iYYt7PEiThVEPJgF7i44lcxTsvtkyCjiz+cdHTVKanP8Ta1o8yEWQBrzsg48Fw91K8PzbC+uEdMRYVoZAjf36QutHm9OaEO0DwnMKsk+/pteF+BwX9bKBTY89DYJCAZaOi2csJljlZUdIbmVBFrpEoJuu7lFyzaY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725385676; c=relaxed/simple;
-	bh=wYLpFzHeZ+GfYK80tc3j3lFHJQtm+AURs8WjgI2slAg=;
+	s=arc-20240116; t=1725385774; c=relaxed/simple;
+	bh=sdA+gj3ucIxZJba1hc8IieZTw+4HI8iI9fGPSKLzeOI=;
 	h=Message-ID:Date:Subject:From:To:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=RqD35JgFiI9GP/xSs6sX1V/WODAq06kBtXovB2M/RsSCP9cG1RBZk0VTF2w3WL/w4wiRdSEkjU5/IY0s61iPXuQ60l9FLqK4mzAvejSdDXVWNzY22YAxZEmvUycmT023g5UkzqPgppuuwSmir8GK+CP6jf8tyqOS4zsjYoC8jr8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=FtORjatS; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ByfUCu/e; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Type:MIME-Version; b=DF8MiYzAHV/ZrpB3O+diyaSmHQsXG4PVAOsSH8y717dfoPZT/CAJL2aLZKpD8pT4uelQFdyuApCP0eTujO7MigPe2Akcnwslkt2/SKPbfRP6gYyHW0TI/8cp6UpIzD3J9K4F9+OlON74J9g8vEl4iNJhPK4qK+5m4ZMy3+VexIM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=XCAT8OcA; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ktQrbhI0; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="FtORjatS";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ByfUCu/e"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XCAT8OcA";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ktQrbhI0"
 Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 483GtS3b011246
-	for <dtrace@lists.linux.dev>; Tue, 3 Sep 2024 17:47:53 GMT
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 483GtS3Y011136
+	for <dtrace@lists.linux.dev>; Tue, 3 Sep 2024 17:49:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	message-id:date:subject:from:to:references:in-reply-to
 	:content-type:content-transfer-encoding:mime-version; s=
-	corp-2023-11-20; bh=nQ27Wna6cZX0Re0EERJomqiA8/JJyV+bQHvSHmlhYOU=; b=
-	FtORjatSggV1iftqDJxMz+/bagzdbcSLo/BLurvniwYDqqc/1DKwVI5cJ4klA6pM
-	0UXBevZWJ0EC/ARi/x+6HYnulwa88UJUyMD8Dq2wkqsaM6VUg5eg4/b20BDfper6
-	/epqGaUuOVkWnd26egO003rBunTezEJW4A715CY0NE5Yj5CCOPTGhsq4cMsGN/Mp
-	F4shLQwBFIGZ/PoZGG2L2c/Bk/2gy9tIeWkCB2xltrQOgvKZjN+dwAIPIKgpKQ5A
-	b7VQtojKAWQdpQyorBxoRrCbj47mtbgHiWyTanPLUvOiRaBfecSVCqMRFstw3zbf
-	V9f/VXTzV2zrKk6hy3Hr1A==
+	corp-2023-11-20; bh=x1H0rRuJnLpPiSDLEg1rA89yDeF8Ugo+9TG2o8ThoFI=; b=
+	XCAT8OcA8YEzwX6n4cJyQSrHwt4v449Qdl/XHCI6xCXxoBEEqD1fpMMIXgxcTHxW
+	fFZPAYrKGxqsYMKP8ClTbKTeKqjxQ+xNyipeucq7jGadjGZiIGw8m+hNonKkhKjQ
+	ImYuGkf9Us9xUPvbUy+lEHU3ogrcycBkmxBED6l4TVsYPS3kjU8zbcyIxzvM9aLp
+	bJvhDa9iEEJF/nZKZqVwgpRohRL2mxUHh1SQnrEuQ0NIWQti+Ie7ckUV/IWcelSY
+	rcp5X85JPNHjlKJiaqTOALS/vqeHuA9jDov9DlPDKX5+icjR7UsQHYmcZ3oMJ14a
+	04zdkylFwWyPUU05nnVifQ==
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41dk84j879-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41dk84j8b5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 03 Sep 2024 17:47:52 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Tue, 03 Sep 2024 17:49:31 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 483HSp79036718
-	for <dtrace@lists.linux.dev>; Tue, 3 Sep 2024 17:47:51 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2173.outbound.protection.outlook.com [104.47.73.173])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 41bsm91hc2-2
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 483HFvLv036713
+	for <dtrace@lists.linux.dev>; Tue, 3 Sep 2024 17:49:30 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2047.outbound.protection.outlook.com [104.47.73.47])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 41bsm91k5e-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 03 Sep 2024 17:47:51 +0000
+	for <dtrace@lists.linux.dev>; Tue, 03 Sep 2024 17:49:30 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gItC0BsXHXqJ77TQoK0oqldt3ihezsf2xakleur3gYkjgm/N2j7zR/3mDikRUpcPENJ+zZxcrmsdzmX1Mv0XzNCXgtUv1SfW6qe0PI+d2lXHNfX1Y6KDT0Pr1pfqTAUIhXVNLhdR2yXe9kabSsX10kfA4/H5BqGEwFTNEH8HDrrNELiSRY9AzPA4yJiCGH7l/f8S2XikjIwnVpl7EjeSU+/gq2c3JBI6B+gOp2gAH1IzWlInpkbqFXj5XYHw/mgM9E6QwpWtQtRLQLzy2XJcA4AzRxvHF2XeMhildEEga9Q33CHisTpT9GgGRjND2ZrQBrNDj6CkOJum0McrSZYJcQ==
+ b=PRxCNpyWv+8XUgmQqiH9UrjDfRT+OblaKQ4aJ7Xa+gJeo8gIYACAT6eVdsxsnWQbfo45IFbN3VEyeCNtRpWwGL/rQjloKxDnSckwVmFCAqAYcZc9npHlyLNVFtzr+wuKQ+d8Py3TsneB8r1c4mbWL4hWcyKajGs++s1WT2DGM1s8+YPbZdR1YCvGtkWz1DguJtuSxseagKJN6XKqOO4sN920cSJ8f4iLY2ZUvq4OqTuIHXkkppJmMVorWHbgRiad1PNZjOuaAeE8i/+bv+OnCGcazL02JHkJ+EUQq9RCYpHx4lCt+kY/8PT9OH2VBgvlx1R+biRk0XXBISahg2xkZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nQ27Wna6cZX0Re0EERJomqiA8/JJyV+bQHvSHmlhYOU=;
- b=cUojZGLoqhgdoc7xaCK7ls+YlBoUR34M8gBrfzjLHfXRO6hE0N2gwo7F7z29VSGvERQeputcDUCIBvAdB/BlVdsL09LkwOh+19CYvgo+TviawZbkda/lsAo5j289xnfGBFLF4LRUVYLHmsxpZrJ88WwVj4ADMlgGK5kAQHe+xiWCXjUPaHQouiHw1NO7T0fhQDZv4eeQn8k+B/LPXqfUeJ+0Z312IGX7eOYBVG6RmIAtnF5PhiL7BPn9y913dcEgL6Inx8GGIcCUFC1ZjzCORlUEfLJeoEtGaupfvHjCeLdUOTL2HlB2cC7Jq/XiEu/uRHSsZ+VwpSel/RagrcUbyA==
+ bh=x1H0rRuJnLpPiSDLEg1rA89yDeF8Ugo+9TG2o8ThoFI=;
+ b=Z8leTQh8/9DLldzAI+o3ga5QdwqPKZ23WyGh7ooFulx47yQly2lC7fXZdv2wLvCwWUgkn5zv7YIfdk60+LK1fq/UXNpc8bE4Q6RerOSDDP0r0KkPF8va8qiz+pSFyxJU5oNAVuGwLpU0b46FAcvEy+XRlj4X9Nx2F3gfbkn2jrUZha27mhx1cNw52lpD3ySsVa6jgcSKaRG9pidoNmSyjlkh+pHMTw8kafLdtJSAKANeP2XvRijIvEZYydzAcLIOj8xbbnh6VK61wPCyPb31ufB+I6Xk8DcPKeY9VKndjB1uN5DJaL6wG2cuS4dxEK9yvQ5UWCR12nh6uqYeqEP9Rg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nQ27Wna6cZX0Re0EERJomqiA8/JJyV+bQHvSHmlhYOU=;
- b=ByfUCu/e1EDV0D9KlJddage2DF4vN3Qyrh5ZijKoeQJv9YVV7UL9njK32WftSpEXdl3/OHxOvloWdoUjxwMyvA2gBmbxFo2BtnPn+wWW//qTleQz95OAqy5OEa7+MjycXzEIcMXr159ryU8paiUDQMYyqwIsQzrq0aFvWT9CJ5M=
+ bh=x1H0rRuJnLpPiSDLEg1rA89yDeF8Ugo+9TG2o8ThoFI=;
+ b=ktQrbhI0ZEylhjUmnpiJImNKXK+/ij6HbD0by1BWu/AqeqO2hTNN5LUe2EIGg7icqSD8UGh9yxAhpC6z8e6LyvQo+ND8EX+UDQ98KS86wXYZfbpblSrOZX69VxirW1IcnO+XleD//T6EZTNJKYBIr5PeRxoK/5Ftd/cuWKTpNfk=
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
  by SA1PR10MB7814.namprd10.prod.outlook.com (2603:10b6:806:3a7::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.14; Tue, 3 Sep
- 2024 17:47:48 +0000
+ 2024 17:49:27 +0000
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69%3]) with mapi id 15.20.7939.010; Tue, 3 Sep 2024
- 17:47:48 +0000
-Message-ID: <836e815b-37f3-1313-2796-60e42f7300f2@oracle.com>
-Date: Tue, 3 Sep 2024 13:47:45 -0400
+ 17:49:27 +0000
+Message-ID: <e48bdc51-6832-d23f-338a-a68327c8e12d@oracle.com>
+Date: Tue, 3 Sep 2024 13:49:24 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH 04/19] Eliminate dt_pdesc
+Subject: Re: [PATCH 13/19] Get rid of relocatable EPID, dt_nextepid, and
+ dt_ddesc[]
 Content-Language: en-US
 From: Eugene Loh <eugene.loh@oracle.com>
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
 References: <20240829052558.3525-1-eugene.loh@oracle.com>
- <20240829052558.3525-4-eugene.loh@oracle.com>
-In-Reply-To: <20240829052558.3525-4-eugene.loh@oracle.com>
+ <20240829052558.3525-13-eugene.loh@oracle.com>
+In-Reply-To: <20240829052558.3525-13-eugene.loh@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9PR03CA0049.namprd03.prod.outlook.com
- (2603:10b6:408:fb::24) To CO6PR10MB5636.namprd10.prod.outlook.com
+X-ClientProxiedBy: BN9PR03CA0052.namprd03.prod.outlook.com
+ (2603:10b6:408:fb::27) To CO6PR10MB5636.namprd10.prod.outlook.com
  (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -89,95 +90,95 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|SA1PR10MB7814:EE_
-X-MS-Office365-Filtering-Correlation-Id: 92fa0585-800b-4013-6444-08dccc40869b
+X-MS-Office365-Filtering-Correlation-Id: 3baa2193-acd0-4349-62c3-08dccc40c116
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NkxlVWF0L1RVMGhGVWgvODBjVnZIMlRuR2lucnp6TStoSnhtZTEzakhzMGNo?=
- =?utf-8?B?TEY3aGFzVHY0SmNHbFplcWgvRTh4MzdVYlJsVGx5aS9DclByWlQxNlYvN0Vm?=
- =?utf-8?B?dmo4M3ZIVklUMllzWnhLL3J2cVdEcHA2bmVMaXYzQnlYYy8rK0NaWUJBeGw1?=
- =?utf-8?B?MVMzcXRkamZoSWVLaFdhZU5meFFXcHlSc1dYZzVSNUJuOHNFaVUvWW9yUmxw?=
- =?utf-8?B?ZUlDL1BRajRHLzhMVmlmb01BSjhFSy9DNHZ4NWJiTGdRbkFSM3o2YzhGYVhu?=
- =?utf-8?B?WVZjUFpqQ3VNMnZIc3FjUzBkdnBzM2NQdnNyZ0dleDlQNXNoQklmbDRKTXdl?=
- =?utf-8?B?K1JCeEdPTWtMaStYZTVlYXh4WUh6Tm1kanFNREVBcllLN2NLRGNqVDVhTTF2?=
- =?utf-8?B?R2o0dk9CdTkyQXViUkR1dm5CdkJLVWFxeDMrc21XcW1TV1JuNU92Mk1QSThv?=
- =?utf-8?B?eHFSOEdqMmp0d21XME16RlhLNStFRnU1UGFveXYvYlRFT0VYbVprN1ZPSVJJ?=
- =?utf-8?B?WUVrSXUzOTh4bDJmUU01R2tBeElIck12SzMyL00wVkVZT0tIOGd0SWM4ZGo1?=
- =?utf-8?B?dWpqMVZhdEVmbmVGcFoxSVZBN1VDRzdYd0QxYmx5QW44R2Z2WHBXM2xlQ2V3?=
- =?utf-8?B?WU5nZGFQT2Y5WGI1QW1lODI5bnV2V0VHNW5GMkhCbXQ3dEdORFZ1SnJ3ak5M?=
- =?utf-8?B?MXZ6d0lLY2JZUU4wajA4QVd3ZHNQVitCb2NvZzNFb3FhdGUzRmFEWEwyenpj?=
- =?utf-8?B?TExWaGVOc2tHWVhRM3EvK3N6YVB1SW9xNGNJU09MZlZocTNiazJJbUxCek5L?=
- =?utf-8?B?NjgrQ0c3SnJlM0dBRm9VRUtlYkRhaVl0cEpWK0VzV0QycU1DeG5TbVBxZlBP?=
- =?utf-8?B?YmJia3hNQ29BaC9OSS9yRmRJRVRkN1oybnhPTEpLamRnc2ZEY3U0WlNEbDVq?=
- =?utf-8?B?dVVHSmR5aU4za0h4WUdRNnI0VVBzQ2gvNCtpT3dEb2RjVXErb2hCTUxWbzNj?=
- =?utf-8?B?eE1la215RGtiejk0R1RycDI5bVZ6NlpxTlFPa2JWdWZHTkRkTXlIMXpscitF?=
- =?utf-8?B?TEFhRFJzSlA4djZRMlBxYkV4Zno5em5oWnJzcG5lNXJDSkVHd0hXWUNoSUkz?=
- =?utf-8?B?Y0JYV3JzZUY3bS9LZGdtMHpZeFhDbzhyVlMwK3o0WG9jdng3NzFFeG8wMFhI?=
- =?utf-8?B?aGR0R2ZpNkdLL0hwS0EzN2hXdXBEcjFqeVZwOUE4TGdMeFJlYXVmUXN2Tlhi?=
- =?utf-8?B?THE3SUJPcFVyVnlLNE5Vb3gxN3oyclZNZWxINlk0QWNqOGJQYVJuZEU1N0E5?=
- =?utf-8?B?SEVXemloSWJTWGlwMkxqbGNNaS9uMHZjbVFOZVRyZGxlSDZnUUJpZUV6WmhH?=
- =?utf-8?B?Zll5SEZzdnVPMWFXQ2tMSVJVZ0liYUVmTUZwVFQ4ZlptSnBsazlGL0UySE52?=
- =?utf-8?B?aVlrTjE1VG9jZWZWVnVJa21IRXNBS3FNY2JXTUl3TzdOclpGN0l1eFB6K2hu?=
- =?utf-8?B?c1BLL21uTWZaNm1xTXlHNnljMFp3cWpoV0loM0xaTy9hcXZRZDJyNTdQTmVW?=
- =?utf-8?B?SWl2YlhHSWQ3Zy9lUlZPKzRGV0dTSFRYRVZ5NUNiZGdlVkNMcVBNeGRURUU4?=
- =?utf-8?B?RTltODY5TTQ4MTZWTG5PMXdlR0F0aFNwRDNBT3hqbmJzRzBZbjI0VmUzUitI?=
- =?utf-8?B?dlhWa1I2aDBzRzc5enRqcTZvOVlLY0Z3R3hGUVIxdG44akRGRXZENlpqeDNz?=
- =?utf-8?B?d2tCTkRPeVdnRVI0eW9JdHU1K201S3ZsaDFONDY5WjExY3RmNzY3QTkrSDEr?=
- =?utf-8?B?Ry9LWEZEYUUvUEtEZWVxQT09?=
+	=?utf-8?B?eHJ1VjJ2T1BxRkhoUnJBakhVU2ZjRjhJY2luREF4Ukg2emZCUGtHVVlIaGVM?=
+ =?utf-8?B?bXYrSXlLMXBiaE1UV29mM2hYODlNKzFuTWl0S21wc2ozYmI2cXMyZ1VXTXdI?=
+ =?utf-8?B?QTJqMDVFWnhBL20wNzdNSzFINmoxNWc5ZzduRkFIOWJ6ZTgwZGlweHVFbzZ3?=
+ =?utf-8?B?ZHhObldzcDczcFNBdlF6QS9hQUJrR01PQjgvekhFNWlTMmtoNURWSlNkbGJQ?=
+ =?utf-8?B?bWw0R1V1YTA3OWdQa2ZNWjhhcG5aU0wzdVpEYk9PZDZDTk03bUhJWnN1RWRr?=
+ =?utf-8?B?QjVQZ1VwcUJvTW9zdUR5ZWFZUmVXMC80dEdENERZc2NLdEcyT01kTHlQT1R6?=
+ =?utf-8?B?ZkRmaE40TGtpM0xqdnJxeEVzU1hvTlBQV0V5OVg1ZklBZkxlcVNMQy81S1hX?=
+ =?utf-8?B?SjR6bWNaTDdFdGhyajF6a2lkYkNOVDRuNHd2OW5zQVB3L3RPclVQU1NRcHFU?=
+ =?utf-8?B?ZUE5SHFKYVFGcjNiTTVlRXM5c0FRcWpJbkM2QUZ3cGlIZTlYSCthVmFQWkl1?=
+ =?utf-8?B?VUxHeU5tam5FREV2TUh4YitOSzREcTVKQTFKVFF1eFIxclRLanA1TjYrbVFk?=
+ =?utf-8?B?Yzlacll5RlJsc05DSFk0bVIzM21Qcy82cmRYUlMrRWJ6ZzlKbWNUcU1XNnFC?=
+ =?utf-8?B?Qm84TDk1WTlKU3JFYUFMNjJNdFpLY0pCcGNpTjl1UGhuN2hENEhzMmFiMDRv?=
+ =?utf-8?B?QTU2LzNLT1dhRlpzQ1NPVndmWFhZN29PR2FJdytyd0ZjVUVIZWtTb1Jvblda?=
+ =?utf-8?B?OE4rNk5HZGJFQXJtdHNoSXYydlphYzE1cm0zampGZ1A1VjdnWHBOUmt0UUhx?=
+ =?utf-8?B?Z2t6dnhTUXhBYXhDZlNncG5vdGM2N2dUMm1jRlgxVithSWloMkxpN3VVR3Zj?=
+ =?utf-8?B?TCtvZnJtZ1liQ1YrV3Q1Z3JVL3dCQmpGa1FVMERKL0lMSitWQVQ3cXNsanAx?=
+ =?utf-8?B?aUF2VGdPNTVUU0t4c0p6ZzJmMXh6VmxSeDFjRGJvNm5ZZ05GNmREcEVUamlB?=
+ =?utf-8?B?aGJxSEVDZ0ozVWFjbEZVWk4vdkUvN2h2bHFNcEhWRDZyUFkwVzNqeVp1R3Zj?=
+ =?utf-8?B?eEhLUkJPREVQL1hpNnlxczI4S1cwaDNmbTcyaFo5SXgvSlJkRGtRYlV3ZzM1?=
+ =?utf-8?B?R2s0QmxuQUk2WHkvbXpDaE41bytDTzROSXhSWERibWVMQXR2UzlpMXZHeDZR?=
+ =?utf-8?B?L0dQdnlEWVhDY2tidkF4Mno0L280UGpsYmk0bkNFYmk3RzF5Z1VJVGpMZ1dJ?=
+ =?utf-8?B?bEZwM2hhRGxRZnJRVTFUaHlzb1Fka2xMWXplVDBqTXZHN1BVUE1haG5VUXU4?=
+ =?utf-8?B?c0s5Uk0xMXJKQVNrUXRXTlA1MmVVUG9wMzN5UFJhYVZJeEVMSU10L1hhOHpm?=
+ =?utf-8?B?UHEzYXY3ZTcxODVwODYxcnk4WGVwZ2dFeUpmdXF1ak53T3hBZ0draFg2VURs?=
+ =?utf-8?B?dUM3cG9nMXFaeDZONGxUR1JsblpxMVU3OXNLY2ZNN1JiMTVpQW1IQUpvS01W?=
+ =?utf-8?B?UW93SVBYR0RlWjBxdVQwMU5wZ1JvdzRtT2JTSjVKOHV2Qmk1SjZScXNjMXU3?=
+ =?utf-8?B?VlBpajNoQkVjbGlVZklsdUNReVZBYytENTR2M0ZMc0p2d2hHZDN1RkdzN2ds?=
+ =?utf-8?B?NzIzWXFCbGhkWE11MnJBRTFXSXhoenVnVGVSTVBNcG5WYUk4NmRtcXM0OENp?=
+ =?utf-8?B?MGVBSmlVbjR4RXNkbWtaZC9jcnYxa0FjT3RSbGIwYVh6NHdwdnh2OWwydnMz?=
+ =?utf-8?B?akpEK0JyVnE3NVM5ZGx6T25mUmgzQklFWGZnTWZVWldDb0h6ZnBKS3NXWC9o?=
+ =?utf-8?B?Mnp3YzZ0aGlrOVBZS1Ftdz09?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NnBUdHJCVUJzeDg0VEJ4VnRNbnFwSUd4VEVMUzU4SndmeWREOVo0NmQ2Qytp?=
- =?utf-8?B?NWRkcGliMUl3dDlsL0kvc0RZV0NFUXAycTZLN1R5UTFGVEJUS1NjTkU0ckYr?=
- =?utf-8?B?SVA2K0dXWEdORFFRSEd6SEJDUXI3RUF2SVRTNWRGL1NyekZNenZLcTV5dnNo?=
- =?utf-8?B?S1l1b3RXaVlHZFN1UVI5aUp2MDVzQUEwbi9HeGYzU29VdUdmeExuRzA0VEE0?=
- =?utf-8?B?NzZRZ213aUpZOGVjOENMTGlsYmZadVFyWDBDaGthQU55VXRpTGlvVWZuNExQ?=
- =?utf-8?B?MVByeGs3SUJnbkxuSm9zWmhiRXBtd1ZoM2NlM1d3b2VORG1kbmtFQkFucjJT?=
- =?utf-8?B?RHRWYkxwS3ZvMDVOZ2lJZjlVazF5U1E0cHFaQ3IwdFJhMHBXZjlYVzZ3b05S?=
- =?utf-8?B?T0ZvMWRzUmlSN3dWa0lmV1BST1E3bkNmM1lPNmJyNVJqMXBKcFZvNmlYYjZl?=
- =?utf-8?B?VzcrY01rMWx3dEZVRmNsR29sUW5CMzRFUlNKUm9hVEsxSFJQVDZaSnlQTjJu?=
- =?utf-8?B?bFBveGM5V3IzNHZYVVg3akFzRVZJc2t6bDlqQzNuTUwvMHZxYzNCdDY0Vm9q?=
- =?utf-8?B?MUJmL01hdFdJZDMxRkh0OGtSUFlHb2c0bHduQUsyQ1EyVGlObVpRRTJxWXA5?=
- =?utf-8?B?ZzQ3aVpvK2hzSHBaNEIybmRXODlSeW13QkVncG9ZQWtWL3pMU0dVUFZRNUVN?=
- =?utf-8?B?ZGM5aWJwUHBmcVphSmp4RDVYSlFhOGwxS3hYRzVhekkyZWswZEVFbUhZR29N?=
- =?utf-8?B?VURlbW9qcm1WNm1sL3ZBQlFuVU9ZdGMwUnQrTElEMkk0SnhYQlRvRm9WREV0?=
- =?utf-8?B?dzVmSU1uUEE4M1d2TkVudUlIOTFsZEZJc28rcHhRWjVrUm1TYUVPOHpucnAz?=
- =?utf-8?B?NkVmME96ZDRwQ2M3bjl6dmptSk0xaVF4ZWFYU1BMTG11eTZ3ejkyMStUZGNw?=
- =?utf-8?B?YkRwQWo1Ym41UVRjb3VxV2FRYXl2SzlCT2krQjVUV2hxMjVrbGJOcGNDM3hW?=
- =?utf-8?B?NnJPRFN4U2ppR2hWcmE2OUsrbkN0clZUL3ZUSFVqSGpoNGpIOEtncWw1SEN3?=
- =?utf-8?B?c3BqUlpya0VtbEZzU0RMK21ML0E0NHFobE4rSFh6a3d1N1Z2Um54TGlhY1pj?=
- =?utf-8?B?S2k0STJ3c2VWZnFqY0lGMzkzUnhhNTQ1OEpwQ2F4dEtROWQyb2NFU3FoazYz?=
- =?utf-8?B?Mk9xNHR2TVVkU2hpVk9KNXo3SkM1T0pSZG5PVEQzMjZKdlltdS9taUhBOTl1?=
- =?utf-8?B?eTNSZ2NKUUlyM1JnRWswK1VQRGlJZkJ2b1JvZkcyZlJVSlg0SitaQlAvYzcy?=
- =?utf-8?B?Mk1YaWRYZEFKV3Ryem5pUlIxWG9CbXdtQW12SlpvMjJGM3g1cTNrRFZUaTVM?=
- =?utf-8?B?ZUlibStXOVpicWg5ZVNoOW1ZUnk5NmlCNjduaGtSMkxiVzUrMlR2QnlBWHRl?=
- =?utf-8?B?YTJFcXk2TGhlT3l3OGFpTUVEWnRjeWNKWXo0ZWw2MnIvNnpHa1BmMnRPd2FO?=
- =?utf-8?B?b29vRXgyU2t0b3FmNFBpZ0Z1QzQzbTNPUDUrMnhFOHpvdFlRNGJrckp4czA1?=
- =?utf-8?B?a2lTUWV6VWR6S2s1ZDhDcU0rakxQZlBzM1NjNDlMYVhmTkRGbzZ5TUhRM2F3?=
- =?utf-8?B?c2YyNUZzMEtJdnhpS0xWb045eUFaOWdWcnNaU28vd2x1a0hlMWJzNEswOFF6?=
- =?utf-8?B?eDU4ZmQ5MkdzLzlINDRkWHJ5bWhBVWpQT2ticU8rM21pcUNYRXdVWnJ4a1NI?=
- =?utf-8?B?QjQ1anlZelQ5cXZ1UXBYcW8zVnVqTVphdldvZHRQemRsNWtqWlE3L3dDU25W?=
- =?utf-8?B?WlI1aGJZanVkbEtReVhTZm5EVEdVM2NPTmtya1FuaWFFWDkzZ2sxb05KM2Iy?=
- =?utf-8?B?S0hvZGkzQm9iNlNYYVVJcXR0bXFxb2RuSnBXdjJKdUxrOUU5bXgvY2p1TkJL?=
- =?utf-8?B?VkJ1bzQvZm9uYTdOUmozN0h1SHk5bFg4RXp2Q1dhZWs5SEZVSS83SjlxaTg2?=
- =?utf-8?B?NHgwdW9iNDJ2WEs0MTJ2ckN2UGZkR2JJWHBEcU5IWXpZZi8xaDVwOTJUbkt1?=
- =?utf-8?B?UDZaV0prdDVwcXdtWDFybG5yTCs4ME52MkFKcEJranFmVml4aUZ2eG9yN1dk?=
- =?utf-8?Q?x+jb260aJNYg1zq7eLd88L6Ue?=
+	=?utf-8?B?SzVmUEhRTTc4Y0kwSWYyZEQrSXJMSjgxRDZYMmxidHBQMEp0TFp2Z3M3dDkr?=
+ =?utf-8?B?ejliSjJxajNzU0xoa2VNWjBFRlpYUGQvbUFvQXFBTmJxMHhneThOTUlDZ0Ja?=
+ =?utf-8?B?TGsvSkFHbUJiaWdWVHhpN2UyR25udWhMd3l6T05MZ3VNUG1rNldLM2RXM2VO?=
+ =?utf-8?B?ZUdTZjRDK050NWc1cVhwalZzRlpTMkRTZmpZUWFQSnQ5T3ZDYWl4M0Y4Q0ZC?=
+ =?utf-8?B?MEJBWTdyMjBPQVFzMnpSZnVvdTBWZ2xvQWlob1V4cnBRY0ZOVDMvWC9nQzBp?=
+ =?utf-8?B?Z2RkRS9pQ3ZYY1VwNHFXREpISTAxdnhUUzdhZDg0Ynk2QVNJTHBEYzBiQTZ4?=
+ =?utf-8?B?cDRGbjU0ajlMZjRTNkJuYTV6cnFuSUZaakxHQlU3K0t5MExVUTd3WUx4eXcr?=
+ =?utf-8?B?R0ZRM2ROeFJXampEbHE2d1dmNHYxcytDOHdkRzZCQ1F1UHE0V3dlSERKK2s5?=
+ =?utf-8?B?YkZHZWxnSS8wTEpJdkRlTXhHaERBaTl5QTJrdUM3dVZuaUg2L2d1aTdUWEsw?=
+ =?utf-8?B?WWlyNlV6VlRBQUlXdmkrWlhaNTQrMzZtZWJETFRxQ3pYYnBHdkZNUERyNE9i?=
+ =?utf-8?B?WmwzaXYvL3NTS2VTZjI1NysyWXBuRWdDOFdMU3hpVFQ5TzFoUDBuWjFTcm0w?=
+ =?utf-8?B?YUhHOG1ibStUS2FJVjdLeVUwMjJoclhDdVFGU0Nma2ViejJuSWd5cldZU28r?=
+ =?utf-8?B?OU5ocDhiVllraXRGN2FYUldQYkVsOFpVOWlxakxoL0YvTzZPU0NqNVBPSkZK?=
+ =?utf-8?B?ZHlNNGJoa3hybGJzblNMbmxXdkxHN2FwcFQ4bTZjMTNNS29WWkprSmNTRk50?=
+ =?utf-8?B?UXFCS3FyM1h3SUVDU2hxUGJvMm81aUxDZmMyc211aTNXUlRicTBqWkk0anRC?=
+ =?utf-8?B?ZG9ndUtLQi9UbzVGTFJySlBUVnh0QjVIZ21zZ3VzakFVSlF0NHM1d25tODZO?=
+ =?utf-8?B?cTUxZGgxYlRWK2VHR0g2WHI3aHBXdGxQN1NCazdvM2FDK21XWHBTUXlKTDRt?=
+ =?utf-8?B?U2ExYkJpMStzKzhRYjZiUCs3by9QN3R2dmZhSHpZWlJ2dXdGTDVkL0dDbTRI?=
+ =?utf-8?B?cW1TNVpVNkZOajhXeGpReTUxdlNKWUtjSVRocnora2JFdmlkM0EzSDRFRkxo?=
+ =?utf-8?B?TDlIWUNBMHZoSldXb25wWVFnQlZKOEFjcFNob0dHdmZ3MUUwUUQvSnF5VWVD?=
+ =?utf-8?B?OGF0Z2tZa0dWSDBlTUh5ekVCR3BGVmNhVXVLVllsMGtuR1cyd2hWRGdtRjdZ?=
+ =?utf-8?B?R0RwdjdHaitPQTM3TDAxTzlsTFFOVWY5N2psVHZpOUhEUzcvUDB0L0N4NTNh?=
+ =?utf-8?B?Ymo1UytaakdxMHdvZEJQYk9Ic3dWNzdtZkpoNmJUbHhTNlJNQW1KUkhLV1p2?=
+ =?utf-8?B?Z3BWeUZlN0JZR1ZCZlZiM3Zzdm1NSVNVYlc3V242U2JmS055WStPL0NCZDV1?=
+ =?utf-8?B?MVk0NWQ1eWU3Z3JzdDY0dXgvVE1wcWJhTS9JR1BicU56UnhPRDFrVk8yK1Rx?=
+ =?utf-8?B?VVFmYUEvUENsK3JBNFN0czdGQUN3ay8zWWtZd293ditZUXk3S3g1SWFydlVN?=
+ =?utf-8?B?V21ET0c2WDVDaEQ0Q0VXY0hZS2xGUTNBV2NzT3A3dlFQUDZ3bkVmMTFFbkRh?=
+ =?utf-8?B?cFcxaXFJbnljQ0FtQU0vYjkzN25nQ2RQczNGMHlVb01HSDVvYzJPMmRlWkJq?=
+ =?utf-8?B?Zk02QnN0azNSNXdHM0dsWGxobkNYaGhMczFkc0o1SWxURWdycTlFZHd6Q2wz?=
+ =?utf-8?B?WnRsQWdYeEhvenBjOXAzQUg5OWpwcTJvVHpxanZITU8xdEpaU29DMG9oWFRM?=
+ =?utf-8?B?NVBXKzBRaU1SdnhYbDNMK3FxMlpvZENMZUFTTHFSejFtOUd1eHdHZFZPVWpj?=
+ =?utf-8?B?S3MyNXgxVllxRFpaRDNQK3JHVzFOSS9xZElWcWdCVFBCK21hT29tcHlVdUZz?=
+ =?utf-8?B?N3dMQ2pady9va0JHUzRlT0dXNlhnR09QOWU4d0dmay9jT1VmRG1LcVdHVjd2?=
+ =?utf-8?B?bWZOcUFwWUxJOVluMDJCVWFaQVdndStQUUQ4VkVmODdETGtsRnNwQ3hXNUVs?=
+ =?utf-8?B?dmNPN1BqVWdVWnBWWHJ2dVY1MUtNMEo0WDdRZWU0QkZsWmUyUlQwNzFhWTFn?=
+ =?utf-8?Q?7C7nbTwXAaTcjwK3AVKoId1yM?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	S93oYLliTM5zcNQqaSVhqwyABLldopvNzQRYP/B/7H+zrVFPdQTysb9iU4HcvUPH04sO72OGmaKhX7x9avVdA1QBQYLe/gwMjfI/w4NGMb80si0SeQlwcAK+upyM2I4Z5JyB/AptEs7SHWG1Qx9/x6KECTeRgeqgswYE/ElBPsv4VIrrtRJBSzoD9h8qiRoIAXtv8nFstlG//9XyhRo0S5pT4l7WbWTjuMXgAaSxjNzfowTzxSFlO5uxvLQnvG7nwLWliaXKzMAqC8DdiMX1p9Uh24h/7TBVB60I+Xv4+Myp5m/frSxTAiLQiWANj+3UoevWtMmkcIkfQBt8IPMFqpvXkn1IDYSCKRgq0EfttsOMeNr5MgqRYJQ+PGS74OpRHA4f7rGxqRIIWz9FLXMfJXAIuygdkQqS6UFS4e1rX1Z1PUk1+aTMskY+CJSx0hnHcCk0Yik0jW/hngVMXDHr9atDM6AJUv9nH0nJPUM8qvUP6m1pYOkluP1ovVx+M3uHSS4rm9P9Tw483E3UdQoCGWA0qwqz1h1AEu7e3YnybdQKrVYouYlCWWaI4L27W4+TUz5+crI4svSZ5j9Gn2Y3mZU/lPRfwtmK5eUKJlB0qYI=
+	0683mAQdOQefowsh0GxFLIw1i4+5XvhJAzpHn5h5+trLwwDDwrLnxD+jHbNIZ2+dTupXh+PgVBmlWOIp7O9ugmpTM80DizlEmcKpHHR17+tPuVKIUvtuIICZ6xuNGjl8f7+FVXk5j0Ek1j7gFv1wDe6h1+b3TEZeyI0/fMkNgVHqQvqwCltSpM5Hxlfs7WcF/3yKGBi/5f6rc/QgPfIZWOWOAk5Ex1dwDH56slmXone/rZLCJrlCbC91ZlYDTZMLIYmrmrO8vTJ7NnbkYifxPvEqam1YccEYY7usoMWilBhJ28g93kak88N6wuDDr4tqTu1gtRZSufJikfHdQX7KvvjtIKzKYuD1VtS9IIe3NFj0497Ec4cBDIDghAomp4dKBWk5dsUGLS0tIa67fkA9+ivFH8LsyPR/aCrqmVKbwlHUg/hi99QWZZ3Ht9WtUX7oQOd7/No/+JUGmJHExRRO/vNjdEjF9mzp1g4smPXFv7fAJaQKuTEk91B9xsA46S/x4/mR1JXRPOQcm/NaHE0thC/ZOxY74wOayzk3uboT5Y6Vs8R3W374R7KSoChRLue5F+QuQT8QilxB/brTzdWJ46N+15KZbh827B5vM3cNTe0=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92fa0585-800b-4013-6444-08dccc40869b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3baa2193-acd0-4349-62c3-08dccc40c116
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2024 17:47:48.9327
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2024 17:49:27.0902
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z6AbzUTtbFVSVDINbJ1TRiQ+rVTtb9xtpOzFYc7v+xV5e5TCoqypeWnd4Bxl933zLrEOjbaEBy8+IqBYVMHtNw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: XDpe/lcGpXku9wJI1fvYyaY8yl+HWW3Qb4CjiLyByzRYSpwN5IsyYOyGnU7vyjsp+zEWjgXWfQd/WnmZNwwWjA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB7814
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
@@ -186,210 +187,286 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phis
  suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2407110000 definitions=main-2409030143
-X-Proofpoint-GUID: ANHaThXHSmL95ayqZZ-G49vQjcrpXUKc
-X-Proofpoint-ORIG-GUID: ANHaThXHSmL95ayqZZ-G49vQjcrpXUKc
+X-Proofpoint-GUID: CLaafLo72nWYzkEpzfoGHMHE6xauSbG8
+X-Proofpoint-ORIG-GUID: CLaafLo72nWYzkEpzfoGHMHE6xauSbG8
 
 Patch withdrawn.  It's been squashed into v2 03/19.
 
 On 8/29/24 01:25, eugene.loh@oracle.com wrote:
 > From: Eugene Loh <eugene.loh@oracle.com>
 >
-> The probe descriptions dt_pdesc are superfluous and are
-> eliminated here.
->
-> Consequently, we also no longer need the last args to
->      dt_epid_add()
->      dt_epid_lookup()
->
-> Nor so we need to track prid in dt_link_construct().
+> We no longer have to assign an EPID value during relocation.  So we
+> no longer need dt_nextepid, dt_maxprobe, dt_ddesc[], dt_epid_add(),
+> or dt_epid_destroy() or to track an EPID during linking.
 >
 > Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 > ---
->   libdtrace/dt_cc.c      |  8 +-------
->   libdtrace/dt_consume.c |  3 +--
->   libdtrace/dt_handle.c  |  2 +-
->   libdtrace/dt_impl.h    |  7 ++-----
->   libdtrace/dt_map.c     | 33 ++++++---------------------------
->   5 files changed, 11 insertions(+), 42 deletions(-)
+>   libdtrace/dt_bpf.h   | 47 +++++++++++++++++-----------------
+>   libdtrace/dt_cc.c    | 20 +++++----------
+>   libdtrace/dt_dlibs.c |  1 -
+>   libdtrace/dt_impl.h  |  5 ----
+>   libdtrace/dt_map.c   | 61 --------------------------------------------
+>   libdtrace/dt_open.c  |  3 ---
+>   6 files changed, 29 insertions(+), 108 deletions(-)
 >
+> diff --git a/libdtrace/dt_bpf.h b/libdtrace/dt_bpf.h
+> index 5b2df264..5981eb0e 100644
+> --- a/libdtrace/dt_bpf.h
+> +++ b/libdtrace/dt_bpf.h
+> @@ -32,30 +32,29 @@ extern "C" {
+>   					(dtp)->dt_bpffeatures |= (feat); \
+>   				} while (0)
+>   
+> -#define DT_CONST_EPID			1
+> -#define DT_CONST_PRID			2
+> -#define DT_CONST_CLID			3
+> -#define DT_CONST_ARGC			4
+> -#define DT_CONST_STBSZ			5
+> -#define DT_CONST_STRSZ			6
+> -#define DT_CONST_STKSIZ			7
+> -#define DT_CONST_BOOTTM			8
+> -#define DT_CONST_NSPEC			9
+> -#define DT_CONST_NCPUS			10
+> -#define DT_CONST_PC			11
+> -#define DT_CONST_TUPSZ			12
+> -#define DT_CONST_TASK_PID		13
+> -#define DT_CONST_TASK_TGID		14
+> -#define DT_CONST_TASK_REAL_PARENT	15
+> -#define DT_CONST_TASK_COMM		16
+> -#define DT_CONST_MUTEX_OWNER		17
+> -#define DT_CONST_RWLOCK_CNTS		18
+> -#define DT_CONST_DCTX_RODATA		19
+> -#define DT_CONST_RODATA_OFF		20
+> -#define DT_CONST_RODATA_SIZE		21
+> -#define DT_CONST_ZERO_OFF		22
+> -#define DT_CONST_STACK_OFF		23
+> -#define DT_CONST_STACK_SKIP		24
+> +#define DT_CONST_PRID			1
+> +#define DT_CONST_CLID			2
+> +#define DT_CONST_ARGC			3
+> +#define DT_CONST_STBSZ			4
+> +#define DT_CONST_STRSZ			5
+> +#define DT_CONST_STKSIZ			6
+> +#define DT_CONST_BOOTTM			7
+> +#define DT_CONST_NSPEC			8
+> +#define DT_CONST_NCPUS			9
+> +#define DT_CONST_PC			10
+> +#define DT_CONST_TUPSZ			11
+> +#define DT_CONST_TASK_PID		12
+> +#define DT_CONST_TASK_TGID		13
+> +#define DT_CONST_TASK_REAL_PARENT	14
+> +#define DT_CONST_TASK_COMM		15
+> +#define DT_CONST_MUTEX_OWNER		16
+> +#define DT_CONST_RWLOCK_CNTS		17
+> +#define DT_CONST_DCTX_RODATA		18
+> +#define DT_CONST_RODATA_OFF		19
+> +#define DT_CONST_RODATA_SIZE		20
+> +#define DT_CONST_ZERO_OFF		21
+> +#define DT_CONST_STACK_OFF		22
+> +#define DT_CONST_STACK_SKIP		23
+>   
+>   #define DT_BPF_LOG_SIZE_DEFAULT	(UINT32_MAX >> 8)
+>   #define DT_BPF_LOG_SIZE_SMALL	4096
 > diff --git a/libdtrace/dt_cc.c b/libdtrace/dt_cc.c
-> index cf3c5504..e66d76fb 100644
+> index 2510db86..b801c87a 100644
 > --- a/libdtrace/dt_cc.c
 > +++ b/libdtrace/dt_cc.c
-> @@ -959,7 +959,6 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
->   	uint_t			len = sdp->dtdo_brelen;
->   	const dof_relodesc_t	*rp = sdp->dtdo_breltab;
->   	dof_relodesc_t		*nrp = &dp->dtdo_breltab[rc];
-> -	dtrace_id_t		prid = prp->desc->id;
->   	int			no_deps = 0;
+> @@ -949,7 +949,7 @@ static int get_boottime() {
+>   static int
+>   dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
+>   		  dt_ident_t *idp, const dtrace_difo_t *sdp, uint_t *pcp,
+> -		  uint_t *rcp, uint_t *vcp, dtrace_epid_t epid, uint_t clid)
+> +		  uint_t *rcp, uint_t *vcp, uint_t clid)
+>   {
+>   	uint_t			pc = *pcp;
+>   	uint_t			rc = *rcp;
+> @@ -1030,7 +1030,6 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
+>   	for (; len != 0; len--, rp++, nrp++) {
+>   		const char	*name = dt_difo_getstr(sdp, rp->dofr_name);
+>   		dtrace_difo_t	*rdp;
+> -		dtrace_epid_t	nepid;
+>   		int		ipc;
 >   
->   	if (idp != NULL) {
-> @@ -1197,11 +1196,6 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
->   			case DT_CONST_STACK_SKIP:
->   				nrp->dofr_data = prp->prov->impl->stack_skip;
->   				continue;
-> -			default:
-> -				/* probe name -> value is probe id */
-> -				if (strchr(idp->di_name, ':') != NULL)
-> -					prid = rp->dofr_data;
-> -				continue;
+>   		idp = dt_dlib_get_sym(dtp, name);
+> @@ -1045,9 +1044,6 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
 >   			}
 >   
->   			continue;
-> @@ -1218,7 +1212,7 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
+>   			switch (idp->di_id) {
+> -			case DT_CONST_EPID:
+> -				nrp->dofr_data = epid;
+> -				continue;
+>   			case DT_CONST_PRID:
+>   				nrp->dofr_data = prp->desc->id;
+>   				continue;
+> @@ -1212,13 +1208,10 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
+>   			rdp = dt_dlib_get_func_difo(dtp, idp);
 >   			if (rdp == NULL)
 >   				return -1;
->   			if (rdp->dtdo_ddesc != NULL) {
-> -				nepid = dt_epid_add(dtp, rdp->dtdo_ddesc, prid);
-> +				nepid = dt_epid_add(dtp, rdp->dtdo_ddesc);
->   				clid++;
->   			} else
->   				nepid = 0;
-> diff --git a/libdtrace/dt_consume.c b/libdtrace/dt_consume.c
-> index e3ce2d3b..88083b19 100644
-> --- a/libdtrace/dt_consume.c
-> +++ b/libdtrace/dt_consume.c
-> @@ -2211,8 +2211,7 @@ dt_consume_one_probe(dtrace_hdl_t *dtp, FILE *fp, char *data, uint32_t size,
->   	pdat->dtpda_epid = epid;
->   	pdat->dtpda_data = data;
+> -			if (rdp->dtdo_ddesc != NULL) {
+> -				nepid = dt_epid_add(dtp, rdp->dtdo_ddesc);
+> -				clid++;
+> -			} else
+> -				nepid = 0;
+> +			if (rdp->dtdo_ddesc != NULL)
+> +				clid++;               /* FIXME: dump this? */
+>   			ipc = dt_link_construct(dtp, prp, dp, idp, rdp, pcp,
+> -						rcp, vcp, nepid, clid);
+> +						rcp, vcp, clid);
+>   			if (ipc == -1)
+>   				return -1;
 >   
-> -	rval = dt_epid_lookup(dtp, epid, &pdat->dtpda_ddesc,
-> -					 &pdat->dtpda_pdesc);
-> +	rval = dt_epid_lookup(dtp, epid, &pdat->dtpda_ddesc);
->   	if (rval != 0)
->   		return dt_set_errno(dtp, EDT_BADEPID);
->   	pdat->dtpda_pdesc = (dtrace_probedesc_t *)dtp->dt_probes[prid]->desc;
-> diff --git a/libdtrace/dt_handle.c b/libdtrace/dt_handle.c
-> index b1ba5f9f..79ecbac8 100644
-> --- a/libdtrace/dt_handle.c
-> +++ b/libdtrace/dt_handle.c
-> @@ -150,7 +150,7 @@ dt_handle_err(dtrace_hdl_t *dtp, dtrace_probedata_t *data)
+> @@ -1259,7 +1252,7 @@ dt_link_resolve(dtrace_hdl_t *dtp, dtrace_difo_t *dp)
+>   			continue;
+>   
+>   		/*
+> -		 * We are only relocating constants (EPID and ARGC) and call
+> +		 * We are only relocating constants and call
+>   		 * instructions to functions that have been linked in.
+>   		 */
+>   		switch (idp->di_kind) {
+> @@ -1332,8 +1325,7 @@ dt_link(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
 >   	 */
->   	epid = DT_REC(uint64_t, 0);
+>   	insc = relc = varc = 0;
 >   
-> -	if (dt_epid_lookup(dtp, epid, &errdd, &errpd) != 0)
-> +	if (dt_epid_lookup(dtp, epid, &errdd) != 0)
->   		return dt_set_errno(dtp, EDT_BADERROR);
->   	errpd = (dtrace_probedesc_t *)dtp->dt_probes[epid>>32]->desc;
->   	err.dteda_ddesc = errdd;
+> -	rc = dt_link_construct(dtp, prp, fdp, idp, dp, &insc, &relc, &varc, 0,
+> -			       0);
+> +	rc = dt_link_construct(dtp, prp, fdp, idp, dp, &insc, &relc, &varc, 0);
+>   	dt_dlib_reset(dtp, B_FALSE);
+>   	if (rc == -1)
+>   		goto fail;
+> diff --git a/libdtrace/dt_dlibs.c b/libdtrace/dt_dlibs.c
+> index 060cf28b..140ac9a6 100644
+> --- a/libdtrace/dt_dlibs.c
+> +++ b/libdtrace/dt_dlibs.c
+> @@ -74,7 +74,6 @@ static const dt_ident_t		dt_bpf_symbols[] = {
+>   	DT_BPF_SYMBOL(tuples, DT_IDENT_PTR),
+>   
+>   	/* BPF internal identifiers */
+> -	DT_BPF_SYMBOL_ID(EPID, DT_IDENT_SCALAR, DT_CONST_EPID),
+>   	DT_BPF_SYMBOL_ID(PRID, DT_IDENT_SCALAR, DT_CONST_PRID),
+>   	DT_BPF_SYMBOL_ID(CLID, DT_IDENT_SCALAR, DT_CONST_CLID),
+>   	DT_BPF_SYMBOL_ID(ARGC, DT_IDENT_SCALAR, DT_CONST_ARGC),
 > diff --git a/libdtrace/dt_impl.h b/libdtrace/dt_impl.h
-> index a2ae84f6..c2b18b0b 100644
+> index 2378235c..3fa2b9d7 100644
 > --- a/libdtrace/dt_impl.h
 > +++ b/libdtrace/dt_impl.h
-> @@ -345,7 +345,6 @@ struct dtrace_hdl {
->   	dtrace_epid_t dt_nextepid; /* next enabled probe ID to assign */
->   	size_t dt_maxprobe;	/* max enabled probe ID */
->   	dtrace_datadesc_t **dt_ddesc; /* probe data descriptions */
-> -	dtrace_probedesc_t **dt_pdesc; /* probe descriptions for enabled prbs */
+> @@ -343,9 +343,6 @@ struct dtrace_hdl {
+>   	ctf_id_t dt_type_symaddr; /* cached CTF identifier for _symaddr type */
+>   	ctf_id_t dt_type_usymaddr; /* cached CTF ident. for _usymaddr type */
+>   	ctf_id_t dt_type_void;	/* cached CTF identifier for void type */
+> -	dtrace_epid_t dt_nextepid; /* next enabled probe ID to assign */
+> -	size_t dt_maxprobe;	/* max enabled probe ID */
+> -	dtrace_datadesc_t **dt_ddesc; /* probe data descriptions */
 >   	size_t dt_maxagg;	/* max aggregation ID */
 >   	dtrace_aggdesc_t **dt_adesc; /* aggregation descriptions */
 >   	struct dt_aggregate *dt_aggregate; /* aggregate */
-> @@ -774,10 +773,8 @@ extern dtrace_datadesc_t *dt_datadesc_hold(dtrace_datadesc_t *ddp);
+> @@ -779,9 +776,7 @@ extern dtrace_datadesc_t *dt_datadesc_hold(dtrace_datadesc_t *ddp);
 >   extern void dt_datadesc_release(dtrace_hdl_t *, dtrace_datadesc_t *);
 >   extern dtrace_datadesc_t *dt_datadesc_create(dtrace_hdl_t *);
 >   extern int dt_datadesc_finalize(dtrace_hdl_t *, dtrace_datadesc_t *);
-> -extern dtrace_epid_t dt_epid_add(dtrace_hdl_t *, dtrace_datadesc_t *,
-> -				 dtrace_id_t);
-> -extern int dt_epid_lookup(dtrace_hdl_t *, dtrace_epid_t, dtrace_datadesc_t **,
-> -			  dtrace_probedesc_t **);
-> +extern dtrace_epid_t dt_epid_add(dtrace_hdl_t *, dtrace_datadesc_t *);
-> +extern int dt_epid_lookup(dtrace_hdl_t *, dtrace_epid_t, dtrace_datadesc_t **);
->   extern void dt_epid_destroy(dtrace_hdl_t *);
+> -extern dtrace_epid_t dt_epid_add(dtrace_hdl_t *, dtrace_datadesc_t *);
+>   extern int dt_epid_lookup(dtrace_hdl_t *, dtrace_epid_t, dtrace_datadesc_t **);
+> -extern void dt_epid_destroy(dtrace_hdl_t *);
 >   typedef void (*dt_cg_gap_f)(dt_pcb_t *, int);
 >   extern uint32_t dt_rec_add(dtrace_hdl_t *, dt_cg_gap_f, dtrace_actkind_t,
+>   			   uint32_t, uint16_t, dt_pfargv_t *, uint64_t);
 > diff --git a/libdtrace/dt_map.c b/libdtrace/dt_map.c
-> index 87ce5707..9011da5d 100644
+> index 9011da5d..26f101e4 100644
 > --- a/libdtrace/dt_map.c
 > +++ b/libdtrace/dt_map.c
-> @@ -92,7 +92,7 @@ dt_datadesc_finalize(dtrace_hdl_t *dtp, dtrace_datadesc_t *ddp)
->    * description.
->    */
->   dtrace_epid_t
-> -dt_epid_add(dtrace_hdl_t *dtp, dtrace_datadesc_t *ddp, dtrace_id_t prid)
-> +dt_epid_add(dtrace_hdl_t *dtp, dtrace_datadesc_t *ddp)
->   {
->   	dtrace_id_t	max = dtp->dt_maxprobe;
->   	dtrace_epid_t	epid;
-> @@ -101,27 +101,19 @@ dt_epid_add(dtrace_hdl_t *dtp, dtrace_datadesc_t *ddp, dtrace_id_t prid)
->   	if (epid >= max || dtp->dt_ddesc == NULL) {
->   		dtrace_id_t		nmax = max ? (max << 1) : 2;
->   		dtrace_datadesc_t	**nddesc;
-> -		dtrace_probedesc_t	**npdesc;
->   
->   		nddesc = dt_calloc(dtp, nmax, sizeof(void *));
-> -		npdesc = dt_calloc(dtp, nmax, sizeof(void *));
-> -		if (nddesc == NULL || npdesc == NULL) {
-> -			dt_free(dtp, nddesc);
-> -			dt_free(dtp, npdesc);
-> +		if (nddesc == NULL)
->   			return dt_set_errno(dtp, EDT_NOMEM);
-> -		}
->   
->   		if (dtp->dt_ddesc != NULL) {
->   			size_t	osize = max * sizeof(void *);
->   
->   			memcpy(nddesc, dtp->dt_ddesc, osize);
->   			dt_free(dtp, dtp->dt_ddesc);
-> -			memcpy(npdesc, dtp->dt_pdesc, osize);
-> -			dt_free(dtp, dtp->dt_pdesc);
->   		}
->   
->   		dtp->dt_ddesc = nddesc;
-> -		dtp->dt_pdesc = npdesc;
->   		dtp->dt_maxprobe = nmax;
->   	}
->   
-> @@ -129,14 +121,12 @@ dt_epid_add(dtrace_hdl_t *dtp, dtrace_datadesc_t *ddp, dtrace_id_t prid)
->   		return epid;
->   
->   	dtp->dt_ddesc[epid] = dt_datadesc_hold(ddp);
-> -	dtp->dt_pdesc[epid] = (dtrace_probedesc_t *)dtp->dt_probes[prid]->desc;
->   
->   	return epid;
+> @@ -85,46 +85,6 @@ dt_datadesc_finalize(dtrace_hdl_t *dtp, dtrace_datadesc_t *ddp)
+>   	return 0;
 >   }
 >   
+> -/*
+> - * Associate a probe data description and probe description with an enabled
+> - * probe ID.  This means that the given ID refers to the program matching the
+> - * probe data description being attached to the probe that matches the probe
+> - * description.
+> - */
+> -dtrace_epid_t
+> -dt_epid_add(dtrace_hdl_t *dtp, dtrace_datadesc_t *ddp)
+> -{
+> -	dtrace_id_t	max = dtp->dt_maxprobe;
+> -	dtrace_epid_t	epid;
+> -
+> -	epid = dtp->dt_nextepid++;
+> -	if (epid >= max || dtp->dt_ddesc == NULL) {
+> -		dtrace_id_t		nmax = max ? (max << 1) : 2;
+> -		dtrace_datadesc_t	**nddesc;
+> -
+> -		nddesc = dt_calloc(dtp, nmax, sizeof(void *));
+> -		if (nddesc == NULL)
+> -			return dt_set_errno(dtp, EDT_NOMEM);
+> -
+> -		if (dtp->dt_ddesc != NULL) {
+> -			size_t	osize = max * sizeof(void *);
+> -
+> -			memcpy(nddesc, dtp->dt_ddesc, osize);
+> -			dt_free(dtp, dtp->dt_ddesc);
+> -		}
+> -
+> -		dtp->dt_ddesc = nddesc;
+> -		dtp->dt_maxprobe = nmax;
+> -	}
+> -
+> -	if (dtp->dt_ddesc[epid] != NULL)
+> -		return epid;
+> -
+> -	dtp->dt_ddesc[epid] = dt_datadesc_hold(ddp);
+> -
+> -	return epid;
+> -}
+> -
 >   int
-> -dt_epid_lookup(dtrace_hdl_t *dtp, dtrace_epid_t epid, dtrace_datadesc_t **ddp,
-> -	       dtrace_probedesc_t **pdp)
-> +dt_epid_lookup(dtrace_hdl_t *dtp, dtrace_epid_t epid, dtrace_datadesc_t **ddp)
+>   dt_epid_lookup(dtrace_hdl_t *dtp, dtrace_epid_t epid, dtrace_datadesc_t **ddp)
 >   {
->   	/* Remove the PRID portion of the EPID. */
->   	epid &= 0xffffffff;
-> @@ -146,7 +136,6 @@ dt_epid_lookup(dtrace_hdl_t *dtp, dtrace_epid_t epid, dtrace_datadesc_t **ddp,
->   
->   	dtrace_difo_t *rdp = dt_dlib_get_func_difo(dtp, dtp->dt_stmts[epid]->dtsd_clause);
->   	*ddp = dt_datadesc_hold(rdp->dtdo_ddesc);             // FIXME what releases the hold?
-> -	*pdp = dtp->dt_pdesc[epid];
->   
+> @@ -140,27 +100,6 @@ dt_epid_lookup(dtrace_hdl_t *dtp, dtrace_epid_t epid, dtrace_datadesc_t **ddp)
 >   	return (*ddp == NULL) ? -1 : 0;
 >   }
-> @@ -156,26 +145,16 @@ dt_epid_destroy(dtrace_hdl_t *dtp)
->   {
->   	size_t i;
 >   
-> -	assert((dtp->dt_pdesc != NULL && dtp->dt_ddesc != NULL &&
-> -	    dtp->dt_maxprobe > 0) || (dtp->dt_pdesc == NULL &&
-> -	    dtp->dt_ddesc == NULL && dtp->dt_maxprobe == 0));
+> -void
+> -dt_epid_destroy(dtrace_hdl_t *dtp)
+> -{
+> -	size_t i;
 > -
-> -	if (dtp->dt_pdesc == NULL)
-> -		return;
-> +	assert((dtp->dt_ddesc != NULL && dtp->dt_maxprobe > 0) ||
-> +	       (dtp->dt_ddesc == NULL && dtp->dt_maxprobe == 0));
->   
->   	for (i = 0; i < dtp->dt_maxprobe; i++) {
-> -		if (dtp->dt_ddesc[i] == NULL) {
-> -			assert(dtp->dt_pdesc[i] == NULL);
-> +		if (dtp->dt_ddesc[i] == NULL)
->   			continue;
-> -		}
->   
->   		dt_datadesc_release(dtp, dtp->dt_ddesc[i]);
-> -		assert(dtp->dt_pdesc[i] != NULL);
->   	}
->   
-> -	free(dtp->dt_pdesc);
-> -	dtp->dt_pdesc = NULL;
+> -	assert((dtp->dt_ddesc != NULL && dtp->dt_maxprobe > 0) ||
+> -	       (dtp->dt_ddesc == NULL && dtp->dt_maxprobe == 0));
 > -
->   	free(dtp->dt_ddesc);
->   	dtp->dt_ddesc = NULL;
->   	dtp->dt_nextepid = 0;
+> -	for (i = 0; i < dtp->dt_maxprobe; i++) {
+> -		if (dtp->dt_ddesc[i] == NULL)
+> -			continue;
+> -
+> -		dt_datadesc_release(dtp, dtp->dt_ddesc[i]);
+> -	}
+> -
+> -	free(dtp->dt_ddesc);
+> -	dtp->dt_ddesc = NULL;
+> -	dtp->dt_nextepid = 0;
+> -	dtp->dt_maxprobe = 0;
+> -}
+> -
+>   uint32_t
+>   dt_rec_add(dtrace_hdl_t *dtp, dt_cg_gap_f gapf, dtrace_actkind_t kind,
+>   	   uint32_t size, uint16_t alignment, dt_pfargv_t *pfp, uint64_t arg)
+> diff --git a/libdtrace/dt_open.c b/libdtrace/dt_open.c
+> index 8ae6cdfa..848141dd 100644
+> --- a/libdtrace/dt_open.c
+> +++ b/libdtrace/dt_open.c
+> @@ -739,8 +739,6 @@ dt_vopen(int version, int flags, int *errp,
+>   	dt_proc_hash_create(dtp);
+>   	dt_proc_signal_init(dtp);
+>   	dtp->dt_proc_fd = eventfd(0, EFD_CLOEXEC | EFD_NONBLOCK);
+> -	dtp->dt_nextepid = 1;
+> -	dtp->dt_maxprobe = 0;
+>   	if (dt_aggregate_init(dtp) == -1)
+>   		return set_open_errno(dtp, errp, dtrace_errno(dtp));
+>   	dtp->dt_vmax = DT_VERS_LATEST;
+> @@ -1303,7 +1301,6 @@ dtrace_close(dtrace_hdl_t *dtp)
+>   	if (dtp->dt_poll_fd != -1)
+>   		close(dtp->dt_poll_fd);
+>   
+> -	dt_epid_destroy(dtp);
+>   	dt_aggid_destroy(dtp);
+>   	dt_buffered_destroy(dtp);
+>   	dt_aggregate_destroy(dtp);
