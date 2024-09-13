@@ -1,89 +1,78 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE7F13CFB7
-	for <dtrace@lists.linux.dev>; Thu, 12 Sep 2024 20:33:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B47ABE68
+	for <dtrace@lists.linux.dev>; Fri, 13 Sep 2024 17:15:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726173199; cv=fail; b=NGhybUx24WJ+oAo31Ro3QMMb5N5fNKp4UuX19xbtE7/hJAVpFwFdPHwabbSTsuGEnlwH0NBQIWI0ySacIEt1OpMf5LkL/UtP2P3FC+YfPkxBPCiP0Ew590gmamvxJwIZq556aQI8MW6pXrwczpZbhwsQIgCdBZLKjUCQ0irNypc=
+	t=1726247752; cv=fail; b=IjjKXXqXV8qoj3mNRTSlsuz/tWR2FFUUhGI33uVm3Wd5BlhXRhCP8QT2S1BG4HESpfG57AQ4WrWNPgBUiu9nbiRFYR2eO4BdZj+K9Wx2p/oxace2zL7WTtLOjI0PAZZJ1mUJCSQDFIJJGMtQFtCsh+h4wK6n6TcIEb1LXCc7E88=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726173199; c=relaxed/simple;
-	bh=AA2PizCr6mH5B6S2oqk9MZwtYdEMQfFzpP9tn46em7I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=bJYA2ZhIFysWZlL9nh89a5GRN5zQ6BKP1GvuKyG4oM4+KSSdaYCTDXsbiC0jzTRZnaYtfUUZAlPuthqz3a8AbgEFlzQj5wbOWKLKwdh6j7PdLfx6HaNfazJmg9dQd6oqL12RjnDdUo4wyG9IWceClf22SxGu1g1P9DuNbh0IUcc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=iowayTiS; dkim=fail (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ctBG7lWh reason="signature verification failed"; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1726247752; c=relaxed/simple;
+	bh=ghQn/WozctezIWPWrwyEzJVQvPXxF7/IcsFcDtm+3CA=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=dPQ/lkApQQKt+ymrdEuvhbPZIOz2deESvfNq49smxhgF1UcX/h8SKB1yHN3J4HsiJ0CPA5Yb1lJavhlmwWenf+3sFkuhZgcGcAXPiHr9SgEp47owOQs8M/HV24OCiQJYO2Y5R24FVrsv4PGcJDPPpApwrbqLK0SaOdJ4b5lWBS0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=TEA93U/9; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=omRsBt06; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="iowayTiS";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ctBG7lWh"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48CJQdip017626
-	for <dtrace@lists.linux.dev>; Thu, 12 Sep 2024 20:33:16 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="TEA93U/9";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="omRsBt06"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48DGeo7Y008405
+	for <dtrace@lists.linux.dev>; Fri, 13 Sep 2024 17:15:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	date:from:to:cc:subject:message-id:references:content-type
-	:content-transfer-encoding:in-reply-to:mime-version; s=
-	corp-2023-11-20; bh=jl90ICARgFaWV3lZ1uBcxo3XP9d26V+tOZg3pBUQnnw=; b=
-	iowayTiSgcW/6Yj23IX+av2DyF9H5mi0P40Fqb6DQgQU59+wmY1UfnGBPT8KiBrb
-	gedU7IqTekdNRR0e5vo7O2BdspzyLZpwPRRk2DHuTkwf/VMXcAZF806Rkji9VHVX
-	G+uorCjqJMMURPO9kBpLtBuZReMHdF3eMJgA/VFKqD427joNMt2bZMgidTcGrpFT
-	ndBvdG652aaIVmpDKztAfmncTRpbkh1dP8j+pxt9Uy/+mu3aAwNH03xKrzseeuqf
-	P/hgyZC/Skd0Iyuv9EXITPCaxQsoIUqCq9CwB0NDLe1SG5IpfHpWpt76OHij6CaB
-	H7z1ntZxLbs/HG7HqypmZA==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41geq9usy8-1
+	from:to:subject:date:message-id:content-type:mime-version; s=
+	corp-2023-11-20; bh=cDJI64D+L2GhGeDHRPRKbzVi4dPtY6QqTENW2LtrnhQ=; b=
+	TEA93U/9r5EPFiLuSZbcZShdOWmDfstSJTMmkXqtVBDXt3xDtIx3mBhDAmtQKR/o
+	Aqufk28FMnJcwNrq6GRXXRBWpBZ05x9ByVtOqwpZdjEUry3iaN+S8jTWuAW286hf
+	HTz7bK/GZV093b4vxYfA8VefoaFSsg3m5dNwWpMTaaFNatwG4AK+uqQj1a2JvlYC
+	wEcJpy70MgejVGiGbz8eLZHSK/CYiaYx8BDmA6aYqcoZd+PB7Dj+gBkfzTfyYoBd
+	W+NIomdbQ99nRzTNp1VFTe8/0yJs2apPJg7uX6acxja+1qvjGDMF+q8PeiT5M8dl
+	PvNbEA2qDpwli4PKDJLC1A==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41gdrbe5xe-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 12 Sep 2024 20:33:15 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 48CJSQp4019817
-	for <dtrace@lists.linux.dev>; Thu, 12 Sep 2024 20:33:14 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2045.outbound.protection.outlook.com [104.47.55.45])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 41gd9jbdb9-2
+	for <dtrace@lists.linux.dev>; Fri, 13 Sep 2024 17:15:49 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 48DGSLMS034134
+	for <dtrace@lists.linux.dev>; Fri, 13 Sep 2024 17:15:49 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2174.outbound.protection.outlook.com [104.47.56.174])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 41gd9dd70n-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 12 Sep 2024 20:33:14 +0000
+	for <dtrace@lists.linux.dev>; Fri, 13 Sep 2024 17:15:49 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NXYzmAIiKTDyIsmT84EpNLTVFmdjjIzhi/YVXjuhfRlOTeF4PD+dVVw8N1h/Ce+2FSGnJNFf17pmqG0hadmY+V45lLvtL52Xvf18zkA/DGOdvnRAJg2tyngyW4UOk3RD3ndIHy4YPkJCFsgi8ca5BllkdovYCSb7tZ1fi+H9AYFeE53AREcuQGBHd5WoAEccGTeT9pYPIJNhl2ZoUlTuW3yymrk9mP/4FIz4GqeEHpTII9+ZbncNSZhU2z1Y0ulk9+D7t3lUJNYd11szhax69Y13pGHnCwgPsG7TcYh5B7iuH1li20KVYW61dOd+YBpEzom2C4mkMxevoXgLqE1WKA==
+ b=jjjbR7JbVpmPxjTBsVvQHDYbhJ5VPKE/cCOgE6k3RK2vhXM9dZcbgFPRV5YT4PXMlnwgDCpTfwXo2RGvmB+hj+mK8gVipPYRGyYmFTtKciZvm7Uh+q6dy1qaYIJiK8PQT5SxmbZySbMvevd0vNVEW83SZKvCqCg2DB1XhTsiZcsKvvsgnVmTNGwBJBxDc5hTOGtE1RY92qX20uEUJ3XUmLqQvPh/hBhAx1nSEqnYoDdrFMiVXWpMMkOr6vbq6IBOeydIj7OuQX+a6sfuoJRcSZtQrUhWpBfrpISHGbCibav0Nh7PP4mwcCToKo/pVtTYPrcTTlbu1FzZlRDYnIbgGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VMx4TnHC3DvP5Asg37YSquRYrDNAaUpIRSdAafixIIo=;
- b=kRLUR0XZN+U8AXco6a/0WrEB4EoREQAG6bfUX7ChfjX7hrC/oThEPlrm5a9xS/Grx86HtGmuGGa/Txf7T32bwxDlPUhlBMBTl/699nztMRN++LTMAF4okvMWS9FTLgZk39HJVYOhYGz5ZhDivEB4bfYoUhhyFtCh9rTU/Feje1LvPtRAl9lfT/Pa4FYRMuJ5/7AHKt4lJSj3SKk5i5PQcCH+md6UbxxGoAzfrYAZ3URwC6DpiFEFhWw1r0gxYURa9bXr4DZ8Bd0rTaZFQ3PeaqSCPtvfjbO7409cKGN52I/bPMAcUBvP/wFUveWakILrexuW2bI4bQmjhg9ityqo+w==
+ bh=cDJI64D+L2GhGeDHRPRKbzVi4dPtY6QqTENW2LtrnhQ=;
+ b=WmTNpyWfM8YpyvNJREpkv5LfL+8urRz/niubZigEnqxAp5Y0nlzuvCpr4MARXtn3cSy1X6ElU+A2lLvfier7qE/FlAlptVtAJlgoi5IdokPgUbm6sWiyy0rJDfi91XvJ1iNnJA2JWyh5u9M3E/Ye8iOSwWk9XsZ8zVgCoJbuztBoyx00Gr87ma6d+SuxPTRNX7/LwFpehw5qMrO6Xt56Lkl+rymmynIQEbH6pu+RlVo7GeVPUh+Jj4HK9kS+E39+Vv0GLUV/w3sTVpLp0UDh+3yqeD8sxf/YSfWsfp/SygoUjd5c2pB1HC5hM7l3el5Y1y0UxwFmdUpMWo8ThPQoaQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VMx4TnHC3DvP5Asg37YSquRYrDNAaUpIRSdAafixIIo=;
- b=ctBG7lWhiDncZiS0wCUwX8M5uqsojEprHDT2i2TZwo1FRljv0x84Hljqc6szFb5Hhd4/sKVuXgsqR6oBdBjQFSLJ2/vvQ5UKzneDK5gD1jngDAeTo2prGwjj6XmLJz1rnO0kSNSrVj6jFAe0NuykbiHzTr+ut3e+Q/LQsXYh1OY=
-Received: from SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
- by DS0PR10MB8101.namprd10.prod.outlook.com (2603:10b6:8:203::6) with
+ bh=cDJI64D+L2GhGeDHRPRKbzVi4dPtY6QqTENW2LtrnhQ=;
+ b=omRsBt062y4UZCWNwDWsy/9Ximr9i3PvPSLwnauj4bNWm/L1c998ox26mlqgmv5X1biroa7HzGfufz4zDY6nA/pGnol1ILkUTzuEZtQrepjScfGM+ynMRmPjzLhFaNsb9LvOQ/TQbKyq0LaWXDPwIfmKzCMpkt9hym045gZN47A=
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
+ by PH0PR10MB4662.namprd10.prod.outlook.com (2603:10b6:510:38::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.16; Thu, 12 Sep
- 2024 20:33:10 +0000
-Received: from SN7PR10MB6287.namprd10.prod.outlook.com
- ([fe80::5a47:2d75:eef9:1d29]) by SN7PR10MB6287.namprd10.prod.outlook.com
- ([fe80::5a47:2d75:eef9:1d29%6]) with mapi id 15.20.7982.003; Thu, 12 Sep 2024
- 20:33:10 +0000
-Date: Thu, 12 Sep 2024 16:33:07 -0400
-From: Kris Van Hees <kris.van.hees@oracle.com>
-To: Kris Van Hees <kris.van.hees@oracle.com>
-Cc: Eugene Loh <eugene.loh@oracle.com>, dtrace@lists.linux.dev,
-        dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH 05/22] Set the ERROR PRID in BPF code
-Message-ID: <ZuNQA0MEWvk/mAyt@oracle.com>
-References: <20240829052219.3234-1-eugene.loh@oracle.com>
- <20240829052219.3234-5-eugene.loh@oracle.com>
- <ZtucZiRk7G7UVktd@oracle.com>
- <d009801f-28e4-3b69-3f2f-ae99b577c1bd@oracle.com>
- <Ztu0ehrOeHqwIvmG@oracle.com>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Ztu0ehrOeHqwIvmG@oracle.com>
-X-ClientProxiedBy: MN2PR16CA0018.namprd16.prod.outlook.com
- (2603:10b6:208:134::31) To SN7PR10MB6287.namprd10.prod.outlook.com
- (2603:10b6:806:26d::14)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.10; Fri, 13 Sep
+ 2024 17:15:40 +0000
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::8b24:5536:3259:5a69%3]) with mapi id 15.20.7982.003; Fri, 13 Sep 2024
+ 17:15:40 +0000
+From: eugene.loh@oracle.com
+To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: [PATCH v2 05/22] Set the ERROR PRID in BPF code
+Date: Fri, 13 Sep 2024 13:15:35 -0400
+Message-Id: <20240913171535.18630-1-eugene.loh@oracle.com>
+X-Mailer: git-send-email 2.18.4
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P265CA0079.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2bd::12) To CO6PR10MB5636.namprd10.prod.outlook.com
+ (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -91,266 +80,239 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|DS0PR10MB8101:EE_
-X-MS-Office365-Filtering-Correlation-Id: cbe97341-91ad-4f88-2f92-08dcd36a1deb
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|PH0PR10MB4662:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8076f2c6-6d8c-40af-d080-08dcd417b12a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?iso-8859-1?Q?DjOdDXQPwuvjx0SLtHWbGAGERpRE99p/hU5xH0aUCqQcXY7IxdLBwKYK3t?=
- =?iso-8859-1?Q?l5kVlPRraedWVgIpX8GvWuFqhUNUpLTMdOvS75lB2EnwvQu3yZwLF1S1xk?=
- =?iso-8859-1?Q?cDQgvMcyVnJYNuCL+64fO9xvCww9EQGAp0IQdrR62xNzGyPFdPkcG3EQDU?=
- =?iso-8859-1?Q?N2Vyb9evSzDnONRpeIuwpb/JxU410kz02U/+WTSgkSrLgeehYexrh6ybzD?=
- =?iso-8859-1?Q?7Lknxsd7bA3iUyaLLDGB/vUSLOFoOZapaniKJdIU4cUDB/qRIsmZ45Awse?=
- =?iso-8859-1?Q?PrA3Pgc6JprQ/i53PHuXxHTnVFFRxye7oBhes4Rt4Ub66UWMizGcfLXTSA?=
- =?iso-8859-1?Q?T+y8lKwt2fMpEEORU0zYmZIHswSd0bvHExxzQoYfYP+/e91RPzvPHK6+jL?=
- =?iso-8859-1?Q?dDl09ofV9Juuzk+4omHoVftIw3C0YvtytQU+6d0IHx0acIix7BOYgA95G9?=
- =?iso-8859-1?Q?rhC5GsFwxNCxMBigxXyi5WOGwN5bWPEBQC+HyhUS4zPhaTbG/OzjnRKSKK?=
- =?iso-8859-1?Q?Y5/TpadwV1Lh8mKVLZeCsUDdfHh9WJlzdT7S0pUJUxg1OlkBUDUfpPLSgD?=
- =?iso-8859-1?Q?V5wXJY2vdF37Ecs/Zm2Hj8f4Qys1T4Rn68RVqCngSRKEz0cVdjtYMFN0rf?=
- =?iso-8859-1?Q?xlhL0MFHRRmc32/7a8ml13iKtEFb9aPKCUjD661LSJWdkEQpfdsokKVZBB?=
- =?iso-8859-1?Q?dj96tMgGXytsEgl9lyV5udXplqjSiDpRiWTjykD0cf8TVzoCg1N1WjaDe8?=
- =?iso-8859-1?Q?vVTtzZsy3KT5Lx6UdnhpPCQdPE5roG6gWb9Clss7YFteJ8ZvMIss+FhaBJ?=
- =?iso-8859-1?Q?CO0tr6Q7/oLZIBOVBr1NTo9n5gOY6XmehxdvUtcDa6y8SLKT43jfdBqb4i?=
- =?iso-8859-1?Q?aowzzX2UjzyV1hCdtk4q8+Q+GMYN9ofhwcSxcuSJ0ZoBMR47kLBtNqb8sH?=
- =?iso-8859-1?Q?00TnMVM69Q+nxnDbKlxSh7Ozhl5p1W/o9TuH/MxQ1lUILc4IM/hwmXj31l?=
- =?iso-8859-1?Q?/pKoAigLGHv+FnUZpjMsECSSOFBAlTKeWfrllKuFGGb4So845cUoYkeDzq?=
- =?iso-8859-1?Q?ocSxk5KdYisjtV1FBi/7YTMIIV6jjNwEgf0s6qur7PWKM6/WqGvo4gML2l?=
- =?iso-8859-1?Q?sYZKbLrfYR0ozT2Wg9/FMbOldaPbP6LNyngo1CQ0oXLfUeT+PkfuiCvIj3?=
- =?iso-8859-1?Q?KeLw5GJO8FWBON92rFe/9kh2y7ft2ix3MrmFiBrbF2wzb9EQ4cFPZnjyhW?=
- =?iso-8859-1?Q?vipAonq+BjQLBCBXGnAP3DIb/vSQkPaTCjj47B+2+1xyaYWBWoD/Am2pIO?=
- =?iso-8859-1?Q?9SIcOrv3Gmdexmt40OOPWqMibP5CILiep5ity+YJ3hT8OccSwWH4C6yCoy?=
- =?iso-8859-1?Q?6fnMUQkbK+CVCE/H6yY4sutm6Y84SfHNuv/8X5R3ab/YMjjbhG6F8=3D?=
+	=?us-ascii?Q?5Es+0B/wnGbmNGURvC4ZxldlVzLq7+q89WvqW4gXoiOqTpwpLPYlgIMEGWsP?=
+ =?us-ascii?Q?UnhNlQpOO69LEwUbXMer/hwFhj8EooNmhd9HW9EBh4OdLSuI5uWl0HxlXthg?=
+ =?us-ascii?Q?KLusHWxzJprKgsBeoDwRv2bfClLkLYywuJUNWdDQItF9huIS+qOrkOQnlTZ7?=
+ =?us-ascii?Q?5LiIx8adxlAMmokFVevI20g9y4A/PXAp+lSmBw9XYDSYe+o6TUHUCRTjbvRC?=
+ =?us-ascii?Q?LX6z2BIushw5Wlz3nZEXD/WXZthutrEbOyoH3Z4T6NCvRCyUshJdTJMSq62n?=
+ =?us-ascii?Q?jDgvA632h3i9VXZquLFQ3xyahcQK4jZNaFHWOOcP+imXiSQ5VRwYezYWF2dZ?=
+ =?us-ascii?Q?mG/Y0Gd+STw6FxpxClpiV4AnehS182wD9doDNPmXb6jSMRkJHb9/aiy29T/b?=
+ =?us-ascii?Q?nDfyie5zB8YO6P8Ax7mNsqCkgVA9wqQ/T9fSBxokaQclKlzqPjsi59KRQlb/?=
+ =?us-ascii?Q?T5BXwQuKt5fxrH50Ilr8qQnmpWiXsau8am7d2rGvhdRpJwzxzooaX7cHd8lR?=
+ =?us-ascii?Q?yEwUvJhERPvhj4a72hJzWxbK3bGvBDXFk9U5cGMs0CyZbs85FRhEcfRnptCn?=
+ =?us-ascii?Q?WLyLttQvoOrOsdVSJ/F/W28zyuNKYQwoBIQW9Rt4/qjL6lVBS9PscOHzvZBp?=
+ =?us-ascii?Q?f1uU22BzaPsSN6t/ncF6BvFbpkeUPB/mSo4BoFsEGhyckj3RWDBP0h6UBSPV?=
+ =?us-ascii?Q?domNTlOuBBYnlokSwMxd4UnkiP93q0p72ZA7UW5fP3pQmsy6cx17Zz5DuBep?=
+ =?us-ascii?Q?gD0+7BKMz5sV3V2dsfonnOtavXe7KaJV8e9W96i0dUnUA0/vVpykppI5fbd2?=
+ =?us-ascii?Q?VI+shrNH0H68S0PRv29WeCO8V/mUj0iIngjn3VKYYkcDOmJ9mKnB11gYmGBC?=
+ =?us-ascii?Q?s+ZGhQnQKm11vz39lXmJsL6pGGtPicYEF6c/oF7xTZf7kyWoClu2X9y2bp4r?=
+ =?us-ascii?Q?ccswCW7Vggw77AKZ6kzItrOC1C3SuSSX5Ikv0+LEcRyTMbnZQDB2ebkhYcBi?=
+ =?us-ascii?Q?LMjo93KHmuNfMxRQfhnN7WOaVKL44T8R6ujaNxmoCf8YfQ51W1VZjlNTHJh4?=
+ =?us-ascii?Q?apEdHv7PqkokTl/1CrcdYhiQTe96//B2/lpVTeGArq2Mo1N6+NYSt2RDYxw7?=
+ =?us-ascii?Q?vIrg7biFy+7D83npSWHlKBiP+WDBjQWfCoDroX7ZLXme7ZwdNoY/9qLgXevW?=
+ =?us-ascii?Q?/eMPA/XQO9Q+2GcDqRC09p65KiYwjApQ8Wui/BIlKb7Tnm7jWIBw6EuYvGuu?=
+ =?us-ascii?Q?8q+zbrFx9VxAxA4aN/Irv8lqRxuuNVxGiYyob3pAI3ry8P4U5TLGTBH4sdwM?=
+ =?us-ascii?Q?qGL4iVPQbDunJ/VrSlTyl3mFKoqAGak0TiHuTpO6ZhncAw=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?qi1rZdVFu9cNuUeQENbMRbazozDB8yDYz/xSyyY9D71ODKHAuCQUNWOjHf?=
- =?iso-8859-1?Q?L9GuGGpOxhh09E03Yb5IQ+9QfzSm8ckGAfW5lxM6yq9A5EFr1g88OSUqmZ?=
- =?iso-8859-1?Q?5sgrAwUV065+M2Y3Jc14+5WLVPbf6JKaZA7314l/BNe597gdXt1kackat8?=
- =?iso-8859-1?Q?7rH8sg7ClrvI2D2T49hKlvJptml4KywuEL1b0Vv/aa2iiziRkTWI0Rl/+O?=
- =?iso-8859-1?Q?IK3sdlR0Iu9GankrYz3Sh0r646e+ZZdt825RtwRW2+soP9ploivUDtoKJ8?=
- =?iso-8859-1?Q?DbB6hHtq0mvPquC4wAJ/BcIYBokqt+Sv2JnAhz5FFWNPPmC/yJRh+Sfbwr?=
- =?iso-8859-1?Q?5JLdfBTctkl/M5clOBjItiMl3fU1BuVpmqIfPs1kd55rrbs489vFLHfYwx?=
- =?iso-8859-1?Q?smkdBtina2GS6sBNsVosdjrzwoaTXBG83cqW2kk6ATTxLV8k8FMptYwVXk?=
- =?iso-8859-1?Q?XIPcUO6ULzyUJwkkrpl/3gdxAZ8wE5fquc+AgbYzCcpeilEJb766haHihT?=
- =?iso-8859-1?Q?i1ueU+Df1JNoKgV8Q50tkosjkm+LBCFOTw9AZGwI/JNtAhcFG2q782RNhS?=
- =?iso-8859-1?Q?6+Kvx23UZNKDAXTYb+WZU2WF4Hb6WckZ4nr6v+WPVNQkKVH6RQ10a0UILq?=
- =?iso-8859-1?Q?sBjU8BaigifEoAPyz28A2kb8PCMNVyMtOifSi9H/4ny6nKmkTueU58v4+b?=
- =?iso-8859-1?Q?3RZpb7zcNupQ9/nZhEigTprVqbD0b64vDEipdH8CvxI075k4zYwQFDpiRe?=
- =?iso-8859-1?Q?2NMZ1yldsHmW48CZGUP/rNE/EGvqB87ghlkgaSuCizBmjV/b0pmH7D5t2B?=
- =?iso-8859-1?Q?olEFQA1G/sC7uFr4L7po3BDjJkLMyrphnJsl+vsjPIdi4HRwC4cYiheYBy?=
- =?iso-8859-1?Q?P9QK5oI6vJV0fIFUzQ+FnCcVEttZOM2aeGCl07q4I9xU/OT/aSMsFN8oNh?=
- =?iso-8859-1?Q?pnAvMAl/MJc3As0VOzD9Kbxev9YVTWu71tRGVAE6opKO4xbhiH+5Xpp4pP?=
- =?iso-8859-1?Q?b1ZpD++GjPVgjb+W8Xdw1B1FvxfrilbaMoNlcL3fwbKyWzj00rsGSjf7gw?=
- =?iso-8859-1?Q?/KFUQ6Esk4vJushFDrJIZb64JY1j/wkRTQ/QX6TmsjI6oFaI7IbRQLQx16?=
- =?iso-8859-1?Q?KU8wvUGlvoXsIpiY7vXcczrUN/iC63wnIMmX84jXKX81eysUU2rqN9wk49?=
- =?iso-8859-1?Q?ZWAam2l3vUIc7Vj76bdFlpEGh/Ww1CF56PewcpCccr/GcuNC06MSBKKchM?=
- =?iso-8859-1?Q?tVbfWNmYrI1fErap2SnDZBnXyHyHksIqEPwMlyQbImWa2eMKuAdQ3KiDXK?=
- =?iso-8859-1?Q?JerM2Fba8KnHl0YirX0bL/ScC5rScE4VOvPqGXfvnz9/kg0b2Z49yZEy5h?=
- =?iso-8859-1?Q?q0SQnnx2STEzEVHrKIKmuReftKUQpaeCsl8P6bLklr1zPd/aD4d6rYi+PX?=
- =?iso-8859-1?Q?fnD/n9Dk2Qwrhb0DagfbFCErqaqOfuhVUP7+GV1QDDInlVVXeorYVKb7Bw?=
- =?iso-8859-1?Q?w6vVDvEO/05nxTfsRiKwDzX+L21WnStIIEgzRjVsJdmTIKbKGgOBK/UVII?=
- =?iso-8859-1?Q?qJH55740T+nQVUZsKZDeoYdyuk9qbfPz0w0ODlueSi8kugYV3hKYz2NQkj?=
- =?iso-8859-1?Q?Qst9s/pvKN5T/f3/+H9nOzFFLnLSkk+CxRKyCcrmPD88sjhmZEjmkThQ?=
- =?iso-8859-1?Q?=3D=3D?=
+	=?us-ascii?Q?8q2quqNqT6UcLC6d6niYvEnNVAzf3u5bEJG9Jc89qgeUul1NCMkQsr47Z5hV?=
+ =?us-ascii?Q?Xv+nHZ8rNoE+fwjNn6Eyqz1Z8z5Zts3K41HSZQOhUtybk+xnSlmWT9m5ZKBT?=
+ =?us-ascii?Q?5mMKjQt7B5f9o43Co4vrPi+1rUCtgcxePDKeWCkoB8Vn+F6FUUiVy2NngL3O?=
+ =?us-ascii?Q?Jpqd3TREUv90Nh6COgTAJbPrN5ClF+ZsWSAlhSoRsr7lQ8FJwl2DV3rZJODM?=
+ =?us-ascii?Q?v48FgdIIHvlAmNDTVME6iH2bDXauttIYb+rjoeXlPCmKkRz20L29KEC2V5jG?=
+ =?us-ascii?Q?gDSt5NjTHLedfofG5/a/IMqzUG+uM6J4GvISsSsxRfEBL6vo0aD4B+cftNB3?=
+ =?us-ascii?Q?RTqArbzDn1513gz8haoaXURY1mgd3iHNpkNzHNpqpJ6b2Ct/OiG1kxzzjCN4?=
+ =?us-ascii?Q?O2PltuW9CtqB5dPyH8H/iooyL/HQs30LuZQGSSiurYQudOvFSBNoYoUFk9Wi?=
+ =?us-ascii?Q?Ki8yugj7WTMopY9QtR4/euhxeKdxMzeck+rmrUZ0iM5dXEfMiiUBSHZ3cWRq?=
+ =?us-ascii?Q?qDzlqgumpzakY/2+eKCDO1wv6+UIyARDzcB2qudGEG56o7gSUXu9tpzlboSC?=
+ =?us-ascii?Q?k/OWvN98v+bwsz2FOeqjMXGJcYRFbRO8zKSOCmm1znuvDI1fCglsPuBmh5aV?=
+ =?us-ascii?Q?gQ9IvDi3sGQgRC5RJtQ4xZn4kqyVW6AbCSwhaxUnfOoRVGSbMHQGzxEKcNoX?=
+ =?us-ascii?Q?+uVApW8DXVvB3EceSFfmOVaiTyIifUmw3Yf29yLT/0Nq3UaWsx23zaxAvcrv?=
+ =?us-ascii?Q?c4QUCI0W7gEJdEhFmIKX6hiwYdM6yPNFHH0ZeET1bzUwoiGEzDeTmmd8VrAb?=
+ =?us-ascii?Q?EyaFHpQF8qd3nJT3IS95RMjJCjzfvmgoum6YRaDIU5seWpIcxLf4d2AeUeYD?=
+ =?us-ascii?Q?+xrFwpg+GxG2/nNZTn/3ec9T/c0yFq2dr4xSNh/OPQiyYMbBLoQ3R/q5rrtT?=
+ =?us-ascii?Q?YOgAKXgolhHx99ueaP15amJhlA5iwLSQxPOa2boWv347PzUh3prjGpPPjRBH?=
+ =?us-ascii?Q?heLQzIBceECem2mMvUV8YSAs6xgunxcw9Lyjl+AdAzzFs+P7hAHFxnlboxuN?=
+ =?us-ascii?Q?YkUgGAL6h8yLjKAQ3mSfC6+gYzYSuc9NRlOT8O3XMkPrN8SmYSNuPKbVL1u1?=
+ =?us-ascii?Q?qERavUkY9UgCNuNrQmxELTU1n/CM8qXXzHjeRWFJWsoLYCxn870K4pbPSpWk?=
+ =?us-ascii?Q?O+NB57pBiNTrSP8ZzmWswjnJLbkEdnYD6B2TwK31jSEj1NAdGzHPLu8yGmKa?=
+ =?us-ascii?Q?K3mPvwcaaBOyahLRW5FJiag3c5VhN9DdNaL3zwWlTQLPlp/EvwP5YgYjbK/3?=
+ =?us-ascii?Q?A/yQzmAG+vkYNXuDHcCO2V7YyrHLnELdE0x0074PD+1r5zooHThR/oJ9pmAT?=
+ =?us-ascii?Q?uqTZyWmPJ97QDPqChYz8ThA20oPD6qXoE7Jd8jng1i3AIuQ7BwMX9G/NoKWT?=
+ =?us-ascii?Q?GKpCZjFMIy1G2My0t6+6UndkuN9Xe1Pi391itrjGZvlTc7pc4/e90O4WM346?=
+ =?us-ascii?Q?2IeTaAGLu2bBtkxlxYGnvXqRl/x/Pqk0fzg6KuiZnPONAey/4bbJPRV/j4sP?=
+ =?us-ascii?Q?1MSLqjlPyXot4jnjvdoOpbonIMnBkwxtBw1pWuOL?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	fDzlCCVXNaPlqkN8qKZyQmUysjJ2juc8SgF6VJtx4GOEcHwNrVrmztv0tlL8VbUpsWzN2Ro8ttaBAqURYrgX7txMC7ZFnDzFNKQFZnOq1jDKHVgOc7FGAIkfObAV2osQpAjIDYtqrLVhl/90UOMWh5RF9D8x3RMYvP6kaZ0kcyBEkWKP2d90tXhkI3XV5JtxFBByducAkS7itO9loVADbxvW+NBHfVA7FZKOdZydGeokxR4LDLl4Hq3dbd3IHcHH/aAN1zS2EXJn7UwZrRXc3jOyJt8Pb9l5g2KKG1qB9J3ZxXQ4PA/Hkjgt5K25Mt+JZtwJL3BjY59Y/MtEBO94Hn6iW0OjEsQxJMbCtpC+ojeyANVxWUxs0+EYGCgU99ZI7dZvJT0VqCLX7bNQg6FPkvkPzjebds2mMC8JfIHWDHrDOoBOJO2S9Hi+8lpl+1UdjD3AFSTJ9HKEjEl7ZHHakwnrgRlSn//jwhMT2tR7ILZeWbV7Gc8e2/4DiVWm6sdDZnm+eDjeRGvBC5QLZS+F6l5xsLna7ZBGrxFBX9HNvj0VyRtsQgwmIj3EAyEmritAQjRs83XX1O39Zd/NwvvvIbxjj1o7K99W7hrZCCHTKWk=
+	n9zCfE+zj2OdEFnEtB4Spqa6VSMH61rBpvlL8T6YK45+xeDVvl2a2i/urIm43oG/A9hXcTJ82y82bywbser0ORt2S04SKzBQuQy2T9NdUkG2wW9422sc7C4a+fzz8DsvNZbGSgUCc5LqCGj625H3k17OXPJB9VTTPSBzjWNV+0awsYlw8OxiqL7aDaemdK0znGrPTZ2ktf8sgaK4qRQLxpiUFEHHEfbNkVlEnIj1GV0IBhvKFdJFmjx0+PWBUVF5qkvhn5TzueT51IBnzdKVSkSUHl2ZUFwwaR5sdrzV3RvHJmyDNAewjA+nrz94xaXh7buen2G87gay1lLkEgLQ7k5fqaad4FdMBpBOXfvn3nPZVI9dpnvFVnnrHWVXq/t2urGAMYfYvupbozgunlK1eW3YmLJkpuuPKydRuVe+82rt3rfBy8cIcjMJf8Vv3S2XE+KusDT7DOflkEdGSaMMY2YEBTwErjkyXOINpNcggcIZ4aJw6ADsyZJBFw0vrxyzfE6UzcE+I53ojA5hSkzKzlDIa3zjyiapBoQO4m+W3GMWDewxBJHAIMllkSLM5NaL2Wy15mLbMqiBr8F/NieT3+JWEW1ndNaKDzijuWDH1pM=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbe97341-91ad-4f88-2f92-08dcd36a1deb
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR10MB6287.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8076f2c6-6d8c-40af-d080-08dcd417b12a
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2024 20:33:10.3036
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2024 17:15:40.3922
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NlzRveuLKfydkq0a0M2vB61Nporn8cKEr5m9T8u3DO0QtdalXL9cGgY08cmhodgabXQ8ksYvKuQBEsH70gOYDgItQq5TjJceLe33yIqarE4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB8101
+X-MS-Exchange-CrossTenant-UserPrincipalName: Yk+ls5pmwo4q2SpUmSbgQTWlu71Rbu49Xo7VioSVowLARR1b5Vhg/g0K6ZgQh72ReCmWCHkrqBP5nUy8gJ3BTw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4662
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-12_07,2024-09-12_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- bulkscore=0 mlxscore=0 phishscore=0 malwarescore=0 adultscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2408220000 definitions=main-2409120149
-X-Proofpoint-ORIG-GUID: 4axR2NObT1AU5REHxJwPzFfymo7pRiOL
-X-Proofpoint-GUID: 4axR2NObT1AU5REHxJwPzFfymo7pRiOL
+ definitions=2024-09-13_11,2024-09-13_02,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999 bulkscore=0
+ suspectscore=0 phishscore=0 mlxscore=0 adultscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2408220000
+ definitions=main-2409130123
+X-Proofpoint-ORIG-GUID: qryq4G4gMdWg5iF9UYXLGFyRl56omyxY
+X-Proofpoint-GUID: qryq4G4gMdWg5iF9UYXLGFyRl56omyxY
 
-In addition, I think that the test should compare the id reported by the
-ERROR probe against the id given in dtrace -ln dtrace:::ERROR output.  Yes,
-it will be 3 (and I think putting the following three defines in dt_dctx.h
-would be helpful with that), but by doing the comparison against the dtrace -l
-output avoids having to encode a constant value in the expected output (and
-we cannot easily access the defines from the test).
+From: Eugene Loh <eugene.loh@oracle.com>
 
-/* Static probe IDs for the dtrace provider. */
-#define DTRACE_BEGIN_ID		1
-#define DTRACE_END_ID		2
-#define DTRACE_ERROR_ID		3
+There are multiple options for how to set this value.  One is to
+hardwire it to 3, its expected value.  Another is to set the value
+during relocation.  Here, we choose a middle ground:  we define
+the value symbolically (to 3) and also check that value.
 
-On Fri, Sep 06, 2024 at 10:03:38PM -0400, Kris Van Hees wrote:
-> On Fri, Sep 06, 2024 at 09:25:12PM -0400, Eugene Loh wrote:
-> > On 9/6/24 20:20, Kris Van Hees wrote:
-> > 
-> > > On Thu, Aug 29, 2024 at 01:22:02AM -0400, eugene.loh@oracle.com wrote:
-> > > > From: Eugene Loh <eugene.loh@oracle.com>
-> > > > 
-> > > > We use the fact that the ERROR PRID is always 3.
-> > > Where do we use it?  We certainly should never override the probe id that is
-> > > assigned by dtrace when providers provide probes.  Will it always be 3?  Almost
-> > > certainly, yes.  But the right way to do this is to actually make the ERROR
-> > > PRID available as a symbol that can be resolved at program load time, so that
-> > > the dt_probe_error function can get to its value.
-> > 
-> > I'm confused?  I thought I did this and you suggested simply hardwiring the
-> > value 3. https://oss.oracle.com/pipermail/dtrace-devel/2024-July/004989.html
-> 
-> True, though I didn't mean to just hardwire the value 3.  At a minimum, I think
-> it ought to be a define to set the value of the BEGIN, END, and ERROR probe,
-> so that a symbolic name can be used in code.  And that probably would mean that
-> it is best to add a check in the dtrace provider to ensure that those are
-> indeed the probe ids assigned to BEGIN/END/ERROR (and if not, something is very
-> wrong).
-> 
-> > > Anyway, the need to restore the mst->prid value in this patch also highlights
-> > > that there is a much bigger problem...  A fault in one clause contaminates the
-> > > first 6 arguments of the probe, and since a fault only interrupts the execution
-> > > of the current clause, following clauses will no longer see the correct values
-> > > of the first 6 arguments but rather the ones that dt_probe_error() stored in
-> > > mst->argv[0 .. 5].  That is a bug for sure!
-> > 
-> > Good point, but... a separate issue/patch?
-> 
-> Yes, already written :)
-> 
-> > > Here is a test that demonstrates this issue:
-> > > 
-> > > #pragma D option quiet
-> > > 
-> > > syscall::write*:entry
-> > > {
-> > > 	self->arg0 = arg0;
-> > > 	self->arg1 = arg1;
-> > > 	self->arg2 = arg2;
-> > > 	self->arg3 = arg3;
-> > > 	self->arg4 = arg4;
-> > > 	self->arg5 = arg5;
-> > > 
-> > > 	printf("%d / %d / %d / %d / %d / %d\n",
-> > > 	       arg0, arg1, arg2, arg3, arg4, arg5);
-> > > }
-> > > 
-> > > syscall::write*:entry
-> > > {
-> > > 	trace(*(int *)0);
-> > > }
-> > > 
-> > > syscall::write*:entry,
-> > > ERROR {
-> > > 	printf("%d / %d / %d / %d / %d / %d\n",
-> > > 	       arg0, arg1, arg2, arg3, arg4, arg5);
-> > > }
-> > > 
-> > > syscall::write*:entry
-> > > {
-> > > 	exit(self->arg0 != arg0 || self->arg1 != arg1 || self->arg2 != arg2 ||
-> > > 	     self->arg3 != arg3 || self->arg4 != arg4 || self->arg5 != arg5
-> > > 		? 1 : 0);
-> > > }
-> > > 
-> > > So, we need the ERROR prid value exposed as an external symbol so that it can
-> > > be used in dt_probe_error(), and a patch that fixes the contamination of the
-> > > arg values.
-> > > 
-> > > > Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-> > > > ---
-> > > >   bpf/probe_error.c                         |  3 +++
-> > > >   test/unittest/builtinvar/tst.id_ERROR.d   | 32 +++++++++++++++++++++++
-> > > >   test/unittest/builtinvar/tst.id_ERROR.r   |  3 +++
-> > > >   test/unittest/builtinvar/tst.id_ERROR.r.p |  4 +++
-> > > >   4 files changed, 42 insertions(+)
-> > > >   create mode 100644 test/unittest/builtinvar/tst.id_ERROR.d
-> > > >   create mode 100644 test/unittest/builtinvar/tst.id_ERROR.r
-> > > >   create mode 100755 test/unittest/builtinvar/tst.id_ERROR.r.p
-> > > > 
-> > > > diff --git a/bpf/probe_error.c b/bpf/probe_error.c
-> > > > index c8ddcdfa..ee1a1793 100644
-> > > > --- a/bpf/probe_error.c
-> > > > +++ b/bpf/probe_error.c
-> > > > @@ -26,6 +26,7 @@ noinline void dt_probe_error(const dt_dctx_t *dctx, uint64_t pc, uint64_t fault,
-> > > >   			     uint64_t illval)
-> > > >   {
-> > > >   	dt_mstate_t	*mst = dctx->mst;
-> > > > +	int		oldprid = mst->prid;
-> > > >   	mst->argv[0] = 0;
-> > > >   	mst->argv[1] = mst->epid;
-> > > > @@ -34,7 +35,9 @@ noinline void dt_probe_error(const dt_dctx_t *dctx, uint64_t pc, uint64_t fault,
-> > > >   	mst->argv[4] = fault;
-> > > >   	mst->argv[5] = illval;
-> > > > +	mst->prid = 3;
-> > > >   	dt_error(dctx);
-> > > > +	mst->prid = oldprid;
-> > > >   	mst->fault = fault;
-> > > >   }
-> > > > diff --git a/test/unittest/builtinvar/tst.id_ERROR.d b/test/unittest/builtinvar/tst.id_ERROR.d
-> > > > new file mode 100644
-> > > > index 00000000..59021c60
-> > > > --- /dev/null
-> > > > +++ b/test/unittest/builtinvar/tst.id_ERROR.d
-> > > > @@ -0,0 +1,32 @@
-> > > > +/*
-> > > > + * Oracle Linux DTrace.
-> > > > + * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-> > > > + * Licensed under the Universal Permissive License v 1.0 as shown at
-> > > > + * http://oss.oracle.com/licenses/upl.
-> > > > + */
-> > > > +
-> > > > +/*
-> > > > + * ASSERTION:
-> > > > + * The id in the ERROR probe is 3.
-> > > > + *
-> > > > + * SECTION: Variables/Built-in Variables
-> > > > + */
-> > > > +
-> > > > +#pragma D option quiet
-> > > > +
-> > > > +tick-1s
-> > > > +{
-> > > > +	/* trigger the ERROR probe */
-> > > > +	trace(*((int*)0));
-> > > > +}
-> > > > +
-> > > > +tick-2s
-> > > > +{
-> > > > +	exit(1);
-> > > > +}
-> > > > +
-> > > > +ERROR
-> > > > +{
-> > > > +	printf("id of the ERROR probe = %d\n", id);
-> > > > +	exit(0);
-> > > > +}
-> > > > diff --git a/test/unittest/builtinvar/tst.id_ERROR.r b/test/unittest/builtinvar/tst.id_ERROR.r
-> > > > new file mode 100644
-> > > > index 00000000..95974abe
-> > > > --- /dev/null
-> > > > +++ b/test/unittest/builtinvar/tst.id_ERROR.r
-> > > > @@ -0,0 +1,3 @@
-> > > > +id of the ERROR probe = 3
-> > > > +
-> > > > +-- @@stderr --
-> > > > diff --git a/test/unittest/builtinvar/tst.id_ERROR.r.p b/test/unittest/builtinvar/tst.id_ERROR.r.p
-> > > > new file mode 100755
-> > > > index 00000000..884b43f4
-> > > > --- /dev/null
-> > > > +++ b/test/unittest/builtinvar/tst.id_ERROR.r.p
-> > > > @@ -0,0 +1,4 @@
-> > > > +#!/usr/bin/gawk -f
-> > > > +
-> > > > +# Drop the line with run-dependent PRID for profile probe.
-> > > > +!/error on enabled probe ID/ { print }
-> > > > -- 
-> > > > 2.43.5
-> > > > 
+Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+---
+ bpf/probe_error.c                        |  3 ++
+ libdtrace/dt_dctx.h                      |  7 ++++
+ libdtrace/dt_prov_dtrace.c               |  3 ++
+ test/unittest/builtinvar/tst.id_ERROR.r  |  1 +
+ test/unittest/builtinvar/tst.id_ERROR.sh | 52 ++++++++++++++++++++++++
+ 5 files changed, 66 insertions(+)
+ create mode 100644 test/unittest/builtinvar/tst.id_ERROR.r
+ create mode 100755 test/unittest/builtinvar/tst.id_ERROR.sh
+
+diff --git a/bpf/probe_error.c b/bpf/probe_error.c
+index cad161fd7..1081ee71d 100644
+--- a/bpf/probe_error.c
++++ b/bpf/probe_error.c
+@@ -26,6 +26,7 @@ noinline void dt_probe_error(const dt_dctx_t *dctx, uint64_t pc, uint64_t fault,
+ 			     uint64_t illval)
+ {
+ 	dt_mstate_t	*mst = dctx->mst;
++	int		oldprid = mst->prid;
+ 
+ 	__builtin_memcpy(mst->saved_argv, mst->argv, sizeof(mst->saved_argv));
+ 	mst->argv[0] = 0;
+@@ -35,7 +36,9 @@ noinline void dt_probe_error(const dt_dctx_t *dctx, uint64_t pc, uint64_t fault,
+ 	mst->argv[4] = fault;
+ 	mst->argv[5] = illval;
+ 
++	mst->prid = DTRACE_ERROR_ID;
+ 	dt_error(dctx);
++	mst->prid = oldprid;
+ 
+ 	__builtin_memcpy(mst->argv, mst->saved_argv, sizeof(mst->saved_argv));
+ 	mst->fault = fault;
+diff --git a/libdtrace/dt_dctx.h b/libdtrace/dt_dctx.h
+index 633c529f3..d8232868d 100644
+--- a/libdtrace/dt_dctx.h
++++ b/libdtrace/dt_dctx.h
+@@ -14,6 +14,13 @@
+ #include <dt_pt_regs.h>
+ #include <dt_state.h>
+ 
++/*
++ * Static probe IDs for the dtrace provider.
++ */
++#define DTRACE_BEGIN_ID		1
++#define DTRACE_END_ID		2
++#define DTRACE_ERROR_ID		3
++
+ /*
+  * The DTrace machine state.
+  */
+diff --git a/libdtrace/dt_prov_dtrace.c b/libdtrace/dt_prov_dtrace.c
+index bf87cb054..9f0d72b78 100644
+--- a/libdtrace/dt_prov_dtrace.c
++++ b/libdtrace/dt_prov_dtrace.c
+@@ -45,18 +45,21 @@ static int populate(dtrace_hdl_t *dtp)
+ 
+ 	prp = dt_tp_probe_insert(dtp, prv, prvname, modname, funname, "BEGIN");
+ 	if (prp) {
++		assert(prp->desc->id == DTRACE_BEGIN_ID);
+ 		n++;
+ 		dt_probe_enable(dtp, prp);
+ 	}
+ 
+ 	prp = dt_tp_probe_insert(dtp, prv, prvname, modname, funname, "END");
+ 	if (prp) {
++		assert(prp->desc->id == DTRACE_END_ID);
+ 		n++;
+ 		dt_probe_enable(dtp, prp);
+ 	}
+ 
+ 	prp = dt_tp_probe_insert(dtp, prv, prvname, modname, funname, "ERROR");
+ 	if (prp) {
++		assert(prp->desc->id == DTRACE_ERROR_ID);
+ 		n++;
+ 		dt_probe_enable(dtp, prp);
+ 		dtp->dt_error = prp;
+diff --git a/test/unittest/builtinvar/tst.id_ERROR.r b/test/unittest/builtinvar/tst.id_ERROR.r
+new file mode 100644
+index 000000000..2e9ba477f
+--- /dev/null
++++ b/test/unittest/builtinvar/tst.id_ERROR.r
+@@ -0,0 +1 @@
++success
+diff --git a/test/unittest/builtinvar/tst.id_ERROR.sh b/test/unittest/builtinvar/tst.id_ERROR.sh
+new file mode 100755
+index 000000000..082ebd0c4
+--- /dev/null
++++ b/test/unittest/builtinvar/tst.id_ERROR.sh
+@@ -0,0 +1,52 @@
++#!/bin/bash
++#
++# Oracle Linux DTrace.
++# Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
++# Licensed under the Universal Permissive License v 1.0 as shown at
++# http://oss.oracle.com/licenses/upl.
++#
++
++dtrace=$1
++
++DIRNAME="$tmpdir/builtinvar-id_ERROR.$$.$RANDOM"
++mkdir -p $DIRNAME
++cd $DIRNAME
++
++# Have a D script report the probe ID within an ERROR probe.
++
++$dtrace $dt_flags -qn '
++BEGIN { *((int*)0) }
++BEGIN { exit(1) }
++ERROR { printf("ERROR probe id is %d\n", id); exit(0); }
++' -o D.out 2> D.err
++if [ $? -ne 0 ]; then
++    echo DTrace failed
++    echo ==== D.out
++    cat D.out
++    echo ==== D.err
++    cat D.err
++    exit 1
++fi
++
++# Get the ERROR probe ID from "dtrace -l" output.
++
++id=`$dtrace $dt_flags -ln dtrace:::ERROR |& awk '/^ *[0-9]* *dtrace *ERROR *$/ { print $1 }'`
++
++# Construct expected output.
++
++echo "ERROR probe id is $id" > D.out.chk
++echo >> D.out.chk
++
++# Check output.
++
++if ! diff -q D.out D.out.chk; then
++    echo output mismatches
++    echo ==== D.out
++    cat D.out
++    echo ==== D.out.chk
++    cat D.out.chk
++    exit 1
++fi
++
++echo success
++exit 0
+-- 
+2.43.5
+
