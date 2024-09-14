@@ -1,82 +1,78 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B6412B82
-	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 02:53:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882BE9463
+	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 02:58:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726282419; cv=fail; b=bNE06JDZUam3YsQQGRJpEgvNsL2X/Y3i7KmcwPguMOE96uACiN+GaNHPWNT9qBr9Vcyi5xMous7lxpG49u9q3cZ0ik0PQVwafQPAJsHt4tIF6M8IhOdzr+oFEk0DylI71VJq43PK6EwtAUSMSL/ejWtcTxd40l4xPmG0aD5zZqA=
+	t=1726282712; cv=fail; b=dJ65rFOl1wuQi/wljVuBm1PFZKDAfqWtKXuvyoQUNZrJJQwTyEWP9o4fKKJsby0XfGeK1EAhRUzOnsPIrECkB3gslMWTY5akz0kujIh1T6iiOS11a025nxp+d61Tab33QNl+7KEu9Z+HfgQNuESNYfdFnm65OjJH1HOElHizWe0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726282419; c=relaxed/simple;
-	bh=R56osA+jzEkQlpw0XT9hsxf77/KgTscGg5JDiCeaqLw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Did+Z8lAx86I8KGl/huFyD9JZSUgThJ/BWu9dwZYjqozLE7nvaDSx56IDZ5K0jXTxi2Bna/u41qy7dXWFF+qaoNrnfaWoz5ZEEu2iJxjM5XVXBpwNdQD2Wmt9o0WQeXWBT8adUJG/HbwI0oOjQ2p/0k9IArvtZByqtw4nM4X//Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=O59BhEmt; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ePg4Zdf1; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1726282712; c=relaxed/simple;
+	bh=o1p5ehbZP3MbXuBJ7nfkQsXN1GmxvNKV4u4gSl4LQsQ=;
+	h=Date:From:To:Subject:Message-ID:Content-Type:Content-Disposition:
+	 MIME-Version; b=AXRoYxQD4oZNhNSMLkvBkBPUWH8/PtBpjaok5U4mrAHFKBIkx6DA2ZP+U3xWFTkfjbaQQLB5fvUVPeG8CVLkkEHl/LVKXJfre7sYluUOLkkDllSYeRwon2XDRCdQC8+F/k13tpkzp58x4yJoSRdJFY8ney6MQRXe1aLGsDV4pRM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=aSS5jXLx; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=AmcShxF+; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="O59BhEmt";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ePg4Zdf1"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48E1uVXZ019857
-	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 02:53:35 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="aSS5jXLx";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="AmcShxF+"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48E2rYWQ025241
+	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 02:58:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	date:from:to:cc:subject:message-id:references:content-type
-	:in-reply-to:mime-version; s=corp-2023-11-20; bh=HGxZIa8pDP/eXVf
-	lu86qAncco9sjC0RzdvTJ4P7ENPU=; b=O59BhEmtpxTWuaUXPBHkpxNw3BXz0ej
-	jU+74MoOQnbDlx1LTnHaMOLTsF6L+iW3YLCw1vMjHixmUms+seKjN8uenhqVvUKG
-	eXHtVqm7lm+ZEWmPBR/d3c/mVDl1f2rxPPTaE9YKlIs5nya/CfP6bf3JjZB2XwOY
-	a1slmwuXlKYagc4z7gHvjrAgY7dXQXRwK128FW5q/qZ5uSb8uUkGThHLfB68TPoJ
-	QNwdrXgPm5htpqfJ7INaYhgjUdLPu37/Cgvk6mnGxFNiLRd5StFUXk7oqK2kKlw5
-	leT7d+Q04mBzEI4bstnXLCbf3juxgUnUTibOhht6lRP/9Q5uEWx5J2A==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41n192r1c1-1
+	date:from:to:subject:message-id:content-type:mime-version; s=
+	corp-2023-11-20; bh=/X7jiHUXtE145Nw2pLSWYEnO0i+e4t7iI8qHpjzWDiM=; b=
+	aSS5jXLxq+snbD/g/9cmKNr3E71C6S6+uu+o5tPw6l1jodTgYdq2pLkgT10Uy+RJ
+	YWYyEKECfDTWF9adIHECk3U2hAucUzwnBs4WlseQ7lHK/40SI1tPqIVyMorQHdPI
+	XS0tmBrXzmsgCpxbMA0v5SP5riDzNZoMedjDA1qmkeIZC5eMWGJ1Gmk/JBLYAqAP
+	MODPU2fpVflm+5AT/Jcg1Zpw3E9hvgWEDZN1Z0V2J9U+wSvEqzo3+pFhluQcqucA
+	+Jm2EOhGQrkgh7XgbTYe6ZAJl9ddkN6Qp0UR6iH03TqtkXJKbX5gy5w9qgpvyf76
+	ljEDx/Cpu8H8SW9abeJwcw==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41n23t002b-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 02:53:35 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 48E1Y8UK000760
-	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 02:53:34 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 41n0xc93r7-2
+	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 02:58:26 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 48E1XjtM019772
+	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 02:58:26 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2173.outbound.protection.outlook.com [104.47.56.173])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 41n0x695qd-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 02:53:34 +0000
+	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 02:58:25 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dByVwLco5c4ml1KF+Iui1OnQaVoPvtTa0BAF+WUBbLzapXs6+PwshqnfYOQ810Cf1/71sVbTzOB0rTLB/nhkBLUzXGvo3P6fqvvBj1i8xju0D/JIkQ52mNnB+HqEuAUhBSRXqdnGnkuNcrPuHcNCxetMMSDhhwvhP0PovUXCyyR4o4B1WRIT+QKJggmC9Vh8g93tGHEYAX8ocbzy9kkJt3wixeJn91P7ixSEj/93rMpsffzg+sHI2EgMBE2KWQcMcVyfxNmnrouYZV4knJXadB6UQ+GfijFm5Nz4csxQ3weKZoOMsbyegDdAmzsnCl/OYCAq6dr2xqs3+hq3FftX8g==
+ b=aJzRj4LmMFE4SuQ95YA/oSjj708etVH/e/itPAiJw2qd2eAQULyO1YFmaAcVJJBY2b68oUE7GGXx+E7/K9YS3ypX/jYYLYSFWSoObDNE0fJ4BQHYcIPXBKeTi6biEonG529sKNT+F/kZVzpkzPcIQGWhBMtvw8e4Ci9r37S26qEz9aGmFSMNKIKWtkVSX+I00KyAbZomBBqJKUJAzzqnZQfdB8damw8YO2ri+eKBR5Y9WZ/1fl+W0e3HCEoG245Z3zVN9o+7Em6gw4cphUfTINcnitwFVJ/iwDBzBMm/Vgl+Q9cM4SB3t4KMoAArYyugxcDL0Age/HDRgncR+qQCtw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HGxZIa8pDP/eXVflu86qAncco9sjC0RzdvTJ4P7ENPU=;
- b=ljvMQ873zTWIeSotopP/kR343z3jcxihO+Bmu7mZVNLgf/3jWnP/zIlya/fvWbm9+3gK0pkBiMPzGAgveLNOIcZ1dZhc7930ylBWpN5vZXQoo9lDyfQvPTAOfBJvokVQUzNigWZCqqo4lpO8WX50eaXi1rr1X9R9gmA10c/gvH58SKCpTTYhOgfCOmUUFbmKSyIVlUYq2cwqap+f+/gvFHSuUAJKOLiJmuJxysmwNFPHu7CExe0jkTuGPLhizGlqLtN71lEb3BFR2+DO0/DOphel7+VGvP47GYELcf5Y2An9b8feGeiqtWswHJ1KsvD479ML8AoIT+7+KpgveZprLQ==
+ bh=/X7jiHUXtE145Nw2pLSWYEnO0i+e4t7iI8qHpjzWDiM=;
+ b=Gnlk0pW2jmd3XTt3vLf8I1cmLtE/tJBKrXlyAEpB0GKUzg2ofESdIcsk+IRam3Hz6Z73q/P10/jsN30GLHmRfvMfGPa/+l3plb/CvIf0dIUOGJHfyNhWNLSMXXTwcxyy+d2Pa/JTKk9TkukwyTVUN/Ado2VtAEj6EA4/79bRdg1rl3EtKcejBMUpWZkv+Eq/a38Ue4wdX+1Lt2B4LRz8JL7+HWDtC0tXXexe/HIMXPJMAv8hscdEmNWkQdH2OOVnsAuYWx8SPfArGyJN8fowwyjsDOzGRcYkXO9R2d9ovdsfzac8XUfnR9i2IsZ3F9S59nOub/Lo/icpmE0Q4IGkkw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HGxZIa8pDP/eXVflu86qAncco9sjC0RzdvTJ4P7ENPU=;
- b=ePg4Zdf1UUbHjP3fGJyAsUJimaJFi9Cyz9QQZVhF+5SOK+2gV3geeM2yvg8FJifrxtFINRq22h+KgdewL0egFvngF1/FjrPuQ8SDxjMhMXGzW0I3K89Qqz2UhgGxofgANViSjQv15czgSAMOT/U/JnCe9B6xQ3iFI0Skj3ye7C8=
+ bh=/X7jiHUXtE145Nw2pLSWYEnO0i+e4t7iI8qHpjzWDiM=;
+ b=AmcShxF+SXEUnAAKEU/5b2iEkw7b60F1dT+7DNkb7Cl6vLKOYQoUOwFXB7hOPkr7Xu5Eq91DCKiIe82yVe/2P5izOHd4yzrn96Jt4KvE23h0lMEZnMp7DW5NjgGH9KxchotYC2kkDpVgf8lYe7fAxQBsQM5qAcRjO4NfcBY8cPI=
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
- by CYXPR10MB7923.namprd10.prod.outlook.com (2603:10b6:930:e8::10) with
+ by SA1PR10MB6341.namprd10.prod.outlook.com (2603:10b6:806:254::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.24; Sat, 14 Sep
- 2024 02:53:15 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.11; Sat, 14 Sep
+ 2024 02:58:23 +0000
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29]) by SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29%6]) with mapi id 15.20.7982.003; Sat, 14 Sep 2024
- 02:53:15 +0000
-Date: Fri, 13 Sep 2024 22:53:12 -0400
+ 02:58:23 +0000
+Date: Fri, 13 Sep 2024 22:58:20 -0400
 From: Kris Van Hees <kris.van.hees@oracle.com>
-To: eugene.loh@oracle.com
-Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [DTrace-devel] [PATCH] Relocation processing of STBSZ in ERROR's
- get_bvar() is too early
-Message-ID: <ZuT6mHTMPMn2W9FH@oracle.com>
-References: <20240913233604.21269-1-eugene.loh@oracle.com>
+To: eugene.loh@oracle.com, dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: [PATCH] Relocation processing for the ERROR program is done too early
+Message-ID: <ZuT7zAFGovJBCJzE@oracle.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240913233604.21269-1-eugene.loh@oracle.com>
-X-ClientProxiedBy: BL0PR1501CA0035.namprd15.prod.outlook.com
- (2603:10b6:207:17::48) To SN7PR10MB6287.namprd10.prod.outlook.com
+X-ClientProxiedBy: MN2PR20CA0016.namprd20.prod.outlook.com
+ (2603:10b6:208:e8::29) To SN7PR10MB6287.namprd10.prod.outlook.com
  (2603:10b6:806:26d::14)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -85,224 +81,252 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|CYXPR10MB7923:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5d3eb349-a663-4387-a2ec-08dcd46860fa
+X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|SA1PR10MB6341:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6bcdc585-99f9-439f-f58f-08dcd46918cb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?3Q6+5+E4FYP4cgCXy4sIWVYR3qL96DP8aKCgVg2iPQaTvY9PwEeyrgrK6QCC?=
- =?us-ascii?Q?7kZXEq2sibS0kABf40mfOfQU/WKha5LRhGAPlp1uh7l4quXpVUmbHCy38eXS?=
- =?us-ascii?Q?+LjPk8if5sz3nI47wu5hdYNEnMxubylp7ErqFOODunSvZhjKqJLtMVo0UHkR?=
- =?us-ascii?Q?MpZZmdOsWL1fvjmEWKGlCbgLIMcFkrUcPOmUMIHBAtsLrT41eaTrYa68FXcv?=
- =?us-ascii?Q?lJ0eAVlIPNmec9RxTG7hGg3xVg9NZtXKQdAKWCVwNhvtPuc5Ddoda0Rzw3U5?=
- =?us-ascii?Q?3/ySDZiOvx0ggRn6LB+/pCKTfCJJd2WFHpui74UnnGZzmS5XXWD01LdF2De5?=
- =?us-ascii?Q?GU+3UBoaMWJm7kj8aUcC5UVdE96l75zu1FZOe/KxaquRlCpLEKjQvkyATqzX?=
- =?us-ascii?Q?Ml8i8S7G8tXxozPWLofeis7oeazsPBe+bylgIg+jb/dIj7eoFjuBuXc7q0Qq?=
- =?us-ascii?Q?Ew59vMd5x79cKJ2q85uLujAE43RebAMlnLxTPLzNqjFDbNmsbdb/kYVZdV+V?=
- =?us-ascii?Q?aShyWPuDLCpaUfXM5pqpRdIdAtHB/gyuiNDwLx+N+3vlJU7DXhfuPuVyZn+5?=
- =?us-ascii?Q?XMa/oZxX/hqD68tMUGN1AN8JGbK63c1JTkvgcNGsh9HR1lWbs/A/apcIlBmY?=
- =?us-ascii?Q?2TsIbbBOXZTCkN2PcXi5Ho4XC4bvvx6iS9Tnc9xJD3GHeeat4czHpC1R3trR?=
- =?us-ascii?Q?YaTosDv+U4bf5hYth+hu28EshTUAbN3G80h373EKAoRsI8e/X+J/atD+T7v3?=
- =?us-ascii?Q?Sg9ylspBvnVvstwxr2X9iK7M5hltxTATyrMILg/VvbPCPdC+CAAPGoxNHcnL?=
- =?us-ascii?Q?UIYaCPSeHyAK12JHF4ks/HqS178b9xgekAzAKYohLCbS1TJdpOY6B0VBLtCq?=
- =?us-ascii?Q?iHlmcfK//XXFZhrr5wWFFtlDGy4nl15vYWwmMU4qXvyKpdDbl3zVAZ+shbeU?=
- =?us-ascii?Q?UN5C0nbUZW25/EESTlw2crtDnQTD4gsuXrBJnqZ3DyKYzeyG/ozSFZIvmtCV?=
- =?us-ascii?Q?nzD4+rYd4K5a7eD1My8fb4D4pGjR1+3SrHuDeqdz0+Epah8cFrKrJ2MpBnZ9?=
- =?us-ascii?Q?Wf+R9sxWUnVDNGOjM1RlvjZQX8/VDV5fgi57QtymA1IORQm4Z/eVZx4vheDx?=
- =?us-ascii?Q?U0WVoW9sHJUHyPRtWFhi+xxMn9Xq1eA+iDzzF+qt088vAJlEGv2oDB/Qv4X7?=
- =?us-ascii?Q?UjsH1tvqddCWBJWjppPzux9z719h3EZltCav+zzISFvO2btCbEXpqLpcVEOk?=
- =?us-ascii?Q?z+lhDz2c5lcakEKy/xuDxTolX6aec4Me1FAsTv09mx/Mubzi/7W+8GaEFIJ6?=
- =?us-ascii?Q?8esznAufMsTNeJPXAAmM8z0xvIBxhLgOBGsoUXFPvpfCCRySsPrAk8H9L8pB?=
- =?us-ascii?Q?HoivtEQ=3D?=
+	=?us-ascii?Q?eoZ5k6VfYs0p11R2XETFROzzYWv+HLvCGdJb370KvwuIBhRUVk71gFN6hfZi?=
+ =?us-ascii?Q?IEy8uWfrixATbjx+IwbyoTp89j41se/2/tMfluQU39Kbk6AhFaE7iZ8LUQwE?=
+ =?us-ascii?Q?U0eN6s1s22ojcrwvgWUS+ExqJK5PmvnUH2NHQGoJmgKXNFlGclx0TaQsN7oM?=
+ =?us-ascii?Q?/KF4KzVDr2j8iMgfK9rxKVQPFFJirCt75IyEjA17BDrKLORSAn/v6scvInXQ?=
+ =?us-ascii?Q?e1FKmGZK1LmbeieDcbP1/T3Q+XgjH3njkE1uyf8Q7Eqd1cF2vCQ9mG5ATVwd?=
+ =?us-ascii?Q?TtaXE0leZMIH9asTqwzHTos+uPhRFppsYhoaAnxFDpSSAHcqH/hgiEbtgY8q?=
+ =?us-ascii?Q?E76jjG5VOOwMrBTfeZfNgjM+auBIOiGDft1SxQQ1Nog4oM+x1IXRRA54nyIY?=
+ =?us-ascii?Q?SiZXc+2Kc+/pWsYylnq7A5fM1MCF6VE3JyU3Y9/VzpoKti89yeIvoUAT75gx?=
+ =?us-ascii?Q?BQmXTfKuJRYwIU+9ZamAIw0L4CIpZ4dshdbaTwIEtUpY3MIyf4MkQaM5kgIp?=
+ =?us-ascii?Q?X4T65CiuyJJYhsxLYRKsS4EUlp6WaHDwpyrCN5o+DcSlw21IyuTrHN//1sr6?=
+ =?us-ascii?Q?ArwKcDjuyif5kiyPDF5ED1bU3NSVb0y2jRmhZbzz/IS/uFHXMfAI68RHV3wb?=
+ =?us-ascii?Q?++3hrFGgZKvsCYJzsuAEK0SkFD9Fkhz00mONN49GknphhmzemNbfIi7+3Vi9?=
+ =?us-ascii?Q?X+bjXHQoHzrqHm5GDetu2vzmsNLEqRR7Usnj16NJriHppWl8owQVGiHcqPcf?=
+ =?us-ascii?Q?sD5A9mWrgbE23ojjduACax+Oj3P1A/sfYpm10lkEU3nsktZaZECoon1jpItk?=
+ =?us-ascii?Q?gzshKmiYVXqOluzprCViphnleHXNxK+S1IppnmJr18yWL9YLu/0H5SnIOKP7?=
+ =?us-ascii?Q?rWOzZ3rgAfv55LSJSQbJ6Tt3qUbnzVLkjTAweDSef8Bz1THnGPltCSUjRakM?=
+ =?us-ascii?Q?95n2KzxmbY1VEbVh7/ffQ9afwTg4IPeRjw1eCtMGQo0dMDwV6TZkFmYSscIA?=
+ =?us-ascii?Q?A0eE9okNpmfJ3HKHFH8tSXTVS3Zvo0kUrXx3Gex6BbsGJP12NOkXcVHx1+4P?=
+ =?us-ascii?Q?9OJSpCHcVzj70EsG0PVDGYtAEa1rFe0JVCmkwufKC11Uwuv/i6mkDBYjxKDL?=
+ =?us-ascii?Q?UglG58SmOa39cL8cO9BP+kShfws9qIMa9BY1JF7PW2C6oqb/3jIqlWBAkVSZ?=
+ =?us-ascii?Q?+V1g+a7ECgN3fdk0b/B7sTFBJKidtQEEzef3eeszPWqW/eFK7lcwccK7HeFu?=
+ =?us-ascii?Q?rYxL+uZ3zSvKFRna+HKHfLUvkC1o1/lVT/MWzV0rLAxnTb5N1emc4TFuKuW1?=
+ =?us-ascii?Q?AQ+DFZTMehj6BSb7P8/B6RpcxEHBy4S7xa1CUFPC0BxJqQ=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?8P/fydq2DcpDtKeLDSKHf2tDJAcerMLgGldDQhvZOOoclU1+m5tfDYRn8p28?=
- =?us-ascii?Q?FtMHHfLzmr5HhzbnU0oeCDuNaao8L1j1uj+GNplEuA7zvXuWAegDFip+8UXY?=
- =?us-ascii?Q?lvR6yBH2aTpeeVLBmVG/ypaofYy7N+0XlpE5RLxfVsPK7Qaqrpm3qDnkKW3v?=
- =?us-ascii?Q?0N0FE1LJ0HzJyYL0USQ0Au0kjOM5fkacpQWHNpipt/qGYfv/+g2KR5knovBW?=
- =?us-ascii?Q?/r6Sfu01nH6MEyD8WZHkKJd6kQ/07kOZ2dLQFCRXkdohdkmzdEQ18lhOTvFV?=
- =?us-ascii?Q?r41JXKi8MoRjVMs2fvRD1UWjJyhXG8lbtEjEv5N8xy81hyaIKeyKMI7/iFTR?=
- =?us-ascii?Q?PKdbGy77UIoUAnGS8fPvmfj/0Ndcibp6iW9qD2KFIhQw4iWA/+vFm8qVI1Kk?=
- =?us-ascii?Q?63kaEnBjKXRnIfcjFQxSRBUok5fVEEB/GtNPhhy2E23pla7RYu1XPzm1ac+1?=
- =?us-ascii?Q?lRBGT9bIo9G0udRZqSKe8SkHYUTRwaxu8kveFY6HJbEwAZpXib2dT1BQx33/?=
- =?us-ascii?Q?LutcAoI6i7x7BcvcGCTtZHSInROo87uCdOkDwro06/yA6bEzoe/cOCBGkG0F?=
- =?us-ascii?Q?XdLSViUbngrwDZU4DVW00M42c248e1PfvtkjwdFCOJt1Te5EL8jHDZ1YoucU?=
- =?us-ascii?Q?BuPpillf/MRm4psp+r/G/pYyhltgUXmMasXPvIVmdL1TzEhimW3pg6YQvgJB?=
- =?us-ascii?Q?Sv7WweM7NPTSVQVl7BpMM4mcDn5rOMf1Imz0ZWvWOPnLPcZQptPB4+W3ZE6B?=
- =?us-ascii?Q?v1zam1174/SF2NFleUvqIo3LglId7jggnJR+KLmQJn5GMUX2QX+3uxPlslwk?=
- =?us-ascii?Q?4c+L5VbKK3r2f8CvYatB+2LP1PvUxNP0Buz3k53dJIvaWOGaCvUvwuoZQibV?=
- =?us-ascii?Q?ls5y+Qux0KtfJ+46s2dz5Hqqx16VdgGoGqeqsNEz34Sn+etlaQDHE0woKO57?=
- =?us-ascii?Q?xTXBfWKDdZCbrQ8nqywLm8n0Hf367+t8dAwhLtqiy8u1kN4v10/5ARDGyUgZ?=
- =?us-ascii?Q?qTyQoOCYjCEaJTduDLAjPZGRGLAszl1wSGDFC+YNzwX1hxLmbYBnkZRmBjFN?=
- =?us-ascii?Q?C7sp24c2zWMBaStd4Q2vlnnpSeJwwT3pKHkyIHzpNhROaUMrutso1sxo3dar?=
- =?us-ascii?Q?u4mz8lR5oKfHMmsEhwKlhNWCC1eT/NuHxXEIzBQsZP3WVDtVZSRtu2tbfqMI?=
- =?us-ascii?Q?jUfrI2ZFkNONzmjEzyNbdFRowM+1bk2DaoY3p21XlWzNs0YV9SvOWHdRbsWr?=
- =?us-ascii?Q?/hbKFDgbKXVqSYP53VNQNM9mqyw8fxhmh4J0pWGMsfdlT7JloBtgxLqxLx8t?=
- =?us-ascii?Q?r3LESEEu76/e1vJtbMfQt73AGqXwjJi5WIdh6EQ7xYIcEvbNSIdF8DPXgKmS?=
- =?us-ascii?Q?ztBdige1ViMu2Z6G4sz6lozWgnI6ZmgaYjd1aQy47/freimJQ5sMbXrelVKL?=
- =?us-ascii?Q?UXrbSZ1GmRRn+Hvvk3fa+KfsDBn2pIU7CPtO6WLckL6K/ITIVrFRu6GyGW0o?=
- =?us-ascii?Q?/IcL4qckK8q3pLQ0u8C7bsCHyfStnVVwsz8ubohRX7VnODX+lFFzO61wIt4j?=
- =?us-ascii?Q?4jg7QHQT2wn/z3vnA3I6qp7VlUmpYiEoqogMCVwumPfMHFnTLvkVmZqGmD3R?=
- =?us-ascii?Q?1Q=3D=3D?=
+	=?us-ascii?Q?cwCToU5Qlb8IOB+oY/JMsJgCxcs86oi3+OU5Ct0QnQJg7EJrP8pUSAOcB0n3?=
+ =?us-ascii?Q?A1QJsl6Bde3DE14bINPW+bpLCiefBr3rbxCJecloSu6R9m4p+OOlER032Eov?=
+ =?us-ascii?Q?RN5Gf6GI2HiXDakjbdG7pcP7ywSHN69Qm+bO6mhCa9fk8G+jrdvBZmUuepGr?=
+ =?us-ascii?Q?p6g37eMIPOLRtwQjC+sC9k0j1NVygOGSTUVeVpoksdtBq6bqhIJUyBFZFVGr?=
+ =?us-ascii?Q?amdb3SrFVCMe0l9cCIK5kFtMGSug9Cg3lm49pXzRbvZnQiG3R0HZ2BFrpJ1Z?=
+ =?us-ascii?Q?kasImQbdGEq+R/23F71p5HULYqEPLO7VeX9j6rwzEOelWPWKUoLhaMwXZcVe?=
+ =?us-ascii?Q?OD2r35VePKNsGoyItdMrNvXcjNC6joxD4O8PuM82XW2isJvqtYuNAe3aZoKq?=
+ =?us-ascii?Q?jVrDZ+k82X/BQxwvL3nEw1NqpENgiFT+FeRU1kjvIGlTWGASwKFG9tRLo4AI?=
+ =?us-ascii?Q?eZz4FIHY2APf+KRhUV6pUev9n7M9rDgGnHJRHPuMTDjcqfM9TXdPGXF6Jz7Y?=
+ =?us-ascii?Q?hxoSpjN3v55XsxajozckzJ0APil3kNHpmbifblImHY/qlIquAyhV1lC9csFA?=
+ =?us-ascii?Q?OIYzIc5dxkIUWEq63+7c3G/LwzoX0mhF6rQT912wkrJS26ZFd2Pl0mcklSrD?=
+ =?us-ascii?Q?JR9FLNuRZZu7ARdwpK5Jelg3noxO4BdvpYyZd0VqNJn6tb18WZj3J3pwcyAB?=
+ =?us-ascii?Q?XJ2oDV01qwTV1nNE8tT5pdlplWeWCftkIJIT06pFjfjcS3cyhA3gUyrgtCRm?=
+ =?us-ascii?Q?9kKcYfH2wN33CwFT7Q7qfH7CJ5MAIbpj+uWrY2SO4nyYKAuAmwxrM09Ys+Dw?=
+ =?us-ascii?Q?9T8dUY7BIYWzDo5L7l/TTj0AQyYId1U5BuniX4OX8mbZdkbkkEYZJ5zTHGxd?=
+ =?us-ascii?Q?7YXyUZc41oZ4o3/OrG7LeaRL+qQ3pkDAw7Zj4+Xq+yWaXAECuYZs0qunVh8m?=
+ =?us-ascii?Q?Ch8WH13rYEVpHb084KUU1S84KdHXf16S2t41pevw5MOR9aVEXxotg0Lv70P6?=
+ =?us-ascii?Q?j8vf5aRfvEdHeS0IAHiznlwyVyX3FTcFsnD4idprOwzkyRQnNus0ypn1xtXD?=
+ =?us-ascii?Q?YT0P+So3JbEPelUWgpGXwp+9iualYxq3a4ijs03XXDqLIt/SRrwd9krnNCIv?=
+ =?us-ascii?Q?1bqzvivCumhkxQXab1a8yTmAaYz2ZS19tR2gKxed+2oALQPB4IYGvuViv1vP?=
+ =?us-ascii?Q?O8xAsOO5ht+kd1Pb9TsopKcJ9i4B1xyt4Po+nKYnr4QWWT+mn4wwlY/0S2YB?=
+ =?us-ascii?Q?9uFNX6g2YyaW75cTyktD8sjG5tVU4P7KpWj476cQBJsEfjScahEGkdp0+5rJ?=
+ =?us-ascii?Q?WNLR3pJQasJsSSssZlgNmfpRTFI+JMAqR1WRWFguZOD7Vj2bLnpUlmqiS+CE?=
+ =?us-ascii?Q?Ak7fhiGYAQi58L8D8L2vQMdOSn3SbDvMXY2LxC3HzOao+Nst/VYNBFVElwCi?=
+ =?us-ascii?Q?ZEUnr8ei/HDeKG6oxIIqpMnMqzdqjLtJAQdMZmMGjIQe+SrBfokobi7fdCHP?=
+ =?us-ascii?Q?OtuNBQAwWxYib2n2Gcqa3yHn4MT5ESD+s+Qc7kywCOOFgyzBGnjtmcovgwyv?=
+ =?us-ascii?Q?GTwh2wpj+071fcfGRVxSL7ZPFU5Dgrc2U0S+4/mtvlBVNnRXRJcymPyl7INo?=
+ =?us-ascii?Q?Ig=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	hA2jsjME76NA+W0Sbqp2+MB7MWsn2VXlkSwj6tHs9aAm9NSTCoQ700aaxebyA+e61oyUUuVPmw7FspYjrkLzkgOITzq/jb87ezgrp0OD9o52LbokIg2u5N4FyCF6y+XnoRE+Q6E9pbIH3Nwk8AW/IKiLAFNctxYIABi3bjrtc8HXlvUihQ7/DXtzzLNiIEA0BmrACSuQRvl2FeWJAcG/mX2b6P2wq5ckweYpYXcuo9gFBe2RErk2jdLWedeEe6h3GEJ8vY+kKI0kgD+kMwnEjk1MHn+UjiXadwsbA1TgfLin1HBj61g/gVxdLHkoryfYB0U/8gGxd522EkguK5qKQLAKTJKa5LEYA/d7DtiIYgaeuumWMI87difGC4TUJQrN00B/Iv3xIhxOj6/E1WQK8bt8x+4ZGLgTNhTk3xUwr8TNgNnJ/2Uoh2AxIPjRRQqmViwC8n+auKm/gAwGupUSmmCeVtc8kqLkWyZTz2IzsdIV+3YYdZHrmXO4Pg+muKcIXthOYm9r8/87WruBz1qd9DKCkI02+KSEHLfw5HMP1iiZ505aHtA4EreUt1oaocNtYaFOGykbTbGhI9xgq+LQTemVKno4pAVkNQf9XmlpIxE=
+	aToarxU9EfmYXwGrYe4ecUC42+GlNz6+QrtzvlXGiRUdFFeIoZ7DzoaW/D5apD0py4Afj5CtqVWEQT5zF+TUIDwDxoF7NSLeP9In/bJ2jiXT9KYUtnpdzDky8LYFcGGxxDD+ANAbV7OG1CCcAmhNNAA2i42D/VJeNzOnKUjFICVFGr5Clr8/cCBPFm7vyAJF7b9Lmz3QCpNYLXt8u4CrX1Gm9uNb1rP54VlvsxAg8FLdTnLHGu9GO+Ca3X02EPdhyewg6yGRI3bqpCLVcBaVmN6rtASG1Fc4BwC5xXfUR9AE0g4QcU2XGRavs0aO6cgLvwi/9k1UEGDK3ovIcQwBOP5bIdCZzUib6HnLlu5jjHMeMY0wwanmXooohjougooFXTMPLlj4jnzFyR+c1x2OUnNC93oV5Q48HA++si4JDSwjali6Y6XmtlNhJgjmorDEjFz3WqYjUkFGfy6CYC5YeKcjNhcUnpnnniNvS9Bp69Br/kJMZXiooYABEZQDtx5ZYOgS3ktPChx0TJaFL6VV4PBbPJ3N1yu1rDYIOcuhdwx1N6+alquXoGFE9JAYWYjCd0einpo6AI+BvkQo4tJlsmv1gIMN/usk3HxtO8WbGPE=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d3eb349-a663-4387-a2ec-08dcd46860fa
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6bcdc585-99f9-439f-f58f-08dcd46918cb
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR10MB6287.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2024 02:53:14.9665
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2024 02:58:23.3179
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pRwirEq9rPuoTBzZ0i4EhKtcM4hvxj6/2t4nxXci6z57lgCFsdBPFJKCo3ZiQSV5jcGlWzvU0WwOT99Xeb94QcoK1Guf4tsES3SCbS7f6QU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR10MB7923
+X-MS-Exchange-CrossTenant-UserPrincipalName: W0wC0T6VF53q7inpKsg5qD5+8xuMOhz+5a3S3MyLuqqpdSuNKS5zRbiU9v3orc2P+zwbsZA/L38gL+yZ/Fch5dUCHTI4ZQtbMAJv5XKxiV0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB6341
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-14_01,2024-09-13_02,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 bulkscore=0
- mlxlogscore=999 spamscore=0 phishscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2408220000
- definitions=main-2409140020
-X-Proofpoint-ORIG-GUID: Ina8Oz6kwabF8W04roskAoQ1uPxIyUl0
-X-Proofpoint-GUID: Ina8Oz6kwabF8W04roskAoQ1uPxIyUl0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ suspectscore=0 malwarescore=0 phishscore=0 bulkscore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2408220000 definitions=main-2409140020
+X-Proofpoint-ORIG-GUID: bLgIlTeULcCr-DbqdtGHwOgPwXxPsjGu
+X-Proofpoint-GUID: bLgIlTeULcCr-DbqdtGHwOgPwXxPsjGu
 
-I don't thibk this is the right solution.  There are other values that are
-resolved as a relocation in dt_link_construct() and that could be found in
-an ERROR clause and thus get resolved before the correct value is known.
+When we call dtrace_go(), we do something like this:
 
-Instead, I think we need to simply move the construction of the dt_error
-program into dt_bpf_load_progs().  I should have done that when I split
-up program construction and loading into two distinct phases.
+    dt_bpf_make_progs()
+        dt_program_construct()        // just for ERROR
+            dt_link()
+                dt_link_construct()
+    dt_bpf_gmap_create()
+    dt_bpf_load_progs()               // other
+            dt_link()
+                dt_link_construct()
 
-I'll post an alternative patch in a moment...
+In dt_link_construct() we dive down and find dt_get_bvar().  One of the
+relocations is to supply the value of STBSZ.  The first dt_link() is for
+ERROR, while the subsequent calls in dt_bpf_load_progs() are for other
+clauses -- that is, two separate versions of dt_get_bvar() are used.
+Meanwhile, the value of STBSZ is not set until dt_bpf_gmap_create().
+This means that the ERROR copy of dt_get_bvar() does not have STBSZ set
+properly. This means that if ERROR accesses probeprov or probename,
+dt_get_bvar() returns the beginning of the string table, which is a NUL
+terminator.  Some other relocation values have similar issues.
 
-On Fri, Sep 13, 2024 at 07:36:04PM -0400, eugene.loh--- via DTrace-devel wrote:
-> From: Eugene Loh <eugene.loh@oracle.com>
-> 
-> When we call dtrace_go(), we do something like this:
-> 
->     dt_bpf_make_progs()
->         dt_program_construct()        // just for ERROR
->             dt_link()
->                 dt_link_construct()
->     dt_bpf_gmap_create()
->     dt_bpf_load_progs()               // other
->             dt_link()
->                 dt_link_construct()
-> 
-> In dt_link_construct() we dive down and find dt_get_bvar().  One of the
-> relocations is to supply the value of STBSZ.  The first dt_link() is for
-> ERROR, while the subsequent calls in dt_bpf_load_progs() are for other
-> clauses -- that is, two separate versions of dt_get_bvar() are used.
-> Meanwhile, the value of STBSZ is not set until dt_bpf_gmap_create().
-> This means that the ERROR copy of dt_get_bvar() does not have STBSZ set
-> properly. This means that if ERROR accesses probeprov or probename,
-> dt_get_bvar() returns the beginning of the string table, which is a NUL
-> terminator.
-> 
-> Change dt_bpf_reloc_prog() -- which performs relocation processing for
-> BPF maps, necessarily after dt_bpf_gmap_create()! -- to check STBSZ
-> and set its value if necessary.
-> 
-> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-> ---
->  libdtrace/dt_bpf.c                          | 17 +++++++++++
->  test/unittest/builtinvar/tst.probe_dtrace.d | 34 +++++++++++++++++++++
->  test/unittest/builtinvar/tst.probe_dtrace.r |  6 ++++
->  3 files changed, 57 insertions(+)
->  create mode 100644 test/unittest/builtinvar/tst.probe_dtrace.d
->  create mode 100644 test/unittest/builtinvar/tst.probe_dtrace.r
-> 
-> diff --git a/libdtrace/dt_bpf.c b/libdtrace/dt_bpf.c
-> index 0df1a9b9b..5cce747fe 100644
-> --- a/libdtrace/dt_bpf.c
-> +++ b/libdtrace/dt_bpf.c
-> @@ -1124,6 +1124,23 @@ dt_bpf_reloc_prog(dtrace_hdl_t *dtp, const dtrace_difo_t *dp)
->  				text[ioff + 1].imm = 0;
->  			} else if (rp->dofr_type == R_BPF_64_32)
->  				text[ioff].imm = val;
-> +		} else if (idp->di_kind == DT_IDENT_SCALAR &&
-> +			   idp->di_id == DT_CONST_STBSZ) {
-> +			/*
-> +			 * There is one other case.  Although STBSZ is not a map
-> +			 * pointer, the string table size is set when the BPF maps
-> +			 * are created.  So we may have to set its value here.
-> +			 */
-> +			assert(strcmp(name, "STBSZ") == 0);  // FIXME:  extra check for development
-> +
-> +			/*
-> +			 * Worry only about the cases that have not yet
-> +			 * been handled.
-> +			 */
-> +			if (rp->dofr_type != R_BPF_64_64 && rp->dofr_data == 0) {
-> +				text[ioff].imm = dtp->dt_strmax;
-> +				text[ioff + 1].imm = 0;
-> +			}
->  		}
->  	}
->  }
-> diff --git a/test/unittest/builtinvar/tst.probe_dtrace.d b/test/unittest/builtinvar/tst.probe_dtrace.d
-> new file mode 100644
-> index 000000000..d08067ad0
-> --- /dev/null
-> +++ b/test/unittest/builtinvar/tst.probe_dtrace.d
-> @@ -0,0 +1,34 @@
-> +/*
-> + * Oracle Linux DTrace.
-> + * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-> + * Licensed under the Universal Permissive License v 1.0 as shown at
-> + * http://oss.oracle.com/licenses/upl.
-> + */
-> +
-> +/*
-> + * ASSERTION:
-> + * Built-in variables listing provider, module, function, and name
-> + * are correct from dtrace-provider probes.
-> + *
-> + * SECTION: Variables/Built-in Variables
-> + */
-> +
-> +#pragma D option quiet
-> +
-> +/* Check build-in variables from the dtrace-provider probes. */
-> +BEGIN,ERROR,END
-> +{
-> +	printf("%s:%s:%s:%s\n", probeprov, probemod, probefunc, probename);
-> +}
-> +
-> +/* Cause the ERROR probe to fire. */
-> +BEGIN
-> +{
-> +	*((int*)0);
-> +}
-> +
-> +/* Cause the END probe to fire. */
-> +BEGIN,ERROR
-> +{
-> +	exit(0);
-> +}
-> diff --git a/test/unittest/builtinvar/tst.probe_dtrace.r b/test/unittest/builtinvar/tst.probe_dtrace.r
-> new file mode 100644
-> index 000000000..e6cccc88d
-> --- /dev/null
-> +++ b/test/unittest/builtinvar/tst.probe_dtrace.r
-> @@ -0,0 +1,6 @@
-> +dtrace:::BEGIN
-> +dtrace:::ERROR
-> +dtrace:::END
-> +
-> +-- @@stderr --
-> +dtrace: error in dt_clause_3 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-> -- 
-> 2.43.5
-> 
-> 
-> _______________________________________________
-> DTrace-devel mailing list
-> DTrace-devel@oss.oracle.com
-> https://oss.oracle.com/mailman/listinfo/dtrace-devel
+Move the ERROR program construction to dt_bpf_load_progs().
+
+Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
+---
+ libdtrace/dt_bpf.c                          | 40 +++++++++++----------
+ test/unittest/builtinvar/tst.probe_dtrace.d | 34 ++++++++++++++++++
+ test/unittest/builtinvar/tst.probe_dtrace.r |  6 ++++
+ 3 files changed, 61 insertions(+), 19 deletions(-)
+ create mode 100644 test/unittest/builtinvar/tst.probe_dtrace.d
+ create mode 100644 test/unittest/builtinvar/tst.probe_dtrace.r
+
+diff --git a/libdtrace/dt_bpf.c b/libdtrace/dt_bpf.c
+index 70597d65..df427c86 100644
+--- a/libdtrace/dt_bpf.c
++++ b/libdtrace/dt_bpf.c
+@@ -1212,30 +1212,14 @@ int
+ dt_bpf_make_progs(dtrace_hdl_t *dtp, uint_t cflags)
+ {
+ 	dt_probe_t	*prp;
+-	dtrace_difo_t	*dp;
+-	dt_ident_t	*idp = dt_dlib_get_func(dtp, "dt_error");
+-
+-	assert(idp != NULL);
+-
+-	/*
+-	 * First construct the ERROR probe program (to be included in probe
+-	 * programs that may trigger a fault).
+-	 *
+-	 * After constructing the program, we need to patch up any calls to
+-	 * dt_error because DTrace cannot handle faults in ERROR itself.
+-	 */
+-	dp = dt_program_construct(dtp, dtp->dt_error, cflags, idp);
+-	if (dp == NULL)
+-		return -1;
+-
+-	idp->di_flags |= DT_IDFLG_CGREG;	/* mark it as inline-ready */
+-	dt_bpf_reloc_error_prog(dtp, dp);
+ 
+ 	/*
+ 	 * Now construct all the other programs.
+ 	 */
+ 	for (prp = dt_list_next(&dtp->dt_enablings); prp != NULL;
+ 	     prp = dt_list_next(prp)) {
++		dtrace_difo_t	*dp;
++
+ 		/* Already done. */
+ 		if (prp == dtp->dt_error)
+ 			continue;
+@@ -1263,7 +1247,25 @@ int
+ dt_bpf_load_progs(dtrace_hdl_t *dtp, uint_t cflags)
+ {
+ 	dt_probe_t	*prp;
++	dtrace_difo_t	*dp;
+ 	dtrace_optval_t	dest_ok = DTRACEOPT_UNSET;
++	dt_ident_t	*idp = dt_dlib_get_func(dtp, "dt_error");
++
++	assert(idp != NULL);
++
++	/*
++	 * First construct the ERROR probe program (to be linked in probe
++	 * programs that may trigger a fault).
++	 *
++	 * After constructing the program, we need to patch up any calls to
++	 * dt_error because DTrace cannot handle faults in ERROR itself (yet).
++	 */
++	dp = dt_program_construct(dtp, dtp->dt_error, cflags, idp);
++	if (dp == NULL)
++		return -1;
++
++	idp->di_flags |= DT_IDFLG_CGREG;	/* mark it as inline-ready */
++	dt_bpf_reloc_error_prog(dtp, dp);
+ 
+ 	/*
+ 	 * Determine whether we can allow destructive actions.
+@@ -1272,10 +1274,10 @@ dt_bpf_load_progs(dtrace_hdl_t *dtp, uint_t cflags)
+ 
+ 	for (prp = dt_list_next(&dtp->dt_enablings); prp != NULL;
+ 	     prp = dt_list_next(prp)) {
+-		dtrace_difo_t	*dp = prp->difo;
+ 		int		fd;
+ 		int		rc = -1;
+ 
++		dp = prp->difo;
+ 		if (dp == NULL)
+ 			continue;
+ 
+diff --git a/test/unittest/builtinvar/tst.probe_dtrace.d b/test/unittest/builtinvar/tst.probe_dtrace.d
+new file mode 100644
+index 00000000..d08067ad
+--- /dev/null
++++ b/test/unittest/builtinvar/tst.probe_dtrace.d
+@@ -0,0 +1,34 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION:
++ * Built-in variables listing provider, module, function, and name
++ * are correct from dtrace-provider probes.
++ *
++ * SECTION: Variables/Built-in Variables
++ */
++
++#pragma D option quiet
++
++/* Check build-in variables from the dtrace-provider probes. */
++BEGIN,ERROR,END
++{
++	printf("%s:%s:%s:%s\n", probeprov, probemod, probefunc, probename);
++}
++
++/* Cause the ERROR probe to fire. */
++BEGIN
++{
++	*((int*)0);
++}
++
++/* Cause the END probe to fire. */
++BEGIN,ERROR
++{
++	exit(0);
++}
+diff --git a/test/unittest/builtinvar/tst.probe_dtrace.r b/test/unittest/builtinvar/tst.probe_dtrace.r
+new file mode 100644
+index 00000000..e6cccc88
+--- /dev/null
++++ b/test/unittest/builtinvar/tst.probe_dtrace.r
+@@ -0,0 +1,6 @@
++dtrace:::BEGIN
++dtrace:::ERROR
++dtrace:::END
++
++-- @@stderr --
++dtrace: error in dt_clause_3 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
+-- 
+2.45.2
+
