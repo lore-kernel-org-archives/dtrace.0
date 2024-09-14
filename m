@@ -1,83 +1,83 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2341D25570
-	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 18:01:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2545C208DA
+	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 18:08:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726336872; cv=fail; b=lJAXDLTTxz9OkTNqDKFxUIQKlcFjkP/9WJxwnpUYQ23DsSv/1SpnC9z+xR/R11BmsuQv8o4Vu0vT3y4nHc3eiGy9CwoYAFixL+yjLWvyLWypywE/+Gs9Z4woujW6FgAPJCOr4uo6rTK3xDv+8tpruJfol2KGEtzNxaXOTOin0so=
+	t=1726337288; cv=fail; b=HvFHzLVtAfkla2+l9SDI0PD/7DqoxUL5h0/duauttY9hLqwD6IoJAaDIrPfkzN767d/CsQs1TlBbzMj4oBZPqSygfQJYBW/1R7djTODkAt76l5zkH7GW6JgwjSo7kxsH+Ep2FnYr++2MvxiktdouzTtKt+ZM27lkcwUQwQUi1uU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726336872; c=relaxed/simple;
-	bh=HM9aJxyA2guBOaTvU8ur26+v7WFkfMWB9VX1V2gSPXs=;
+	s=arc-20240116; t=1726337288; c=relaxed/simple;
+	bh=3LuVT8yDjv8WXdA65LRf9qa+zBBjYt7I3fbeVSCnMWE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ofpwni0i9q51Wy9Q3k+Vj0oYXoKv1tAOFlzMTKMeh3KsTL24CRlfa2DwYQgoetF2ZsvokAny44HRxvI+QEBLoJKIid6ezchCmmvAyuoM+g3Av9jbYMaFSJTwBqWrgaJFmH5EoLn+s5CScGjHHRcYD+PbTsih6525fu4AYKTbwYU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ZNiyT+VQ; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=QK3x/Oze; arc=fail smtp.client-ip=205.220.165.32
+	 Content-Disposition:In-Reply-To:MIME-Version; b=W8g67qBEteDPkRVDKtpMmYtZ+4+bOn6qNbPqbK7vMZUtC+4tRdqHBXMHqZ/TegyZhFrmYDK1daalNl0kd9xWZ8rEtO3EMugNIj+dDCGmA0/NADaJ+TtDQ4p+xJxCkdZjDpsRh6JWjQaC0ahDfjTSNdGImOZjnjjmI3RN8ZYF9DA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=OSuv2Cmn; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=h0vME9uD; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZNiyT+VQ";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="QK3x/Oze"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48EABbNe002134
-	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 18:01:08 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="OSuv2Cmn";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="h0vME9uD"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48EFmtrN011301
+	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 18:08:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	date:from:to:cc:subject:message-id:references:content-type
-	:in-reply-to:mime-version; s=corp-2023-11-20; bh=rNeIzvvcJIg0dPc
-	LNegyKRSpcnJh6MUc22ky/Yps2fY=; b=ZNiyT+VQaGE4lztJO11TesVSs7ZtwIv
-	C5JfVRG//uU9x2cswBtWR3UexrKWqjTsHhZxNMDwdIlLhn5xcgTaGe1p1G4TE42M
-	+INryMOF1aIxCTIYaVZFK7JsZOC9mOHWvGF6xb70dxE86b0W4Ik6ERoXvshPyBP9
-	gn7T+Bu0Tj3DNrtDh+rrSEVgIMKH4eVsW4HhOcH11ygdDr3woy5S9npr9Jx0AH+Q
-	exDoEaF9eIZ423flFDL+RgnTrSmwHBrDoK+bpJwq3/WdfLpOh/n3B1DKwks6h2L3
-	sjzxbI71bouhEvwG1JW+MJklPrHPWomFZOh4qpQ5PoHlJCercnDfZxQ==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41n3scrnfd-1
+	:in-reply-to:mime-version; s=corp-2023-11-20; bh=dspKZ7qq6E+5xuj
+	iln/m9/Rs2XlamqQNxwPbN+FJUZ8=; b=OSuv2CmnPu8cpgjr47vMXjtjh2QVpM1
+	hpSV72HsAFH/fTGWZqb2tnbGmWxK/7lDN1tKHRrP3Pcvy5KA8qVuWZaEuW7ntHyt
+	vwthk4UBeaoJ//4yezLaPMzA1uJ14VRtM7F42KXHJxhuGM5/Q9M+z22cLxtbLR8v
+	+2KFpYGstYoT4UIBh1NpbyFrkIKLbCSfpt5oAEE86U81nwWGfDjov4I93VSdK4RM
+	IsKwbksRF+HBci7zpyegOZzopHhU41j1WsPh/A/zNvxMc90T6aNjurBqmiTMrzuv
+	+lE9paGqkVGhhcFb+X5tj1b1+6BGXUSrAPJ8bL4Rb+CU1zk4c7CE7Vg==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41n3ns8njp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 18:01:07 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 48EEAFJi000812
-	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 18:01:06 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2042.outbound.protection.outlook.com [104.47.55.42])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 41n0x6pfq8-2
+	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 18:08:05 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 48EF6gbd019192
+	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 18:08:04 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 41n0x6dvv6-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 18:01:06 +0000
+	for <dtrace@lists.linux.dev>; Sat, 14 Sep 2024 18:08:04 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qw39Vp/u+Al27JeOUHtf/o9oYoVL5bsKu4yL45JRYuEEjURdP8DJ2W7AZYd3HUYWM1C/tfApvaF6vQ4CEovxL699ArjtOPeDQyi9Vvao9ec+dGnko+vijGoI0nukzbItQNHyu88l4krB6jJiWuDvYCNaf/PR827NtypEqUiUSXFAMJvz7QRQAogCxWCOIwpNeCuyY0+mpuPGf4Pr1NsjZuvaafcsLE3oBJmNfXZOF2kFGWjquK3Vxvs5rMnV3C36nLbZFVh7PEzljsy8lkPWZzlDH0/xl6Ikn2Fm3seSZ8wdQIRnuYPW0tI+bqd1h93sFV2TuVUTECR1kVCHtYCe0Q==
+ b=qdeNnBOZ7N8E/ysZOHTMujYDAaa0lzDnRItOjylxHFC9BSlbjJ577Gm5W1zptSd6NzdhyD488aHGMm+BwzVlYfwuJumaJX0hAx6aInnkP0cYxQFZZqb4OR/H6xyya0PMSFq+y91pfN/J/HyX01uC/WGQsN0xIISuNKDPq196wq38uGFFHzAUgT/6cdDh/ttviOTWSJtJY+eOBagvKy4bySaKDsqqIRVlZ+VYH9NcftFqAO7OvItnYgq5GaXA1MGeCW+cGNnuuKygn2gSBdFWRcir/WDgw9kDe61kENOTsoz6cu1ziwEQX41GegyRP+0wSrDFFPrCK1+aPaXP4ey9Wg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rNeIzvvcJIg0dPcLNegyKRSpcnJh6MUc22ky/Yps2fY=;
- b=VfeWA/MN5iFTE/ym2WDT1PEuU7AiVEDW5HUjIsirxO8/Ap0NN6x9PjCHOqA11m8/L1VDJEPC/dRYF2yP1Xo+3+YncTsSTRKkD/1oYG29ZA5L0EYGNlwC2Kj6vPPCSvs8vrDdpcALgBiKulzA0H1iV6WNj28/W3lKNgiA9HYJyEL1yONcRJ4rye6rlM1o0CrOL56zwlTQVIWvx8sE6pFfrbrTsIdpp25YyVPTcrmbEqOPSH1WIRrUfntAL8uVu25Kloi4LGxWbOQoJc7jZRbNJOnwN9ikh/OQxGsR50p5UL/FGlYbe7M0LI8uVlzaNjWjSvPpaefiAzM3NGS5Ma6woQ==
+ bh=dspKZ7qq6E+5xujiln/m9/Rs2XlamqQNxwPbN+FJUZ8=;
+ b=BJlFKoUnZXmWvO3s9z/TikQMi2rtWr3K1cmdNpqn/aXBJUNRJYLb6MdnxrHj0o8ZJ1LTvkR13UbkbI3lRWkDV9qy3YqYfqW/PY6C/JNf0mPy/UzzPbwMiKCywuAbfbhiaVqTFiak7hEoLiItLrJWEfZ+HNiiGJvO1+xndTjk4kisXJ3YYwfJAs+Tbbo/q4J9RpEVgSU0hkIepR7SdSL3a2m5WWNG6QlxrH0md01TBJRe3OFZF7A6PXlp4K8Qj0c/u87k1gB+mU2JrH7cOn2cVSkHn5VHrEBHJQlucW5w2P76zmnsDqmtxdPMGN20mLTNVH+EWd3ICK/silU4GiKMVw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rNeIzvvcJIg0dPcLNegyKRSpcnJh6MUc22ky/Yps2fY=;
- b=QK3x/OzexkOU6VOHf09c/caFWRFf5rL0ugIWNRgvxS5Bhc5O/GscZ2+kJhGIhTbHw+vfcxgFn8SY8u0eacVI+O3iXP5ZPAG0KcKhpEWwgml939B3stOI8r80o/ZkQajGKs7oerS6TwIEmLPo+4nS1m9XOPbvf/I3ZUOPJKwUgPQ=
+ bh=dspKZ7qq6E+5xujiln/m9/Rs2XlamqQNxwPbN+FJUZ8=;
+ b=h0vME9uDbGFCXwfXXbfbbD0k3L8VXB2DKb9Kk2Q32LOdxe1oTsP3GZrQey82CFxYSEZiucgUFDZUK+Z/WJhrq7ZK20gpeU7ISBq+8m9JU1qTvA2p+vmVMOHO5/OgycZA6u910aQ5mwR5L+mtI7xCbRgKp191x6gwy+Tax7W0Nqs=
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
- by SJ0PR10MB4733.namprd10.prod.outlook.com (2603:10b6:a03:2ae::12) with
+ by CY5PR10MB6216.namprd10.prod.outlook.com (2603:10b6:930:43::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.11; Sat, 14 Sep
- 2024 18:01:04 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.14; Sat, 14 Sep
+ 2024 18:08:02 +0000
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29]) by SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29%6]) with mapi id 15.20.7982.011; Sat, 14 Sep 2024
- 18:01:04 +0000
-Date: Sat, 14 Sep 2024 14:00:59 -0400
+ 18:08:01 +0000
+Date: Sat, 14 Sep 2024 14:07:59 -0400
 From: Kris Van Hees <kris.van.hees@oracle.com>
 To: eugene.loh@oracle.com
 Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH 16/22] test: Fix the speculative tests that checked
- bufsize
-Message-ID: <ZuXPW/seDQJv2dt4@oracle.com>
+Subject: Re: [PATCH 17/22] test: Tweak spec sizes to bracket size jumps more
+ narrowly
+Message-ID: <ZuXQ/4CMmzk0nUmo@oracle.com>
 References: <20240829052219.3234-1-eugene.loh@oracle.com>
- <20240829052219.3234-16-eugene.loh@oracle.com>
-Content-Type: text/plain; charset=us-ascii
+ <20240829052219.3234-17-eugene.loh@oracle.com>
+Content-Type: multipart/mixed; boundary="aptZCZwHk8iUOI4Z"
 Content-Disposition: inline
-In-Reply-To: <20240829052219.3234-16-eugene.loh@oracle.com>
-X-ClientProxiedBy: LO4P265CA0091.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2bc::8) To SN7PR10MB6287.namprd10.prod.outlook.com
+In-Reply-To: <20240829052219.3234-17-eugene.loh@oracle.com>
+X-ClientProxiedBy: BN9P220CA0016.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:408:13e::21) To SN7PR10MB6287.namprd10.prod.outlook.com
  (2603:10b6:806:26d::14)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -86,399 +86,278 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|SJ0PR10MB4733:EE_
-X-MS-Office365-Filtering-Correlation-Id: a7819ca9-2d85-43fd-f7d0-08dcd4e7330f
+X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|CY5PR10MB6216:EE_
+X-MS-Office365-Filtering-Correlation-Id: 788c8d61-b1b7-48c4-7554-08dcd4e82c1f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?BLh+aic4epsYUlocfotNPLhW/FL5ALhlSVpLfMGu+zDzWHV7BvQXmqNVSWoy?=
- =?us-ascii?Q?QKCJ7qbJ7uwOPWgcleZwDDF2xZWsxFE2F+tNSsm+x2QNq/dnMfWqLK/z15T1?=
- =?us-ascii?Q?79LBEUBa6o7vQ7TPu3vxYnOErP1WPnG4f2ErmE36N200ylNygeTOoOY92HwU?=
- =?us-ascii?Q?UPuLYxM6W64RKXz3PRqCtY2bTgbHnx7uf7nhY3ECemDoBi7cCQFzSR/t/kQH?=
- =?us-ascii?Q?O3xtfedNl1XJgH+48eTxqnzMXqUW+lErd7kB9z03IgvUs2gKctshjGPrPOY2?=
- =?us-ascii?Q?PuEZsDLb1gtnpi99w3tA2mQIqJfNpK1OQGWdy3UteUMt4zMQNOpxabySwxFG?=
- =?us-ascii?Q?6QNL0KOE2vQ5KXDLL6//StvPLlQrtwFf3s4xXTmuorGk5FBVmx5ky0yRm7uZ?=
- =?us-ascii?Q?KFvHJ7JQtDE4nA3dqH9bwoyMbCvRYFTbpzQKeDtWgf9TXsrWqwbBspxvVuLO?=
- =?us-ascii?Q?/WtHLUNj109Dv/mHM8jrtCyX3F+RkR+gt5h8bdzJn2m0jRVymL6hTAVSiODb?=
- =?us-ascii?Q?iznd7IsVKFFsNLK4BMmDA6jE42oTeySCLeLGfz/9YphtU0Z1PSFznJiZe052?=
- =?us-ascii?Q?Ax+aKqUFFUNxphihcw70RvGkT9cyvS0J1x/K+hmcOjHiOqbZWOBPeTRWNf86?=
- =?us-ascii?Q?wBTzV30uIHJnnXuwg0OomI62AHDW9iNbW/EFHtk0oBZdTedbdkibSTAY8eRs?=
- =?us-ascii?Q?kLYmRpZ9Gz/jtPylWF7beVZYZP9CgfbJOR5ZwHpA54G92AFU5KAiOC+oT98t?=
- =?us-ascii?Q?e/ynhKya1UEw8q2z1OI7BM016c2A4eX3dkzOxOlO5NMzKZ4SEa8ib1hGA3z6?=
- =?us-ascii?Q?KSYpP0lMSSMCikb+BaWXE+dUQqpE2rIy1YulAG7ux3zpS3rW2J4jWxnNUL5V?=
- =?us-ascii?Q?zLggr5Kfv6Pek0ugVRTbaaJnGe54GlWHVzykwsPjMx+ysEocQk12U0ZgQ4QF?=
- =?us-ascii?Q?0m8SPG4krpaMPlU+6NC5clfnbGmzETR2+AysGCrJSZpJjAa8bT3O8mq42M4L?=
- =?us-ascii?Q?ypfxgebsRsGXz3XyMxybasxZZOILe3SbxyRI2uTZxpms6lE73mpXp6L7ssUD?=
- =?us-ascii?Q?ryz/K49gkUUMtMeUM29Vhl63SSO9w3PltvUpbOZVNZdmSUPnypCQscp4OOPZ?=
- =?us-ascii?Q?bd18ZMVyP8itntzzR5L/2GXKAcMyram8roknRSiYGYLsPi2X6rLQ0spjH7ev?=
- =?us-ascii?Q?CioTXTqwI+1do4pcjzTqvLAiO8nOrxTsyi8NX4TRBbH3eN5Cyl0WCBoXhp81?=
- =?us-ascii?Q?4cA3aoeeQFO616keRyFSOym7ovflYzpviGZHRlAxlJFX03oNVeYIU1vaPMtk?=
- =?us-ascii?Q?lq+dzfJ3i97nXT/4ogUgmjntcJyaWVHTqUxKDp2sKKlWTTDSPQxMx5kwLCdm?=
- =?us-ascii?Q?mL2KxXw=3D?=
+	=?us-ascii?Q?dJN5gro2d978SJ4AFC/NeQV8rHL/w1DsWIvs/gvZivkI3s+Q9CEDJmsPQQAA?=
+ =?us-ascii?Q?cBCwBiW+j4nlGY0+mZIFdtQyJaCMtDS1DNZFe8/d8ptZXf4X8ggUlPhviwPb?=
+ =?us-ascii?Q?BnPIHwj+zRYkRRMUI2q8/Mse6OpDbyFtrKjF1B1lY1zNgGB57/vInxPWGbD6?=
+ =?us-ascii?Q?/h9wcjoMomQx4t1e9r9uE1FOZGnxL5M68pSN0f9IzHq0hoazjV5m74IcdNAe?=
+ =?us-ascii?Q?y10Tqfvt8IrzVQhM5kP/jkJA2YQnv0p94xwuod42lwG62n5/7JP/CBpkZQOt?=
+ =?us-ascii?Q?tyxCX3SVjGLv3yma+SmjisEbrbDn7WJZzYakp0wBNgxXXUSsDpubw5YpmG2v?=
+ =?us-ascii?Q?2Uv73V4XHa5/4e07DXPJFlNiXUkE57nKm6SllcxGnjDl6C5N1KyRXbzmiwBo?=
+ =?us-ascii?Q?ai8MuwV/6cXAoCOikIIwUGFD7JZ8pb99Ms+bs7TUWO2pyeI9NORVjSvycygC?=
+ =?us-ascii?Q?+AhYxRfMUfKtdRZ1UYQ1fD7ezvZElTNUr3mOxgC3SLUtJLph/QmadtH4X1EY?=
+ =?us-ascii?Q?gWe/kr2TodL9MOgywXAhPME7WuIL1bNTFrKNOpTBi8bIDW8hcdfT4lV5D3k5?=
+ =?us-ascii?Q?lhCqHL+aQpDOjbciyudIuu6aY/USA+IVuZbEIpZcHpYXrKwxCLZooruDEODw?=
+ =?us-ascii?Q?hyrrI7qcSW5tfIfZeLrZsdIAVEs90CJ+SCeX2E63mwNGSogge6gUEzmWwxQh?=
+ =?us-ascii?Q?YxyjlzKv4SR9VJVsizS7q6zp4odpik2eGvZ4RE5MikyK81QTAVVWDi4YWp/5?=
+ =?us-ascii?Q?nwvOp+KcfmghKJ9iBW4qorBPX2C/pcypPc46hAfq0KtMIOrv/hI/4t0hojwx?=
+ =?us-ascii?Q?A1lGQPToWzr0ai36+xIVjz2mYjuD5YjM3M02Aev1LYcS/j4eUIeqFqQUsB+Y?=
+ =?us-ascii?Q?6NkLQHw1SzvPi2UJRNuHnuLOivT9u3IsujLuHqGTrMP7poR65BVtgWsQnU+W?=
+ =?us-ascii?Q?/lztsCH3ejbPxV1lTXtnd/+nVlcTvlwUSilsOJstzAPLQcuVq1oax9b7ZsS3?=
+ =?us-ascii?Q?Au4EqCX7vviFWgRTyrEuhqkClnI878uW+KxgWVBIC5cYOwddHzR7hzEwxi7g?=
+ =?us-ascii?Q?e7m4SLRFEc0Wm0YyFpdpDNTEhiJYgMIGFhMcf+qDJeaHA1jEm2H9ZoUlC5MP?=
+ =?us-ascii?Q?UTJ22uk7lcAwUiAinXSOn3KdZrBMzv1qgk95K4TEhVTBWF1ddcQgBKE2DpoY?=
+ =?us-ascii?Q?rAW8xDFgUTsqEtF38oulNfPKwjjhquMNpwpq3lGt6oySmlIxN+eq5I7bOssZ?=
+ =?us-ascii?Q?MV0BEAoHO7JXgOpr7oPbhxTMekKw9rSK3IM626eAMv9CEr7Bt80CPEf8hNGf?=
+ =?us-ascii?Q?/a3q+vZ7SIhk5tRMjJDzQO4cTdABNar3aezpQWun0uVEpQ=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?148WwNDnV5/1LNqzEZHf8e5tHmpcQuVqodQk8+N//GTj1tP6OVvpqQhWL6Ma?=
- =?us-ascii?Q?5tX8eG6GaP6AERIcv8tXg3nqSyedIXfaeY8yMSlqeReRtMTabkgnkmUiFcAj?=
- =?us-ascii?Q?RkWvR7lKkfevSMitACscG7+5Nlr/ouijWaqPMvw4CFIS+HbcQebw6Eqfy4xl?=
- =?us-ascii?Q?I9/A2X2xWSnB1To4bQ2bgh1KnTB+w2b5cn10JbacXBMdbLA6kTgtGHdergNi?=
- =?us-ascii?Q?Q57fgiUUx41jfiXL+5PFXyc8RhggqOVmIli6p9Zmr2AMfDNTdwEjZwH15RSL?=
- =?us-ascii?Q?dmmGYpqESlCxcp/TW8sO0NCU5He02C69AMsFrLWz0KNCwQbCaC24K4C5cmvZ?=
- =?us-ascii?Q?jt0AoTvvlztajst4KOEiujIXZJvNl/rNoIFeyXP6N9BbKv8ftgEeIGUH1Gr7?=
- =?us-ascii?Q?2TaF7H88Lo/D002Zw9EQ0EnzaLejTy24Q7Rb9dExFtpjhBVXpjjydgP/7k14?=
- =?us-ascii?Q?AIalSdxVKIDRlffFcMBJvfTu+m8Rk7IUP/Ll5QgmCusxyB2R+McR5dPBeo3E?=
- =?us-ascii?Q?QOEhnjg0RjNqetLkEMhsLPkzg7lyGjmXZejJQyIICeRCnMEwEtNssbbuiZou?=
- =?us-ascii?Q?AF5AruIy+TQM0/2rx8oLwFyKoewbTZbniP44x6erkGk1yamPD7bzvBKSWJ0F?=
- =?us-ascii?Q?lsNbaeIY8rALDkkCrPiReh4ScsNv2IlnCX7ErVY92CYbN1B1m3/UvxE6hRTo?=
- =?us-ascii?Q?q3PaBrdTiYxHYZ2NralXVLt+1O2G8+i1nPeKupxSSrIbS4xbZr1NBuMd2jOT?=
- =?us-ascii?Q?flYXmJJolFMVq3sw5VP51rC6DFC04FO1+i8fyFP/s8j5vz8o5DRTgozg85rV?=
- =?us-ascii?Q?wYDzva42J7dPPyhhytSxz6dl1c63vkt2kFwLtygwIuGllTjQ3gUkHlx7KHdw?=
- =?us-ascii?Q?9eVMSq9b8HWD+8ZtzPkSpSPUHOzpeZKL94WuJgPOTDl/dk+6jKFYVS8ZDKac?=
- =?us-ascii?Q?zF9kNknlmRDVaTW5EjE/WVOObnl8a9cvtLpnVWmKU5/xYFf1qXRam0sJ3nxn?=
- =?us-ascii?Q?8sZk7iq2z5AAllaDJySheZeyZHi9zRhSYgeXka76ZU6iFKeVTkulTxQ8TsZn?=
- =?us-ascii?Q?/5q6jwTyQZZOm4xzgZKx4kdUBT+hqCqkJrVCwQ9HW4gRYh7JPbthF0WNVzF7?=
- =?us-ascii?Q?kwhBSvpsM+bRMp7qTKjyV7Ds+mZMSnN7Ud38VK5Zvn8N78a8vIhjLsKTQr+w?=
- =?us-ascii?Q?luRE+WfMNj2mm6xMpwn1mj8iQCzza8MY4uMk0T6xWNFFr6MaZEzb/COoLgfz?=
- =?us-ascii?Q?MSlX57O1YC9oworTOYREAm696k6Kv+dG/lcufXvNBONHC9ctipR7/xjN/q1B?=
- =?us-ascii?Q?tBx7yqFzw6WlTqOLeCqQcQI5VmUW19hyP5q/VXnIzQa8zZxUumCy7LVz12pl?=
- =?us-ascii?Q?kHKmPdDbm8tL7ccmFJ1d5RZnFbJzlL0bT7zj/veAtvhGiQE0Lr3BfiX4AQiE?=
- =?us-ascii?Q?sPmsmikHEZEMr5x7cagkKp0nqLLPwRddromlyRrr/mz751IDv+c5SHj5V5bR?=
- =?us-ascii?Q?y0tfTUIUr6L9s8krmvjJ4AJ6hCFTnJpfiofGskUY4+2eg/krsZmZSFlD2M4/?=
- =?us-ascii?Q?xoEySkAESvZtheX/v++P2uXxVAzTmh/ZoXFOQIB5olkfg9I8lcJ4RObUaEiH?=
- =?us-ascii?Q?yw=3D=3D?=
+	=?us-ascii?Q?IBSTpRSQTSoT56+YwkRB3HG8KNXpAlgA9OAmAMsQ2XETr0eozQAKtfDQXE03?=
+ =?us-ascii?Q?2nGiuNKj85DIxxlhjHFEythIfK6VipE+7H6YxCKNZau8vLLP9arEP9LqWkwF?=
+ =?us-ascii?Q?B2K2bnbRtI76nZqawsdxuu4xckLKozRfyZ+d/XjTf/6+qxjM0V8+H13ROMmD?=
+ =?us-ascii?Q?PsEVqZpvP2/88sulDEnDqlThTDcXtuYZtOvRkxZn+jzkCTCIizFOZq9uX27a?=
+ =?us-ascii?Q?vc0U91W1XIbZrbwj+hKTbh/mJyUIxM4bttaZx66+WrIK0JaojXKGX2Q2ZI7g?=
+ =?us-ascii?Q?YyGQNBLLcPDTwfqs8wd4fqC1mrAo9+KeVHKqkjhqRJ2avefqSqxkkJ0CE9aZ?=
+ =?us-ascii?Q?35VWkFsKNEAWSzdF/B5WzFdQ+argy4b4kWymvWLL/xDKt7JkzwwEm7gLzuVI?=
+ =?us-ascii?Q?mVbJxK0p3ObS9P22o9Rvwb/2i5odyGZbfg2LC+Oyg+6afKKMsuecZy9goyrj?=
+ =?us-ascii?Q?e6zopaXFKw9QU5BuoMcESj3TAcub6S3CY1MI2SYv8Z3jUq+C0xBS7RRgPcMu?=
+ =?us-ascii?Q?wB20v1IpvNGddelPEjg342l+Be3VE0BBsOQe8wNa4z4uwwe4q5Q7xgZ5F8zO?=
+ =?us-ascii?Q?4IHQWfPl8vaS0Bl4B4bzFv/CKuzVZWyQJAbOI1qqwwzkejqQ1ERlauH1LHDM?=
+ =?us-ascii?Q?YeLYDRAtDFVw3nexDIfXk6BVsU3t8PeriM8wmwgT5sDgXgnOMCcU7B6tmi1m?=
+ =?us-ascii?Q?KmbzvQ5ARY6h5sEU1ATpE1r0rHGxxePj5D7/c3y2KMXkzHZjvcizfOXoubfw?=
+ =?us-ascii?Q?vwM6EAhC5XGm4q3lsnBmHOCt3LA8MCbi+eNKc6bv51ou1gziNwkX66jpqM4f?=
+ =?us-ascii?Q?G0pdgRbyeCKx+iRQJCQsufRk5nHr0T+phiBNxMXg+nle8ZOPOasFk32It5B/?=
+ =?us-ascii?Q?Dxi6Cq0tPNfyCTxFPDifwFqlJ2FrXYaZdHPhK+BtbduhqC1nNBRTIYlnpmIR?=
+ =?us-ascii?Q?DzKcpxdw9WL67j1chAk2jk7nzSkKiZ/kRod1nhsv+9CV0dUSjNrbTffn9aBz?=
+ =?us-ascii?Q?eR6VRRY4+t54afp7gxe0Cq4zIkcEI3s5iRHKuCOBeDBVXMnD95icLlr3dxhn?=
+ =?us-ascii?Q?eV62gjN7HaNj0hbA1q2YH/qaUg+725q3oIjFRPEpCV9mUQYqVnL3J+61ORJi?=
+ =?us-ascii?Q?NzOVk3Jl4aywwWv/6Ob1jd8K+XUIkWSKWcmAw0/+sXbXUaUw7Xg1jeRhSCoJ?=
+ =?us-ascii?Q?cg0sn9HlJZDR67g+fyGEHdOKpyzI3CLQbh+C7JJ9Jd7nTu/Jb9FYpLQSBBN7?=
+ =?us-ascii?Q?UueDxpYoxaY9y7kANxpRQuIPeypEsm5sWLH1eh5AJbIWpoGjF3zkr2bPfECY?=
+ =?us-ascii?Q?52c1jqC9GbZ7mWqhOYLYXviWuSozhBH96Kxc24OQeNppHfS2gQE3h7OuY4mG?=
+ =?us-ascii?Q?YpJuyBIhRHSMf8E0xU09VQ2SOTM7pShJZtCTd9+OS1iEOLExhZpKMa+95fCy?=
+ =?us-ascii?Q?VINUIidc/bmQoSgHAyLVTbF/viVEYu6NhEQ3RvCky95UW0QfG2j3mYvrEmoV?=
+ =?us-ascii?Q?Cw8qINq7+RSAEzdEr7qTYLX2TLLD+TbXRZOXzbKS6WdIPFfDSPOcoGOjXvu8?=
+ =?us-ascii?Q?ePGjV7Dil7++WKu2Kj4EHrmBi+cVH+t7xwl1B+EIkMnvixjTu5j9vrv8wQ+P?=
+ =?us-ascii?Q?OA=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	38Py2XmQlRCdM67kSfWlc+0mPk7OpH0xyxwSgKV2R0qimaHr51jcxzOEG3MR+GDwFnA2juytYTyUDn3zP2Af/7RPxADnlB4x5ru141BMpfZG4L2A6XhhXIYoUDXCuU06nNXUxdSIGqfSyOA7vqthWgryY9R52j59JZjkGiU+32Ul5BrApOY+UYAZMCcRuewrEi4RjIhbYr6JxhbI4jq6magKgvEcTK7XnE1s1Ix6fFj2BlP++dXrbQbQ5M7dtwTGA/+dI76xH5+2xNyvvH8wkWbeZjQsg2UOe+G+S5kzntOOtnzaOIWR4Yr6IAzlKK4eQHIWFtWQDA/66m3/vMLTp7E0ZIj5nrtr3ZzWC4Ikb4MvwxDHl2UJ2woUueS3aLpXdAm3bB+IWKNByPsaEGvNqf8vZ7sHmtZb+Xzdu5TAutMBeVtDMtyuqbwqLNUqOCGQUnRYi6LKofHFxGYGvpmlaGMf3caDPliRS7ooZHXPZgvLmn6Y/ZoQeKxYUdzNRiA4/laO2dvk2Yr2m0d7U+nBrPISuAaJPlNZMkw5w3+bFQLUksPf2OuNFT1SQxcwE01US5FG1BEse6eGihRYLsahpkf1wM1Nj1UnDUxy3vXaSoQ=
+	G4waPYCoxCROQMZNXCK7Mw7sAf4O4v+KFeSA0csT7+08UpEh997zHipLavvC6rhcm4NfbxWyn3x0lsxO6vjTYvCIohjeP90BvuVCN4RlrCpBzvlXN56JMJLamr/5pqMlvjywAsNcWQPPsy8tTEWNch7uQbuQTBL2yHSLf3SawjKpHV5LY2qcnqv6fTZRTfRfYHDKKywmsAkr3sd7J34Gx4itIisnY2W2ptZRuVqsZDo57ADkXQSa/VZbFCpUb1Rg+XvHzuoIxoRkC4/pFXospQypY3j/T4wXFydiv4ePBfNXHp/MrenrUHIslHJakB6JJ+gC0FO8+rFO2lYMRvCH7Hnlz+18ecZk0wrPBJJa0v6mK2mSZ+vBKBkDhkdItB4aGRKXDKzQoel05v+xaMU5oRRdf+MMMB/uymvDiqL1FYButpG+ZcJmuGDkvO/fHvv9yUIWsCbDzWBXr2KBozI3rzLpCTdAak+3hJ2Y+4EAWS+6Fp6uVdWZJtU4WCBjxDuzg/jrCdmFMw3WzA6Te1+gMA7lFCeBp4KHDyDnFWsFwGrqVO7vZkPY1RCXyyziJo0h3rGqw7/Ls/omQGfy2R+qT1hDKqEldf5/kgqg+HLS3fE=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7819ca9-2d85-43fd-f7d0-08dcd4e7330f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 788c8d61-b1b7-48c4-7554-08dcd4e82c1f
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR10MB6287.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2024 18:01:04.0918
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2024 18:08:01.9193
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KwqpWGiJDhL8tGGmYdUBrKIdWTgUCblic3MmXD47srSFVutQilSx/9ULfMgcIj6lwQWsfO7LV4qVj3RJv0Su+wmQ+6vdpu1Q2maHTnO/A3k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4733
+X-MS-Exchange-CrossTenant-UserPrincipalName: r8loQDv7uMPKdC+72cUghF6GhhTsiuGE+RSZz3/oF2dn5oT1QYo8/bgyeptSb0kj9l9XtPyXSc7VbyRJJKErhgXZjOge/47PsFxKWJvJIFU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR10MB6216
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-14_09,2024-09-13_02,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 spamscore=0 suspectscore=0 malwarescore=0 phishscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 spamscore=0
+ mlxlogscore=999 adultscore=0 suspectscore=0 malwarescore=0 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2408220000
- definitions=main-2409140126
-X-Proofpoint-ORIG-GUID: pW97C-FdzKfGdp-P4STpXuhk6hDEjejs
-X-Proofpoint-GUID: pW97C-FdzKfGdp-P4STpXuhk6hDEjejs
+ definitions=main-2409140127
+X-Proofpoint-GUID: ofBhQBoa1sT5n6wAS9z9_AiFmCaGVgIo
+X-Proofpoint-ORIG-GUID: ofBhQBoa1sT5n6wAS9z9_AiFmCaGVgIo
 
-On Thu, Aug 29, 2024 at 01:22:13AM -0400, eugene.loh@oracle.com wrote:
+--aptZCZwHk8iUOI4Z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+This test gives me faqilures.
+
+runtest.log in attachment
+
+On Thu, Aug 29, 2024 at 01:22:14AM -0400, eugene.loh@oracle.com wrote:
 > From: Eugene Loh <eugene.loh@oracle.com>
 > 
-> Ever since speculations were reimplemented, these tests simply were
-> not testing what they claimed to test.  Among other things:
-> 
-> 1)  There is a simple dependence on bufsize that is independent of
-> speculations.  So speculations have no special role in bufsize tests.
-> 
-> 2)  The messages in the print statements were not taxing bufsize.
-> (A single default string would be enough to exhaust 60 bytes, but
-> the producer wasn't passing the consumer these strings at all.
-> The bufsize is being set by the implicit ERROR probe.)
-> 
-> 3)  The various size ranges described in the comments do not exist
-> and were not being tested anyhow.
-> 
-> So remove these tests, and just rely on the other bufsize tests.
-> 
-> To be fair, there seemed to have been no other "negative bufsize"
-> test, but add a more straightforward such test and add it to where
-> the other bufsize tests are.
-> 
 > Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-
-Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
-
 > ---
->  test/unittest/options/err.bufsize-negative.d  | 24 +++++++
->  test/unittest/options/err.bufsize-negative.r  |  2 +
->  .../speculation/err.BufSizeVariations1.d      | 67 -------------------
->  .../speculation/err.BufSizeVariations2.d      | 67 -------------------
->  .../speculation/err.NegativeBufSize.d         | 67 -------------------
->  .../speculation/err.NegativeBufSize.r         |  2 -
->  6 files changed, 26 insertions(+), 203 deletions(-)
->  create mode 100644 test/unittest/options/err.bufsize-negative.d
->  create mode 100644 test/unittest/options/err.bufsize-negative.r
->  delete mode 100644 test/unittest/speculation/err.BufSizeVariations1.d
->  delete mode 100644 test/unittest/speculation/err.BufSizeVariations2.d
->  delete mode 100644 test/unittest/speculation/err.NegativeBufSize.d
->  delete mode 100644 test/unittest/speculation/err.NegativeBufSize.r
+>  .../speculation/tst.SpecSizeVariations.r      | 22 -------------------
+>  .../speculation/tst.SpecSizeVariations.sh     |  2 +-
+>  2 files changed, 1 insertion(+), 23 deletions(-)
 > 
-> diff --git a/test/unittest/options/err.bufsize-negative.d b/test/unittest/options/err.bufsize-negative.d
-> new file mode 100644
-> index 00000000..ac194dc8
-> --- /dev/null
-> +++ b/test/unittest/options/err.bufsize-negative.d
-> @@ -0,0 +1,24 @@
-> +/*
-> + * Oracle Linux DTrace.
-> + * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-> + * Licensed under the Universal Permissive License v 1.0 as shown at
-> + * http://oss.oracle.com/licenses/upl.
-> + */
-> +
-> +/*
-> + * ASSERTION: The -xbufsize option sets the trace buffer size.
-> + *
-> + * SECTION: Options and Tunables/Consumer Options
-> + */
-> +
-> +/* @@runtest-opts: -xbufsize=-1 */
-> +
-> +BEGIN
-> +{
-> +	exit(0);
-> +}
-> +
-> +ERROR
-> +{
-> +	exit(1);
-> +}
-> diff --git a/test/unittest/options/err.bufsize-negative.r b/test/unittest/options/err.bufsize-negative.r
-> new file mode 100644
-> index 00000000..ea3089e9
-> --- /dev/null
-> +++ b/test/unittest/options/err.bufsize-negative.r
-> @@ -0,0 +1,2 @@
-> +-- @@stderr --
-> +dtrace: failed to set -x bufsize: Invalid value for specified option
-> diff --git a/test/unittest/speculation/err.BufSizeVariations1.d b/test/unittest/speculation/err.BufSizeVariations1.d
-> deleted file mode 100644
-> index c6e29b78..00000000
-> --- a/test/unittest/speculation/err.BufSizeVariations1.d
-> +++ /dev/null
-> @@ -1,67 +0,0 @@
-> -/*
-> - * Oracle Linux DTrace.
-> - * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
-> - * Licensed under the Universal Permissive License v 1.0 as shown at
-> - * http://oss.oracle.com/licenses/upl.
-> - */
+> diff --git a/test/unittest/speculation/tst.SpecSizeVariations.r b/test/unittest/speculation/tst.SpecSizeVariations.r
+> index 51f0596c..2748b307 100644
+> --- a/test/unittest/speculation/tst.SpecSizeVariations.r
+> +++ b/test/unittest/speculation/tst.SpecSizeVariations.r
+> @@ -11,26 +11,6 @@ Speculative buffer ID: 1
+>  123456706
+>  counts: 1 1
+>  
+> -Speculative buffer ID: 1
+> -123456700
+> -123456701
+> -123456702
+> -123456703
+> -123456704
+> -123456705
+> -123456706
+> -counts: 1 1
 > -
-> -/*
-> - * ASSERTION:
-> - * Verify the behavior of variations in bufsize.
-> - *
-> - * SECTION: Speculative Tracing/Options and Tuning;
-> - *	Options and Tunables/bufsize
-> - *
-> - * NOTES: This test behaves differently depending on the values
-> - * assigned to bufsize.
-> - * 1. 0 > bufsize.
-> - * 2. 0 == bufsize.
-> - * 3. 0 < bufsize <= 7
-> - * 4. 8 <= bufsize <= 31
-> - * 5. 32 <= bufsize <= 47
-> - * 6. 48 <= bufsize <= 71
-> - * 7. 72 <= bufsize
-> - */
+> -Speculative buffer ID: 1
+> -123456700
+> -123456701
+> -123456702
+> -123456703
+> -123456704
+> -123456705
+> -123456706
+> -counts: 2 1
 > -
-> -#pragma D option quiet
-> -#pragma D option bufsize=41
-> -
-> -BEGIN
-> -{
-> -	self->speculateFlag = 0;
-> -	self->commitFlag = 0;
-> -	self->spec = speculation();
-> -	printf("Speculative buffer ID: %d\n", self->spec);
-> -}
-> -
-> -BEGIN
-> -{
-> -	speculate(self->spec);
-> -	printf("Lots of data\n");
-> -	printf("Has to be crammed into this buffer\n");
-> -	printf("Until it overflows\n");
-> -	printf("And causes flops\n");
-> -	self->speculateFlag++;
-> -
-> -}
-> -
-> -BEGIN
-> -/1 <= self->speculateFlag/
-> -{
-> -	commit(self->spec);
-> -	self->commitFlag++;
-> -}
-> -
-> -BEGIN
-> -/1 <= self->commitFlag/
-> -{
-> -	printf("Statement was executed\n");
-> -	exit(0);
-> -}
-> -
-> -BEGIN
-> -/1 > self->commitFlag/
-> -{
-> -	printf("Statement wasn't executed\n");
-> -	exit(1);
-> -}
-> diff --git a/test/unittest/speculation/err.BufSizeVariations2.d b/test/unittest/speculation/err.BufSizeVariations2.d
-> deleted file mode 100644
-> index 8094cd0b..00000000
-> --- a/test/unittest/speculation/err.BufSizeVariations2.d
-> +++ /dev/null
-> @@ -1,67 +0,0 @@
-> -/*
-> - * Oracle Linux DTrace.
-> - * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
-> - * Licensed under the Universal Permissive License v 1.0 as shown at
-> - * http://oss.oracle.com/licenses/upl.
-> - */
-> -
-> -/*
-> - * ASSERTION:
-> - * Verify the behavior of variations in bufsize.
-> - *
-> - * SECTION: Speculative Tracing/Options and Tuning;
-> - *	    Options and Tunables/bufsize
-> - *
-> - * NOTES: This test behaves differently depending on the values
-> - * assigned to bufsize.
-> - * 1. 0 > bufsize.
-> - * 2. 0 == bufsize.
-> - * 3. 0 < bufsize <= 7
-> - * 4. 8 <= bufsize <= 31
-> - * 5. 32 <= bufsize <= 47
-> - * 6. 48 <= bufsize <= 71
-> - * 7. 72 <= bufsize
-> - */
-> -
-> -#pragma D option quiet
-> -#pragma D option bufsize=4
-> -
-> -BEGIN
-> -{
-> -	self->speculateFlag = 0;
-> -	self->commitFlag = 0;
-> -	self->spec = speculation();
-> -	printf("Speculative buffer ID: %d\n", self->spec);
-> -}
-> -
-> -BEGIN
-> -{
-> -	speculate(self->spec);
-> -	printf("Lots of data\n");
-> -	printf("Has to be crammed into this buffer\n");
-> -	printf("Until it overflows\n");
-> -	printf("And causes flops\n");
-> -	self->speculateFlag++;
-> -
-> -}
-> -
-> -BEGIN
-> -/1 <= self->speculateFlag/
-> -{
-> -	commit(self->spec);
-> -	self->commitFlag++;
-> -}
-> -
-> -BEGIN
-> -/1 <= self->commitFlag/
-> -{
-> -	printf("Statement was executed\n");
-> -	exit(0);
-> -}
-> -
-> -BEGIN
-> -/1 > self->commitFlag/
-> -{
-> -	printf("Statement wasn't executed\n");
-> -	exit(1);
-> -}
-> diff --git a/test/unittest/speculation/err.NegativeBufSize.d b/test/unittest/speculation/err.NegativeBufSize.d
-> deleted file mode 100644
-> index a0154ccb..00000000
-> --- a/test/unittest/speculation/err.NegativeBufSize.d
-> +++ /dev/null
-> @@ -1,67 +0,0 @@
-> -/*
-> - * Oracle Linux DTrace.
-> - * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
-> - * Licensed under the Universal Permissive License v 1.0 as shown at
-> - * http://oss.oracle.com/licenses/upl.
-> - */
-> -
-> -/*
-> - * ASSERTION:
-> - * Verify the behavior of variations in bufsize.
-> - *
-> - * SECTION: Speculative Tracing/Options and Tuning;
-> - *	Options and Tunables/bufsize
-> - *
-> - * NOTES: This test behaves differently depending on the values
-> - * assigned to bufsize.
-> - * 1. 0 > bufsize.
-> - * 2. 0 == bufsize.
-> - * 3. 0 < bufsize <= 7
-> - * 4. 8 <= bufsize <= 31
-> - * 5. 32 <= bufsize <= 47
-> - * 6. 48 <= bufsize <= 71
-> - * 7. 72 <= bufsize
-> - */
-> -
-> -#pragma D option quiet
-> -#pragma D option bufsize=-72
-> -
-> -BEGIN
-> -{
-> -	self->speculateFlag = 0;
-> -	self->commitFlag = 0;
-> -	self->spec = speculation();
-> -	printf("Speculative buffer ID: %d\n", self->spec);
-> -}
-> -
-> -BEGIN
-> -{
-> -	speculate(self->spec);
-> -	printf("Lots of data\n");
-> -	printf("Has to be crammed into this buffer\n");
-> -	printf("Until it overflows\n");
-> -	printf("And causes flops\n");
-> -	self->speculateFlag++;
-> -
-> -}
-> -
-> -BEGIN
-> -/1 <= self->speculateFlag/
-> -{
-> -	commit(self->spec);
-> -	self->commitFlag++;
-> -}
-> -
-> -BEGIN
-> -/1 <= self->commitFlag/
-> -{
-> -	printf("Statement was executed\n");
-> -	exit(0);
-> -}
-> -
-> -BEGIN
-> -/1 > self->commitFlag/
-> -{
-> -	printf("Statement wasn't executed\n");
-> -	exit(1);
-> -}
-> diff --git a/test/unittest/speculation/err.NegativeBufSize.r b/test/unittest/speculation/err.NegativeBufSize.r
-> deleted file mode 100644
-> index 9d7be6c0..00000000
-> --- a/test/unittest/speculation/err.NegativeBufSize.r
-> +++ /dev/null
-> @@ -1,2 +0,0 @@
-> --- @@stderr --
-> -dtrace: failed to compile script test/unittest/speculation/err.NegativeBufSize.d: line 27: failed to set option 'bufsize' to '-72': Invalid value for specified option
+>  Speculative buffer ID: 1
+>  123456700
+>  123456701
+> @@ -64,5 +44,3 @@ counts: 2 1
+>  dtrace: 2 speculative drops
+>  dtrace: 1 speculative drop
+>  dtrace: 1 speculative drop
+> -dtrace: 1 speculative drop
+> -dtrace: 1 speculative drop
+> diff --git a/test/unittest/speculation/tst.SpecSizeVariations.sh b/test/unittest/speculation/tst.SpecSizeVariations.sh
+> index 75e527d9..79995b59 100755
+> --- a/test/unittest/speculation/tst.SpecSizeVariations.sh
+> +++ b/test/unittest/speculation/tst.SpecSizeVariations.sh
+> @@ -9,7 +9,7 @@
+>  
+>  dtrace=$1
+>  
+> -for x in 63 64 79 80 143 144; do
+> +for x in 71 72 159 160; do
+>  	$dtrace $dt_flags -xspecsize=$x -qn '
+>  	BEGIN
+>  	{
 > -- 
 > 2.43.5
 > 
+
+--aptZCZwHk8iUOI4Z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="runtest.log"
+
+dtrace: Oracle D 2.0
+This is DTrace 2.0.1
+dtrace(1) version-control ID: 76d327b2d33c377041b8f1b3dbd67de7f2cc7b65
+libdtrace version-control ID: 76d327b2d33c377041b8f1b3dbd67de7f2cc7b65
+Linux kvh-deb-bpf3 6.8.8 #1 SMP PREEMPT_DYNAMIC Mon Apr 29 14:26:32 EDT 2024 x86_64 GNU/Linux
+testsuite version-control ID: 76d327b2d33c377041b8f1b3dbd67de7f2cc7b65
+
+test/unittest/speculation/tst.SpecSizeVariations.sh: Running timeout --signal=TERM 41 test/unittest/speculation/tst.SpecSizeVariations.sh /scratch/dtrace-bpf-user/build/dtrace 
+FAIL: expected results differ.
+Speculative buffer ID: 1
+123456700
+123456701
+123456702
+123456703
+123456704
+123456705
+123456706
+counts: 1 1
+
+Speculative buffer ID: 1
+123456700
+123456701
+123456702
+123456703
+123456704
+123456705
+123456706
+counts: 1 1
+
+Speculative buffer ID: 1
+123456700
+123456701
+123456702
+123456703
+123456704
+123456705
+123456706
+123456800
+123456801
+123456802
+123456803
+123456804
+123456805
+123456806
+123456807
+123456808
+counts: 2 1
+
+Speculative buffer ID: 1
+123456700
+123456701
+123456702
+123456703
+123456704
+123456705
+123456706
+123456800
+123456801
+123456802
+123456803
+123456804
+123456805
+123456806
+123456807
+123456808
+counts: 2 1
+
+-- @@stderr --
+dtrace: 1 speculative drop
+dtrace: 1 speculative drop
+Diff against expected:
+--- test/unittest/speculation/tst.SpecSizeVariations.r	2024-09-14 14:04:10.560046706 -0400
++++ /tmp/runtest.27272/test.out	2024-09-14 14:06:03.926307171 -0400
+@@ -1,5 +1,12 @@
+ Speculative buffer ID: 1
+-counts: 0 1
++123456700
++123456701
++123456702
++123456703
++123456704
++123456705
++123456706
++counts: 1 1
+ 
+ Speculative buffer ID: 1
+ 123456700
+@@ -19,6 +26,15 @@
+ 123456704
+ 123456705
+ 123456706
++123456800
++123456801
++123456802
++123456803
++123456804
++123456805
++123456806
++123456807
++123456808
+ counts: 2 1
+ 
+ Speculative buffer ID: 1
+@@ -41,6 +57,5 @@
+ counts: 2 1
+ 
+ -- @@stderr --
+-dtrace: 2 speculative drops
+ dtrace: 1 speculative drop
+ dtrace: 1 speculative drop
+Cleaning took 0.022518012 (0 kprobes, 0 uprobes)
+
+1 cases (0 PASS, 1 FAIL, 0 XPASS, 0 XFAIL, 0 SKIP)
+
+--aptZCZwHk8iUOI4Z--
