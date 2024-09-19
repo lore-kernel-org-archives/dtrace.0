@@ -1,77 +1,83 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54EA381E
-	for <dtrace@lists.linux.dev>; Thu, 19 Sep 2024 00:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FDB198E6C
+	for <dtrace@lists.linux.dev>; Thu, 19 Sep 2024 09:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726705851; cv=fail; b=ipTF04Y4KIzUhNmiMIYEHo2JcreYSIKh334lJz/fp/cGNlDg3gdjWtW7PLkAqmHkFnm0PFBvx3011yH0CWjNjslPlsKruE9FRFjVBK7Nof8KW08OcW6qx2WNKufMV5Tv+s9v5tfmY6dTAFlMlQXX2CXAgOB0TfK3F6RfOOnFnp4=
+	t=1726736772; cv=fail; b=td1NGbVWyYP88jsIZRGPo4ZHPn7Hp4abXNsHKssRBSfb+U8UXSBzPynxo4kJ8aQm/yTV72c8ZgJ6N9bmq85VLgHcc1dmK4KIgcajZLAXPS8n1F/EkmQB4ICFD0hqiJhi33udxC3DZu5SeJfkHiNUuGfjbdrxwwgRwsk5AhJDCDQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726705851; c=relaxed/simple;
-	bh=Va1a41/DHz/6sCx0QyPAjyGVdocwxarpD3tDmBw3334=;
-	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=UZS9SQ9j8PIcYlbwqq0K3kobwN3qimMf8qnR82PzdrIfrI4yqCWIZV+DEd0Ekispu/YQPQxOKiJHjjJSTYRoW9IdeAmk0Uz2PUJMRJamg5+lZlAclkwGAN4C8Z5kbig4wkcFBooTlQF3ILYbCSrPhjg8/UE4BShjifMhJ5osXMY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=hp45BwUY; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=USGObAeO; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1726736772; c=relaxed/simple;
+	bh=xZoGkciufUTuND0raJp9wT5EedzKB64zDIuJqeXLSnY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=k74BtDFViM1M+djxl6cW/9cfH4muUcbyJ1GnDoxR6IUS3iKDaemi3otChngUU7FrMHNB7n9ykgMaX9BgnRQ/I4N+G1oKB01pge3xc31f3OVcX2khS6mdqQo1VctqNJadWy14amTVIJSZqtMOG0XgHTt4SMFAnIPCBBKJu81qbyc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=XTTK3UmS; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=qmv5lJbo; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="hp45BwUY";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="USGObAeO"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48IJmQOx007122
-	for <dtrace@lists.linux.dev>; Thu, 19 Sep 2024 00:30:48 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XTTK3UmS";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="qmv5lJbo"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48J7tcMj005026
+	for <dtrace@lists.linux.dev>; Thu, 19 Sep 2024 09:06:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	from:to:subject:date:message-id:content-type:mime-version; s=
-	corp-2023-11-20; bh=JeS1arC/9WdYjR3qxew20dKNqPvRb89zLfujRsAZxzo=; b=
-	hp45BwUYt+Ao90PRtCEfsYOZJRxrDFhS1NW5akcAiw2njmCFhWuZ0lEklgleM4b1
-	UVYWVovgFrHKgpBAr28uVzK0pIHwsqOBVhUZnxYNhWLbeXpDgfHKPZmgJ8MyueF6
-	cJ/BaI21EFJU4RpxIPv9YzNZR1lMCCT4YkViYA8miJ0y7ti1QULMbhGn0NvhL46Q
-	v2baObG+N77oAFIkljJ1yRXjcvgEgKbFwVLGFuexOrZxpXW/V/TBDOpuKd93VqTQ
-	IvSQ+wwkgzMa9boQFF4qLzcm7T0wTqmllIBsxMrDOIpwCsnyTsCvMBau4AedjIM+
-	Lug/tAwgW1NngDrreH5qGQ==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41n3nsjsfd-1
+	date:from:to:cc:subject:message-id:references:content-type
+	:in-reply-to:mime-version; s=corp-2023-11-20; bh=92h011VV1kTKRen
+	tDF2siAmYZNooxHf2mOhkfaQGkxU=; b=XTTK3UmSrJk99yVEZ6JinXqFfn7o0iP
+	tlDwx3FXPgMyAUAQxdb0hMRF61u3IyIgvD97UsI2TZokaYwjiLoXuUf49TlDqTSQ
+	kUNuHcWpHdbEq59/f4o4Y0eUIben+6+WzvXJsInK/JCa+qc/RdUTo60WLuBhS62P
+	OUqF4ZDoDboSr0EffKbVvDAzggjroT0UyIn5aFoUQgiq6ezwUzD4vDAi4pG4Ifyt
+	G3Bop/Ft3BoZ+rmjiZ42VA7wMVtbVAy5gbC+OmU/S6VdXY/ZV1T++2rV6rgIWtPG
+	KrFfP04a5omoeMcZ0nZSXF2GukzSDUePTKX6pjC4gMzLAazF1BjCoqw==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41n3pdu8c9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 19 Sep 2024 00:30:48 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 48IMu6NR034104
-	for <dtrace@lists.linux.dev>; Thu, 19 Sep 2024 00:30:47 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 41nyck2esa-2
+	for <dtrace@lists.linux.dev>; Thu, 19 Sep 2024 09:06:09 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 48J7sSUi017842
+	for <dtrace@lists.linux.dev>; Thu, 19 Sep 2024 09:06:08 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 41nyd07uk9-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 19 Sep 2024 00:30:47 +0000
+	for <dtrace@lists.linux.dev>; Thu, 19 Sep 2024 09:06:08 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fiiHvK2gPOo2d0YRQFcflWauBdVcJPGytBPKUy36EcB9YACiERo4SX+N8kYT9x7Ohm6wVf5kdH7FiZJFg6vuhy0fNdteNpiVanxoTjBFhU+H7Vqnu+9KUTL58eQQrqIosFEK09ZuZORegARDFZj8phD1S9ve2+ADyI1XKVurQ32hc3dQzm7PEAM2zaBqwDnCGPaNr9a0MdGTVr51d5r9vPtiNG+4fjh/SijbEw4KdlUOCPc7HJuCZe0YqMasQxi6ik+A9vmuwiNESIii8kES+YBXji6sMkaGr8fhJ1+scz7rrpKBQnrzgvCKMG0eILOe2aUmCS/SQhst0vWJtAmzjQ==
+ b=yIkcZPwPZ6ABElEIK2ootbuZaDNsjQELO4DcGy9qNM9LQbGBVfNjEHBQaquVeRsbzRX0o7qgAMXeQOlflFlTDd6Hy2dKbrnoVFQ7jxHWDGVOqqW1xXfK8miVL8CsoIzOZGzv5ovMzOoro0BBgI/ysDrzr2/Nmf9bOLEtiInLI4LbVopaRfJx1dfdHVFews5CMuFRLQs/nYy80jF00RXvLmUMwBbI2Kf+F3rxODaPR/iRwu9Xb7jr0jHHxSnIi8eEX8PUiR2hVvJUZlfXu6sirbO1UMbMDSSX51ognBOdfRWnVFjq8rfrKRmop4bTSyd/nETDi6JoHYv6b3WSu3k2QQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JeS1arC/9WdYjR3qxew20dKNqPvRb89zLfujRsAZxzo=;
- b=Bl3Z68biRbCiZI5Vpw1jhuMdIgd8O9yYnEGloDD0hpeHecjBFBEiUQGLISXjrlAH0Od4MBfgqX8ZXOF05rXa0ZU481LcmXVRtCLNn5VkazTg1PCM3zH//oPPo25jfYz82BAHI+4CHe5HyOcP7tvhJ+kVwPcVMut1pvPpru7VIX7veN+JA2MSF+tzrcO6oF0PD5qJjf19mVtfgW+9fxvLK8DOPUF+8z5N7JbWs42aCvOchLLWWUMDJ1WwMXQaOrcwurq3gO9qnzIvZ1a+mXf+YRphOo2gDk4Ep0wggogUsvQTP3G1+asM7Hf5uvZE9zs8Wrjox3or9GJXUwJ/yAgWcQ==
+ bh=92h011VV1kTKRentDF2siAmYZNooxHf2mOhkfaQGkxU=;
+ b=mXNAvUN5PiBQBWYozTPQT5xrAIbKJLyJEVX7FgyHE1mXk5y5A+yleyKbK0bFZZDwnbwygp3oQMwh4h3gjkz6kzYADCvdbKXW7XNv6bD6i5yzVLcqNahHK9YmlQQIur2a0CB5vrABtg+Ksq1kn6eaummvbeMpGni1rioTqmAipf+8zwDqTtFwGttuu2e5kG+RtpMf9qzkYZgTvfjPa5vXVWRxW4E+ETp0jnsweSCJje2fCRR9CnStYFGVRLFNIUrvqaba9aefeGLqbX8LufBowKLIAdyJ8b2nGXr9u28LVXflu9+LtWzUQKOzm+bxd6i1DDKDW6Ux3BzzebxrMEMEow==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JeS1arC/9WdYjR3qxew20dKNqPvRb89zLfujRsAZxzo=;
- b=USGObAeOh9wLqFIHZql8Ky+/N16SoIfiuyOaLj18VL0mA/dWMUhzRWw9Aug4sSjFHx2FHVt7QoUzCNXeH6V7WGjJIY4l5nLd/kY+z67+BHMEynui7TUOG82a1ZlZ/xzhEWH2bH1O1ElX+nOyMspSBJliHa3aX+lFbq17kKidxtk=
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by SN7PR10MB6384.namprd10.prod.outlook.com (2603:10b6:806:26c::12) with
+ bh=92h011VV1kTKRentDF2siAmYZNooxHf2mOhkfaQGkxU=;
+ b=qmv5lJbo7A9KLp6VcxCszPkE9j8ewcOVtbSOvv8lRmkjv1szEOQ6UldUiJqHfVLy3QQb2jLEPFD/ST7AYB+/1yw3a2XX4Fz2dY02QXItS87aghKEtpRPYADf8Qv3pEzuugls9Py2/91otdwVQ3/IP4hjLCNFGgV65/Mq+cVlhU0=
+Received: from SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
+ by MW4PR10MB6419.namprd10.prod.outlook.com (2603:10b6:303:20f::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.14; Thu, 19 Sep
- 2024 00:30:44 +0000
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::8b24:5536:3259:5a69%3]) with mapi id 15.20.7982.012; Thu, 19 Sep 2024
- 00:30:44 +0000
-From: eugene.loh@oracle.com
-To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH v2 01/19] Change probes from having lists of clauses to lists of stmts
-Date: Wed, 18 Sep 2024 20:30:41 -0400
-Message-Id: <20240919003041.23158-1-eugene.loh@oracle.com>
-X-Mailer: git-send-email 2.18.4
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR01CA0046.prod.exchangelabs.com (2603:10b6:a03:94::23)
- To CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.16; Thu, 19 Sep
+ 2024 09:06:04 +0000
+Received: from SN7PR10MB6287.namprd10.prod.outlook.com
+ ([fe80::5a47:2d75:eef9:1d29]) by SN7PR10MB6287.namprd10.prod.outlook.com
+ ([fe80::5a47:2d75:eef9:1d29%6]) with mapi id 15.20.7982.012; Thu, 19 Sep 2024
+ 09:06:04 +0000
+Date: Thu, 19 Sep 2024 05:06:00 -0400
+From: Kris Van Hees <kris.van.hees@oracle.com>
+To: eugene.loh@oracle.com
+Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: Re: [PATCH v2 01/19] Change probes from having lists of clauses to
+ lists of stmts
+Message-ID: <ZuvpeML_Fvmt_VxH@kvh-deb-bpf.us.oracle.com>
+References: <20240919003041.23158-1-eugene.loh@oracle.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240919003041.23158-1-eugene.loh@oracle.com>
+X-ClientProxiedBy: BN9P223CA0004.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:408:10b::9) To SN7PR10MB6287.namprd10.prod.outlook.com
+ (2603:10b6:806:26d::14)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -79,381 +85,386 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|SN7PR10MB6384:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2f11a037-b6ac-4bfb-2021-08dcd8424c5b
+X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|MW4PR10MB6419:EE_
+X-MS-Office365-Filtering-Correlation-Id: e74a0f9c-a318-48ec-94a6-08dcd88a4a82
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?eZXdU2ALO65NhnwpBH55hM0AnUv4YvshiqElh26HklwnotfelH0pLuqUQNES?=
- =?us-ascii?Q?SwG7AEAaAxVDnKBSPRL2AUAidtZsstLUbvgUNn5QogPvcTFFMp2NqXexf9hy?=
- =?us-ascii?Q?Yb1j4oBLYQLHWuPCpxMQAmK8PDG4e0382mOczu8sUH7eArEI/HCMbHtcYpH3?=
- =?us-ascii?Q?lH6ZqzTXX7s3jqptLV3SAQ6+la58AnZV91ZU3+PBxET/n7Qo/KauXyqG7SRk?=
- =?us-ascii?Q?APrmtHykiRpap6EMujn3LK3H9ZOHXJYe5vRD8OmT3a//Llg1rI0GeWO00L0g?=
- =?us-ascii?Q?3g7XlmL5nJ5jiP8X2omBMRSZZs74dN6Demsemq2g8270gtA9SVm/Ylk87it6?=
- =?us-ascii?Q?9x1/unCwPtJiWKxDGsBMW6xs0wW7cL1HVI5hNjIb2+qa8HyiZfzUeTpQXS3V?=
- =?us-ascii?Q?cbNacwNrfTedCC1DsHkn04AhzLmwokwuZ4SsJdHIs/7LPMBrTJzCtdImTaCY?=
- =?us-ascii?Q?HGYRiXhR43kK2tzJtOGAaO3zDrcjMKw5chrcuFOJM4aq3OaxBAHkSgtz5iWK?=
- =?us-ascii?Q?izpYKum1HYkB5irB4hGjE3FFyYbBOhntMjykiKjS3V6B9xjlFCa7Sv+ew+UZ?=
- =?us-ascii?Q?7Z8Tt+maelgTb1h8nye5BcGSk3L8WZzyQlPvhrcApmE2iLjGctk3lM1GQVHD?=
- =?us-ascii?Q?ie9yP1p+XZUBDrN8ZabWHTJiJAuCjHxGxRvUAiaDlsB89DJAyYRzr+D8PBnf?=
- =?us-ascii?Q?AG9/wpFlkwCPybT4veejTVCPLujv5ITQvIcb0lJebhiATO3DcWZb451QHTB/?=
- =?us-ascii?Q?Jisnu5kHLnq4PppNqOm8Hj/tUp1MPu3J1USZYPcPoCtCLC6x7NYD8lTFwcIv?=
- =?us-ascii?Q?O3EOUqWoCZCYtH5kXTetPJCWfOOxuQgUG0TRGzspwj3tdesn7yczT2A/DB6e?=
- =?us-ascii?Q?vuMVHNcrcoLBFJIwtRKSaZpujUKrlZUBO1WP4lkCEkSsmTCvJFKy+hiTPhGq?=
- =?us-ascii?Q?BC1Osuo7bsvhHWIKNhXdIdK2NRLE8A6bJxiYh/BM2bwn/LQO48qScDgNb4HV?=
- =?us-ascii?Q?Me8F1PqkW+tqK54OSap5rbPOys9ttsTOU8k0WQBdlPcclbp3+HO4/TRlzwiL?=
- =?us-ascii?Q?LLDAJ+fi6SMKWuxpxxbRd6k23kzDAxO/QnJv/ilaGov7vFmIfLPJdJDcKZTQ?=
- =?us-ascii?Q?oCJhhQzV2VD3Fv7BcDEvQWmkNleojKIYktYRJSRZiKUKrj/hA4iFtvZ6UlhM?=
- =?us-ascii?Q?Vuo5MM6AEfpP64MO2glUfGgqGayZhBntDV3EjhYIaJcLtgFDCByrfh8pIIET?=
- =?us-ascii?Q?xE2ZQatihlxnNq68GrgPx0upr1bt3Mhm5M96DORSUoC1kOeMxxL1RKlkOZ2l?=
- =?us-ascii?Q?NFr6rSzg92c8+ikw0GB2pdbB8wBknZ9A2Nbhk/J/6O29WQ=3D=3D?=
+	=?us-ascii?Q?3td/rAMDiKEQljzs5OyqHxLaLlNTLHTIn4IlBG3WL8pQfVGDCTgYYNr9Ijac?=
+ =?us-ascii?Q?lB3c2ndoH8cqaYtOf0P9drunx7JASS0KouM0m8wAu7IWRtVNYc44tKQOxSeZ?=
+ =?us-ascii?Q?NNlveZ368jHaFUIjlv1E6BOtS8ONPkqU1fCSoqzFM+NjvoShAJOd89UmCpiG?=
+ =?us-ascii?Q?ge+uPm4leUd81c0AzqBt6JWTmsCFkto8EvvAxsLNsNpLeqXUweODmNfxLsyC?=
+ =?us-ascii?Q?HJIZcDlZ/DSr5Tq1V3AsapR5L9sG2AM65vQvE91lE9JUZajy98cZn3bphHzD?=
+ =?us-ascii?Q?CnuaLr7Rll0FItk0/D/1lF9y/NNTgC6LxPINN5eRstzeVJR2sk6/yZgImsWq?=
+ =?us-ascii?Q?G/G80XduQznngdKjuPEAG7dNpJlDJNwCTTKHLFF1wpbvrWLvVe8u6R8Z1VHY?=
+ =?us-ascii?Q?K8d6yosU3tOPlitFcHfnNBxXHR+6E+IIbYoo3S76dstJCqwUg2NNO5FpoqYG?=
+ =?us-ascii?Q?fmWsenjmXda7dDlDHRhOikeVZGt/pZX0EDukeptq/5zTrkLdtlHR55Z24LT+?=
+ =?us-ascii?Q?lr+Drj/J1Tkob+O7lih/hB/1b1MPOvuijFjLJ7B859RQROR5piFAWigYvqHx?=
+ =?us-ascii?Q?WtegcoU/08wNuAOd3QmDqpbK/IAZCh49snB/x20Ded6gCkWX4wKphTKNnVdH?=
+ =?us-ascii?Q?SVk9tDXSWXgFRu07G9PexGx+XbQH8fCEclJcu+/kTXFI1lkdGLr5cYkw3Bqt?=
+ =?us-ascii?Q?YfEiaKzjmMENedM7aAM8HQEey/oZ9t3W6NSfuw7wW82gukR8mabNHGObHBAg?=
+ =?us-ascii?Q?cgfeCWB3hxdLx21EHxUTuJPdgiiN3OfhecN3tNHDJavQpDhtVVtKAZzF6HFf?=
+ =?us-ascii?Q?4e+qxJqeqAm2fLU89xWjhEeyDxe0vz+5hz2nFx+RD4F1gzC7yBjgSLD9GcGh?=
+ =?us-ascii?Q?HNh+D94QxeLRCdE3uc0mXym7u9Ob7iCDa6Uz0FXTtWjaFjQ2RjtRX5b8o+tO?=
+ =?us-ascii?Q?CxoY3AGr1od9eVQuVnTQTPDaMSXrncoYRAl/SxvI9gfyY51GSLhsITuf1Em9?=
+ =?us-ascii?Q?geNh3ij4y8I79Oh/C/FR8AKaKo+jCJRnJzDKvqUUKH+S5ppl43Or6Ox7fnkI?=
+ =?us-ascii?Q?QyRNYc1NxBEO18BlIcK8deaojN9bX8zzUw7if8OrdMdO/UjHE5n4aVLiSHsX?=
+ =?us-ascii?Q?uH49kfmZBpQCY4ITHSH3zmWDQLsRsxQcvmU21466XbzL7xLQzf6GzBMUilc9?=
+ =?us-ascii?Q?0AOhbssy8t9cQWulehQDBTLviPQ0NQtyEHzXXMpdd+vB+Uggg+WOnLyXnrlK?=
+ =?us-ascii?Q?RnwZAYHLjcbsRIMfe7cZvPSF3J3OYiQIhE1FDP3HT5awni01yz8ge44jXV+c?=
+ =?us-ascii?Q?IObyox2e8fdsQtH35C/K4SEhLXZhfVzXeLVXfoDXJtGzmA=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?pbHft0sujVGi/LBYNlmp8BsnG8Wm0Pgrpg1Z06s6GoCXUYhqAMWzu1l9hfSw?=
- =?us-ascii?Q?vSN0+jplLaRjFR//lralsOV2VcITMq/Twj1SPJH7kBgaf8GIiFmtP2Lg0Zx7?=
- =?us-ascii?Q?crHqdM6AKLn87bMQ4YC0th5hOJpWP9AeCLNQFhOZyNGK1vyDqHw/BdR1RgI3?=
- =?us-ascii?Q?77VNrtPtD2HKQ4vTWCY63qpbHuED7O5CdRjw4L4nOgRmYM4GYvmpmR7Es3kX?=
- =?us-ascii?Q?H7Ni+pnLH8Kn3cTGh5R64oSYighjggNZpbPnabikUaEnagOmgf1DwYti30q7?=
- =?us-ascii?Q?JR11YgD8zjQrcHQA8aQF9v+jly0lKPnU8YkO2hAiWMiD0DBr30ciyXmI4A7O?=
- =?us-ascii?Q?faxPJQIDPA+nYd9muvrs569qdmT0zViW0gFzAsI8h6/8UoYXmsc+70EkVGb7?=
- =?us-ascii?Q?oYFUy614yxQderNYNWvHTmmtDXR5Cw9Pg24EcayYemrToqYE6+jtofYjKJ+u?=
- =?us-ascii?Q?nMivqvpHVPrrbvM9RyJrlda67wvMVtuIEH0UUySg1YRwrTtrZOFYB8Foi8+X?=
- =?us-ascii?Q?GqKGkMSrFA4a+MrL+m3siHOsmPSVSLZHVlVUnqsqvZ1DOTcYczQK+vsw02qT?=
- =?us-ascii?Q?9QGxoG8MnhqtL/9GrJvVd8gXY/eb5KG2dcCld0yq1spsuKMIC/uR3cGW2cRD?=
- =?us-ascii?Q?wwgGRqVddi1p/K2KItXWSpYEr2T72rIifmX6MCyllAX/ylwhq1RpPa+JWawc?=
- =?us-ascii?Q?v3Mpt1IafS8Sibv5p8Ky0S2w0fT1GOLVdP/ss7hlT2t2x+lPkba8hjG8yR0x?=
- =?us-ascii?Q?qh6zQk1RlO3E21zUJ9ALdK2r8n6VGr32/4a7fQG/T+h0ZY5gtete5VFgz/Bc?=
- =?us-ascii?Q?+z0/WJwrG0Qh2ld7mkBo63OI8ugYoaUXKJD6Uk/hZMAah22nJuIc7gKtAxzg?=
- =?us-ascii?Q?51KDN9hlesJg0gW9L4PJNT0cVSXPsbvopDuGvFt7s6NJUaIAf8zpun+hJQGM?=
- =?us-ascii?Q?a4pPag035yl8RRjbz7Apr+kiSYNnX0K7jJrCCIBwFqtYMNzEmzqnpZBKYK9F?=
- =?us-ascii?Q?ytzVd1FKMVgsy4BsZI1VR74+767yg3w1fPOHdw3eS8Xg6iGVgfd6AApfXwLl?=
- =?us-ascii?Q?WbDAB+7ufPgtv15XjRsivbAx/N7Bb+6+G3WK1D0YcEdYWrCx45mdeErzrGQO?=
- =?us-ascii?Q?dhoKdirjinYhisyQlNICHprNEKTa9W+G1eLWJN07ubRUqUx48Idrrj2FHXoR?=
- =?us-ascii?Q?yEUHK/rk9B+1KiUEFwYw/xzz2ANSW68uQcn2dFbe9nQIRzizwDx359dyRH0n?=
- =?us-ascii?Q?GmpOhXGAqCgSvE6QmHNLgM6N3JtqO+QyDJeNG0Kfqh7rP9F0t4QLz3JL4uaS?=
- =?us-ascii?Q?I/w1+BzIoWi8tkKsqXej1HVFwoVg9riAmxUk1FntlF/Cejn0I33Wx/rX5omD?=
- =?us-ascii?Q?VrnrLGmezDbOaVqsIXhjEfGUXqQ7iviWIVZH+DhSzv1RyDsJoZo6pzuPIiMJ?=
- =?us-ascii?Q?ZcmTzXe3UpQC1GS/e7gW8tKXZPtyTN3Isw6tPuYbJZ+4GotnCfwz1fxLFolQ?=
- =?us-ascii?Q?mxp9ePViiISN2rP3WlS+ib7n2dGALLAES7fsk41UBGzA5JQ98y65ZsiXXaA/?=
- =?us-ascii?Q?3ZAZEIqNsZIPlD4Ipso1KUE/uJ7cnQrSFWI0sKSl?=
+	=?us-ascii?Q?zTncKCzHD2bjl6HcydpXJOfl781o263BtC49iK+6xGXGvXx02jZ4P2MPsf27?=
+ =?us-ascii?Q?XTfl8kam5cn/ZCsRXIxPqk+dUKxIEqGYSou4l4Rgjwn+F3zCtxFlqLBZ7UcH?=
+ =?us-ascii?Q?4KSW+WkEzFAN7+LpyBMm0OLVwD6E6/AUOrNVWx88kBGyq8vw4JMx0nfinB37?=
+ =?us-ascii?Q?Rw8YZbzvn599ZYPleH3ikI2ak6I7RECySgmQVlS8u0e7/c5e6UuNj0t37uam?=
+ =?us-ascii?Q?8AmMeaDOR/Zb5cTdqkbSzkKwwAj2YnxaW8X++TlVjI4geFSh/EvhRHrxsj3d?=
+ =?us-ascii?Q?Jwr5ijgNlO8BBvqJvJRyrFjzUxeoHk+CVkpjaubZs0IvOcebl4FcUXz/xLu9?=
+ =?us-ascii?Q?rUjhWsfWHgXbzjPKcHDjfJdnso9WyEnu2GLFBTK0KA75C/gTfQZx4ioY5NWd?=
+ =?us-ascii?Q?5AWokMNSNlsdD3ByyYVLoL3POEWoMGFnXosihWL2O9xiltllJeXWrTrhdT+m?=
+ =?us-ascii?Q?F4kDjzeVOamxobsr7FTC7Glu8gqyBdoQSH2XzKCiIPXTZGkMRVYxI8bPaFH+?=
+ =?us-ascii?Q?3wy9TZ+Fb6cV0yPJtUWR7TUL4TopjlxdyioyjqV/EcW5cX6fqNp+8g5q0FtE?=
+ =?us-ascii?Q?o0yhbJ9gPlojAr2eKnCrDnv/XofoEvCxRb6cmV4K7K03UdSidKfrD6DwdnTL?=
+ =?us-ascii?Q?8MS4YZ/SAGnhtvfnrNymdOABAmN6wLzW9n5MTTNd57Yvs47o1Z45KYe/ugCI?=
+ =?us-ascii?Q?jfrlArwdS1qumdhtN7jyGZ5mbqaG6cxwVbEqVnQhf4Yi8/QOU3kCzKlQN8cX?=
+ =?us-ascii?Q?W/9v21bhnUFFE0hBMyhIUFSu0mTmtdQRX3lRjcFT3HBmrjcJMCixRObUKBwV?=
+ =?us-ascii?Q?bGBG5wxtedQGdZ66mvHIb1QtKm0ltiOSebYHLzG3he2mlU5NBV8L/lVDaq7R?=
+ =?us-ascii?Q?Ant6eiV5n5ejPT8XRWe+5jQVQGjzw1MESFZxKKeNKtFeWYZ6AlkTUknvo82G?=
+ =?us-ascii?Q?/b+XhIkf9v1DpuiC/r/B6Fg9DRFiInMQLIbl4e7HcZfyQlBwa8Ai8rD07MIW?=
+ =?us-ascii?Q?j4VCm0e7KJCm76NucecqLnQLsmKlQ6gmYMLNi+lbtx640UWjb8A/hsHsXMRd?=
+ =?us-ascii?Q?Re9ZWQe4vgtuB+AKT5B0cfCLxB1MbpESJG+oUg238yWF+oTWoR5On83vO8aB?=
+ =?us-ascii?Q?BbYTQM3duzyYXrBg0Ar+iAF4ppAdoY3p7r3cuPDdX3NasHVUAdC4beqw5mV9?=
+ =?us-ascii?Q?HmXSVg1pzjGmK5/j6MtaJGyRt8JyfZau/J3pzO9YeFbxQgodT03kPAk0hbRe?=
+ =?us-ascii?Q?8BhLH14LxN9NruPJgqkilJULfVvMqsn3F3/tJZZ2nWv2fi6+Ey3/+hHth5kj?=
+ =?us-ascii?Q?ecoHqxhDU4/nRMA1xR1X/DbcIWoBZJ5oTiVMldpYQD4jBYcnJBTUgnzWVNLK?=
+ =?us-ascii?Q?tc+CHgUZr62CIh8OcZJaO86hajHDjxJSWZ+D6IA+WLuH3WusEqRDxArta9Ni?=
+ =?us-ascii?Q?vd+wIYZVLZYTb2W/phFSAlrbZS8kJhj/zk0A718vlQAQin6gUA6mX7UudK+q?=
+ =?us-ascii?Q?0yGBelosT4thyBopPKY9Fxa7al8wOaliSG3B/yMc1Nyxj7PX+kgSlG9OBgqX?=
+ =?us-ascii?Q?jXRc7n80tKO9jCtymhZdATjF6VJABObmA/G7rYUMgvyZsNSRrJcQ2ex1RXE2?=
+ =?us-ascii?Q?FA=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	Dck4nzna10KZeT33q6a3tz2PRXU9VP++rMGXGmUT5clLv7uk0k8kAa6KvPgxBdFwdB5Y6bNDUj5YkIfUYcvqTjDkzXDj7kUMzT4owcmULbjTwQJnsaDv496FGg83SFc0LnL40dBDgWW5N9vvhMP3zlSZS9w4hJmfLbvr5zZqYJgxaOsph2ppIxjVfDUlVYcczJ+GMfaQ3PdhhwcSrWAWdjNakI5QkCX5yp4JfKXI7vc+15OeweY26VY5823DjFMtHmpWTAi/kqN8ZRvPgQW8ODdKyjHYukFQMOf5WRT+azUyU4WONhB0zjXaQ1CJwyFX+QKbO4aZ4NKG8kjUqUGBpoPrO4bw+5JAw/h3cRchkDPf1UXPmaJkom52o/FahrB8YBmhSvIur+A6hMsZFYrukPAV5PfApjOSOgZU4uwe7+c7uniPNz8Sj2V32LxO+zs74FJ6sAR+ABmxpO+av7Nb3HVNj1TmAxHGv3p0x3LY9X0mBX/T826dpCRymqeTfpD3IHwWf/K6I8bUk4i1eCNC04qjbroRJJlqYbNr95kWJr4+JPybm20v/atoDGeMvm2AKUQPXr5QDmpbMQ6wkqdnVtxAq04BJF7kUDKo4rlmWZQ=
+	8VTpXWUshi8PB/9xSDpn0S2u8m1PQ7arGGi6pSpRY1LhnTmAqztriRsYM7PJ8uytS4eeKpTPEIvwYcW78IbmmlKYtBAFqwzeGJ8v6X4cwqLulRXPfh+ywypb4tuF5ZNwMRU+coECsapL4lxj5I2HWtGUa8BYPzmiI/EyJB/EBxixE5ibYtrjL3cMGwWYiOYru1XKwtj6FHj1PUk19b91E4w2u8xFeh6ERFhlHvm1AHmoRNgSwLaqtqYJq5AOBXmPixJ3atLXY39k/61dTkojZMmS0a0sDhAQXY5zvbF1vQ8TgO+RvkXu/qXRS0x1YaG34nPP2Ds5LVJZAqDMpnK+X2IGvYwaljxQxPGX21XIwq4aTOjGLRT4LjQP32zzKJj/nzvlyvaW4QJHzgqoGWw/5hULtWoh/hZnQwVQRmvLr5SFGwVD5j359r0+QHAR1yYf1KGFThB2OCqnOvegrkyQuk9jrH2kk0wCH74FrhQs7NR4+lkq4bfHqLMR5ltoUFWfwIcQnpzqNEmQBLFRResN94QupDdrtgfchRZwuIBvmdke6/PBw94DK44m19sAVnkypyHsIOrNTQDrSYZ7FOgFEk6GuvftKA+fvbzOpTW51wI=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f11a037-b6ac-4bfb-2021-08dcd8424c5b
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e74a0f9c-a318-48ec-94a6-08dcd88a4a82
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR10MB6287.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2024 00:30:44.1414
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2024 09:06:04.7902
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z1lJVYz5bLKho7ibI3jPcdhdgthWm3IlsEv+AOjmX/Zg8codpHmx4gLYc2rorQP71B9i+L7g3XzFYR27LqkPLQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB6384
+X-MS-Exchange-CrossTenant-UserPrincipalName: uY7kn8pEPAN0nN1ne9XLDGMaGrtDHutw2X+7dQ/+fRHXMikUC32wTwhVmsEOZH092Mh9uc9Qchy1Fjk7oBhuySLdzlKG7ItDunjbxfbbDW0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB6419
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-18_14,2024-09-18_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999
- malwarescore=0 spamscore=0 mlxscore=0 adultscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2408220000 definitions=main-2409190002
-X-Proofpoint-GUID: Dz1skvaC70X2PHMp3fmMmaOansPFl7FY
-X-Proofpoint-ORIG-GUID: Dz1skvaC70X2PHMp3fmMmaOansPFl7FY
+ definitions=2024-09-19_05,2024-09-18_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ spamscore=0 mlxscore=0 phishscore=0 malwarescore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2408220000 definitions=main-2409190057
+X-Proofpoint-GUID: CwDE_lPWBXRWCst8L2WMu2gPIRDNXlLk
+X-Proofpoint-ORIG-GUID: CwDE_lPWBXRWCst8L2WMu2gPIRDNXlLk
 
-From: Eugene Loh <eugene.loh@oracle.com>
+On Wed, Sep 18, 2024 at 08:30:41PM -0400, eugene.loh@oracle.com wrote:
+> From: Eugene Loh <eugene.loh@oracle.com>
+> 
+> Each stmt has a clause and a probe description.  Traditionally,
+> we have added clauses to probes.  Further, we have generated an
+> enabled probe ID for each probe/clause combination, and the
+> consumer has used the EPID to determine the PRID as well as the
+> data descriptor for the clause.
+> 
+> In this patch, change from probes having clauses associated
+> with them to having stmts.
+> 
+> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 
-Each stmt has a clause and a probe description.  Traditionally,
-we have added clauses to probes.  Further, we have generated an
-enabled probe ID for each probe/clause combination, and the
-consumer has used the EPID to determine the PRID as well as the
-data descriptor for the clause.
+Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
 
-In this patch, change from probes having clauses associated
-with them to having stmts.
-
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
----
- libdtrace/dt_cg.c      | 17 +++++-----
- libdtrace/dt_probe.c   | 73 ++++++++++++++++++++++--------------------
- libdtrace/dt_probe.h   | 12 +++----
- libdtrace/dt_program.c |  8 ++---
- 4 files changed, 56 insertions(+), 54 deletions(-)
-
-diff --git a/libdtrace/dt_cg.c b/libdtrace/dt_cg.c
-index 166627fba..f6c88c5ca 100644
---- a/libdtrace/dt_cg.c
-+++ b/libdtrace/dt_cg.c
-@@ -844,9 +844,10 @@ typedef struct {
- } dt_clause_arg_t;
- 
- static int
--dt_cg_call_clause(dtrace_hdl_t *dtp, dt_ident_t *idp, dt_clause_arg_t *arg)
-+dt_cg_call_clause(dtrace_hdl_t *dtp, dtrace_stmtdesc_t *sdp, dt_clause_arg_t *arg)
- {
- 	dt_irlist_t	*dlp = arg->dlp;
-+	dt_ident_t	*idp = sdp->dtsd_clause;
- 
- 	/*
- 	 *	if (*dctx.act != act)	// ldw %r0, [%r9 + DCTX_ACT]
-@@ -874,14 +875,12 @@ dt_cg_call_clause(dtrace_hdl_t *dtp, dt_ident_t *idp, dt_clause_arg_t *arg)
- }
- 
- void
--dt_cg_tramp_call_clauses(dt_pcb_t *pcb, const dt_probe_t *prp,
--			 dt_activity_t act)
-+dt_cg_tramp_call_clauses(dt_pcb_t *pcb, const dt_probe_t *prp, dt_activity_t act)
- {
- 	dt_irlist_t	*dlp = &pcb->pcb_ir;
- 	dt_clause_arg_t	arg = { dlp, act, pcb->pcb_exitlbl };
- 
--	dt_probe_clause_iter(pcb->pcb_hdl, prp,
--			     (dt_clause_f *)dt_cg_call_clause, &arg);
-+	dt_probe_stmt_iter(pcb->pcb_hdl, prp, (dt_stmt_f *)dt_cg_call_clause, &arg);
- }
- 
- static int
-@@ -990,9 +989,10 @@ dt_cg_tramp_epilogue_advance(dt_pcb_t *pcb, dt_activity_t act)
- }
- 
- static int
--dt_cg_tramp_error_call_clause(dtrace_hdl_t *dtp, dt_ident_t *idp,
--			      dt_irlist_t *dlp)
-+dt_cg_tramp_error_call_clause(dtrace_hdl_t *dtp, dtrace_stmtdesc_t *sdp, dt_irlist_t *dlp)
- {
-+	dt_ident_t *idp = sdp->dtsd_clause;
-+
- 	/*
- 	 *	dt_error_#(dctx);	// mov %r1, %r9
- 	 *				// call dt_error_#
-@@ -1029,8 +1029,7 @@ dt_cg_tramp_error(dt_pcb_t *pcb)
- 	TRACE_REGSET("Trampoline: Begin");
- 	emit(dlp, BPF_MOV_REG(BPF_REG_9, BPF_REG_1));
- 
--	dt_probe_clause_iter(dtp, dtp->dt_error,
--			     (dt_clause_f *)dt_cg_tramp_error_call_clause, dlp);
-+	dt_probe_stmt_iter(dtp, dtp->dt_error, (dt_stmt_f *)dt_cg_tramp_error_call_clause, dlp);
- 
- 	emit(dlp, BPF_MOV_IMM(BPF_REG_0, 0));
- 	emit(dlp, BPF_RETURN());
-diff --git a/libdtrace/dt_probe.c b/libdtrace/dt_probe.c
-index 01a0196af..686e2a661 100644
---- a/libdtrace/dt_probe.c
-+++ b/libdtrace/dt_probe.c
-@@ -24,10 +24,10 @@
- #include <dt_list.h>
- #include <dt_bpf.h>
- 
--typedef struct dt_probe_clause {
--	dt_list_t	list;
--	dt_ident_t	*clause;
--} dt_probe_clause_t;
-+typedef struct dt_probe_stmt {
-+	dt_list_t		list;
-+	dtrace_stmtdesc_t	*stmt;
-+} dt_probe_stmt_t;
- 
- typedef struct dt_probe_dependent {
- 	dt_list_t	list;
-@@ -335,7 +335,7 @@ dt_probe_enable(dtrace_hdl_t *dtp, dt_probe_t *prp)
- void
- dt_probe_destroy(dt_probe_t *prp)
- {
--	dt_probe_clause_t	*pcp, *pcp_next;
-+	dt_probe_stmt_t		*psp, *psp_next;
- 	dt_probe_instance_t	*pip, *pip_next;
- 	dt_probe_dependent_t	*dep, *dep_next;
- 	dtrace_hdl_t		*dtp;
-@@ -367,9 +367,9 @@ dt_probe_destroy(dt_probe_t *prp)
- 	dt_free(dtp, prp->nargv);
- 	dt_free(dtp, prp->xargv);
- 
--	for (pcp = dt_list_next(&prp->clauses); pcp != NULL; pcp = pcp_next) {
--		pcp_next = dt_list_next(pcp);
--		dt_free(dtp, pcp);
-+	for (psp = dt_list_next(&prp->stmts); psp != NULL; psp = psp_next) {
-+		psp_next = dt_list_next(psp);
-+		dt_free(dtp, psp);
- 	}
- 
- 	for (dep = dt_list_next(&prp->dependents); dep != NULL; dep = dep_next) {
-@@ -1147,24 +1147,24 @@ dtrace_probe_iter(dtrace_hdl_t *dtp, const dtrace_probedesc_t *pdp,
- }
- 
- /*
-- * Create an ERROR-probe specific copy of a given clause.
-- *
-- * A modified copy of the clause is necessary because the ERROR probe may share
-- * some clauses with other probes, and yet it needs to be handled differently.
-+ * Create an ERROR-probe specific copy of a given stmt.
-  *
-- * The following modifications are made in the copy of the clause:
-+ * A modified copy of the stmt is necessary because the ERROR probe may share
-+ * some stmts with other probes, and yet it needs to be handled differently.
-  *
-- *	- it is named dt_error_N where N is taken from the original clause
-- *	  dt_clause_N (which also guarantees uniqueness)
-+ * In the copy of the stmt, the clause is named dt_error_N, where N is taken
-+ * from the original stmt's dt_clause_N (which also guarantees uniqueness).
-  */
--dt_ident_t *
--dt_probe_error_clause(dtrace_hdl_t *dtp, dt_ident_t *idp)
-+static dtrace_stmtdesc_t *
-+dt_probe_error_stmt(dtrace_hdl_t *dtp, dtrace_stmtdesc_t *sdp)
- {
- 	char		*name;
- 	int		len;
-+	dt_ident_t	*idp = sdp->dtsd_clause;
- 	dtrace_difo_t	*dp = dt_dlib_get_func_difo(dtp, idp);
- 	dt_ident_t	*nidp = NULL;
- 	dtrace_difo_t	*ndp;
-+	dtrace_stmtdesc_t *nsdp = NULL;
- 
- 	/*
- 	 * Copy the DIFO.
-@@ -1180,7 +1180,6 @@ dt_probe_error_clause(dtrace_hdl_t *dtp, dt_ident_t *idp)
- 	name = dt_alloc(dtp, len);
- 	if (name == NULL)
- 		goto no_mem;
--
- 	snprintf(name, len, "dt_error_%s", idp->di_name + strlen("dt_clause_"));
- 
- 	/*
-@@ -1194,7 +1193,12 @@ dt_probe_error_clause(dtrace_hdl_t *dtp, dt_ident_t *idp)
- 
- 	dt_ident_set_data(nidp, ndp);
- 
--	return nidp;
-+	nsdp = dt_alloc(dtp, sizeof(dtrace_stmtdesc_t));
-+	if (nsdp == NULL)
-+		goto no_mem;
-+	nsdp->dtsd_clause = nidp;
-+
-+	return nsdp;
- 
- no_mem:
- 	if (ndp != NULL)
-@@ -1207,40 +1211,39 @@ no_mem:
- }
- 
- int
--dt_probe_add_clause(dtrace_hdl_t *dtp, dt_probe_t *prp, dt_ident_t *idp)
-+dt_probe_add_stmt(dtrace_hdl_t *dtp, dt_probe_t *prp, dtrace_stmtdesc_t *sdp)
- {
--	dt_probe_clause_t	*pcp;
-+	dt_probe_stmt_t	*psp;
- 
--	pcp = dt_zalloc(dtp, sizeof(dt_probe_clause_t));
--	if (pcp == NULL)
-+	psp = dt_zalloc(dtp, sizeof(dt_probe_stmt_t));
-+	if (psp == NULL)
- 		return dt_set_errno(dtp, EDT_NOMEM);
- 
- 	if (prp == dtp->dt_error) {
--		pcp->clause = dt_probe_error_clause(dtp, idp);
--		if (pcp->clause == NULL) {
--			dt_free(dtp, pcp);
-+		psp->stmt = dt_probe_error_stmt(dtp, sdp);
-+		if (psp->stmt == NULL) {
-+			dt_free(dtp, psp);
- 			return 0;
- 		}
- 	} else
--		pcp->clause = idp;
-+		psp->stmt = sdp;
- 
--	dt_list_append(&prp->clauses, pcp);
-+	dt_list_append(&prp->stmts, psp);
- 
- 	return 0;
- }
- 
- int
--dt_probe_clause_iter(dtrace_hdl_t *dtp, const dt_probe_t *prp,
--		     dt_clause_f *func, void *arg)
-+dt_probe_stmt_iter(dtrace_hdl_t *dtp, const dt_probe_t *prp, dt_stmt_f *func, void *arg)
- {
--	dt_probe_clause_t	*pcp;
--	int			rc;
-+	dt_probe_stmt_t	*psp;
-+	int		rc;
- 
- 	assert(func != NULL);
- 
--	for (pcp = dt_list_next(&prp->clauses); pcp != NULL;
--	     pcp = dt_list_next(pcp)) {
--		rc = func(dtp, pcp->clause, arg);
-+	for (psp = dt_list_next(&prp->stmts); psp != NULL;
-+	     psp = dt_list_next(psp)) {
-+		rc = func(dtp, psp->stmt, arg);
- 
- 		if (rc != 0)
- 			return rc;
-diff --git a/libdtrace/dt_probe.h b/libdtrace/dt_probe.h
-index b4c1a3e40..2a78cb9ca 100644
---- a/libdtrace/dt_probe.h
-+++ b/libdtrace/dt_probe.h
-@@ -32,7 +32,7 @@ typedef struct dt_probe_instance {
- 
- typedef struct dt_probe {
- 	dt_list_t list;			/* prev/next in enablings chain */
--	dt_list_t clauses;		/* clauses to attach */
-+	dt_list_t stmts;		/* stmts */
- 	dt_list_t dependents;		/* dependenct probes to attach */
- 	const dtrace_probedesc_t *desc;	/* probe description (id, name) */
- 	dt_provider_t *prov;		/* pointer to containing provider */
-@@ -86,11 +86,11 @@ typedef int dt_probe_f(dtrace_hdl_t *dtp, dt_probe_t *prp, void *arg);
- extern int dt_probe_iter(dtrace_hdl_t *dtp, const dtrace_probedesc_t *pdp,
- 			 dt_probe_f *pfunc, dtrace_probe_f *dfunc, void *arg);
- 
--extern int dt_probe_add_clause(dtrace_hdl_t *dtp, dt_probe_t *prp,
--			       dt_ident_t *idp);
--typedef int dt_clause_f(dtrace_hdl_t *dtp, dt_ident_t *idp, void *arg);
--extern int dt_probe_clause_iter(dtrace_hdl_t *dtp, const dt_probe_t *prp,
--				dt_clause_f *func, void *arg);
-+extern int dt_probe_add_stmt(dtrace_hdl_t *dtp, dt_probe_t *prp,
-+			     dtrace_stmtdesc_t *sdp);
-+typedef int dt_stmt_f(dtrace_hdl_t *dtp, dtrace_stmtdesc_t *sdp, void *arg);
-+extern int dt_probe_stmt_iter(dtrace_hdl_t *dtp, const dt_probe_t *prp,
-+			      dt_stmt_f *func, void *arg);
- 
- extern int dt_probe_add_dependent(dtrace_hdl_t *dtp, dt_probe_t *prp,
- 				  dt_probe_t *idprp);
-diff --git a/libdtrace/dt_program.c b/libdtrace/dt_program.c
-index a4b052fc4..0e2c1e2af 100644
---- a/libdtrace/dt_program.c
-+++ b/libdtrace/dt_program.c
-@@ -139,8 +139,8 @@ dtrace_program_info(dtrace_hdl_t *dtp, dtrace_prog_t *pgp,
- }
- 
- typedef struct pi_state {
--	int		*cnt;
--	dt_ident_t	*idp;
-+	int			*cnt;
-+	dtrace_stmtdesc_t	*sdp;
- } pi_state_t;
- 
- static int
-@@ -151,7 +151,7 @@ dt_stmt_probe(dtrace_hdl_t *dtp, dt_probe_t *prp, pi_state_t *st)
- 	dt_probe_info(dtp, prp->desc, &p);
- 	dt_probe_enable(dtp, prp);
- 
--	dt_probe_add_clause(dtp, prp, st->idp);
-+	dt_probe_add_stmt(dtp, prp, st->sdp);
- 	(*st->cnt)++;
- 
- 	return 0;
-@@ -166,7 +166,7 @@ dt_prog_stmt(dtrace_hdl_t *dtp, dtrace_prog_t *pgp, dtrace_stmtdesc_t *sdp,
- 	int			rc;
- 
- 	st.cnt = cnt;
--	st.idp = sdp->dtsd_clause;
-+	st.sdp = sdp;
- 	rc = dt_probe_iter(dtp, pdp, (dt_probe_f *)dt_stmt_probe, NULL, &st);
- 
- 	/*
--- 
-2.43.5
-
+> ---
+>  libdtrace/dt_cg.c      | 17 +++++-----
+>  libdtrace/dt_probe.c   | 73 ++++++++++++++++++++++--------------------
+>  libdtrace/dt_probe.h   | 12 +++----
+>  libdtrace/dt_program.c |  8 ++---
+>  4 files changed, 56 insertions(+), 54 deletions(-)
+> 
+> diff --git a/libdtrace/dt_cg.c b/libdtrace/dt_cg.c
+> index 166627fba..f6c88c5ca 100644
+> --- a/libdtrace/dt_cg.c
+> +++ b/libdtrace/dt_cg.c
+> @@ -844,9 +844,10 @@ typedef struct {
+>  } dt_clause_arg_t;
+>  
+>  static int
+> -dt_cg_call_clause(dtrace_hdl_t *dtp, dt_ident_t *idp, dt_clause_arg_t *arg)
+> +dt_cg_call_clause(dtrace_hdl_t *dtp, dtrace_stmtdesc_t *sdp, dt_clause_arg_t *arg)
+>  {
+>  	dt_irlist_t	*dlp = arg->dlp;
+> +	dt_ident_t	*idp = sdp->dtsd_clause;
+>  
+>  	/*
+>  	 *	if (*dctx.act != act)	// ldw %r0, [%r9 + DCTX_ACT]
+> @@ -874,14 +875,12 @@ dt_cg_call_clause(dtrace_hdl_t *dtp, dt_ident_t *idp, dt_clause_arg_t *arg)
+>  }
+>  
+>  void
+> -dt_cg_tramp_call_clauses(dt_pcb_t *pcb, const dt_probe_t *prp,
+> -			 dt_activity_t act)
+> +dt_cg_tramp_call_clauses(dt_pcb_t *pcb, const dt_probe_t *prp, dt_activity_t act)
+>  {
+>  	dt_irlist_t	*dlp = &pcb->pcb_ir;
+>  	dt_clause_arg_t	arg = { dlp, act, pcb->pcb_exitlbl };
+>  
+> -	dt_probe_clause_iter(pcb->pcb_hdl, prp,
+> -			     (dt_clause_f *)dt_cg_call_clause, &arg);
+> +	dt_probe_stmt_iter(pcb->pcb_hdl, prp, (dt_stmt_f *)dt_cg_call_clause, &arg);
+>  }
+>  
+>  static int
+> @@ -990,9 +989,10 @@ dt_cg_tramp_epilogue_advance(dt_pcb_t *pcb, dt_activity_t act)
+>  }
+>  
+>  static int
+> -dt_cg_tramp_error_call_clause(dtrace_hdl_t *dtp, dt_ident_t *idp,
+> -			      dt_irlist_t *dlp)
+> +dt_cg_tramp_error_call_clause(dtrace_hdl_t *dtp, dtrace_stmtdesc_t *sdp, dt_irlist_t *dlp)
+>  {
+> +	dt_ident_t *idp = sdp->dtsd_clause;
+> +
+>  	/*
+>  	 *	dt_error_#(dctx);	// mov %r1, %r9
+>  	 *				// call dt_error_#
+> @@ -1029,8 +1029,7 @@ dt_cg_tramp_error(dt_pcb_t *pcb)
+>  	TRACE_REGSET("Trampoline: Begin");
+>  	emit(dlp, BPF_MOV_REG(BPF_REG_9, BPF_REG_1));
+>  
+> -	dt_probe_clause_iter(dtp, dtp->dt_error,
+> -			     (dt_clause_f *)dt_cg_tramp_error_call_clause, dlp);
+> +	dt_probe_stmt_iter(dtp, dtp->dt_error, (dt_stmt_f *)dt_cg_tramp_error_call_clause, dlp);
+>  
+>  	emit(dlp, BPF_MOV_IMM(BPF_REG_0, 0));
+>  	emit(dlp, BPF_RETURN());
+> diff --git a/libdtrace/dt_probe.c b/libdtrace/dt_probe.c
+> index 01a0196af..686e2a661 100644
+> --- a/libdtrace/dt_probe.c
+> +++ b/libdtrace/dt_probe.c
+> @@ -24,10 +24,10 @@
+>  #include <dt_list.h>
+>  #include <dt_bpf.h>
+>  
+> -typedef struct dt_probe_clause {
+> -	dt_list_t	list;
+> -	dt_ident_t	*clause;
+> -} dt_probe_clause_t;
+> +typedef struct dt_probe_stmt {
+> +	dt_list_t		list;
+> +	dtrace_stmtdesc_t	*stmt;
+> +} dt_probe_stmt_t;
+>  
+>  typedef struct dt_probe_dependent {
+>  	dt_list_t	list;
+> @@ -335,7 +335,7 @@ dt_probe_enable(dtrace_hdl_t *dtp, dt_probe_t *prp)
+>  void
+>  dt_probe_destroy(dt_probe_t *prp)
+>  {
+> -	dt_probe_clause_t	*pcp, *pcp_next;
+> +	dt_probe_stmt_t		*psp, *psp_next;
+>  	dt_probe_instance_t	*pip, *pip_next;
+>  	dt_probe_dependent_t	*dep, *dep_next;
+>  	dtrace_hdl_t		*dtp;
+> @@ -367,9 +367,9 @@ dt_probe_destroy(dt_probe_t *prp)
+>  	dt_free(dtp, prp->nargv);
+>  	dt_free(dtp, prp->xargv);
+>  
+> -	for (pcp = dt_list_next(&prp->clauses); pcp != NULL; pcp = pcp_next) {
+> -		pcp_next = dt_list_next(pcp);
+> -		dt_free(dtp, pcp);
+> +	for (psp = dt_list_next(&prp->stmts); psp != NULL; psp = psp_next) {
+> +		psp_next = dt_list_next(psp);
+> +		dt_free(dtp, psp);
+>  	}
+>  
+>  	for (dep = dt_list_next(&prp->dependents); dep != NULL; dep = dep_next) {
+> @@ -1147,24 +1147,24 @@ dtrace_probe_iter(dtrace_hdl_t *dtp, const dtrace_probedesc_t *pdp,
+>  }
+>  
+>  /*
+> - * Create an ERROR-probe specific copy of a given clause.
+> - *
+> - * A modified copy of the clause is necessary because the ERROR probe may share
+> - * some clauses with other probes, and yet it needs to be handled differently.
+> + * Create an ERROR-probe specific copy of a given stmt.
+>   *
+> - * The following modifications are made in the copy of the clause:
+> + * A modified copy of the stmt is necessary because the ERROR probe may share
+> + * some stmts with other probes, and yet it needs to be handled differently.
+>   *
+> - *	- it is named dt_error_N where N is taken from the original clause
+> - *	  dt_clause_N (which also guarantees uniqueness)
+> + * In the copy of the stmt, the clause is named dt_error_N, where N is taken
+> + * from the original stmt's dt_clause_N (which also guarantees uniqueness).
+>   */
+> -dt_ident_t *
+> -dt_probe_error_clause(dtrace_hdl_t *dtp, dt_ident_t *idp)
+> +static dtrace_stmtdesc_t *
+> +dt_probe_error_stmt(dtrace_hdl_t *dtp, dtrace_stmtdesc_t *sdp)
+>  {
+>  	char		*name;
+>  	int		len;
+> +	dt_ident_t	*idp = sdp->dtsd_clause;
+>  	dtrace_difo_t	*dp = dt_dlib_get_func_difo(dtp, idp);
+>  	dt_ident_t	*nidp = NULL;
+>  	dtrace_difo_t	*ndp;
+> +	dtrace_stmtdesc_t *nsdp = NULL;
+>  
+>  	/*
+>  	 * Copy the DIFO.
+> @@ -1180,7 +1180,6 @@ dt_probe_error_clause(dtrace_hdl_t *dtp, dt_ident_t *idp)
+>  	name = dt_alloc(dtp, len);
+>  	if (name == NULL)
+>  		goto no_mem;
+> -
+>  	snprintf(name, len, "dt_error_%s", idp->di_name + strlen("dt_clause_"));
+>  
+>  	/*
+> @@ -1194,7 +1193,12 @@ dt_probe_error_clause(dtrace_hdl_t *dtp, dt_ident_t *idp)
+>  
+>  	dt_ident_set_data(nidp, ndp);
+>  
+> -	return nidp;
+> +	nsdp = dt_alloc(dtp, sizeof(dtrace_stmtdesc_t));
+> +	if (nsdp == NULL)
+> +		goto no_mem;
+> +	nsdp->dtsd_clause = nidp;
+> +
+> +	return nsdp;
+>  
+>  no_mem:
+>  	if (ndp != NULL)
+> @@ -1207,40 +1211,39 @@ no_mem:
+>  }
+>  
+>  int
+> -dt_probe_add_clause(dtrace_hdl_t *dtp, dt_probe_t *prp, dt_ident_t *idp)
+> +dt_probe_add_stmt(dtrace_hdl_t *dtp, dt_probe_t *prp, dtrace_stmtdesc_t *sdp)
+>  {
+> -	dt_probe_clause_t	*pcp;
+> +	dt_probe_stmt_t	*psp;
+>  
+> -	pcp = dt_zalloc(dtp, sizeof(dt_probe_clause_t));
+> -	if (pcp == NULL)
+> +	psp = dt_zalloc(dtp, sizeof(dt_probe_stmt_t));
+> +	if (psp == NULL)
+>  		return dt_set_errno(dtp, EDT_NOMEM);
+>  
+>  	if (prp == dtp->dt_error) {
+> -		pcp->clause = dt_probe_error_clause(dtp, idp);
+> -		if (pcp->clause == NULL) {
+> -			dt_free(dtp, pcp);
+> +		psp->stmt = dt_probe_error_stmt(dtp, sdp);
+> +		if (psp->stmt == NULL) {
+> +			dt_free(dtp, psp);
+>  			return 0;
+>  		}
+>  	} else
+> -		pcp->clause = idp;
+> +		psp->stmt = sdp;
+>  
+> -	dt_list_append(&prp->clauses, pcp);
+> +	dt_list_append(&prp->stmts, psp);
+>  
+>  	return 0;
+>  }
+>  
+>  int
+> -dt_probe_clause_iter(dtrace_hdl_t *dtp, const dt_probe_t *prp,
+> -		     dt_clause_f *func, void *arg)
+> +dt_probe_stmt_iter(dtrace_hdl_t *dtp, const dt_probe_t *prp, dt_stmt_f *func, void *arg)
+>  {
+> -	dt_probe_clause_t	*pcp;
+> -	int			rc;
+> +	dt_probe_stmt_t	*psp;
+> +	int		rc;
+>  
+>  	assert(func != NULL);
+>  
+> -	for (pcp = dt_list_next(&prp->clauses); pcp != NULL;
+> -	     pcp = dt_list_next(pcp)) {
+> -		rc = func(dtp, pcp->clause, arg);
+> +	for (psp = dt_list_next(&prp->stmts); psp != NULL;
+> +	     psp = dt_list_next(psp)) {
+> +		rc = func(dtp, psp->stmt, arg);
+>  
+>  		if (rc != 0)
+>  			return rc;
+> diff --git a/libdtrace/dt_probe.h b/libdtrace/dt_probe.h
+> index b4c1a3e40..2a78cb9ca 100644
+> --- a/libdtrace/dt_probe.h
+> +++ b/libdtrace/dt_probe.h
+> @@ -32,7 +32,7 @@ typedef struct dt_probe_instance {
+>  
+>  typedef struct dt_probe {
+>  	dt_list_t list;			/* prev/next in enablings chain */
+> -	dt_list_t clauses;		/* clauses to attach */
+> +	dt_list_t stmts;		/* stmts */
+>  	dt_list_t dependents;		/* dependenct probes to attach */
+>  	const dtrace_probedesc_t *desc;	/* probe description (id, name) */
+>  	dt_provider_t *prov;		/* pointer to containing provider */
+> @@ -86,11 +86,11 @@ typedef int dt_probe_f(dtrace_hdl_t *dtp, dt_probe_t *prp, void *arg);
+>  extern int dt_probe_iter(dtrace_hdl_t *dtp, const dtrace_probedesc_t *pdp,
+>  			 dt_probe_f *pfunc, dtrace_probe_f *dfunc, void *arg);
+>  
+> -extern int dt_probe_add_clause(dtrace_hdl_t *dtp, dt_probe_t *prp,
+> -			       dt_ident_t *idp);
+> -typedef int dt_clause_f(dtrace_hdl_t *dtp, dt_ident_t *idp, void *arg);
+> -extern int dt_probe_clause_iter(dtrace_hdl_t *dtp, const dt_probe_t *prp,
+> -				dt_clause_f *func, void *arg);
+> +extern int dt_probe_add_stmt(dtrace_hdl_t *dtp, dt_probe_t *prp,
+> +			     dtrace_stmtdesc_t *sdp);
+> +typedef int dt_stmt_f(dtrace_hdl_t *dtp, dtrace_stmtdesc_t *sdp, void *arg);
+> +extern int dt_probe_stmt_iter(dtrace_hdl_t *dtp, const dt_probe_t *prp,
+> +			      dt_stmt_f *func, void *arg);
+>  
+>  extern int dt_probe_add_dependent(dtrace_hdl_t *dtp, dt_probe_t *prp,
+>  				  dt_probe_t *idprp);
+> diff --git a/libdtrace/dt_program.c b/libdtrace/dt_program.c
+> index a4b052fc4..0e2c1e2af 100644
+> --- a/libdtrace/dt_program.c
+> +++ b/libdtrace/dt_program.c
+> @@ -139,8 +139,8 @@ dtrace_program_info(dtrace_hdl_t *dtp, dtrace_prog_t *pgp,
+>  }
+>  
+>  typedef struct pi_state {
+> -	int		*cnt;
+> -	dt_ident_t	*idp;
+> +	int			*cnt;
+> +	dtrace_stmtdesc_t	*sdp;
+>  } pi_state_t;
+>  
+>  static int
+> @@ -151,7 +151,7 @@ dt_stmt_probe(dtrace_hdl_t *dtp, dt_probe_t *prp, pi_state_t *st)
+>  	dt_probe_info(dtp, prp->desc, &p);
+>  	dt_probe_enable(dtp, prp);
+>  
+> -	dt_probe_add_clause(dtp, prp, st->idp);
+> +	dt_probe_add_stmt(dtp, prp, st->sdp);
+>  	(*st->cnt)++;
+>  
+>  	return 0;
+> @@ -166,7 +166,7 @@ dt_prog_stmt(dtrace_hdl_t *dtp, dtrace_prog_t *pgp, dtrace_stmtdesc_t *sdp,
+>  	int			rc;
+>  
+>  	st.cnt = cnt;
+> -	st.idp = sdp->dtsd_clause;
+> +	st.sdp = sdp;
+>  	rc = dt_probe_iter(dtp, pdp, (dt_probe_f *)dt_stmt_probe, NULL, &st);
+>  
+>  	/*
+> -- 
+> 2.43.5
+> 
