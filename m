@@ -1,77 +1,80 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41156136328
-	for <dtrace@lists.linux.dev>; Tue, 24 Sep 2024 20:26:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305E6139CE9
+	for <dtrace@lists.linux.dev>; Tue, 24 Sep 2024 20:26:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727209573; cv=fail; b=V5J4sPWNiDnp1ex56HONLwLtLUzAfEhV/IIx76wbLRd8CENr4uzzWSeZaPaYKPvEQC8voaDwufOrMo+UcTUw38FR62K0RrxFbn49LC24qbsitGP+eboUFEnRmSZhu1R6TCp9QW5c5p0R23YA6t3uh2MQfv/co/Z6c7mbgkTsE+4=
+	t=1727209578; cv=fail; b=HRL+heHHsM5vUg2nfeCvODn8DueFu2DIQKJxXoymkDgDjiovxM0KZWvZYG98fFHipiJEGCvvYWQfiAuTJsm9UPIMEqKI2RttsodO3jgOeXCSI2BwGzRn71+Sjl3ohzgV/4N0Ngrpqp/UB74oUatvTbWsBFCHZisa09QBg5HJhUo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727209573; c=relaxed/simple;
-	bh=DqyxaiYQLHRxlZQmlwjYIwvGqhu1K7sfD0Lkdy9ruQQ=;
-	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=PdtOyhXgdJugnYTK7FthJK9pyoMmjPh+BF0fojViE2Cihuzf8tmdZ7B5rJkhIf1uI0aANXQesPRxZPk+fsnEQvdcA6yrj4MBFFBdb7QFv1rDuqCZeAED6RkiB4oZFwvUOzHTVQTYPpJdLZUM9vsZ8kq4HpcdktOk4x07ohi7nsA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=YOfZeZgt; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=zwnpXH7S; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1727209578; c=relaxed/simple;
+	bh=troSGOigy1nrXVlCmP1I2k0vyZN8E2wdoIu9VxXaeFE=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=oJY31He1mRD9ATAfjqFAVjt5wGSoFU7kCP4xv99Qavhfl7ktcTncAD2DDZhmqYjH2UrL7XCXd26rjTkgskCp14/+MUT1zwEy/DAWEfjcBdgeZXE0HvV7t8aAzk/nknXVrRlRqApRKyJ1F2CgylFTeRCDzGVoGaO4whcQ+UfT0mw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=gJyY8H5v; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=uWWEmwLb; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="YOfZeZgt";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="zwnpXH7S"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48OHMY1T020536
-	for <dtrace@lists.linux.dev>; Tue, 24 Sep 2024 20:26:07 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="gJyY8H5v";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="uWWEmwLb"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48OHMY57008640
+	for <dtrace@lists.linux.dev>; Tue, 24 Sep 2024 20:26:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	from:to:subject:date:message-id:content-type:mime-version; s=
-	corp-2023-11-20; bh=S11bPKkUermBZecg9scZAZ0qWoaOJtGkHC7vK2suZ2U=; b=
-	YOfZeZgtbxFC0w6+g0oJGTfETFz702tC0tgZH1kxK5WAzkZI4RlM2fGCzIQDHL4s
-	JYF1qeTdqBNXGgVOfRbExD+Msxh0jESG2fh81slEBD4Ywx4qJ6hkAy/EKq14HiUL
-	TLV09KXUktO4v3W2B6YdCzIdIANbrm2usFkIZRlKguEXUtpxjF8dILmqVgPr/sp4
-	mzUqRprHNkXoyND5bMYkxKkBLs5WBAy14V3TbWM27SDXKNUbLsZ6wUlWd1/nimAb
-	U0zZdHyVlm5+c4uJ9JsCqO7VGUrtsPpif/YrjGe7gghu0YTdbCsR5qU92mygw3uR
-	4p9pIQ7CZGZcZyP6yPhrgQ==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41snrt614g-1
+	from:to:subject:date:message-id:in-reply-to:references
+	:content-type:mime-version; s=corp-2023-11-20; bh=WSvnGhkBZXJXhh
+	NeICHLimzqcgnVpi0llzZLeS1ZVpo=; b=gJyY8H5vroHETWY0ma30/Pf8dzgY6Z
+	lmH/BmGUhnm2Uec+q1294nOXe9+d5gSPJCZEMXV0JmHakOfvRX9T22cQtWtliSwn
+	oABNRGu2+9gsubpd1zn8zBOfgQ/7teJSSZD8q7dmKJqKeTcxYJULd+PFCJxxdfZT
+	2ONilTV3qehRV6vPbr/yL0zn7bXznLkxiJYi71z4fHVb9UN/gNUf/bh9iEZkdq+n
+	8dJG81bqkSgWd81Bn6PKtCXfrtYi1ofjFjEy9Dvhe/+C2UJnafmd57BolomLhq3+
+	LMdDzLyaquxgG11yOm+ow3r17Dab8Uni4RgM+IHE8a6KojwG+a4ccOLw==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41sp6ce4uj-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 24 Sep 2024 20:26:06 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 48OIu9qh031249
-	for <dtrace@lists.linux.dev>; Tue, 24 Sep 2024 20:26:05 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02lp2043.outbound.protection.outlook.com [104.47.51.43])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 41tkc6bs46-2
+	for <dtrace@lists.linux.dev>; Tue, 24 Sep 2024 20:26:14 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 48OImDc8026082
+	for <dtrace@lists.linux.dev>; Tue, 24 Sep 2024 20:26:13 GMT
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2042.outbound.protection.outlook.com [104.47.56.42])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 41smk9rnn2-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 24 Sep 2024 20:26:05 +0000
+	for <dtrace@lists.linux.dev>; Tue, 24 Sep 2024 20:26:13 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ypKuDetlL1Hvc3xt2ZivH5ijCv9Z6DUqdhP97PWhu26MDn0ZodqRhkN2NOnVoYMrNtvCz3pnZoEGuoQFwVA5JR5BXrfch0dMjF1olKKlbXk7KWT+aTyc3PiM8Mo3oZogSjDG0kIeyfAVcb/EeFMizA8OdCHcjbIpYS1FeYu7ZdUFOb+fP8Iiai6RXmj4s+JIgY6tFWH1tZ28zP4ieOd7p/iHD3E+wBepRTwsYdRFH+2UnAFdvPUBIstG47SRovhlRJieI7VvpBCHTMZtnbyG0DavpF6br09UyC/GjomGe5WPiWwbsfWTWdsPzdat6NSZ1/f+StGcxghN/omCdYolrA==
+ b=jNB/2MeoQSfrW54oARxT9a7vgKWefIGUh1vmPy5qZZawgjXq5xsQDlu137tb6wGPF/jbFuC87kO6Eo4IxUKU6G2oudRdjSGfdOk0tcxVORluLfEcLreFjJhxEASRO9cVsecb76aRpVmTVg12sSYGQe9i7/COTOYptOSoS50EkXycYoCDf3o91sn8VsY7ETaCAufllu/WPA5Nv+pBus5olbrPxmZ24fCfvzvCUTARv0ky32+ij9WeueYhNnerK1VK0FLB2FxXpgtKAxehvoezhVpBQJ5YWUr4V1/HNfOVaRBAkU+5Qg8hyetzuOaSmMk8SzKJn1v9tafuMqHjJnFtIg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S11bPKkUermBZecg9scZAZ0qWoaOJtGkHC7vK2suZ2U=;
- b=QzVrnXlgHRSvTtmDZhbM45pQ7EijGQvcZXdqUTrLCx/mo5+GrC4+i4QuGDDNh411d9JEda05QWKTPJREtr+hNDQ7BTg2RSQqRDZ6KKZRndg2wslA6JBzkC168q4r5n5MI1Sz8QevdL7t7XZdWpfckBD6Asm8mojMmIBpZHbLxIJaPUoGaKOGhjpE1oc03YyApsojA7MPRhlPA0+C6uSESyxqjSxPL/MIONqVjFxNFUaJIc6VSi+kpMBz40S/UMzdxUd2WsMh1tNXstoGDuRsbag8bKAgmEBSvlIKDwrKNdvhHIO0PG3578rsA0hUFWPiGEClHF9o0GhziXDTRjxNlQ==
+ bh=WSvnGhkBZXJXhhNeICHLimzqcgnVpi0llzZLeS1ZVpo=;
+ b=dh7SuL2gg7ZtQD8E/joWFQKec344ASUU1Rq5CNb6TQH78eFLS/zA26pkyiQCHnR95DzxWOh1AYEhNXIcMcEgz78Z8vtsq0onkwK1EQ1mlKmsy9yFZvUZlPPeNNAzUaqsbN2xyOk8sk70cnKUls+No05iLaaAEDupEE1MpnBXI0uwzw9RE6gIYMNEGuFPvht+1sGzREbxBgfQhxV5OIjLI5ErebDXYfpWfkjIfBC0+apqM5/pZW+xXH8bjLBvI4ReGNRT8JpaJdX6ZC+IIbJ3ocrzMNQItgzofECWkX7txuFRoonLha7j5IKJEOT1uS72q5jKAo3IX0P2Y50z82R5DA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S11bPKkUermBZecg9scZAZ0qWoaOJtGkHC7vK2suZ2U=;
- b=zwnpXH7Sj3FnlNAGQVoPvOtTnTD+Xb08hZ0pc8uw8kPw40HWmiDP1HzyrxGB6I1heMYjJmEyfxd7EV1A7vz1x+/Bb4XyJxjzUjBe7Gcc9j7khyS5bYnMYVRlHH5F+xABfQNkgGUNWUl0ZbQLLB3Lwqb/5UMdHjDHTnmVUAqtMQg=
+ bh=WSvnGhkBZXJXhhNeICHLimzqcgnVpi0llzZLeS1ZVpo=;
+ b=uWWEmwLbkCsG0F92Mr2eqxz88N0HW2bUYv8jQrOmxzHARFyA5fMxi1boaccFpyav1EbqWSL9IDhLAZJSvL7UAfuiGo/b5b+Pcc8zdr5WwbYtx0y2NhxKRA4YXRPt5FcXZrnDJmAoqlNTulyWjN4gBuoi0oOE2sb5JynouMoCY0k=
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
  by DS0PR10MB7269.namprd10.prod.outlook.com (2603:10b6:8:f3::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.13; Tue, 24 Sep
- 2024 20:25:59 +0000
+ 2024 20:26:10 +0000
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69%3]) with mapi id 15.20.8005.010; Tue, 24 Sep 2024
- 20:25:59 +0000
+ 20:26:10 +0000
 From: eugene.loh@oracle.com
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH v7 03/19] Deprecate enabled probe ID (epid)
-Date: Tue, 24 Sep 2024 16:25:48 -0400
-Message-Id: <20240924202554.7011-1-eugene.loh@oracle.com>
+Subject: [PATCH v3 07/19] Create the BPF usdt_prids map
+Date: Tue, 24 Sep 2024 16:25:50 -0400
+Message-Id: <20240924202554.7011-3-eugene.loh@oracle.com>
 X-Mailer: git-send-email 2.18.4
+In-Reply-To: <20240924202554.7011-1-eugene.loh@oracle.com>
+References: <20240924202554.7011-1-eugene.loh@oracle.com>
 Content-Type: text/plain
-X-ClientProxiedBy: LO6P123CA0015.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:338::20) To CO6PR10MB5636.namprd10.prod.outlook.com
+X-ClientProxiedBy: LO4P123CA0641.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:296::7) To CO6PR10MB5636.namprd10.prod.outlook.com
  (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -81,2448 +84,594 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|DS0PR10MB7269:EE_
-X-MS-Office365-Filtering-Correlation-Id: d111a99b-83ab-47ef-25f5-08dcdcd719be
+X-MS-Office365-Filtering-Correlation-Id: 674a8190-01e1-4d28-3fb8-08dcdcd72090
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?6tSgP5HHXvcRSl7Hr0nunU3NM68HEYYaoGxDDnEoqYNAgwxuDSvl8v2DbX4U?=
- =?us-ascii?Q?hwrG7ycIgy89D7DKoCqDCA50cry/woJpAAdvpwV8FTueB0WTkysdWbhh3eP1?=
- =?us-ascii?Q?V8oCufEdHI71KG+dh2Hgiu6iYP8Ae3loQCEa4suAT9RjqUTMkn3auAPPfs7X?=
- =?us-ascii?Q?O1XLJ92ZbK8RRCJ/PoJqT0f7YaGIIw0TKFqAC/xaAw06IfNs7y/LYgxiB5Lg?=
- =?us-ascii?Q?0w+P4Xg0NE/yxeY76BHo6dJRjywacYllp979jkooEPhE2PaVjyzTGPQZxaXe?=
- =?us-ascii?Q?Siu3s35wQAUUTNY5l0oh4BE8YbwZOvhYIzbWsP9hEaA4T2l81iC3a9vjj49b?=
- =?us-ascii?Q?+aJQnCZY685tX73o4zKDrA0rDyfvUdlDGM1IRvJsO9bj7j0a4FoJkrLbfI0i?=
- =?us-ascii?Q?W0xfGRYDZrIHfaEKtnkWY9FFcnOemRmyaPdlc/HCYxIMYFbjMOG3wKxoeZJr?=
- =?us-ascii?Q?TY3lgMqWG7dhdAnQrz65/EFnMyzFK2Ns8fBPJyouvNTYD6XNZbJHJocdXsJ6?=
- =?us-ascii?Q?7KbGKAY2oCDjsfbwB5YOoiQyZ81x34HtKjDm7Gnfhxe+rU/LuRlOiCI6+adn?=
- =?us-ascii?Q?ygMUYVX+FuXw8utBSzTgh8uOZ7c3PxvzEbmBWJ9smvA7l3LWy1qXRRZqVmHg?=
- =?us-ascii?Q?6nysTeaxnYQjzf/Llxw/kBY2UD7EXB6FIqg65FF9e5wlImLlDgRdu45zrj83?=
- =?us-ascii?Q?JZT3/eyphUE3GrGDY1KHHt54LjwQomZMMaxao0Bvk2NKu9OnQGBsQ4F4gjHu?=
- =?us-ascii?Q?XSLMOIjP/DN7V5CFyOzeQW6r7g+YJvAdEwINygvnZHrsgYV8JTyzEKQDXSIN?=
- =?us-ascii?Q?uRAhKOFnL12HABlZES+RVCeBlMaljOXLs7ur1pCu9BpEg0ver+FlSaU5uVFu?=
- =?us-ascii?Q?erNTqz1jb5053acnjArMnFrfgrDzMn0xfeIwVnOADIZOXV3aPFWCLdBYTAJw?=
- =?us-ascii?Q?TvinuiGi/SwVxsoAAWGDrO81AkLsa6DKGxOeV0Sl/Wg91NQIPrMDie9uIZ7Y?=
- =?us-ascii?Q?BZoT/4UG/HO6AJ/+3S7NrLNYS0m3Yqauv6r22IdhC2J2vP+jzRDj0rTFLNc9?=
- =?us-ascii?Q?O0Rs3SkgjLe4o2damT9bt+s4RCFRiLBe6UFu0HLOCY1oI0qcQiiJ6LZnAC81?=
- =?us-ascii?Q?3ok1BMM2E+JmSCRUS/vMYEFeF9jAYiFZTo1OOmL8mudr7IuC/LPufIci7z4b?=
- =?us-ascii?Q?nf+bSMkdC6ol56sjxiyHpOYbYmO9IZQ6IcTlkuHKu4fH5AGcYoD7elETs6SX?=
- =?us-ascii?Q?I17XRfYKEgypNpSn1AKVZKlODWf47xLUVY6dCzzGMA=3D=3D?=
+	=?us-ascii?Q?k6bXIVcw9arslpI1lRPW9EGcHatvbPlaEz3T4zSFPy0vZo3GPsQtuM06v6Dr?=
+ =?us-ascii?Q?ovJm4uWJm9Tnv/Ur36mDo95rNeYkFT3L+EqEVMIw7f5U+ffSm4bL3netUJzp?=
+ =?us-ascii?Q?5Pj8XSL7t5ngWBnWkEnF96QuAYo4G9NnLJWnahBHCh1TjHb6U2ay67NYMHvd?=
+ =?us-ascii?Q?Go3tIVQ72DJ8nlyfRBjE+tgoj04l4e4o4nLCd/4638qQjSf8d9WqhsSuLa+Z?=
+ =?us-ascii?Q?dpQK7SfxcnmPCFuscNsmJ5fHtgKqasdVTFFKupNa/m5FNA+24bmJz1yri6U2?=
+ =?us-ascii?Q?g2MqLtMyV/jHtbFm7bmVWl1gOdvfLqNHh9qseNuQt46K+NXpXSlJA30U7G4c?=
+ =?us-ascii?Q?9iacU3CMDwKMfKL7beIVmdgvOIyl7UuAFGLOPMDjHpzmEDT4fN9hCgPw+JH7?=
+ =?us-ascii?Q?KwM5w0lTBTF7hlh7RZLZNIJmIqNoS62h0ZR7A8vW3cLMYriSsg1gI4NTNC/s?=
+ =?us-ascii?Q?0H3AcKdNUTT7fYkp+FPi9/l3kRkERzQszW1ZKiSJ/PO+I3YkEGk67w4yhsbK?=
+ =?us-ascii?Q?8QrXw/HmaHbZJtONXoxyPtunbp4ifT0xzxrj1CTLaa16sd/+QHa1hIk+LNoV?=
+ =?us-ascii?Q?h8Y8WFo5ywmw7RbYdxfhk7a/8RmZ4EJNjuW/9NOhwvy9zWN/s5n6sNC9co/j?=
+ =?us-ascii?Q?IiQbdRAPng+/Fm30NnO2T52Lst4LLcIezv8+amM54s3cfgzVN2XVZ0xj1QgO?=
+ =?us-ascii?Q?mpwPVyvWu5nwjuOxy9SVvaSNFQTgAIbxMKqjLAKPYvXlmwTIgNXa3VqYTHEJ?=
+ =?us-ascii?Q?yL/dczuY1k+WLoo0LqbN70MmmTnwffrHiGKnVo5JaDNhfgZfonw83ssCsUcs?=
+ =?us-ascii?Q?bTHS+4FPj3z+7RYeKx3geo71W7RlMRu29qESTYgDvkQfpW2jfvkZbf1pL2yd?=
+ =?us-ascii?Q?yW9xeY8ZzjvB3RbOgR5Hu3P7tsz+SgIOXJb7arf7w/J7cEXwOfjeCh8Qn2Xs?=
+ =?us-ascii?Q?eo71GrFR1bnwU2nCt/bGCkbvjzWp5uzOQ8TSQt6ANJU+pXCa8BPM6O2WAmpr?=
+ =?us-ascii?Q?DMQTyvsTxAw1skDF6+2UT6ZT/imajNkkLpaVZUPxo+2dOr4dv5hf0ezqXPeL?=
+ =?us-ascii?Q?5NQg4zmPgm+YvLXxbNXdya1+f0nRvLqluCul0b8vDCyNOw0FgDw2q8TPnwqD?=
+ =?us-ascii?Q?BEw2dYyK9mFHvakd3dBOy63YOrUUD4HJN8pLqqYjnk4rFdgV3t6JNw1ueURD?=
+ =?us-ascii?Q?mhVJR7yhe7R9k/nljUvjJUNmQ+s0m9qBM3zUd77uRgGWROCHtdjf4L+aCX0m?=
+ =?us-ascii?Q?F954qbVHaiS9JUofNrZDdA/TeYx2r4MT5h8S41/KUg=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6sw9/Q8eJstUaFMpH7pNooJxAO1fTLSybe+iPKbbpVyCbqdiQqnBowXbmpW2?=
- =?us-ascii?Q?K63FaJ30fE41Re2Da4ydO+7j9+KXOaGAQI+ciDacnSKlaRMJP1C3/NNbWvCt?=
- =?us-ascii?Q?LovVgzNAsR86GdUUpubUGAoiK5hyMQPEErO6qZgBvgUY3/QKFeCqK3r4G6u9?=
- =?us-ascii?Q?sDxF7ysvmeTFgFI26OcbWTfVzUdyV4QkL4ytYXwS7drzZJWJ1ohQgd2BKSkJ?=
- =?us-ascii?Q?T/PvhVbRgJlt0BLnBQOYfRyEp0qPxKojeIWCTpe/h3PFwkTVSTPsPjXVmWqX?=
- =?us-ascii?Q?b1MkIttbu09FMn1jF1lNwNiG+QmZ0OaFmGdq7F/1H5nfCfHC16Zu8kR89DGq?=
- =?us-ascii?Q?+mjo9EqwRiLEnqZy9IXO61RdAJwAjWkOWl3k0golpxI4lLFSBxWxBWXIWOcQ?=
- =?us-ascii?Q?nyAvKpb126bMDjjgF6aADBXdgDVUFKBoPfjF5zHUtz8xGSDPJLIXFXmUa1Ml?=
- =?us-ascii?Q?HouKQmdDSms966QOlfT4ygmbIAtlp/l2T7n2HpCfD3lga6cAyYwh+0OEzokl?=
- =?us-ascii?Q?6QYDVRl7wwbEdWY+WNXwr9ShUgwH4BCWVaalXNJtkZ6Ag0LCpNsKz57IhybD?=
- =?us-ascii?Q?eIZ1xKg9Xo7IPXFyEkVFnLpHJI/m+JzGn/9yKrq/ArfYzhOKzpcMUaTI0hx+?=
- =?us-ascii?Q?SUKFtS89lav6wdXGK/GZTzNUFn/1c2T05aiPOAzUAqIouxFJ8O9xuhrwcZlI?=
- =?us-ascii?Q?LnbIm7GPII410vTRanrQY0IPK/hF+Hg6PnJ1hGTFYKaSVtX6SKJPiC60Y7X1?=
- =?us-ascii?Q?/x0AEiMVl0eBQojzMDuW1n5H4BXcxKjYytt4Hf0yh9xOrObnWt4LZjx8QOcz?=
- =?us-ascii?Q?Q/q2PF/B4Yy7Q+PcXJw7RWUk7QM8g2p63SXhRlg1RDLEnzrPd75pYOxiVSFm?=
- =?us-ascii?Q?6lyV4+liPDNKscrD1OibVAgwJUws973QYF4s2w6Vvpeb3iE73WNocb9TZ/eK?=
- =?us-ascii?Q?/Bzd8sYVbRXfsJA9qohrxyPvxm8/+EiqBcL/PBGqmBcgo7v0hU4FLzJIpM7y?=
- =?us-ascii?Q?lBDATrCP+5k/one7uURMFxlWOF5Zn+v8q3czjySoB4jLgxNJwTuIYosFCXbg?=
- =?us-ascii?Q?hbAseJyeHhcdCb4Hqp3RzENeuGzgcJgWT87vHH2KU+w/jBZfkOvA8vQamEEz?=
- =?us-ascii?Q?ZIgnunJwc9tgxHGmGhCR/gHm5H4CXNl/UscJlajNBhPplvV+h2XLtOIdcTTF?=
- =?us-ascii?Q?rAEM8F78ypur+/EP6dD7eDWJgaQXYLoce0wnq5KHxSSRp8pXkWU2wPq3faaq?=
- =?us-ascii?Q?Z82mRHBPFxXSUs1p+yZEEn7PasMTzfyy0joni4E2ZiFMGZPI6ZMXQc2mbrhB?=
- =?us-ascii?Q?JszWEpOz92BCEc5ItMxyLoQO+BVEktfUKdISsLBW77E8rp8ZnpN6mT/H9GD9?=
- =?us-ascii?Q?Xj47oU0dr1rNlfKGlF5py4BgCEv/w9gvOI0pdreSf8H43aU8V7OXTBzLL3+b?=
- =?us-ascii?Q?4RFhbo0wnvV3A1cmiSPzbnCVHvVB56qVhPbt3dslF4CYmIyA+X4t2kE8HVPJ?=
- =?us-ascii?Q?NAtnWuGcfox8tCX/4ub1sFYMQVfS8rJUXtbCVS0q5C2VicmLaXM8SG3i+R7v?=
- =?us-ascii?Q?BmSo+z/YpSbWWwaCLDYYd1dj8wNEOGtigYDoqMpI?=
+	=?us-ascii?Q?N27HZ1TH2zUTOTsHP5BK1Cab4ScnOExNBZqdHMVZXcWSCWNUq0meA63RkW54?=
+ =?us-ascii?Q?YbaQ4DYHCgcXUAEGxD2iKzW7omRCcVPZKePGVJCjtipjC6QNSn88la8dGGU7?=
+ =?us-ascii?Q?0VF5Jx0KNJoyd/PeXlQR1vXCAzUZ4Xfp2MDHjagWsYqMHnjPvezPLDX6zYC5?=
+ =?us-ascii?Q?j11NI4Wdgb/7vrCnJUmQKHqHyu8iu/9LtHpL4ffEYiRYnoJxkOSNTbDtkpU0?=
+ =?us-ascii?Q?wleBDTVIrcfITWvtX6Km4rxjmaXksO3qPELhhC15KK7ULYq7rL5GWv095jl6?=
+ =?us-ascii?Q?ZjmIZdahGKQLBhNy4u599vrqpoI2KnfiHhiV6FzhkIdsoj9JAh7lakKUAWxB?=
+ =?us-ascii?Q?YDOjOrtd2/rMg5knL/Sxu5GlzyyBDQZ82tAgKNxiBSv5+shiio4XWNANSqLo?=
+ =?us-ascii?Q?0gNCjHvWPIiQryQwkkB8SR9K9q5qJAx95Uy8ZQIzfZcyBJn9AEKWaS9AY4ZC?=
+ =?us-ascii?Q?S2w6s0RoRlVihw1HS1PQYWKw7WAS8mEejoY5+VFyTYt04bqXUyg1rZHqTZQQ?=
+ =?us-ascii?Q?mXecz49hZ+rLyH+rLdi/OF4Zg4o3zeqOXBeJnOCU9kitvGS9q9ZqBEqrYYBx?=
+ =?us-ascii?Q?rgqscv9x1MkRf8C0FBU5DwflPAlUWqWaOQ52E2nuWRVe9xkpDsjPg9U0ZeeL?=
+ =?us-ascii?Q?d5WoGxQy4nLEY5YQYiCwvTMpqH66XNypOdHg4h6garoxw8WM7qxoUHQiX7Ql?=
+ =?us-ascii?Q?yaE4Wp4K87DwidbZycp31NIxI5s5tQrecc7JiMBmriRj7tzoZfupR65IxlgM?=
+ =?us-ascii?Q?EZ4GyVsR5WBVGqadJTA6r9Vj+c3X9cCelyjB3xUv5a7DaawbT22hIpbUFd4A?=
+ =?us-ascii?Q?G4xwA5Gh+eSHx3uU9tBC1HthWFSwpOTFlu2pJ/9sqXnMdpwL27yXiDdGCLo8?=
+ =?us-ascii?Q?mdmlvqzIbYbg9HeBgw9pLrw0K7y3JUWkHNWm8HHj8GMt5juGBr2aax/uHj+Y?=
+ =?us-ascii?Q?hXqS68Gz82jvE6VZ3Dy3HBXQqQlDbvtDxng2po0pfYN8Z7jAvuLadoALpI7i?=
+ =?us-ascii?Q?5dbetRUkkP9csfiLNMCW1uFydWlkXWOfgznWl9MeUX+FhOp39cO5oE963zkv?=
+ =?us-ascii?Q?UqwZVy+c2JihgPnj+UizNdk23YocprAaomhG/dUtiqEA83bWw/PZAwpiuiyd?=
+ =?us-ascii?Q?MOVQcDMGpk0s8QpEELQuiKwO7M8Agv0mAYklTzHnbaUPD43LdT5GZXxQGN9Z?=
+ =?us-ascii?Q?DbpbRd+jycStsoRoXwFfxd29RmdkxD27VC0EQ2mVnUaHa9vB1RpAYiS0hMWs?=
+ =?us-ascii?Q?o7t2geWykeWVJRhsuv31A0T61YVucr3jh+2xQrOR9Eo93P3EDubJzs8FKYlF?=
+ =?us-ascii?Q?XLGyl5De4O0Axa+YFowF0+Z50c8Q9Bv62r5f5DRq9FaHntlvsYA3FGW+HdZ7?=
+ =?us-ascii?Q?pzXtrhY9bm6qaiu+jhCY1bR6v7mv4VY32D7YEI0f6Y4HMwT36DcZNN1CZyXz?=
+ =?us-ascii?Q?tdT+y/nLq+LRMmg6v4RbSiVC7jL/6nYQr+D2kVS4U72b+Ud1klzTbzBgS8Mg?=
+ =?us-ascii?Q?3FN8QR89SO+yuU7o9IRPAIKQld++X5FmCrVi3DOxGwXtu6uMVfiCm0e4x48g?=
+ =?us-ascii?Q?iJnjwvxkBE1MgLZ3+XrkJJYhmVo4ht1OGanbN3ql?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	AiysAfM1VABZji13dQbOhb2Ck/pzGqOTyYE7nrnSK4ajY06wqv7Gy0vKS3URD0T9Xe1UPfFkYNzNvClvik2lJQXnAyXQzZhWWoZWlj31U8lVNVA8jKBSTrn4oYWvXIzXsIZtpExzOQq2/mczMMUXAk5ilkPsEluBQSgL2ihu6Fn9/Ci4sTsWDIbzYlAZOs/ehX4muDi9PORhspVi87myL6v7sy4alG+48izbTLAjF/xultpK0rY8tMP9R7anRCRc7T2H88UNqUIhCUrDy9wKDsuzi2rgQcDvP8b5L4BHI1yqu/TBbVSbMa8vnRD0wQn/M/QURbhTcopK5IGgup/ixzPbv4+5mwtEIOHwrsPCwHSKQt9ePOnFON5RK/8iVT6a3zSJEHqJtgX3vyI30ken1ZQ8yqyLg4jJjXCPY41TjigAIJgvzR4YD82rFk/fX6Zgk+h01LCMCJXt/jKAn4G1UhZ1yhgz1lpzrSrE/ColXdQTNUN0FbPn4Lp1MPZZV9X8sxuThx4nN8rpjQT9fnEU2Jmk9D1GjwPyZpZVQbo3LlIAwWP/n3IU6U8f9T4NEhK4sAxqqFsmnOSXtxq/m5vnnyiPPaSXirEXO5VRRQKVm58=
+	xCmAAvEe/ejzRy8E7wNYhi2ScOky1m0mAcyfRO1C2R3jPHU09a9IHJlbzg4Cp4bJ/81B9/ugnHv7191IvcmnD+C9l+OgSgIdhJc99hAbvzsbfZlhX0wsCmetwnpfNMDCiG2V9PAM/CECunMhQbd9CEZ1jwwsyVJefhUR+i7h+KoPH6VZAFTB+SrBIl+1EcoofV7rGX8St+VZSUXDb6bzed7GO/tNtzcC9BCwOSNUxsmLBxptC47ZtUUdJXZWb4bX7ZVoM87DI7sf1y0tgER3D/qm+mMDWyS1gnQRpY2NXyZYrXgCKtdcWPWy4guD3Ab9vbIVjEH0AzyhlCHxX1vzRXbtjtsZGZ3Vqcu9BiXU6I1/ZxwqZXiY5yl0rwPZc4D+8r01D9LPIZxxZTocOC/7gO8xcZ/2+6jFk4EED+pFK28IPQ8+XmX2y7L+fJWUlbxYhLcReO9oAg3ah6Dl/4w9JcaHSPkxEzrXqVZHYxNsf22FfR+JgGd5PnmpSTjhrtpkuIUeUhOltbfwFTp+6QLJqk2KW6NyyA8Un1/v55Y9bfjkMkSD7LiYuHWJslUIQ5T4ycY1gRiMjgTkUY1buXuQvEK+h4MDZqR0MtRi9Ndubrs=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d111a99b-83ab-47ef-25f5-08dcdcd719be
+X-MS-Exchange-CrossTenant-Network-Message-Id: 674a8190-01e1-4d28-3fb8-08dcdcd72090
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 20:25:59.2823
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 20:26:10.4332
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8vlqZ283o49ULo2rS2WWAhWPoE/DxvlMLqWZ6eiTkCnN4LnaOUCAPBsXKkUPL3ox2FK63PfDRh2vOOm5auNQnw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: KVrj+8rdfu/+y9BzOfA7Zc3W25othWCHQfnIkguvTm38tuDQVsL1+Z4yckWwwNrOLXS8kUmpYV3gGwt/ihx5eA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7269
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-24_02,2024-09-24_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=999
- phishscore=0 bulkscore=0 adultscore=0 mlxscore=0 malwarescore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=999
+ phishscore=0 mlxscore=0 bulkscore=0 suspectscore=0 malwarescore=0
  spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2408220000 definitions=main-2409240143
-X-Proofpoint-GUID: quSB4LsEBnpptdgeeYtLrTdm4LzPtZZh
-X-Proofpoint-ORIG-GUID: quSB4LsEBnpptdgeeYtLrTdm4LzPtZZh
+X-Proofpoint-GUID: q77oV0do41UxD43iouVA7Pu-7p_gjOgx
+X-Proofpoint-ORIG-GUID: q77oV0do41UxD43iouVA7Pu-7p_gjOgx
 
 From: Eugene Loh <eugene.loh@oracle.com>
 
-Historically, the enabled probe id (epid) was an integer, passed from
-producer to consumer, that uniquely identified probe ID and statement
-(data description).  It was used in error reporting and was available
-to D users via a built-in variable "epid".
+As USDT processes come and go, the overlying probes for an underlying
+probe will change.  Hence, we will move to a scheme in which an
+underlying probe will walk all possible clauses it could call,
+deciding at run time (using a bit mask for the overlying USDT probe)
+which of the clauses to call.
 
-However, its value was opaque to users and difficult to use.
+In this patch, we create and update the BPF "usdt_prids" map.  This
+is a hash map, where:
 
-Deprecate the use of EPID:
+  *)  the key (size: dtp->dt_usdt_pridsmap_ksz) comprises
+        - the PID of the firing process
+        - the PRID of the underlying probe
 
-*)  Have the producer pass to the consumer the probe ID and statement
-    ID explicitly, instead of passing an opaque integer that requires
-    additional lookup tables.
+  *)  the value (size: dtp->dt_usdt_pridsmap_vsz) comprises
+        - the PRID over the overlying USDT probe
+        - a bit mask indicating which clauses should be called
 
-*)  Keep an array dt_stmts[] of statements, from which we can retrieve
-    probe descriptions and data descriptions.
+As processes start up, we also add new overlying USDT probes,
+requiring updates of the BPF "probes" and "strtab" maps and of
+the list of enablings.
 
-*)  Remove data structures related to epid: dt_ddesc[], dt_pdesc[],
-    dt_nextepid, dt_maxprobe, etc.
+The underlying-probes "update" function is called sporadically.
+The focus of this patch is the function.  When it is called can
+be tuned in future patches.
 
-Nevertheless, continue to provide a value for the built-in "epid" variable
-for back compatability.  Expand the epid from 4 bytes to 8 bytes:  the
-upper half is the probe ID and the lower half the statement ID.
+This patch guesses certain sizes very crudely.  These sizes should
+be handled more robustly in future patches:
 
-The output buffer (written by the producer, read by the consumer) is
-rearranged slightly.  Note that:
+  *)  The allocated size of the string table.  For example,
+      new provider names have to be added as new processes
+      start.
 
-*)  It starts with a 4-byte size, which perf_event writes.
+  *)  The number of entries in the BPF "usdt_prids" map.
+      There is a little relief here in that, as processes
+      terminate, they can be removed from the map.
 
-*)  The beginning of the output buffer should have 8-byte alignment.
-
-*)  The beginning of the trace data within the output buffer should
-    also have 8-byte alignment.
-
-*)  So we rearrange as follows:
-
-            old                        new
-
-         0: pad / size                 pad / size    <==
-         4: pad                        specid
-         8: epid      <==              prid
-        12: specid                     stid
-        16: data[n]                    data[n]
-
-    The arrow <== indicates where the buffer starts.
-
-For error reporting:
-
-*)  Report errors in terms of the probe ID (and description) and the
-    clause function name, which is decipherable in terms of the
-    disassembly output.  Specifically, change ERROR-probe arguments:
-
-    -)  arg1 changes from epid to the probe ID
-
-    -)  arg2 changes from "clause index" (which is no longer needed)
-        to the statement ID that identifies the clause named in
-        disassembly output
-
-*)  No longer report the "action number", which has lost much of its
-    meaning in the port to eBPF.  Nonetheless, keep dteda_action;  its
-    value is not used, but set the value to stid for possible future use.
+  *)  The size of the bit mask -- that is, the greatest
+      number of clauses an underlying probe might call.
+      This is relatively easy to extend;  nevertheless,
+      that work is left for a future patch.
 
 Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 ---
- bpf/get_bvar.c                                |   5 +-
- bpf/probe_error.c                             |   8 +-
- include/dtrace/metadesc.h                     |   4 +-
- include/dtrace/universal.h                    |   3 +-
- libdtrace/dt_bpf.c                            |   2 -
- libdtrace/dt_bpf.h                            |  46 ++++----
- libdtrace/dt_cc.c                             |  47 ++------
- libdtrace/dt_cg.c                             |  49 ++++-----
- libdtrace/dt_consume.c                        |  85 ++++++++-------
- libdtrace/dt_dctx.h                           |  21 ++--
- libdtrace/dt_dlibs.c                          |   2 -
- libdtrace/dt_error.c                          |   2 +-
- libdtrace/dt_handle.c                         | 103 ++++++++----------
- libdtrace/dt_impl.h                           |  15 +--
- libdtrace/dt_map.c                            |  97 ++---------------
- libdtrace/dt_open.c                           |   5 +-
- libdtrace/dt_program.c                        |   9 +-
- libdtrace/dtrace.h                            |   3 +-
- test/demo/builtin/eipd.d                      |   4 -
- test/demo/dtrace/error.r                      |   2 +-
- test/demo/spec/specopen.d                     |   5 +-
- test/stress/buffering/tst.resize3-manual.d    |   2 +-
- test/stress/buffering/tst.resize3-manual.r    |   2 +-
- test/stress/buffering/tst.resize3.d           |   2 +-
- test/stress/buffering/tst.resize3.r           |   2 +-
- test/unittest/actions/setopt/tst.badopt.r     |  14 +--
- .../arrays/tst.declared-bounds.runtime_out.r  |   2 +-
- test/unittest/codegen/err.deref_0.r           |   2 +-
- test/unittest/codegen/err.deref_1.r           |   2 +-
- test/unittest/codegen/err.deref_i0.r          |   2 +-
- test/unittest/codegen/err.deref_i1.r          |   2 +-
- .../unittest/codegen/err.deref_string-assoc.r |   2 +-
- test/unittest/codegen/err.deref_string-gvar.r |   2 +-
- test/unittest/codegen/err.deref_string-lvar.r |   2 +-
- test/unittest/codegen/err.deref_string-tvar.r |   2 +-
- .../codegen/err.str_NULL_plus_offset-assoc.r  |   2 +-
- .../codegen/err.str_NULL_plus_offset-lvar.r   |   2 +-
- .../codegen/err.str_NULL_plus_offset-tvar.r   |   2 +-
- .../codegen/err.str_NULL_plus_offset.r        |   2 +-
- test/unittest/disasm/tst.vartab-bvar.r        |   2 +-
- test/unittest/drops/drp.DTRACEDROP_DBLERROR.r |   2 +-
- .../tst.DTRACEFLT_BADADDR.null_ptr_field.d    |   6 +-
- .../tst.DTRACEFLT_BADADDR.null_ptr_field.r    |   2 +-
- test/unittest/error/tst.DTRACEFLT_BADADDR.r   |   4 +-
- test/unittest/error/tst.DTRACEFLT_BADADDR2.r  |   4 +-
- .../error/tst.DTRACEFLT_DIVZERO.div.d         |  11 +-
- .../error/tst.DTRACEFLT_DIVZERO.div.r         |   2 +-
- .../error/tst.DTRACEFLT_DIVZERO.mod.d         |  11 +-
- .../error/tst.DTRACEFLT_DIVZERO.mod.r         |   2 +-
- test/unittest/error/tst.DTRACEFLT_UNKNOWN.r   |   4 +-
- .../error/tst.clause_scope-begin-ended.r      |   2 +-
- test/unittest/error/tst.clause_scope-begin.r  |   2 +-
- .../unittest/error/tst.clause_scope-regular.r |   2 +-
- .../error/tst.clause_scope-regular.r.p        |   8 +-
- test/unittest/error/tst.error.r               |   2 +-
- test/unittest/error/tst.errorend.r            |   2 +-
- .../alloca/err.alloca-bcopy-before-beyond.r   |   2 +-
- .../alloca/err.alloca-bcopy-before-bottom.r   |   2 +-
- .../alloca/err.alloca-bcopy-beyond-top.r      |   2 +-
- .../alloca/err.alloca-bcopy-crossing-bottom.r |   2 +-
- .../alloca/err.alloca-bcopy-crossing-top.r    |   2 +-
- .../alloca/err.alloca-crossing-clauses.r      |   2 +-
- .../alloca/err.alloca-load-before-bottom.r    |   2 +-
- .../funcs/alloca/err.alloca-load-beyond-top.r |   2 +-
- .../alloca/err.alloca-load-crossing-bottom.r  |   2 +-
- .../alloca/err.alloca-null-deref-lvalue.r     |   2 +-
- .../funcs/alloca/err.alloca-null-deref.r      |   2 +-
- .../err.alloca-scratch-exceeding-bcopy.r      |   2 +-
- .../alloca/err.alloca-store-before-bottom.r   |   2 +-
- .../alloca/err.alloca-store-beyond-top.r      |   2 +-
- .../alloca/err.alloca-store-crossing-bottom.r |   2 +-
- test/unittest/funcs/bcopy/err.badbcopy1.r     |   2 +-
- test/unittest/funcs/bcopy/err.badbcopy4.r     |   2 +-
- test/unittest/funcs/bcopy/err.badbcopy5.r     |   2 +-
- test/unittest/funcs/bcopy/err.badbcopy6.r     |   2 +-
- test/unittest/funcs/bcopy/err.badbcopy7.r     |   2 +-
- test/unittest/funcs/bcopy/err.badbcopy8.r     |   2 +-
- test/unittest/funcs/copyin/err.badaddr.r      |   2 +-
- test/unittest/funcs/copyin/err.null_arg1.r    |   2 +-
- test/unittest/funcs/copyinstr/err.badaddr.r   |   2 +-
- test/unittest/funcs/copyinstr/err.null_arg1.r |   2 +-
- test/unittest/funcs/copyinto/err.badaddr.r    |   2 +-
- test/unittest/funcs/copyinto/err.badsize.r    |   2 +-
- test/unittest/funcs/copyinto/err.null_arg1.r  |   2 +-
- test/unittest/funcs/err.badalloca.r           |   2 +-
- test/unittest/funcs/err.badalloca.r.p         |   8 +-
- test/unittest/funcs/err.link_ntopbadaddr.r    |   2 +-
- test/unittest/funcs/err.link_ntopbadarg.r     |   2 +-
- .../inet_ntoa6/err.inet_ntoa6.arg1_null.r     |   2 +-
- .../err.inet_ntoa6.arg1_null_const.r          |   2 +-
- test/unittest/funcs/strlen/tst.null.r         |   2 +-
- test/unittest/funcs/strtok/tst.strtok_null.r  |   2 +-
- .../funcs/strtok/tst.strtok_nulldel.r         |   2 +-
- .../funcs/strtok/tst.strtok_nullstr.r         |   2 +-
- .../funcs/strtok/tst.strtok_nullstr2.r        |   2 +-
- .../funcs/substr/err.substr_null_arg1.r       |   2 +-
- test/unittest/pointers/err.AllocaOverrun.r    |   2 +-
- test/unittest/pointers/err.BadAlign.r         |   2 +-
- test/unittest/pointers/err.InvalidAddress2.r  |   2 +-
- test/unittest/pointers/err.InvalidAddress4.r  |   2 +-
- .../speculation/err.CommitWithInvalid.r       |   2 +-
- .../speculation/err.DiscardWithInvalid.r      |   2 +-
- .../speculation/tst.SpecSizeVariations.r      |  22 ----
- .../speculation/tst.SpecSizeVariations.sh     |   2 +-
- test/unittest/speculation/tst.negcommit.r     |   2 +-
- .../variables/bvar/tst.arg3-ERROR-b.sh        |   2 +-
- .../unittest/variables/bvar/tst.arg3-ERROR.sh |   2 +-
- 107 files changed, 322 insertions(+), 439 deletions(-)
- delete mode 100644 test/demo/builtin/eipd.d
+ libdtrace/dt_bpf.c         |  42 +++++-
+ libdtrace/dt_cc.c          |   2 +-
+ libdtrace/dt_dlibs.c       |   1 +
+ libdtrace/dt_impl.h        |   6 +
+ libdtrace/dt_prov_uprobe.c | 276 +++++++++++++++++++++++++++++++++++++
+ libdtrace/dt_work.c        |   2 +
+ 6 files changed, 327 insertions(+), 2 deletions(-)
 
-diff --git a/bpf/get_bvar.c b/bpf/get_bvar.c
-index a0c04f3a3..37f29a591 100644
---- a/bpf/get_bvar.c
-+++ b/bpf/get_bvar.c
-@@ -48,8 +48,9 @@ noinline uint64_t dt_get_bvar(const dt_dctx_t *dctx, uint32_t id, uint32_t idx)
- 			mst->tstamp = bpf_ktime_get_ns();
- 
- 		return mst->tstamp;
--	case DIF_VAR_EPID:
--		return mst->epid;
-+	case DIF_VAR_EPID: {
-+		return (((uint64_t)mst->prid) << 32) | mst->stid;
-+	}
- 	case DIF_VAR_ID:
- 		return mst->prid;
- 	case DIF_VAR_ARG0: case DIF_VAR_ARG1: case DIF_VAR_ARG2:
-diff --git a/bpf/probe_error.c b/bpf/probe_error.c
-index 1081ee71d..a9233b7c9 100644
---- a/bpf/probe_error.c
-+++ b/bpf/probe_error.c
-@@ -16,8 +16,8 @@ extern int64_t dt_error(const dt_dctx_t *dctx);
- /*
-  * DTrace ERROR probes provide 6 arguments:
-  *	arg0 = always NULL (used to be kernel consumer state pointer)
-- *	arg1 = EPID of probe that triggered the fault
-- *	arg2 = clause index of code that triggered the fault
-+ *	arg1 = probe ID that triggered the fault
-+ *	arg2 = statement ID that triggered the fault
-  *	arg3 = BPF offset in the clause that triggered the fault (or -1)
-  *	arg4 = fault type
-  *	arg5 = fault-specific value (usually address being accessed or 0)
-@@ -30,8 +30,8 @@ noinline void dt_probe_error(const dt_dctx_t *dctx, uint64_t pc, uint64_t fault,
- 
- 	__builtin_memcpy(mst->saved_argv, mst->argv, sizeof(mst->saved_argv));
- 	mst->argv[0] = 0;
--	mst->argv[1] = mst->epid;
--	mst->argv[2] = mst->clid;
-+	mst->argv[1] = mst->prid;
-+	mst->argv[2] = mst->stid;
- 	mst->argv[3] = pc;
- 	mst->argv[4] = fault;
- 	mst->argv[5] = illval;
-diff --git a/include/dtrace/metadesc.h b/include/dtrace/metadesc.h
-index ab9061f73..41125ff13 100644
---- a/include/dtrace/metadesc.h
-+++ b/include/dtrace/metadesc.h
-@@ -19,8 +19,8 @@
- 
- /*
-  * DTrace separates the trace data stream from the metadata stream.  The only
-- * metadata tokens placed in the data stream are enabled probe identifiers
-- * (EPIDs) or (in the case of aggregations) aggregation identifiers.  In order
-+ * metadata tokens placed in the data stream are probe and statement identifiers
-+ * or (in the case of aggregations) aggregation identifiers.  In order
-  * to determine the structure of the data, DTrace uses the token to perform a
-  * lookup to retrieve the corresponding description of the enabled probe (via
-  * the dtrace_datadesc structure) or the aggregation (via the dtrace_aggdesc
-diff --git a/include/dtrace/universal.h b/include/dtrace/universal.h
-index d65624899..325586e57 100644
---- a/include/dtrace/universal.h
-+++ b/include/dtrace/universal.h
-@@ -17,7 +17,6 @@
- 
- #define	DTRACE_CPUALL		-1	/* all CPUs */
- #define	DTRACE_IDNONE		0	/* invalid probe identifier */
--#define	DTRACE_EPIDNONE		0	/* invalid enabled probe identifier */
- #define	DTRACE_AGGIDNONE	0	/* invalid aggregation identifier */
- #define	DTRACE_AGGVARIDNONE	0	/* invalid aggregation variable ID */
- #define	DTRACE_CACHEIDNONE	0	/* invalid predicate cache */
-@@ -37,7 +36,7 @@ typedef uint16_t	dtrace_actkind_t;	/* action kind */
- 
- typedef uint32_t	dtrace_aggid_t;		/* aggregation identifier */
- typedef uint32_t	dtrace_cacheid_t;	/* predicate cache identifier */
--typedef uint32_t	dtrace_epid_t;		/* enabled probe identifier */
-+typedef uint32_t	dtrace_stid_t;		/* statement identifier */
- typedef uint32_t	dtrace_optid_t;		/* option identifier */
- typedef uint32_t	dtrace_specid_t;	/* speculation identifier */
- 
 diff --git a/libdtrace/dt_bpf.c b/libdtrace/dt_bpf.c
-index df427c864..ad11d178e 100644
+index ad11d178e..0987279bc 100644
 --- a/libdtrace/dt_bpf.c
 +++ b/libdtrace/dt_bpf.c
-@@ -774,7 +774,6 @@ gmap_create_cpuinfo(dtrace_hdl_t *dtp)
-  * The size of the memory region is the sum of:
-  *	- size of the DTrace machine state, rounded up to the nearest
-  *	  multiple of 8
-- *	- 8 bytes padding for trace buffer alignment purposes
-  *	- maximum trace buffer record size, rounded up to the nearest
-  *	  multiple of 8
-  *	- size of dctx->mem (see dt_dctx.h)
-@@ -783,7 +782,6 @@ static int
- gmap_create_mem(dtrace_hdl_t *dtp)
- {
- 	size_t	sz = roundup(sizeof(dt_mstate_t), 8) +
--		     8 +
- 		     roundup(dtp->dt_maxreclen, 8) +
- 		     DMEM_SIZE(dtp);
+@@ -841,7 +841,8 @@ gmap_create_strtab(dtrace_hdl_t *dtp)
+ 	int		fd, rc, err;
  
-diff --git a/libdtrace/dt_bpf.h b/libdtrace/dt_bpf.h
-index 5b2df2641..5716d2320 100644
---- a/libdtrace/dt_bpf.h
-+++ b/libdtrace/dt_bpf.h
-@@ -32,30 +32,28 @@ extern "C" {
- 					(dtp)->dt_bpffeatures |= (feat); \
- 				} while (0)
- 
--#define DT_CONST_EPID			1
--#define DT_CONST_PRID			2
--#define DT_CONST_CLID			3
--#define DT_CONST_ARGC			4
--#define DT_CONST_STBSZ			5
--#define DT_CONST_STRSZ			6
--#define DT_CONST_STKSIZ			7
--#define DT_CONST_BOOTTM			8
--#define DT_CONST_NSPEC			9
--#define DT_CONST_NCPUS			10
--#define DT_CONST_PC			11
--#define DT_CONST_TUPSZ			12
--#define DT_CONST_TASK_PID		13
--#define DT_CONST_TASK_TGID		14
--#define DT_CONST_TASK_REAL_PARENT	15
--#define DT_CONST_TASK_COMM		16
--#define DT_CONST_MUTEX_OWNER		17
--#define DT_CONST_RWLOCK_CNTS		18
--#define DT_CONST_DCTX_RODATA		19
--#define DT_CONST_RODATA_OFF		20
--#define DT_CONST_RODATA_SIZE		21
--#define DT_CONST_ZERO_OFF		22
--#define DT_CONST_STACK_OFF		23
--#define DT_CONST_STACK_SKIP		24
-+#define DT_CONST_PRID			1
-+#define DT_CONST_ARGC			2
-+#define DT_CONST_STBSZ			3
-+#define DT_CONST_STRSZ			4
-+#define DT_CONST_STKSIZ			5
-+#define DT_CONST_BOOTTM			6
-+#define DT_CONST_NSPEC			7
-+#define DT_CONST_NCPUS			8
-+#define DT_CONST_PC			9
-+#define DT_CONST_TUPSZ			10
-+#define DT_CONST_TASK_PID		11
-+#define DT_CONST_TASK_TGID		12
-+#define DT_CONST_TASK_REAL_PARENT	13
-+#define DT_CONST_TASK_COMM		14
-+#define DT_CONST_MUTEX_OWNER		15
-+#define DT_CONST_RWLOCK_CNTS		16
-+#define DT_CONST_DCTX_RODATA		17
-+#define DT_CONST_RODATA_OFF		18
-+#define DT_CONST_RODATA_SIZE		19
-+#define DT_CONST_ZERO_OFF		20
-+#define DT_CONST_STACK_OFF		21
-+#define DT_CONST_STACK_SKIP		22
- 
- #define DT_BPF_LOG_SIZE_DEFAULT	(UINT32_MAX >> 8)
- #define DT_BPF_LOG_SIZE_SMALL	4096
-diff --git a/libdtrace/dt_cc.c b/libdtrace/dt_cc.c
-index d1ee38431..4202771a9 100644
---- a/libdtrace/dt_cc.c
-+++ b/libdtrace/dt_cc.c
-@@ -123,6 +123,7 @@ dt_stmt_create(dtrace_hdl_t *dtp, dtrace_ecbdesc_t *edp,
- 	if (sdp == NULL)
- 		longjmp(yypcb->pcb_jmpbuf, EDT_NOMEM);
- 
-+	sdp->dtsd_id = dtp->dt_stmt_nextid++;
- 	assert(yypcb->pcb_stmt == NULL);
- 	yypcb->pcb_stmt = sdp;
- 	yypcb->pcb_maxrecs = 0;
-@@ -133,11 +134,10 @@ dt_stmt_create(dtrace_hdl_t *dtp, dtrace_ecbdesc_t *edp,
- 	return sdp;
- }
- 
--static dt_ident_t *
--dt_clause_create(dtrace_hdl_t *dtp, dtrace_difo_t *dp)
-+static void
-+dt_stmt_set_clause(dtrace_hdl_t *dtp, dtrace_difo_t *dp, dtrace_stmtdesc_t *sdp)
- {
- 	char		*name;
--	int		len;
- 	dt_ident_t	*idp;
- 
- 	/*
-@@ -156,25 +156,21 @@ dt_clause_create(dtrace_hdl_t *dtp, dtrace_difo_t *dp)
- 	/*
- 	 * Generate a symbol name.
- 	 */
--	len = snprintf(NULL, 0, "dt_clause_%d", dtp->dt_clause_nextid) + 1;
--	name = dt_alloc(dtp, len);
--	if (name == NULL)
-+	if (asprintf(&name, "dt_clause_%d", sdp->dtsd_id) < 0)
- 		longjmp(yypcb->pcb_jmpbuf, EDT_NOMEM);
- 
--	snprintf(name, len, "dt_clause_%d", dtp->dt_clause_nextid++);
--
- 	/*
- 	 * Add the symbol to the BPF identifier table and associate the DIFO
- 	 * with the symbol.
- 	 */
- 	idp = dt_dlib_add_func(dtp, name);
--	dt_free(dtp, name);
-+	free(name);
- 	if (idp == NULL)
- 		longjmp(yypcb->pcb_jmpbuf, EDT_NOMEM);
- 
- 	dt_ident_set_data(idp, dp);
- 
--	return idp;
-+	sdp->dtsd_clause = idp;
- }
- 
- static void
-@@ -214,7 +210,7 @@ dt_compile_one_clause(dtrace_hdl_t *dtp, dt_node_t *cnp, dt_node_t *pnp)
- 	 * Compile the clause (predicate and action).
- 	 */
- 	dt_cg(yypcb, cnp);
--	sdp->dtsd_clause = dt_clause_create(dtp, dt_as(yypcb));
-+	dt_stmt_set_clause(dtp, dt_as(yypcb), sdp);
- 
- 	assert(yypcb->pcb_stmt == sdp);
- 	if (dtrace_stmt_add(yypcb->pcb_hdl, yypcb->pcb_prog, sdp) != 0)
-@@ -947,7 +943,7 @@ static int get_boottime() {
- static int
- dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
- 		  dt_ident_t *idp, const dtrace_difo_t *sdp, uint_t *pcp,
--		  uint_t *rcp, uint_t *vcp, dtrace_epid_t epid, uint_t clid)
-+		  uint_t *rcp, uint_t *vcp)
- {
- 	uint_t			pc = *pcp;
- 	uint_t			rc = *rcp;
-@@ -958,7 +954,6 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
- 	uint_t			len = sdp->dtdo_brelen;
- 	const dof_relodesc_t	*rp = sdp->dtdo_breltab;
- 	dof_relodesc_t		*nrp = &dp->dtdo_breltab[rc];
--	dtrace_id_t		prid = prp->desc->id;
- 	int			no_deps = 0;
- 
- 	if (idp != NULL) {
-@@ -1029,7 +1024,6 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
- 	for (; len != 0; len--, rp++, nrp++) {
- 		const char	*name = dt_difo_getstr(sdp, rp->dofr_name);
- 		dtrace_difo_t	*rdp;
--		dtrace_epid_t	nepid;
- 		int		ipc;
- 
- 		idp = dt_dlib_get_sym(dtp, name);
-@@ -1044,15 +1038,9 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
- 			}
- 
- 			switch (idp->di_id) {
--			case DT_CONST_EPID:
--				nrp->dofr_data = epid;
--				continue;
- 			case DT_CONST_PRID:
- 				nrp->dofr_data = prp->desc->id;
- 				continue;
--			case DT_CONST_CLID:
--				nrp->dofr_data = clid;
--				continue;
- 			case DT_CONST_ARGC:
- 				nrp->dofr_data = 0;	/* FIXME */
- 				continue;
-@@ -1196,11 +1184,6 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
- 			case DT_CONST_STACK_SKIP:
- 				nrp->dofr_data = prp->prov->impl->stack_skip;
- 				continue;
--			default:
--				/* probe name -> value is probe id */
--				if (strchr(idp->di_name, ':') != NULL)
--					prid = rp->dofr_data;
--				continue;
- 			}
- 
- 			continue;
-@@ -1216,13 +1199,8 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
- 			rdp = dt_dlib_get_func_difo(dtp, idp);
- 			if (rdp == NULL)
- 				return -1;
--			if (rdp->dtdo_ddesc != NULL) {
--				nepid = dt_epid_add(dtp, rdp->dtdo_ddesc, prid);
--				clid++;
--			} else
--				nepid = 0;
- 			ipc = dt_link_construct(dtp, prp, dp, idp, rdp, pcp,
--						rcp, vcp, nepid, clid);
-+						rcp, vcp);
- 			if (ipc == -1)
- 				return -1;
- 
-@@ -1263,8 +1241,8 @@ dt_link_resolve(dtrace_hdl_t *dtp, dtrace_difo_t *dp)
- 			continue;
- 
- 		/*
--		 * We are only relocating constants (EPID and ARGC) and call
--		 * instructions to functions that have been linked in.
-+		 * We are only relocating constants and call instructions to
-+		 * functions that have been linked in.
- 		 */
- 		switch (idp->di_kind) {
- 		case DT_IDENT_SCALAR:
-@@ -1336,8 +1314,7 @@ dt_link(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
- 	 */
- 	insc = relc = varc = 0;
- 
--	rc = dt_link_construct(dtp, prp, fdp, idp, dp, &insc, &relc, &varc, 0,
--			       0);
-+	rc = dt_link_construct(dtp, prp, fdp, idp, dp, &insc, &relc, &varc);
- 	dt_dlib_reset(dtp, B_FALSE);
+ 	dtp->dt_strlen = dt_strtab_size(dtp->dt_ccstab);
+-	dtp->dt_rooffset = P2ROUNDUP(dtp->dt_strlen, 8);
++	dtp->dt_strmax = dtp->dt_strlen + 1000;            // FIXME pad some arbitrary amount to account for new USDT probes as new processes start
++	dtp->dt_rooffset = P2ROUNDUP(dtp->dt_strmax, 8);
+ 	dtp->dt_rosize = dt_rodata_size(dtp->dt_rodata);
+ 	dtp->dt_zerooffset = P2ROUNDUP(dtp->dt_rooffset + dtp->dt_rosize, 8);
+ 	dtp->dt_zerosize = 0;
+@@ -899,6 +900,7 @@ gmap_create_strtab(dtrace_hdl_t *dtp)
  	if (rc == -1)
- 		goto fail;
-diff --git a/libdtrace/dt_cg.c b/libdtrace/dt_cg.c
-index f6c88c5ca..39c27ab0e 100644
---- a/libdtrace/dt_cg.c
-+++ b/libdtrace/dt_cg.c
-@@ -277,15 +277,9 @@ dt_cg_tramp_prologue_act(dt_pcb_t *pcb, dt_activity_t act)
- 	 *	buf = rc + roundup(sizeof(dt_mstate_t), 8);
- 	 *				// add %r0, roundup(
- 	 *						sizeof(dt_mstate_t), 8)
--	 *	*((uint64_t *)&buf[0]) = 0;
--	 *				// stdw [%r0 + 0], 0
--	 *	buf += 8;		// add %r0, 8
--	 *				//     (%r0 = pointer to buffer space)
- 	 *	dctx.buf = buf;		// stdw [%r9 + DCTX_BUF], %r0
- 	 */
- 	emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_0, roundup(sizeof(dt_mstate_t), 8)));
--	emit(dlp,  BPF_STORE_IMM(BPF_DW, BPF_REG_0, 0, 0));
--	emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_0, 8));
- 	emit(dlp,  BPF_STORE(BPF_DW, BPF_REG_9, DCTX_BUF, BPF_REG_0));
+ 		return dt_bpf_error(dtp, "cannot update BPF map 'strtab': %s\n",
+ 				    strerror(err));
++	dtp->dt_strtabmap_fd = fd;
  
- 	/*
-@@ -1047,8 +1041,9 @@ dt_cg_tramp_error(dt_pcb_t *pcb)
-  *
-  *	- Store the base pointer to the output data buffer in %r9.
-  *	- Initialize the machine state (dctx->mst).
-- *	- Store the epid at [%r9 + DBUF_EPID].
-  *	- Store 0 to indicate no active speculation at [%r9 + DBUF_SPECID].
-+ *	- Store the prid at [%r9 + DBUF_PRID].
-+ *	- Store the stid at [%r9 + DBUF_STID].
-  *	- Evaluate the predicate expression and return if false.
-  *
-  * The dt_program() function will always return 0.
-@@ -1057,11 +1052,6 @@ static void
- dt_cg_prologue(dt_pcb_t *pcb, dt_node_t *pred)
- {
- 	dt_irlist_t	*dlp = &pcb->pcb_ir;
--	dt_ident_t	*epid = dt_dlib_get_var(pcb->pcb_hdl, "EPID");
--	dt_ident_t	*clid = dt_dlib_get_var(pcb->pcb_hdl, "CLID");
--
--	assert(epid != NULL);
--	assert(clid != NULL);
- 
- 	/*
- 	 * void dt_program(dt_dctx_t *dctx)
-@@ -1093,18 +1083,13 @@ dt_cg_prologue(dt_pcb_t *pcb, dt_node_t *pred)
- 	 *				// stdw [%r0 + DMST_FAULT], 0
- 	 *	dctx->mst->tstamp = 0;	// stdw [%r0 + DMST_TSTAMP], 0
- 	 *	dctx->mst->specsize = 0;// stdw [%r0 + DMST_SPECSIZE], 0
--	 *	dctx->mst->epid = EPID;	// stw [%r0 + DMST_EPID], EPID
--	 *	dctx->mst->clid = CLID;	// stw [%r0 + DMST_CLID], CLID
--	 *	*((uint32_t *)&buf[DBUF_EPID]) = EPID;
--	 *				// stw [%r9 + DBUF_EPID], EPID
-+	 *	dctx->mst->stid = STID;	// stw [%r0 + DMST_STID], STID
- 	 */
- 	emit(dlp,  BPF_LOAD(BPF_DW, BPF_REG_0, BPF_REG_0, DCTX_MST));
- 	emit(dlp,  BPF_STORE_IMM(BPF_DW, BPF_REG_0, DMST_FAULT, 0));
- 	emit(dlp,  BPF_STORE_IMM(BPF_DW, BPF_REG_0, DMST_TSTAMP, 0));
- 	emit(dlp,  BPF_STORE_IMM(BPF_DW, BPF_REG_0, DMST_SPECSIZE, 0));
--	emite(dlp, BPF_STORE_IMM(BPF_W, BPF_REG_0, DMST_EPID, -1), epid);
--	emite(dlp, BPF_STORE_IMM(BPF_W, BPF_REG_0, DMST_CLID, -1), clid);
--	emite(dlp, BPF_STORE_IMM(BPF_W, BPF_REG_9, DBUF_EPID, -1), epid);
-+	emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_0, DMST_STID, pcb->pcb_stmt->dtsd_id));
- 
- 	/*
- 	 *	Set the speculation ID field to zero to indicate no active
-@@ -1114,6 +1099,17 @@ dt_cg_prologue(dt_pcb_t *pcb, dt_node_t *pred)
- 	 */
- 	emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_9, DBUF_SPECID, 0));
- 
-+	/*
-+	 *	*((uint32_t *)&buf[DBUF_PRID]) = dctx->mst->prid;
-+	 *				// ld %r1, [%r0 + DMST_PRID]
-+	 *				// st [%r9 + DBUF_PRID], %r1
-+	 *	*((uint32_t *)&buf[DBUF_STID]) = stid;
-+	 *				// st [%r9 + DBUF_STID], stid
-+	 */
-+	emit (dlp, BPF_LOAD(BPF_W, BPF_REG_1, BPF_REG_0, DMST_PRID));
-+	emit (dlp, BPF_STORE(BPF_W, BPF_REG_9, DBUF_PRID, BPF_REG_1));
-+	emit (dlp, BPF_STORE_IMM(BPF_W, BPF_REG_9, DBUF_STID, pcb->pcb_stmt->dtsd_id));
-+
- 	/*
- 	 * If there is a predicate:
- 	 *
-@@ -1132,10 +1128,9 @@ dt_cg_prologue(dt_pcb_t *pcb, dt_node_t *pred)
- 	TRACE_REGSET("Prologue: End  ");
- 
- 	/*
--	 * Account for 32-bit EPID (at offset 0) and 32-bit speculation ID (at
--	 * offset 4).
-+	 * Set the offset for the beginning of trace data.
- 	 */
--	pcb->pcb_bufoff += 2 * sizeof(uint32_t);
-+	pcb->pcb_bufoff = DBUF_DATA;
- }
- 
- /*
-@@ -1170,15 +1165,15 @@ dt_cg_epilogue(dt_pcb_t *pcb)
- 		/*
- 		 *	rc = bpf_perf_event_output(dctx->ctx, &buffers,
- 		 *				   BPF_F_CURRENT_CPU,
--		 *				   buf - 4, bufoff + 4);
-+		 *				   buf + 4, bufoff - 4);
- 		 *				// lddw %r1, [%fp + DT_STK_DCTX]
- 		 *				// lddw %r1, [%r1 + DCTX_CTX]
- 		 *				// lddw %r2, &buffers
- 		 *				// lddw %r3, BPF_F_CURRENT_CPU
- 		 *				// mov %r4, %r9
--		 *				// add %r4, -4
-+		 *				// add %r4, 4
- 		 *				// mov %r5, pcb->pcb_bufoff
--		 *				// add %r5, 4
-+		 *				// add %r5, -4
- 		 *				// call bpf_perf_event_output
- 		 */
- 		emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_1, BPF_REG_FP, DT_STK_DCTX));
-@@ -1186,9 +1181,9 @@ dt_cg_epilogue(dt_pcb_t *pcb)
- 		dt_cg_xsetx(dlp, buffers, DT_LBL_NONE, BPF_REG_2, buffers->di_id);
- 		dt_cg_xsetx(dlp, NULL, DT_LBL_NONE, BPF_REG_3, BPF_F_CURRENT_CPU);
- 		emit(dlp, BPF_MOV_REG(BPF_REG_4, BPF_REG_9));
--		emit(dlp, BPF_ALU64_IMM(BPF_ADD, BPF_REG_4, -4));
-+		emit(dlp, BPF_ALU64_IMM(BPF_ADD, BPF_REG_4, 4));
- 		emit(dlp, BPF_MOV_IMM(BPF_REG_5, pcb->pcb_bufoff));
--		emit(dlp, BPF_ALU64_IMM(BPF_ADD, BPF_REG_5, 4));
-+		emit(dlp, BPF_ALU64_IMM(BPF_ADD, BPF_REG_5, -4));
- 		emit(dlp, BPF_CALL_HELPER(BPF_FUNC_perf_event_output));
- 
- 		/*
-diff --git a/libdtrace/dt_consume.c b/libdtrace/dt_consume.c
-index 6d93613d4..3e8e1b465 100644
---- a/libdtrace/dt_consume.c
-+++ b/libdtrace/dt_consume.c
-@@ -15,9 +15,11 @@
- #include <alloca.h>
- #include <dt_impl.h>
- #include <dt_aggregate.h>
-+#include <dt_dctx.h>
- #include <dt_module.h>
- #include <dt_pcap.h>
- #include <dt_peb.h>
-+#include <dt_probe.h>
- #include <dt_state.h>
- #include <dt_string.h>
- #include <libproc.h>
-@@ -433,7 +435,7 @@ static dt_htab_ops_t dt_spec_buf_htab_ops = {
- };
- 
- static int
--dt_flowindent(dtrace_hdl_t *dtp, dtrace_probedata_t *data, dtrace_epid_t last)
-+dt_flowindent(dtrace_hdl_t *dtp, dtrace_probedata_t *data, dtrace_id_t lastprid, dtrace_stid_t laststid)
- {
- 	dtrace_probedesc_t	*pd = data->dtpda_pdesc;
- 	dtrace_flowkind_t	flow = DTRACEFLOW_NONE;
-@@ -445,7 +447,7 @@ dt_flowindent(dtrace_hdl_t *dtp, dtrace_probedata_t *data, dtrace_epid_t last)
- 	static const char	*r_str[2] = { " <- ", " <= " };
- 	static const char	*ent = "entry", *ret = "return";
- 	static int		entlen = 0, retlen = 0;
--	dtrace_epid_t		id = data->dtpda_epid;
-+	dtrace_stid_t		stid = data->dtpda_stid;
- 
- 	if (entlen == 0) {
- 		assert(retlen == 0);
-@@ -473,13 +475,12 @@ dt_flowindent(dtrace_hdl_t *dtp, dtrace_probedata_t *data, dtrace_epid_t last)
- 
- 	/*
- 	 * If we're going to indent this, we need to check the ID of our last
--	 * call.  If we're looking at the same probe ID but a different EPID,
-+	 * call.  If we're looking at the same probe ID but a different STID,
- 	 * we _don't_ want to indent.  (Yes, there are some minor holes in
- 	 * this scheme -- it's a heuristic.)
- 	 */
- 	if (flow == DTRACEFLOW_ENTRY) {
--		if (last != DTRACE_EPIDNONE && id != last &&
--		    pd->id == dtp->dt_pdesc[last]->id)
-+		if (stid != laststid && pd->id == lastprid)
- 			flow = DTRACEFLOW_NONE;
- 	}
- 
-@@ -2145,8 +2146,8 @@ static dtrace_workstatus_t
- dt_consume_one_probe(dtrace_hdl_t *dtp, FILE *fp, char *data, uint32_t size,
- 		     dtrace_probedata_t *pdat, dtrace_consume_probe_f *efunc,
- 		     dtrace_consume_rec_f *rfunc, int flow, int quiet,
--		     int peekflags, dtrace_epid_t *last, int committing,
--		     void *arg);
-+		     int peekflags, dtrace_id_t *lastprid,
-+		     dtrace_stid_t *laststid, int committing, void *arg);
- 
- /*
-  * Commit one speculation.
-@@ -2155,7 +2156,8 @@ static dtrace_workstatus_t
- dt_commit_one_spec(dtrace_hdl_t *dtp, FILE *fp, dt_spec_buf_t *dtsb,
- 		   dtrace_probedata_t *pdat, dtrace_consume_probe_f *efunc,
- 		   dtrace_consume_rec_f *rfunc, int flow, int quiet,
--		   int peekflags, dtrace_epid_t *last, void *arg)
-+		   int peekflags, dtrace_id_t *lastprid,
-+		   dtrace_stid_t *laststid, void *arg)
- {
- 	dt_spec_buf_data_t 	*dsbd;
- 
-@@ -2169,7 +2171,7 @@ dt_commit_one_spec(dtrace_hdl_t *dtp, FILE *fp, dt_spec_buf_t *dtsb,
- 		ret = dt_consume_one_probe(dtp, fp, dsbd->dsbd_data,
- 					   dsbd->dsbd_size, &specpdat,
- 					   efunc, rfunc, flow, quiet,
--					   peekflags, last, 1, arg);
-+					   peekflags, lastprid, laststid, 1, arg);
- 		if (ret != DTRACE_WORKSTATUS_OKAY)
- 			return ret;
- 	}
-@@ -2181,34 +2183,33 @@ static dtrace_workstatus_t
- dt_consume_one_probe(dtrace_hdl_t *dtp, FILE *fp, char *data, uint32_t size,
- 		     dtrace_probedata_t *pdat, dtrace_consume_probe_f *efunc,
- 		     dtrace_consume_rec_f *rfunc, int flow, int quiet,
--		     int peekflags, dtrace_epid_t *last, int committing,
--		     void *arg)
-+		     int peekflags, dtrace_id_t *lastprid,
-+		     dtrace_stid_t *laststid, int committing, void *arg)
- {
--	dtrace_epid_t		epid;
-+	dtrace_specid_t		specid;
-+	dtrace_id_t		prid;
-+	dtrace_stid_t		stid;
- 	dtrace_datadesc_t	*epd;
- 	dt_spec_buf_t		tmpl;
- 	dt_spec_buf_t		*dtsb;
--	int			specid;
- 	int			i;
- 	int			rval;
- 	dtrace_workstatus_t	ret;
- 	int			commit_discard_seen, only_commit_discards;
- 	int			data_recording = 1;
- 
--	epid = ((uint32_t *)data)[0];
--	specid = ((uint32_t *)data)[1];
-+	specid = *((dtrace_specid_t *)(data + DBUF_SPECID));
-+	prid = *((dtrace_id_t *)(data + DBUF_PRID));
-+	stid = *((dtrace_stid_t *)(data + DBUF_STID));
- 
--	/*
--	 * Fill in the epid and address of the epid in the buffer.  We need to
--	 * pass this to the efunc and possibly to create speculations.
--	 */
--	pdat->dtpda_epid = epid;
-+	pdat->dtpda_stid = stid;
- 	pdat->dtpda_data = data;
- 
--	rval = dt_epid_lookup(dtp, epid, &pdat->dtpda_ddesc,
--					 &pdat->dtpda_pdesc);
--	if (rval != 0)
--		return dt_set_errno(dtp, EDT_BADEPID);
-+	if (prid > dtp->dt_probe_id)
-+		return dt_set_errno(dtp, EDT_BADID);
-+	pdat->dtpda_pdesc = (dtrace_probedesc_t *)dtp->dt_probes[prid]->desc;
-+	if (dt_stid_lookup(dtp, stid, &pdat->dtpda_ddesc) != 0)
-+		return dt_set_errno(dtp, EDT_BADSTID);
- 
- 	epd = pdat->dtpda_ddesc;
- 	if (epd->dtdd_uarg != DT_ECB_DEFAULT) {
-@@ -2306,7 +2307,7 @@ dt_consume_one_probe(dtrace_hdl_t *dtp, FILE *fp, char *data, uint32_t size,
- 
- 	if (data_recording) {
- 		if (flow)
--			dt_flowindent(dtp, pdat, *last);
-+			dt_flowindent(dtp, pdat, *lastprid, *laststid);
- 
- 		rval = (*efunc)(pdat, arg);
- 
-@@ -2569,14 +2570,15 @@ dt_consume_one_probe(dtrace_hdl_t *dtp, FILE *fp, char *data, uint32_t size,
- 	}
- 
- 	/*
--	 * Call the record callback with a NULL record to indicate
--	 * that we're done processing this EPID.  The return value is ignored in
--	 * this case. XXX should we respect at least DTRACE_CONSUME_ABORT?
-+	 * Call the record callback with a NULL record to indicate that we're
-+	 * done processing this record.  The return value is ignored in this
-+	 * case. XXX should we respect at least DTRACE_CONSUME_ABORT?
- 	 */
- 	if (data_recording) {
- 		(*rfunc)(pdat, NULL, arg);
- 
--		*last = epid;
-+		*lastprid = prid;
-+		*laststid = stid;
- 	}
- 
- 	/*
-@@ -2597,7 +2599,7 @@ dt_consume_one_probe(dtrace_hdl_t *dtp, FILE *fp, char *data, uint32_t size,
- 				if ((ret = dt_commit_one_spec(dtp, fp, dtsb,
- 							      pdat, efunc, rfunc,
- 							      flow, quiet, peekflags,
--							      last, arg)) !=
-+							      lastprid, laststid, arg)) !=
- 				    DTRACE_WORKSTATUS_OKAY) {
- 					dt_spec_buf_data_destroy(dtp, dtsb);
- 					return ret;
-@@ -2623,7 +2625,7 @@ static dtrace_workstatus_t
- dt_consume_one(dtrace_hdl_t *dtp, FILE *fp, char *buf,
- 	       dtrace_probedata_t *pdat, dtrace_consume_probe_f *efunc,
- 	       dtrace_consume_rec_f *rfunc, int flow, int quiet, int peekflags,
--	       dtrace_epid_t *last, void *arg)
-+	       dtrace_id_t *lastprid, dtrace_stid_t *laststid, void *arg)
- {
- 	char				*data = buf;
- 	struct perf_event_header	*hdr;
-@@ -2639,9 +2641,9 @@ dt_consume_one(dtrace_hdl_t *dtp, FILE *fp, char *buf,
- 		 * struct {
- 		 *	struct perf_event_header	header;
- 		 *	uint32_t			size;
--		 *	uint32_t			pad;
--		 *	uint32_t			epid;
- 		 *	uint32_t			specid;
-+		 *	uint32_t			prid;
-+		 *	uint32_t			stid;
- 		 *	uint64_t			data[n];
- 		 * }
- 		 * and 'data' points to the 'size' member at this point.
-@@ -2651,17 +2653,21 @@ dt_consume_one(dtrace_hdl_t *dtp, FILE *fp, char *buf,
- 			return dt_set_errno(dtp, EDT_DSIZE);
- 
- 		size = *(uint32_t *)data;
--		data += sizeof(size);
- 		ptr += sizeof(size) + size;
- 		if (ptr != buf + hdr->size)
- 			return dt_set_errno(dtp, EDT_DSIZE);
- 
--		data += sizeof(uint32_t);		/* skip padding */
--		size -= sizeof(uint32_t);
-+		/*
-+		 * "size" measures from after &size to the end.  But buffer
-+		 * offsets are relative to &size itself, to preserve 8-byte
-+		 * alignment.  So, we leave data pointing at &size, and we
-+		 * increase size by 4 bytes.
-+		 */
-+		size += 4;
- 
- 		return dt_consume_one_probe(dtp, fp, data, size, pdat, efunc,
- 					    rfunc, flow, quiet, peekflags,
--					    last, 0, arg);
-+					    lastprid, laststid, 0, arg);
- 	} else if (hdr->type == PERF_RECORD_LOST) {
- 		return DTRACE_WORKSTATUS_OKAY;
- 	} else
-@@ -2692,7 +2698,8 @@ dt_consume_cpu(dtrace_hdl_t *dtp, FILE *fp, dt_peb_t *peb,
- {
- 	struct perf_event_mmap_page	*rb_page = (void *)peb->base;
- 	struct perf_event_header	*hdr;
--	dtrace_epid_t			last = DTRACE_EPIDNONE;
-+	dtrace_id_t			lastprid;
-+	dtrace_stid_t			laststid;
- 	char				*base;
- 	char				*event;
- 	uint32_t			len;
-@@ -2764,7 +2771,7 @@ dt_consume_cpu(dtrace_hdl_t *dtp, FILE *fp, dt_peb_t *peb,
-                 }
- 
-                 rval = dt_consume_one(dtp, fp, event, &pdat, efunc, rfunc, flow,
--                                      quiet, peekflags, &last, arg);
-+                                      quiet, peekflags, &lastprid, &laststid, arg);
-                 if (rval == DTRACE_WORKSTATUS_DONE)
-                   return DTRACE_WORKSTATUS_OKAY;
-                 if (rval != DTRACE_WORKSTATUS_OKAY)
-diff --git a/libdtrace/dt_dctx.h b/libdtrace/dt_dctx.h
-index d8232868d..beb037072 100644
---- a/libdtrace/dt_dctx.h
-+++ b/libdtrace/dt_dctx.h
-@@ -25,9 +25,8 @@
-  * The DTrace machine state.
-  */
- typedef struct dt_mstate {
--	uint32_t	epid;		/* Enabled probe ID */
- 	uint32_t	prid;		/* Probe ID */
--	uint32_t	clid;		/* Clause ID (unique per probe) */
-+	uint32_t	stid;		/* Statement ID */
- 	uint32_t	tag;		/* Tag (for future use) */
- 	uint32_t	scratch_top;	/* Current top of scratch space */
- 	int32_t		syscall_errno;	/* syscall errno */
-@@ -41,9 +40,8 @@ typedef struct dt_mstate {
- 	uint64_t	saved_argv[6];	/* Saved arguments */
- } dt_mstate_t;
- 
--#define DMST_EPID		offsetof(dt_mstate_t, epid)
- #define DMST_PRID		offsetof(dt_mstate_t, prid)
--#define DMST_CLID		offsetof(dt_mstate_t, clid)
-+#define DMST_STID		offsetof(dt_mstate_t, stid)
- #define DMST_TAG		offsetof(dt_mstate_t, tag)
- #define DMST_SCRATCH_TOP	offsetof(dt_mstate_t, scratch_top)
- #define DMST_ERRNO		offsetof(dt_mstate_t, syscall_errno)
-@@ -90,16 +88,23 @@ typedef struct dt_dctx {
-  * The dctx->buf pointer references a block of memory that contains:
-  *
-  *                       +----------------+
-- *                  0 -> | EPID           |
-+ *                  0 -> | size           |
-  *                       +----------------+
-- *		    4 -> | Speculation ID |
-+ *                  4 -> | Speculation ID |
-  *                       +----------------+
-- *                       | Trace Data     |
-+ *                  8 -> | PRID           |
-+ *                       +----------------+
-+ *                 12 -> | STID           |
-+ *                       +----------------+
-+ *                 16 -> | Trace Data     |
-  *                       |      ...       |
-  *                       +----------------+
-  */
--#define DBUF_EPID	0
-+#define DBUF_SIZE	0
- #define DBUF_SPECID	4
-+#define DBUF_PRID	8
-+#define DBUF_STID	12
-+#define DBUF_DATA	16
- 
- /*
-  * The dctx->mem pointer references a block of memory that contains:
-diff --git a/libdtrace/dt_dlibs.c b/libdtrace/dt_dlibs.c
-index bc883e110..ba4d4abef 100644
---- a/libdtrace/dt_dlibs.c
-+++ b/libdtrace/dt_dlibs.c
-@@ -73,9 +73,7 @@ static const dt_ident_t		dt_bpf_symbols[] = {
- 	DT_BPF_SYMBOL(tuples, DT_IDENT_PTR),
- 
- 	/* BPF internal identifiers */
--	DT_BPF_SYMBOL_ID(EPID, DT_IDENT_SCALAR, DT_CONST_EPID),
- 	DT_BPF_SYMBOL_ID(PRID, DT_IDENT_SCALAR, DT_CONST_PRID),
--	DT_BPF_SYMBOL_ID(CLID, DT_IDENT_SCALAR, DT_CONST_CLID),
- 	DT_BPF_SYMBOL_ID(ARGC, DT_IDENT_SCALAR, DT_CONST_ARGC),
- 	DT_BPF_SYMBOL_ID(STBSZ, DT_IDENT_SCALAR, DT_CONST_STBSZ),
- 	DT_BPF_SYMBOL_ID(STRSZ, DT_IDENT_SCALAR, DT_CONST_STRSZ),
-diff --git a/libdtrace/dt_error.c b/libdtrace/dt_error.c
-index dbf18c766..16a605d3f 100644
---- a/libdtrace/dt_error.c
-+++ b/libdtrace/dt_error.c
-@@ -54,7 +54,7 @@ static const struct {
- 	{ EDT_DOFFSET,	"Data record offset exceeds buffer boundary" },
- 	{ EDT_DALIGN,	"Data record has inappropriate alignment" },
- 	{ EDT_DSIZE,	"Data record has incorrect size" },
--	{ EDT_BADEPID,	"Invalid EPID" },
-+	{ EDT_BADSTID,	"Invalid statement ID" },
- 	{ EDT_BADOPTNAME, "Invalid option name" },
- 	{ EDT_BADOPTVAL, "Invalid value for specified option" },
- 	{ EDT_BADOPTCTX, "Option cannot be used from within a D program" },
-diff --git a/libdtrace/dt_handle.c b/libdtrace/dt_handle.c
-index 4c9b94132..09fae99c3 100644
---- a/libdtrace/dt_handle.c
-+++ b/libdtrace/dt_handle.c
-@@ -1,6 +1,6 @@
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2007, 2023, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2007, 2024, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-@@ -14,6 +14,7 @@
- #include <alloca.h>
- 
- #include <dt_impl.h>
-+#include <dt_probe.h>
- #include <dt_program.h>
- 
- static const char _dt_errprog[] =
-@@ -126,16 +127,13 @@ dt_handle_err(dtrace_hdl_t *dtp, dtrace_probedata_t *data)
- {
- 	dtrace_datadesc_t *dd = data->dtpda_ddesc, *errdd;
- 	dtrace_probedesc_t *pd = data->dtpda_pdesc, *errpd;
-+	dtrace_stmtdesc_t *stp;
- 	dtrace_errdata_t err;
--	dtrace_epid_t epid;
-+	dtrace_id_t prid;
-+	dtrace_stid_t stid;
- 
--	char where[30];
--	char details[30];
--	char offinfo[30];
--	const int slop = 80;
--	const char *faultstr;
--	char *str;
--	int len;
-+	char *str, *details, *offinfo;
-+	int rc = 0;
- 
- 	assert(dd->dtdd_uarg == DT_ECB_ERROR);
- 
-@@ -144,38 +142,29 @@ dt_handle_err(dtrace_hdl_t *dtp, dtrace_probedata_t *data)
- 		return dt_set_errno(dtp, EDT_BADERROR);
- 
- 	/*
--	 * This is an error.  We have the following items here:  EPID,
--	 * faulting action, BPF pc, fault code and faulting address.
-+	 * This is an error.  We have the following items here:  PRID,
-+	 * statement ID, BPF pc, fault code and faulting address.
- 	 */
--	epid = (uint32_t)DT_REC(uint64_t, 0);
-+	prid = DT_REC(uint64_t, 0);
-+	stid = DT_REC(uint64_t, 1);
- 
--	if (dt_epid_lookup(dtp, epid, &errdd, &errpd) != 0)
-+	if (prid > dtp->dt_probe_id)
- 		return dt_set_errno(dtp, EDT_BADERROR);
--
-+	if (dt_stid_lookup(dtp, stid, &errdd) != 0)
-+		return dt_set_errno(dtp, EDT_BADERROR);
-+	errpd = (dtrace_probedesc_t *)dtp->dt_probes[prid]->desc;
- 	err.dteda_ddesc = errdd;
- 	err.dteda_pdesc = errpd;
- 	err.dteda_cpu = data->dtpda_cpu;
--	err.dteda_action = (int)DT_REC(uint64_t, 1);
-+	err.dteda_action = stid;
- 	err.dteda_offset = (int)DT_REC(uint64_t, 2);
- 	err.dteda_fault = (int)DT_REC(uint64_t, 3);
- 	err.dteda_addr = DT_REC(uint64_t, 4);
- 
--	faultstr = dtrace_faultstr(dtp, err.dteda_fault);
--	len = sizeof(where) + sizeof(offinfo) + strlen(faultstr) +
--	      strlen(errpd->prv) + strlen(errpd->mod) + strlen(errpd->fun) +
--	      strlen(errpd->prb) + slop;
--
--	str = (char *)alloca(len);
--
--	if (err.dteda_action == 0)
--		sprintf(where, "predicate");
--	else
--		sprintf(where, "action #%d", err.dteda_action);
--
- 	if (err.dteda_offset != -1)
--		sprintf(offinfo, " at BPF pc %d", err.dteda_offset);
-+		asprintf(&offinfo, " at BPF pc %d", err.dteda_offset);
- 	else
--		offinfo[0] = 0;
-+		offinfo = "";
- 
- 	switch (err.dteda_fault) {
- 	case DTRACEFLT_BADADDR:
-@@ -184,32 +173,38 @@ dt_handle_err(dtrace_hdl_t *dtp, dtrace_probedata_t *data)
- 	case DTRACEFLT_BADALIGN:
- 	case DTRACEFLT_BADSTACK:
- 	case DTRACEFLT_BADSIZE:
--		sprintf(details, " (0x%llx)", (unsigned long long)err.dteda_addr);
-+		asprintf(&details, " (0x%llx)", (unsigned long long)err.dteda_addr);
- 		break;
- 	case DTRACEFLT_BADINDEX:
--		sprintf(details, " (%ld)", (int64_t)err.dteda_addr);
-+		asprintf(&details, " (%ld)", (int64_t)err.dteda_addr);
- 		break;
- 
- 	default:
- no_addr:
--		details[0] = 0;
-+		details = "";
- 	}
- 
--	snprintf(str, len, "error on enabled probe ID %u (ID %u: %s:%s:%s:%s): "
--			   "%s%s in %s%s",
--		 epid, errpd->id, errpd->prv, errpd->mod, errpd->fun,
--		 errpd->prb, dtrace_faultstr(dtp, err.dteda_fault), details,
--		 where, offinfo);
-+	stp = dtp->dt_stmts[stid];
-+	assert(stp != NULL);
-+	asprintf(&str, "error in %s for probe ID %u (%s:%s:%s:%s): %s%s%s",
-+		 stp->dtsd_clause->di_name, errpd->id, errpd->prv, errpd->mod,
-+		 errpd->fun, errpd->prb, dtrace_faultstr(dtp, err.dteda_fault),
-+		 details, offinfo);
- 
- 	err.dteda_msg = str;
- 
- 	if (dtp->dt_errhdlr == NULL)
--		return dt_set_errno(dtp, EDT_ERRABORT);
-+		rc = dt_set_errno(dtp, EDT_ERRABORT);
-+	else if ((*dtp->dt_errhdlr)(&err, dtp->dt_errarg) == DTRACE_HANDLE_ABORT)
-+		rc = dt_set_errno(dtp, EDT_ERRABORT);
- 
--	if ((*dtp->dt_errhdlr)(&err, dtp->dt_errarg) == DTRACE_HANDLE_ABORT)
--		return dt_set_errno(dtp, EDT_ERRABORT);
-+	free(str);
-+	if (offinfo[0] != 0)
-+		free(offinfo);
-+	if (details[0] != 0)
-+		free(details);
- 
--	return 0;
-+	return rc;
- }
- 
- int
-@@ -237,10 +232,10 @@ dt_handle_liberr(dtrace_hdl_t *dtp, const dtrace_probedata_t *data,
-     const char *faultstr)
- {
- 	dtrace_probedesc_t *errpd = data->dtpda_pdesc;
-+	dtrace_stmtdesc_t *stp;
- 	dtrace_errdata_t err;
--	const int slop = 80;
- 	char *str;
--	int len;
-+	int rc = 0;
- 
- 	err.dteda_ddesc = data->dtpda_ddesc;
- 	err.dteda_pdesc = errpd;
-@@ -250,25 +245,23 @@ dt_handle_liberr(dtrace_hdl_t *dtp, const dtrace_probedata_t *data,
- 	err.dteda_fault = DTRACEFLT_LIBRARY;
- 	err.dteda_addr = 0; /* == NULL */
- 
--	len = strlen(faultstr) + strlen(errpd->prv) + strlen(errpd->mod) +
--	      strlen(errpd->fun) + strlen(errpd->prb) + slop;
--
--	str = alloca(len);
--
--	snprintf(str, len,
--		 "error on enabled probe ID %u (ID %u: %s:%s:%s:%s): %s",
--		 data->dtpda_epid, errpd->id, errpd->prv, errpd->mod,
-+	stp = dtp->dt_stmts[data->dtpda_stid];
-+	assert(stp != NULL);
-+	asprintf(&str,
-+		 "error in %s for probe ID %u (%s:%s:%s:%s): %s",
-+		 stp->dtsd_clause->di_name, errpd->id, errpd->prv, errpd->mod,
- 		 errpd->fun, errpd->prb, faultstr);
- 
- 	err.dteda_msg = str;
- 
- 	if (dtp->dt_errhdlr == NULL)
--		return dt_set_errno(dtp, EDT_ERRABORT);
-+		rc = dt_set_errno(dtp, EDT_ERRABORT);
-+	else if ((*dtp->dt_errhdlr)(&err, dtp->dt_errarg) == DTRACE_HANDLE_ABORT)
-+		rc = dt_set_errno(dtp, EDT_ERRABORT);
- 
--	if ((*dtp->dt_errhdlr)(&err, dtp->dt_errarg) == DTRACE_HANDLE_ABORT)
--		return dt_set_errno(dtp, EDT_ERRABORT);
-+	free(str);
- 
--	return 0;
-+	return rc;
- }
- 
- #define	DROPTAG(x)	x, #x
-diff --git a/libdtrace/dt_impl.h b/libdtrace/dt_impl.h
-index c13812c88..340dc1960 100644
---- a/libdtrace/dt_impl.h
-+++ b/libdtrace/dt_impl.h
-@@ -266,10 +266,11 @@ struct dtrace_hdl {
- 	const char *dt_errtag;	/* tag used with last call to dt_set_errmsg() */
- 	dt_pcb_t *dt_pcb;	/* pointer to current parsing control block */
- 	ulong_t dt_gen;		/* compiler generation number */
--	uint_t dt_clause_nextid; /* next ID to use for programs */
-+	uint_t dt_stmt_nextid;	/* next ID to use for statements */
- 	dt_list_t dt_programs;	/* linked list of dtrace_prog_t's */
- 	dt_list_t dt_xlators;	/* linked list of dt_xlator_t's */
- 	dt_list_t dt_enablings;	/* list of (to be) enabled probes */
-+	dtrace_stmtdesc_t **dt_stmts; /* array of stmts */
- 	struct dt_xlator **dt_xlatormap; /* dt_xlator_t's indexed by dx_id */
- 	id_t dt_xlatorid;	/* next dt_xlator_t id to assign */
- 	dt_ident_t *dt_externs;	/* linked list of external symbol identifiers */
-@@ -336,10 +337,6 @@ struct dtrace_hdl {
- 	ctf_id_t dt_type_symaddr; /* cached CTF identifier for _symaddr type */
- 	ctf_id_t dt_type_usymaddr; /* cached CTF ident. for _usymaddr type */
- 	ctf_id_t dt_type_void;	/* cached CTF identifier for void type */
--	dtrace_epid_t dt_nextepid; /* next enabled probe ID to assign */
--	size_t dt_maxprobe;	/* max enabled probe ID */
--	dtrace_datadesc_t **dt_ddesc; /* probe data descriptions */
--	dtrace_probedesc_t **dt_pdesc; /* probe descriptions for enabled prbs */
- 	size_t dt_maxagg;	/* max aggregation ID */
- 	dtrace_aggdesc_t **dt_adesc; /* aggregation descriptions */
- 	struct dt_aggregate *dt_aggregate; /* aggregate */
-@@ -599,7 +596,7 @@ enum {
- 	EDT_DOFFSET,		/* record data offset error */
- 	EDT_DALIGN,		/* record data alignment error */
- 	EDT_DSIZE,		/* record data size error */
--	EDT_BADEPID,		/* invalid enabled probe id */
-+	EDT_BADSTID,		/* invalid statement id */
- 	EDT_BADOPTNAME,		/* invalid dtrace_setopt option name */
- 	EDT_BADOPTVAL,		/* invalid dtrace_setopt option value */
- 	EDT_BADOPTCTX,		/* invalid dtrace_setopt option context */
-@@ -766,11 +763,7 @@ extern dtrace_datadesc_t *dt_datadesc_hold(dtrace_datadesc_t *ddp);
- extern void dt_datadesc_release(dtrace_hdl_t *, dtrace_datadesc_t *);
- extern dtrace_datadesc_t *dt_datadesc_create(dtrace_hdl_t *);
- extern int dt_datadesc_finalize(dtrace_hdl_t *, dtrace_datadesc_t *);
--extern dtrace_epid_t dt_epid_add(dtrace_hdl_t *, dtrace_datadesc_t *,
--				 dtrace_id_t);
--extern int dt_epid_lookup(dtrace_hdl_t *, dtrace_epid_t, dtrace_datadesc_t **,
--			  dtrace_probedesc_t **);
--extern void dt_epid_destroy(dtrace_hdl_t *);
-+extern int dt_stid_lookup(dtrace_hdl_t *, dtrace_stid_t, dtrace_datadesc_t **);
- typedef void (*dt_cg_gap_f)(dt_pcb_t *, int);
- extern uint32_t dt_rec_add(dtrace_hdl_t *, dt_cg_gap_f, dtrace_actkind_t,
- 			   uint32_t, uint16_t, dt_pfargv_t *, uint64_t);
-diff --git a/libdtrace/dt_map.c b/libdtrace/dt_map.c
-index 60a2eca2e..9baf94d9a 100644
---- a/libdtrace/dt_map.c
-+++ b/libdtrace/dt_map.c
-@@ -85,98 +85,21 @@ dt_datadesc_finalize(dtrace_hdl_t *dtp, dtrace_datadesc_t *ddp)
  	return 0;
  }
- 
--/*
-- * Associate a probe data description and probe description with an enabled
-- * probe ID.  This means that the given ID refers to the program matching the
-- * probe data description being attached to the probe that matches the probe
-- * description.
-- */
--dtrace_epid_t
--dt_epid_add(dtrace_hdl_t *dtp, dtrace_datadesc_t *ddp, dtrace_id_t prid)
--{
--	dtrace_id_t	max = dtp->dt_maxprobe;
--	dtrace_epid_t	epid;
--
--	epid = dtp->dt_nextepid++;
--	if (epid >= max || dtp->dt_ddesc == NULL) {
--		dtrace_id_t		nmax = max ? (max << 1) : 2;
--		dtrace_datadesc_t	**nddesc;
--		dtrace_probedesc_t	**npdesc;
--
--		nddesc = dt_calloc(dtp, nmax, sizeof(void *));
--		npdesc = dt_calloc(dtp, nmax, sizeof(void *));
--		if (nddesc == NULL || npdesc == NULL) {
--			dt_free(dtp, nddesc);
--			dt_free(dtp, npdesc);
--			return dt_set_errno(dtp, EDT_NOMEM);
--		}
--
--		if (dtp->dt_ddesc != NULL) {
--			size_t	osize = max * sizeof(void *);
--
--			memcpy(nddesc, dtp->dt_ddesc, osize);
--			dt_free(dtp, dtp->dt_ddesc);
--			memcpy(npdesc, dtp->dt_pdesc, osize);
--			dt_free(dtp, dtp->dt_pdesc);
--		}
--
--		dtp->dt_ddesc = nddesc;
--		dtp->dt_pdesc = npdesc;
--		dtp->dt_maxprobe = nmax;
--	}
--
--	if (dtp->dt_ddesc[epid] != NULL)
--		return epid;
--
--	dtp->dt_ddesc[epid] = dt_datadesc_hold(ddp);
--	dtp->dt_pdesc[epid] = (dtrace_probedesc_t *)dtp->dt_probes[prid]->desc;
--
--	return epid;
--}
--
- int
--dt_epid_lookup(dtrace_hdl_t *dtp, dtrace_epid_t epid, dtrace_datadesc_t **ddp,
--	       dtrace_probedesc_t **pdp)
-+dt_stid_lookup(dtrace_hdl_t *dtp, dtrace_stid_t stid, dtrace_datadesc_t **ddp)
- {
--	if (epid >= dtp->dt_maxprobe ||
--	    dtp->dt_ddesc[epid] == NULL || dtp->dt_pdesc[epid] == NULL)
--		return -1;
--
--	*ddp = dtp->dt_ddesc[epid];
--	*pdp = dtp->dt_pdesc[epid];
--
--	return 0;
--}
--
--void
--dt_epid_destroy(dtrace_hdl_t *dtp)
--{
--	size_t i;
--
--	assert((dtp->dt_pdesc != NULL && dtp->dt_ddesc != NULL &&
--	    dtp->dt_maxprobe > 0) || (dtp->dt_pdesc == NULL &&
--	    dtp->dt_ddesc == NULL && dtp->dt_maxprobe == 0));
--
--	if (dtp->dt_pdesc == NULL)
--		return;
-+	dtrace_difo_t *rdp;
-+	dtrace_stmtdesc_t *stp;
- 
--	for (i = 0; i < dtp->dt_maxprobe; i++) {
--		if (dtp->dt_ddesc[i] == NULL) {
--			assert(dtp->dt_pdesc[i] == NULL);
--			continue;
--		}
--
--		dt_datadesc_release(dtp, dtp->dt_ddesc[i]);
--		assert(dtp->dt_pdesc[i] != NULL);
--	}
-+	if (stid >= dtp->dt_stmt_nextid)
+@@ -936,6 +938,43 @@ gmap_create_probes(dtrace_hdl_t *dtp)
+ 				dtp, "cannot update BPF map 'probes': %s\n",
+ 				strerror(errno));
+ 	}
++	dtp->dt_probesmap_fd = fd;
++
++	return 0;
++}
++
++/*
++ * Create the 'usdt_prids' BPF map.
++ *
++ * USDT-PRID information map.  This is a global hash map for use
++ * with USDT probes.  It is indexed by (pid, underlying probe ID).
++ * The value is a probe ID for the overlying USDT probe and a bit
++ * mask indicating which clauses to execute for this pid.
++ *
++ * WIP.  Just make up some sizes for now.
++ *
++ *     How big is a probe ID?  Sometimes, it's a dtrace_id_t.
++ *     And uts/common/sys/dtrace_types.h gives us "typedef uint32_t dtrace_id_t".
++ *     Meanwhile, libdtrace/dt_impl.h has "uint32_t dt_probe_id".
++ *     So either uint32_t or dtrace_id_t is fine.
++ *
++ *     How big should our bit mask be?  Start with 8*sizeof(long long) bits.
++ *
++ *     How many entries should we allow?  Start with 1000.
++ *
++ * Note that for a given (pid, PRID) key, there can be at most one
++ * overlying USDT probe.
++ */
++static int
++gmap_create_usdt_prids(dtrace_hdl_t *dtp)
++{
++	dtp->dt_usdt_pridsmap_fd = create_gmap(dtp, "usdt_prids", BPF_MAP_TYPE_HASH,
++			 dtp->dt_usdt_pridsmap_ksz, dtp->dt_usdt_pridsmap_vsz, 1000);
++	if (dtp->dt_usdt_pridsmap_fd == -1)
 +		return -1;
++
++	/* Populate the newly created map.  FIXME:  this is probably not the right place for this. */
++	dt_uprobe.update(dtp, NULL);
  
--	free(dtp->dt_pdesc);
--	dtp->dt_pdesc = NULL;
-+	stp = dtp->dt_stmts[stid];
-+	assert(stp != NULL);
-+	rdp = dt_dlib_get_func_difo(dtp, stp->dtsd_clause);
-+	*ddp = rdp->dtdo_ddesc;
+ 	return 0;
+ }
+@@ -1045,6 +1084,7 @@ dt_bpf_gmap_create(dtrace_hdl_t *dtp)
+ 	CREATE_MAP(scratchmem)
+ 	CREATE_MAP(strtab)
+ 	CREATE_MAP(probes)
++	CREATE_MAP(usdt_prids)
+ 	CREATE_MAP(gvars)
+ 	CREATE_MAP(lvars)
+ 	CREATE_MAP(dvars)
+diff --git a/libdtrace/dt_cc.c b/libdtrace/dt_cc.c
+index 4202771a9..12104fc21 100644
+--- a/libdtrace/dt_cc.c
++++ b/libdtrace/dt_cc.c
+@@ -1045,7 +1045,7 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
+ 				nrp->dofr_data = 0;	/* FIXME */
+ 				continue;
+ 			case DT_CONST_STBSZ:
+-				nrp->dofr_data = dtp->dt_strlen;
++				nrp->dofr_data = dtp->dt_strmax;
+ 				continue;
+ 			case DT_CONST_STRSZ:
+ 				nrp->dofr_data =
+diff --git a/libdtrace/dt_dlibs.c b/libdtrace/dt_dlibs.c
+index ba4d4abef..924cf11e4 100644
+--- a/libdtrace/dt_dlibs.c
++++ b/libdtrace/dt_dlibs.c
+@@ -66,6 +66,7 @@ static const dt_ident_t		dt_bpf_symbols[] = {
+ 	DT_BPF_SYMBOL(lvars, DT_IDENT_PTR),
+ 	DT_BPF_SYMBOL(mem, DT_IDENT_PTR),
+ 	DT_BPF_SYMBOL(probes, DT_IDENT_PTR),
++	DT_BPF_SYMBOL(usdt_prids, DT_IDENT_PTR),
+ 	DT_BPF_SYMBOL(scratchmem, DT_IDENT_PTR),
+ 	DT_BPF_SYMBOL(specs, DT_IDENT_PTR),
+ 	DT_BPF_SYMBOL(state, DT_IDENT_PTR),
+diff --git a/libdtrace/dt_impl.h b/libdtrace/dt_impl.h
+index 340dc1960..1d1248766 100644
+--- a/libdtrace/dt_impl.h
++++ b/libdtrace/dt_impl.h
+@@ -282,6 +282,7 @@ struct dtrace_hdl {
+ 	dt_strtab_t *dt_ccstab;	/* global string table (during compilation) */
+ 	dt_rodata_t *dt_rodata;	/* global read-only data */
+ 	uint_t dt_strlen;	/* global string table (runtime) size */
++	uint_t dt_strmax;	/* global string table (runtime) size, allocated */
+ 	uint_t dt_rooffset;	/* read-only data offset */
+ 	uint_t dt_rosize;	/* read-only data size */
+ 	uint_t dt_zerooffset;	/* zero region, offset */
+@@ -389,6 +390,11 @@ struct dtrace_hdl {
+ 	int dt_aggmap_fd;	/* file descriptor for the 'aggs' BPF map */
+ 	int dt_genmap_fd;	/* file descriptor for the 'agggen' BPF map */
+ 	int dt_cpumap_fd;	/* file descriptor for the 'cpuinfo' BPF map */
++	int dt_strtabmap_fd;	/* file descriptor for the 'strtab' BPF map */
++	int dt_probesmap_fd;	/* file descriptor for the 'probes' BPF map */
++	int dt_usdt_pridsmap_fd; /* file descriptor for the 'usdt_prids' BPF map */
++	int dt_usdt_pridsmap_ksz; /* 'usdt_prids' BPF map key size */
++	int dt_usdt_pridsmap_vsz; /* 'usdt_prids' BPF map value size */
+ 	dtrace_handle_err_f *dt_errhdlr; /* error handler, if any */
+ 	void *dt_errarg;	/* error handler argument */
+ 	dtrace_handle_drop_f *dt_drophdlr; /* drop handler, if any */
+diff --git a/libdtrace/dt_prov_uprobe.c b/libdtrace/dt_prov_uprobe.c
+index bb172ace2..9ff44316b 100644
+--- a/libdtrace/dt_prov_uprobe.c
++++ b/libdtrace/dt_prov_uprobe.c
+@@ -37,8 +37,10 @@
+ #include "dt_list.h"
+ #include "dt_provider_tp.h"
+ #include "dt_probe.h"
++#include "dt_program.h"
+ #include "dt_pid.h"
+ #include "dt_string.h"
++#include "port.h"
  
--	free(dtp->dt_ddesc);
--	dtp->dt_ddesc = NULL;
--	dtp->dt_nextepid = 0;
--	dtp->dt_maxprobe = 0;
-+	return (*ddp == NULL) ? -1 : 0;
+ /* Provider name for the underlying probes. */
+ static const char	prvname[] = "uprobe";
+@@ -63,6 +65,15 @@ typedef struct list_probe {
+ 	dt_probe_t	*probe;
+ } list_probe_t;
+ 
++typedef struct usdt_prids_map_key {
++	pid_t		pid;
++	dtrace_id_t	uprid;
++} usdt_prids_map_key_t;
++typedef struct usdt_prids_map_val {
++	dtrace_id_t	prid;
++	long long	mask;
++} usdt_prids_map_val_t;
++
+ static const dtrace_pattr_t	pattr = {
+ { DTRACE_STABILITY_EVOLVING, DTRACE_STABILITY_EVOLVING, DTRACE_CLASS_ISA },
+ { DTRACE_STABILITY_PRIVATE, DTRACE_STABILITY_PRIVATE, DTRACE_CLASS_UNKNOWN },
+@@ -77,6 +88,9 @@ dt_provimpl_t	dt_usdt;
+ 
+ static int populate(dtrace_hdl_t *dtp)
+ {
++	dtp->dt_usdt_pridsmap_ksz = sizeof(usdt_prids_map_key_t);
++	dtp->dt_usdt_pridsmap_vsz = sizeof(usdt_prids_map_val_t);
++
+ 	if (dt_provider_create(dtp, dt_uprobe.name, &dt_uprobe, &pattr,
+ 			       NULL) == NULL ||
+ 	    dt_provider_create(dtp, dt_uprobe_is_enabled.name,
+@@ -123,6 +137,267 @@ static void probe_destroy(dtrace_hdl_t *dtp, void *datap)
+ 	free_probe_list(dtp, datap);
  }
  
- uint32_t
-diff --git a/libdtrace/dt_open.c b/libdtrace/dt_open.c
-index 77ffb6d2b..848141ddc 100644
---- a/libdtrace/dt_open.c
-+++ b/libdtrace/dt_open.c
-@@ -170,7 +170,7 @@ static const dt_ident_t _dtrace_globals[] = {
- { "discard", DT_IDENT_ACTFUNC, 0, DT_ACT_DISCARD, DT_ATTR_STABCMN, DT_VERS_1_0,
- 	&dt_idops_func, "void(int)" },
- { "epid", DT_IDENT_SCALAR, 0, DIF_VAR_EPID, DT_ATTR_STABCMN, DT_VERS_1_0,
--	&dt_idops_type, "uint_t" },
-+	&dt_idops_type, "uint64_t" },
- { "errno", DT_IDENT_SCALAR, 0, DIF_VAR_ERRNO, DT_ATTR_STABCMN, DT_VERS_1_0,
- 	&dt_idops_type, "int" },
- { "execname", DT_IDENT_SCALAR, 0, DIF_VAR_EXECNAME,
-@@ -739,8 +739,6 @@ dt_vopen(int version, int flags, int *errp,
- 	dt_proc_hash_create(dtp);
- 	dt_proc_signal_init(dtp);
- 	dtp->dt_proc_fd = eventfd(0, EFD_CLOEXEC | EFD_NONBLOCK);
--	dtp->dt_nextepid = 1;
--	dtp->dt_maxprobe = 0;
- 	if (dt_aggregate_init(dtp) == -1)
- 		return set_open_errno(dtp, errp, dtrace_errno(dtp));
- 	dtp->dt_vmax = DT_VERS_LATEST;
-@@ -1303,7 +1301,6 @@ dtrace_close(dtrace_hdl_t *dtp)
- 	if (dtp->dt_poll_fd != -1)
- 		close(dtp->dt_poll_fd);
- 
--	dt_epid_destroy(dtp);
- 	dt_aggid_destroy(dtp);
- 	dt_buffered_destroy(dtp);
- 	dt_aggregate_destroy(dtp);
-diff --git a/libdtrace/dt_program.c b/libdtrace/dt_program.c
-index 0e2c1e2af..a7c11bbae 100644
---- a/libdtrace/dt_program.c
-+++ b/libdtrace/dt_program.c
-@@ -100,7 +100,7 @@ dtrace_program_info(dtrace_hdl_t *dtp, dtrace_prog_t *pgp,
- 
- 		/*
- 		 * If there aren't any actions, account for the fact that
--		 * recording the epid will generate a record.
-+		 * the default action will generate a record.
- 		 */
- 		dp = dt_dlib_get_func_difo(dtp, stp->ds_desc->dtsd_clause);
- 		if (dp != NULL)
-@@ -165,6 +165,13 @@ dt_prog_stmt(dtrace_hdl_t *dtp, dtrace_prog_t *pgp, dtrace_stmtdesc_t *sdp,
- 	dtrace_probedesc_t	*pdp = &sdp->dtsd_ecbdesc->dted_probe;
- 	int			rc;
- 
-+	if (dtp->dt_stmts == NULL) {
-+		dtp->dt_stmts = dt_calloc(dtp, dtp->dt_stmt_nextid, sizeof(dtrace_stmtdesc_t *));
-+		if (dtp->dt_stmts == NULL)
-+			return dt_set_errno(dtp, EDT_NOMEM);
++/*
++ * Clean up the BPF "usdt_prids" map.
++ */
++static int
++purge_BPFmap(dtrace_hdl_t *dtp)
++{
++	int			fd = dtp->dt_usdt_pridsmap_fd;
++	usdt_prids_map_key_t	key, nxt;
++	usdt_prids_map_val_t	val;
++
++	/* Initialize key to a pid/uprid that cannot be found. */
++	key.pid = 0;
++	key.uprid = 0;
++
++	/* Loop over all entries. */
++	while (dt_bpf_map_next_key(fd, &key, &nxt) == 0) {
++		memcpy(&key, &nxt, sizeof(usdt_prids_map_key_t));
++
++		if (dt_bpf_map_lookup(fd, &key, &val) == -1)
++			return dt_set_errno(dtp, EDT_BPF);
++
++		/* Check if the process is still running. */
++		if (!Pexists(key.pid)) {
++			dt_bpf_map_delete(fd, &key);          // FIXME:  bpf_map_next_key() iteration restarts each time we delete an elem!!!
++			continue;
++		}
++
++		/*
++		 * FIXME.  There might be another case, where the process
++		 * is still running, but some of its USDT probes are gone?
++		 * So maybe we have to check for the existence of one of
++		 *     dtrace_probedesc_t *pdp = dtp->dt_probes[val.prid]->desc;
++		 *     char *prv = ...pdp->prv minus the numerial part;
++		 *
++		 *     /run/dtrace/probes/$pid/$pdp->prv/$pdp->mod/$pdp->fun/$pdp->prb
++		 *     /run/dtrace/stash/dof-pid/$pid/0/parsed/$prv:$pdp->mod:$pdp->fun:$pdp->prb
++		 *     /run/dtrace/stash/dof-pid/$pid/.../parsed/$prv:$pdp->mod:$pdp->fun:$pdp->prb
++		 */
 +	}
-+	dtp->dt_stmts[sdp->dtsd_id] = sdp;
 +
- 	st.cnt = cnt;
- 	st.sdp = sdp;
- 	rc = dt_probe_iter(dtp, pdp, (dt_probe_f *)dt_stmt_probe, NULL, &st);
-diff --git a/libdtrace/dtrace.h b/libdtrace/dtrace.h
-index 09a87977f..0f716cd40 100644
---- a/libdtrace/dtrace.h
-+++ b/libdtrace/dtrace.h
-@@ -150,6 +150,7 @@ typedef struct dtrace_stmtdesc {
- 	dtrace_attribute_t dtsd_descattr;	/* probedesc attributes */
- 	dtrace_attribute_t dtsd_stmtattr;	/* statement attributes */
- 	int dtsd_clauseflags;			/* clause flags */
-+	int dtsd_id;				/* index in dtp->dt_stmts */
- } dtrace_stmtdesc_t;
- 
- /* dtsd clause flags */
-@@ -189,7 +190,7 @@ typedef enum {
- 
- typedef struct dtrace_probedata {
- 	dtrace_hdl_t *dtpda_handle;		/* handle to DTrace library */
--	dtrace_epid_t dtpda_epid;		/* enabled probe ID */
-+	dtrace_stid_t dtpda_stid;		/* statement ID */
- 	dtrace_datadesc_t *dtpda_ddesc;		/* probe data description */
- 	dtrace_probedesc_t *dtpda_pdesc;	/* probe description */
- 	unsigned int dtpda_cpu;			/* CPU for data */
-diff --git a/test/demo/builtin/eipd.d b/test/demo/builtin/eipd.d
-deleted file mode 100644
-index 659b09406..000000000
---- a/test/demo/builtin/eipd.d
-+++ /dev/null
-@@ -1,4 +0,0 @@
--BEGIN {
--	trace(epid);
--	exit(0);
--}
-diff --git a/test/demo/dtrace/error.r b/test/demo/dtrace/error.r
-index d3904f47a..3c434721a 100644
---- a/test/demo/dtrace/error.r
-+++ b/test/demo/dtrace/error.r
-@@ -3,4 +3,4 @@
- 
- -- @@stderr --
- dtrace: script 'test/demo/dtrace/error.d' matched 2 probes
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/demo/spec/specopen.d b/test/demo/spec/specopen.d
-index 528d6c254..c510045b8 100644
---- a/test/demo/spec/specopen.d
-+++ b/test/demo/spec/specopen.d
-@@ -2,7 +2,7 @@
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2005, 2024, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-@@ -33,8 +33,7 @@ fbt:::
- /self->spec/
- {
- 	/*
--	 * A speculate() with no other actions speculates the default action:
--	 * tracing the EPID.
-+	 * A speculate() with no other actions speculates the default action.
- 	 */
- 	speculate(self->spec);
- }
-diff --git a/test/stress/buffering/tst.resize3-manual.d b/test/stress/buffering/tst.resize3-manual.d
-index 99589beb0..56c8575dc 100644
---- a/test/stress/buffering/tst.resize3-manual.d
-+++ b/test/stress/buffering/tst.resize3-manual.d
-@@ -31,7 +31,7 @@ BEGIN
- BEGIN
- {
- 	speculate(spec);
--	trace(epid);
-+	trace(12345678);
- }
- 
- BEGIN
-diff --git a/test/stress/buffering/tst.resize3-manual.r b/test/stress/buffering/tst.resize3-manual.r
-index 43b647c7e..3a1fd5da6 100644
---- a/test/stress/buffering/tst.resize3-manual.r
-+++ b/test/stress/buffering/tst.resize3-manual.r
-@@ -1,5 +1,5 @@
-                    FUNCTION:NAME
--                          :BEGIN           3
-+                          :BEGIN    12345678
-                           :BEGIN 
- 
- -- @@stderr --
-diff --git a/test/stress/buffering/tst.resize3.d b/test/stress/buffering/tst.resize3.d
-index 59fe0b4ae..464bf5660 100644
---- a/test/stress/buffering/tst.resize3.d
-+++ b/test/stress/buffering/tst.resize3.d
-@@ -27,7 +27,7 @@ BEGIN
- BEGIN
- {
- 	speculate(spec);
--	trace(epid);
-+	trace(12345678);
- }
- 
- BEGIN
-diff --git a/test/stress/buffering/tst.resize3.r b/test/stress/buffering/tst.resize3.r
-index 9c4711589..33384c717 100644
---- a/test/stress/buffering/tst.resize3.r
-+++ b/test/stress/buffering/tst.resize3.r
-@@ -1,5 +1,5 @@
-                    FUNCTION:NAME
--                          :BEGIN           3
-+                          :BEGIN    12345678
-                           :BEGIN 
- 
- -- @@stderr --
-diff --git a/test/unittest/actions/setopt/tst.badopt.r b/test/unittest/actions/setopt/tst.badopt.r
-index 29e39fd43..e2f6d2c3d 100644
---- a/test/unittest/actions/setopt/tst.badopt.r
-+++ b/test/unittest/actions/setopt/tst.badopt.r
-@@ -1,16 +1,16 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 2 (ID 1: dtrace:::BEGIN): couldn't set option "Nixon" to "1": Invalid option name
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): couldn't set option "Nixon" to "1": Invalid option name
- 
--dtrace: error on enabled probe ID 2 (ID 1: dtrace:::BEGIN): couldn't set option "Harding" to "1": Invalid option name
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): couldn't set option "Harding" to "1": Invalid option name
- 
--dtrace: error on enabled probe ID 2 (ID 1: dtrace:::BEGIN): couldn't set option "Hoover" to "1": Invalid option name
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): couldn't set option "Hoover" to "1": Invalid option name
- 
--dtrace: error on enabled probe ID 2 (ID 1: dtrace:::BEGIN): couldn't set option "Bush" to "1": Invalid option name
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): couldn't set option "Bush" to "1": Invalid option name
- 
--dtrace: error on enabled probe ID 2 (ID 1: dtrace:::BEGIN): couldn't set option "quiet" to "um, no": Invalid value for specified option
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): couldn't set option "quiet" to "um, no": Invalid value for specified option
- 
--dtrace: error on enabled probe ID 2 (ID 1: dtrace:::BEGIN): couldn't set option "aggrate" to "0.5hz": Invalid value for specified option
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): couldn't set option "aggrate" to "0.5hz": Invalid value for specified option
- 
--dtrace: error on enabled probe ID 2 (ID 1: dtrace:::BEGIN): couldn't set option "bufsize" to "1m": Operation illegal when tracing is active
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): couldn't set option "bufsize" to "1m": Operation illegal when tracing is active
- 
-diff --git a/test/unittest/arrays/tst.declared-bounds.runtime_out.r b/test/unittest/arrays/tst.declared-bounds.runtime_out.r
-index 4917528d5..9ab1ab8da 100644
---- a/test/unittest/arrays/tst.declared-bounds.runtime_out.r
-+++ b/test/unittest/arrays/tst.declared-bounds.runtime_out.r
-@@ -1,3 +1,3 @@
- expected run-time error
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): index out of bounds (8) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): index out of bounds (8) at BPF pc NNN
-diff --git a/test/unittest/codegen/err.deref_0.r b/test/unittest/codegen/err.deref_0.r
-index 07c1dc52e..812ca4332 100644
---- a/test/unittest/codegen/err.deref_0.r
-+++ b/test/unittest/codegen/err.deref_0.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address (0) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address (0) at BPF pc NNN
-diff --git a/test/unittest/codegen/err.deref_1.r b/test/unittest/codegen/err.deref_1.r
-index a2ca8ac48..01ca10375 100644
---- a/test/unittest/codegen/err.deref_1.r
-+++ b/test/unittest/codegen/err.deref_1.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address (1) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address (1) at BPF pc NNN
-diff --git a/test/unittest/codegen/err.deref_i0.r b/test/unittest/codegen/err.deref_i0.r
-index 07c1dc52e..812ca4332 100644
---- a/test/unittest/codegen/err.deref_i0.r
-+++ b/test/unittest/codegen/err.deref_i0.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address (0) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address (0) at BPF pc NNN
-diff --git a/test/unittest/codegen/err.deref_i1.r b/test/unittest/codegen/err.deref_i1.r
-index a2ca8ac48..01ca10375 100644
---- a/test/unittest/codegen/err.deref_i1.r
-+++ b/test/unittest/codegen/err.deref_i1.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address (1) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address (1) at BPF pc NNN
-diff --git a/test/unittest/codegen/err.deref_string-assoc.r b/test/unittest/codegen/err.deref_string-assoc.r
-index 082779925..5d4a36fff 100644
---- a/test/unittest/codegen/err.deref_string-assoc.r
-+++ b/test/unittest/codegen/err.deref_string-assoc.r
-@@ -1,3 +1,3 @@
- 66
- -- @@stderr --
--dtrace: error on enabled probe ID 4 (ID 1: dtrace:::BEGIN): invalid address (1) in action #2 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID 1 (dtrace:::BEGIN): invalid address (1) at BPF pc NNN
-diff --git a/test/unittest/codegen/err.deref_string-gvar.r b/test/unittest/codegen/err.deref_string-gvar.r
-index 082779925..5d4a36fff 100644
---- a/test/unittest/codegen/err.deref_string-gvar.r
-+++ b/test/unittest/codegen/err.deref_string-gvar.r
-@@ -1,3 +1,3 @@
- 66
- -- @@stderr --
--dtrace: error on enabled probe ID 4 (ID 1: dtrace:::BEGIN): invalid address (1) in action #2 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID 1 (dtrace:::BEGIN): invalid address (1) at BPF pc NNN
-diff --git a/test/unittest/codegen/err.deref_string-lvar.r b/test/unittest/codegen/err.deref_string-lvar.r
-index 082779925..5d4a36fff 100644
---- a/test/unittest/codegen/err.deref_string-lvar.r
-+++ b/test/unittest/codegen/err.deref_string-lvar.r
-@@ -1,3 +1,3 @@
- 66
- -- @@stderr --
--dtrace: error on enabled probe ID 4 (ID 1: dtrace:::BEGIN): invalid address (1) in action #2 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID 1 (dtrace:::BEGIN): invalid address (1) at BPF pc NNN
-diff --git a/test/unittest/codegen/err.deref_string-tvar.r b/test/unittest/codegen/err.deref_string-tvar.r
-index 082779925..5d4a36fff 100644
---- a/test/unittest/codegen/err.deref_string-tvar.r
-+++ b/test/unittest/codegen/err.deref_string-tvar.r
-@@ -1,3 +1,3 @@
- 66
- -- @@stderr --
--dtrace: error on enabled probe ID 4 (ID 1: dtrace:::BEGIN): invalid address (1) in action #2 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID 1 (dtrace:::BEGIN): invalid address (1) at BPF pc NNN
-diff --git a/test/unittest/codegen/err.str_NULL_plus_offset-assoc.r b/test/unittest/codegen/err.str_NULL_plus_offset-assoc.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/codegen/err.str_NULL_plus_offset-assoc.r
-+++ b/test/unittest/codegen/err.str_NULL_plus_offset-assoc.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/codegen/err.str_NULL_plus_offset-lvar.r b/test/unittest/codegen/err.str_NULL_plus_offset-lvar.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/codegen/err.str_NULL_plus_offset-lvar.r
-+++ b/test/unittest/codegen/err.str_NULL_plus_offset-lvar.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/codegen/err.str_NULL_plus_offset-tvar.r b/test/unittest/codegen/err.str_NULL_plus_offset-tvar.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/codegen/err.str_NULL_plus_offset-tvar.r
-+++ b/test/unittest/codegen/err.str_NULL_plus_offset-tvar.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/codegen/err.str_NULL_plus_offset.r b/test/unittest/codegen/err.str_NULL_plus_offset.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/codegen/err.str_NULL_plus_offset.r
-+++ b/test/unittest/codegen/err.str_NULL_plus_offset.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/disasm/tst.vartab-bvar.r b/test/unittest/disasm/tst.vartab-bvar.r
-index 06d7c52bb..53e5f6180 100644
---- a/test/unittest/disasm/tst.vartab-bvar.r
-+++ b/test/unittest/disasm/tst.vartab-bvar.r
-@@ -4,7 +4,7 @@ curthread               scl glb r    D type (pointer) (size 8)
- timestamp               scl glb r    D type (integer) (size 8)
- vtimestamp              scl glb r    D type (integer) (size 8)
- ipl                     scl glb r    D type (integer) (size 4)
--epid                    scl glb r    D type (integer) (size 4)
-+epid                    scl glb r    D type (integer) (size 8)
- id                      scl glb r    D type (integer) (size 4)
- arg0                    scl glb r    D type (integer) (size 8)
- arg1                    scl glb r    D type (integer) (size 8)
-diff --git a/test/unittest/drops/drp.DTRACEDROP_DBLERROR.r b/test/unittest/drops/drp.DTRACEDROP_DBLERROR.r
-index 9fa54dd94..364e08606 100644
---- a/test/unittest/drops/drp.DTRACEDROP_DBLERROR.r
-+++ b/test/unittest/drops/drp.DTRACEDROP_DBLERROR.r
-@@ -4,4 +4,4 @@
- -- @@stderr --
- dtrace: script 'test/unittest/drops/drp.DTRACEDROP_DBLERROR.d' matched 3 probes
- dtrace: [DTRACEDROP_DBLERROR] 1 error in ERROR probe enabling
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/error/tst.DTRACEFLT_BADADDR.null_ptr_field.d b/test/unittest/error/tst.DTRACEFLT_BADADDR.null_ptr_field.d
-index df3ded2d1..8b7a4d63f 100644
---- a/test/unittest/error/tst.DTRACEFLT_BADADDR.null_ptr_field.d
-+++ b/test/unittest/error/tst.DTRACEFLT_BADADDR.null_ptr_field.d
-@@ -1,6 +1,6 @@
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2021, 2022, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2021, 2024, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-@@ -15,13 +15,13 @@
- 
- BEGIN
- {
--	myepid = epid;
-+	myid = id;
- 	trace(((struct task_struct *)NULL)->pid);
- 	exit(1);
- }
- 
- ERROR
- {
--	exit(arg1 != myepid || arg2 != 1 || arg4 != DTRACEFLT_BADADDR ||
-+	exit(arg1 != myid || arg2 != 0 || arg4 != DTRACEFLT_BADADDR ||
- 	     arg5 != 0);
- }
-diff --git a/test/unittest/error/tst.DTRACEFLT_BADADDR.null_ptr_field.r b/test/unittest/error/tst.DTRACEFLT_BADADDR.null_ptr_field.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/error/tst.DTRACEFLT_BADADDR.null_ptr_field.r
-+++ b/test/unittest/error/tst.DTRACEFLT_BADADDR.null_ptr_field.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/error/tst.DTRACEFLT_BADADDR.r b/test/unittest/error/tst.DTRACEFLT_BADADDR.r
-index b9f5f43c8..ec23cd453 100644
---- a/test/unittest/error/tst.DTRACEFLT_BADADDR.r
-+++ b/test/unittest/error/tst.DTRACEFLT_BADADDR.r
-@@ -1,6 +1,6 @@
--The arguments are 3 1 1 0
-+The arguments are 1 1 1 0
- The value of arg4 should be 1
- The value of arg5 should be 0
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/error/tst.DTRACEFLT_BADADDR2.r b/test/unittest/error/tst.DTRACEFLT_BADADDR2.r
-index 6c5fa119c..712678d82 100644
---- a/test/unittest/error/tst.DTRACEFLT_BADADDR2.r
-+++ b/test/unittest/error/tst.DTRACEFLT_BADADDR2.r
-@@ -1,6 +1,6 @@
--The arguments are 3 1 1 16384
-+The arguments are 1 1 1 16384
- The value of arg4 should be 1
- The value of arg5 should be 16384
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/error/tst.DTRACEFLT_DIVZERO.div.d b/test/unittest/error/tst.DTRACEFLT_DIVZERO.div.d
-index bcd5e9aab..b1d154239 100644
---- a/test/unittest/error/tst.DTRACEFLT_DIVZERO.div.d
-+++ b/test/unittest/error/tst.DTRACEFLT_DIVZERO.div.d
-@@ -1,6 +1,6 @@
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2022, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2024, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-@@ -13,9 +13,14 @@
- 
- #pragma D option quiet
- 
-+BEGIN { myid = id } /* clause 0 */
-+BEGIN { myid = id } /* clause 1 */
-+BEGIN { myid = id } /* clause 2 */
-+BEGIN { myid = id } /* clause 3 */
-+
- BEGIN
- {
--	myepid = epid;
-+	myid = id;
- 	i = 1;
- 	j = 2;
- 	j = i / (j - 2);
-@@ -24,6 +29,6 @@ BEGIN
- 
- ERROR
- {
--	exit(arg1 != myepid || arg2 != 1 || arg4 != DTRACEFLT_DIVZERO ||
-+	exit(arg1 != myid || arg2 != 4 || arg4 != DTRACEFLT_DIVZERO ||
- 	     arg5 != 0);
- }
-diff --git a/test/unittest/error/tst.DTRACEFLT_DIVZERO.div.r b/test/unittest/error/tst.DTRACEFLT_DIVZERO.div.r
-index e6d6afa2f..45a787e5c 100644
---- a/test/unittest/error/tst.DTRACEFLT_DIVZERO.div.r
-+++ b/test/unittest/error/tst.DTRACEFLT_DIVZERO.div.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): divide-by-zero in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_4 for probe ID 1 (dtrace:::BEGIN): divide-by-zero at BPF pc NNN
-diff --git a/test/unittest/error/tst.DTRACEFLT_DIVZERO.mod.d b/test/unittest/error/tst.DTRACEFLT_DIVZERO.mod.d
-index 105523f82..69452d8c5 100644
---- a/test/unittest/error/tst.DTRACEFLT_DIVZERO.mod.d
-+++ b/test/unittest/error/tst.DTRACEFLT_DIVZERO.mod.d
-@@ -1,6 +1,6 @@
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2021, 2022, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2021, 2024, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-@@ -13,9 +13,14 @@
- 
- #pragma D option quiet
- 
-+BEGIN { myid = id; } /* clause 0 */
-+BEGIN { myid = id; } /* clause 1 */
-+BEGIN { myid = id; } /* clause 2 */
-+BEGIN { myid = id; } /* clause 3 */
-+
- BEGIN
- {
--	myepid = epid;
-+	myid = id;
- 	i = 1;
- 	j = 2;
- 	j = i % (j - 2);
-@@ -24,6 +29,6 @@ BEGIN
- 
- ERROR
- {
--	exit(arg1 != myepid || arg2 != 1 || arg4 != DTRACEFLT_DIVZERO ||
-+	exit(arg1 != myid || arg2 != 4 || arg4 != DTRACEFLT_DIVZERO ||
- 	     arg5 != 0);
- }
-diff --git a/test/unittest/error/tst.DTRACEFLT_DIVZERO.mod.r b/test/unittest/error/tst.DTRACEFLT_DIVZERO.mod.r
-index e6d6afa2f..45a787e5c 100644
---- a/test/unittest/error/tst.DTRACEFLT_DIVZERO.mod.r
-+++ b/test/unittest/error/tst.DTRACEFLT_DIVZERO.mod.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): divide-by-zero in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_4 for probe ID 1 (dtrace:::BEGIN): divide-by-zero at BPF pc NNN
-diff --git a/test/unittest/error/tst.DTRACEFLT_UNKNOWN.r b/test/unittest/error/tst.DTRACEFLT_UNKNOWN.r
-index 1e4fdd644..caa5570f7 100644
---- a/test/unittest/error/tst.DTRACEFLT_UNKNOWN.r
-+++ b/test/unittest/error/tst.DTRACEFLT_UNKNOWN.r
-@@ -1,5 +1,5 @@
--The arguments are 3 1 PC 1 64
-+The arguments are 1 1 PC 1 64
- The value of arg4 = 0
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/error/tst.clause_scope-begin-ended.r b/test/unittest/error/tst.clause_scope-begin-ended.r
-index 8d57382ee..e806cc809 100644
---- a/test/unittest/error/tst.clause_scope-begin-ended.r
-+++ b/test/unittest/error/tst.clause_scope-begin-ended.r
-@@ -2,4 +2,4 @@ Error fired
- Clause executed
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/error/tst.clause_scope-begin.r b/test/unittest/error/tst.clause_scope-begin.r
-index 8d57382ee..e806cc809 100644
---- a/test/unittest/error/tst.clause_scope-begin.r
-+++ b/test/unittest/error/tst.clause_scope-begin.r
-@@ -2,4 +2,4 @@ Error fired
- Clause executed
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/error/tst.clause_scope-regular.r b/test/unittest/error/tst.clause_scope-regular.r
-index fff6fe1e9..d1b71add9 100644
---- a/test/unittest/error/tst.clause_scope-regular.r
-+++ b/test/unittest/error/tst.clause_scope-regular.r
-@@ -2,4 +2,4 @@ Error fired
- Clause executed
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID nnn: profile:::tick-10ms): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID nnn (profile:::tick-10ms): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/error/tst.clause_scope-regular.r.p b/test/unittest/error/tst.clause_scope-regular.r.p
-index 7659601b7..f7a200c46 100755
---- a/test/unittest/error/tst.clause_scope-regular.r.p
-+++ b/test/unittest/error/tst.clause_scope-regular.r.p
-@@ -1,3 +1,7 @@
--#!/bin/sed -f
-+#!/usr/bin/awk -f
-+
- # This report has a variable probe ID in it.
--s/ID [0-9][0-9]*: profile/ID nnn: profile/
-+{
-+    sub("for probe ID [0-9][0-9]* .profile", "for probe ID nnn (profile");
-+    print;
++	return 0;
 +}
-diff --git a/test/unittest/error/tst.error.r b/test/unittest/error/tst.error.r
-index 0d29bcc8d..d9f80037e 100644
---- a/test/unittest/error/tst.error.r
-+++ b/test/unittest/error/tst.error.r
-@@ -1,4 +1,4 @@
- Error fired
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/error/tst.errorend.r b/test/unittest/error/tst.errorend.r
-index 73abf6976..9c07fa700 100644
---- a/test/unittest/error/tst.errorend.r
-+++ b/test/unittest/error/tst.errorend.r
-@@ -2,4 +2,4 @@ Error fired
- End fired after exit
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_2 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-bcopy-before-beyond.r b/test/unittest/funcs/alloca/err.alloca-bcopy-before-beyond.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/alloca/err.alloca-bcopy-before-beyond.r
-+++ b/test/unittest/funcs/alloca/err.alloca-bcopy-before-beyond.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-bcopy-before-bottom.r b/test/unittest/funcs/alloca/err.alloca-bcopy-before-bottom.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/alloca/err.alloca-bcopy-before-bottom.r
-+++ b/test/unittest/funcs/alloca/err.alloca-bcopy-before-bottom.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-bcopy-beyond-top.r b/test/unittest/funcs/alloca/err.alloca-bcopy-beyond-top.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/alloca/err.alloca-bcopy-beyond-top.r
-+++ b/test/unittest/funcs/alloca/err.alloca-bcopy-beyond-top.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-bcopy-crossing-bottom.r b/test/unittest/funcs/alloca/err.alloca-bcopy-crossing-bottom.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/alloca/err.alloca-bcopy-crossing-bottom.r
-+++ b/test/unittest/funcs/alloca/err.alloca-bcopy-crossing-bottom.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-bcopy-crossing-top.r b/test/unittest/funcs/alloca/err.alloca-bcopy-crossing-top.r
-index 4257f5679..fab8ca7f5 100644
---- a/test/unittest/funcs/alloca/err.alloca-bcopy-crossing-top.r
-+++ b/test/unittest/funcs/alloca/err.alloca-bcopy-crossing-top.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid size ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid size ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-crossing-clauses.r b/test/unittest/funcs/alloca/err.alloca-crossing-clauses.r
-index f5ff855de..6bea5653f 100644
---- a/test/unittest/funcs/alloca/err.alloca-crossing-clauses.r
-+++ b/test/unittest/funcs/alloca/err.alloca-crossing-clauses.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 4 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #2 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-load-before-bottom.r b/test/unittest/funcs/alloca/err.alloca-load-before-bottom.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/alloca/err.alloca-load-before-bottom.r
-+++ b/test/unittest/funcs/alloca/err.alloca-load-before-bottom.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-load-beyond-top.r b/test/unittest/funcs/alloca/err.alloca-load-beyond-top.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/alloca/err.alloca-load-beyond-top.r
-+++ b/test/unittest/funcs/alloca/err.alloca-load-beyond-top.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-load-crossing-bottom.r b/test/unittest/funcs/alloca/err.alloca-load-crossing-bottom.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/alloca/err.alloca-load-crossing-bottom.r
-+++ b/test/unittest/funcs/alloca/err.alloca-load-crossing-bottom.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-null-deref-lvalue.r b/test/unittest/funcs/alloca/err.alloca-null-deref-lvalue.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/alloca/err.alloca-null-deref-lvalue.r
-+++ b/test/unittest/funcs/alloca/err.alloca-null-deref-lvalue.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-null-deref.r b/test/unittest/funcs/alloca/err.alloca-null-deref.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/alloca/err.alloca-null-deref.r
-+++ b/test/unittest/funcs/alloca/err.alloca-null-deref.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-scratch-exceeding-bcopy.r b/test/unittest/funcs/alloca/err.alloca-scratch-exceeding-bcopy.r
-index 4257f5679..fab8ca7f5 100644
---- a/test/unittest/funcs/alloca/err.alloca-scratch-exceeding-bcopy.r
-+++ b/test/unittest/funcs/alloca/err.alloca-scratch-exceeding-bcopy.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid size ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid size ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-store-before-bottom.r b/test/unittest/funcs/alloca/err.alloca-store-before-bottom.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/alloca/err.alloca-store-before-bottom.r
-+++ b/test/unittest/funcs/alloca/err.alloca-store-before-bottom.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-store-beyond-top.r b/test/unittest/funcs/alloca/err.alloca-store-beyond-top.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/alloca/err.alloca-store-beyond-top.r
-+++ b/test/unittest/funcs/alloca/err.alloca-store-beyond-top.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/alloca/err.alloca-store-crossing-bottom.r b/test/unittest/funcs/alloca/err.alloca-store-crossing-bottom.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/alloca/err.alloca-store-crossing-bottom.r
-+++ b/test/unittest/funcs/alloca/err.alloca-store-crossing-bottom.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/bcopy/err.badbcopy1.r b/test/unittest/funcs/bcopy/err.badbcopy1.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/bcopy/err.badbcopy1.r
-+++ b/test/unittest/funcs/bcopy/err.badbcopy1.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/bcopy/err.badbcopy4.r b/test/unittest/funcs/bcopy/err.badbcopy4.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/bcopy/err.badbcopy4.r
-+++ b/test/unittest/funcs/bcopy/err.badbcopy4.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/bcopy/err.badbcopy5.r b/test/unittest/funcs/bcopy/err.badbcopy5.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/bcopy/err.badbcopy5.r
-+++ b/test/unittest/funcs/bcopy/err.badbcopy5.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/bcopy/err.badbcopy6.r b/test/unittest/funcs/bcopy/err.badbcopy6.r
-index 4257f5679..fab8ca7f5 100644
---- a/test/unittest/funcs/bcopy/err.badbcopy6.r
-+++ b/test/unittest/funcs/bcopy/err.badbcopy6.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid size ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid size ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/bcopy/err.badbcopy7.r b/test/unittest/funcs/bcopy/err.badbcopy7.r
-index 4257f5679..fab8ca7f5 100644
---- a/test/unittest/funcs/bcopy/err.badbcopy7.r
-+++ b/test/unittest/funcs/bcopy/err.badbcopy7.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid size ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid size ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/bcopy/err.badbcopy8.r b/test/unittest/funcs/bcopy/err.badbcopy8.r
-index 4257f5679..fab8ca7f5 100644
---- a/test/unittest/funcs/bcopy/err.badbcopy8.r
-+++ b/test/unittest/funcs/bcopy/err.badbcopy8.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid size ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid size ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/copyin/err.badaddr.r b/test/unittest/funcs/copyin/err.badaddr.r
-index ba4a46953..7b0c59496 100644
---- a/test/unittest/funcs/copyin/err.badaddr.r
-+++ b/test/unittest/funcs/copyin/err.badaddr.r
-@@ -3,4 +3,4 @@
- 
- -- @@stderr --
- dtrace: script 'test/unittest/funcs/copyin/err.badaddr.d' matched 2 probes
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/copyin/err.null_arg1.r b/test/unittest/funcs/copyin/err.null_arg1.r
-index a806d1077..270dc9ce9 100644
---- a/test/unittest/funcs/copyin/err.null_arg1.r
-+++ b/test/unittest/funcs/copyin/err.null_arg1.r
-@@ -3,4 +3,4 @@
- 
- -- @@stderr --
- dtrace: script 'test/unittest/funcs/copyin/err.null_arg1.d' matched 2 probes
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/copyinstr/err.badaddr.r b/test/unittest/funcs/copyinstr/err.badaddr.r
-index 0f566d6e1..6f3419796 100644
---- a/test/unittest/funcs/copyinstr/err.badaddr.r
-+++ b/test/unittest/funcs/copyinstr/err.badaddr.r
-@@ -3,4 +3,4 @@
- 
- -- @@stderr --
- dtrace: script 'test/unittest/funcs/copyinstr/err.badaddr.d' matched 2 probes
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/copyinstr/err.null_arg1.r b/test/unittest/funcs/copyinstr/err.null_arg1.r
-index cdd7c22c5..cac3de0ef 100644
---- a/test/unittest/funcs/copyinstr/err.null_arg1.r
-+++ b/test/unittest/funcs/copyinstr/err.null_arg1.r
-@@ -3,4 +3,4 @@
- 
- -- @@stderr --
- dtrace: script 'test/unittest/funcs/copyinstr/err.null_arg1.d' matched 2 probes
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/copyinto/err.badaddr.r b/test/unittest/funcs/copyinto/err.badaddr.r
-index 11861e1fb..c86debc07 100644
---- a/test/unittest/funcs/copyinto/err.badaddr.r
-+++ b/test/unittest/funcs/copyinto/err.badaddr.r
-@@ -3,4 +3,4 @@
- 
- -- @@stderr --
- dtrace: script 'test/unittest/funcs/copyinto/err.badaddr.d' matched 2 probes
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/copyinto/err.badsize.r b/test/unittest/funcs/copyinto/err.badsize.r
-index ec4b062ec..1be8abf4a 100644
---- a/test/unittest/funcs/copyinto/err.badsize.r
-+++ b/test/unittest/funcs/copyinto/err.badsize.r
-@@ -3,4 +3,4 @@
- 
- -- @@stderr --
- dtrace: script 'test/unittest/funcs/copyinto/err.badsize.d' matched 2 probes
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid size ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid size ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/copyinto/err.null_arg1.r b/test/unittest/funcs/copyinto/err.null_arg1.r
-index f568ee5c1..215e0f19a 100644
---- a/test/unittest/funcs/copyinto/err.null_arg1.r
-+++ b/test/unittest/funcs/copyinto/err.null_arg1.r
-@@ -3,4 +3,4 @@
- 
- -- @@stderr --
- dtrace: script 'test/unittest/funcs/copyinto/err.null_arg1.d' matched 2 probes
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/err.badalloca.r b/test/unittest/funcs/err.badalloca.r
-index 302243300..078630b65 100644
---- a/test/unittest/funcs/err.badalloca.r
-+++ b/test/unittest/funcs/err.badalloca.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 4 (ID NNN: profile:::tick-1): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID NNN (profile:::tick-1): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/err.badalloca.r.p b/test/unittest/funcs/err.badalloca.r.p
-index d7a88a396..93d0acfbd 100755
---- a/test/unittest/funcs/err.badalloca.r.p
-+++ b/test/unittest/funcs/err.badalloca.r.p
-@@ -1,3 +1,7 @@
--#!/bin/sed -f
-+#!/usr/bin/awk -f
- 
--s/(ID [0-9]*/(ID NNN/g
-+# This report has a variable probe ID in it.
++
++/*
++ * Grow the string table map.  It includes the string table (which might
++ * grow due to new USDT probes).  It also includes the read-only data and
++ * the block of zeros, but these remain fixed.
++ *
++ * FIXME Is there a danger of the BPF map update colliding with map reads?
++ */
++static int
++grow_strtab(dtrace_hdl_t *dtp)
 +{
-+    sub("for probe ID [0-9]* .profile", "for probe ID NNN (profile");
-+    print;
++	size_t		sz = dtp->dt_zerooffset + dtp->dt_zerosize;
++	char		*strtab;
++	uint8_t		*buf, *end;
++	size_t		strsize = dtp->dt_options[DTRACEOPT_STRSIZE];
++	uint32_t	key = 0;
++	int		rc, err;
++
++	strtab = dt_zalloc(dtp, sz);
++#if 0
++	// FIXME do something
++	if (strtab == NULL)
++		return dt_set_errno(dtp, EDT_NOMEM);
++#endif
++
++	/* Copy the string table data. */
++	dt_strtab_write(dtp->dt_ccstab, (dt_strtab_write_f *)dt_strtab_copystr, strtab);
++
++	/* Loop over the string table and truncate strings that are too long. */
++	buf = (uint8_t *)strtab;
++	end = buf + dtp->dt_strlen;
++	while (buf < end) {
++		uint_t	len = strlen((char *)buf);
++
++		if (len > strsize)
++			buf[strsize] = '\0';
++
++		buf += len + 1;
++	}
++
++	/* Copy the read-only data. */
++	dt_rodata_write(dtp->dt_rodata, (dt_rodata_copy_f *)dt_rodata_copy, strtab + dtp->dt_rooffset);
++
++	rc = dt_bpf_map_update(dtp->dt_strtabmap_fd, &key, strtab);
++	err = errno;
++	dt_free(dtp, strtab);
++
++	// FIXME do something
++	if (rc == -1) {
++		strerror(err);
++		return -1;
++		// return dt_bpf_error(dtp, "cannot update BPF map 'strtab': %s\n", strerror(err));
++	}
++
++	return 0;
 +}
-diff --git a/test/unittest/funcs/err.link_ntopbadaddr.r b/test/unittest/funcs/err.link_ntopbadaddr.r
-index b798b5e05..5acdfe612 100644
---- a/test/unittest/funcs/err.link_ntopbadaddr.r
-+++ b/test/unittest/funcs/err.link_ntopbadaddr.r
-@@ -1,3 +1,3 @@
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
++
++/*
++ * Update the uprobe provider.
++ */
++static void update_uprobe(dtrace_hdl_t *dtp, void *datap)
++{
++	dt_probe_t	*prp;
++	dt_probe_t	*prp_next;
++	int		i, prid = dtp->dt_probe_id;
++	uint_t		old_strlen = dtp->dt_strlen;
++	dt_pcb_t	pcb;
++
++	/* Clear stale pids. */
++	purge_BPFmap(dtp);
++
++	/* Update dt_probes[] and dt_enablings. */
++	/*
++	 * pcb is only used inside of dt_pid_error() to get:
++	 *     pcb->pcb_region
++	 *     pcb->pcb_filetag
++	 *     pcb->pcb_fileptr
++	 * While pcb cannot be NULL, these other things apparently can be.
++	 */
++	memset(&pcb, 0, sizeof(dt_pcb_t));
++	for (i = 0; i < dtp->dt_stmt_nextid; i++) {
++		dtrace_stmtdesc_t *stp;
++
++		stp = dtp->dt_stmts[i];
++		assert(stp != NULL);
++		dt_pid_create_usdt_probes(&stp->dtsd_ecbdesc->dted_probe, dtp, &pcb);
++	}
++
++	while (prid < dtp->dt_probe_id) {
++		dt_bpf_probe_t pinfo;
++		const dtrace_probedesc_t *pdp = dtp->dt_probes[prid]->desc;
++		int fd = dtp->dt_probesmap_fd;
++
++		dt_probe_enable(dtp, dtp->dt_probes[prid]);
++
++		pinfo.prv = dt_strtab_index(dtp->dt_ccstab, pdp->prv);
++		pinfo.mod = dt_strtab_index(dtp->dt_ccstab, pdp->mod);
++		pinfo.fun = dt_strtab_index(dtp->dt_ccstab, pdp->fun);
++		pinfo.prb = dt_strtab_index(dtp->dt_ccstab, pdp->prb);
++
++		if (dt_bpf_map_update(fd, &pdp->id, &pinfo) == -1)
++			assert(0);   // FIXME do something here
++
++		prid++;
++	}
++
++	/* Grow the strtab if it has gotten bigger. */
++	dtp->dt_strlen = dt_strtab_size(dtp->dt_ccstab);
++
++	if (dtp->dt_strlen > dtp->dt_strmax)
++		assert(0);               // FIXME handle this more gracefully
++	if (dtp->dt_strlen > old_strlen)
++		grow_strtab(dtp);
++
++	/* Review enablings. */
++	for (prp = dt_list_next(&dtp->dt_enablings); prp != NULL; prp = prp_next) {
++		pid_t		pid;
++		list_probe_t	*pup;
++
++		prp_next = dt_list_next(prp);
++
++		/* Make sure it is an overlying USDT probe. */
++		if (prp->prov->impl != &dt_usdt)
++			continue;
++
++		/* FIXME passing in NULL pcb and dpr wreaks havoc on error reporting? */
++		/*
++		 * Nick writes:
++		 * This is a general problem with running compiler-adjacent things outside
++		 * compile time. I think we should adjust dt_pid_error() so that it works
++		 * with NULL pcb and dpr at once, probably by using the code path for
++		 * pcb != NULL and augmenting it so that it passes in NULL for the region and
++		 * filename args and 0 for the lineno if pcb is NULL. (dt_set_errmsg can
++		 * already handle this case.)
++		 */
++		pid = dt_pid_get_pid(prp->desc, dtp, NULL, NULL);
++
++		if (!Pexists(pid)) {
++			/* Remove from enablings. */
++			dt_list_delete(&dtp->dt_enablings, prp);
++
++			/* Make it evident from the probe that it is not in enablings. */
++			((dt_list_t *)prp)->dl_prev = NULL;
++			((dt_list_t *)prp)->dl_next = NULL;
++
++			/* Free up its list of underlying probes. */
++			while ((pup = dt_list_next(prp->prv_data)) != NULL) {
++				dt_list_delete(prp->prv_data, pup);
++				dt_free(dtp, pup);
++			}
++			dt_free(dtp, prp->prv_data);
++			prp->prv_data = NULL;
++
++			/* Free up BPF "probes" map entry. */
++			dt_bpf_map_delete(dtp->dt_probesmap_fd, &prp->desc->id);
++
++			continue;
++		}
++
++		for (pup = prp->prv_data; pup != NULL; pup = dt_list_next(pup)) {
++			dt_probe_t		*uprp = pup->probe;
++			long long		mask = 0, bit = 1;
++			usdt_prids_map_key_t	key;
++			usdt_prids_map_val_t	val, oval;
++			dt_uprobe_t		*upp = uprp->prv_data;
++
++			/*
++			 * For is-enabled probes, the bit mask does not matter.
++			 * It is possible that we have this underlying probe due to
++			 * an overlying pid-offset probe and that we will not know
++			 * until later, when some new pid is created, that we also
++			 * have an overlying USDT is-enabled probe, but missing this
++			 * optimization opportunity is okay.
++			 */
++			if (uprp->prov->impl == &dt_uprobe && !(upp->flags & PP_IS_ENABLED)) {
++				int n;
++
++				for (n = 0; n < dtp->dt_stmt_nextid; n++) {
++					dtrace_stmtdesc_t *stp;
++
++					stp = dtp->dt_stmts[n];
++					assert(stp != NULL);
++
++					if (dt_gmatch(prp->desc->prv, stp->dtsd_ecbdesc->dted_probe.prv) &&
++					    dt_gmatch(prp->desc->mod, stp->dtsd_ecbdesc->dted_probe.mod) &&
++					    dt_gmatch(prp->desc->fun, stp->dtsd_ecbdesc->dted_probe.fun) &&
++					    dt_gmatch(prp->desc->prb, stp->dtsd_ecbdesc->dted_probe.prb))
++						mask |= bit;
++
++					bit <<= 1;
++				}
++			}
++
++			key.pid = pid;
++			key.uprid = uprp->desc->id;
++
++			val.prid = prp->desc->id;
++			val.mask = mask;
++
++			/* linux/bpf.h says error is -1, but it could be -2 */
++			if (dt_bpf_map_lookup(dtp->dt_usdt_pridsmap_fd, &key, &oval) < 0) {
++				/*
++				 * Set the map entry.
++				 */
++				// FIXME Check return value, but how should errors be handled?
++				dt_bpf_map_update(dtp->dt_usdt_pridsmap_fd, &key, &val);
++			} else if (val.prid != oval.prid || val.mask != oval.mask) {
++				/*
++				 * This can happen when two overlying probes map to the same underlying probe for the same pid.
++				 * E.g., pid:::entry and pid:::0, or pid:::$offset and usdt:::.
++				 */
++			} else {
++				/*
++				 * Nothing to do, it already is in the map.
++				 */
++			}
++		}
++	}
++}
  
-diff --git a/test/unittest/funcs/err.link_ntopbadarg.r b/test/unittest/funcs/err.link_ntopbadarg.r
-index e386a67c5..32c13ddec 100644
---- a/test/unittest/funcs/err.link_ntopbadarg.r
-+++ b/test/unittest/funcs/err.link_ntopbadarg.r
-@@ -1,3 +1,3 @@
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): illegal operation in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): illegal operation at BPF pc NNN
+ /*
+  * Look up or create an underlying (real) probe, corresponding directly to a
+@@ -782,6 +1057,7 @@ dt_provimpl_t	dt_uprobe = {
+ 	.probe_info	= &probe_info,
+ 	.detach		= &detach,
+ 	.probe_destroy	= &probe_destroy_underlying,
++	.update		= &update_uprobe,
+ };
  
-diff --git a/test/unittest/funcs/inet_ntoa6/err.inet_ntoa6.arg1_null.r b/test/unittest/funcs/inet_ntoa6/err.inet_ntoa6.arg1_null.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/inet_ntoa6/err.inet_ntoa6.arg1_null.r
-+++ b/test/unittest/funcs/inet_ntoa6/err.inet_ntoa6.arg1_null.r
-@@ -1,3 +1,3 @@
+ /*
+diff --git a/libdtrace/dt_work.c b/libdtrace/dt_work.c
+index 40913a0f1..ef39b3a68 100644
+--- a/libdtrace/dt_work.c
++++ b/libdtrace/dt_work.c
+@@ -368,6 +368,8 @@ dtrace_work(dtrace_hdl_t *dtp, FILE *fp, dtrace_consume_probe_f *pfunc,
+ 	dtrace_workstatus_t	rval;
+ 	int			gen;
  
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/inet_ntoa6/err.inet_ntoa6.arg1_null_const.r b/test/unittest/funcs/inet_ntoa6/err.inet_ntoa6.arg1_null_const.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/inet_ntoa6/err.inet_ntoa6.arg1_null_const.r
-+++ b/test/unittest/funcs/inet_ntoa6/err.inet_ntoa6.arg1_null_const.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/strlen/tst.null.r b/test/unittest/funcs/strlen/tst.null.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/strlen/tst.null.r
-+++ b/test/unittest/funcs/strlen/tst.null.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/strtok/tst.strtok_null.r b/test/unittest/funcs/strtok/tst.strtok_null.r
-index 03226aa12..319af487b 100644
---- a/test/unittest/funcs/strtok/tst.strtok_null.r
-+++ b/test/unittest/funcs/strtok/tst.strtok_null.r
-@@ -3,4 +3,4 @@
- 
- -- @@stderr --
- dtrace: script 'test/unittest/funcs/strtok/tst.strtok_null.d' matched 2 probes
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/strtok/tst.strtok_nulldel.r b/test/unittest/funcs/strtok/tst.strtok_nulldel.r
-index 70f8e4e2d..82bbba199 100644
---- a/test/unittest/funcs/strtok/tst.strtok_nulldel.r
-+++ b/test/unittest/funcs/strtok/tst.strtok_nulldel.r
-@@ -3,4 +3,4 @@
- 
- -- @@stderr --
- dtrace: script 'test/unittest/funcs/strtok/tst.strtok_nulldel.d' matched 2 probes
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/strtok/tst.strtok_nullstr.r b/test/unittest/funcs/strtok/tst.strtok_nullstr.r
-index a57b24693..1183b2bd5 100644
---- a/test/unittest/funcs/strtok/tst.strtok_nullstr.r
-+++ b/test/unittest/funcs/strtok/tst.strtok_nullstr.r
-@@ -3,4 +3,4 @@
- 
- -- @@stderr --
- dtrace: script 'test/unittest/funcs/strtok/tst.strtok_nullstr.d' matched 2 probes
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/strtok/tst.strtok_nullstr2.r b/test/unittest/funcs/strtok/tst.strtok_nullstr2.r
-index d7df3acac..082e0e0ce 100644
---- a/test/unittest/funcs/strtok/tst.strtok_nullstr2.r
-+++ b/test/unittest/funcs/strtok/tst.strtok_nullstr2.r
-@@ -4,4 +4,4 @@
- 
- -- @@stderr --
- dtrace: script 'test/unittest/funcs/strtok/tst.strtok_nullstr2.d' matched 4 probes
--dtrace: error on enabled probe ID 4 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #2 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/funcs/substr/err.substr_null_arg1.r b/test/unittest/funcs/substr/err.substr_null_arg1.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/funcs/substr/err.substr_null_arg1.r
-+++ b/test/unittest/funcs/substr/err.substr_null_arg1.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/pointers/err.AllocaOverrun.r b/test/unittest/pointers/err.AllocaOverrun.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/pointers/err.AllocaOverrun.r
-+++ b/test/unittest/pointers/err.AllocaOverrun.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/pointers/err.BadAlign.r b/test/unittest/pointers/err.BadAlign.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/pointers/err.BadAlign.r
-+++ b/test/unittest/pointers/err.BadAlign.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/pointers/err.InvalidAddress2.r b/test/unittest/pointers/err.InvalidAddress2.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/pointers/err.InvalidAddress2.r
-+++ b/test/unittest/pointers/err.InvalidAddress2.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/pointers/err.InvalidAddress4.r b/test/unittest/pointers/err.InvalidAddress4.r
-index 187543b63..fa9c63a9e 100644
---- a/test/unittest/pointers/err.InvalidAddress4.r
-+++ b/test/unittest/pointers/err.InvalidAddress4.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 3 (ID 1: dtrace:::BEGIN): invalid address ({ptr}) in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): invalid address ({ptr}) at BPF pc NNN
-diff --git a/test/unittest/speculation/err.CommitWithInvalid.r b/test/unittest/speculation/err.CommitWithInvalid.r
-index fc072417d..0449b2421 100644
---- a/test/unittest/speculation/err.CommitWithInvalid.r
-+++ b/test/unittest/speculation/err.CommitWithInvalid.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 4 (ID 1: dtrace:::BEGIN): illegal operation in action #2 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID 1 (dtrace:::BEGIN): illegal operation at BPF pc NNN
-diff --git a/test/unittest/speculation/err.DiscardWithInvalid.r b/test/unittest/speculation/err.DiscardWithInvalid.r
-index fc072417d..0449b2421 100644
---- a/test/unittest/speculation/err.DiscardWithInvalid.r
-+++ b/test/unittest/speculation/err.DiscardWithInvalid.r
-@@ -1,3 +1,3 @@
- 
- -- @@stderr --
--dtrace: error on enabled probe ID 4 (ID 1: dtrace:::BEGIN): illegal operation in action #2 at BPF pc NNN
-+dtrace: error in dt_clause_1 for probe ID 1 (dtrace:::BEGIN): illegal operation at BPF pc NNN
-diff --git a/test/unittest/speculation/tst.SpecSizeVariations.r b/test/unittest/speculation/tst.SpecSizeVariations.r
-index 51f0596c6..2748b307d 100644
---- a/test/unittest/speculation/tst.SpecSizeVariations.r
-+++ b/test/unittest/speculation/tst.SpecSizeVariations.r
-@@ -11,26 +11,6 @@ Speculative buffer ID: 1
- 123456706
- counts: 1 1
- 
--Speculative buffer ID: 1
--123456700
--123456701
--123456702
--123456703
--123456704
--123456705
--123456706
--counts: 1 1
--
--Speculative buffer ID: 1
--123456700
--123456701
--123456702
--123456703
--123456704
--123456705
--123456706
--counts: 2 1
--
- Speculative buffer ID: 1
- 123456700
- 123456701
-@@ -64,5 +44,3 @@ counts: 2 1
- dtrace: 2 speculative drops
- dtrace: 1 speculative drop
- dtrace: 1 speculative drop
--dtrace: 1 speculative drop
--dtrace: 1 speculative drop
-diff --git a/test/unittest/speculation/tst.SpecSizeVariations.sh b/test/unittest/speculation/tst.SpecSizeVariations.sh
-index 75e527d9f..79995b597 100755
---- a/test/unittest/speculation/tst.SpecSizeVariations.sh
-+++ b/test/unittest/speculation/tst.SpecSizeVariations.sh
-@@ -9,7 +9,7 @@
- 
- dtrace=$1
- 
--for x in 63 64 79 80 143 144; do
-+for x in 71 72 159 160; do
- 	$dtrace $dt_flags -xspecsize=$x -qn '
- 	BEGIN
- 	{
-diff --git a/test/unittest/speculation/tst.negcommit.r b/test/unittest/speculation/tst.negcommit.r
-index 69f246a01..cf8fb6f87 100644
---- a/test/unittest/speculation/tst.negcommit.r
-+++ b/test/unittest/speculation/tst.negcommit.r
-@@ -3,4 +3,4 @@
- 
- -- @@stderr --
- dtrace: script 'test/unittest/speculation/tst.negcommit.d' matched 2 probes
--dtrace: error on enabled probe ID 2 (ID 1: dtrace:::BEGIN): illegal operation in action #1 at BPF pc NNN
-+dtrace: error in dt_clause_0 for probe ID 1 (dtrace:::BEGIN): illegal operation at BPF pc NNN
-diff --git a/test/unittest/variables/bvar/tst.arg3-ERROR-b.sh b/test/unittest/variables/bvar/tst.arg3-ERROR-b.sh
-index 94a9ab9ac..2f6e51c3b 100755
---- a/test/unittest/variables/bvar/tst.arg3-ERROR-b.sh
-+++ b/test/unittest/variables/bvar/tst.arg3-ERROR-b.sh
-@@ -59,7 +59,7 @@ awk 'BEGIN {
- 	next;
-      }
- 
--     /error on enabled probe/ {
-+     /error in dt_clause_/ {
- 	if (!($NF in sites)) {
- 	    print;
- 	    print "  No call to dt_probe_error found at PC " $NF;
-diff --git a/test/unittest/variables/bvar/tst.arg3-ERROR.sh b/test/unittest/variables/bvar/tst.arg3-ERROR.sh
-index 4f2c70f38..38cb38df9 100755
---- a/test/unittest/variables/bvar/tst.arg3-ERROR.sh
-+++ b/test/unittest/variables/bvar/tst.arg3-ERROR.sh
-@@ -120,7 +120,7 @@ done
- 
- # Do a sanity check on DTrace's error output.
- 
--awk '/^dtrace: error on enabled probe ID [0-9]* \(ID 1: dtrace:::BEGIN): invalid address \(0x40) in action #[0-9] at BPF pc [0-9]*$/ { print $NF }' \
-+awk '/^dtrace: error in dt_clause_[1-4] for probe ID 1 \(dtrace:::BEGIN): invalid address \(0x40) at BPF pc [0-9]*$/ { print $NF }' \
-   disasm.out > err_pcs.txt.chk1
- if ! diff -q err_pcs.txt err_pcs.txt.chk1; then
- 	echo ERROR: problem with DTrace error output
++dt_uprobe.update(dtp, NULL);
++
+ 	switch (dtrace_status(dtp)) {
+ 	case DTRACE_STATUS_EXITED:
+ 	case DTRACE_STATUS_STOPPED:
 -- 
 2.43.5
 
