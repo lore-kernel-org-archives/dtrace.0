@@ -1,57 +1,57 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21BDE199FB4
-	for <dtrace@lists.linux.dev>; Wed,  9 Oct 2024 14:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CA5199FB4
+	for <dtrace@lists.linux.dev>; Wed,  9 Oct 2024 14:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728482566; cv=none; b=g28OSLSDn59K0awCxotAfzFMvRaS3YG+6FKDtPIXfG7I5LIu3nPFXVFlveA7YhugP51qpoJ/6prJFR3Vv//luJYZHA4cQspZdTRy2YKJa8tHMTa9rWIVKN+R9rVtt6isfX7wYL8yJbcccVOtiYMODIQ3jUU1PDq5lI9O/+/7uh4=
+	t=1728482571; cv=none; b=Z1BowK4S461fJ7V41zphqPXHDT0iKwFVEeOFfSlssMM3amyScvR6Un+UMTjE9uH9xizzefMMQBzMm842vL6QU7mHnIEl4IqLDOg8UH2GZuo8WyKOVSm1I3uDDiLfHhl4qiwAA+0OZkbDSxsfRXY5tXI/PrW9FbrC7J4W/d2mqf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728482566; c=relaxed/simple;
-	bh=+QWu3pBQMGZMZFO0Q1a8wNS2FIqw2sXEnQzRbxDOIBM=;
+	s=arc-20240116; t=1728482571; c=relaxed/simple;
+	bh=mBIOW/hrhklA+NwWTMDu+myRYgnAVk9SxaMg/wbc3hg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X1qQM2lg3f2axJV5nzNN8Xnkv84cObk2o3Sy0j1ZtpSq3n50csYz45yUDEbSV3U6ktZAiKDApKXxyoDRvpFhorCowidt6zeiDsWJKOcLgfwa8yFllI4stmBQMbLhITA0qvN+MldtIxg7lIQEzDaAZxkzUMnBpMLh5vnqh6RY2RI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=aA9NWvK/; arc=none smtp.client-ip=205.220.165.32
+	 MIME-Version; b=OkLA4AXlioZ6L8LJ2TK00/GrkVgMzyEn6KlB5Dp8pDD6lxTakmRMe5InVmNOIyuP00FpFqejxc4uH7ESZjpWSy+yveHF53S0ufZpZfecIgqnKtxZJu6777dB2FDkPxfThEJjmBUgDYVdH3rHwouGmvRdFnttgretxXVcz3OFJwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=WhtAzBL6; arc=none smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="aA9NWvK/"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 499DfmUr030858
-	for <dtrace@lists.linux.dev>; Wed, 9 Oct 2024 14:02:43 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="WhtAzBL6"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 499Dfir3004443
+	for <dtrace@lists.linux.dev>; Wed, 9 Oct 2024 14:02:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2023-11-20; bh=hH4vJ
-	xlLrmgo1mwvZQiO8Y0PCDSYzjuBrQV3hL5+2uA=; b=aA9NWvK/rey9Af6rBJrqC
-	zPEEylYLliT9+C3Hqe+KWipPMpoUmu4gVxdT2z0R4JPuDsmBGRgio31tVoQNpdrC
-	2MbFzZUC1dX8Nzd6bXt/3LMCgDvcO7TsS3dw9h9mIh7c5nkj7PAD6v0pfZ1u9GXu
-	cYxANMVMjd6lrwLuPT5ZkvEDlJX9o7ScalNgp6Qo/sVb/rhbfZcX2YHsvGX2OISs
-	jowc6H75MCkUY0v9O/IyLcIjASAgkO5w0wCV0TJ5I+DmVIjo6A5fUvb9tZyOwMl7
-	qgC0i2rANE8uYA9y3qnzGCFZgbuvSdOZNadT2dlxT4ivBUd5VznKFMT1XMfGwcCU
-	A==
+	:mime-version:references:subject:to; s=corp-2023-11-20; bh=+GyX/
+	l/ayg9SlkuSgPmSGD2sNbDnHXKSPH6GYQed3V4=; b=WhtAzBL60a5tWIBOoadwS
+	PG3cHs1jJ1he1e3OKUixsuKJMuKCREqQ9/mJfuzoWGwKmu5VW5kLJC6In3N+Vdln
+	IZu6OkG4qk7QBt725vLDRuJ9dPBCFaFtsv+GF36WFSVX/z4hE9PRSxrTztGmyp/+
+	/dHjEQ3Cvvsf6x01OnPPMAZuOmQCdE8N+5NDTOmhL7NlOfn5iXwzKiYgj4TOAM5c
+	S2KcBSBoLzTBo8ZDxQBeaUQYdB6VwgSiHdGwk6v6xFNojVmNIbMBB8LSODqWsogT
+	WKLI6StBwjt+iNEWu4j8ZvgPZTxa5KiWDbaFRXZK67a9Vnz/Hl5uNDC3NFGT1KmU
+	w==
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42306egbta-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 422yyv8d0b-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 09 Oct 2024 14:02:42 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Wed, 09 Oct 2024 14:02:39 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 499CMIqh019185
-	for <dtrace@lists.linux.dev>; Wed, 9 Oct 2024 14:02:41 GMT
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 499DdR4e019136
+	for <dtrace@lists.linux.dev>; Wed, 9 Oct 2024 14:02:39 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 422uwex0m5-1
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 422uwex0ja-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 09 Oct 2024 14:02:41 +0000
+	for <dtrace@lists.linux.dev>; Wed, 09 Oct 2024 14:02:39 +0000
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 499E2bOq010849
-	for <dtrace@lists.linux.dev>; Wed, 9 Oct 2024 14:02:40 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 499E2bOk010849
+	for <dtrace@lists.linux.dev>; Wed, 9 Oct 2024 14:02:38 GMT
 Received: from bpf.uk.oracle.com (dhcp-10-175-194-86.vpn.oracle.com [10.175.194.86])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 422uwex0gk-4;
-	Wed, 09 Oct 2024 14:02:40 +0000
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 422uwex0gk-2;
+	Wed, 09 Oct 2024 14:02:38 +0000
 From: Alan Maguire <alan.maguire@oracle.com>
 To: dtrace@lists.linux.dev
 Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
-Subject: [PATCH dtrace 3/3] sched: fix on-cpu firing for kernels < 5.16
-Date: Wed,  9 Oct 2024 15:02:36 +0100
-Message-ID: <20241009140236.883884-4-alan.maguire@oracle.com>
+Subject: [PATCH dtrace 1/3] dtrace: add support for probe-specific prog types, stack skips
+Date: Wed,  9 Oct 2024 15:02:34 +0100
+Message-ID: <20241009140236.883884-2-alan.maguire@oracle.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20241009140236.883884-1-alan.maguire@oracle.com>
 References: <20241009140236.883884-1-alan.maguire@oracle.com>
@@ -69,64 +69,233 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phish
  malwarescore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
  definitions=main-2410090086
-X-Proofpoint-GUID: ornUwmD7u-dezT3Mb8kkcIoeoZANrrVV
-X-Proofpoint-ORIG-GUID: ornUwmD7u-dezT3Mb8kkcIoeoZANrrVV
+X-Proofpoint-GUID: wHnsDe7szYEX53FM4sbYhpLFoav4qmvB
+X-Proofpoint-ORIG-GUID: wHnsDe7szYEX53FM4sbYhpLFoav4qmvB
 
-The solution for sched:::on-cpu firing (probing
-__perf_event_task_sched_in) only works on 5.16 and later as
-the relevant function is not in available_filter_functions
-in earlier kernels.
+Because fprobe-based tracing does not support all the functions
+kprobes+available_filter_functions do, it would be useful to
+fall back to a kprobe-based prog where fentry/fexit is not
+feasible.
 
-Instead use the fbt::finish_task_switch*:return probe as this
-will cover .isra.0-suffixed optimizations if they are applied
-to finish_task_switch().
+However there are a few blockers to that today.
+
+First, we specify program type and number of stack frames to
+skip on a provider basis.  Add support for a probe-specific
+callback function that provider implementations can use
+to return these values.
+
+Secondly, the tp event id is ambiguous - it can represent a BTF
+or a trace event id.  Add a field to allow specification, as
+this will be useful in determining whether a probe has a kprobe
+or a BTF (fentry/fexit)-based attachment.  This can be used
+in provider implementation methods to determine which trampoline
+to use for example.
 
 Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 ---
- libdtrace/dt_prov_sched.c | 23 ++---------------------
- 1 file changed, 2 insertions(+), 21 deletions(-)
+ libdtrace/dt_bpf.c         |  4 ++--
+ libdtrace/dt_cc.c          |  2 +-
+ libdtrace/dt_probe.c       | 16 ++++++++++++++++
+ libdtrace/dt_probe.h       |  2 ++
+ libdtrace/dt_prov_fbt.c    |  2 +-
+ libdtrace/dt_prov_rawtp.c  |  2 +-
+ libdtrace/dt_prov_sdt.c    |  2 +-
+ libdtrace/dt_provider.h    |  4 ++++
+ libdtrace/dt_provider_tp.c | 12 +++++++++++-
+ libdtrace/dt_provider_tp.h |  9 +++++++--
+ 10 files changed, 46 insertions(+), 9 deletions(-)
 
-diff --git a/libdtrace/dt_prov_sched.c b/libdtrace/dt_prov_sched.c
-index 4fbd24ab..e9a1b0c9 100644
---- a/libdtrace/dt_prov_sched.c
-+++ b/libdtrace/dt_prov_sched.c
-@@ -28,7 +28,7 @@ static probe_dep_t	probes[] = {
- 	{ "off-cpu",
- 	  DTRACE_PROBESPEC_NAME,	"rawtp:sched::sched_switch" },
- 	{ "on-cpu",
--	  DTRACE_PROBESPEC_NAME,	"fbt::__perf_event_task_sched_in:entry" },
-+	  DTRACE_PROBESPEC_NAME,	"fbt:vmlinux:finish_task_switch*:return" },
- 	{ "surrender",
- 	  DTRACE_PROBESPEC_NAME,	"fbt::do_sched_yield:entry" },
- 	{ "tick",
-@@ -157,26 +157,7 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
-  */
- static void enable(dtrace_hdl_t *dtp, dt_probe_t *prp)
+diff --git a/libdtrace/dt_bpf.c b/libdtrace/dt_bpf.c
+index ad11d178..20b564aa 100644
+--- a/libdtrace/dt_bpf.c
++++ b/libdtrace/dt_bpf.c
+@@ -117,7 +117,7 @@ int
+ dt_bpf_prog_load(dtrace_hdl_t *dtp, const dt_probe_t *prp,
+ 		 const dtrace_difo_t *dp, uint32_t lvl, char *buf, size_t sz)
  {
--	struct perf_event_attr attr = {};
--	int swfd;
--
--	if (strcmp(prp->desc->prb, "on-cpu") != 0)
--		return dt_sdt_enable(dtp, prp);
--
--	memset(&attr, 0, sizeof(attr));
--	attr.size = sizeof(attr);
--	attr.type = PERF_TYPE_SOFTWARE;
--	attr.config = PERF_COUNT_SW_CONTEXT_SWITCHES;
--	attr.freq = 1;
--	attr.sample_freq = 1000;
--	attr.context_switch = 1;
--
--	swfd = dt_perf_event_open(&attr, -1, 0, -1, 0);
--	if (swfd < 0)
--		dt_dprintf("perf event open failed for context_switch: %d\n", errno);
--	else
--		prp->prv_data = (void *)(long)swfd;
--	dt_sdt_enable(dtp, prp);
-+	return dt_sdt_enable(dtp, prp);
+-	return dt_bpf_prog_attach(prp->prov->impl->prog_type, 0, 0, 0, dp,
++	return dt_bpf_prog_attach(dt_probe_prog_type(dtp, prp), 0, 0, 0, dp,
+ 				  lvl, buf, sz);
  }
  
- static void detach(dtrace_hdl_t *dtp, const dt_probe_t *prp)
+@@ -1226,7 +1226,7 @@ dt_bpf_make_progs(dtrace_hdl_t *dtp, uint_t cflags)
+ 		 * Enabled probes with no trampoline act like they exist but
+ 		 * no code is generated for them.
+ 		 */
+-		if (prp->prov->impl->prog_type == BPF_PROG_TYPE_UNSPEC)
++		if (dt_probe_prog_type(dtp, prp) == BPF_PROG_TYPE_UNSPEC)
+ 			continue;
+ 
+ 		dp = dt_construct(dtp, prp, cflags, NULL);
+diff --git a/libdtrace/dt_cc.c b/libdtrace/dt_cc.c
+index 4202771a..ce0fd60b 100644
+--- a/libdtrace/dt_cc.c
++++ b/libdtrace/dt_cc.c
+@@ -1182,7 +1182,7 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
+ 				nrp->dofr_data = DMEM_STACK(dtp);
+ 				continue;
+ 			case DT_CONST_STACK_SKIP:
+-				nrp->dofr_data = prp->prov->impl->stack_skip;
++				nrp->dofr_data = dt_probe_stack_skip(dtp, prp);
+ 				continue;
+ 			}
+ 
+diff --git a/libdtrace/dt_probe.c b/libdtrace/dt_probe.c
+index 686e2a66..4be7a81c 100644
+--- a/libdtrace/dt_probe.c
++++ b/libdtrace/dt_probe.c
+@@ -1378,3 +1378,19 @@ dtrace_id2desc(dtrace_hdl_t *dtp, dtrace_id_t id, dtrace_probedesc_t *pdp)
+ 
+         return 0;
+ }
++
++int
++dt_probe_prog_type(dtrace_hdl_t *dtp, const dt_probe_t *prp)
++{
++	if (prp->prov->impl->get_prog_type)
++		return prp->prov->impl->get_prog_type(dtp, prp);
++	return prp->prov->impl->prog_type;
++}
++
++int
++dt_probe_stack_skip(dtrace_hdl_t *dtp, const dt_probe_t *prp)
++{
++	if (prp->prov->impl->get_stack_skip)
++		return prp->prov->impl->get_stack_skip(dtp, prp);
++	return prp->prov->impl->stack_skip;
++}
+diff --git a/libdtrace/dt_probe.h b/libdtrace/dt_probe.h
+index 2a78cb9c..03bac787 100644
+--- a/libdtrace/dt_probe.h
++++ b/libdtrace/dt_probe.h
+@@ -103,6 +103,8 @@ extern void dt_probe_init(dtrace_hdl_t *dtp);
+ extern void dt_probe_detach_all(dtrace_hdl_t *dtp);
+ extern void dt_probe_fini(dtrace_hdl_t *dtp);
+ extern void dt_probe_stats(dtrace_hdl_t *dtp);
++extern int dt_probe_prog_type(dtrace_hdl_t *, const dt_probe_t *);
++extern int dt_probe_stack_skip(dtrace_hdl_t *, const dt_probe_t *);
+ 
+ #ifdef	__cplusplus
+ }
+diff --git a/libdtrace/dt_prov_fbt.c b/libdtrace/dt_prov_fbt.c
+index 21f63ddf..718aadbe 100644
+--- a/libdtrace/dt_prov_fbt.c
++++ b/libdtrace/dt_prov_fbt.c
+@@ -239,7 +239,7 @@ static int fprobe_probe_info(dtrace_hdl_t *dtp, const dt_probe_t *prp,
+ 	if (btf_id <= 0)
+ 		goto done;
+ 
+-	dt_tp_set_event_id(prp, btf_id);
++	dt_tp_set_event_id(prp, btf_id, TP_EVENT_ID_BTF);
+ 
+ 	if (strcmp(desc->prb, "return") == 0) {
+ 		/* Void function return probes only provide 1 argument. */
+diff --git a/libdtrace/dt_prov_rawtp.c b/libdtrace/dt_prov_rawtp.c
+index 778a6f9c..22a18050 100644
+--- a/libdtrace/dt_prov_rawtp.c
++++ b/libdtrace/dt_prov_rawtp.c
+@@ -221,7 +221,7 @@ done:
+ static int probe_info(dtrace_hdl_t *dtp, const dt_probe_t *prp,
+ 		      int *argcp, dt_argdesc_t **argvp)
+ {
+-	dt_tp_set_event_id(prp, UINT32_MAX);
++	dt_tp_set_event_id(prp, UINT32_MAX, TP_EVENT_ID_TRACEPOINT);
+ 
+ #ifdef HAVE_LIBCTF
+ 	int			rc, i;
+diff --git a/libdtrace/dt_prov_sdt.c b/libdtrace/dt_prov_sdt.c
+index 675e0458..8d43282a 100644
+--- a/libdtrace/dt_prov_sdt.c
++++ b/libdtrace/dt_prov_sdt.c
+@@ -241,7 +241,7 @@ static int probe_info(dtrace_hdl_t *dtp, const dt_probe_t *prp,
+ 	if (rc < 0 || id == 0)
+ 		return dt_set_errno(dtp, EDT_ENABLING_ERR);
+ 
+-	dt_tp_set_event_id(prp, id);
++	dt_tp_set_event_id(prp, id, TP_EVENT_ID_TRACEPOINT);
+ 
+ 	if (asprintf(&str, "struct trace_event_raw_%s", prp->desc->prb) == -1)
+ 		return dt_set_errno(dtp, EDT_NOMEM);
+diff --git a/libdtrace/dt_provider.h b/libdtrace/dt_provider.h
+index 17b1844c..724d72d7 100644
+--- a/libdtrace/dt_provider.h
++++ b/libdtrace/dt_provider.h
+@@ -44,7 +44,11 @@ typedef struct dt_argdesc {
+ typedef struct dt_provimpl {
+ 	const char *name;			/* provider generic name */
+ 	int prog_type;				/* BPF program type */
++	int (*get_prog_type)(dtrace_hdl_t *dtp, /* probe-specific type */
++			     const struct dt_probe *prp);
+ 	uint32_t stack_skip;			/* # of stack frames to skip */
++	int (*get_stack_skip)(dtrace_hdl_t *dtp,/* probe-specific # */
++			      const struct dt_probe *prp);
+ 	int (*populate)(dtrace_hdl_t *dtp);	/* register probes */
+ 	int (*provide)(dtrace_hdl_t *dtp,	/* provide probes */
+ 		       const dtrace_probedesc_t *pdp);
+diff --git a/libdtrace/dt_provider_tp.c b/libdtrace/dt_provider_tp.c
+index 50df2328..f8e68f24 100644
+--- a/libdtrace/dt_provider_tp.c
++++ b/libdtrace/dt_provider_tp.c
+@@ -33,6 +33,7 @@
+ struct tp_probe {
+ 	uint32_t	event_id;	/* tracepoint event id or BTF id */
+ 	int		event_fd;	/* tracepoint perf event fd */
++	tp_event_id_type event_type;	/* tracepoint event or BTF-based */
+ };
+ 
+ /*
+@@ -342,12 +343,21 @@ dt_tp_get_event_id(const dt_probe_t *prp)
+ 	return tpp->event_id;
+ }
+ 
++tp_event_id_type
++dt_tp_get_event_id_type(const dt_probe_t *prp)
++{
++	tp_probe_t	*tpp = prp->prv_data;
++
++	return tpp->event_type;
++}
++
+ void
+-dt_tp_set_event_id(const dt_probe_t *prp, uint32_t id)
++dt_tp_set_event_id(const dt_probe_t *prp, uint32_t id, tp_event_id_type type)
+ {
+ 	tp_probe_t	*tpp = prp->prv_data;
+ 
+ 	tpp->event_id = id;
++	tpp->event_type = type;
+ }
+ 
+ /*
+diff --git a/libdtrace/dt_provider_tp.h b/libdtrace/dt_provider_tp.h
+index e7d52876..09002fa8 100644
+--- a/libdtrace/dt_provider_tp.h
++++ b/libdtrace/dt_provider_tp.h
+@@ -28,9 +28,14 @@ extern "C" {
+ 
+ typedef struct tp_probe tp_probe_t;
+ 
++typedef enum {
++	TP_EVENT_ID_TRACEPOINT = 0,
++	TP_EVENT_ID_BTF
++} tp_event_id_type;
++
+ extern tp_probe_t *dt_tp_alloc(dtrace_hdl_t *dtp);
+ extern int dt_tp_attach(dtrace_hdl_t *dtp, tp_probe_t *tpp, int bpf_fd);
+-extern void dt_tp_set_event_id(const struct dt_probe *prp, uint32_t id);
++extern void dt_tp_set_event_id(const struct dt_probe *prp, uint32_t id, tp_event_id_type);
+ extern int dt_tp_has_info(const tp_probe_t *tpp);
+ extern int dt_tp_event_info(dtrace_hdl_t *dtp, FILE *f, int skip,
+ 			    tp_probe_t *tpp, int *argcp, dt_argdesc_t **argvp);
+@@ -42,7 +47,7 @@ extern struct dt_probe *dt_tp_probe_insert(dtrace_hdl_t *dtp,
+ 					   const char *prv, const char *mod,
+ 					   const char *fun, const char *prb);
+ extern uint32_t dt_tp_get_event_id(const struct dt_probe *prp);
+-extern void dt_tp_set_event_id(const struct dt_probe *prp, uint32_t id);
++extern tp_event_id_type dt_tp_get_event_id_type(const struct dt_probe *prp);
+ extern int dt_tp_probe_info(dtrace_hdl_t *dtp, FILE *f, int skip,
+ 			    const struct dt_probe *prp, int *argcp,
+ 			    dt_argdesc_t **argvp);
 -- 
 2.43.5
 
