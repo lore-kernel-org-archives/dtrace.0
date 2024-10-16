@@ -1,57 +1,57 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E20F20E03D
-	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 15:54:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7304320E03D
+	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 15:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729094057; cv=none; b=Mcr7pGv1OSbK/qSx9kFG8cnOkNgy3gnkctXXSPMXBp/96lH5PBka+g+4ITirip0TQqiiXrXltHviVLwUC4dCohNFnKI4czJpoojAnjSLCixqIfCnmEtopL48o2fzjQ7MD5tG0XP6sIq+o4JAtRT+BLlEtShwfO35i3CL55jvsjU=
+	t=1729094060; cv=none; b=MhW8fqW9ByCXh5yPOkkbj2w6bHrqp9tfOeVq/77VHpMp86TRdmR1XwvwqgE8viwldejfQpC38/ba4ANdVfo27a2L8JJnmwEfwc0UkFiLVLyPKsxgTJ8OXBmNpOCoijrz4FCqo9N3XZgptPFRtMwCQJyaGAFs7hhUJEjlI9Z78Yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729094057; c=relaxed/simple;
-	bh=o7XXDdK51eBjbM4DsU/mbymbJ36ALpXsnUVGUZ6bhTE=;
+	s=arc-20240116; t=1729094060; c=relaxed/simple;
+	bh=NLQV4crjyH6OwxPjQaoZrZ/T2k1Oy4rbclh9dqu7rUc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j3dP4Q14zYuDiDSVGAry3SD1Iqn+nw12xPvCWSsT4ZWmpY9Zd+TgjSlNqvSfMCjIbVIPff007da7NFiNJm39dR2YbLpLbx+0t3v3li5lSnyRQJdgPPCmIt2DblI4NBICUDqmireQ9PbijbjI5wWS0DNcHGEnITHlPwmcuoJb6Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=dl21o9vl; arc=none smtp.client-ip=205.220.165.32
+	 MIME-Version; b=EqdArVIcNrreA5tdTcW21sDQ20hcSa3RbvVebCVgkFJ/kxCExbWE4uifEx9Wojw/20VsxScCpC23FFlLNAiAgK2qEySAOntdOgv6ezBfJb0ZbCvFtZVqLhg0SB5dtvxL919lSA0jFQGiSX1R8UWyUPPMMl3RweqNQ4seVsw53s0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=cLfKdC+T; arc=none smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="dl21o9vl"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49GFfwra021949
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="cLfKdC+T"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49GFfg0R028860
 	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 15:54:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2023-11-20; bh=WwN/O
-	B7RQlHwiIhTAnDtjD5qRcBCJH/OaN7m9ZZq8UU=; b=dl21o9vlKXEZFB79OPEMg
-	eKPsgL9y7h3PViOsABgbf88b8vmIMuR0YkG2C/Pb9wPFs406OTdhPI5OX1abVQva
-	+1Faq3Bkq0L4SPpKDRVQahLT7Z5/EXOEj8xne65niAopKYlBsy3FKaVru8Kh1vQ5
-	4NdLIVjKRfJy6L9w9m6G4/c/lLN815cxHlQRK2mzHc+3RiXtPScm6EWqFGPuQJ/h
-	wnf78YVtpYWjejuvtcjowR7fWsu8pi9AlzrFq/ec8tMD0xMTADJjw9G9s5UAb0zg
-	X/s+XGxTluKi3wGVONNsFWn+oZBWb+Wsl6uLb6yS17nxAQrPkp71hAaK00RnpFgc
-	w==
+	:mime-version:references:subject:to; s=corp-2023-11-20; bh=hPuqn
+	Uto518I2Oyzisuu2ozXagBnoM0AHV00Zm7/fEY=; b=cLfKdC+TcbEfOczOad6QC
+	GXixi66KRAazx/xtmxmOIEoeU0Juqw6lRyYCbHsvocmosnn06GgVUQrtocbLssSt
+	PDnUe79vfiBlLIvCvYGZ4oIjNNmW23DsfGPfXcZTHirWU2VbMyir4eURL3H/SQHx
+	9HulYRvDf8J2YUHxFFC16ECcBLir/4rIvEwQfIrg6NXPZKLQuEg6ezGGbb5SAfmr
+	jcBsWaGlOm4I41ciBJSoMRtoAFxqeF72SU+0SmRPzW0DM9nCBeVnkefi26mhbi8O
+	BiRFmFOwLzGLQlK1WE34OgkZRxicqA94x0NWnQu5ZPHjfSpEcTWXCcmJOvSvDOTU
+	g==
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 427g1aky6y-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 427h5cmfk3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 15:54:14 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 15:54:15 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49GFNMAE027308
-	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 15:54:13 GMT
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49GFhSxH027314
+	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 15:54:14 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 427fjfk26y-1
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 427fjfk27f-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 15:54:13 +0000
+	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 15:54:14 +0000
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 49GFsBrG014752
-	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 15:54:13 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 49GFsBrJ014752
+	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 15:54:14 GMT
 Received: from bpf.uk.oracle.com (dhcp-10-175-205-31.vpn.oracle.com [10.175.205.31])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 427fjfk24u-3;
-	Wed, 16 Oct 2024 15:54:12 +0000
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 427fjfk24u-4;
+	Wed, 16 Oct 2024 15:54:13 +0000
 From: Alan Maguire <alan.maguire@oracle.com>
 To: dtrace@lists.linux.dev
 Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
-Subject: [PATCH v3 dtrace 2/4] fbt: support "."-suffixed functions for kprobes
-Date: Wed, 16 Oct 2024 16:54:07 +0100
-Message-ID: <20241016155409.4038017-3-alan.maguire@oracle.com>
+Subject: [PATCH v3 dtrace 3/4] fbt: avoid mix of kprobe, fprobe implementations for used probes
+Date: Wed, 16 Oct 2024 16:54:08 +0100
+Message-ID: <20241016155409.4038017-4-alan.maguire@oracle.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20241016155409.4038017-1-alan.maguire@oracle.com>
 References: <20241016155409.4038017-1-alan.maguire@oracle.com>
@@ -69,176 +69,145 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 a
  spamscore=0 malwarescore=0 bulkscore=0 suspectscore=0 mlxscore=0
  phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2409260000 definitions=main-2410160100
-X-Proofpoint-GUID: AZsQSpEIHmoD-WWx0UQk7oKfjU8tLNjx
-X-Proofpoint-ORIG-GUID: AZsQSpEIHmoD-WWx0UQk7oKfjU8tLNjx
+X-Proofpoint-ORIG-GUID: i3_YI0hspKtjo2IUtjpxNsMczi97wfRy
+X-Proofpoint-GUID: i3_YI0hspKtjo2IUtjpxNsMczi97wfRy
 
-gcc adds suffixes when it carries out optimizations, but often
-these leave parameters to functions intact.  Many of these functions
-(like finish_task_switch()) are important for tracing (and they
-are present in available_filter_functions so are traceable) so it is
-valuable to support probing them.  For kprobes, the probe name removes
-the "." suffix, so store it as additional tp event data for kprobe
-attach (attach time is the only time we need the full function name).
+If we have a mix of kprobe and fprobe implementations, it causes problems
+for DTrace since we cannot guarantee execution in program order.
 
-fprobe does not support such functions, so the kprobe impl is always
-used in such cases.
+When fprobes are active, the only place kprobes are used as fbt
+implementation is for "."-suffixed functions that cannot be supported
+by fprobe.  However, by using kprobes for this case, we run the risk of
+mixing fprobe and kprobe.  So use probe_info callbacks (invoked when
+setting context during compilation) to count instances of fbt probe use
+for each provider/implementation.  If we have a mix of fprobes and kprobes,
+revert to using the kprobe implementation for the existing fprobes.
+This involves setting provider impl to kprobes, and resetting event
+id for any existing fprobes (since it will be set to the BTF id of the
+function).
+
+There is no risk in having multiple probes for the same function since
+a kprobe for a "."-suffixed function will not be added if the
+unsuffixed probe already exists (in practice, such a case is not seen
+but is not impossible).
 
 Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 ---
- libdtrace/dt_prov_fbt.c | 76 ++++++++++++++++++++++++++++++++---------
- 1 file changed, 59 insertions(+), 17 deletions(-)
+ libdtrace/dt_prov_fbt.c | 66 +++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 64 insertions(+), 2 deletions(-)
 
 diff --git a/libdtrace/dt_prov_fbt.c b/libdtrace/dt_prov_fbt.c
-index 21f63ddf..06ea78ca 100644
+index 06ea78ca..259cf674 100644
 --- a/libdtrace/dt_prov_fbt.c
 +++ b/libdtrace/dt_prov_fbt.c
-@@ -21,6 +21,7 @@
- #include <assert.h>
- #include <errno.h>
- #include <fcntl.h>
-+#include <port.h>
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
-@@ -63,8 +64,8 @@ static const dtrace_pattr_t	pattr = {
-  */
- static int populate(dtrace_hdl_t *dtp)
- {
--	dt_provider_t		*prv;
--	dt_provimpl_t		*impl;
-+	dt_provider_t		*default_prv, *kprobe_prv = NULL;
-+	dt_provimpl_t		*default_impl;
- 	FILE			*f;
- 	char			*buf = NULL;
- 	char			*p;
-@@ -73,17 +74,25 @@ static int populate(dtrace_hdl_t *dtp)
- 	dtrace_syminfo_t	sip;
- 	dtrace_probedesc_t	pd;
+@@ -76,7 +76,7 @@ static int populate(dtrace_hdl_t *dtp)
  
--	impl = BPF_HAS(dtp, BPF_FEAT_FENTRY) ? &dt_fbt_fprobe : &dt_fbt_kprobe;
-+	default_impl = BPF_HAS(dtp, BPF_FEAT_FENTRY) ? &dt_fbt_fprobe : &dt_fbt_kprobe;
+ 	default_impl = BPF_HAS(dtp, BPF_FEAT_FENTRY) ? &dt_fbt_fprobe : &dt_fbt_kprobe;
  
--	prv = dt_provider_create(dtp, prvname, impl, &pattr, NULL);
--	if (prv == NULL)
-+	default_prv = dt_provider_create(dtp, prvname, default_impl, &pattr, NULL);
-+	if (default_prv == NULL)
+-	default_prv = dt_provider_create(dtp, prvname, default_impl, &pattr, NULL);
++	default_prv = dt_provider_create(dtp, prvname, default_impl, &pattr, 0);
+ 	if (default_prv == NULL)
  		return -1;			/* errno already set */
-+	if (default_impl == &dt_fbt_kprobe)
-+		kprobe_prv = default_prv;
+ 	if (default_impl == &dt_fbt_kprobe)
+@@ -148,7 +148,7 @@ static int populate(dtrace_hdl_t *dtp)
+ 			if (!kprobe_prv) {
+ 				kprobe_prv = dt_provider_create(dtp, prvname,
+ 								impl, &pattr,
+-								NULL);
++								0);
+ 				if (kprobe_prv == NULL)
+ 					return -1;
+ 			}
+@@ -187,6 +187,56 @@ static int populate(dtrace_hdl_t *dtp)
+ 	return n;
+ }
  
- 	f = fopen(PROBE_LIST, "r");
- 	if (f == NULL)
- 		return 0;
- 
- 	while (getline(&buf, &n, f) >= 0) {
-+		dt_provimpl_t	*impl = default_impl;
-+		dt_provider_t	*prv = default_prv;
-+		char		fun[DTRACE_FUNCNAMELEN] = {};
-+		void		*entry_data = NULL;
-+		void		*return_data = NULL;
++static int
++fbt_unset_event_id(dtrace_hdl_t *dtp, dt_probe_t *prp, dt_provider_t *prv)
++{
++	if (prp->prov == prv)
++		dt_tp_set_event_id(prp, 0);
++	return 0;
++}
 +
- 		/*
- 		 * Here buf is either "funcname\n" or "funcname [modname]\n".
- 		 * The last line may not have a linefeed.
-@@ -106,10 +115,6 @@ static int populate(dtrace_hdl_t *dtp)
- 				p++;
- 		}
- 
--		/* Weed out synthetic symbol names (that are invalid). */
--		if (strchr(buf, '.') != NULL)
--			continue;
--
- #define strstarts(var, x) (strncmp(var, x, strlen (x)) == 0)
- 		/* Weed out __ftrace_invalid_address___* entries. */
- 		if (strstarts(buf, "__ftrace_invalid_address__") ||
-@@ -129,6 +134,31 @@ static int populate(dtrace_hdl_t *dtp)
- 		} else
- 			mod = p;
- 
-+		/* '.'-suffixed functions (e.g. foo.isra.0) must always be
-+		 * kprobe-backed as fprobe does not support them.  They
-+		 * are represented with their unsuffixed names however, so
-+		 * the full name including suffix is stored as data associated
-+		 * with the tp event.
-+		 */
-+		strlcpy(fun, buf, sizeof(fun));
-+		if (strchr(buf, '.') != NULL) {
-+			char *suffix;
++/* Ensure we do not have a mix of kprobe and fprobe implementations for
++ * _actually used_ probes; fall back to using kprobe implementation for
++ * fprobe provider if so.
++ */
++void fbt_check_impl(struct dtrace_hdl *dtp, dt_provider_t *fbt_prv)
++{
++	dt_htab_next_t          *it = NULL;
++	dt_provider_t		*pvp;
++	dtrace_probedesc_t	fbt_desc = {	.prv = "fbt",
++						.mod = "",
++						.fun = "",
++						.prb = ""
++					   };
 +
-+			impl = &dt_fbt_kprobe;
-+			if (!kprobe_prv) {
-+				kprobe_prv = dt_provider_create(dtp, prvname,
-+								impl, &pattr,
-+								NULL);
-+				if (kprobe_prv == NULL)
-+					return -1;
-+			}
-+			prv = kprobe_prv;
-+			suffix = strchr(fun, '.');
-+			*suffix = '\0';
-+			entry_data = strdup(buf);
-+			return_data = strdup(buf);
-+		}
 +
- 		/*
- 		 * Due to the lack of module names in
- 		 * TRACEFS/available_filter_functions, there are some duplicate
-@@ -138,14 +168,16 @@ static int populate(dtrace_hdl_t *dtp)
- 		pd.id = DTRACE_IDNONE;
- 		pd.prv = prvname;
- 		pd.mod = mod;
--		pd.fun = buf;
-+		pd.fun = fun;
- 		pd.prb = "entry";
- 		if (dt_probe_lookup(dtp, &pd) != NULL)
- 			continue;
- 
--		if (dt_tp_probe_insert(dtp, prv, prvname, mod, buf, "entry"))
-+		if (dt_tp_probe_insert_data(dtp, prv, prvname, mod, fun,
-+					    "entry", entry_data))
- 			n++;
--		if (dt_tp_probe_insert(dtp, prv, prvname, mod, buf, "return"))
-+		if (dt_tp_probe_insert_data(dtp, prv, prvname, mod, fun,
-+					    "return", return_data))
- 			n++;
++	/* count number of used probes for provider + impl */
++	fbt_prv->prv_data++;
++
++	/* check other provider + impl (if any) */
++	while ((pvp = dt_htab_next(dtp->dt_provs, &it)) != NULL) {
++		if (pvp == fbt_prv || strcmp(pvp->desc.dtvd_name, "fbt") != 0)
++			continue;
++		if (pvp->prv_data == 0)
++			return;
++		/* already done? */
++		if (pvp->impl == fbt_prv->impl)
++			return;
++		/* multiple fprobe, kprobe probes; revert to kprobes */
++		if (fbt_prv->impl != &dt_fbt_kprobe)
++			pvp = fbt_prv;
++		break;
++	}
++	if (!pvp)
++		return;
++	dt_dprintf("reverting to kprobe impl for %s due to fprobe/kprobe mix\n",
++		   pvp->desc.dtvd_name);
++	pvp->impl = &dt_fbt_kprobe;
++	dt_probe_iter(dtp, &fbt_desc, (dt_probe_f *)fbt_unset_event_id, NULL,
++		      pvp);
++
++}
++
+ /*******************************\
+  * FPROBE-based implementation *
+ \*******************************/
+@@ -296,6 +346,8 @@ static int fprobe_probe_info(dtrace_hdl_t *dtp, const dt_probe_t *prp,
+ 		goto done;
  	}
  
-@@ -363,10 +395,11 @@ static int kprobe_trampoline(dt_pcb_t *pcb, uint_t exitlbl)
- static int kprobe_attach(dtrace_hdl_t *dtp, const dt_probe_t *prp, int bpf_fd)
- {
- 	if (!dt_tp_probe_has_info(prp)) {
--		char	*fn;
--		FILE	*f;
--		size_t	len;
--		int	fd, rc = -1;
-+		char		*fn;
-+		const char	*fun;
-+		FILE		*f;
-+		size_t		len;
-+		int		fd, rc = -1;
- 
- 		/*
- 		 * Register the kprobe with the tracing subsystem.  This will
-@@ -376,9 +409,18 @@ static int kprobe_attach(dtrace_hdl_t *dtp, const dt_probe_t *prp, int bpf_fd)
- 		if (fd == -1)
- 			return -ENOENT;
- 
-+		/* If actual function name contained a '.', it is stored in
-+		 * tp data; use non-suffix name for event as event names
-+		 * cannot contain a '.'.  User-visible probe name does
-+		 * not contain a '.'.
-+		 */
-+		fun = dt_tp_get_event_data(prp);
-+		if (!fun)
-+			fun = prp->desc->fun;
++	fbt_check_impl(dtp, prp->prov);
 +
- 		rc = dprintf(fd, "%c:" FBT_GROUP_FMT "/%s %s\n",
- 			     prp->desc->prb[0] == 'e' ? 'p' : 'r',
--			     FBT_GROUP_DATA, prp->desc->fun, prp->desc->fun);
-+			     FBT_GROUP_DATA, prp->desc->fun, fun);
- 		close(fd);
- 		if (rc == -1)
- 			return -ENOENT;
+ 	argc = dt_btf_func_argc(dtp, dmp->dm_btf, btf_id);
+ 	if (argc == 0)
+ 		goto done;
+@@ -453,6 +505,15 @@ static int kprobe_attach(dtrace_hdl_t *dtp, const dt_probe_t *prp, int bpf_fd)
+ 	return dt_tp_probe_attach(dtp, prp, bpf_fd);
+ }
+ 
++static int kprobe_probe_info(dtrace_hdl_t *dtp, const dt_probe_t *prp,
++			     int *argcp, dt_argdesc_t **argvp)
++{
++	fbt_check_impl(dtp, prp->prov);
++	*argcp = 0;
++	*argvp = NULL;
++	return 0;
++}
++
+ /*
+  * Try to clean up system resources that may have been allocated for this
+  * probe.
+@@ -502,6 +563,7 @@ dt_provimpl_t	dt_fbt_kprobe = {
+ 	.load_prog	= &dt_bpf_prog_load,
+ 	.trampoline	= &kprobe_trampoline,
+ 	.attach		= &kprobe_attach,
++	.probe_info	= &kprobe_probe_info,
+ 	.detach		= &kprobe_detach,
+ 	.probe_destroy	= &dt_tp_probe_destroy,
+ };
 -- 
 2.43.5
 
