@@ -1,80 +1,80 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729BA208D7A
-	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 16:01:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D6654F95
+	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 16:01:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729094511; cv=fail; b=tJo8IbXtQDd70D8hX6b2zxyE9XRyefdmuR+TuvY0+kmm7ldmN5OIowsQNHZqFc+XArA7KsXqsS9pPS3GFcrk0Mp6vfU7EJvxcDqRXh43kGPAcaPkKkSyvXw9Z7myXS/HSQM96dJOJuwFHddXWEIUEfFoq8NHrzd1pVlHYOaGipA=
+	t=1729094512; cv=fail; b=QfNVFohRc2v9vdnoU9h5dbIbl/1zpa/AporaqjuZLcvVmixkOTkDSGhST+49Qr9/QESfuHfMGrJZ9D2UhO8eDxkfKjlVH35qIiE0+muNeLRICwNA2ByXkfp1ONu41EpUGfXe7OiySNfRMlAh53GUET73VlsfSQEqAukc45jc8kY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729094511; c=relaxed/simple;
-	bh=N7Qnhpjms16BOOxOVrf/nMFN93C4cr7NLLvPvgoWsH8=;
+	s=arc-20240116; t=1729094512; c=relaxed/simple;
+	bh=OUoDvY0iFxBNYQLfPQQWFnmrmCMnP3VTg+Xt8BibtUE=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QCnpG5/8qY/ZvZQSRz7jIqhT+YytyHZXqj+4tGb7L02vVZwDRUsF+f2aQXKMy7BOoQW+zcvmCT34QZ/cNVr5U4DSWBcdy39eYtPIEzCufrACkw6GLBNCdQQwHi1XrvDZglo1UY9LzF3Qd65XRowXuOqkbDRSv/zavFAJ+uiZ7dI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=j6IrFa4v; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=CJs4hKdQ; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Type:MIME-Version; b=euPmLzX0+dJPeiKImPnqRBrPizHJBUuX6fSxDeYWnPFFOadsXZNQGErdn/CZcxxrGH6UIFNcJ9paqZ3ia4cIQbJK4Xq6J4PA9W1mHwmIHA11LQRtsQYoudqzrJhZhKDoS0LUKoJQQXJMMS8Xd3NcYP8QBjwbELHdj8lngtu/34I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ddPwPv3m; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=uLHpQs5U; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="j6IrFa4v";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="CJs4hKdQ"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49GFfhe7007385
-	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 16:01:48 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ddPwPv3m";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="uLHpQs5U"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49GFfkLf028997
+	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 16:01:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=pD6sqrTUHHMdJUutqG
-	UHFeyWL4qSAzJFm/NAt4wOvjE=; b=j6IrFa4vqppHJ1xzKzQO+qL7w0eUHVFpyt
-	L9zX4FWxH0ykdkD5ElFsCiunCIxvX6n4OSqqCZPCmgSDKOX1cKFsC9oJcXMfeSYb
-	tiKPPQxNm2T6Uitk9rEVsjNYAjUZ9hfcEIhMXQvNUxXcgMEuWA3dPEX6eD8BQCMl
-	lJKkHxuih5yGMZvBlGOMBC1LQ93iVBnyRED45/qtuDvNuYDY8GKiggTdDvbIA12c
-	AdZy6Z+LWqhKe4Yda2yOeXX8IIvbne54g+mARqgSWQFiCEAC/osRSsgFt9ax3Rq+
-	1IC7PnXLdQP4MFQnpRe9Xw8ZBIrXWLvq8EJqJZixA4Dbcqbsrpkg==
+	:references:subject:to; s=corp-2023-11-20; bh=8cdeOy6KTMp84SpatT
+	4++qQtDAWg0z/xCcuasgHsRs8=; b=ddPwPv3mxjjev+RPeVXj1hOEpj5P9F2YPa
+	qoSN12woalJ1/Z2YQkAwL21ZL+jb9heW1MG0FPqGgv4+MaeiCoArl8gvOi9IhE+x
+	t8a3Km62KKQmMjjrju5lX4slLBNCLm+gvXS56m8zmd+K7aFIRVQVFFpD7VzSqj/k
+	qR8hbUlv6EA9w74BlAhjbixs+DhfWGsji0LK3vmvR/k+QmF8rIrKzGJ8FmsuWUUS
+	aNLGUL7xjk14Si46adshhWjtKfWGaXu52/rSYDqMmoXJ0wlgwZUxiXg8+fVRboHP
+	sWU5JZ2hURk4+yf54NnqJ6wp8P2fhf8MwvXQ1iapFTOETzt/hdBA==
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 427fw2m9hw-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 427h5cmga8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 16:01:47 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 16:01:49 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49GG1Mj6010363
-	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 16:01:47 GMT
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49GG1Mj9010363
+	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 16:01:48 GMT
 Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2173.outbound.protection.outlook.com [104.47.56.173])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 427fjfbbj5-4
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 427fjfbbj5-6
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 16:01:47 +0000
+	for <dtrace@lists.linux.dev>; Wed, 16 Oct 2024 16:01:48 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qn6DGftlRAutFViJ0ZrHdPiZa6kEtCURczxyE9W+vDwi34K4evqcL4+IvGHVSAVg5foW1Ar9StPQugbrgTFTZ8B0cYsxtnXsXgla33H5HBmMwrd68iMjIDwc07JBnhNmv2ukZclZa/32mb0igp0/UTjGKpEnHTe0Wc/KtChB717h3F6AGnv6IcL7M+7nlwnah5riI61i3LNMZdFilS3CKgHdPF8kEbSOCk3kzqa6yoTMT8irVJJ0AWUNxRPwqeT16xtEacUmn/aRGmW5sLwQ37tn28Kz6KIyekZt2R5CetNqN7N3FYOjGKnI8mk2Xv3F4wS8WbmDleCfOZ9NZfSrdA==
+ b=NlG2pjzaassyk9ngrM4EQUhXTRrhgQiLQ0qXF1zOMKeKkSvHHBfCeD8cqadBmc9YgIVxrWHEGniJidl0AhC2/iFVOpGcYUtUeUnDuX1UV0qJi40cANmLrl5NTTzf5G6ojGPfxDAeAzZnmGgZlSDomnCVvCa26ME5nnLVCsbhTMtkIhkL0SDid102n6Fi7dy6zz7qd71bRl0hLuQtQbFE6H5pV/mb6elZXtkba7XYTe5yr4uAVWl8pBofhigXUe68oXdh/PRSFRBPtjQPklmnHoMy+W9hLmh0PtR4PpQqS+cdi9YBQFVP9dEqOFahrOx7DfflwlAA3JN+PuhHDtxpRQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pD6sqrTUHHMdJUutqGUHFeyWL4qSAzJFm/NAt4wOvjE=;
- b=KEW7yxrMGYVhb5d2G1L7/thKg2/wf3C2CT21IC0SBcE9lkmfOuf0f5y9nLickWQQInJllT2DCtDelF+pQyKEUepq/qg3KjbqMOp7D4lLXQgs7I3742ZJPlH1VUBqJH4wJnT6pkP2PPJwgHPqjIf6bP+6EyauegQ6fjho8/4QX7HMZ46MRLFVOBb17XOpU3j1iwnNmDOAZqeiGOy9aR5FSlo3qcYJFosD+p78n0fJ1GRSVHghH1Bk+vvDa1GZk5dv7Swwg9FS810pLr1pmBA1/I+XSnDi4GcXlbWMEhjoP5BcwlLBEc5RG6RTHYVwX786TL1DNWV4LS0SaP4tAXfIyA==
+ bh=8cdeOy6KTMp84SpatT4++qQtDAWg0z/xCcuasgHsRs8=;
+ b=HC1H+kJZM9ET0erhi4Htsu4g+QMScIZwNBcmMD/G9TtS5urMP6AzQpf/qRaD8X5FNhrflaqAs78nEl3vy2ULf0EeNJAawwYxl80VDulrqP46/53XzD7ed7Iyot0s2e346ZZXVZRJeuBrogq3BSAVKKDXmSJIlIL+deWZQztgbAp43yti0tCb9paZ4mks+vsD9NFCyFgCyI4+sAdbL7iMUZySLGK3yOJso+Cz9k+YzW6vKuB9Yfg8BxTL2IexfwSUgfHaxy7GXYNU8kzmcV69fGk7+ZuPDH8WfITfLcWumyNKPnAuyANaVemHO8M7lFPiA3ZLs8OpMPQJ4zd89A4Tdw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pD6sqrTUHHMdJUutqGUHFeyWL4qSAzJFm/NAt4wOvjE=;
- b=CJs4hKdQ5FlrLUneCUABMgm9NZNoMB9PJ4xLiFhTjwmSfX4x3QraGayxski9HFoj/FRBYQoCZ5WMj3gUAkskLfTjEgz5dn2prud6+pHNieuwXyuPsgHSFYIzAzMpaODUhaAUk3VRnJle60543SevkJQhIdI6N+YZA1liJSb/Q2Y=
+ bh=8cdeOy6KTMp84SpatT4++qQtDAWg0z/xCcuasgHsRs8=;
+ b=uLHpQs5UKiQdOcwJCiuTTIBDGEu6JahPNBLIODjYLEOLP5HevQaZNRa3MaDONxArFVpdyaHfZbMZY47RUr2YLl0sMfuJ8AyCOs09Vn67jmdm71mUt56clZQfLKlDvPqeaB2+3aFkKgRWCzQAm3cy0ix7CHmV34EWweCALmms6Lk=
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
  by PH7PR10MB5673.namprd10.prod.outlook.com (2603:10b6:510:125::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.25; Wed, 16 Oct
- 2024 16:01:43 +0000
+ 2024 16:01:45 +0000
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69%6]) with mapi id 15.20.8069.016; Wed, 16 Oct 2024
- 16:01:43 +0000
+ 16:01:44 +0000
 From: eugene.loh@oracle.com
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH v6 07/19] Create the BPF usdt_names and usdt_prids maps
-Date: Wed, 16 Oct 2024 12:01:37 -0400
-Message-Id: <20241016160139.29589-2-eugene.loh@oracle.com>
+Subject: [PATCH v4 09/19] Use usdt_prids map to call clauses conditionally for USDT probes
+Date: Wed, 16 Oct 2024 12:01:38 -0400
+Message-Id: <20241016160139.29589-3-eugene.loh@oracle.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20241016160139.29589-1-eugene.loh@oracle.com>
 References: <20241016160139.29589-1-eugene.loh@oracle.com>
 Content-Type: text/plain
-X-ClientProxiedBy: BY1P220CA0017.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:5c3::6) To CO6PR10MB5636.namprd10.prod.outlook.com
+X-ClientProxiedBy: SJ0PR13CA0104.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c5::19) To CO6PR10MB5636.namprd10.prod.outlook.com
  (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -84,77 +84,77 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|PH7PR10MB5673:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a1e0e2d-ce8c-46fb-61ad-08dcedfbd42f
+X-MS-Office365-Filtering-Correlation-Id: f81ab3f5-c92d-475d-c95b-08dcedfbd51e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?myxT6KQG3KEoMG/0PdzbwSemjejKacdvb77DF9kBiYafCzlCfk9wxcaZTWCn?=
- =?us-ascii?Q?Zf//3WcJADRN2w03tOBl4ZtZEZXYPtJ+ChWiqCOQHKjFmCGpDav98lfGd8ao?=
- =?us-ascii?Q?BQ9ESS2BKpYZqOdfj653sI1dcBuSwWYAQ+fOPC7z93//9tfu+pAw7SbicILn?=
- =?us-ascii?Q?13NAIIomkSvnPIxIF7i1fE1J7sTXfCO5q0bJDYRW2uIX2YWe0eKTHWYuHzP2?=
- =?us-ascii?Q?G+JGl6M/1bAtTCZXvKv2WBx8tXhTo/6Xe0fcI39hkDRk7+SICH4H8j6Xc4wk?=
- =?us-ascii?Q?7hazjzU3RdGwLi2bBtHfXwtsTFRAFwS4GURzLZ5LpApPZ1vf40WTQwd+Uo7y?=
- =?us-ascii?Q?wnHidckThGL+lyWg+v3u4KDLvAuqGNVnKgaAXHW3y01kN2sRvJ8C3mLPTj4/?=
- =?us-ascii?Q?DN8oDfXJ6mkY9xJwGVs74b8kLKpncW+PTz0cHWGkSwy2Ii1esIV6HBfsWR/Q?=
- =?us-ascii?Q?CjsU841/QpJja/0lRQQQl3LsvwFMxBG4lljlBbRa6B9B73KlkolSxAMkJ8DS?=
- =?us-ascii?Q?dCCp0N0Hmki7K2bW7PDVrzXJGicoqqSM8YfyTHuys25XUX5dwnpYi5wv3VjV?=
- =?us-ascii?Q?NKGb4JV83N38wCL56071hrMscAxRSf1bITTVUmvg31TsNg4IyEAI/Euhmdk3?=
- =?us-ascii?Q?2jRO2tmyNsaDV7MF3HKEMLE1tgjDX2kd02C1uN76vpa5CT/RrdRoR6jz09yi?=
- =?us-ascii?Q?esb8KNCZy1Hmlha1H1OlrQRBI05QRBQlOcoYW7UTYqlkabyQeVXTivdw6cAf?=
- =?us-ascii?Q?hsosr6vspj2lmoNu21hjHlMrfWmiVTPBi863/A1zIF2xtZd4S76QV/UQWrof?=
- =?us-ascii?Q?AK7ySthZ6ejl3zs+FjCpXh3+vylcLtGnSjNXHBNXPPSjuN8FBYhqPU4Ub9LV?=
- =?us-ascii?Q?rV67xlT5fAjrPzhdL08WgMk4pge2EhoDv3rZF+UC+WwkaVD6RIz5ZeXkQYGo?=
- =?us-ascii?Q?/vbpPn9RSuMAuhcMRG9VOubA33dC5l6OobZqlEPbim3rDXoIEKFF1f94j7Vc?=
- =?us-ascii?Q?pyASoEePCOCfeCib0Ify5Qyt2AwxRyc75hENNdYzzy4lR3RVVTQwXior89zB?=
- =?us-ascii?Q?2tDj9WKtp377RCfQd5kYkFakLNeUOZodKsUAsCDDHCQHlgUoBjc+PnnzuYeS?=
- =?us-ascii?Q?XQlE20tNq3Fs9CHdzD4B3JVhNkSHZDM1zNI8afM7M5LowvROqlQatJtFTdo/?=
- =?us-ascii?Q?sviDI4jCivza7GxDr2902+QMbPtSOX2fkIGPQhoJ+Bg4TXoFvNCqbWMkEdWV?=
- =?us-ascii?Q?PJlkbVyB6VdfPCkUEVZOVR+8o5MOV1rGx5sLJjz71A=3D=3D?=
+	=?us-ascii?Q?UzwHiJ83QtnpTezMHercWsIzm9lVyvTlMsisLfvQuflVYK9yXrRGasXH3BB4?=
+ =?us-ascii?Q?rSUxtNaYvbh1E1VgVZb8tuk63fRMGOtSCly+/kG8bBrQPgT2akjidU41gA5p?=
+ =?us-ascii?Q?RrDObPtVXhLXkZLnfYa6iiy6jfEmwqiuuPDis4xLwYDm/eiN7AXkcw2UXTgG?=
+ =?us-ascii?Q?C9AId+0EkYMOv9wOYvYN1MVaafweLZS3z1ypK88KHoR6Ak+iWR0Lpz/+JrRX?=
+ =?us-ascii?Q?t/qCuHS7UY9Ek1MHT3VdSu6PRUHFgFX0VRGND44kYobZo4NEoTKmJqofPt28?=
+ =?us-ascii?Q?YFcApHDw3Wvf3Vfw9AYdOOsl1Yo8uxmXIa3QWZ2yb0GkGiG6Rv33kiE0Wz79?=
+ =?us-ascii?Q?eEmTfQ95sJr9+unqK+qQoy+7TvYrmIUBJkb/lwhwgax6pBEAA3+ysjxBljlk?=
+ =?us-ascii?Q?+nYTJB9ExM5azWhyvD9lT72YxOqPOW7XeSfVZ8dfmGrwoViKLyAeLJM7o2Yx?=
+ =?us-ascii?Q?dlJvqPzsBLZyeqk1OsJOg+ovjf6PC9msFGx4tPzRP/qMXCEBZgwMaVa9GoL3?=
+ =?us-ascii?Q?STz+hM6nZGRZ/0Xw8DS6eZKQ0uZwkSgo/COMi7BgiBvrEye7fn9LIybK1vBT?=
+ =?us-ascii?Q?um/sGEtHeaNiSmV4GODdF1/lBR3JdgosxfZQXzcpbVXfB11d4pVVxkph3tpZ?=
+ =?us-ascii?Q?3UKLfX+DkO8L3sIefoDm/Z513nQUyB0voTLSH9IPE3SnZLwSnWQ3Qw71Z/D3?=
+ =?us-ascii?Q?dzEeheyqbKcGOYlgMiCZ3zTbuVAw5BvFaFckI1m7ekAjHO51NhGnKi/QgjRr?=
+ =?us-ascii?Q?mEZDyY+QrX4OUKzHKjrDQ7BoBDgx5hxmXDfczFRAonLOQeW6XlpCPRAWsPWF?=
+ =?us-ascii?Q?/9OVzJ+b2Ug2Zq97ki8jX17hjohlfFFRCm9QN8jO8BbJT+9Hyxt1qhTeTHF4?=
+ =?us-ascii?Q?eKzo+IjNGEelSCQ1fO8bnJZ4lq3/aD5DFfb5K/dvN+Ajq/PFH44wWwteiREU?=
+ =?us-ascii?Q?ODODyN5bEYrONmsO2qaA/KmpgSwEqFVopz7WsHJieydPz+6lVBRKmgD2E8Yj?=
+ =?us-ascii?Q?srj4sMH3aYB9/OhKs/zqQ3WXyzjBXwGM/j2q5X0FH3FuP1QLtIVKzgQ9+SCU?=
+ =?us-ascii?Q?U3xIPVEwdYPhCRLAGKwJSx5SZxttWILc6ffiICmTXKwY7JrWDSP8kEG4uUWL?=
+ =?us-ascii?Q?LIveIgVnYBFz1U/MbfWNBzLuFlYsywj90+mIhXMGF7x+Mv/MQHvfi7bznY+T?=
+ =?us-ascii?Q?p00eHFFuHnnZTonkGtWNd7Wd/x5C+h70CDxIDc8xSoS1N+h0znUhdUiBSaAv?=
+ =?us-ascii?Q?f08z6NEopeSTS/o4ursu7Eo8VdsDYQdOK6uinPagWw=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?3Sf4ULYExk9pileFaBKroXpthqbvSEUo8Jm1pK7AiL0m4+q9isqeG5yiiYIc?=
- =?us-ascii?Q?qJXcMYp5vnxYAKi6PCkQcU4CubeCYZX2ZEsU+DkwUNkRFTDUhhEGlt2DjJZJ?=
- =?us-ascii?Q?F3qEvnOP2F1EVw86SyEVODjw5+Ex1iXu/0hViHr5a2VJDZcqtruHlTLBhUUF?=
- =?us-ascii?Q?EgaoOJpQUBTX6mcbrTfmDf5KBhY9wMLcci6TRBd5DWfwnoRGFhcFB5U0jYUn?=
- =?us-ascii?Q?SOlbrIcbtB+RSyCkSKfK0+eYw/WFnpzISOLF3rKt9EdjX0C89fg8EvMKox0E?=
- =?us-ascii?Q?hElbh1wV/3JyMOGQWcPGWuaaAh3TbBGPBcPk/40sCqZSRyYTuJer2k+/dwW+?=
- =?us-ascii?Q?gPmidQrOa1liim+SF2T1dItuZ1P7rQhTmhxDRWjoMoIMTPKePcWARp6rplNP?=
- =?us-ascii?Q?YU/uR3rQzIbIfXEG96gXlK8bz+BefL/eU2Ggk5UtjtwcqxAdR8BwTYFVUS3l?=
- =?us-ascii?Q?1f5BRNNV9XW6CcBI2MsLEtuwH1NjC4xLTkCn1ArwbqwiCHg8rf4qOFx1MBgS?=
- =?us-ascii?Q?ZUDxpv5s2I7LJjP++Opg+IssI5uuPmkd/0C6VcG/3t4hIiy782fdblWx6O1V?=
- =?us-ascii?Q?98b32mRRftkiY1UI6Pg8KhzATidxjHJ9jzETsd1/6bXjpPomsGujKq2FAS76?=
- =?us-ascii?Q?PKzTpUO6R+VeZpNy/mkbmtGETf1cp+f+Wx4gjFb2FZwgr8Gp9UbloClRWbDB?=
- =?us-ascii?Q?cjjkoxmymLsGaU8t8ycp9tjx1hbd5lxJrrQJhOEp+Mfz7nrC5Xr3H4FRbfY4?=
- =?us-ascii?Q?NSTWTUGKUJ5KvMXZ1q9YhWCpdicQfDzdguqW2V6zvKNjoNNpUtt1fs8JQIzR?=
- =?us-ascii?Q?HRvNz2L/NEEM/lMKqB41SxyhtXQ/r+ATWYWhDMHF8naupw+TL04pHXvo8qkP?=
- =?us-ascii?Q?YramcHhgumTtHNxMxIHdkJHotsoGRDjSJEPPLPtgtavFin6pWHgouqxTW1L+?=
- =?us-ascii?Q?aIHNMqmgiCuBRUQ9XDBJooG970JklX+KEw4+7kXPIwPn9826c0LAYyhTvg6c?=
- =?us-ascii?Q?aEyNqgwXdoY9oFhl3iH6eCdYzYOvkXVQi12ZxI9p3gszlehgb0fqOJhr35sT?=
- =?us-ascii?Q?GjTzvC2CP1MNSrFvgwvBV0EzZpIO11OVfKmbN79wY9ogDJFBgjJT3939pySa?=
- =?us-ascii?Q?gvWzDLIzFhGk6Svp3LMJPrruYG9zBxe0KYkeRL/6Mht7VoyI0Ukg/f0oEUYY?=
- =?us-ascii?Q?/sktMj42IFfLACEdOmnWXV9uUP2/vrYouWamQZTwc5zFhbyMw5d0YsFNoGyz?=
- =?us-ascii?Q?FvPnb0nMvPSwm26fdx0GmHTxnLaXjYDP7Lq1JmI6MCKGa8axL5DQUebcx6g6?=
- =?us-ascii?Q?fV+lCd3gUxOT6gOSdKQtnyUxou1NfdSVWKh3DR5MJ+iC/CPcsYSGBgyCObi3?=
- =?us-ascii?Q?lZxhg0cNJY30o1BLb7NkF/VDZ+XnvAjazDaExQCfyGmbQ4PSqdZ3g/3E/SL7?=
- =?us-ascii?Q?hAEWRUKDTMf/+p+ZKPGcDnVBhU2lDfgJCm3kMN3f5NPu2FaSWCQSaw7ZfTLO?=
- =?us-ascii?Q?gw2cj6qQZg24ZtjNKAolLcZv0s5yJS5dN7MWw1tG4UUQpx6N5vohdQJogLGJ?=
- =?us-ascii?Q?1veOzZVNev28bTPH045LTztqTy3VzR1BSf1CI4aK?=
+	=?us-ascii?Q?DLP5iKUS/PKHpdKMB7bf1k82KabEQ0ZS+aJVQp6vFsE3pSByLxeCBTI2MCDn?=
+ =?us-ascii?Q?vf0/BijYRaOlecXtJqhNmUPPnsGpY5S4SWvZlF8eKyT9jOE/pQhOs6LaHGkS?=
+ =?us-ascii?Q?sp9C/c4tCIA/mpyk9qVvqe/c8TkEjQHpM+jzMyjZsvmR3VkxfYJJRl4Blz2I?=
+ =?us-ascii?Q?epOsXB7q2HZ/+vNJ+ZIGNMHX7bUBXBOaLiKwLum4KtK+cb2bIUakFcEoGlF1?=
+ =?us-ascii?Q?2iK1VMoBWQus8hDWMfpc1rVJ5LNNiqSN8kGbxfXmliNQDGxCBcwv0hmA6BcV?=
+ =?us-ascii?Q?KF856EPd7gg0MqsaJ0DvLW4NvMNKIlomHj9WqQV8mR04AgDjPRV8pdPX2OF9?=
+ =?us-ascii?Q?e7YUm30aTvyglyeR3ocN6qWpqCwR7VGmQD4GRFGKzQLHuFYPVKzw40a31w5B?=
+ =?us-ascii?Q?4m9zVNCIw6odmrs82CMnY2MY950sQgp7Hi1zdaSsVzLcltkUg9jrdWKG0SO4?=
+ =?us-ascii?Q?gEGCA8YHjPaXaS+woXO4/fHdb2iTQ6f12lCvK5t4ATQ09NCrC1CkXgWcuCYJ?=
+ =?us-ascii?Q?GU1dlWqLp7QrrS2Cz7xjjxDUvQfikXkEIs0oUtGtrxiLtp4a5nb2NBOMfQUd?=
+ =?us-ascii?Q?rVpzWm+oyJr94ZqO0pSWM0jtXVrpCRg84dsP/riCzMPYIOMEQTeXkAoFmmTK?=
+ =?us-ascii?Q?05hhR4E4ovsqAUWOvb1ehW+N72CHPlmTbc4UaWtWG+v1+c4VMWOyEbNoh2mw?=
+ =?us-ascii?Q?V0HOgomCCBRX8ZyF4Bm0nvYMGxXsEYwCIsuw0D+Ukv2vkCLWTe6iNw36OiUl?=
+ =?us-ascii?Q?mLnRa4r7Ghk8KVH3jZlpvp0al2/QbRianuxs369CeDHfSlCE2uxxFieOlPwE?=
+ =?us-ascii?Q?DLEFfRUaQQ8d0jmYUiXB3jRZba+srrrPDYkUf8b5iPGQu/zzzLXX+9aUvV0Q?=
+ =?us-ascii?Q?Vc2VHb7nfHTo35huaab5V5YOuduNzgpMDjJqgEqf7PFiKED8SQkDllpfeLfw?=
+ =?us-ascii?Q?ekwje2ChXK+RRLYK/Fk1xEKqxYqHqpjMfpIMuasP8XTxwkwAAwCfGqyd+X/6?=
+ =?us-ascii?Q?KTYWRsvmarbsG5jbe4tAJaeAqpMbcwiqJ1ntOBxP+t+FuotK7i3lQWfR4+Bx?=
+ =?us-ascii?Q?iSbCYEJilNY7bPjWQ8TxLHg1tPvpyjo5MwdTIDLYPF71yC25L8afkVfL2O6m?=
+ =?us-ascii?Q?vyxFulvqdFK5Ht+kHA/6GvAkvpv9WbdNkqGBZdLyK2LUw29IJ3zxJr/ahXd6?=
+ =?us-ascii?Q?8P2vtzUYVsIiA3Pld/k8DUTDtfAwPiafe9Pgj/ACu8fcE2vOS9TCQAVgOgAr?=
+ =?us-ascii?Q?nc6/BcM4u/amAdfs6GKhstxLpbWc9nGdl0hQRPsc4iZj7Kz8QM/sQbL9baR2?=
+ =?us-ascii?Q?hPQ2qTICnfjcGswAL0nYTPSf1VLAR8CZA6ZzvOXCSt3s1d069ajx7OeHOsO4?=
+ =?us-ascii?Q?dFFNXS/KiASZAt/KPToVo5lycwKA+87BlLZ5IJ5RWvSSpYj1n5Q/jCWFJcTW?=
+ =?us-ascii?Q?aqqBNt7FinHnhMiZ1cO12AOnd7TP79UVKMYyH1cTmK5cvyhEqjVEG7Mubj+M?=
+ =?us-ascii?Q?PX029pa5S7fDNVk+ERR4gYYtE8p/ZmCDmF9IMAJWxMJcbGMfRim9B3bmG5Ic?=
+ =?us-ascii?Q?V0k128CRaT9xl8M8s/1nYGToK25MYRIX7eigJ0Zp?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	vOzl/9wLhSn4Gt5dGryI6IxjYwKZuyV6EYX9rQ3ohQeoEOz661rKO/1AEgcuIDyfPYWVwRWnRVkQ22E0EnpbK+eKr0gAPXG0q76BkLSk9/eKAPrpsMP/gw6psUjn26QLvyQPIgHwiIAosLVOvb2EAXe2WCDUS6iR9+IsOIlt0GaQnrdQQCgea1NhfF/pq9Rf70hoWeP6Yy/sBNz0uxciXvF5XDMMdZSss09Zkym3lRKKaGv1y6Dk7SkpGCP9kxk5FedQ7RfcPbn3Z86RH/OPlOA8ClsAcxn7YYf9Owv3eE0BmGQ46loJf35THYE9OK4XVvJQA7tMArhKFkHVvj2uBrv5GQRuaR/9lFT7CyRQ1NJSSjQVhE1FfG42ZspkgEz72XWu32U8oCcZZeZmWP1F/7rCu+UuOzhKhHIl2/dFJnDa78W5sE85fCwVXc9drrf9liusqcreoN2siqsTkfEaojsYE7+/0NwCiGb8b5RWEnOGK2wSPdfcLwBOWPcMaPCNezEZ8YIwtlpUbjsSt5AcuRSfNaeVUMofd2altrbrWeadW+Zng3uzToj9ToAlje2BcuIu2gnltddLYFCI9Ry63EB8pj513Hwekz5Sg6aI7mk=
+	fg4LLzf589yAK2/1+VLm7xvsXkfcMe2iKI1yf0aMyd6nhedzNnRU7VCC2pQGD7niJiwN68dUJZs4KAIzsBfRuKd4F63lHlExhVLeLYnBJUmsJ4WzTZMJPfWx+aq6U0zw6KB6INHrg1T2Nez9slhnMJwWIZKULdt/CAaev02JFZuqeoIWjQrh/Ot6cqSkqfI/YRfvxz1YrIyhf2O+jxq2WwjjoOUg2IQExQ6Fs2JxKNX25ffMWSXl7R9jAzVDuM0kblLhMAwT5jwXBJkv3LKb1nux0X2SOkNjPTmd6aWNSvqORTClMIe6kkHW1TGhsIfFOkePIMnLmkXf+Cme2UZ4kYUo54pxKUYlvm8r6kbX7mO5nx7Mlg87ei9V0aUy8XnQ9hgZGJs04cXdYnCQHsQk9vx0r1hvUace5flzU5Vh1G0BsOQ5izMYVaI9TtNgXuZUX289xfFuXYLXaCZ7DU3xQyAczA20d8mBF9/SRtVqUrRtbFCxcR4nb2I/VSq9SQE1VyMst4MHsY7VZk21n49bJ0pfULBSYmsnxIzvwaxsX3IpNpfffI84qLb9+yK9SzI4hcorZp+uOG+jOitnkI7cFRFjZjh/DWgbtAY4byux6go=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a1e0e2d-ce8c-46fb-61ad-08dcedfbd42f
+X-MS-Exchange-CrossTenant-Network-Message-Id: f81ab3f5-c92d-475d-c95b-08dcedfbd51e
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2024 16:01:43.3424
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2024 16:01:44.9121
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YHZtiG4L0OvhE1rP6On9Z4qgOPQ2WvPpu0O+v+5364FD/vIsNiiRzIZupnIva+mmi+ebOOxp6Iaeq0hbOFTZFQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: OCalACxb4UaQ47kyV8AqKkpIeMwDoPj4F1iXiKe04OAtUlRTniE7BM6rrPiKK0cks15VDmMk+2NaTAgd5Q4Rsw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB5673
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
@@ -163,785 +163,446 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malw
  adultscore=0 spamscore=0 mlxscore=0 suspectscore=0 bulkscore=0
  mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2409260000 definitions=main-2410160101
-X-Proofpoint-GUID: KMWHuW_wM1fXWkRzwGiK9Fjuh67fAEoG
-X-Proofpoint-ORIG-GUID: KMWHuW_wM1fXWkRzwGiK9Fjuh67fAEoG
+X-Proofpoint-ORIG-GUID: tBH3VS5243yQotvVbaouTPGgxLQE39bt
+X-Proofpoint-GUID: tBH3VS5243yQotvVbaouTPGgxLQE39bt
 
 From: Eugene Loh <eugene.loh@oracle.com>
 
-As USDT processes come and go, the set of overlying probes for an
-underlying probe will change.  Hence, we will move to a scheme in
-which an underlying probe program will walk all possible clauses
-that any of its possible overlying probes might call, for each
-overlying probe only executing the clauses that apply, using a
-bitmask.
-
-In this patch, we create and update the BPF "usdt_prids" map.  This
-is a hash map, where:
-
-  *)  the key (size: dtp->dt_usdt_pridsmap_ksz) comprises
-        - the PID of the firing process
-        - the PRID of the underlying probe
-
-  *)  the value (size: dtp->dt_usdt_pridsmap_vsz) comprises
-        - the PRID over the overlying USDT probe
-        - a bit mask indicating which clauses should be called
-
-As USDT processes start up, we also add new overlying USDT probes,
-whose name elements must be retrievable by prid for the built-in
-variables probeprov, probemod, probefunc, and probename.  While
-those strings are currently in the BPF "strtab" map, that monolithic
-table cannot safely be updated by the consumer while the kernel might
-be reading the map.  Therefore, we introduce a new variable,
-dtp->dt_nprobes, that records the number of probes at the time of
-dtrace_go().  For a prid < dtp->nprobes, get_bvar() uses the existing
-scheme to retrieve probe name elements.  For newer prids, necessarily
-USDT probes, use the new BPF "usdt_names" map instead.
-
-The number of new USDT probes that can be accommodated at any one time
-is set by the new "nusdtprobes" option.
-
-The size of the bit mask limits the number of clauses, currently 64,
-an underlying probe might call.  This is relatively easy to extend;
-nevertheless, that work is left for a future patch.
-
-We also want to be able to add new underlying probes, even after
-dtrace_go() has finished.  Therefore, make dt_bpf_load_prog() callable
-outside of dt_bpf.c and call dt_construct(), dt_link(),
-dt_bpf_load_prog(), and attach() to add any new underlying probes.
+This version supports only up to 64 clauses for an underlying
+probe, but it can be extended to more clauses.
 
 Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 ---
- bpf/get_bvar.c                   |  72 ++++---
- include/dtrace/options_defines.h |   4 +-
- libdtrace/dt_bpf.c               |  38 +++-
- libdtrace/dt_bpf.h               |   4 +
- libdtrace/dt_bpf_maps.h          |   9 +
- libdtrace/dt_cc.c                |   3 +
- libdtrace/dt_dlibs.c             |   3 +
- libdtrace/dt_impl.h              |   5 +-
- libdtrace/dt_open.c              |   8 +
- libdtrace/dt_options.c           |   1 +
- libdtrace/dt_prov_uprobe.c       | 331 ++++++++++++++++++++++++++++++-
- libdtrace/dt_provider.c          |   1 +
- libdtrace/dt_provider.h          |   1 +
- 13 files changed, 450 insertions(+), 30 deletions(-)
+ libdtrace/dt_prov_uprobe.c            | 166 ++++++++++++++++++-------
+ test/unittest/usdt/tst.nusdtprobes.r  |   5 +
+ test/unittest/usdt/tst.nusdtprobes.sh | 172 ++++++++++++++++++++++++++
+ 3 files changed, 300 insertions(+), 43 deletions(-)
+ create mode 100644 test/unittest/usdt/tst.nusdtprobes.r
+ create mode 100755 test/unittest/usdt/tst.nusdtprobes.sh
 
-diff --git a/bpf/get_bvar.c b/bpf/get_bvar.c
-index 37f29a591..ceb700bf1 100644
---- a/bpf/get_bvar.c
-+++ b/bpf/get_bvar.c
-@@ -22,6 +22,7 @@
- extern struct bpf_map_def cpuinfo;
- extern struct bpf_map_def probes;
- extern struct bpf_map_def state;
-+extern struct bpf_map_def usdt_names;
- 
- extern uint64_t PC;
- extern uint64_t STBSZ;
-@@ -29,6 +30,7 @@ extern uint64_t STKSIZ;
- extern uint64_t BOOTTM;
- extern uint64_t STACK_OFF;
- extern uint64_t STACK_SKIP;
-+extern uint64_t NPROBES;
- 
- #define error(dctx, fault, illval) \
- 	({ \
-@@ -122,32 +124,52 @@ noinline uint64_t dt_get_bvar(const dt_dctx_t *dctx, uint32_t id, uint32_t idx)
- 	case DIF_VAR_PROBEMOD:
- 	case DIF_VAR_PROBEFUNC:
- 	case DIF_VAR_PROBENAME: {
--		uint32_t	key;
--		dt_bpf_probe_t	*pinfo;
--		uint64_t	off;
--
--		key = mst->prid;
--		pinfo = bpf_map_lookup_elem(&probes, &key);
--		if (pinfo == NULL)
--			return (uint64_t)dctx->strtab;
--
--		switch (id) {
--		case DIF_VAR_PROBEPROV:
--			off = pinfo->prv;
--			break;
--		case DIF_VAR_PROBEMOD:
--			off = pinfo->mod;
--			break;
--		case DIF_VAR_PROBEFUNC:
--			off = pinfo->fun;
--			break;
--		case DIF_VAR_PROBENAME:
--			off = pinfo->prb;
-+		uint32_t	key = mst->prid;
-+
-+		if (key < ((uint64_t)&NPROBES)) {
-+			dt_bpf_probe_t	*pinfo;
-+			uint64_t	off;
-+
-+			pinfo = bpf_map_lookup_elem(&probes, &key);
-+			if (pinfo == NULL)
-+				return (uint64_t)dctx->strtab;
-+
-+			switch (id) {
-+			case DIF_VAR_PROBEPROV:
-+				off = pinfo->prv;
-+				break;
-+			case DIF_VAR_PROBEMOD:
-+				off = pinfo->mod;
-+				break;
-+			case DIF_VAR_PROBEFUNC:
-+				off = pinfo->fun;
-+				break;
-+			case DIF_VAR_PROBENAME:
-+				off = pinfo->prb;
-+			}
-+			if (off > (uint64_t)&STBSZ)
-+				return (uint64_t)dctx->strtab;
-+
-+			return (uint64_t)(dctx->strtab + off);
-+		} else {
-+			char *s;
-+
-+			s = bpf_map_lookup_elem(&usdt_names, &key);
-+			if (s == NULL)
-+				return (uint64_t)dctx->strtab;
-+
-+			switch (id) {
-+			case DIF_VAR_PROBENAME:
-+				s += DTRACE_FUNCNAMELEN;
-+			case DIF_VAR_PROBEFUNC:
-+				s += DTRACE_MODNAMELEN;
-+			case DIF_VAR_PROBEMOD:
-+				s += DTRACE_PROVNAMELEN;
-+			case DIF_VAR_PROBEPROV:
-+			}
-+
-+			return (uint64_t)s;
- 		}
--		if (off > (uint64_t)&STBSZ)
--			return (uint64_t)dctx->strtab;
--
--		return (uint64_t)(dctx->strtab + off);
- 	}
- 	case DIF_VAR_PID: {
- 		uint64_t	val = bpf_get_current_pid_tgid();
-diff --git a/include/dtrace/options_defines.h b/include/dtrace/options_defines.h
-index 80246be8c..7a49b89f2 100644
---- a/include/dtrace/options_defines.h
-+++ b/include/dtrace/options_defines.h
-@@ -63,7 +63,9 @@
- #define	DTRACEOPT_SCRATCHSIZE	33	/* max scratch size permitted */
- #define	DTRACEOPT_LOCKMEM	34	/* max locked memory */
- #define	DTRACEOPT_PRINTSIZE	35	/* max # bytes printed by print() action */
--#define	DTRACEOPT_MAX		36	/* number of options */
-+#define	DTRACEOPT_NUSDTPROBES	36	/* max number of (added) USDT probes */
-+
-+#define	DTRACEOPT_MAX		37	/* number of options */
- 
- #define	DTRACEOPT_UNSET		(dtrace_optval_t)-2	/* unset option */
- 
-diff --git a/libdtrace/dt_bpf.c b/libdtrace/dt_bpf.c
-index 7a36b6187..1024867c9 100644
---- a/libdtrace/dt_bpf.c
-+++ b/libdtrace/dt_bpf.c
-@@ -940,6 +940,41 @@ gmap_create_probes(dtrace_hdl_t *dtp)
- 	return 0;
- }
- 
-+/*
-+ * Create the 'usdt_names' and 'usdt_prids' BPF maps.
-+ *
-+ * 'usdt_names':  a global hash map indexed by PRID and whose value has probe
-+ *                name elements at fixed offsets within the value.  This map
-+ *                is used for get_bvar() to look up probe name elements for
-+ *                any prid that was created after dtrace_go().
-+ *
-+ * 'usdt_prids':  a global hash map indexed by (pid, underlying probe ID).
-+ *                The value is a probe ID for the overlying USDT probe and
-+ *                a bit mask indicating which clauses to execute for this pid.
-+ *
-+ *                For a given (pid, PRID) key, there can be at most one
-+ *                overlying USDT probe.
-+ */
-+static int
-+gmap_create_usdt(dtrace_hdl_t *dtp)
-+{
-+	size_t nusdtprobes = dtp->dt_options[DTRACEOPT_NUSDTPROBES];
-+
-+	dtp->dt_usdt_namesmap_fd = create_gmap(dtp, "usdt_names", BPF_MAP_TYPE_HASH,
-+	    sizeof(dtrace_id_t), DTRACE_FULLNAMELEN, nusdtprobes);
-+	if (dtp->dt_usdt_namesmap_fd == -1)
-+		return -1;
-+
-+	dtp->dt_usdt_pridsmap_fd = create_gmap(dtp, "usdt_prids", BPF_MAP_TYPE_HASH,
-+	    sizeof(usdt_prids_map_key_t), sizeof(usdt_prids_map_val_t), nusdtprobes);
-+	if (dtp->dt_usdt_pridsmap_fd == -1)
-+		return -1;
-+
-+	dtp->dt_nprobes = dtp->dt_probe_id;
-+
-+	return 0;
-+}
-+
- /*
-  * Create the 'gvars' BPF map.
-  *
-@@ -1045,6 +1080,7 @@ dt_bpf_gmap_create(dtrace_hdl_t *dtp)
- 	CREATE_MAP(scratchmem)
- 	CREATE_MAP(strtab)
- 	CREATE_MAP(probes)
-+	CREATE_MAP(usdt)
- 	CREATE_MAP(gvars)
- 	CREATE_MAP(lvars)
- 	CREATE_MAP(dvars)
-@@ -1093,7 +1129,7 @@ dt_bpf_reloc_prog(dtrace_hdl_t *dtp, const dtrace_difo_t *dp)
-  *
-  * Note that DTrace generates BPF programs that are licensed under the GPL.
-  */
--static int
-+int
- dt_bpf_load_prog(dtrace_hdl_t *dtp, const dt_probe_t *prp,
- 		 const dtrace_difo_t *dp, uint_t cflags)
- {
-diff --git a/libdtrace/dt_bpf.h b/libdtrace/dt_bpf.h
-index 5716d2320..6518de663 100644
---- a/libdtrace/dt_bpf.h
-+++ b/libdtrace/dt_bpf.h
-@@ -14,6 +14,7 @@
- #include <dtrace/difo.h>
- #include <dt_btf.h>
- #include <dt_impl.h>
-+#include <dt_probe.h>
- 
- struct dtrace_hdl;
- 
-@@ -54,6 +55,7 @@ extern "C" {
- #define DT_CONST_ZERO_OFF		20
- #define DT_CONST_STACK_OFF		21
- #define DT_CONST_STACK_SKIP		22
-+#define DT_CONST_NPROBES		23
- 
- #define DT_BPF_LOG_SIZE_DEFAULT	(UINT32_MAX >> 8)
- #define DT_BPF_LOG_SIZE_SMALL	4096
-@@ -88,6 +90,8 @@ extern int dt_bpf_prog_load(struct dtrace_hdl *, const struct dt_probe *prp,
- 			    size_t sz);
- extern int dt_bpf_raw_tracepoint_open(const void *tp, int fd);
- extern int dt_bpf_make_progs(struct dtrace_hdl *, uint_t);
-+extern int dt_bpf_load_prog(dtrace_hdl_t *dtp, const dt_probe_t *prp,
-+			    const dtrace_difo_t *dp, uint_t cflags);
- extern int dt_bpf_load_progs(struct dtrace_hdl *, uint_t);
- extern void dt_bpf_init(struct dtrace_hdl *dtp);
- 
-diff --git a/libdtrace/dt_bpf_maps.h b/libdtrace/dt_bpf_maps.h
-index 0dd36b16c..3a42ee5ad 100644
---- a/libdtrace/dt_bpf_maps.h
-+++ b/libdtrace/dt_bpf_maps.h
-@@ -42,6 +42,15 @@ struct dt_bpf_cpuinfo {
- 	uint64_t	lockstat_stime;	/* lockstat: spin time */
- };
- 
-+typedef struct usdt_prids_map_key {
-+	int		pid;		/* should be pid_t, unistd.h? */
-+	uint32_t	uprid;		/* should be dtrace_id_t, sys/dtrace_types.h */
-+} usdt_prids_map_key_t;
-+typedef struct usdt_prids_map_val {
-+	uint32_t	prid;		/* should be dtrace_id_t, sys/dtrace_types.h */
-+	long long	mask;
-+} usdt_prids_map_val_t;
-+
- #ifdef  __cplusplus
- }
- #endif
-diff --git a/libdtrace/dt_cc.c b/libdtrace/dt_cc.c
-index 4202771a9..fa16f8e5f 100644
---- a/libdtrace/dt_cc.c
-+++ b/libdtrace/dt_cc.c
-@@ -1064,6 +1064,9 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
- 				nrp->dofr_data = sizeof(uint64_t)
- 				    * dtp->dt_options[DTRACEOPT_MAXFRAMES];
- 				continue;
-+			case DT_CONST_NPROBES:
-+				nrp->dofr_data = dtp->dt_nprobes;
-+				continue;
- 			case DT_CONST_BOOTTM:
- 				if (boottime == 0 && get_boottime())
- 					return -1;
-diff --git a/libdtrace/dt_dlibs.c b/libdtrace/dt_dlibs.c
-index ba4d4abef..07d22afdc 100644
---- a/libdtrace/dt_dlibs.c
-+++ b/libdtrace/dt_dlibs.c
-@@ -71,6 +71,8 @@ static const dt_ident_t		dt_bpf_symbols[] = {
- 	DT_BPF_SYMBOL(state, DT_IDENT_PTR),
- 	DT_BPF_SYMBOL(strtab, DT_IDENT_PTR),
- 	DT_BPF_SYMBOL(tuples, DT_IDENT_PTR),
-+	DT_BPF_SYMBOL(usdt_names, DT_IDENT_PTR),
-+	DT_BPF_SYMBOL(usdt_prids, DT_IDENT_PTR),
- 
- 	/* BPF internal identifiers */
- 	DT_BPF_SYMBOL_ID(PRID, DT_IDENT_SCALAR, DT_CONST_PRID),
-@@ -95,6 +97,7 @@ static const dt_ident_t		dt_bpf_symbols[] = {
- 	DT_BPF_SYMBOL_ID(ZERO_OFF, DT_IDENT_SCALAR, DT_CONST_ZERO_OFF),
- 	DT_BPF_SYMBOL_ID(STACK_OFF, DT_IDENT_SCALAR, DT_CONST_STACK_OFF),
- 	DT_BPF_SYMBOL_ID(STACK_SKIP, DT_IDENT_SCALAR, DT_CONST_STACK_SKIP),
-+	DT_BPF_SYMBOL_ID(NPROBES, DT_IDENT_SCALAR, DT_CONST_NPROBES),
- 
- 	/* End-of-list marker */
- 	{ NULL, }
-diff --git a/libdtrace/dt_impl.h b/libdtrace/dt_impl.h
-index 340dc1960..36afa4c68 100644
---- a/libdtrace/dt_impl.h
-+++ b/libdtrace/dt_impl.h
-@@ -319,7 +319,8 @@ struct dtrace_hdl {
- 	 */
- 	struct dt_probe **dt_probes; /* array of probes */
- 	size_t dt_probes_sz;	/* size of array of probes */
--	uint32_t dt_probe_id;	/* next available probe id */
-+	dtrace_id_t dt_probe_id; /* next available probe id */
-+	dtrace_id_t dt_nprobes;	/* number of probes, at dtrace_go() */
- 
- 	struct dt_probe *dt_error; /* ERROR probe */
- 
-@@ -389,6 +390,8 @@ struct dtrace_hdl {
- 	int dt_aggmap_fd;	/* file descriptor for the 'aggs' BPF map */
- 	int dt_genmap_fd;	/* file descriptor for the 'agggen' BPF map */
- 	int dt_cpumap_fd;	/* file descriptor for the 'cpuinfo' BPF map */
-+	int dt_usdt_pridsmap_fd; /* file descriptor for the 'usdt_prids' BPF map */
-+	int dt_usdt_namesmap_fd; /* file descriptor for the 'usdt_names' BPF map */
- 	dtrace_handle_err_f *dt_errhdlr; /* error handler, if any */
- 	void *dt_errarg;	/* error handler argument */
- 	dtrace_handle_drop_f *dt_drophdlr; /* drop handler, if any */
-diff --git a/libdtrace/dt_open.c b/libdtrace/dt_open.c
-index 1f586fc4f..e1972aa82 100644
---- a/libdtrace/dt_open.c
-+++ b/libdtrace/dt_open.c
-@@ -797,6 +797,14 @@ dt_vopen(int version, int flags, int *errp,
- 	dtp->dt_options[DTRACEOPT_SWITCHRATE] = 0;
- 	dtp->dt_options[DTRACEOPT_AGGRATE] = 0;
- 
-+	/*
-+	 * Set the default maximum number of (added) USDT probes.
-+	 */
-+	dtp->dt_options[DTRACEOPT_NUSDTPROBES] = 256;
-+
-+	/*
-+	 * Pre-processor.
-+	 */
- 	dtp->dt_cpp_argv[0] = (char *)strbasename(dtp->dt_cpp_path);
- 
- 	snprintf(isadef, sizeof(isadef), "-D__SUNW_D_%u",
-diff --git a/libdtrace/dt_options.c b/libdtrace/dt_options.c
-index ec53358b3..377b396b0 100644
---- a/libdtrace/dt_options.c
-+++ b/libdtrace/dt_options.c
-@@ -1137,6 +1137,7 @@ static const dt_option_t _dtrace_rtoptions[] = {
- 	{ "jstackstrsize", dt_opt_size, DTRACEOPT_JSTACKSTRSIZE },
- 	{ "lockmem", dt_opt_lockmem, DTRACEOPT_LOCKMEM },
- 	{ "maxframes", dt_opt_runtime, DTRACEOPT_MAXFRAMES },
-+	{ "nusdtprobes", dt_opt_runtime, DTRACEOPT_NUSDTPROBES },
- 	{ "nspec", dt_opt_runtime, DTRACEOPT_NSPEC },
- 	{ "pcapsize", dt_opt_pcapsize, DTRACEOPT_PCAPSIZE },
- 	{ "scratchsize", dt_opt_scratchsize, DTRACEOPT_SCRATCHSIZE },
 diff --git a/libdtrace/dt_prov_uprobe.c b/libdtrace/dt_prov_uprobe.c
-index bb172ace2..ceb331719 100644
+index b010d8687..268708179 100644
 --- a/libdtrace/dt_prov_uprobe.c
 +++ b/libdtrace/dt_prov_uprobe.c
-@@ -39,6 +39,7 @@
- #include "dt_probe.h"
- #include "dt_pid.h"
- #include "dt_string.h"
-+#include "port.h"
+@@ -739,11 +739,16 @@ static void enable_usdt(dtrace_hdl_t *dtp, dt_probe_t *prp)
+  */
+ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+ {
++	dtrace_hdl_t		*dtp = pcb->pcb_hdl;
+ 	dt_irlist_t		*dlp = &pcb->pcb_ir;
+ 	const dt_probe_t	*uprp = pcb->pcb_probe;
+ 	const dt_uprobe_t	*upp = uprp->prv_data;
+ 	const list_probe_t	*pop;
+ 	uint_t			lbl_exit = pcb->pcb_exitlbl;
++	dt_ident_t		*usdt_prids = dt_dlib_get_map(dtp, "usdt_prids");
++	int			n;
++
++	assert(usdt_prids != NULL);
  
- /* Provider name for the underlying probes. */
- static const char	prvname[] = "uprobe";
-@@ -63,6 +64,11 @@ typedef struct list_probe {
- 	dt_probe_t	*probe;
- } list_probe_t;
+ 	dt_cg_tramp_prologue(pcb);                             // call this only once... is PRID set/relocated correctly?
  
-+typedef struct list_key {
-+	dt_list_t		list;
-+	usdt_prids_map_key_t	key;
-+} list_key_t;
-+
- static const dtrace_pattr_t	pattr = {
- { DTRACE_STABILITY_EVOLVING, DTRACE_STABILITY_EVOLVING, DTRACE_CLASS_ISA },
- { DTRACE_STABILITY_PRIVATE, DTRACE_STABILITY_PRIVATE, DTRACE_CLASS_UNKNOWN },
-@@ -82,8 +88,15 @@ static int populate(dtrace_hdl_t *dtp)
- 	    dt_provider_create(dtp, dt_uprobe_is_enabled.name,
- 			       &dt_uprobe_is_enabled, &pattr, NULL) == NULL ||
- 	    dt_provider_create(dtp, dt_pid.name, &dt_pid, &pattr,
--			       NULL) == NULL ||
--	    dt_provider_create(dtp, dt_usdt.name, &dt_usdt, &pattr,
-+			       NULL) == NULL)
-+		return -1;			/* errno already set */
-+
-+	return 0;
-+}
-+
-+static int populate_usdt(dtrace_hdl_t *dtp)
-+{
-+	if (dt_provider_create(dtp, dt_usdt.name, &dt_usdt, &pattr,
- 			       NULL) == NULL)
- 		return -1;			/* errno already set */
+@@ -755,14 +760,17 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+ 	dt_cg_tramp_copy_regs(pcb);                            // call this only once for all clauses?
  
-@@ -123,6 +136,316 @@ static void probe_destroy(dtrace_hdl_t *dtp, void *datap)
- 	free_probe_list(dtp, datap);
- }
+ 	/*
+-	 * Loop over overlying probes, calling clauses for those that match:
++	 * pid probes.
++	 *
++	 * Loop over overlying pid probes, calling clauses for those that match:
+ 	 *
+-	 *	for overlying probes (that match except possibly for pid)
++	 *	for overlying pid probes (that match except possibly for pid)
+ 	 *		if (pid matches) {
+ 	 *			dctx->mst->prid = PRID1;
+ 	 *			< any number of clause calls >
+ 	 *		}
+ 	 */
++
+ 	for (pop = dt_list_next(&upp->probes); pop != NULL;
+ 	     pop = dt_list_next(pop)) {
+ 		const dt_probe_t	*prp = pop->probe;
+@@ -770,6 +778,9 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+ 		pid_t			pid;
+ 		dt_ident_t		*idp;
  
-+/*
-+ * Disable an overlying USDT probe.
-+ */
-+static void probe_disable(dtrace_hdl_t *dtp, dt_probe_t *prp)
-+{
-+	list_probe_t	*pup;
-+
-+	/* Remove from enablings. */
-+	dt_list_delete(&dtp->dt_enablings, prp);
-+
-+	/* Make it evident from the probe that it is not in enablings. */
-+	((dt_list_t *)prp)->dl_prev = NULL;
-+	((dt_list_t *)prp)->dl_next = NULL;
-+
-+	/* Free up its list of underlying probes. */
-+	while ((pup = dt_list_next(prp->prv_data)) != NULL) {
-+		dt_list_delete(prp->prv_data, pup);
-+		dt_free(dtp, pup);
-+	}
-+	dt_free(dtp, prp->prv_data);
-+	prp->prv_data = NULL;
-+}
-+
-+/*
-+ * Clean up stale pids from among the USDT probes.
-+ */
-+static int
-+clean_usdt_probes(dtrace_hdl_t *dtp)
-+{
-+	int			fdprids = dtp->dt_usdt_pridsmap_fd;
-+	int			fdnames = dtp->dt_usdt_namesmap_fd;
-+	usdt_prids_map_key_t	key, nxt;
-+	usdt_prids_map_val_t	val;
-+	list_key_t		keys_to_delete, *elem, *elem_next;
-+	dt_probe_t		*prp, *prp_next;
-+
-+	/* Initialize list of usdt_prids keys to delete. */
-+	memset(&keys_to_delete, 0, sizeof(keys_to_delete));
-+
-+	/* Initialize usdt_prids key to a pid/uprid that cannot be found. */
-+	key.pid = 0;
-+	key.uprid = 0;
-+
-+	/* Loop over usdt_prids entries. */
-+	while (dt_bpf_map_next_key(fdprids, &key, &nxt) == 0) {
-+		memcpy(&key, &nxt, sizeof(usdt_prids_map_key_t));
-+
-+		if (dt_bpf_map_lookup(fdprids, &key, &val) == -1)
-+			return dt_set_errno(dtp, EDT_BPF);
-+
-+		/* Check if the process is still running. */
-+		if (!Pexists(key.pid)) {
-+			/*
-+			 * Delete the usdt_names entry.
-+			 *
-+			 * Note that a PRID might correspond to multiple
-+			 * sites.  So, as we loop over usdt_prids entries,
-+			 * we might delete the same usdt_names entry
-+			 * multiple times.  That's okay.
-+			 */
-+			dt_bpf_map_delete(fdnames, &val.prid);
-+
-+			/*
-+			 * Delete the usdt_prids entry.
-+			 *
-+			 * Note that we do not want to disrupt the iterator.
-+			 * So we just add the key to a list and will walk
-+			 * the list later for actual deletion.
-+			 */
-+			elem = calloc(1, sizeof(list_key_t));
-+			elem->key.pid = key.pid;
-+			elem->key.uprid = key.uprid;
-+			dt_list_append((dt_list_t *)&keys_to_delete, elem);
-+
-+			continue;
-+		}
-+
-+		/*
-+		 * FIXME.  There might be another case, where the process
-+		 * is still running, but some of its USDT probes are gone?
-+		 * So maybe we have to check for the existence of one of
-+		 *     dtrace_probedesc_t *pdp = dtp->dt_probes[val.prid]->desc;
-+		 *     char *prv = ...pdp->prv minus the numerial part;
-+		 *
-+		 *     /run/dtrace/probes/$pid/$pdp->prv/$pdp->mod/$pdp->fun/$pdp->prb
-+		 *     /run/dtrace/stash/dof-pid/$pid/0/parsed/$prv:$pdp->mod:$pdp->fun:$pdp->prb
-+		 *     /run/dtrace/stash/dof-pid/$pid/.../parsed/$prv:$pdp->mod:$pdp->fun:$pdp->prb
-+		 */
-+	}
-+
-+	/*
-+	 * Delete the usdt_prids keys in our list.
-+	 */
-+	for (elem = dt_list_next(&keys_to_delete); elem != NULL; elem = elem_next) {
-+		elem_next = dt_list_next(elem);
-+
-+		dt_bpf_map_delete(fdprids, &elem->key);
-+		free(elem);
-+	}
-+
-+	/* Clean up enablings. */
-+	for (prp = dt_list_next(&dtp->dt_enablings); prp != NULL; prp = prp_next) {
-+		pid_t		pid;
-+
-+		prp_next = dt_list_next(prp);
-+
-+		/* Make sure it is an overlying USDT probe. */
-+		if (prp->prov->impl != &dt_usdt)
++		if (prp->prov->impl != &dt_pid)
 +			continue;
 +
-+		/* FIXME passing in NULL pcb and dpr wreaks havoc on error reporting? */
-+		/*
-+		 * Nick writes:
-+		 * This is a general problem with running compiler-adjacent things outside
-+		 * compile time. I think we should adjust dt_pid_error() so that it works
-+		 * with NULL pcb and dpr at once, probably by using the code path for
-+		 * pcb != NULL and augmenting it so that it passes in NULL for the region and
-+		 * filename args and 0 for the lineno if pcb is NULL. (dt_set_errmsg can
-+		 * already handle this case.)
-+		 */
-+		pid = dt_pid_get_pid(prp->desc, dtp, NULL, NULL);
+ 		pid = dt_pid_get_pid(prp->desc, pcb->pcb_hdl, pcb, NULL);
+ 		assert(pid != -1);
+ 
+@@ -801,6 +812,93 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+ 			   BPF_NOP());
+ 	}
+ 
++	/*
++	 * USDT
++	 */
 +
-+		if (Pexists(pid))
-+			continue;
++	/* In some cases, we know there are no USDT probes. */  // FIXME: add more checks
++	if (upp->flags & PP_IS_RETURN)
++		goto out;
 +
-+		probe_disable(dtp, prp);
-+	}
-+
-+	return 0;
-+}
-+
-+static int add_probe_uprobe(dtrace_hdl_t *dtp, dt_probe_t *prp)
-+{
-+	dtrace_difo_t   *dp;
-+	int		cflags, fd, rc = -1;
-+	dtrace_optval_t	dest_ok = DTRACEOPT_UNSET;
++	dt_cg_tramp_copy_args_from_regs(pcb, 0);
 +
 +	/*
-+	 * Strictly speaking, we want the value passed in to
-+	 * dtrace_go().  In practice, its flags pertain to
-+	 * compilation and disassembly, which at this stage
-+	 * no longer interest us.
++	 * Retrieve the PID of the process that caused the probe to fire.
 +	 */
-+	cflags = 0;
++	emit(dlp,  BPF_CALL_HELPER(BPF_FUNC_get_current_pid_tgid));
++	emit(dlp,  BPF_ALU64_IMM(BPF_RSH, BPF_REG_0, 32));
 +
-+	/* Check if the probe is already set up. */
-+	if (prp->difo)
-+		return 0;
-+
-+	/* Make program. */
-+	dp = dt_construct(dtp, prp, cflags, NULL);
-+	if (dp == NULL)
-+		return 0;        // FIXME in dt_bpf_make_progs() this is a fatal error; should we do the same here?
-+	prp->difo = dp;
-+
-+	/* Load program. */
-+	if (dt_link(dtp, prp, dp, NULL) == -1)
-+		return 0;        // FIXME in dt_bpf_load_progs() this is a fatal error; should we do the same here?
-+
-+	dtrace_getopt(dtp, "destructive", &dest_ok);
-+	if (dp->dtdo_flags & DIFOFLG_DESTRUCTIVE &&
-+	    dest_ok == DTRACEOPT_UNSET)
-+		return dt_set_errno(dtp, EDT_DESTRUCTIVE);
-+
-+	fd = dt_bpf_load_prog(dtp, prp, dp, cflags);
-+	if (fd == -1)
-+		return 0;        // FIXME in dt_bpf_load_progs() this is a fatal error; should we do the same here?
-+
-+	if (prp->prov->impl->attach)
-+		rc = prp->prov->impl->attach(dtp, prp, fd);
-+
-+	if (rc == -ENOTSUPP) {
-+		char    *s;
-+
-+		close(fd);
-+		if (asprintf(&s, "Failed to enable %s:%s:%s:%s",
-+			      prp->desc->prv, prp->desc->mod,
-+			      prp->desc->fun, prp->desc->prb) == -1)
-+			return dt_set_errno(dtp, EDT_ENABLING_ERR);
-+		dt_handle_rawerr(dtp, s);
-+		free(s);
-+	} else if (rc < 0) {
-+		close(fd);
-+		return dt_set_errno(dtp, EDT_ENABLING_ERR);
-+	}
-+
-+	return 0;
-+}
-+
-+static int add_probe_usdt(dtrace_hdl_t *dtp, dt_probe_t *prp)
-+{
-+	char				probnam[DTRACE_FULLNAMELEN], *p;
-+	const dtrace_probedesc_t	*pdp = prp->desc;
-+	int				fd = dtp->dt_usdt_namesmap_fd;
-+	pid_t				pid;
-+	list_probe_t			*pup;
-+
-+	/* Add probe name elements to usdt_names map. */
-+	p = probnam;
-+	memset(p, 0, sizeof(probnam));
-+	snprintf(p, DTRACE_PROVNAMELEN, "%s", pdp->prv);
-+	p += DTRACE_PROVNAMELEN;
-+	snprintf(p, DTRACE_MODNAMELEN, "%s", pdp->mod);
-+	p += DTRACE_MODNAMELEN;
-+	snprintf(p, DTRACE_FUNCNAMELEN, "%s", pdp->fun);
-+	p += DTRACE_FUNCNAMELEN;
-+	snprintf(p, DTRACE_NAMELEN, "%s", pdp->prb);
-+	if (dt_bpf_map_update(fd, &pdp->id, probnam) == -1)
-+		assert(0);   // FIXME do something here
-+
-+	/* FIXME passing in NULL pcb and dpr wreaks havoc on error reporting? */
 +	/*
-+	 * Nick writes:
-+	 * This is a general problem with running compiler-adjacent things outside
-+	 * compile time. I think we should adjust dt_pid_error() so that it works
-+	 * with NULL pcb and dpr at once, probably by using the code path for
-+	 * pcb != NULL and augmenting it so that it passes in NULL for the region and
-+	 * filename args and 0 for the lineno if pcb is NULL. (dt_set_errmsg can
-+	 * already handle this case.)
++	 * Look up in the BPF 'usdt_prids' map.  Space for the look-up key
++	 * will be used on the BPF stack:
++	 *
++	 *     offset                                       value
++	 *
++	 *     -sizeof(usdt_prids_map_key_t)                pid (in %r0)
++	 *
++	 *     -sizeof(usdt_prids_map_key_t) + sizeof(pid_t)
++	 *     ==
++	 *     -sizeof(dtrace_id_t)                         underlying-probe prid
 +	 */
-+	pid = dt_pid_get_pid(prp->desc, dtp, NULL, NULL);
++	emit(dlp,  BPF_STORE(BPF_W, BPF_REG_9, (int)(-sizeof(usdt_prids_map_key_t)), BPF_REG_0));
++	emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_9, (int)(-sizeof(dtrace_id_t)), uprp->desc->id));
++	dt_cg_xsetx(dlp, usdt_prids, DT_LBL_NONE, BPF_REG_1, usdt_prids->di_id);
++	emit(dlp,  BPF_MOV_REG(BPF_REG_2, BPF_REG_9));
++	emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, (int)(-sizeof(usdt_prids_map_key_t))));
++	emit(dlp,  BPF_CALL_HELPER(BPF_FUNC_map_lookup_elem));
++	emit(dlp,  BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_0, 0, lbl_exit));
 +
-+	/* Even though we just enabled this, check it's still live. */
-+	if (!Pexists(pid)) {
-+		probe_disable(dtp, prp);
-+		dt_bpf_map_delete(fd, &pdp->id);
++	/* Read the PRID from the table lookup and store to mst->prid. */
++	emit(dlp,  BPF_LOAD(BPF_W, BPF_REG_1, BPF_REG_0, 0));
++	emit(dlp,  BPF_STORE(BPF_W, BPF_REG_7, DMST_PRID, BPF_REG_1));
 +
-+		return 0;
-+	}
++	/* Read the bit mask from the table lookup in %r6. */    // FIXME someday, extend this past 64 bits
++	emit(dlp,  BPF_LOAD(BPF_DW, BPF_REG_6, BPF_REG_0, offsetof(usdt_prids_map_val_t, mask)));
 +
-+	/* Add prid and bit mask to usdt_prids map. */
-+	for (pup = prp->prv_data; pup != NULL; pup = dt_list_next(pup)) {
-+		dt_probe_t		*uprp = pup->probe;
-+		long long		mask = 0, bit = 1;
-+		usdt_prids_map_key_t	key;
-+		usdt_prids_map_val_t	val;
-+		dt_uprobe_t		*upp = uprp->prv_data;
-+
-+		/*
-+		 * For is-enabled probes, the bit mask does not matter.
-+		 * It is possible that we have this underlying probe due to
-+		 * an overlying pid-offset probe and that we will not know
-+		 * until later, when some new pid is created, that we also
-+		 * have an overlying USDT is-enabled probe, but missing this
-+		 * optimization opportunity is okay.
-+		 */
-+		if (uprp->prov->impl == &dt_uprobe && !(upp->flags & PP_IS_ENABLED)) {
-+			int n;
-+
-+			for (n = 0; n < dtp->dt_stmt_nextid; n++) {
-+				dtrace_stmtdesc_t *stp;
-+
-+				stp = dtp->dt_stmts[n];
-+				if (stp == NULL)
-+					continue;
-+
-+				if (dt_gmatch(prp->desc->prv, stp->dtsd_ecbdesc->dted_probe.prv) &&
-+				    dt_gmatch(prp->desc->mod, stp->dtsd_ecbdesc->dted_probe.mod) &&
-+				    dt_gmatch(prp->desc->fun, stp->dtsd_ecbdesc->dted_probe.fun) &&
-+				    dt_gmatch(prp->desc->prb, stp->dtsd_ecbdesc->dted_probe.prb))
-+					mask |= bit;
-+
-+				bit <<= 1;
-+			}
-+		}
-+
-+		key.pid = pid;
-+		key.uprid = uprp->desc->id;
-+
-+		val.prid = prp->desc->id;
-+		val.mask = mask;
-+
-+		// FIXME Check return value, but how should errors be handled?
-+		dt_bpf_map_update(dtp->dt_usdt_pridsmap_fd, &key, &val);
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * Discover new probes.
-+ */
-+static int discover(dtrace_hdl_t *dtp)
-+{
-+	int		i;
-+	dt_pcb_t	pcb;
-+
-+	/* Clean up stale pids from among the USDT probes. */
-+	clean_usdt_probes(dtp);
-+
-+	/* Discover new probes, placing them in dt_probes[]. */
 +	/*
-+	 * pcb is only used inside of dt_pid_error() to get:
-+	 *     pcb->pcb_region
-+	 *     pcb->pcb_filetag
-+	 *     pcb->pcb_fileptr
-+	 * While pcb cannot be NULL, these other things apparently can be.
++	 * Hold the bit mask in %r6 between clause calls.
 +	 */
-+	memset(&pcb, 0, sizeof(dt_pcb_t));
-+	for (i = 0; i < dtp->dt_stmt_nextid; i++) {
++	for (n = 0; n < dtp->dt_stmt_nextid; n++) {
 +		dtrace_stmtdesc_t *stp;
++		dt_ident_t	*idp;
++		uint_t		lbl_next = dt_irlist_label(dlp);
 +
-+		stp = dtp->dt_stmts[i];
++		stp = dtp->dt_stmts[n];
 +		if (stp == NULL)
 +			continue;
-+		dt_pid_create_usdt_probes(&stp->dtsd_ecbdesc->dted_probe, dtp, &pcb);
++
++		idp = stp->dtsd_clause;
++
++		/* If the lowest %r6 bit is 0, skip over this clause. */
++		emit(dlp,  BPF_MOV_REG(BPF_REG_1, BPF_REG_6));
++		emit(dlp,  BPF_ALU64_IMM(BPF_AND, BPF_REG_1, 1));
++		emit(dlp,  BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_1, 0, lbl_next));
++
++		/*
++		 *      if (*dctx.act != act)   // ldw %r0, [%r9 + DCTX_ACT]
++		 *	      goto exit;      // ldw %r0, [%r0 + 0]
++		 *			      // jne %r0, act, lbl_exit
++		 */
++		emit(dlp,  BPF_LOAD(BPF_DW, BPF_REG_0, BPF_REG_9, DCTX_ACT));
++		emit(dlp,  BPF_LOAD(BPF_W, BPF_REG_0, BPF_REG_0, 0));
++		emit(dlp,  BPF_BRANCH_IMM(BPF_JNE, BPF_REG_0, DT_ACTIVITY_ACTIVE, lbl_exit));
++
++		/* dctx.mst->scratch_top = 8 */
++		emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_7, DMST_SCRATCH_TOP, 8));
++
++		/* Call clause. */
++		emit(dlp,  BPF_MOV_REG(BPF_REG_1, BPF_REG_9));
++		emite(dlp, BPF_CALL_FUNC(idp->di_id), idp);
++
++		/* Finished this clause. */
++		emitl(dlp, lbl_next,
++			   BPF_NOP());
++
++		/* Right-shift %r6. */
++		emit(dlp,  BPF_ALU64_IMM(BPF_RSH, BPF_REG_6, 1));
++	}
++
++out:
+ 	dt_cg_tramp_return(pcb);
+ 
+ 	return 0;
+@@ -846,10 +944,9 @@ static int trampoline_is_enabled(dt_pcb_t *pcb, uint_t exitlbl)
+ {
+ 	dt_irlist_t		*dlp = &pcb->pcb_ir;
+ 	const dt_probe_t	*uprp = pcb->pcb_probe;
+-	const dt_uprobe_t	*upp = uprp->prv_data;
+-	const list_probe_t	*pop;
+-	uint_t			lbl_assign = dt_irlist_label(dlp);
+-	uint_t			lbl_exit = pcb->pcb_exitlbl;
++	dt_ident_t		*usdt_prids = dt_dlib_get_map(pcb->pcb_hdl, "usdt_prids");
++
++	assert(usdt_prids != NULL);
+ 
+ 	dt_cg_tramp_prologue(pcb);
+ 
+@@ -858,7 +955,6 @@ static int trampoline_is_enabled(dt_pcb_t *pcb, uint_t exitlbl)
+ 	 *				//     (%r7 = dctx->mst)
+ 	 *				//     (%r8 = dctx->ctx)
+ 	 */
+-
+ 	dt_cg_tramp_copy_regs(pcb);
+ 
+ 	/*
+@@ -876,46 +972,30 @@ static int trampoline_is_enabled(dt_pcb_t *pcb, uint_t exitlbl)
+ 	emit(dlp,  BPF_ALU64_IMM(BPF_RSH, BPF_REG_0, 32));
+ 
+ 	/*
+-	 * Generate a composite conditional clause, as above, except that rather
+-	 * than emitting call_clauses, we emit copyouts instead, using
+-	 * copyout_val() above:
++	 * Look up in the BPF 'usdt_prids' map.  Space for the look-up key
++	 * will be used on the BPF stack:
+ 	 *
+-	 *	if (pid == PID1) {
+-	 *		goto assign;
+-	 *	} else if (pid == PID2) {
+-	 *		goto assign;
+-	 *	} else if (pid == ...) {
+-	 *		goto assign;
+-	 *	}
+-	 *	goto exit;
+-	 *	assign:
+-	 *	    *arg0 = 1;
+-	 *	goto exit;
++	 *     offset                                       value
+ 	 *
+-	 * It is valid and safe to use %r0 to hold the pid value because there
+-	 * are no assignments to %r0 possible in between the conditional
+-	 * statements.
++	 *     -sizeof(usdt_prids_map_key_t)                pid (in %r0)
++	 *
++	 *     -sizeof(usdt_prids_map_key_t) + sizeof(pid_t)
++	 *     ==
++	 *     -sizeof(dtrace_id_t)                         underlying-probe prid
+ 	 */
+-	for (pop = dt_list_next(&upp->probes); pop != NULL;
+-	     pop = dt_list_next(pop)) {
+-		const dt_probe_t	*prp = pop->probe;
+-		pid_t			pid;
+-		dt_ident_t		*idp;
++	emit(dlp,  BPF_STORE(BPF_W, BPF_REG_9, (int)(-sizeof(usdt_prids_map_key_t)), BPF_REG_0));
++	emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_9, (int)(-sizeof(dtrace_id_t)), uprp->desc->id));
++	dt_cg_xsetx(dlp, usdt_prids, DT_LBL_NONE, BPF_REG_1, usdt_prids->di_id);
++	emit(dlp,  BPF_MOV_REG(BPF_REG_2, BPF_REG_9));
++	emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, (int)(-sizeof(usdt_prids_map_key_t))));
++	emit(dlp,  BPF_CALL_HELPER(BPF_FUNC_map_lookup_elem));
++	emit(dlp,  BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_0, 0, pcb->pcb_exitlbl));
+ 
+-		pid = dt_pid_get_pid(prp->desc, pcb->pcb_hdl, pcb, NULL);
+-		assert(pid != -1);
+-
+-		idp = dt_dlib_add_probe_var(pcb->pcb_hdl, prp);
+-		assert(idp != NULL);
+-
+-		/*
+-		 * Check whether this pid-provider probe serves the current
+-		 * process, and copy out a 1 into arg 0 if so.
+-		 */
+-		emit(dlp,  BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_0, pid, lbl_assign));
+-	}
+-	emit(dlp,  BPF_JUMP(lbl_exit));
+-	copyout_val(pcb, lbl_assign, 1, 0);
++	/*
++	 * If we succeeded, then we use copyout_val() above to assign:
++	 *	    *arg0 = 1;
++	 */
++	copyout_val(pcb, DT_LBL_NONE, 1, 0);
+ 
+ 	dt_cg_tramp_return(pcb);
+ 
+diff --git a/test/unittest/usdt/tst.nusdtprobes.r b/test/unittest/usdt/tst.nusdtprobes.r
+new file mode 100644
+index 000000000..d894af92e
+--- /dev/null
++++ b/test/unittest/usdt/tst.nusdtprobes.r
+@@ -0,0 +1,5 @@
++try ""
++try "-xnusdtprobes=40"
++try "-xnusdtprobes=39"
++Files check.txt.sorted and dtrace.out.sorted differ
++success
+diff --git a/test/unittest/usdt/tst.nusdtprobes.sh b/test/unittest/usdt/tst.nusdtprobes.sh
+new file mode 100755
+index 000000000..50f18a6ca
+--- /dev/null
++++ b/test/unittest/usdt/tst.nusdtprobes.sh
+@@ -0,0 +1,172 @@
++#!/bin/bash
++#
++# Oracle Linux DTrace.
++# Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
++# Licensed under the Universal Permissive License v 1.0 as shown at
++# http://oss.oracle.com/licenses/upl.
++#
++# This test verifies the nusdtprobes option.
++# @@timeout: 100
++
++dtrace=$1
++
++# Set up test directory.
++
++DIRNAME=$tmpdir/nusdtprobes.$$.$RANDOM
++mkdir -p $DIRNAME
++cd $DIRNAME
++
++# Make the trigger.
++
++cat << EOF > prov.d
++provider testprov {
++	probe foo0();
++	probe foo1();
++	probe foo2();
++	probe foo3();
++	probe foo4();
++	probe foo5();
++	probe foo6();
++	probe foo7();
++	probe foo8();
++	probe foo9();
++};
++EOF
++
++cat << EOF > main.c
++#include <unistd.h>
++#include "prov.h"
++
++int
++main(int argc, char **argv)
++{
++	while (1) {
++		usleep(1000);
++
++		TESTPROV_FOO0();
++		TESTPROV_FOO1();
++		TESTPROV_FOO2();
++		TESTPROV_FOO3();
++		TESTPROV_FOO4();
++		TESTPROV_FOO5();
++		TESTPROV_FOO6();
++		TESTPROV_FOO7();
++		TESTPROV_FOO8();
++		TESTPROV_FOO9();
 +	}
 +
 +	return 0;
 +}
- 
- /*
-  * Look up or create an underlying (real) probe, corresponding directly to a
-@@ -782,6 +1105,7 @@ dt_provimpl_t	dt_uprobe = {
- 	.probe_info	= &probe_info,
- 	.detach		= &detach,
- 	.probe_destroy	= &probe_destroy_underlying,
-+	.add_probe	= &add_probe_uprobe,
- };
- 
- /*
-@@ -816,7 +1140,10 @@ dt_provimpl_t	dt_pid = {
- dt_provimpl_t	dt_usdt = {
- 	.name		= "usdt",
- 	.prog_type	= BPF_PROG_TYPE_UNSPEC,
-+	.populate	= &populate_usdt,
- 	.provide_probe	= &provide_usdt_probe,
- 	.enable		= &enable_usdt,
- 	.probe_destroy	= &probe_destroy,
-+	.discover	= &discover,
-+	.add_probe	= &add_probe_usdt,
- };
-diff --git a/libdtrace/dt_provider.c b/libdtrace/dt_provider.c
-index 5f9766183..dd17627ba 100644
---- a/libdtrace/dt_provider.c
-+++ b/libdtrace/dt_provider.c
-@@ -41,6 +41,7 @@ const dt_provimpl_t *dt_providers[] = {
- 	&dt_sdt,
- 	&dt_syscall,
- 	&dt_uprobe,
-+	&dt_usdt,
- 	NULL
- };
- 
-diff --git a/libdtrace/dt_provider.h b/libdtrace/dt_provider.h
-index 384d4fd33..8f143dcea 100644
---- a/libdtrace/dt_provider.h
-+++ b/libdtrace/dt_provider.h
-@@ -88,6 +88,7 @@ extern dt_provimpl_t dt_sched;
- extern dt_provimpl_t dt_sdt;
- extern dt_provimpl_t dt_syscall;
- extern dt_provimpl_t dt_uprobe;
-+extern dt_provimpl_t dt_usdt;
- 
- extern const dt_provimpl_t *dt_providers[];
- 
++EOF
++
++# Build the trigger.
++
++$dtrace -h -s prov.d
++if [ $? -ne 0 ]; then
++	echo "failed to generate header file" >&2
++	exit 1
++fi
++cc $test_cppflags -c main.c
++if [ $? -ne 0 ]; then
++	echo "failed to compile test" >&2
++	exit 1
++fi
++$dtrace -G -64 -s prov.d main.o
++if [ $? -ne 0 ]; then
++	echo "failed to create DOF" >&2
++	exit 1
++fi
++cc $test_cppflags -o main main.o prov.o
++if [ $? -ne 0 ]; then
++	echo "failed to link final executable" >&2
++	exit 1
++fi
++
++# Test nusdtprobes settings.
++#
++# We will start teams of processes, each with 4 members, each in turn
++# with 10 USDT probes.  So, regardless of how many teams are run in
++# succession, at any one time DTrace needs room for at least 40 USDT
++# probes.  The default and -xnusdtprobes=40 settings should work, but
++# -xnusdtprobes=39 should not.
++nteams=2
++nmmbrs=4
++
++for nusdt in "" "-xnusdtprobes=40" "-xnusdtprobes=39"; do
++
++	echo try '"'$nusdt'"'
++
++	# Start DTrace.
++
++	rm -f dtrace.out
++	$dtrace $dt_flags $nusdt -Zq -o dtrace.out -n '
++	testprov*:::
++	{
++		@[probeprov, probemod, probefunc, probename] = count();
++	}' &
++	dtpid=$!
++	sleep 2
++	if [[ ! -d /proc/$dtpid ]]; then
++		echo ERROR dtrace died
++		cat dtrace.out
++		exit 1
++	fi
++
++	# Start teams of processes, only one team at a time.
++
++	rm -f check.txt
++	for (( iteam = 0; iteam < $nteams; iteam++ )); do
++		# Start the team, writing out expected output.
++		sleep 2
++		for (( immbr = 0; immbr < $nmmbrs; immbr++ )); do
++			./main &
++			pids[$immbr]=$!
++			for j in `seq 0 9`; do
++				echo testprov${pids[$immbr]} main main foo$j >> check.txt
++			done
++		done
++
++		# Kill the team.
++		sleep 3
++		for (( immbr = 0; immbr < $nmmbrs; immbr++ )); do
++			kill ${pids[$immbr]}
++		done
++	done
++
++	# Kill DTrace.
++
++	kill $dtpid
++	wait
++
++	# Strip the count() value out since we do not know its exact value.
++
++	awk 'NF == 5 { print $1, $2, $3, $4 }' dtrace.out | sort > dtrace.out.sorted
++
++	# Check.
++
++	sort check.txt > check.txt.sorted
++	if [ x$nusdt == x"-xnusdtprobes=39" ]; then
++		# Results should not agree with check.txt.
++		if diff -q check.txt.sorted dtrace.out.sorted; then
++			echo ERROR unexpected agreement
++			cat dtrace.out
++			exit 0
++		fi
++	else
++		# Results should agree with check.txt.
++		if ! diff -q check.txt.sorted dtrace.out.sorted; then
++			echo ERROR output disagrees
++			echo === expected ===
++			cat check.txt.sorted
++			echo === got ===
++			cat dtrace.out.sorted
++			echo === diff ===
++			diff check.txt.sorted dtrace.out.sorted
++			exit 1
++		fi
++	fi
++done
++
++echo success
++
++exit 0
 -- 
 2.43.5
 
