@@ -1,82 +1,82 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F4A16EB4C
-	for <dtrace@lists.linux.dev>; Fri, 18 Oct 2024 19:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4841A16EB4C
+	for <dtrace@lists.linux.dev>; Fri, 18 Oct 2024 19:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729281510; cv=fail; b=cAUaTPZbNng9n3dYw7JX+ppi0/X6r6FJ/7Y+aPifgthnYBOAk+7vaWKpEY/tOzXtbHX06vJRo9DDMQNoOpPm9+FMPdfRLRMiShUE8JwK+VlJZFE9T0ilt72PKbMLN70/IX0Zk8Mx66P2/ZVMprKENCXrfV7B212FRHFQjxTFqUM=
+	t=1729281513; cv=fail; b=uoRbbqZdIYxKVxeAWrebOwnf8FbtEvPp8BFkboQlKh6itvnAZlXE1uarKQpaxborJYmoSTNi2f30WwM5eHdY2SL4SxdLY075NmX2jrbDzfhGzqhkqJHmF4dm9mVLvqZ5KBvz+2yhi0HIgbKPS7kdIEDM61YjKwzNuWjJ51uCG00=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729281510; c=relaxed/simple;
-	bh=Tgj+T6or7QgT/4oSFnAZ/rGSGejKKU56kISiPB4bLW4=;
+	s=arc-20240116; t=1729281513; c=relaxed/simple;
+	bh=t12wd1a47xtqrVpa64hgypMkGmQxvUjZU6NrtjM7bIc=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cZbeG04njo3d5hAJE9KBbtOwqdh6T0fgu6KYreJmrNOSJ4byC66tEw1EGOjHnTPbEfb87IB9YailvqI7ExSv21Tw/37G4Gx+bucNVXmXCRj99OIWcoVPMexpeHIdMOlh2DLla6oWDoxrjk5WcNx7KxBXZ6dlWSX+iK9COjFAZVI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=b/cQoAmi; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=jyl0+Lmy; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Type:MIME-Version; b=OTdeVjD50sWsGe4s57Pz5MwG/5SUa9QjqV/PVumT8dwYWN738sa+K4Ndc+1ROj6QkYpowATKIvBBeDh27V117Acu1p74FomDdyh5f1YoCx/gW8jAEYUXgyNlxnIYyyJ4U9iKUxzBfODUtnmScpkLdCy6bHdYl2+HKeRbhLys7+c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Q9Eztkz4; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=KLrYnX/t; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="b/cQoAmi";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="jyl0+Lmy"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49IIfmY0006172
-	for <dtrace@lists.linux.dev>; Fri, 18 Oct 2024 19:58:28 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Q9Eztkz4";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="KLrYnX/t"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49IIfmOc012644
+	for <dtrace@lists.linux.dev>; Fri, 18 Oct 2024 19:58:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=mRNHfYAtFuS8ria2q8iu/LJ5DJvmtzghTF17fPVyo0U=; b=
-	b/cQoAmiRUD7Pymp6S3SlabVf+xoTBiAtsHC3fx9ZyKogeNfXsLpRUma1fASTWmb
-	CwFx+dEHDq1WykS2ALWbLu8AVNs9cqDWneB/hSYngdpT2o3mkMAmEz61eh5urBl7
-	4bUpbUSnD3D6sP3HwFlzrA9jM4ugyuReI+wB/XECtxS4J49Xmi5PcalCD6w3DANG
-	qIpk+B9umK2iJXz9GjhXLBvfV+QrEpo5tuetQjAbmoxU9wg9b4G98XgzQ5W1xL+C
-	8SvMCDTdFDA8Q7V7bg5IfuHm4lqEiS95TDEJPLvoHAwFUN7ysJzK958VDMtw4VpN
-	fAVEsAOa58B8IT9vyfevdw==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 427fw2sstv-1
+	corp-2023-11-20; bh=TQWzL+46J3Hfg2NQzwQ1GOxIJrZWwBxx1+JtyTStNgA=; b=
+	Q9Eztkz4krMFLjS6YMYkyM7MFKGb8Ul6bp7bUVWgEL1/MrjzNFV+yTQ/rXYwMnd0
+	DLc7A6NkZNk1Jv8pKYh2Vs1Jb33zK6bRoVwO8fW2CKY3eL4WBOWd615MuDoDdnuy
+	dy5EPgZOxv39FpHMnEortzovPRIJpRRDyetZDTuA3vm3DjPZugeSohfN9fUYcyNS
+	3X7hz2qCXT4wXeRHqeg5DW0GyF5DUKqac9ZvfgQrB9UBjB6wJCuz5YXZpoguE9OH
+	tFgQhpKl2oywfUFSIhlyJPl0mkMCKJaMKpas6zvWOk/QOxlRfd6tAh8NSXCpYAvI
+	qrYD9bZyp9B2mt5Z8haK2w==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 427hnthmck-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 18 Oct 2024 19:58:27 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49IIoexj027164
-	for <dtrace@lists.linux.dev>; Fri, 18 Oct 2024 19:58:27 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2173.outbound.protection.outlook.com [104.47.58.173])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 427fjjmuuq-2
+	for <dtrace@lists.linux.dev>; Fri, 18 Oct 2024 19:58:30 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49IJMeiE026416
+	for <dtrace@lists.linux.dev>; Fri, 18 Oct 2024 19:58:29 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2176.outbound.protection.outlook.com [104.47.56.176])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 427fjc130k-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 18 Oct 2024 19:58:27 +0000
+	for <dtrace@lists.linux.dev>; Fri, 18 Oct 2024 19:58:29 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=omTlx+86UZggz5RrBKlhqzLB4ECtBM46pha72VOo7WBwEC0ZEQg74Q/2NlGXt5UD5iEYDgh5XDgAMS0MoW2Rx7gvhrEYhaybUHtaN7+Itl9nv0725V5rPafWgWjKZzwTcztndUdbeQxiROsjmcG0Rpi0eoncp6pKBb0enDqdyk9ZogIUdEAcjcahiZ6BfVmPsj5eCxR2hBDix0Ke8+7RxBiJh4gWt1nK4KGOuTM9MWVhK+96uoO8tnqCYWjfVZ0H8yVVsRtwdiDRVYtCY6ozo4/dt1ARdHvEB5eRWSLjNxtlzKUCN44HRHxAIGDTw2peABi/kEPDKnSOgNREaFP13g==
+ b=WNHcWphUvc25LEsg4Efqgj8JtvvWU8wm+/bykHDScPD8j911OIeEmihm3y6lr+s5nfHyqkSbq+rl9cCNbprih9HjbiCR73x11izALXSEWpC/KtLyjIpBae+u2F/0VKFO6GS7vlGzq7fQv5Aq2yrtGwQN9osC2OUV7fzApj/72QYgrAV0g6rML/GcoxtjQN+UITlKDrTl+xK8OYlNlY1uTr33Fkqdd5uV2Je6quewKAFFannINnclc9mwnkber0ZHfowWPgRDEfzVdimVXes62HAKihsyXiP0dn2xyqB70xT5UZ9fd0nu/NgA6AxYyo71UtCRvaZTpnjO7O9S7/TVvQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mRNHfYAtFuS8ria2q8iu/LJ5DJvmtzghTF17fPVyo0U=;
- b=hwlFN2un9F6UlqbLK20Q2du4Vv4D8KcHAv9Ox+BQySYjTsiVESF+M/j6VlG0M1XZzbH/day/fJHWXIN5kgEROD8piXEcnfxvPhfddfkISkaOhpU4uEoUaurr7ooct17hoMVt6178DCok8Nj3uctKJ1BPXNA+J0O0sB72He4blabrwDV8WnvO6lEHgGIv/mB3stpOxiVIjSaJZWHVWQqAreW6cbZi+YSYCH6CP5ENXIpkiVmtHfdkMY5l/czaxkw0I8L4Ohol4WN/vpQcHdilFaavmNNR2U2nFVYb9r8pFrNHpCmKp7d35G8fZr49CSMyBixdQknLmURQD4T7k5ZBjw==
+ bh=TQWzL+46J3Hfg2NQzwQ1GOxIJrZWwBxx1+JtyTStNgA=;
+ b=UpOwHVhQnxyQAKf6ytZ2hGNtBKHs2G0Yl6YDPO1D6OjZmVLfWC1qhaeEttJwmt8ulaxCAtYi24W+UBumWUSKHinbskGY+aTHbFd872KFX8wjNB6ON5KX1WYfBszWOJQn/HpAUtPhXID1GJ7ohONvcFxJu51TU6N2MwaAW+p+AjCYPv/D9Yawm2WRWjbTE0qC6V8dC18WgmSu+N3SXn2QCwAlH56r4OPUHqMPpH8KGT+/hze1HNyszmV8wnco4zm4LZ9gmhYlUAD31vleTDMLbp/uRswOFRFfvp0sSP3HBWpshuYkR4gMX/OGgKeAU4a1uppZf+0LXaUBqhWBAwVrPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mRNHfYAtFuS8ria2q8iu/LJ5DJvmtzghTF17fPVyo0U=;
- b=jyl0+LmyKaNdpUxKE/lTR0sh1uftp0uJw6VUqDq6ccIJbix2FcDiFQXUy4qwWo2R54lhCqi9b9AYnCOWBDcVYdXcwDM0W5GInPv7PvJm6b7DrmHePQeUqQPpE6d6p7iF2Kz8o1GnBXVpwVkyTOmJvB+9LbrelDG0fX2Frb7aZuQ=
+ bh=TQWzL+46J3Hfg2NQzwQ1GOxIJrZWwBxx1+JtyTStNgA=;
+ b=KLrYnX/tF/WjYLk4TvVhmRnfbPxIdnY2GXSWdjWBrFRHMnz8kPRGWMM4rz+nvw6LQXIj7KkmWuvAvQtG9+0abKdjfMwBqXqNDY6jd8/vKEZbyXu4uhe0n8Ga+di+EAJPn9iOGbLdUV2hROsuIprwR6j+o1W3ZE2EvP7DU8Bq2Tg=
 Received: from BN7PR10MB2723.namprd10.prod.outlook.com (2603:10b6:406:c7::26)
  by DS0PR10MB7202.namprd10.prod.outlook.com (2603:10b6:8:de::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.26; Fri, 18 Oct
- 2024 19:58:24 +0000
+ 2024 19:58:26 +0000
 Received: from BN7PR10MB2723.namprd10.prod.outlook.com
  ([fe80::59c7:d2d7:d428:51ac]) by BN7PR10MB2723.namprd10.prod.outlook.com
  ([fe80::59c7:d2d7:d428:51ac%4]) with mapi id 15.20.8069.016; Fri, 18 Oct 2024
- 19:58:24 +0000
+ 19:58:26 +0000
 From: Nick Alcock <nick.alcock@oracle.com>
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH 1/6] error: add missing EDT_PRINT entry
-Date: Fri, 18 Oct 2024 20:58:03 +0100
-Message-ID: <20241018195808.270688-2-nick.alcock@oracle.com>
+Subject: [PATCH 2/6] usdt: get arg types and xlations into DTrace from the DOF
+Date: Fri, 18 Oct 2024 20:58:04 +0100
+Message-ID: <20241018195808.270688-3-nick.alcock@oracle.com>
 X-Mailer: git-send-email 2.46.0.278.g36e3a12567
 In-Reply-To: <20241018195808.270688-1-nick.alcock@oracle.com>
 References: <20241018195808.270688-1-nick.alcock@oracle.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO0P123CA0002.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:354::13) To BN7PR10MB2723.namprd10.prod.outlook.com
+X-ClientProxiedBy: LO4P123CA0152.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:188::13) To BN7PR10MB2723.namprd10.prod.outlook.com
  (2603:10b6:406:c7::26)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -86,112 +86,639 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BN7PR10MB2723:EE_|DS0PR10MB7202:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1096052f-188e-4f1f-4c78-08dcefaf39c5
+X-MS-Office365-Filtering-Correlation-Id: 59f0c9a4-045d-4f30-0d6c-08dcefaf3acc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|10070799003;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Qunuk4MgQAgik6P1iyPTRgDfmmePoWTohbTGgruaZo/020fRR3I7AfqllAPb?=
- =?us-ascii?Q?ZDOjyFin8ZZtjj2B7bXsGHORuNuiGLSjLvfurPalRCsxE2NWFOqPI3ItfITv?=
- =?us-ascii?Q?vJvleX9cAqFLfc616oc/povki2e3rQ7KdS8mOLI3wqtjY9ckTVAUWEpUJa8h?=
- =?us-ascii?Q?+GxeRznM5XXy2myQsjheu1inl0Ae8rsRi5pxvab86Uyxf1oRoQx+MeAkWK3n?=
- =?us-ascii?Q?YIqZoNNoCGBw+faJC8US4VxJAKAlr3ixfnfoIanH2I43OIi1/hYZU4ndohGh?=
- =?us-ascii?Q?BoFU0boX5Ke/yLjr6/6iDAUDv1w/y9lLA3K7schptiPXf3F3kkIUYsPuvcmq?=
- =?us-ascii?Q?etOdOjEqa7tP/kQqlSpY1TRlQiaBfjhFk/5xqOncLt83TM8Dm16pNCQGf8PW?=
- =?us-ascii?Q?Xs5g8Sq24ouhZEl2BZK5d2viXErJRPsGbHIw24LPBuXAUDYG7m+h6OMOu99t?=
- =?us-ascii?Q?zlY9PqA91fxNks3tW+4hLcwhQhkJHOmMwt9DIJMkb5O73DF4qyUohtLF1tGQ?=
- =?us-ascii?Q?+qemeQzs16zstpd7YnQ403EL/sy9yX0t2XeEMEo16xoGOD+hofrG9Eii+ND/?=
- =?us-ascii?Q?y22looif7ULNHr1uZxarvIGLQN5mqZaQ6qQMTMVKkUbpPH/PZrX9KWytc+vc?=
- =?us-ascii?Q?IuyesZwNTJHfjEK+EtfYlBS9HpmSiQ8I6Dm9pzpmjcQ2P98UKF8R4yitgVYi?=
- =?us-ascii?Q?n9v+SKe/gOcwVNOOvs0q7aMduW6z4aG+Aqaj/uzXqJEjS4QeGte5FQSzZdAo?=
- =?us-ascii?Q?O7SqO7XR0y8mbO44Zr8iy00SgKxx/bmk+5EkDUoL58Cr0HJw2LQgTosK+m8J?=
- =?us-ascii?Q?TU92ymD+cRbzVS4+/cTN4adFcIb55sr27h16xXYbwVCCAAmsHR1BKCNJiHLK?=
- =?us-ascii?Q?T7jdiOJ3DkhucebyuqPdLccjmn/w3qzV+6qmbz659V0K5BoeZbSu+HUJV1kG?=
- =?us-ascii?Q?NKeZKW8TMi41gb2Cd0Frxz+/eAvukQtj1FtKS4+kI908owD6945AYtjHParj?=
- =?us-ascii?Q?HwOsNQTboyubd7dCY3HoE6NjiS2xAkeHpLV3BiWfXeWighPiXnPi+AvXzkbu?=
- =?us-ascii?Q?XW3BKawWfJqcL0FwvzSR3+DiITYRBc/v6o6uqHksrsDALTSmxusFsieVRQqJ?=
- =?us-ascii?Q?BA7UfvaS8PggqT7hHFjYSSR1TflEmILEOwA/ZORnkRgb6UzkjJ8jFuQSiycE?=
- =?us-ascii?Q?o0baPPvMny6MpyStWZRURvUPnWCzW0okzqrMCqMgd5zp8rlvYBgNMG42g54M?=
- =?us-ascii?Q?tspBphUoaaMK9kVZB1UwmqEqGgc+1muhwm/n2wFMyEpN/9qH+jjeY1EpFWOa?=
- =?us-ascii?Q?peKzi1b2fuX17xJAh2pYD+ED?=
+	=?us-ascii?Q?WWYEEFhR0J19dr8ENJ8eJhTF4w4Wynlb/MVgl5Yi0BkqI45bD75YZeF3gixK?=
+ =?us-ascii?Q?c4gU/ATfby8N5nxjF0wy7cKV8GWiN7jTrx360TZ3bWKzBhT9dsUTrdlevEiJ?=
+ =?us-ascii?Q?XSJd84SRYRuBaZIyo5kZxxTVq8+1pv4YKX1QWdLZqsQu3wV9b398dzHiVS1Y?=
+ =?us-ascii?Q?Sl77pRoJA8VB83A77SC0KadTjZIMI7LF+xuCMX4fm3kyua8gpP9lEhNZlrw1?=
+ =?us-ascii?Q?qAxE2Ve1YjBIe3Mn0CpL4vI5CkyS7kXM0Iyifuut1GVK2AkrAiZgr8EC7ly2?=
+ =?us-ascii?Q?dusG+Au1+sDKlWX8T8v3UT8+qG3GpSXBSCh4Sb2Rb0DwX7pTdUQorsT/KGjS?=
+ =?us-ascii?Q?zi1Th/9rnBOZ4YULLahsjOAi4KZwxqvK4VUc7WN4TM9yg9RN7dXejuHAApPg?=
+ =?us-ascii?Q?eaPuKt61jYGH7pmhwh0i0/umZ6NE+btyTVbsYiwOh55WBQ+5UmoK4UOm7/Pl?=
+ =?us-ascii?Q?KrEapH/PSyFzclolcCyWCPtk2FxmKKzwGBcCdNQWDlAdrzoKx0ddGBLFbw+h?=
+ =?us-ascii?Q?Equ1PYfM0w/uILVPngmeCNnS4xZetROZqp2/Hk2djgcuFf3qn4PBQFOSc0SL?=
+ =?us-ascii?Q?w9uDpmftAGJFgSC644iYHyaNTn/DYEo7VCjDtq2E37tIA3laAWO6M28hFdjh?=
+ =?us-ascii?Q?0P0UuEM0hDSe569ZY6vB+RFagUJO4ymzaIYZMs8dTKgXhdPESaAphzA7GSWB?=
+ =?us-ascii?Q?Zl7he9U+iKliz2IT6pCq9uwhEAXFzKUL5CuS72bkamSVo+X066U8Yz2B/qeb?=
+ =?us-ascii?Q?eq11jnBvi+iVH4PxK0tENTgGx8kfvsRoviK9auOl0hHUm7/pCxQi/bD9PiYL?=
+ =?us-ascii?Q?CxqVt9oVI1q3WNromnOodt4JXTxtZPhz+pIpyPfxeR+j0zPZijUx5vo30sgv?=
+ =?us-ascii?Q?HTHD2DQG1zgelJAY0C3mQoDjKRd0vi3f57zCiHMsm/M6+XaI48MT2KzJa5ED?=
+ =?us-ascii?Q?j9KsXEM4RtPE3sFLpewiI2MLgBP7ym0tP9HgRGpHTFMwytlFDg160frMlSRT?=
+ =?us-ascii?Q?8Td3e/BRpG9ugkhbON/f3Z7O1JcTJ7yj9RloXDhZCk2jNwiGt52wLSkOo5O+?=
+ =?us-ascii?Q?LXrvQxEQvVfCMAfFTIa8/7HMZSVsFYi2XyIEQ6L3ZYFF+ziiP+XaL1MjJgel?=
+ =?us-ascii?Q?QUkA8yRb+LF+9Xf9QwvloY8Dd4DWHJm9MuEA4ErcfA0kJcWknRSai6Gbnxn5?=
+ =?us-ascii?Q?cWcfN8KY9PJkVVSkr9D8tslACq/9vyHsnr4DhnBaZwd6tU0/ps++SSVTWGsC?=
+ =?us-ascii?Q?5i6QIpv3OESNIsus24GexFgO6E3K7Ke78aj37szgrrsUGWvibfR5z6gyHGPO?=
+ =?us-ascii?Q?O4yjTEQgS7DBAnCvjhArxlEe?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR10MB2723.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(10070799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?MDfdeG0U3loFQ/gx2V4owCdMMfKfVZB0qBLKBmo/TtyJTEHImRYdNWsLvPls?=
- =?us-ascii?Q?0iIQJ26/SWhZBKp1QT5kSxpXC1utE2rMlVQt58QKbL8iTY6v14e13vXuB3M3?=
- =?us-ascii?Q?Das8DYzrU40sY9S3tiMTdum3XK9K4Bv+90nysIUapEpVeUPMuyxjnsSHEMms?=
- =?us-ascii?Q?ikPqlINaurfWtUt+J/+ri/pxN3n3nLTjfzgN7weGO/6DpDRx42cGzdosOR9p?=
- =?us-ascii?Q?d4+hFtXcgjUjmvv7OyOwwbQbRpH7oqwk2gkutC7qWYhPNbAa/KWYJhmHqeTT?=
- =?us-ascii?Q?4KQNtY7ODLLHaQxXlscFyzh+nRR+YRib9dGNWtPp82mlauzUtfsyVOq/lKvp?=
- =?us-ascii?Q?DHrAikaijXqW6saBftY1suxaI2N+CybVA9H66W0sW152FlivLDba3d5EpCwW?=
- =?us-ascii?Q?74PlelMl/1Es2anNgz7UZfZJgq5CEhMwcmSGDNoFtrn8V+5aAxJkC1ID84c7?=
- =?us-ascii?Q?vDgUjaddlZ4Y9AONe5eCFtTwUEf3cKrV3XnLwBaESH06U4hGRHw3cQDBEgAH?=
- =?us-ascii?Q?aHHgWswDWOseWG732e1pxoNXQ5S6YVth7ftDKiyM2AJuMlYOQDZNEuHuJ2X0?=
- =?us-ascii?Q?F5JhlS9fKlgitNT17huCpVf7CtvSVR2JQaOMYPr9ux76OSNCuOQ8mwFBFb+6?=
- =?us-ascii?Q?7tyLQ6+qkmUwKvI3NY1pBCTRx0GQcnGZ+ExWTNqAlbAnDwXw8d0+L68nHRS8?=
- =?us-ascii?Q?VTcpqRirlNxnziUJ1/XRXIR3TTtXqZqN0On8X5HRmQWn+SZ1SL6V9NUv25vE?=
- =?us-ascii?Q?GrXKvBUZevqmpAIruW9UhaS2jykSGxHxwdLuPcmN0lg2ZSnYaZ3vgzOpxmJn?=
- =?us-ascii?Q?iyFm3/ver6XRrTB86lvE1MOYiqKUCR1URiB+qQbJ0QTX0N/g79p5OP/H+7ev?=
- =?us-ascii?Q?8gQiOa+idGnrzkKQBJ0ah/lzFH82WSDoR8aBeXoBeFhv5TaQLGmgCV2jEyCW?=
- =?us-ascii?Q?SuVdaoiZ8UPaQ0kY7AADwNi5JzZUTjd6AlOkEcGLSKe8TQQw3Sx4eSVV33gT?=
- =?us-ascii?Q?wv6Pttxe85b8ztDJ1ueR1WSv6Fn1xZL/ZTF7LykdXa/2IT91w6ZEwJHj5OmD?=
- =?us-ascii?Q?dJ6OvewgVtmn5IVVuaifSWyHlq3slcWfI6VXyaVXSBQxHtH9RZB4W8HOB1Ef?=
- =?us-ascii?Q?1KWxwoNIXhvR7Qy2CF+oOwkv5r4B6kGxdX16sGnRnDpXWlcWHTYgCrgXgEqo?=
- =?us-ascii?Q?xtB6zeFs/G57o2nZKgSx9rWNRj9ejdepJdr8cnG5yBzkha4gAuOss+8ACPKs?=
- =?us-ascii?Q?Jf85GUsTNlcOdhfvdiw27cVKwSWz1/ybqvuMfMjoJbAE9NipsTURuj6cCKPB?=
- =?us-ascii?Q?2e0Ojp6dpVSvyTGzNz384Fe4XAY2Cl/E+LjE2LmgYvM8yakEyjdU7DBQ1zFs?=
- =?us-ascii?Q?3RYqZuvXlsqcrrLcZ+6IlpIQ5Pq9Di4Ri006BHFasPMot1nCKO7sRbnGdIKw?=
- =?us-ascii?Q?7mOM48dqDf+c3ybz8Ny33tRbZiQBwyoWBirqOCH/y2zfj2g8e90KEHw/mbjH?=
- =?us-ascii?Q?srUmrTPdvbPQRHfzm0SwA7qXALltumiSajWNWJSpw6lsR5HPbXEqQJK2R3ib?=
- =?us-ascii?Q?w3uuKjZ+zljwe/5IX4T3kupIzhlI5hJ47pEo93C487euNvwsqm2H1LUtiOB3?=
- =?us-ascii?Q?qQ=3D=3D?=
+	=?us-ascii?Q?fofnYiGSAKJwyTeFyZf+bUctWjyl+Tz/L+PzMa7I9KG5/lce3+H78MBs8reo?=
+ =?us-ascii?Q?6uGrvDqCdjpBxIzYM3cnbVTXU3LvpiNnAuJx2oMA6t666HYldoMdz4MTq/SR?=
+ =?us-ascii?Q?44Fv/brbzbuhUkApBUTlYvH81fOwJbENnGnlMpXfhvN7mtncZrlAtmgkeLIM?=
+ =?us-ascii?Q?mimz+D9GM9jxNf5IRxzY1Ff+L+csxyG0+ssm0IudMLNpLQU/60G3yr1lPglm?=
+ =?us-ascii?Q?F1oD+yWUwpVCurZmX3NKMYLrox5iisxoNHtlVVA3rG93pz99vQyLQl4qQMhf?=
+ =?us-ascii?Q?1+SE/xrSNsRYGcMexNhZDX7jjaxK07k1vpM1QOn/et4vhVKjg/cm58YiXILm?=
+ =?us-ascii?Q?2YZxzLi76FzolvQLTPgnKb3zjKBnMs7ZDDVzJy7+XXRAhrDZAlMwKiorMr/b?=
+ =?us-ascii?Q?jLoMLoeeUoKfMt/WEJnRtYlO6Vh+OK/1IcOyH3dZXXo6U8B2VoOMOJwEnHpn?=
+ =?us-ascii?Q?oawNIxvQEE4SD8VsPObDi8jGlCbnBoBcxbfyBrnvZOizfTXr+SlhEpe0rkvR?=
+ =?us-ascii?Q?Hos34tr62vaRP7PCbHhltm8tn/XAwxL5A7xbMZm4onI5Gf6GsnUHMV4mkB49?=
+ =?us-ascii?Q?BIX3BqD+5mJJL8X73NQ36dhliUm/vcCsdu9bIhW+/hDH0J/vqCs7x9aOwRIh?=
+ =?us-ascii?Q?toDs6WuURloa0GvJNG5PNQN4mO5flZjEFpmHXtkOgZi6nbCMSBfdknp2LRew?=
+ =?us-ascii?Q?E4+pukpKHdmmX9gFR5JeeS2NoN+8vhHtM9piRjZGvz4aAcwbvGI7fFrM8MHF?=
+ =?us-ascii?Q?Zy4mXscq9cOQO53JIGdVMbXDSRpHrZP2hu1c+bdLfPoEGk5IzvY+qeHWYCQG?=
+ =?us-ascii?Q?fzWVozexDHnLfuVmqTsYVVzS5SIdo9U8UqEuz0zZdimMBf9fV6Iq3pmk3jat?=
+ =?us-ascii?Q?F9IbKlkiazQNEn+BI4YU7d7eep3KBk7Yb4aYdjVNbx9xP+byxDO+5b8rxT1i?=
+ =?us-ascii?Q?svI8MN96KqIPllXuwmpQm7rcF7/vhtssEQX045p+sJ8Nucm0Fkb7zGHDKYqh?=
+ =?us-ascii?Q?Il79IsbLK+K6sHyeDceV9IWdMdHOEf3H/+WE8ZTUSK5q5ghF6elDYpNOyHLD?=
+ =?us-ascii?Q?x68DSgPKG+uvZRGyx+47xDtE+MC2GyZqYIMoTcgO+Mc3+a5evQ0qvaYKL/7G?=
+ =?us-ascii?Q?zThteAKJhCKSqONCcLW0JuLD/leQEXytkD65ovDnkttfnZKSIbb0rZ4Gy88H?=
+ =?us-ascii?Q?3ns4G4KmIkua0Mfnl61GOHyfbOM9pKJJKYuE7aLT+JdL6Cn0KXBcflmmjQUP?=
+ =?us-ascii?Q?T7dLl90N+XybwEgwU5GPsyHC2Segs6iL9vei+dCfhXueFm9ogo5soHoGIHkZ?=
+ =?us-ascii?Q?6UH/SlNQiri4ziepka0VrlrtKAp8cz4M5KPHWMMeGCIBYqQhiZGpuDyOwTOu?=
+ =?us-ascii?Q?GA/2+bHWvyZjbiUiUA9CElQvtbOa0rLm/XktJ2r1DJOCMHZoxCgOvNHOWaPq?=
+ =?us-ascii?Q?i5Iu1JDtJGh5+ZxTiXpR28Ta2TqAX0wJFOjbs1PRaHeUJ250rcmf6f5UvOfa?=
+ =?us-ascii?Q?fFGE0VMkwCGZ1Aux68B7ERKFE7F+qnSN8O/8UvUZnvYxpZic28HllPfTqgsU?=
+ =?us-ascii?Q?cM9j17OFxhCTUnpujg6Of0D29xhD7wBFYm0P4hpmUqqQEwkm7Qku7y9M+Qxh?=
+ =?us-ascii?Q?9A=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	3VxlhPiUydUuXqpuLsrajdSLumBtv+OhDvpl2V7QbOeYygjRaZzPmxdzcuh5pIfAHS/wzajTGRlplYyXPBOHZ7P3aA6WnqhkZwfopBr8Onm4cXOaWLTBE0uuE6l7lrics1Ji3Ff9ZI5ZSMG/V/hmMigWVNgkwA6BaQyC0a6j+8bpJ87CEqgprl51q7wto6oBR6GFJnQY7wNe3ygiK/nJbirVhUcrF2xj1/reRF9FlhmrIIJ6xA7RtFabt1uZC6u4v/LrrdCR+1A/wefNIx5XKiRzA+nY7/nUuVhQ/5h3Elc4YBmaNhTuh9UxRYdA6/xCPlmsY6nhfSYzXJHQ1SswTRdwSA1zHGkDTmqI5xjovkt4ZwAESDWW76JInS8MoZFTP+l8ND7YVSKvhz6woE4G0HuDSn0jUmL6B1UfjkUi6fjX3Ja18c/ZvVY2Zbt4SSn+yTMtHXfIvZ9mWJFGUvbqp6rnwQ8HCzklykrnPRJwt8FEm0/MAOeaeDLNXKiwDtuf6GQOyHJt7crcfMv5R6KJ77v4YehxPRxh3c9hfH7gBdbmZlMjcI03gtV3GfbRnAB1bUXn4YrAC0LyWvOZ47kS0GITfJJXJbhy1VKWSBfzY20=
+	Mx3UUiCbPnn+dZMTeMSDFFMZcsXpNgQ2dnXPBEX1adA4GC+sSTup+s4Et0NwuSFCwPNMYW07K4JjJveyp4DT04Lw2I/Pjp1Pf9mee5AKRfr8LpDWOBHNX+6akP1x8GBBZxjQvy3K5/CeJ/gvkxOPCF3IwkU8iUPl0XmyGlLDsjFt4KobPGRCOXvuqxzxz5dzUNHcCyfhz1Na6fvUpM9HswFnr7N9GsrrDr4gwf09cIFgP3pkJiYFB+g9/P+yMVT9LcB0QqozbIFrY1+NnPz521uyuZ62as6/Aa/L9MDlVRVO6jc8VjMzu9Z4F9PSOKofFtJePp41SUx9VoLZiyIr2GKYpor/hJcI+JNj5ZQhi2lsyR9T9JdzRng92hA8bdLCkI7DhgwRF9fBZwy6+VscCA9Jg72sJJoo5IsgXjTZAYKU4oFoaM20E4lrqKESIkAg0ldN7wsiqRSEaAQEZeKEihPqAXj5eUW+kOn10p4aIAN5KdoYKdQk+62alDAdPdzDBQ+WjfdpERNnXlGhW5luBpq+D5LQp/8/9+sdKPHxeQPxnPZRqeggy9sA9gT9vhvvjUnY8czBVscHeQMqt+TZ8QeBq45nbMzD7kDkIdufFAk=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1096052f-188e-4f1f-4c78-08dcefaf39c5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59f0c9a4-045d-4f30-0d6c-08dcefaf3acc
 X-MS-Exchange-CrossTenant-AuthSource: BN7PR10MB2723.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2024 19:58:24.8030
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2024 19:58:26.5945
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4sLm7SIkl9jovHV8yfV8WwwXevvpD3R23OrtdkPPCrcNfRyKazmuugew185vMWh+c+PqujJdBARXVOTK+g56ww==
+X-MS-Exchange-CrossTenant-UserPrincipalName: sjZ8amRqdMkRBKxgs/WrSap7vpNOyGH1ScQwUw+khc+DI07nzQprmM6WdhRegiafpbgXYAkSL4jZcUv9SqiC9Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7202
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-18_15,2024-10-17_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
- spamscore=0 malwarescore=0 bulkscore=0 suspectscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2409260000 definitions=main-2410180127
-X-Proofpoint-GUID: 3SPlZNOkLN_acFcoIhETzOR5xAnOSKfY
-X-Proofpoint-ORIG-GUID: 3SPlZNOkLN_acFcoIhETzOR5xAnOSKfY
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 adultscore=0
+ bulkscore=0 spamscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
+ definitions=main-2410180127
+X-Proofpoint-ORIG-GUID: 1zmW3MoD_vYq1arL7Fe8jJzQVhJiJ85r
+X-Proofpoint-GUID: 1zmW3MoD_vYq1arL7Fe8jJzQVhJiJ85r
 
-The lack of this made it impossible to print out the last error
-in the list (which is EDT_PRINT itself).
+This change propagates native and xlated arg types and remapping info all
+the way from the DOF, through the parser and dtprobed and the DOF stash,
+into DTrace, where they end up in the pid_probespec_t for USDT probes.
+We don't do anything with them once they get there in this commit: no
+user-visible impacts expected.
+
+We bump the DOF_PARSED_VERSION since we add three new types of record to the
+dof_parser_t, all optional, covering native and xlated args and arg
+remapping tables; to make life easier for consumers we emit them in a
+defined order (documennted in dof_parser.h), and add a flags word to the
+DIT_PROBE record that precedes them indicating which will be present.  This
+means we retain the property that you can always tell which records within a
+provider are coming next purely from records you already have: there's no
+need to make decisions once the records turn up.  The DOF stash hardly
+changes: all that happens is that the parsed data written to each per-probe
+file gains some extra types of record (it can have DIT_NATIVE_ARGS,
+DIT_XLAT_ARGS and DIT_REMAP_ARGS entries following the DIT_PROBE record
+now).
+
+As usual with DOF_PARSED_VERSION bumps, DTraces that cross this change will
+refuse to read probes added by dtprobeds that are on the other side of it.
+(Restarting dtprobed will reparse all the probes in the stash to match the
+new layout, and newly-started DTraces will pick that up -- so this only
+affects running DTraces picking up new probes, which DTrace cannot do yet:
+so no visible effects are expected.)
+
+The code is a bit repetitive, with nargs, xargs and remapping all handled
+separately even though the code is very similar.  In future maybe we could
+unify them (but my attempts led to code that was much harder to read than
+the original).
 
 Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
 ---
- libdtrace/dt_error.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ dtprobed/dof_stash.c   |  14 +++-
+ dtprobed/dtprobed.c    |  12 ++-
+ include/dtrace/pid.h   |   9 +++
+ libcommon/dof_parser.c | 167 ++++++++++++++++++++++++++++++++---------
+ libcommon/dof_parser.h |  80 ++++++++++++++++++--
+ libdtrace/dt_pid.c     |  71 ++++++++++++++++++
+ 6 files changed, 302 insertions(+), 51 deletions(-)
 
-diff --git a/libdtrace/dt_error.c b/libdtrace/dt_error.c
-index 82e114a5b292..213f0d9e1385 100644
---- a/libdtrace/dt_error.c
-+++ b/libdtrace/dt_error.c
-@@ -97,7 +97,8 @@ static const struct {
- 	{ EDT_OBJIO, "Cannot read object file or modules.dep" },
- 	{ EDT_READMAXSTACK, "Cannot read kernel param perf_event_max_stack" },
- 	{ EDT_TRACEMEM, "Missing or corrupt tracemem() record" },
--	{ EDT_PCAP, "Missing or corrupt pcap() record" }
-+	{ EDT_PCAP, "Missing or corrupt pcap() record" },
-+	{ EDT_PRINT, "Missing or corrupt print() record" }
- };
+diff --git a/dtprobed/dof_stash.c b/dtprobed/dof_stash.c
+index 0e639076f655..d9731844066c 100644
+--- a/dtprobed/dof_stash.c
++++ b/dtprobed/dof_stash.c
+@@ -59,8 +59,9 @@
+  *    startup if the dof_parsed_t structure changed.  The file consists of a
+  *    uint64_t version number (DOF_PARSED_VERSION), then a stream of
+  *    dof_parsed_t records, the first of type DIT_PROVIDER, the second
+- *    DIT_PROBE, then as many struct dof_parsed_t's of type DIT_TRACEPOINT as
+- *    the DIT_PROBE record specifies.
++ *    DIT_PROBE, then optionally some DIT_*ARGS records if the probe's flags
++ *    word calls for them, then as many struct dof_parsed_t's of type
++ *    DIT_TRACEPOINT as the DIT_PROBE record specifies.
+  *
+  * /run/dtrace/probes/: Per-probe info, written by dtprobed, read by DTrace.
+  *
+@@ -640,9 +641,14 @@ dof_stash_write_parsed(pid_t pid, dev_t dev, ino_t ino, dt_list_t *accum)
+ 			break;
+ 		}
  
- static const int _dt_nerr = sizeof(_dt_errlist) / sizeof(_dt_errlist[0]);
+-		/* Tracepoint: add to already-open file.  */
++		/* Args info or tracepoint: add to already-open file.  */
++		case DIT_NATIVE_ARGS:
++		case DIT_XLAT_ARGS:
++		case DIT_REMAP_ARGS:
+ 		case DIT_TRACEPOINT:
+-			assert(state == DIT_PROBE || state == DIT_TRACEPOINT);
++			assert(state == DIT_PROBE || state == DIT_NATIVE_ARGS ||
++			       state == DIT_XLAT_ARGS || state == DIT_REMAP_ARGS ||
++			       state == DIT_TRACEPOINT);
+ 			state = accump->parsed->type;
+ 
+ 			if (write_chunk(parsed_fd, accump->parsed, accump->parsed->size) < 0)
+diff --git a/dtprobed/dtprobed.c b/dtprobed/dtprobed.c
+index fdcdee14f851..ecf27216ff80 100644
+--- a/dtprobed/dtprobed.c
++++ b/dtprobed/dtprobed.c
+@@ -795,16 +795,20 @@ process_dof(pid_t pid, int out, int in, dev_t dev, ino_t inum, dev_t exec_dev,
+ 		if (dof_stash_push_parsed(&accum, probe) < 0)
+ 			goto oom;
+ 
+-		for (j = 0; j < probe->probe.ntp; j++) {
++		j = 0;
++		do {
+ 			dof_parsed_t *tp = dof_read(pid, in);
+ 
+-			errmsg = "no tracepoints in a probe, or parse state corrupt";
+-			if (!tp || tp->type != DIT_TRACEPOINT)
++                        errmsg = "no tracepoints in a probe, or parse state corrupt";
++			if (!tp || tp->type == DIT_PROVIDER || tp->type == DIT_PROBE)
+ 				goto err;
+ 
+ 			if (dof_stash_push_parsed(&accum, tp) < 0)
+ 				goto oom;
+-		}
++
++                        if (tp->type == DIT_TRACEPOINT)
++				j++;
++		} while (j < probe->probe.ntp);
+ 	}
+ 
+ 	if (!reparsing)
+diff --git a/include/dtrace/pid.h b/include/dtrace/pid.h
+index 0129674adf0c..d9a5a40484a5 100644
+--- a/include/dtrace/pid.h
++++ b/include/dtrace/pid.h
+@@ -35,6 +35,15 @@ typedef struct pid_probespec {
+ 	ino_t pps_inum;				/* object inode */
+ 	char *pps_fn;				/* object full filename */
+ 	uint64_t pps_off;			/* probe offset (in object) */
++	int pps_nargc;				/* number of native args */
++	int pps_xargc;				/* number of xlated args */
++	int pps_remapargc;			/* number of remapped args */
++	char *pps_nargv;			/* array of native args */
++	size_t pps_nargvlen;			/* (high estimate of) length of array */
++	char *pps_xargv;			/* array of xlated args */
++	size_t pps_xargvlen;			/* (high estimate of) length of array */
++	int8_t *pps_remapargs;			/* remapped arg indexes */
++	size_t pps_remapargslen;		/* (high estimate of) length of array */
+ 
+ 	/*
+ 	 * Fields below this point do not apply to underlying probes.
+diff --git a/libcommon/dof_parser.c b/libcommon/dof_parser.c
+index d6631a1afdcb..4a45ac41a64d 100644
+--- a/libcommon/dof_parser.c
++++ b/libcommon/dof_parser.c
+@@ -879,13 +879,31 @@ validate_probe(int out, dtrace_helper_probedesc_t *dhpb)
+ 	return 0;
+ }
+ 
++static size_t
++strings_len(const char *strtab, size_t count)
++{
++	size_t len = 0;
++
++	for (; count > 0; count--) {
++		size_t this_len = strlen(strtab) + 1;
++
++                len += this_len;
++		strtab += this_len;
++	}
++	return len;
++}
++
+ static void
+ emit_probe(int out, dtrace_helper_probedesc_t *dhpb)
+ {
+ 	int		i;
+-	dof_parsed_t	*probe_msg;
+-	size_t		probe_msg_size;
++	dof_parsed_t	*msg;
++	size_t		msg_size;
++	size_t		nargs_size;
++	size_t		xargs_size;
++	size_t		remap_size = 0;
+ 	char		*ptr;
++	int		remap_args = 0;
+ 
+ 	dt_dbg_dof("      Creating probe %s:%s:%s:%s\n", dhpb->dthpb_prov,
+ 	    dhpb->dthpb_mod, dhpb->dthpb_func, dhpb->dthpb_name);
+@@ -893,37 +911,124 @@ emit_probe(int out, dtrace_helper_probedesc_t *dhpb)
+ 	if (validate_probe(out, dhpb) != 0)
+ 		return;
+ 
+-	probe_msg_size = offsetof(dof_parsed_t, probe.name) +
+-	    strlen(dhpb->dthpb_mod) + 1 + strlen(dhpb->dthpb_func) + 1 +
+-	    strlen(dhpb->dthpb_name) + 1;
+-
+-	probe_msg = malloc(probe_msg_size);
+-	if (!probe_msg) {
+-		dof_error(out, ENOMEM, "Out of memory allocating probe");
+-		return;
++	/*
++	 * Figure out if the arguments are shuffled around (in which case we
++	 * need to emit the argument remapping table).
++	 */
++	for (i = 0; i < dhpb->dthpb_xargc; i++) {
++		if (dhpb->dthpb_args[i] != i) {
++			remap_args = 1;
++			break;
++		}
+ 	}
+ 
+-	memset(probe_msg, 0, probe_msg_size);
++	/*
++	 * Compute the size of all the optional elements first, to fill out the
++	 * flags.
++	 */
+ 
+-	probe_msg->size = probe_msg_size;
+-	probe_msg->type = DIT_PROBE;
+-	probe_msg->probe.ntp = dhpb->dthpb_noffs + dhpb->dthpb_nenoffs;
+-	ptr = stpcpy(probe_msg->probe.name, dhpb->dthpb_mod);
++	msg_size = offsetof(dof_parsed_t, probe.name) +
++		   strlen(dhpb->dthpb_mod) + 1 +
++		   strlen(dhpb->dthpb_func) + 1 +
++		   strlen(dhpb->dthpb_name) + 1;
++
++        nargs_size = strings_len(dhpb->dthpb_ntypes, dhpb->dthpb_nargc);
++	xargs_size = strings_len(dhpb->dthpb_xtypes, dhpb->dthpb_xargc);
++	if (remap_args)
++		remap_size = dhpb->dthpb_xargc * sizeof(uint8_t);
++
++	msg = malloc(msg_size);
++	if (!msg)
++		goto oom;
++
++	memset(msg, 0, msg_size);
++
++	msg->size = msg_size;
++	msg->type = DIT_PROBE;
++	msg->probe.ntp = dhpb->dthpb_noffs + dhpb->dthpb_nenoffs;
++
++	if (nargs_size)
++		msg->probe.flags |= DIT_HAS_NATIVE_ARGS;
++	if (xargs_size)
++		msg->probe.flags |= DIT_HAS_XLAT_ARGS;
++	if (remap_size)
++		msg->probe.flags |= DIT_HAS_REMAP_ARGS;
++
++	ptr = stpcpy(msg->probe.name, dhpb->dthpb_mod);
+ 	ptr++;
+ 	ptr = stpcpy(ptr, dhpb->dthpb_func);
+ 	ptr++;
+ 	strcpy(ptr, dhpb->dthpb_name);
+-	dof_parser_write_one(out, probe_msg, probe_msg_size);
++        dof_parser_write_one(out, msg, msg_size);
+ 
+-	free(probe_msg);
+-
+-	/* XXX TODO translated args
+-	   pp->ftp_nargs = dhpb->dthpb_xargc;
+-	   pp->ftp_xtypes = dhpb->dthpb_xtypes;
+-	   pp->ftp_ntypes = dhpb->dthpb_ntypes;
+-	*/
++	free(msg);
+ 
+ 	/*
++	 * Emit info on all native and translated args in turn.
++	 *
++	 * FIXME: this code is a bit repetitious.
++	 *
++	 * First native args (if any).
++	 */
++
++	if (nargs_size > 0) {
++		msg_size = offsetof(dof_parsed_t, nargs.args) + nargs_size;
++
++		msg = malloc(msg_size);
++		if (!msg)
++			goto oom;
++
++		memset(msg, 0, msg_size);
++
++		msg->size = msg_size;
++		msg->type = DIT_NATIVE_ARGS;
++		msg->nargs.nargc = dhpb->dthpb_nargc;
++		memcpy(msg->nargs.args, dhpb->dthpb_ntypes, nargs_size);
++		dof_parser_write_one(out, msg, msg_size);
++
++		free(msg);
++	}
++
++	/* Then translated args. */
++
++        if (xargs_size > 0) {
++		msg_size = offsetof(dof_parsed_t, xargs.args) + xargs_size;
++
++		msg = malloc(msg_size);
++		if (!msg)
++			goto oom;
++
++		memset(msg, 0, msg_size);
++
++		msg->size = msg_size;
++		msg->type = DIT_XLAT_ARGS;
++		msg->xargs.nargc = dhpb->dthpb_xargc;
++		memcpy(msg->xargs.args, dhpb->dthpb_xtypes, xargs_size);
++		dof_parser_write_one(out, msg, msg_size);
++
++		free(msg);
++	}
++
++	/* Then the remapping table. */
++
++	if (remap_size > 0) {
++		msg_size = offsetof(dof_parsed_t, argremap.remapargs) + remap_size;
++
++		msg = malloc(msg_size);
++		if (!msg)
++			goto oom;
++
++		memset(msg, 0, msg_size);
++
++		msg->size = msg_size;
++		msg->type = DIT_REMAP_ARGS;
++		msg->argremap.nremapargs = dhpb->dthpb_xargc;
++		memcpy(msg->argremap.remapargs, dhpb->dthpb_args, remap_size);
++		dof_parser_write_one(out, msg, msg_size);
++		free(msg);
++	}
++
++        /*
+ 	 * Emit info on each tracepoint in turn.
+ 	 */
+ 	for (i = 0; i < dhpb->dthpb_noffs; i++)
+@@ -938,18 +1043,10 @@ emit_probe(int out, dtrace_helper_probedesc_t *dhpb)
+ 	for (i = 0; i < dhpb->dthpb_nenoffs; i++)
+ 		emit_tp(out, dhpb->dthpb_base, dhpb->dthpb_enoffs[i], 1);
+ 
+-	/*
+-	 * XXX later:
+-	 * If the arguments are shuffled around we set the argument remapping
+-	 * table. Later, when the probe fires, we only remap the arguments
+-	 * if the table is non-NULL.
+-	 *
+-	for (i = 0; i < dhpb->dthpb_xargc; i++) {
+-		if (dhpb->dthpb_args[i] != i) {
+-			pp->ftp_argmap = dhpb->dthpb_args;
+-			break;
+-		}
+-	} */
++        return;
++ oom:
++	dof_error(out, ENOMEM, "Out of memory allocating %zi bytes for probe",
++		  msg_size);
+ }
+ 
+ static void
+diff --git a/libcommon/dof_parser.h b/libcommon/dof_parser.h
+index d3a6836f15fd..bfcac2c52de4 100644
+--- a/libcommon/dof_parser.h
++++ b/libcommon/dof_parser.h
+@@ -15,10 +15,19 @@
+ #include <dtrace/helpers.h>
+ 
+ /*
+- * Result of DOF probe parsing.  We receive a provider info structure, followed
+- * by N probe info structures each of which is followed by possibly many
+- * tracepoint info structures, all tagged.  Things not yet used for probe
+- * creation (like args, translated types, etc) are not returned.
++ * Result of DOF probe parsing.  The order of elements in the parsed stream
++ * is:
++ *
++ * DIT_PROVIDER (at least 1, which contains...)
++ *   DIT_PROBE (at least 1, each of which has...)
++ *     DIT_NATIVE_ARGS (1, optional)
++ *     DIT_XLAT_ARGS (1, optional)
++ *     DIT_REMAP_ARGS (1, optional)
++ *     DIT_TRACEPOINT (any number >= 1)
++ *
++ * The dof_parsed.provider.flags word indicates the presence of the
++ * various optional args records in the following stream (you can rely on
++ * them if it simplifies things, but you don't have to).
+  *
+  * On error, a DIT_ERR structure is returned with an error message.
+  */
+@@ -27,9 +36,19 @@ typedef enum dof_parsed_info {
+ 	DIT_PROVIDER = 0,
+ 	DIT_PROBE = 1,
+ 	DIT_TRACEPOINT = 2,
+-	DIT_ERR = 3
++	DIT_ERR = 3,
++	DIT_NATIVE_ARGS = 4,
++	DIT_XLAT_ARGS = 5,
++	DIT_REMAP_ARGS = 6,
+ } dof_parsed_info_t;
+ 
++/*
++ * Record-presence flags for dof_parsed.provider.flags.
++ */
++#define DIT_HAS_NATIVE_ARGS	0x1
++#define DIT_HAS_XLAT_ARGS	0x2
++#define DIT_HAS_REMAP_ARGS	0x4
++
+ /*
+  * Bump this whenever dof_parsed changes.
+  *
+@@ -37,7 +56,7 @@ typedef enum dof_parsed_info {
+  * start which is the version of the dof_parseds within it.  The data flowing
+  * over the stream from the seccomped parser has no such prefix.
+  */
+-#define DOF_PARSED_VERSION 1
++#define DOF_PARSED_VERSION 2
+ 
+ typedef struct dof_parsed {
+ 	/*
+@@ -59,17 +78,62 @@ typedef struct dof_parsed {
+ 			 */
+ 			char name[1];
+ 		} provider;
+-		struct dpi_probe_info {
++
++                struct dpi_probe_info {
+ 			/*
+ 			 * Number of tracepoints that follow.
+ 			 */
+ 			size_t ntp;
+ 
++			/*
++			 * Flags indicating the presence of DIT_*_ARGS.
++			 */
++			int flags;
++
+ 			/*
+ 			 * Probe module, function, and name (\0-separated).
+ 			 */
+ 			char name[1];
+-		} probe;
++                } probe;
++
++		/* V2+ only.  */
++		struct dpi_probe_native_args {
++			/*
++			 * Number of native args.
++			 */
++			uint8_t nargc;
++			/*
++			 * Array of native args.
++			 */
++			char args[1];
++		} nargs;
++
++		/* V2+ only.  */
++		struct dpi_probe_xlat_args {
++			/*
++			 * Number of translated args.
++			 */
++			uint8_t nargc;
++			/*
++			 * Array of translated args.
++			 */
++			char args[1];
++		} xargs;
++
++		/*
++		 * V2+ only.  If provided, the given args have been shuffled.
++		 */
++		struct dpi_probe_remap_args {
++			/*
++			 * Number of remapped arguments.
++			 */
++			uint8_t nremapargs;
++
++			/*
++			 * Mapping from native arg index to xlated arg index.
++			 */
++			uint8_t remapargs[1];
++		} argremap;
+ 
+ 		struct dpi_tracepoint_info {
+ 			/*
+diff --git a/libdtrace/dt_pid.c b/libdtrace/dt_pid.c
+index 62060b5921b6..356b671c8385 100644
+--- a/libdtrace/dt_pid.c
++++ b/libdtrace/dt_pid.c
+@@ -866,6 +866,10 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, dt_proc_t *dpr,
+ 		uint64_t *dof_version;
+ 		char *prv, *mod, *fun, *prb;
+ 		dof_parsed_t *provider, *probe;
++		int nargc = 0, xargc = 0, remapargc = 0;
++		ssize_t nargvlen = 0, xargvlen = 0, remapargslen = 0;
++		char *nargv = NULL, *xargv = NULL;
++		int8_t *remapargs = NULL;
+ 
+ 		/*
+ 		 * Regular files only: in particular, skip . and ..,
+@@ -917,6 +921,55 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, dt_proc_t *dpr,
+ 		p += probe->size;
+ 		seen_size += probe->size;
+ 
++		/*
++		 * Assume the order given in dof_parser.h, for simplicity.
++		 */
++                if (probe->probe.flags & DIT_HAS_NATIVE_ARGS) {
++			dof_parsed_t *args = (dof_parsed_t *) p;
++
++                        if (!validate_dof_record(path, args, DIT_NATIVE_ARGS,
++						 dof_buf_size, seen_size))
++				goto parse_err;
++
++			nargc = args->nargs.nargc;
++			nargv = args->nargs.args;
++			nargvlen = args->size - offsetof(dof_parsed_t, nargs.args);
++			assert(nargvlen >= 0);
++
++			p += args->size;
++			seen_size += args->size;
++		}
++		if (probe->probe.flags & DIT_HAS_XLAT_ARGS) {
++			dof_parsed_t *args = (dof_parsed_t *) p;
++
++                        if (!validate_dof_record(path, args, DIT_XLAT_ARGS,
++						 dof_buf_size, seen_size))
++				goto parse_err;
++
++			xargc = args->xargs.nargc;
++			xargv = args->xargs.args;
++			xargvlen = args->size - offsetof(dof_parsed_t, xargs.args);
++			assert(xargvlen >= 0);
++
++                        p += args->size;
++			seen_size += args->size;
++		}
++		if (probe->probe.flags & DIT_HAS_REMAP_ARGS) {
++			dof_parsed_t *args = (dof_parsed_t *) p;
++
++                        if (!validate_dof_record(path, args, DIT_REMAP_ARGS,
++						 dof_buf_size, seen_size))
++				goto parse_err;
++
++			remapargc = args->argremap.nremapargs;
++			remapargs = args->argremap.remapargs;
++			remapargslen = args->size - offsetof(dof_parsed_t, argremap.remapargs);
++			assert(remapargslen >= 0);
++
++                        p += args->size;
++			seen_size += args->size;
++		}
++
+ 		/*
+ 		 * Now the parsed DOF for this probe's tracepoints.
+ 		 */
+@@ -967,6 +1020,24 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, dt_proc_t *dpr,
+ 			psp.pps_off = tp->tracepoint.addr - pmp->pr_file->first_segment->pr_vaddr;
+ 			psp.pps_nameoff = 0;
+ 
++			if (nargv) {
++				psp.pps_nargc = nargc;
++				psp.pps_nargvlen = nargvlen;
++				psp.pps_nargv = nargv;
++			}
++
++                        if (xargv) {
++				psp.pps_xargc = xargc;
++				psp.pps_xargvlen = xargvlen;
++				psp.pps_xargv = xargv;
++			}
++
++                        if (remapargs) {
++				psp.pps_remapargc = remapargc;
++				psp.pps_remapargslen = remapargslen;
++				psp.pps_remapargs = remapargs;
++			}
++
+ 			dt_dprintf("providing %s:%s:%s:%s for pid %d\n", psp.pps_prv,
+ 				   psp.pps_mod, psp.pps_fun, psp.pps_prb, psp.pps_pid);
+ 			if (pvp->impl->provide_probe(dtp, &psp) < 0) {
 -- 
 2.46.0.278.g36e3a12567
 
