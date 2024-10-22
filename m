@@ -1,81 +1,82 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21F81BFE1F
-	for <dtrace@lists.linux.dev>; Tue, 22 Oct 2024 17:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DE717C98
+	for <dtrace@lists.linux.dev>; Tue, 22 Oct 2024 18:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729619046; cv=fail; b=jHOtErBXLesnsBrn9rR99gURG7M+iEOtgCuCq//IOBD8W6g8ulaNcHZMpGv/rPIMIOKRnX0owawOYNlcIBtHx7HR2FxvZqclBz+PpV81v+6ztKN7WaqGGQulgXa4x/QzNOmFY57H/16y6Vbv3rd2gfU5eqaKT+Qe6BvO0zd6Ps0=
+	t=1729622462; cv=fail; b=fir7/xB6P55v7g+8ciUFMlR08UTKI67GQ+0FrqD1K4oqXHkXaHogu4juSFdLxnir7PCFaDrIiSkSVuE+dDrrJpvp5W+LDNHszVIpaiySuJ7SpU9hs464jjkgYcB5FHCIH9ADjYnbUj5XBlf2iT++Qj6FxLahFUGxagpWb8D+FpE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729619046; c=relaxed/simple;
-	bh=YxHwP5aSMEipQbf8zurFCXYyPjoJUxfVgY0ET8Lvh+c=;
+	s=arc-20240116; t=1729622462; c=relaxed/simple;
+	bh=aimMLN2bhpHYC94jaZfrLeiPJjqQ4KLu67GV5qE73A0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=C/qODQr1uVEvVBzk1DNYTU556n7k69UwQc/xae4Ic8b/b6AMQ2uUiIy6rIRNpT3Sq0k5Qd/Ig2KDlT3EkV1hjDYZGoT8r3Ne093fArGYBQUzT1YXuR3c347EvFJvJBlMt0PzFBQYeRn+k9aJ3vKSItbpRcvhsArAN3HuAgc3pmY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=kVOjLquq; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=j0lhCTl2; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Disposition:In-Reply-To:MIME-Version; b=TuHPyeudmDRu6PnaA+ugMMtp/jYj/SpvkweMPGANKuDCz2I1W9/eLUAR75MukIV6SnzEjWHnX6GSF0WITB5OpUyXLSTB1MtTLFG5W0Ig9oE7fCOzjIBMf5nrB8ZhXnwfJ86pbhVvEYs6L3CdgRzLe39sQ50fiZGliJgmzJXEFHU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=X/IKkNZ1; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=t1g2Hrt3; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="kVOjLquq";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="j0lhCTl2"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49MHfdLO023595
-	for <dtrace@lists.linux.dev>; Tue, 22 Oct 2024 17:44:01 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="X/IKkNZ1";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="t1g2Hrt3"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49MIBekL019171
+	for <dtrace@lists.linux.dev>; Tue, 22 Oct 2024 18:40:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=wAB1pAXMen+6CICqps
-	EXgeGcUq5l3UXh0WcfGwt+eV4=; b=kVOjLquq28G/dFzjJc2nexJQr22joMvUX+
-	hq/wTvSwB83NC3v54XYY0a+T9hLNoP2AHK8bqv8uAChJciPwkWKRcCcgos1rJJ91
-	hDZplGhAfjiGPZ7EZk6K1uWY4KUQywiQ1Ib6Wf/gM+Xw7i0u2O69/YEy6FMd/QMc
-	O0hoIwAkhvRkHk91v+04fINXEg+QXLCJYhO7oXDRTd73M/KZYQudyI/i7i+m8BwN
-	abMkB3VHpw2y0eV0XrllKU2H2uWMSMZnegfgqPxOO9j7OIQtf5vb6lzyF50DcxUL
-	CeFufB4Yv6UMt8zwRWmMXvOyjKp6HaVFpgmm+P3Stk3rBiCNHYXg==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42c57qe8xh-1
+	:references:subject:to; s=corp-2023-11-20; bh=O0x/aTeE9EndsjjpXL
+	+YA3mXz3FyWJBZuK+gBkQ63qY=; b=X/IKkNZ1WeEM9CNW854G48mbyH0j+27pwj
+	VeetuU08k5m7nKdUgWUDuvOxYaLlWk4JZ9TIQVk4aVE6/qSMhkSu87JY2EtsAh71
+	G8zkFEFwhpve4UsZFT2bvbbtwmDt+LabsPH4N/TIczYkP3dnNwpM5qejN5fXp3yH
+	VpfsGIKCY/ey6jq91kzgFrd/nBzlcBiYSoKRf9WX9v0NpdYao8KpIeWa6Rv+9wFj
+	jOa3YTt0UX1+YhAHDeYBVXX/Kp4GDgtk/QVrvT4ax8jw4H9elJjy2w8uE0vJ5bdB
+	/JePHe0syBI/equE/BFg+jwoF2/4FY6lOLZEyOcQqvf4iZeM7tiw==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42c55uxdcb-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 22 Oct 2024 17:44:01 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49MH0V24019706
-	for <dtrace@lists.linux.dev>; Tue, 22 Oct 2024 17:44:00 GMT
+	for <dtrace@lists.linux.dev>; Tue, 22 Oct 2024 18:40:55 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49MH78fj022663
+	for <dtrace@lists.linux.dev>; Tue, 22 Oct 2024 18:40:53 GMT
 Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2048.outbound.protection.outlook.com [104.47.70.48])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 42c37e89ph-2
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 42c8evxvpc-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 22 Oct 2024 17:44:00 +0000
+	for <dtrace@lists.linux.dev>; Tue, 22 Oct 2024 18:40:53 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=crM0LxqhQnaWxc2AYUv9vFkiLk86NW/KTyXORY3Qapncb17/vk091BPcO9RjHyN+X4U824z99XUhhqMsKU0x1pYMO3s0gja8E8OBfjnIKACyTQpHmLRWWAvP5egofI3C1kSpPSR7O5JEvA7Uvl+/XYpNCxWVWUdZHwr8zCJ+MxXiAaM1j5RQx8d24hPh7UIekDRYukE8FwAvD0iq3jAsvk5lIIVShWnHYTs25wUo6qJ7WbdTJpDNowUdK6dldhfPzXQLyL2PAuqV3GD2vzXUIAtF+GBqSDPXRdfG55K5pj41MeqjelRo3MtoOLLBrhewYfsRO107Mye4QGu6XmeprQ==
+ b=sgMLGSh2EVVEGSzY3dA3lWxiSHg1l81EJwD1rV0s7enUyvpWPPBv2NGsmumaSLFxOwSbbFMMoUZi/k9cR8gNIGH27nTV1V2WUCUIsu3OgsfhQhPi88ri8b2aygqg1g1usu610l6Q0ZsnH6kNtEfVAdU6rGnokArMwjierGD2mxpNVw+Y6AIc59qK9b3IHrWSEZBc78PS56xqTY9yw1/fqUnhcXo//hs1TpfnBWUE1PAphdjl0U0MRJHIDufmgdsXjHsI+MEkSID/CcGswJYLiBxTinjgtlL/Xm8ULCB1ZSWs2EYL0R9hbACe5TMC6J67x/w34XYtcmOh4YzyMISxvA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wAB1pAXMen+6CICqpsEXgeGcUq5l3UXh0WcfGwt+eV4=;
- b=dGtY1vHf2xz0n61eulhUi3rykJeyRiVDSUHgwrPpZXDW24LSA8MDUgVNRFv/e6Z1CWsRk13kxEpn6NcuCK4pptDsqZZIvzDqq4fUKRj68LTQuGx36fKvbWXbok4NIzFY7iCv7tPUQHppsBogjo7mau1Y5dgPNlQ+w/x8dBStGMBhsJaW8HqByWuP5ZcEAamFonPFuKTlLn4pJjkPekiMPq+yTezUEzvGCftH/MSM3FqPYAK8J/yaQJ6Mk30aHgqXFpZ584DNHIK9iAiWbm668vVRR+jYhFL/5swbpwxLe/hcS+JTDzWQ9ytJym7UxF4/Tte1h2Pr4pbyG5n8IKhnVA==
+ bh=O0x/aTeE9EndsjjpXL+YA3mXz3FyWJBZuK+gBkQ63qY=;
+ b=KaxaVP/Gk3hrkJh+GL8y/FoeVfekocUCesAVBtySuAatvCOo8lkoHp6X0Txn0CEZ+m9XwCYe+X9k2Lz8GbGsWRpt7QsU1mbnMWW23qP0ItwCiAKoj6xW9wePfUSA5BzSE3Tn1QgEo06KecVWXJ7noI+wCslLMixcCAxtRRm/HBdQopZfO2uSwHUgm1MkpY6Yl0Tze7DXE0QXScV6FkG2HaQXwgOmC1Hhkaht5IxgK+kHaTbPy9wLeDqydISBNN9VvBu5YL86tr8BgRvvX1tIyGF7dEVSTN1oRZTdfx47/MGZOUUQcNZs5hX9o+qcCn4QekUKvCl2uleVMv+4avWwew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wAB1pAXMen+6CICqpsEXgeGcUq5l3UXh0WcfGwt+eV4=;
- b=j0lhCTl2K+dV/zY0s0K3SO86ctp/YN05+Y817HcSAy+7mF46TXceBTScBjm6Xj0XVQ9nK5BnZCcO7nHkBKpCzM8IMcBDpf91/n2Pa+Y8rMqWj2B+lny9lFJUNAW/RPCAnJrKl36furfjhxi7NPZwm+aq8FQO8lxcmRhfJVxojrM=
+ bh=O0x/aTeE9EndsjjpXL+YA3mXz3FyWJBZuK+gBkQ63qY=;
+ b=t1g2Hrt3hRdMcOWisKBlpUnQlAf02BCn+ykClYinubFrZ6rL2GSM5cNRHhv3PZAeK2Rd6ICj7nWBwIgabEf+zztmBJL5bE3rttm7GgAqAHAXuh+HWdlxt8BfwgRuPqbaOXpBvCPpkNVTZMJIQ6tiSgtFRRp7Q3lMeuF16vuwCu8=
 Received: from CO1PR10MB4769.namprd10.prod.outlook.com (2603:10b6:303:98::16)
- by DS7PR10MB7277.namprd10.prod.outlook.com (2603:10b6:8:d8::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8069.28; Tue, 22 Oct 2024 17:43:57 +0000
+ by CY8PR10MB7123.namprd10.prod.outlook.com (2603:10b6:930:74::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.16; Tue, 22 Oct
+ 2024 18:40:50 +0000
 Received: from CO1PR10MB4769.namprd10.prod.outlook.com
  ([fe80::6801:f7c:753b:5a82]) by CO1PR10MB4769.namprd10.prod.outlook.com
  ([fe80::6801:f7c:753b:5a82%6]) with mapi id 15.20.8069.024; Tue, 22 Oct 2024
- 17:43:57 +0000
-Date: Tue, 22 Oct 2024 13:43:54 -0400
+ 18:40:49 +0000
+Date: Tue, 22 Oct 2024 14:40:46 -0400
 From: Kris Van Hees <kris.van.hees@oracle.com>
 To: Nick Alcock <nick.alcock@oracle.com>
 Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH 4/6] cg: add argument remapping in the trampoline
-Message-ID: <ZxfkWjbS1c0vXLvn@oracle.com>
+Subject: Re: [PATCH 5/6] usdt: typed args and arg remapping
+Message-ID: <ZxfxrhUANHKZZgqn@oracle.com>
 References: <20241018195808.270688-1-nick.alcock@oracle.com>
- <20241018195808.270688-5-nick.alcock@oracle.com>
+ <20241018195808.270688-6-nick.alcock@oracle.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241018195808.270688-5-nick.alcock@oracle.com>
-X-ClientProxiedBy: SJ0PR03CA0049.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::24) To CO1PR10MB4769.namprd10.prod.outlook.com
+In-Reply-To: <20241018195808.270688-6-nick.alcock@oracle.com>
+X-ClientProxiedBy: BN9PR03CA0534.namprd03.prod.outlook.com
+ (2603:10b6:408:131::29) To CO1PR10MB4769.namprd10.prod.outlook.com
  (2603:10b6:303:98::16)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -84,261 +85,671 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4769:EE_|DS7PR10MB7277:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8652ecfc-3449-4383-9c01-08dcf2c11a92
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4769:EE_|CY8PR10MB7123:EE_
+X-MS-Office365-Filtering-Correlation-Id: c2bf221f-c4af-4dcc-2d0e-08dcf2c90caf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?NhnMuBvKq3AlAuC3ULQClWloy44F0oYPfJs4KirmzvwaP4XSk7hJLQHcgH07?=
- =?us-ascii?Q?XwQ3L/S62JOBWzfdrHY3kD4qlixGUujS9niekoB4CDnwMG4DND/mdgGW4MCc?=
- =?us-ascii?Q?TqUpa6pYS2it97OT4GklmP2RAeYmxgd1/8FvFIu9zM4Fv/pVFOH1B708tU1D?=
- =?us-ascii?Q?c6HYqJyt7kmlVKiOEDUIjdOMy1+2hBvMhEF+T+fyoAy4Z6Lsui0P43BI8Djy?=
- =?us-ascii?Q?WCCVU+gBaUH3wKtMiIgjnDJucLx/XYg4Yq/4d/xQoLaPhh3xKzXYTynRd3ZA?=
- =?us-ascii?Q?blKdbD9+zYDS17n3FFoYTn+dnXfs/QtfkYXkW8up7jH2m2iph09Esypp19nC?=
- =?us-ascii?Q?HudrMci1n9ocPYyjqBOnCG7brCMSWz2wQsGwVZY95nnHK8l5PrbaSmgAlQib?=
- =?us-ascii?Q?k5L59jUHopCENWfFZeyqE6iykkddRH5GI9o6zCFFYHwvm1QaQ3I+AryCr6MT?=
- =?us-ascii?Q?+lAJJAKyXrOqAoI5d6tflrVwqJA4WyeVwkWuXbGs3pArMYaR7YwSVMqlXfX5?=
- =?us-ascii?Q?8ilQqz0fGNHa6uNYIeiS6OLJAKM94dJAYRDrAK5ZYhJUGRDIsnd8cVje+3hS?=
- =?us-ascii?Q?DznBsKrMW1Ucm0Oqf1e20/ms/EIf2AbxxpPEIGHHkkXmVjDXEoTwK8yxcz+x?=
- =?us-ascii?Q?rXgeeD5oclt7pW8z1lPdRbvn/Y1l5i8ATXg2n+nE4zvZ6EbX3AhUDSsiyjeE?=
- =?us-ascii?Q?ATFu7jX0nTfAPiskgOJkWS4m05CBr2n+olfI6wDUzag9h+Pil6xMhCFfaYbs?=
- =?us-ascii?Q?Xrjdua3If+jMfyP/F4mPrDhXjnqBt3gZOAF0JaE5McFqoc9YxoDZPcol8HsJ?=
- =?us-ascii?Q?MBrTI5PCaeMYBkJZhiY78DkTEVYNuUPXPKWm8AKfdBQUGSX4brv/yS6GelhG?=
- =?us-ascii?Q?F2p5Lhv6S5skQ4YKBmU6KyQLvFt4vzpu2J15TJ+DU17u4Uaq4cyn43sso97F?=
- =?us-ascii?Q?wl+zg4+HSfa1EO985P0VvvL9CezoR//ywV1FqKDeJ1bkB5cJ7/ivCKhj4P0m?=
- =?us-ascii?Q?6isMOsqBqLlZ/ZPy202UzOFUvtbB8IvZ8pfp8XTkI+RRQFSV9tl0XuHKJS5c?=
- =?us-ascii?Q?MUCVBjV70IdY1ght7vL6d24TOxsesz9HrxK55yFQ2gRWxC7Pukcn9UpArm7l?=
- =?us-ascii?Q?w79hyd72ALNHjmJMGzXN04eooEMhnB0kzcoCP3ZP9WJhEzeYFfkKtCw5U6jd?=
- =?us-ascii?Q?2VYbqNO9RTPyB8qEWUZV0gH9C1wzjeNBv8qxEohHbKMfN7lgofEiRS1EUHMz?=
- =?us-ascii?Q?85Kp8OeuT//C90p5DHWKRu94P9tu08HpeEgq44x1VLbLimHqvbqC+mJBpPkm?=
- =?us-ascii?Q?w39M91LD/k+Ny8POPc7U4cyU?=
+	=?us-ascii?Q?QFvw4v7bSJ0Opr9nBGOSsnvn/Gyl42zU0bHKswfMEUQV3m6lQAioNQXV5JzR?=
+ =?us-ascii?Q?d1cIa4tQCba0MlCdeyxcM3AX2mnUtwDyQ+LPDiW7lCqv3HM1n/+dooVwG73p?=
+ =?us-ascii?Q?TNMZ339M5SkH90x9jxve9dnG3mO+pQzgG2xVefxG0IN/PcDpHxAF1YWcbW+I?=
+ =?us-ascii?Q?qmya+oGaQO75Nfg2Uw0SO5Qidn4xr8LbbGQ4orTkRo0GDDB8qTC+nZWFwd6E?=
+ =?us-ascii?Q?vZchSaJsgKTlL/9S4obJGBv7CWxM853UFv2zBBHJutBbrAK1lFL4llZYLcFV?=
+ =?us-ascii?Q?gxrB6aweJ9ykXVTFGdcXiEiNGgbJEZVfE2jRTUWZkSV5qpNtbQpI20t2flLT?=
+ =?us-ascii?Q?pBYYc5JkaYuCnoYtxKOw2L+DJ4QTp69M2cNpsoC4iiPzYraOB0bPMNlK2O8R?=
+ =?us-ascii?Q?xS9tqmzIcIFD6rs1+E3uz37Efr6MduGBwoZ9MYuFKuFTZyQOwvmZ2iQmGrCd?=
+ =?us-ascii?Q?jdH3IkA3G49IAtsbYPgZSx3dfzZi2LPQ8A+lCaI+waR4W2lpVCe/GvNAz3ga?=
+ =?us-ascii?Q?jqFewaYCtN9BXLiQd6+r22HXaZzrhRozY9snRWS5GVwn1q68hmIGJZUAJ5F0?=
+ =?us-ascii?Q?f+RFMi3/zinYC2K81ud5WSPvzu6J1MM+R+z0On0aNVG+BcuCo0P66yw9eXvg?=
+ =?us-ascii?Q?+H9QIVziUv67Lk3IfFUuu8EkhuvOYeaODl62W5Vjgu2sgY3eSQToTbgl9SHs?=
+ =?us-ascii?Q?8xnRewju2IqduSBP4lKj7N6NP8oqLVJRn212PR/hPs1F2mbkSfGgr+52zwXe?=
+ =?us-ascii?Q?KrZuA1WPNtgpt/Jg273H46vx/pOLolwzYOoghybWKTQr4WUqbPmjAHGHht/d?=
+ =?us-ascii?Q?VppyJRLpYdSp8gL1NclC1/MoYMWct2enmDji1oeFBEm9vRugyy8I8GNmx3Na?=
+ =?us-ascii?Q?Azo1p+x33Cx+PdwBQ+/fQ1roc7YZDyhUp0Va5FfR1OCbjXdbCjOZk5fVyE0G?=
+ =?us-ascii?Q?cqtsWONmIeejdMH2KBxOQorZaqNR5I1/DPn9v+q9c2rTpGUa5Pw3/tMI6itr?=
+ =?us-ascii?Q?hIPdnd36gF3pLYQOkqVYi0r6HamZ6jnyiHlk5nHWWe8ABtOPmgxKlqoAwLqL?=
+ =?us-ascii?Q?n3mxq5BLetdUtbBj4oXT5g3dpvlZHeFmuH1IoIUbCKDBxfZhiVUYMZN64Cn+?=
+ =?us-ascii?Q?AQugBuhLQ9I/OcToK7+mvXcjzA7e+QHAjSxdyfPye9ccX7yuDTHFsC3tXTv0?=
+ =?us-ascii?Q?qcLuq4LWqjOI9LZWbAjVqDwg25THMc1pc67Kydr3sIJTXJ9P7MJY97RBiHY8?=
+ =?us-ascii?Q?HPMFRzP/zTizoj5t1Hxege3CIJdL0YJbidp8a7t7uNU9d6CwPYYTvaGlTQuv?=
+ =?us-ascii?Q?RK+B3e5ntLNizTpkJoPR6vRi?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4769.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4769.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?HgpRW4ZvKvm31zpF5qF+n+/d6veHWrxXbZSz/tp/GXWFmOLuhoNN4BfKqZkY?=
- =?us-ascii?Q?El4ThQooTR7Zd+3iQVQaSjiw1We/p3xtM7ZcORiHsYHMPB+EzS+uHyh2jLCW?=
- =?us-ascii?Q?/46hqXn2BdWSS8YaKHEzZG7AFVvz+zQprTAa73N3SlLNGTw5PfEvk2idAYrP?=
- =?us-ascii?Q?VW6sbl8RtRoWaDg+l9RaYN3aOa6xm/mu1VCfsAeLwzL2RsMjhWh00pcr6Vaa?=
- =?us-ascii?Q?aPDtXobSmKy1rtgkhepcMoAmgYD/ttqEBCSidyP7yEA11fGc1UDXZVrdYh+B?=
- =?us-ascii?Q?rry1LFOEyVEwI3Apw1JL/qBdj7gye8U+M5eE8lj71r9OXBnrUJbfNKZcsbyC?=
- =?us-ascii?Q?PhUxBJU6bIbEr6CnXulc4kUhCkUyotR1cFLMg9vbKGA4R5n2VtfeiCZvK8cX?=
- =?us-ascii?Q?bjViHsThLCufW8Bzb9mSbX64Qvyy69K/JLcKtjeBPEMFwXJAN0/OgziXAj0N?=
- =?us-ascii?Q?7CqxIQNvBhU9CtO4Hq43AbmaF4Ks8bWP9gBrfBDCMpPGDr9yGzhOxy9bvdS9?=
- =?us-ascii?Q?aPCEN2J3oC0FiqdAN4Obr631PqQJW7dFDsDT13KTfMYcJyET4DPqVr0GWRL9?=
- =?us-ascii?Q?lYXEGHWyRuMpDIQsA/FsGpKwBKFdMm/7S0o5PQCVilLu3GzjMG4VLDqmt+aL?=
- =?us-ascii?Q?UDUP5idRjk9VISkvUN1PAz/9p7MLB7SrBOtGIAhJs6Aeq/TVwKUsl28dofDd?=
- =?us-ascii?Q?x6EKK6Nryhvs6d0vsVogS1imvEcW7fCe9Jpi+A2C2CzONdAhQ7FlNIUa2ZI3?=
- =?us-ascii?Q?21MrYPDrdHAZf6MgQxghqpvxp3BC3jf6Ms5EunxI+PlhtZmNAZ2nQcNrEFS8?=
- =?us-ascii?Q?nMc4cJ96wnpDrKBpHH/JjTYtJ8vxw5nHij6YWOLHNkzzas3+xJd8fASeczxM?=
- =?us-ascii?Q?UmKq6S197UreWBSv/da90NejJrBULNNShzgX9DT03OyAke9NkRG8cmOsTGc9?=
- =?us-ascii?Q?MKvzGneAWyIxmZhpTEEteBTQqztpo6GEJ7QWrp01PFr5lskyKq535uTEz69i?=
- =?us-ascii?Q?tEmCXkEoeTquAo417zkcPLh6olQsVC1MnufmS84zqxv/S+acbDvdaIdIW0em?=
- =?us-ascii?Q?rgzqgjctvK8YBVk775ImI3h2zkV96CD7DuwRlxDnFIt5zSkrBzDzU3BGMrNN?=
- =?us-ascii?Q?OW4dYe6p7cbPW/aXv0nLfoYXYQNgL01flVpbS8ffmtp+hbhNCNGYBFc4nrzx?=
- =?us-ascii?Q?DkpMOzrXRh7hssRWmqGkDrqniroEgVqvn4GDqLZc+B7TSs/u5ws1qNzklhus?=
- =?us-ascii?Q?PJ0KWJw+wEhQ5jAIpVM2nMOZYhRB0ZapeDXTmr7aGdoL3WCUsr+m0QdBvUOK?=
- =?us-ascii?Q?fYzCLW1yX6M+1MTVVb3chZdFwm8n2srcdDYq2J+9jxsM4ChAAY2W12XiN1YT?=
- =?us-ascii?Q?A06E0bKS9dLUiI7IFAuD5cADOEFAlDSvjS6lgYfLUnYRSagNbiTOSyOVdoaZ?=
- =?us-ascii?Q?d/3MGq0JwxIcULmbs6rwBnTc9z4Ucoc8tsL9Dgy8SjJ0I4hcscqTtusIQA0W?=
- =?us-ascii?Q?Un98CVhiPy+YL86XzhQBGDHGZTAZ/9HXIvUf0OFiOYRplXyPhSLuc1694WK+?=
- =?us-ascii?Q?RlreuKZyVRy/QkDp8u9heq5iHSa+1s2z6F/JUS+yimDqVFy0RqaM5wRFwG1Q?=
- =?us-ascii?Q?AA=3D=3D?=
+	=?us-ascii?Q?TzHOCn6MlHZho0ZU60CgXT+DUzovXLOnWCC16KPWzs5960vgQH5tntO5O040?=
+ =?us-ascii?Q?bXBQDSxbn4oM3/UMNeOT2ofN5DHzqIteJGckQcZKqMdEm9CNFcGfFowslzDc?=
+ =?us-ascii?Q?hn7IUJQthBIQAcQfKru9yL/m55fvDyP/3GyGOQQUw6f1+aDstudqLEuQEpoq?=
+ =?us-ascii?Q?RdgF4UdXfXkBE66ur1tcDK4xrELBWudaXjf/C5RsY/gCP2H7nYfvAC4E9/RH?=
+ =?us-ascii?Q?5St6Dr51VRDe0U9xadyN741xRBTScLpgXvf/S3M/zlBfNcsoOXAYCiprUW4c?=
+ =?us-ascii?Q?8DEwZoaCwBXZj6pyPTLQWP7ym8rwkmDQwdtnevObfZK9CuiAwrItSQ01HqtJ?=
+ =?us-ascii?Q?A3/gV8+gWb/igwtqdSgxo/TYGSjfGnOBMkBdMzuJfm4V1WQnHy06Npk/1hSQ?=
+ =?us-ascii?Q?j5u9HvScMro9Cp/daeU0wa8/ny9fXJ8Shvc098ZGf2ol/RouysZBkFV+ouDJ?=
+ =?us-ascii?Q?zDOg4tyEO6anhus+YNQHMIzHnH7v506tUOQrChN2yy+60RdFFirZZJVaxNl1?=
+ =?us-ascii?Q?xkSQOWxLHq1pWS4HzIeaTlV4Yjpjs+Z/D0V57qrVceznMRoRUaEGTUbkjkVg?=
+ =?us-ascii?Q?oO6ozxsYpZSTFhkYPa6g8IN2W4ZmqvAKLNfLlJxh29BgIyic72ZmbUab9Cqf?=
+ =?us-ascii?Q?9sthWJnxH8kDf0tsE2SSATrOXA8iFi6pdV8zrQX+DIwHsTiJACgN80F5J6Dn?=
+ =?us-ascii?Q?lCoUWtBH0wRABNB9XWOB+KAHsmrgkf47qp0Op22bGfb8zVp5FDXrayZ6XWVd?=
+ =?us-ascii?Q?Gr3FDBccEOeutoSJpgGDyz4gdZx0krircZrYoSzIYRXz5R2mi0G8xNtTPY8U?=
+ =?us-ascii?Q?h+2dPSyzIO7nUsHc2eVkFnwmeP68tZpUvWsmdR+2eOo1TNe6dpB6r3gzwxpN?=
+ =?us-ascii?Q?QIyJGPnUDr9pN3Ty07+V/OGPaNVcQ8SYmfndgXbLrDWAPocTFdafK6lom7JL?=
+ =?us-ascii?Q?/kQnSjJlEpICs5+0LRb627880bLmCYlgDiNe1zMODea5Me4VljdHRVJwMGPQ?=
+ =?us-ascii?Q?Yaz/+i3xjwEJxnCCPt9rbHrBrIvr/V/2I5mrYQxwjVTA9nJ3Q9OjwWXR8baZ?=
+ =?us-ascii?Q?enNARtip500aXLDuc9LxwgTFFCJVG2yFtywanrJfOnECC01HGj+0iAwtryeJ?=
+ =?us-ascii?Q?0YwijyA/Ou81dYN7LD7YaY6G4AoiEARHmhPvjCTkUxm5+XDUU0OJ+Oig4vNU?=
+ =?us-ascii?Q?S9wcpI/NMcVWNF1ikM/6cidQyDJfIjPtbkAPglvQjcNkKxt/XCnN9xwTW3so?=
+ =?us-ascii?Q?ddVFejaaFQplohOC9xRE2aAXFCVSBHaVjivt8bmRI0gI4KuipUqpgbCaT/d9?=
+ =?us-ascii?Q?6kqE2eY6ktWgNg98TqKqlAaxt4EZ6yUN/wQj8Ww5MpzPnqUKyyoD4aIjt7zt?=
+ =?us-ascii?Q?lzBKQsNsasAGEr97hZah90IkUGTGWqB+zRL+7uolkQIjBgUkhUHPoX+RLVcz?=
+ =?us-ascii?Q?dg8CkTx9zof3Vme9C+jlhCLDORI2zfN6pW1+Ue4uPur11S5B6jTtJ+OOaEem?=
+ =?us-ascii?Q?VoMQJ2js2eFvMpFiTiljjh5PsUqOEATwFm/DBWhWbSxZwFmfeOWo4cMXXqnF?=
+ =?us-ascii?Q?F7cZFtmcmsK932GtKo5s6s1ffyLGxyAQrlzCv8uqhzxftFjeCM4nuEtF1yCh?=
+ =?us-ascii?Q?lg=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	Rjaet3XoTucTCQQmBZj2byEsZ6UgH0Efco7aTuclaVANqiFz5atsRv7XPDS9dUJ0X8Xd7SJRLn/xbNneYp2evWvLufVMDJjzSBzoQjslwKHUmpTa0ARU3f5snWaer7c/XIQd1VELIcCr+nOydX8kH5x+xAYFINUWlVAVN3Sn6c6we6TqMnbOcmFQI8jTYTv7oHjubNYZIOs5MjQj6FplWvIRZKm5/4vpi5TjNbOyBIiaixoErjcCLhZr6e3hpamphS77TcfyNacZffjbgNX9TYzk310JjcGWc0atQ7YUhzbL1n0OLrGUgRw9dDlGV5lzt8Dq7Aa+DhbV7XR181wo4hNXA4ytQPUkImupeZrj7Rvqkahf9FuA552jQzK4owtnNVN5gqyn8CcpvnQPIRVtJEY7vj8bSYS6kT4Vs2oZc03AutuCNKYPCDkibqclki5basaxmB4lJ8YgmMGNll7NwozZNa+IdIFe1Z36f6zAo5z+GVI4kfcozGAP+uCLLC37yfEg4N4/un7xPLOPOMZh9z40RLZABm3F1RjfSc4/AlVRuGM3N6U1EqTEp99LcVhsbdJyu4ePb0wt46oE/xWwaQiYfHiMlM487u22YeKvzPI=
+	G1jkrVqc9jLXXgb2gB9KGpqoacOPXn1CfC8NGqKH7sZAIZerTj/6Gth6Ahrk6gZRjV+JQFgitehoz07zm25kJMaAnU+tpwOxeLLAqeU96MGzB3Wpan/ScsiMkyvb3qEebQKIJUGE1CujL3rKZw94fmc2JJW1jExN+dToPlTzoW4TgoRcBClpCKIDprZn6qsRIJTArFGn4fnTi+KheSpICOhDIIYsHU0Au7kMHt3yQkCbQLHMX23OEiJVwlKeHq4/lXu9QT27yPUrwR8kp5ra83Kv0SbDavE2gcbhrFdEIJ8ge+QXR83mX3VYsZOHETbSk/HfgYpvKSEHRmajrTHymLxCemVKnlUNe7BrXxbpcN9V/dSGR+vE+LsCyfZimcWt8rTZlD9ppWIy5jI5T5OsG//uq34mqoexnhjd010vwraZbh79c/wKEct8hBrKJGhGkuPV4akLH53Tbr9hmENgqVTLqVmyYznijBD9ZUoOCd2GjtWn4IKuBfJfRdClk75tzSDS4DT7RSooPYeG1Ta9lg9LuPYEJttdtYXSj2Tkgy94i7QvrAuF0yRIJF2/BEQHl5DmTJs6CL+/p7OH5tlynncbdnrVbt6J+8vMeWRJhhA=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8652ecfc-3449-4383-9c01-08dcf2c11a92
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2bf221f-c4af-4dcc-2d0e-08dcf2c90caf
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4769.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2024 17:43:56.9959
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2024 18:40:49.7091
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PwtazA6rbcuhyK3gn/L4BwvHf+qekP3opuepEPXseV0FRlLGA9jQK5GsYMLVgF5cZVDtqYH7T1VCb2yGMiRRDoNdN6fxFsEiKjqOTVyWwgw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB7277
+X-MS-Exchange-CrossTenant-UserPrincipalName: qdGLt/T8HVooYnUyOOUrWyBDu9Qnxn6g6B7hI7vZIi/3Q7ir19opxcPbfdB//dRC6acopInQI12A0TT556veDCp+y1rdoEbIGu2BloAX/uY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB7123
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-22_18,2024-10-22_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0
- mlxlogscore=999 spamscore=0 malwarescore=0 mlxscore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2409260000 definitions=main-2410220114
-X-Proofpoint-ORIG-GUID: 1rILfHa63fs19LwCu4AKTz20fQDCeKSH
-X-Proofpoint-GUID: 1rILfHa63fs19LwCu4AKTz20fQDCeKSH
+ definitions=2024-10-22_19,2024-10-22_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 suspectscore=0
+ adultscore=0 mlxlogscore=999 spamscore=0 malwarescore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
+ definitions=main-2410220120
+X-Proofpoint-GUID: TVEEPSdhxzhq3TNC-OxdXwgExy-rdqd1
+X-Proofpoint-ORIG-GUID: TVEEPSdhxzhq3TNC-OxdXwgExy-rdqd1
 
-On Fri, Oct 18, 2024 at 08:58:06PM +0100, Nick Alcock wrote:
-> Before now, argument remapping was restricted to the args[] array, and was
-> implemented in dt_cg_array_op in the same place where we decide whether
-> to automatically copyin() userspace strings.
+Standard comments on remapping vs mapping apply :)
 
-remapping -> mapping (everywhere in this patch, and similarly, remap -> map)
+On Fri, Oct 18, 2024 at 08:58:07PM +0100, Nick Alcock wrote:
+> This change propagates the arg type and mapping info we just got into the
+> pid_probespec_t onward into the underlying dt_uprobe_t, shuffles the native
+> types before handing off a 1:1 mapping to the dt_probe_t, and calls
+> dt_cg_tramp_remap_args() to apply the requested remappings.  With this, USDT
+> probes should now have visible types which obey the :-notation translators
+> specified in their .d fils (this is now tested).
+> 
+> The probe info has been moved from the underlying probe to the overlying one
+> as part of this: underlying probes don't have any user-visible args to
+> get info for, and their probe_info functions are never called.
+> 
+> We make several assumptions for simplicity, all noted by TODOs in the
+> source:
+> 
+>  - overlying probes all have the same native types and remappings, so we
+>    don't need to look at more than one underlying probe to figure out what
+>    they are.  Given the structure of DOF it seems to me this must always be
+>    true, and even a malicious attacker could not produce DOF which said
+>    otherwise.
 
-> But existing DTrace testcases suggest that remapping is also applied to argN
-> for USDT, and it would definitely be more *convenient* if it were (so that
-> argN and arg[N] always contain the same content, and only their types
-> differ).  Add a new function dt_cg_tramp_remap_args(), which can be
-> called from trampolines to apply remappings (destructively, but it keeps a
-> copy of the old args in the save area so you can unapply them if you need
-> to).  No existing providers do any remapping, so this is not yet called, but
-> it's about to be.
+You cannot place more than one USDT at a particular tracepoint (underlying
+probe) so it is guaranteed that all overlying probes can only differ in terms
+of their provider name.  The USDT design in DTrace encapsulates the USDT probes
+(and providers) as instances of a meta-provider that acts as a template for its
+instances.  So, all instances contain the same probes, together with all their
+data (arg data, tracepoints, etc).  So, this is a guarantee and need not be
+mentioned as an assumption or TODO.
 
-I think that the preceding paragraph makes some wild assumptions that are not
-really in line with what the anticipated behaviour is.  For one, there is only
-a single existing DTrace testcase that involves argument mapping, and it is
-uncertain whether that reflects a conscious design decision.  It is certainly
-not consistent with the SDT implementation where argN reflects native values
-and args[] is to be used for translated arguments.
+>  - any given underlying probe locus is either a PID or a USDT probe, never
+>    both, so we can just remap the args at the start of the trampoline and
+>    then never touch them again.  This is obviously wrong, but the both-at
+>    the-same-locus case is not yet implemented, and significant changes need
+>    to be made to create_underlying() to fix this.  Right now we can't easily
+>    even tell if a given locus has both types of probe on it... fixing this
+>    is literally a matter of shuffling the pid probes after the usdt probes
+>    and then doing a single dt_cg_tramp_restore_args before all the pid
+>    probes fire.
 
-The documentation states:
+I would rewrite this to point out that PID and USDT probes being at the same
+locus is not implemented yet, and that this implementation assumes that either
+all probes at a particular locus are PID or that they are all USDT.
 
-  args[]
-  The typed arguments, if any, to the current probe. The args[] array is
-  accessed using an integer index, but each element is defined to be the type
-  corresponding to the given probe argument. For information about any typed
-  arguments, use dtrace -l with the verbose option -v and check Argument Types.
+I would avoid speculative statements about how this might be fixed in the
+future (however near that may be) because there may still be design decisions
+to be made about that and there is no need to bring it up here.
 
-  int64_t arg0, ..., arg9
+>    PID args are already broken before this commit (something to do with the
+>    wildcard USDT work?) so I cannot test if this commit broke them further,
+>    but it shouldn't have.
 
-  The first ten input arguments to a probe, represented as raw 64-bit integers.
-  Values are meaningful only for arguments defined for the current probe.
+This does not belong here but rather in a bug report.
 
-Now, granted, this is a bit vague and does not entirely apply to SDT probes
-because there we actually have types for probe arguments anyway.  But I think
-a valid case can be made for argN to *always* be a raw 64-bit integer value
-(which you could explicitly cast to the type it really is) and to *always* be
-the raw arguments of the probe, i.e. what traditionally was passed as the
-argument to the dtrace_probe() function.  That would correspond to the native
-arguments for SDT and USDT.
+In addition, I think it would be good to add a few more test cases to cover
+edge cases:
 
-Anyway, rather than making assumptions on what would be better or implying
-that there is sufficient evidence for one versus the other implementation,
-you should simply document that a test in the testsuite implies that the
-expectation is that argNM and args[N] are the same for USDT probes, and that
-you are adding a function to do apply this mapping, for use in trampoline code.
+ - A probe that has native arguments, but no translated arguments.
+   E.g.
+	probe place3(int i, char *j) : ();
 
-I also disagree that the function performs the saving of arguments itself.
-I think that the caller ought to take care of that, because the caller has a
-much better idea about when/if to save arguments, and when/if to restore them.
-
-> The remapping info is still propagated up out of per-provider state so that
-> the parser can use it to tell what types the remapped arguments are and
-> to apply array-op remapping: users of dt_cg_tramp_remap_args() should set
-> the probe remapping to 1:1 and shuffle the native types correspondingly,
-> to match what dt_cg_tramp_remap_args() has done (in effect, calling it has
-> moved the native types around).
-
-I would drop this paragraph.  It is unnecessary and speculative at best about
-what other code should or should not do.
-
-However, I think it might be a good idea to have this function actually rewrite
-the mapping data to become a pure i -> i mapping.  That seems appropriate
-given that it applying the mapping and thereby should ensure that the mapping
-will not be applied again by any other code.
+ - A probe that has native arguments that do not get used.
+   E.g.
+	probe place4(int i, char *j) : (char *j);
 
 > Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
 > ---
->  libdtrace/dt_cg.c | 35 ++++++++++++++++++++++++++++++++++-
->  libdtrace/dt_cg.h |  1 +
->  2 files changed, 35 insertions(+), 1 deletion(-)
+>  libdtrace/dt_prov_uprobe.c                    | 163 +++++++++++++++++-
+>  test/triggers/usdt-tst-argmap-prov.d          |   3 +-
+>  test/triggers/usdt-tst-argmap.c               |   3 +-
+>  .../dtrace-util/tst.ListProbesArgsUSDT.r      |  34 ++++
+>  .../dtrace-util/tst.ListProbesArgsUSDT.r.p    |   2 +
+>  .../dtrace-util/tst.ListProbesArgsUSDT.sh     |  83 +++++++++
+>  test/unittest/usdt/tst.argmap-typed.d         |  40 +++++
+>  test/unittest/usdt/tst.argmap.d               |   3 +-
+>  8 files changed, 320 insertions(+), 11 deletions(-)
+>  create mode 100644 test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r
+>  create mode 100755 test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r.p
+>  create mode 100755 test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh
+>  create mode 100644 test/unittest/usdt/tst.argmap-typed.d
 > 
-> diff --git a/libdtrace/dt_cg.c b/libdtrace/dt_cg.c
-> index 39c27ab0ec0b..9709667d97fb 100644
-> --- a/libdtrace/dt_cg.c
-> +++ b/libdtrace/dt_cg.c
-> @@ -831,6 +831,34 @@ dt_cg_tramp_restore_args(dt_pcb_t *pcb)
->  	}
+> diff --git a/libdtrace/dt_prov_uprobe.c b/libdtrace/dt_prov_uprobe.c
+> index 481159b01c24..767d9a80b5e1 100644
+> --- a/libdtrace/dt_prov_uprobe.c
+> +++ b/libdtrace/dt_prov_uprobe.c
+> @@ -55,7 +55,13 @@ typedef struct dt_uprobe {
+>  	uint64_t	off;
+>  	int		flags;
+>  	tp_probe_t	*tp;
+> -	dt_list_t	probes;		/* pid/USDT probes triggered by it */
+> +	int		nargc;		   /* number of native args */
+> +	int		xargc;		   /* number of xlated args */
+> +        int		remapargc;	   /* number of remapped args */
+> +	char		*nargv;		   /* array of native args */
+> +	char		*xargv;		   /* array of xlated args */
+> +	int8_t		*remapargs;	   /* remapped arg indexes */
+
+Since all overlying USDT probes associated with a given underlying probe
+(uprobe) have the sane argument type data (native, translated, and mapping),
+and PID probes do not have arguments by definition, you can certainly store
+the data here.  But why in this raw format rather than a dt_argdesc_t array
+(and an argc member to indicate the number of array elements - xargc).
+
+Calls to the probe_info() callback will want an array of dt_argdesc_t elements
+to be provided, and nothing else needs the rarw format.  So, you might as well
+store that array here rather than the raw data, and implement the probe_info()
+callback for USDT as a pass-through that simply takes the data from here (from
+the underlying probe), copies it (using strdup on the strings because the
+caller will free them), and assigned it to *argv.
+
+For PID probes, there is no probe_info() callback so they will report not
+having arguments, and therefore the data being stored at the uprobe level is
+still fine.
+
+> +	dt_list_t	probes;		   /* pid/USDT probes triggered by it */
+>  } dt_uprobe_t;
+>  
+>  typedef struct list_probe {
+> @@ -112,6 +118,9 @@ static void probe_destroy_underlying(dtrace_hdl_t *dtp, void *datap)
+>  	dt_tp_destroy(dtp, tpp);
+>  	free_probe_list(dtp, dt_list_next(&upp->probes));
+>  	dt_free(dtp, upp->fn);
+> +	dt_free(dtp, upp->nargv);
+> +	dt_free(dtp, upp->xargv);
+> +	dt_free(dtp, upp->remapargs);
+>  	dt_free(dtp, upp);
 >  }
 >  
-> +/*
-> + * Remap arguments according to the array of remappings given.  The original
-
-Remap -> Map
-remapping -> mapping
-
-> + * arguments are overwritten (but saved).
-
-Caller should save.
-
+> @@ -138,7 +147,7 @@ static dt_probe_t *create_underlying(dtrace_hdl_t *dtp,
+>  	char			prb[DTRACE_NAMELEN];
+>  	dtrace_probedesc_t	pd;
+>  	dt_probe_t		*uprp;
+> -	dt_uprobe_t		*upp;
+> +	dt_uprobe_t		*upp = NULL;
+>  	int			is_enabled = 0;
+>  
+>  	/*
+> @@ -201,7 +210,48 @@ static dt_probe_t *create_underlying(dtrace_hdl_t *dtp,
+>  		if (upp->tp == NULL)
+>  			goto fail;
+>  
+> -		uprp = dt_probe_insert(dtp, pvp, pd.prv, pd.mod, pd.fun, pd.prb,
+> +		/*
+> +		 * Arg info.  This really relates to the overlying probe (all
+> +		 * underlying probes associated with a given underlying probe
+> +		 * must have the same args), but the overlying probe doesn't
+> +		 * exist at this point so we must put it here and pull it out
+> +		 * when the overlying probe info is called for.
+> +		 *
+> +		 * TODO: is this true? can distinct underlying probes have
+> +		 * different native args, as long as their xlated types are the
+> +		 * same?
+> +		 */
+> +
+> +                if (psp->pps_nargv) {
+> +			upp->nargc = psp->pps_nargc;
+> +			upp->nargv = dt_alloc(dtp, psp->pps_nargvlen);
+> +			if(upp->nargv == NULL)
+> +				goto fail;
+> +			memcpy(upp->nargv, psp->pps_nargv, psp->pps_nargvlen);
+> +		}
+> +
+> +                if (psp->pps_xargv) {
+> +			upp->xargc = psp->pps_xargc;
+> +			upp->xargv = dt_alloc(dtp, psp->pps_xargvlen);
+> +			if(upp->xargv == NULL)
+> +				goto fail;
+> +			memcpy(upp->xargv, psp->pps_xargv, psp->pps_xargvlen);
+> +		}
+> +
+> +                if (psp->pps_remapargs) {
+> +			upp->remapargc = psp->pps_remapargc;
+> +			upp->remapargs = dt_alloc(dtp, psp->pps_remapargslen);
+> +			if(upp->remapargs == NULL)
+> +				goto fail;
+> +			memcpy(upp->remapargs, psp->pps_remapargs, psp->pps_remapargslen);
+> +		}
+> +
+> +		/*
+> +		 * TODO: validate that all underlying probes for a given
+> +		 * overlying probe have the same args.
+> +		 */
+> +
+> +                uprp = dt_probe_insert(dtp, pvp, pd.prv, pd.mod, pd.fun, pd.prb,
+>  				      upp);
+>  		if (uprp == NULL)
+>  			goto fail;
+> @@ -413,6 +463,9 @@ static void enable_usdt(dtrace_hdl_t *dtp, dt_probe_t *prp)
+>   *
+>   * The trampoline will first populate a dt_dctx_t struct.  It will then emulate
+>   * the firing of all dependent pid* probes and their clauses.
 > + *
-> + * The caller must ensure that %r7 contains the value set by the
-> + * dt_cg_tramp_prologue*() functions.
-> + */
-> +void
-> +dt_cg_tramp_remap_args(dt_pcb_t *pcb, uint8_t *remappings, size_t nremappings)
-
-remap -> map
-remappings -> mapping (or argmap)
-nremappings -> mapc (or xargc)
-> +{
-> +	dt_irlist_t	*dlp = &pcb->pcb_ir;
-> +	int		i;
+> + * uprobe trampolines will also arrange for argument shuffling if the remapping
+> + * array calls for it.
+>   */
+>  static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+>  {
+> @@ -437,6 +490,34 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+>  		dt_cg_tramp_copy_args_from_regs(pcb,
+>  						!(upp->flags & PP_IS_FUNCALL));
+>  
+> +	/*
+> +	 * Figure out if we need to remap args, and remap them if needed.
+> +	 */
+> +	if (upp->remapargc) {
+> +		int	needs_remapping = 0;
+> +		size_t	i;
+> +
+> +                for (i = 0; i < upp->remapargc; i++) {
+> +			if (upp->remapargs[i] != i) {
+> +				needs_remapping = 1;
+> +				break;
+> +			}
+> +		}
+> +
+> +		/*
+> +		 * TODO: pid probes are never remapped, so a remapped set of
+> +		 * args for UDST probes need saving/restoring to reverse the
+> +		 * remapping for pid probes at the same locus -- but right now
+> +		 * pid and usdt probes hitting the same locus simply end up as
+> +		 * whichever registered first because create_underlying cannot
+> +		 * handle this case, so we can avoid it here too.
+> +		 * dt_cg_tramp_remap_args already saves regs: all we need to do
+> +		 * is restore them before any pid probe is hit.
+> +		 */
+> +		if (needs_remapping)
+> +			dt_cg_tramp_remap_args(pcb, upp->remapargs, upp->remapargc);
+> +	}
+> +
+>  	/*
+>  	 * Retrieve the PID of the process that caused the probe to fire.
+>  	 */
+> @@ -710,8 +791,77 @@ attach_bpf:
+>  static int probe_info(dtrace_hdl_t *dtp, const dt_probe_t *prp,
+>  		      int *argcp, dt_argdesc_t **argvp)
+>  {
+> -	*argcp = 0;			/* no known arguments */
+> -	*argvp = NULL;
+> +	size_t		i;
+> +	list_probe_t	*pup = prp->prv_data;
+> +	dt_uprobe_t	*upp;
+> +	char		*nptr;
+> +	char		*xptr;
+> +	int		argc = 0;
+> +	dt_argdesc_t	*argv = NULL;
+> +	char		**nargv = NULL;
+> +
+> +	/* No underlying probes?  No args.  */
+> +        if (!pup)
+> +		goto done;
+> +
+> +	upp = pup->probe->prv_data;
+> +	nptr = upp->nargv;
+> +	xptr = upp->xargv;
+> +
+> +        argc = upp->xargc;
+> +	if (argc == 0)
+> +		argc = upp->nargc;
+> +	if (argc == 0)
+> +		goto done;
+> +	if (!upp->nargv || upp->nargc == 0)
+> +		goto done;
 > +
 > +	/*
-> +	 * Work from saved args so we don't need to worry about overwriting regs
-> +	 * we're about to remap.
+> +	 * Construct an array to allow accessing native args by index, if we
+> +	 * need to (which we do whenever we have remapped args).  We don't need
+> +	 * to worry that any of the indexes might be too large, etc: this has
+> +	 * been checked already by validate_provider() before parsing and
+> +	 * writing to the DOF stash, and anyone who could inject invalid records
+> +	 * into the DOF stash is already root.
+> +	 *
+> +	 * Shuffle the native args according to the mapping, then set up a 1:1
+> +	 * mapping in its place: we do the remapping ourselves, driven directly
+> +	 * from upp->remapargs, in the trampoline, so array ops etc should not
+> +	 * do it.
 > +	 */
-> +	dt_cg_tramp_save_args(pcb);
-
-Caller should save.
-
+> +	if (upp->xargv || upp->remapargs) {
+> +		if ((nargv = dt_zalloc(dtp, upp->nargc * sizeof(char *))) == NULL)
+> +			return dt_set_errno(dtp, ENOMEM);
 > +
-> +	for (i = 0; i < nremappings; i++) {
-> +		if (remappings[i] != i) {
-> +			dt_dprintf("Remap: loading from %i, storing to %i\n", remappings[i], i);
-
-I would remove this debugging statement.  We don't really report debugging data
-at this level anywhere else, really.
-
-> +			emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, BPF_REG_7, DMST_ORIG_ARG(remappings[i])));
-> +			emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(i), BPF_REG_0));
-
-I would add:
-			argmap[i] = i;
-to convert the mapping into a pure i -> i mapping, so no other code will apply
-argument mapping again.
-
-> +		}
+> +		for (i = 0; i < upp->nargc; i++, nptr += strlen(nptr) + 1)
+> +			nargv[i] = nptr;
 > +	}
+> +
+> +        argv = dt_zalloc(dtp, argc * sizeof(dt_argdesc_t));
+> +	if (argv == NULL) {
+> +		dt_free(dtp, nargv);
+> +		return dt_set_errno(dtp, EDT_NOMEM);
+> +	}
+> +
+> +	for (i = 0; i < argc; i++) {
+> +		int remap_arg = i;
+> +
+> +                if (upp->remapargc > i)
+> +			remap_arg = upp->remapargs[i];
+> +
+> +		if (xptr) {
+> +			argv[i].native = strdup(nargv[remap_arg]);
+> +			argv[i].xlate = strdup(xptr);
+> +		}
+> +		argv[i].mapping = i;
+> +
+> +		/* Guaranteed safe: see libcommon/dof_parser.c:strings_len() */
+> +                if (xptr)
+> +			xptr += strlen(xptr) + 1;
+> +	}
+> +done:
+> +	*argcp = argc;
+> +	*argvp = argv;
+>  
+>  	return 0;
+>  }
+> @@ -779,7 +929,6 @@ dt_provimpl_t	dt_uprobe = {
+>  	.load_prog	= &dt_bpf_prog_load,
+>  	.trampoline	= &trampoline,
+>  	.attach		= &attach,
+> -	.probe_info	= &probe_info,
+>  	.detach		= &detach,
+>  	.probe_destroy	= &probe_destroy_underlying,
+>  };
+> @@ -794,7 +943,6 @@ dt_provimpl_t	dt_uprobe_is_enabled = {
+>  	.load_prog	= &dt_bpf_prog_load,
+>  	.trampoline	= &trampoline_is_enabled,
+>  	.attach		= &attach,
+> -	.probe_info	= &probe_info,
+>  	.detach		= &detach,
+>  	.probe_destroy	= &probe_destroy_underlying,
+>  };
+> @@ -818,5 +966,6 @@ dt_provimpl_t	dt_usdt = {
+>  	.prog_type	= BPF_PROG_TYPE_UNSPEC,
+>  	.provide_probe	= &provide_usdt_probe,
+>  	.enable		= &enable_usdt,
+> +	.probe_info	= &probe_info,
+>  	.probe_destroy	= &probe_destroy,
+>  };
+> diff --git a/test/triggers/usdt-tst-argmap-prov.d b/test/triggers/usdt-tst-argmap-prov.d
+> index 28134baa6fa3..7cec525c908a 100644
+> --- a/test/triggers/usdt-tst-argmap-prov.d
+> +++ b/test/triggers/usdt-tst-argmap-prov.d
+> @@ -1,10 +1,11 @@
+>  /*
+>   * Oracle Linux DTrace.
+> - * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+> + * Copyright (c) 2006, 2024, Oracle and/or its affiliates. All rights reserved.
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+>  
+>  provider test_prov {
+>  	probe place(int i, int j) : (int j, int i, int i, int j);
+> +	probe place2(int i, char *j) : (char *j, int i, int i, char *j);
+>  };
+> diff --git a/test/triggers/usdt-tst-argmap.c b/test/triggers/usdt-tst-argmap.c
+> index 89a0a53fc1d5..cbdcaf1f0b61 100644
+> --- a/test/triggers/usdt-tst-argmap.c
+> +++ b/test/triggers/usdt-tst-argmap.c
+> @@ -1,6 +1,6 @@
+>  /*
+>   * Oracle Linux DTrace.
+> - * Copyright (c) 2006, 2020, Oracle and/or its affiliates. All rights reserved.
+> + * Copyright (c) 2006, 2024, Oracle and/or its affiliates. All rights reserved.
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+> @@ -12,6 +12,7 @@ main(int argc, char **argv)
+>  {
+>  	for (;;) {
+>  		DTRACE_PROBE2(test_prov, place, 10, 4);
+> +		DTRACE_PROBE(test_prov, place2, 255, "foo");
+>  	}
+>  
+>  	return 0;
+> diff --git a/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r
+> new file mode 100644
+> index 000000000000..8bcfa92ff6b0
+> --- /dev/null
+> +++ b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r
+> @@ -0,0 +1,34 @@
+> +   ID   PROVIDER            MODULE                          FUNCTION NAME
+> + XX test_provXXXX              test                              main go
+> +
+> +	Probe Description Attributes
+> +		Identifier Names: Private
+> +		Data Semantics:   Private
+> +		Dependency Class: Unknown
+> +
+> +	Argument Attributes
+> +		Identifier Names: Private
+> +		Data Semantics:   Private
+> +		Dependency Class: Unknown
+> +
+> +	Argument Types
+> +		args[0]: char *
+> +		args[1]: int
+> +
+> +   ID   PROVIDER            MODULE                          FUNCTION NAME
+> + XX test_provXXXX              test                              main go
+> +
+> +	Probe Description Attributes
+> +		Identifier Names: Private
+> +		Data Semantics:   Private
+> +		Dependency Class: Unknown
+> +
+> +	Argument Attributes
+> +		Identifier Names: Private
+> +		Data Semantics:   Private
+> +		Dependency Class: Unknown
+> +
+> +	Argument Types
+> +		args[0]: char *
+> +		args[1]: int
+> +
+> diff --git a/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r.p b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r.p
+> new file mode 100755
+> index 000000000000..c575983adf65
+> --- /dev/null
+> +++ b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r.p
+> @@ -0,0 +1,2 @@
+> +#!/bin/sed -rf
+> +s,test_prov[0-9]*,test_provXXXX,g; s,^ *[0-9]+, XX,g;
+> diff --git a/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh
+> new file mode 100755
+> index 000000000000..ad8dc2e7c267
+> --- /dev/null
+> +++ b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh
+> @@ -0,0 +1,83 @@
+> +#!/bin/bash
+> +#
+> +# Oracle Linux DTrace.
+> +# Copyright (c) 2013, 2024, Oracle and/or its affiliates. All rights reserved.
+> +# Licensed under the Universal Permissive License v 1.0 as shown at
+> +# http://oss.oracle.com/licenses/upl.
+> +
+> +##
+> +#
+> +# ASSERTION:
+> +# Testing -lvn option with USDT probes with a valid probe name.
+> +#
+> +# SECTION: dtrace Utility/-ln Option
+> +#
+> +##
+> +
+> +if [ $# != 1 ]; then
+> +	echo expected one argument: '<'dtrace-path'>'
+> +	exit 2
+> +fi
+> +
+> +dtrace=$1
+> +CC=/usr/bin/gcc
+> +CFLAGS=
+> +
+> +DIRNAME="$tmpdir/list-probes-args-usdt.$$.$RANDOM"
+> +mkdir -p $DIRNAME
+> +cd $DIRNAME
+> +
+> +cat > prov.d <<EOF
+> +provider test_prov {
+> +	probe go(int a, char *b) : (char *b, int a);
+> +};
+> +EOF
+> +
+> +$dtrace -h -s prov.d
+> +if [ $? -ne 0 ]; then
+> +	echo "failed to generate header file" >& 2
+> +	exit 1
+> +fi
+> +
+> +cat > test.c <<EOF
+> +#include <sys/types.h>
+> +#include "prov.h"
+> +
+> +int
+> +main(int argc, char **argv)
+> +{
+> +	TEST_PROV_GO(666, "foo");
+> +	sleep(10);
+> +}
+> +EOF
+> +
+> +${CC} ${CFLAGS} -c test.c
+> +if [ $? -ne 0 ]; then
+> +	echo "failed to compile test.c" >& 2
+> +	exit 1
+> +fi
+> +$dtrace -G -s prov.d test.o
+> +if [ $? -ne 0 ]; then
+> +	echo "failed to create DOF" >& 2
+> +	exit 1
+> +fi
+> +${CC} ${CFLAGS} -o test test.o prov.o
+> +if [ $? -ne 0 ]; then
+> +	echo "failed to link final executable" >& 2
+> +	exit 1
+> +fi
+> +
+> +script()
+> +{
+> +	$dtrace -c ./test -lvn 'test_prov$target:::go'
+> +	./test &
+> +	PID=$!
+> +	disown %+
+> +	$dtrace -p $PID -lvn 'test_prov$target:::go'
+> +	kill -9 $PID
 > +}
 > +
->  typedef struct {
->  	dt_irlist_t	*dlp;
->  	dt_activity_t	act;
-> @@ -5060,7 +5088,12 @@ dt_cg_array_op(dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
->  	 * array index according to the static argument mapping (if any),
->  	 * unless the argument reference is provided by a dynamic translator.
->  	 * If we're using a dynamic translator for args[], then just set dn_reg
-> -	 * to an invalid reg and return: DIF_OP_XLARG will fetch the arg later.
-> +	 *
-> +	 * If dt_cg_tramp_remap_args is in use, you should apply the remapping
-> +	 * at the probe_info stage, since the effective "native" arg positions
-> +	 * will be changed.
-> +	 *
-> +	 * If this is a userland variable, note that we need to copy it in.
+> +script
+> +status=$?
+> +
+> +exit $status
+> diff --git a/test/unittest/usdt/tst.argmap-typed.d b/test/unittest/usdt/tst.argmap-typed.d
+> new file mode 100644
+> index 000000000000..0e0c923e1736
+> --- /dev/null
+> +++ b/test/unittest/usdt/tst.argmap-typed.d
+> @@ -0,0 +1,40 @@
+> +/*
+> + * Oracle Linux DTrace.
+> + * Copyright (c) 2007, 2024, Oracle and/or its affiliates. All rights reserved.
+> + * Licensed under the Universal Permissive License v 1.0 as shown at
+> + * http://oss.oracle.com/licenses/upl.
+> + */
+> +
+> +/* @@trigger: usdt-tst-argmap */
+> +/* @@trigger-timing: before */
+> +/* @@runtest-opts: $_pid */
+> +
+> +/*
+> + * ASSERTION: Verify that args[N] variables are properly typed when remapped.
+> + */
+> +
+> +BEGIN
+> +{
+> +	/* Timeout after 5 seconds */
+> +	timeout = timestamp + 5000000000;
+> +}
+> +
+> +test_prov$1:::place2
+> +/stringof(args[0]) != "foo" || args[1] != 255 || args[2] != 255 || stringof(args[3]) != "foo"/
+> +{
+> +	printf("args are %s, %d, %d, %s; should be \"foo\", 255, 255, \"foo\"",
+> +	    stringof(args[0]), args[1], args[2], stringof(args[3]));
+> +	exit(1);
+> +}
 
-Not needed.  The original comment is sufficient.
+This test should also test that argN (N = 0 .. 3) has the correct value as
+well.  Later we may change that which would require the test to be updated,
+but the current immplementation you provide is aimed at ensuring that argN and
+args[N] are identical, so you should test that in this case also (because the
+other test does not involve different types, which could make a difference).
 
->  	 */
->  	if (idp->di_id == DIF_VAR_ARGS) {
->  		if ((idp->di_kind == DT_IDENT_XLPTR ||
-> diff --git a/libdtrace/dt_cg.h b/libdtrace/dt_cg.h
-> index 0a7c7ba6a8c5..4c6d0f5dac6a 100644
-> --- a/libdtrace/dt_cg.h
-> +++ b/libdtrace/dt_cg.h
-> @@ -34,6 +34,7 @@ extern void dt_cg_tramp_get_var(dt_pcb_t *pcb, const char *name, int isstore,
->  extern void dt_cg_tramp_del_var(dt_pcb_t *pcb, const char *name);
->  extern void dt_cg_tramp_save_args(dt_pcb_t *pcb);
->  extern void dt_cg_tramp_restore_args(dt_pcb_t *pcb);
-> +extern void dt_cg_tramp_remap_args(dt_pcb_t *pcb, uint8_t *remappings, size_t nremappings);
-
-dt_cg_tramp_map_args
-
->  extern void dt_cg_tramp_call_clauses(dt_pcb_t *pcb, const dt_probe_t *prp,
->  				     dt_activity_t act);
->  extern void dt_cg_tramp_return(dt_pcb_t *pcb);
+> +
+> +test_prov$1:::place2
+> +{
+> +	exit(0);
+> +}
+> +
+> +profile:::tick-1
+> +/timestamp > timeout/
+> +{
+> +	trace("test timed out");
+> +	exit(1);
+> +}
+> diff --git a/test/unittest/usdt/tst.argmap.d b/test/unittest/usdt/tst.argmap.d
+> index 7896dc07e0e2..9cd3425bf8e0 100644
+> --- a/test/unittest/usdt/tst.argmap.d
+> +++ b/test/unittest/usdt/tst.argmap.d
+> @@ -1,11 +1,10 @@
+>  /*
+>   * Oracle Linux DTrace.
+> - * Copyright (c) 2007, 2020, Oracle and/or its affiliates. All rights reserved.
+> + * Copyright (c) 2007, 2024, Oracle and/or its affiliates. All rights reserved.
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+>  
+> -/* @@xfail: dtv2 */
+>  /* @@trigger: usdt-tst-argmap */
+>  /* @@trigger-timing: before */
+>  /* @@runtest-opts: $_pid */
 > -- 
 > 2.46.0.278.g36e3a12567
 > 
