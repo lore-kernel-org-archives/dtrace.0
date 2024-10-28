@@ -1,83 +1,83 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F5D1DFDA1
-	for <dtrace@lists.linux.dev>; Mon, 28 Oct 2024 21:18:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BFA1D2796
+	for <dtrace@lists.linux.dev>; Mon, 28 Oct 2024 21:18:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730150314; cv=fail; b=LjeYDFUXICrfx83MTZNV/VMOJ0qALUPA/PZfTXfJLtohtFoAKaPJ4PXtTo7XMrYUHbhCCQXKSm/UgZ/hII/oXm2yaZYZ2W8vaE4LBhkGJqBbk/Lqh+15PdHS7r6eFMuOQue7u3/3hLK+60d3DylsV8RP9KQiS/a7fageZmvZm2I=
+	t=1730150314; cv=fail; b=kka6Mqu8RcpEuy9siriQTO8389Ni5WkW4DgLxSj4vunNdA1lRkh8HybQAwoUc/Pp5E5qQ4ULzp+6hbgiRj1i3SnJPhmEnNVwOwlImDuyecE3Y0oq/gI30C287DV/IcM4H/V6lLKT6669rGkzdW+PKu0fEtZAXrH4R5QsVs+Bk2c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1730150314; c=relaxed/simple;
-	bh=qfSWzm26hE80JI6GewHH07L+4vC+JFynmpT0z2Y3AMs=;
+	bh=cuk2y2tc+mFYuQD+EXvEoAcaHzFp0Lh5Ss1KZItfXoQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kgRKlASA2Wrbwy+TDqqv9UXUhy8OYwE7xeOKA5B8kxTo6zp9C3UbaPKwSBg+3gW+BSAuVyfFsgthwhpzlhL07TatYGAQpYcSKjLPZIT8iGy3iHrJnlzikrzPj6fGq8b/NiLRKPSnsDc6i2gtjNiD4rVr8opPGugLO3ZpYsnMSxA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=fGuJ6CEy; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=SfOjhQ7s; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Type:MIME-Version; b=bq4IY8q+SwyATnCNKBXTqfYJ394JSWOfSzuTatDGpeK6bvqv2ycEWGQZOMF8l2U05QrBDfsOAKegokzXZJWgSfhJ5np6F2OnCYy+uF3JJVHQXoGtnmC7yQzuUo9tJVyxRsDlHdWHTUe4PmHEIHv/jhdHMUSmkUMVAtmU27JpPpI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=JeXGIFB5; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=aaDqi4GH; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fGuJ6CEy";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="SfOjhQ7s"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49SKtaMm024336;
-	Mon, 28 Oct 2024 21:18:28 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JeXGIFB5";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="aaDqi4GH"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49SKtaPE020939;
+	Mon, 28 Oct 2024 21:18:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=ZWPiPa3urJQF/2d6jvuz5i4NEo9E7VJrdD4aTIJ/CwM=; b=
-	fGuJ6CEy6Vjn/TW807ZBS58mGx5ZPKkrMKc4J9J2ODJuzc8zY4l4SngrL0fk1ZbE
-	1Y4SkY2vRxk0wNAZfMdWeikOtsk3UNXk/h1gj+IFq5+p2TEvC4ICLqn0qNfPDp4Z
-	OEx1mVKiclN7tW/y0yVcJx1qTmgOxUZSdYDh93PTXBoYaCnfVao5Z3M+5Wxkk0Y1
-	XocUcUQrAfAg19mfxmQpKQcr5A19Nbc7zSlq5y3BWI1O0+Cv3MLkXGrb8TBnEY5m
-	qWpWsyNrGqYA3tvdJYJXvRZvCkWK2s0lvH9wp4MiGXQfw56rZNN2H5iT6KAwk1P2
-	2vIVwhl7a3a+tovbVRwbpw==
+	corp-2023-11-20; bh=7z6RRBWlMdwHDGREDRHTQllaVQBbj1Hhh+8LCcklnlI=; b=
+	JeXGIFB5rntuyP5/rfj/xINglQL2d/W9/UxtRucNQEdtxQ3GYukog+uNNUz3F+fX
+	hazPdee4Hj/NNc+9LqRbJKWk8J6NrDZ+fnaTQj8AMWV2BXKzIj6YfeGo+U1mIZvl
+	9Pt70gnwN+DQkSntyfLQ7so5k9ePxuol7ezf80t6OZ0viPulD+HkTTfIhQc8gpWO
+	ElQ9oMYPj9sdMEaipwldOWcKMuKEEYOo9vzPge2VJP9G15qLhm/lA/+ufQasX0tP
+	S5Nbq4g9YACfh7+2Yt6ycrfiVQDj79n2pd14/Y8aT634LH3RHqSVRerSprRUSDUU
+	6HEgszYrocm+CoSLSwkimg==
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42grdqby7g-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42grdp3yxn-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 28 Oct 2024 21:18:27 +0000 (GMT)
+	Mon, 28 Oct 2024 21:18:29 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49SKVPCP012478;
-	Mon, 28 Oct 2024 21:18:27 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2170.outbound.protection.outlook.com [104.47.59.170])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 42hnabe7fp-2
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49SKV2Y8011834;
+	Mon, 28 Oct 2024 21:18:29 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 42hnabe7hk-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 28 Oct 2024 21:18:27 +0000
+	Mon, 28 Oct 2024 21:18:29 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e6F3M79cZOO+xl0xuukg4g1ff/62gSH9WVUyw6s9kUbJVQKhXlT5L/5242Sr0GD8oMmBYZ45FFD+SHF3/A4gAy4aNzAK3saR7OYfUhc9q304pz1GczXeguVUAVZ8yXdaUmSTKWyjWiMoAIpT2wVw7Mp2OKWz1qOyLfGaG0+UiZkvrCjGQ4OaQZqVG8ypXxdtxDlC6V32ZB9vdYUbp4ekbeRtH4c/hnKSyc4pdc5zAnkkecd2teohxG3GzVEpR4Dx7O7FOGFohXw4b3eTtaelenVUin5KKTfzYd/8foLDa9J4zWnko4N/tL95Ni910alqVY8xYgIVY24vZSPRtkoPfA==
+ b=d6saP1f3jQ1DWXHNYFeqAmrBXunG1A6HwbDpV1w7reNxnm8ZPHKmzdNA7LWMClJnlp+NEN0NdIhppXRzQ41oyYpEGioWP3ZVAXp9CQPp11uJGLbS+AQ8J68JkN/u5ZZNQDJi7e6XeVjPy3lhlH06qR2211o4xsIWQZS/hlZM0VViAGMEoOgmXijaPqLevh2YZqnvsBEYxtRbOp/xN6QGX+nZnp2tv/eeHiaaxv6+k4vh3KPQtqFSX5002dbNt4AutolyS2n42Ydw4OjWFoCKir2X6Ss4eJEgTpuS7corKbq9oxu+2gX90PL2UbBf3pJlQ5K/xf3QDpCbnYYCOJ/lgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZWPiPa3urJQF/2d6jvuz5i4NEo9E7VJrdD4aTIJ/CwM=;
- b=eTtOYGOhcPw5PlFuKUWyQV6glbFn/MzwPUV4LOiztxNSE2dP4xZei7RbuzqbgD8yZQdXX1RaXNh2a74sjGD/9wX41Yn9UtR+DKpar1bCAlGYRoNsjKu3F+4IP3FOXoq1rxxT69FNmS8MRCKvfsllnNnCi9gFAauvKU5V6+hznOLGD/7KbNbU/pGjAM7LZcil09ldEeMQqBO8R+k2ATToMDSc4+4fgl3dulrnrang6ECuQa3zrvBLm7odV/OxrnsYIYFZhI2D0/Lht79tZBDkFMoe1jZ0rwOP7RM49X2RuY9IYvr8M3PBkcDG0+DTjH0VuV2yPEyNQ6V2gxDQsRiO+A==
+ bh=7z6RRBWlMdwHDGREDRHTQllaVQBbj1Hhh+8LCcklnlI=;
+ b=oGyVdLLAiIiPiE/DvAl4Cd7bX7j2stLwGmINDmlKa//SJGHhDLE6ZChZ79q63xsmlIw7NlEPha7Jr9NdwZxITbQO60KTHBEUmd78mQElSwHK08g/iY/lgcjDVW/6DFSHeBPyWyFhslGHLly9QX3bMdINMmVgxgfnSqMF3PpsuRaTuZMZXEBgTDuws5/bDWk31Y5yKsGP9QgkLrunq7EF1+UCiVaIpvwPsEGkzwQax+hl1AfSSlm7pOloHswS+R4T02AQD77UuAD8a7n4rbEoOUD5CddzapwFV5ouMhZJoFaI4UAiznK+PJ2Ep7AO7EmsPJrxFPeG4hpr+ZDKsW9Sgw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZWPiPa3urJQF/2d6jvuz5i4NEo9E7VJrdD4aTIJ/CwM=;
- b=SfOjhQ7sf8UJ8RAHtRo1CSzeRCmV/NnPaJ5qOF8JO1ryoGL9dP0zvUqgjINMQ5ZvAZsiK/ZBaKFe2oE4yce2v3rR//HQXIn3O4Rk+QWtRSGlCha3OYT6OsCows8TDCt5QoMCPC7HBkUDD9Chz4RAAq5BQmULuxxBzhzNHhtVLxU=
+ bh=7z6RRBWlMdwHDGREDRHTQllaVQBbj1Hhh+8LCcklnlI=;
+ b=aaDqi4GHcGuBMQmS/vI16fOz8ggu0Hdq0afNVyNVUVHSApR5UVJpq72rRrX46YkBJNwAXsuAAVz1/w7HZu/ChHTk+UdziEKvaToalNzdovX7suhEUMAlKVwyXHiguE/7KQvIb3F7Cvul1nu1hhYZZUYUGUOjlbhS/fQxH80ycks=
 Received: from MN2PR10MB4093.namprd10.prod.outlook.com (2603:10b6:208:114::25)
  by CH3PR10MB7354.namprd10.prod.outlook.com (2603:10b6:610:12f::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.27; Mon, 28 Oct
- 2024 21:18:24 +0000
+ 2024 21:18:26 +0000
 Received: from MN2PR10MB4093.namprd10.prod.outlook.com
  ([fe80::d72e:fa5c:c426:b4b]) by MN2PR10MB4093.namprd10.prod.outlook.com
  ([fe80::d72e:fa5c:c426:b4b%4]) with mapi id 15.20.8069.027; Mon, 28 Oct 2024
- 21:18:23 +0000
+ 21:18:26 +0000
 From: Nick Alcock <nick.alcock@oracle.com>
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
 Cc: sam@gentoo.org, Kris Van Hees <kris.van.hees@oracle.com>
-Subject: [PATCH v2 08/14] man: use \- for option dashes, not -
-Date: Mon, 28 Oct 2024 21:17:57 +0000
-Message-ID: <20241028211803.458685-9-nick.alcock@oracle.com>
+Subject: [PATCH v2 09/14] man: drop blank lines
+Date: Mon, 28 Oct 2024 21:17:58 +0000
+Message-ID: <20241028211803.458685-10-nick.alcock@oracle.com>
 X-Mailer: git-send-email 2.46.0.278.g36e3a12567
 In-Reply-To: <20241028211803.458685-1-nick.alcock@oracle.com>
 References: <20241028211803.458685-1-nick.alcock@oracle.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P302CA0035.GBRP302.PROD.OUTLOOK.COM
- (2603:10a6:600:317::11) To MN2PR10MB4093.namprd10.prod.outlook.com
+X-ClientProxiedBy: LO4P302CA0032.GBRP302.PROD.OUTLOOK.COM
+ (2603:10a6:600:317::13) To MN2PR10MB4093.namprd10.prod.outlook.com
  (2603:10b6:208:114::25)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -87,79 +87,79 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MN2PR10MB4093:EE_|CH3PR10MB7354:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a172ba1-d375-4370-673a-08dcf7960e5a
+X-MS-Office365-Filtering-Correlation-Id: 3c9b4bad-cc24-490f-fc4e-08dcf7961016
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|10070799003|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?PeKBZHADKpdqLr9npYWyRmKoLe0KDlUOY317ayn6G4zLNHI8G1n0QkawRzyu?=
- =?us-ascii?Q?2KerzqoEMNsYJ3Co85bgyU331N4ADV01qAufp60WS1fBQndDTNJJQnsZyh5f?=
- =?us-ascii?Q?z9JKQiByCDHCMVeKQHoHoA8D1habij3KKbrUIXWhYlEo8mzS5FDLyWvEDqlM?=
- =?us-ascii?Q?LdxP69tAqARsZRH6A8t9bDq3Z00gsZ0ct6WQYyoHIzbmkSujkUdeL0+W8/H4?=
- =?us-ascii?Q?WcMqxz7ERhi4smrPjdP08sm49LvUKYxETDAa5VAWbPu2CtSlqho+z66huiZ/?=
- =?us-ascii?Q?f1MCkcZupcSLgD/h9Su76bnhtBFHioEGiHnRDgSmQycbJbJKGsxeJ1c23VHe?=
- =?us-ascii?Q?PkqSi1igiVqAMQynX6zH8WuZ915391/2UTJIlEcRSiG5HBp5Vwt3X1qUplxH?=
- =?us-ascii?Q?3jUiCR6rs/wiTfIQfOd80oeAe9H+OBJqKXxZfJh3exedfmFeGiZrK7xo5FRE?=
- =?us-ascii?Q?IY9T8Qvdr2jhCU9CEw+DpGYykWVJ5Co9bbyHa5nd9bSe28y5C7X3rR8bDXro?=
- =?us-ascii?Q?BeUX5gmMpXKkkudYbXKqXTPVBM9yUwRkUgFfi/wK11y/hceK4pZHBelfXC5e?=
- =?us-ascii?Q?pZNXzsrE8aIMN0bBQ7sJ8abfi/6RGSpbjaMNZvZ9B3fqAaa7J0iLK7r52XW8?=
- =?us-ascii?Q?f+eqbUoc/ax5WINFe56kvZMWBpLF2WH3UoAn/GXuBsY9vmZRqeVokRoqzUDm?=
- =?us-ascii?Q?+FyXTQNulo0KvUzokmah+cacA4Jh20ZumPCqv+VyCa31R57scs9jtDPD39a3?=
- =?us-ascii?Q?1VcFyHej/gtF/VqPrp02nK2k//pt7V7OTND74Z4fwLlMnUj9SoDgNZfNrHPY?=
- =?us-ascii?Q?fwtcqaMwt0NhMZRaaR8vL2eDcHop2nGo/+1bqk+1q3bFWd62FDmf8gO1Pcj2?=
- =?us-ascii?Q?xHrej4owqfgDNlcVdTlmVPKZGiFnNxgegCVP1j3ysroNaRjfsJrTNyXmzfFb?=
- =?us-ascii?Q?ZFLN1THLBvKDC23JKyBbpY8kQ6mBq6yeJ8FLkQSlq9aAs+nP1JLjPq1E94di?=
- =?us-ascii?Q?shPXjHanOYCg5RTZm14MGBkSIxS2KCwukcXGouRQ7lyXGcfXwuMMMbMs1k/Y?=
- =?us-ascii?Q?xoItKy6B9mK9O4b7xDsJay+KBQPRnofLLToVhTwts+dUvIfbstyjsrHqPmg4?=
- =?us-ascii?Q?z7I5y5pVbKOg9X6oVUY46uesh/RP0B0LA561pf0raDhmN07F50djbv29ujPQ?=
- =?us-ascii?Q?+fA1ZCr4r/m38seIrMjr6XiPOjp6FxqF6wRlj9yoe7u4+0E3DooK19hyVA2d?=
- =?us-ascii?Q?f7kQ+TxMd3LmdSsMSyKVmZPJk9jkxqekOrYn+1KTQVxjusVzWAkYIaKj1JJ7?=
- =?us-ascii?Q?KDWl7GWjFnXQf9knDxSki72Y?=
+	=?us-ascii?Q?dw8rTm50GzqNNv0i+bv+bZq7+/smZAp+FFFokgy9vav8SVnE6D7XXczQxXQL?=
+ =?us-ascii?Q?a2CSap0NrW8Sd61Cmi5BzrHYgO8RzOtnBHHrGgtGRJToCnpmwyZQevWjYekc?=
+ =?us-ascii?Q?3pZhR400PJj/8dQ52Gpyw1yqDPjuOZnblJaxa9cO/WCQj1q8Fi2wWDdG5/Ii?=
+ =?us-ascii?Q?i9kDlMgEXTcpD/JyRASeb8XqEXkjpL4zAK+qI2r+Q9x4diiT+nb2n4owOiaB?=
+ =?us-ascii?Q?Eh5RK1s7w77KY/aBg2gyg+mFajMlb0Qf604FoJwpl/LFJ+UfhUMwy98mrOU5?=
+ =?us-ascii?Q?ede/+bsBVI9zjeLdyiwh6LT8MQyupyzUiAPyIwWj63SX5lFMdbaPC4Io2leI?=
+ =?us-ascii?Q?ixWQwdQU9kcx8Fj2KYVyl4HD2dhP6g63OHcjxXhn1g8OiQbz6AO6wcj+PGM/?=
+ =?us-ascii?Q?/GKLvb/C4h6ieaNcAoQrUUIcMR6zxh8k4cZmwVM+VtsyzQCFhXCAdI9JLH6u?=
+ =?us-ascii?Q?b0cMb/I7eFCBrCUGWSOAbEj51YDy4PzytLeblHBaYsZelQX/ciZ5ubSxdKeE?=
+ =?us-ascii?Q?gaMn2R7jcAzyEw3o+uY63Ko1nNK3EhccmB30qln5bZjG9dUFEpbceTc8fn83?=
+ =?us-ascii?Q?xmT8J0h0zPqo1DfCzRwkfauuEqI4M2rSO2WMgIQ8I30utiF981vZdbiEhH0E?=
+ =?us-ascii?Q?fCv1i67tl9yylDgCjEjSlyMhkFcWXJXqiYlBGZJSONObPgNEvZD9QZ3YQCQn?=
+ =?us-ascii?Q?fL4M83v1ortOWn1gyyvQDMzkS14hMO68j9POjTzfoxQ6GtMC3CD2mAkWFoCC?=
+ =?us-ascii?Q?oC4Ko9KmyBms2wrY2wUJkEhTeoyC/5Z1hJSHZ+++EaZRoBTDbY7I6i18qxtD?=
+ =?us-ascii?Q?kS2KL3GNCD5R9DBrbSD36i+NwDEiwEUmiOvXvdaCvqgZ0mAg9/hf7MUtN1Fa?=
+ =?us-ascii?Q?gXZqr+D9W41Ol7FmuDkV/wDq4LIr2iEhsg/irARThbcOmdY1Jp3B5tc8u4eD?=
+ =?us-ascii?Q?nuVqjj3NtTktsxtoj6Qp66nsrBrbPbagG8aOdxWVnr3CSu8kue5gUZ2zNQZI?=
+ =?us-ascii?Q?T70aVb87rs1HRIkhkLUz53+a6ZjzOPNszWqv6J0LEbmWUah0iQBak2RcZlm0?=
+ =?us-ascii?Q?23AYrCQkOENlC4JWQEyJ3LML6KiZ+ANDdjenmk0d3MipY0gKSDNdKTpCsw8z?=
+ =?us-ascii?Q?DWirozEw8hs0zCXKrN1FoGG8KWNOC4nwLpn21F9a1EMbYXhpbuvedzf1upm0?=
+ =?us-ascii?Q?ZU67iln56tk3bh+9GOlcJjyGPyLIoztwXBAlSDuUuOyXjRW83E3KvA/lQFha?=
+ =?us-ascii?Q?ejX0dzmEkSsV1mp2iCXVfpD7RqzeJ1MoNRW45vrqlFxhC2Mw/6OQ3m6s2Ne0?=
+ =?us-ascii?Q?mVQfo0bnsDr91B0aIDuNWzWH?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB4093.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(10070799003)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ebKLa39d1M/yw9KayVccSm649fEsBnYuzdoQpGC2J6NoTrtvVRdvZPLG3OTC?=
- =?us-ascii?Q?ThgA6A3nSP4mTWBY4RPOAJ234FKtoy9bjAMD+CbczR5P56MdDwvVSWU6yVqW?=
- =?us-ascii?Q?zN+WNtFvANfT8Cs6mPB9M5wzrTb77C7RHNE/CgQk9isodC0sDuNGrD0AtFYb?=
- =?us-ascii?Q?Jh9UFrX6tC9bJVVdtQCylVdMu0LnE8yKjj/F6bizEKDQu33ikCQq68voD0w2?=
- =?us-ascii?Q?KgVgnaGFJGASbHvp3INjzLPqfA/sp7V2LarjMZ434KUgeQp27AbI89KNgImw?=
- =?us-ascii?Q?ra4m87QEgFN0+JeD4EAaCZnMY6052h6Q01zrXwXIWGT91UH+3uFq3sd3ClBB?=
- =?us-ascii?Q?wuqJyN2MMV8mqwZiO1bRMzZMV+fAKv7x9qWaaVo4u+7Fz24zMB+cXSMG/fT0?=
- =?us-ascii?Q?nS/ED5hZ4UsEiRrpvZYi+l8f3SJMMv958vI3ldd8m92ynnyWyJ355yBQ1q2m?=
- =?us-ascii?Q?yz2Bb1RzhbbDGi6WbU9HiPUrzyfFAmldABEnMC9LeMuNAzTQw1kZYAEEp/eM?=
- =?us-ascii?Q?zH0ZhJolxSCtnAVEiVP01KD1HEmm3V2C5hmFxrw7KuIfOVosWENnnWFSpK1X?=
- =?us-ascii?Q?ABfcrRcKV0v9KdhWB0SAgjIJOZ3EX07Y2aTeJRqLup2NzvNaJZE8dBHZO1FM?=
- =?us-ascii?Q?ZW3BCHlmyozAebU0OgfQ4q5nj3AZOEv3g28Du4qyUaI/TQDv5OqwB1gj10Ha?=
- =?us-ascii?Q?g71OFbawVH4QGgiiWH5qPMpeISmsdTQHp7GoexojWasVyUl0cXfopsD/lPbY?=
- =?us-ascii?Q?gHKY0z/mf+MdoA+Snw6N37gLF61s51/uruDzOPugvLiWVI4iC2/h6KoDd8pn?=
- =?us-ascii?Q?qyf+g1xR1qA1a8eDskQ+UXIkuc7ysXVG8qsyVwTl3q9hzoF0PupKcxlKB1Jn?=
- =?us-ascii?Q?P2dSEzo54yVQ9OavWS2W6xLAj1vyXRyUFU2JlcvymkGrDSrPisiOglJPHX9m?=
- =?us-ascii?Q?dgVbxpmbkO+xZ4aUDfdfkoPgd6XkfwE2eY2BpmcumbcOvEvcB6z8sj9/H+LH?=
- =?us-ascii?Q?fnfB7prv2+XrzcWp3qUZ7WQJsAfuBavqpetJppBgpoUIr46l93DFiXaMF/Mr?=
- =?us-ascii?Q?pnQPPq18TiNGGzTEKLSk1vCu1wwWByElrVxcUqvnT8dElC6H07BqNlO7o9jK?=
- =?us-ascii?Q?U2LqwuN/JMAXmA9W3sXShhIpVBvV2hhe/OA+OQ64M+GOmmL2IeJPTlg0igQC?=
- =?us-ascii?Q?mMRPqRXKAbpb4UMXKIrBOGw4f3kPSGFR9VPKh/Rv241xJm72XAMkh1VeCFKH?=
- =?us-ascii?Q?5eT/rqjt0l26YLpZfZZ8ZkC+2OGdrmW669aalUs28FMrZikYeJBbWBklPcC8?=
- =?us-ascii?Q?pUq1zlMlAShnO+TRPkCvsQdQfBS1zkANHgcU9662D2f0oTOQzuyrIozAp8aw?=
- =?us-ascii?Q?9Gr9vFWuHxYxY8c3QS4ABrjONaV8JQ8jShmUGMwEuYvqTC/86BM4Hqi1Lgk3?=
- =?us-ascii?Q?tZG1aHktfmVA7LL8bX7OWXp5YNcBF1G9ufVhovK57TwPpwqeqNL5CZn+l73C?=
- =?us-ascii?Q?C/52C/PPKE/XcwyieTJjQ/+iZOva6NL/kVbpAoBdNvYPc66wRxaJEHMo+W09?=
- =?us-ascii?Q?HTOglM0ysgrd8a4Xa+wEUS2NKekKqmT0QKr2tuErMrqyHY0jLYMqYiXM3CAZ?=
- =?us-ascii?Q?4g=3D=3D?=
+	=?us-ascii?Q?9GhlV15wwMkmVWsTeArJIdbUzbPht1Kd5R83qgW3SPiw5VBFle3cCqUZpKyg?=
+ =?us-ascii?Q?9RCE8ALR6ip5CTAaW1qVuY1YoKt+Jpoa2hyEWqqBNvwz8L7qikn35qxKris2?=
+ =?us-ascii?Q?PXZf5uqgudbMAcTpksOm7vH6ZDfHtGp+dt1vQ5dlpDc6isWTB5Yona6HE8x3?=
+ =?us-ascii?Q?+X5KWBIUyfJVSAmapnFZO7FENmPHsevdajmFT7uyV9xnI4ehDJhTIssxxYp5?=
+ =?us-ascii?Q?rEO0hngKjeI+r40BebEk1gh3wTinwcGbUtRV6HBEiC8lcvizCJJkKJs6wG6J?=
+ =?us-ascii?Q?62MSd3mUYC/Qo8a4IUovxncKdKIn5M818OoAV0jkSypVAhP09N1WnBM6xFS6?=
+ =?us-ascii?Q?bA64N0Gfplv6wSVMIxfC4h7dU8W4AX6piYxsNDmz2wM1CHwS4am++/7n87OB?=
+ =?us-ascii?Q?m4lMHwDD0wMQ6C+q3/gM+1aQ/IpFDUUGCl82rKH8Kfg0JgSaIhnUj/qrJByC?=
+ =?us-ascii?Q?VBuXwc0rIuXbg9jXtqlyStAc6mw68iWYi5XSiWSmnOeT6I0r4w4am/9SNgbg?=
+ =?us-ascii?Q?fOuJ6KvOP2Swzv4pV4xG1cIhdSPC1ouMbSmt+cIuuSQraGXE3eVi8hfTHcYU?=
+ =?us-ascii?Q?TOxWJq2FhuH82QFa4eb2BsbLYwTc8yW1axLxPsUs/73G6I5jvf6Dq2moDCuY?=
+ =?us-ascii?Q?FPfJeiWa+Lxv6SGva2nnxtmWen2ZGsrRdO3z5QhzwvRMq/x3SXkPAEAhf61B?=
+ =?us-ascii?Q?EcTfEXu+yADWvpKeDsLLzr3hj5xS9APr266MzizI922XAcXniz6F1ubrjZdU?=
+ =?us-ascii?Q?TEltQa2pgLdXutNc2Es9/J+4Uh7DLrrLSqozVjbjAoG18mhOXEfoDji8f8rg?=
+ =?us-ascii?Q?Ygvs0NIe+frte07v9LhFvdhjCyWaV/FA0LNlZMi2XAgDpyuIaHedWNujGOih?=
+ =?us-ascii?Q?DcH1dTROhaPkfnVUns8oSPh2L6gvbvtiCiZwp6MKKVxMp/TXaHVdH/McDMSV?=
+ =?us-ascii?Q?8M6xNWMH+C92bTTO0vyoa7Tq/qosPQj2gJ1GRNZSPTgNsmrUMzFjCU+HQrn0?=
+ =?us-ascii?Q?VlfKyi6CS14pXnQGcov5xmwaEaldopANOpUbZvQRQd6KB28dgtq3xuiCuuDH?=
+ =?us-ascii?Q?pLZRUii2fpVZHgmnPiMhdo8Ex9YrcHoPQB9v1tAl6JFboceCK2dSwYno8s+N?=
+ =?us-ascii?Q?Z1Vf2r46d6DndnItp+o4xjMWrzOiCmOJ4flxjayDlCIgaQX73PmTcxEcNHW8?=
+ =?us-ascii?Q?OOACJbkJpmB6IyNrY2f+Yy+1qZvgpmFWmCg16zynqDOLsRhlyWS1+kDP3f2+?=
+ =?us-ascii?Q?qO99FnmyrCaZvgm1LFS0m7G6NpxRO0Vl0K9JycKlECCoUtIPjfCHs85kBxl/?=
+ =?us-ascii?Q?VjuI3XlEk6e1r66kf36Do0IH6I+OUaQZNq6BfttC+Fi4PCQEeN52y4yFB8VI?=
+ =?us-ascii?Q?DY7aD8zO+7O/5J+nPDbqukXmQ5Wk4v6+pm2aLog012O3IMnsG6uTDdOCszZh?=
+ =?us-ascii?Q?OTTAomaZB/T5kjiTcZLbBAKTncKswOEhszdXdEM0O8/WUGv9Q2G4rk433aB3?=
+ =?us-ascii?Q?TCQpVqFJYwWVRv3jsPTva7d7dw9HRH+ttF1FX6zdo593+/sYVReUpIkelr0b?=
+ =?us-ascii?Q?NcNwq25gY/+PtJDK2iEvVgUDl0Xt9Hq0i7uQzHaLKTybg0weiGN3DSFpiBM0?=
+ =?us-ascii?Q?0w=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	ZoQeBQPRVOuw48sDA/FCQ7GxiFkWeCuKVA4wsQgvjsOOOkpXiZ7bvh2GH5QYLow8ryHZY0rLYIQob1MVco0xDW3DLoIuHcnVuJcY7mk8vtzcJ7yICLovVYpq2RBsMwjPmHMF5hbwqi8fTOt7DSSIUm+Y5JGsmi8vF9f7Ac7w+eXeiq2pWM6qQWNXnTZL3lYYJ9ad1OSK1GalE9bCBtgchJCMNGPv3IKJHOYZyYFP5Gf3wVq7356HPM5u/tALOmkokn0LWiT8evNcqGoDmJaFVDovVV8BmbNIa7OymADFBG6FFs7zpoqm4yQgJSFI6RSbGWjC/zrU4E//p2YPvLdvwL3hvIevQMbpJ36sdBrLJzhS29Vt2ti5OuQ3lLbkslFzXyvkZL9TTGuPsyxAau931KKVlUXYdJgftT3oDHIlYDQLdaFmDVCSdu2KeLTd996feFa2maUr3ruZ44g2YILigHEmArFD8+LiPopWw3MwQu1c3Z4hSdIT4IsMHNh+JMMrBq0O/lZhGT4cr01NaBKPnG39mvcShI4F+enoTVFUat9i78jDxmaZ/E14EhZyGw7ngmVhh1+pXeHX3889whrx+JFG2neyXQJ3Gh9DamFqRtk=
+	fpI9k7MpLKPK9mdWovukCxnpCkj5qI2ez0iUszyqufIN5JDUUn7/gGt9jNCnm0cMmojP0J77HGuDs9VU5Lhng+eBA3lzy8P8xF8w8awREWgiPoNlkc1/vxK0Dudxt1lmqKrehQ3RLRDtzqaS8GyJg3V/mQLGYHt5r7V57TY7jvrVlu0KZyvx6ZXvzjZNWhedooYyDea9VzDJzxvxWn8ev9wMG8qszfcDa9wXA/5H2vob2MTc2BwbsJ+0ZyVzCfzEDohcZcpAOgaDvqYucHZsF4VsRtmEOsfms212OHtNkB8txyfPsTcAbGKmggk88bZSBeBvLRVL0hBE0TcyCYdrES3b1fdCLYv7tPYP/oecm8/UyRMwterOtlneTfVNOD8NG+/ex3Vl9mA2yd1LHK3Pt/aX7xfuR+bSs7JLdyTGZO5zkwikCQS5LA6jyPDXkIQnrltj7qHaUHsh+g2Qvpt05eRsSy6YwrZHjTsUlLuDtRL5baVXZujnOI7PEP4SozubXT/dl2tA1xWG47UbK7q0o8z+7tws4Fo7OF+YwOwgy1D2L7eTyQG/Z0R9OVOFCl1RmhdYDyIQadNe0sFYyiDtsPeKBmPaznMdcAJSyJH2jt4=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a172ba1-d375-4370-673a-08dcf7960e5a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c9b4bad-cc24-490f-fc4e-08dcf7961016
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4093.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2024 21:18:23.9453
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2024 21:18:26.7897
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z+tU7BRnAtKxxD0Us18qM+ez2eHc3Sww5ZGWjoKqtwKKgtYIATyufcL9ngX3l11n+i1/wpgyvWw0vB8fRzMaVg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: c+k+5hBcfxhqjLIpSBJtXTcc5KXlGAePO+CTvUzI5ND/uxgfzrW0drFUf+YILd3Drjw29ls+ucQKLm1J+kWMEw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7354
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
@@ -168,214 +168,40 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malw
  bulkscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
  definitions=main-2410280165
-X-Proofpoint-GUID: Rp2drtcPcL7I5HY3RWj5MczoI4bSodib
-X-Proofpoint-ORIG-GUID: Rp2drtcPcL7I5HY3RWj5MczoI4bSodib
+X-Proofpoint-ORIG-GUID: OrtsTJyZKfZpcFhuBvnINgKIe2cjFNMF
+X-Proofpoint-GUID: OrtsTJyZKfZpcFhuBvnINgKIe2cjFNMF
 
-- is a line-breaking hyphen, almost always wrong for options.  (Its use
-prevents the option from working when pasted into some terminal
-emulators.)
+They don't do what you might expect in troff: a leading . is preferable.
 
 Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
 Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
 ---
- cmd/dtrace.8 | 116 +++++++++++++++++++++++++--------------------------
- 1 file changed, 58 insertions(+), 58 deletions(-)
+ cmd/dtrace.8 | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/cmd/dtrace.8 b/cmd/dtrace.8
-index 940ddfc65d1a..a53632949e72 100644
+index a53632949e72..0639db2136a7 100644
 --- a/cmd/dtrace.8
 +++ b/cmd/dtrace.8
-@@ -57,119 +57,119 @@ Options that generate program stability reports
- Options that modify DTrace tracing and buffering behavior and enable additional D compiler features
- .RE
- .LP
--You can use \fBdtrace\fR to create D scripts by using it in a \fB#!\fR declaration to create an interpreter file. You can also use \fBdtrace\fR to attempt to compile D programs and determine their properties without actually enabling tracing using the \fB-e\fR option. See \fBOPTIONS\fR. See the \fIOracle Linux DTrace Guide\fR for detailed examples of how to use the \fBdtrace\fR utility to perform these tasks.
-+You can use \fBdtrace\fR to create D scripts by using it in a \fB#!\fR declaration to create an interpreter file. You can also use \fBdtrace\fR to attempt to compile D programs and determine their properties without actually enabling tracing using the \fB\-e\fR option. See \fBOPTIONS\fR. See the \fIOracle Linux DTrace Guide\fR for detailed examples of how to use the \fBdtrace\fR utility to perform these tasks.
- .SH OPTIONS
- .LP
--The arguments accepted by the \fB-P\fR, \fB-m\fR, \fB-f\fR, \fB-n\fR, and \fB-i\fR options can include an optional D language \fIpredicate\fR enclosed in slashes \fB//\fR and optional D language \fIaction\fR statement list enclosed in braces \fB{}\fR. D program code specified on the command line must be appropriately quoted to avoid interpretation of meta-characters by the shell. 
-+The arguments accepted by the \fB\-P\fR, \fB\-m\fR, \fB\-f\fR, \fB\-n\fR, and \fB\-i\fR options can include an optional D language \fIpredicate\fR enclosed in slashes \fB//\fR and optional D language \fIaction\fR statement list enclosed in braces \fB{}\fR. D program code specified on the command line must be appropriately quoted to avoid interpretation of meta-characters by the shell.
- .LP
- The following options are supported:
- .TP
--\fB\fB-b\fR \fIbufsz\fR\fR
-+\fB\fB\-b\fR \fIbufsz\fR\fR
- Set principal trace buffer size (\fIbufsz\fR). The trace buffer size can include any of the size suffixes \fBk\fR, \fBm\fR, \fBg\fR, or \fBt\fR. If the buffer space cannot be allocated, \fBdtrace\fR attempts to reduce the buffer size or exit depending on the setting of the \fBbufresize\fR property.
- .TP
--\fB\fB-c\fR \fIcmd\fR\fR
--Run the specified command \fIcmd\fR and exit upon its completion. If more than one \fB-c\fR option is present on the command line, \fBdtrace\fR exits when all commands have exited, reporting the exit status for each child process as it terminates. The process-ID of the first command is made available to any D programs specified on the command line or using the \fB-s\fR option through the \fB$target\fR macro variable. Refer to the \fIOracle Linux DTrace Guide\fR for more information on macro variables.
-+\fB\fB\-c\fR \fIcmd\fR\fR
-+Run the specified command \fIcmd\fR and exit upon its completion. If more than one \fB\-c\fR option is present on the command line, \fBdtrace\fR exits when all commands have exited, reporting the exit status for each child process as it terminates. The process-ID of the first command is made available to any D programs specified on the command line or using the \fB\-s\fR option through the \fB$target\fR macro variable. Refer to the \fIOracle Linux DTrace Guide\fR for more information on macro variables.
- .TP
--\fB\fB-C\fR\fR
--Run the C preprocessor \fBcpp\fR(1) over D programs before compiling them. You can pass options to the C preprocessor using the \fB-D\fR, \fB-U\fR, \fB-I\fR, and \fB-H\fR options. You can select the degree of C standard conformance if you use the \fB-X\fR option. For a description of the set of tokens defined by the D compiler when invoking the C preprocessor, see \fB-X\fR.
-+\fB\fB\-C\fR\fR
-+Run the C preprocessor \fBcpp\fR(1) over D programs before compiling them. You can pass options to the C preprocessor using the \fB\-D\fR, \fB\-U\fR, \fB\-I\fR, and \fB\-H\fR options. You can select the degree of C standard conformance if you use the \fB\-X\fR option. For a description of the set of tokens defined by the D compiler when invoking the C preprocessor, see \fB\-X\fR.
- .TP
--\fB\fB-D\fR \fIname\fR \fB[=\fR\fIvalue\fR\fB]\fR\fR
--Define \fIname\fR when invoking \fBcpp\fR(1) (enabled using the \fB-C\fR option). If you specify the equals sign (\fB=\fR) and additional \fIvalue\fR, the name is assigned the corresponding value. This option passes the \fB-D\fR option to each \fBcpp\fR invocation.
-+\fB\fB\-D\fR \fIname\fR \fB[=\fR\fIvalue\fR\fB]\fR\fR
-+Define \fIname\fR when invoking \fBcpp\fR(1) (enabled using the \fB\-C\fR option). If you specify the equals sign (\fB=\fR) and additional \fIvalue\fR, the name is assigned the corresponding value. This option passes the \fB\-D\fR option to each \fBcpp\fR invocation.
- .TP
--\fB\fB-e\fR\fR
-+\fB\fB\-e\fR\fR
- Exit after compiling any requests, but prior to enabling any probes. You can combine this option with D compiler options. This combination verifies that the programs compile without actually executing them and enabling the corresponding instrumentation.
- .TP
--\fB\fB-f\fR\fB[[\fR\fIprovider\fR\fB:]\fR\fImodule\fR\fB:]\fR\fIfunction\fR\fB[[\fR\fIpredicate\fR\fB]\fR\fIaction\fR\fB]]\fR\fR
--Specify function name to trace or list (\fB-l\fR option). The corresponding argument can include any of the probe description forms \fIprovider:module:function\fR, \fImodule:function\fR, or \fIfunction\fR. Unspecified probe description fields are left blank and match any probes regardless of the values in those fields. If no qualifiers other than \fIfunction\fR are specified in the description, all probes with the corresponding \fIfunction\fR are matched. The \fB-f\fR argument can be suffixed with an optional D probe clause. You can specify more than one \fB-f\fR option on the command line at a time.
-+\fB\fB\-f\fR\fB[[\fR\fIprovider\fR\fB:]\fR\fImodule\fR\fB:]\fR\fIfunction\fR\fB[[\fR\fIpredicate\fR\fB]\fR\fIaction\fR\fB]]\fR\fR
-+Specify function name to trace or list (\fB\-l\fR option). The corresponding argument can include any of the probe description forms \fIprovider:module:function\fR, \fImodule:function\fR, or \fIfunction\fR. Unspecified probe description fields are left blank and match any probes regardless of the values in those fields. If no qualifiers other than \fIfunction\fR are specified in the description, all probes with the corresponding \fIfunction\fR are matched. The \fB\-f\fR argument can be suffixed with an optional D probe clause. You can specify more than one \fB\-f\fR option on the command line at a time.
- .TP
--\fB\fB-F\fR\fR
-+\fB\fB\-F\fR\fR
- Coalesce trace output by identifying function entry and return. Function entry probe reports are indented and their output is prefixed with \fB->\fR. Function return probe reports are unindented and their output is prefixed with \fB<-\fR\&. System call entry probe reports are indented and their output is prefixed with \fB=>\fR. System call return probe reports are unindented and their output is prefixed with \fB<=\fR\&.
- .TP
--\fB\fB-G\fR\fR
--Generate an ELF file containing an embedded DTrace program. The DTrace probes specified in the program are saved inside of a relocatable ELF object which can be linked into another program. If the \fB-o\fR option is present, the ELF file is saved using the pathname specified as the argument for this operand. If the \fB-o\fR option is not present and the DTrace program is contained with a file whose name is \fB\fIfilename\fR.d\fR, then the ELF file is saved using the name \fB\fIfilename\fR.o\fR. Otherwise the ELF file is saved using the name \fBd.out\fR.
-+\fB\fB\-G\fR\fR
-+Generate an ELF file containing an embedded DTrace program. The DTrace probes specified in the program are saved inside of a relocatable ELF object which can be linked into another program. If the \fB\-o\fR option is present, the ELF file is saved using the pathname specified as the argument for this operand. If the \fB\-o\fR option is not present and the DTrace program is contained with a file whose name is \fB\fIfilename\fR.d\fR, then the ELF file is saved using the name \fB\fIfilename\fR.o\fR. Otherwise the ELF file is saved using the name \fBd.out\fR.
- .TP
--\fB\fB-H\fR\fR
--Print the pathnames of included files when invoking \fBcpp\fR(1) (enabled using the \fB-C\fR option). This option passes the \fB-H\fR option to each \fBcpp\fR invocation, causing it to display the list of pathnames, one for each line, to \fBstderr\fR.
-+\fB\fB\-H\fR\fR
-+Print the pathnames of included files when invoking \fBcpp\fR(1) (enabled using the \fB\-C\fR option). This option passes the \fB\-H\fR option to each \fBcpp\fR invocation, causing it to display the list of pathnames, one for each line, to \fBstderr\fR.
- .TP
--\fB\fB-h\fR\fR
--Generate a header file containing macros that correspond to probes in the specified provider definitions. This option should be used to generate a header file that is included by other source files for later use with the \fB-G\fR option. If the \fB-o\fR option is present, the header file is saved using the pathname specified as the argument for that option. If the \fB-o\fR option is not present and the DTrace program is contained with a file whose name is \fIfilename\fR\fB\&.d\fR, then the header file is saved using the name \fIfilename\fR\fB\&.h\fR.
-+\fB\fB\-h\fR\fR
-+Generate a header file containing macros that correspond to probes in the specified provider definitions. This option should be used to generate a header file that is included by other source files for later use with the \fB\-G\fR option. If the \fB\-o\fR option is present, the header file is saved using the pathname specified as the argument for that option. If the \fB\-o\fR option is not present and the DTrace program is contained with a file whose name is \fIfilename\fR\fB\&.d\fR, then the header file is saved using the name \fIfilename\fR\fB\&.h\fR.
- .TP
--\fB\fB-i\fR \fIprobe-id\fR\fB[[\fR\fIpredicate\fR] \fIaction\fR\fB]\fR\fR
--Specify probe identifier (\fIprobe-id\fR) to trace or list (\fB-l\fR option). You can specify probe IDs using decimal integers as shown by \fBdtrace\fR \fB-l\fR. The \fB-i\fR argument can be suffixed with an optional D probe clause. You can specify more than one \fB-i\fR option at a time.
-+\fB\fB\-i\fR \fIprobe-id\fR\fB[[\fR\fIpredicate\fR] \fIaction\fR\fB]\fR\fR
-+Specify probe identifier (\fIprobe-id\fR) to trace or list (\fB\-l\fR option). You can specify probe IDs using decimal integers as shown by \fBdtrace\fR \fB\-l\fR. The \fB\-i\fR argument can be suffixed with an optional D probe clause. You can specify more than one \fB\-i\fR option at a time.
- .TP
--\fB\fB-I\fR \fIpath\fR\fR
--Add the specified directory \fIpath\fR to the search path for \fB#include\fR files when invoking \fBcpp\fR(1) (enabled using the \fB-C\fR option). This option passes the \fB-I\fR option to each \fBcpp\fR invocation. The specified \fIpath\fR is inserted into the search path ahead of the default directory list.
-+\fB\fB\-I\fR \fIpath\fR\fR
-+Add the specified directory \fIpath\fR to the search path for \fB#include\fR files when invoking \fBcpp\fR(1) (enabled using the \fB\-C\fR option). This option passes the \fB\-I\fR option to each \fBcpp\fR invocation. The specified \fIpath\fR is inserted into the search path ahead of the default directory list.
- .TP
--\fB\fB-L\fR \fIpath\fR\fR
-+\fB\fB\-L\fR \fIpath\fR\fR
- Add the specified directory \fIpath\fR to the search path for DTrace libraries. DTrace libraries are used to contain common definitions that can be used when writing D programs. The specified \fIpath\fR is added after the default library search path. If it exists, a subdirectory of \fIpath\fR named after the minor version of the running kernel (e.g. 3.8) is searched immediately before \fIpath\fR. (But take note: dependency analysis is performed only within each directory, not across directories.)
- .TP
--\fB\fB-l\fR\fR
--List probes instead of enabling them. If the \fB-l\fR option is specified, \fBdtrace\fR produces a report of the probes matching the descriptions given using the \fB-P\fR, \fB-m\fR, \fB-f\fR, \fB-n\fR, \fB-i\fR, and \fB-s\fR options. If none of these options are specified, this option lists all probes.
-+\fB\fB\-l\fR\fR
-+List probes instead of enabling them. If the \fB\-l\fR option is specified, \fBdtrace\fR produces a report of the probes matching the descriptions given using the \fB\-P\fR, \fB\-m\fR, \fB\-f\fR, \fB\-n\fR, \fB\-i\fR, and \fB\-s\fR options. If none of these options are specified, this option lists all probes.
- .TP
--\fB\fB-m\fR [[\fIprovider:\fR] \fImodule:\fR [[\fIpredicate\fR] \fIaction\fR]]\fR
--Specify module name to trace or list (\fB-l\fR option). The corresponding argument can include any of the probe description forms \fIprovider:module\fR or \fImodule\fR. Unspecified probe description fields are left blank and match any probes regardless of the values in those fields. If no qualifiers other than \fImodule\fR are specified in the description, all probes with a corresponding \fImodule\fR are matched. The \fB-m\fR argument can be suffixed with an optional D probe clause. More than one \fB-m\fR option can be specified on the command line at a time.
-+\fB\fB\-m\fR [[\fIprovider:\fR] \fImodule:\fR [[\fIpredicate\fR] \fIaction\fR]]\fR
-+Specify module name to trace or list (\fB\-l\fR option). The corresponding argument can include any of the probe description forms \fIprovider:module\fR or \fImodule\fR. Unspecified probe description fields are left blank and match any probes regardless of the values in those fields. If no qualifiers other than \fImodule\fR are specified in the description, all probes with a corresponding \fImodule\fR are matched. The \fB\-m\fR argument can be suffixed with an optional D probe clause. More than one \fB\-m\fR option can be specified on the command line at a time.
- .TP
--\fB\fB-n\fR [[[\fIprovider:\fR] \fImodule:\fR] \fIfunction:\fR] \fIname\fR [[\fIpredicate\fR] \fIaction\fR]\fR
--Specify probe name to trace or list (\fB-l\fR option). The corresponding argument can include any of the probe description forms \fIprovider:module:function:name\fR, \fImodule:function:name\fR, \fIfunction:name\fR, or \fIname\fR. Unspecified probe description fields are left blank and match any probes regardless of the values in those fields. If no qualifiers other than \fIname\fR are specified in the description, all probes with a corresponding \fIname\fR are matched. The \fB-n\fR argument can be suffixed with an optional D probe clause. More than one \fB-n\fR option can be specified on the command line at a time.
-+\fB\fB\-n\fR [[[\fIprovider:\fR] \fImodule:\fR] \fIfunction:\fR] \fIname\fR [[\fIpredicate\fR] \fIaction\fR]\fR
-+Specify probe name to trace or list (\fB\-l\fR option). The corresponding argument can include any of the probe description forms \fIprovider:module:function:name\fR, \fImodule:function:name\fR, \fIfunction:name\fR, or \fIname\fR. Unspecified probe description fields are left blank and match any probes regardless of the values in those fields. If no qualifiers other than \fIname\fR are specified in the description, all probes with a corresponding \fIname\fR are matched. The \fB\-n\fR argument can be suffixed with an optional D probe clause. More than one \fB\-n\fR option can be specified on the command line at a time.
- .TP
--\fB\fB-o\fR \fIoutput\fR\fR
--Specify the \fIoutput\fR file for the \fB-G\fR, \fB-h\fR, and \fB-l\fR options, or for the traced data itself. If the \fB-G\fR option is present and the \fB-s\fR option's argument is of the form \fB\fIfilename\fR.d\fR and \fB-o\fR is not present, the default output file is \fB\fIfilename\fR.o\fR. Otherwise the default output file is \fBd.out\fR.
-+\fB\fB\-o\fR \fIoutput\fR\fR
-+Specify the \fIoutput\fR file for the \fB\-G\fR, \fB\-h\fR, and \fB\-l\fR options, or for the traced data itself. If the \fB\-G\fR option is present and the \fB\-s\fR option's argument is of the form \fB\fIfilename\fR.d\fR and \fB\-o\fR is not present, the default output file is \fB\fIfilename\fR.o\fR. Otherwise the default output file is \fBd.out\fR.
- .TP
--\fB\fB-p\fR \fIpid\fR\fR
--Grab the specified process-ID \fIpid\fR, cache its symbol tables, and exit upon its completion. If more than one \fB-p\fR option is present on the command line, \fBdtrace\fR exits when all commands have exited, reporting the exit status for each process as it terminates. The first process-ID is made available to any D programs specified on the command line or using the \fB-s\fR option through the \fB$target\fR macro variable. Refer to the \fIOracle Linux DTrace Guide\fR for more information on macro variables.
-+\fB\fB\-p\fR \fIpid\fR\fR
-+Grab the specified process-ID \fIpid\fR, cache its symbol tables, and exit upon its completion. If more than one \fB\-p\fR option is present on the command line, \fBdtrace\fR exits when all commands have exited, reporting the exit status for each process as it terminates. The first process-ID is made available to any D programs specified on the command line or using the \fB\-s\fR option through the \fB$target\fR macro variable. Refer to the \fIOracle Linux DTrace Guide\fR for more information on macro variables.
- .TP
--\fB\fB-P\fR \fIprovider\fR \fB[[\fR\fIpredicate\fR\fB]\fR \fIaction\fR]\fR
--Specify provider name to trace or list (\fB-l\fR option). The remaining probe description fields module, function, and name are left blank and match any probes regardless of the values in those fields. The \fB-P\fR argument can be suffixed with an optional D probe clause. You can specify more than one \fB-P\fR option on the command line at a time.
-+\fB\fB\-P\fR \fIprovider\fR \fB[[\fR\fIpredicate\fR\fB]\fR \fIaction\fR]\fR
-+Specify provider name to trace or list (\fB\-l\fR option). The remaining probe description fields module, function, and name are left blank and match any probes regardless of the values in those fields. The \fB\-P\fR argument can be suffixed with an optional D probe clause. You can specify more than one \fB\-P\fR option on the command line at a time.
- .TP
--\fB\fB-q\fR\fR
-+\fB\fB\-q\fR\fR
- Set quiet mode. \fBdtrace\fR suppresses messages such as the number of probes matched by the specified options and D programs and does not print column headers, the CPU ID, the probe ID, or insert newlines into the output. Only data traced and formatted by D program statements such as \fBtrace()\fR and \fBprintf()\fR is displayed to \fBstdout\fR.
- .TP
--\fB\fB-s\fR\fR
--Compile the specified D program source file. If the \fB-e\fR option is present, the program is compiled but instrumentation is not enabled. If the \fB-l\fR option is present, the program is compiled and the set of probes matched by it is listed, but instrumentation is not enabled. If none of \fB-e\fR, \fB-l\fR, or \fB-G\fR are present, the instrumentation specified by the D program is enabled and tracing begins.
-+\fB\fB\-s\fR\fR
-+Compile the specified D program source file. If the \fB\-e\fR option is present, the program is compiled but instrumentation is not enabled. If the \fB\-l\fR option is present, the program is compiled and the set of probes matched by it is listed, but instrumentation is not enabled. If none of \fB\-e\fR, \fB\-l\fR, or \fB\-G\fR are present, the instrumentation specified by the D program is enabled and tracing begins.
- .TP
--\fB\fB-S\fR\fR
-+\fB\fB\-S\fR\fR
- Show D compiler intermediate code. The D compiler produces a report of the intermediate code generated for each D program to \fBstderr\fR.
- .TP
--\fB\fB-U\fR \fIname\fR\fR
-+\fB\fB\-U\fR \fIname\fR\fR
- Undefine the specified \fIname\fR when invoking \fBcpp\fR(1) (enabled using the \fB-C\fR option). This option passes the \fB-U\fR option to each \fBcpp\fR invocation.
- .TP
--\fB\fB-v\fR\fR
--Set verbose mode. If the \fB-v\fR option is specified, \fBdtrace\fR produces a program stability report showing the minimum interface stability and dependency level for the specified D programs. DTrace stability levels are explained in further detail in the \fIOracle Linux DTrace Guide\fR.
-+\fB\fB\-v\fR\fR
-+Set verbose mode. If the \fB\-v\fR option is specified, \fBdtrace\fR produces a program stability report showing the minimum interface stability and dependency level for the specified D programs. DTrace stability levels are explained in further detail in the \fIOracle Linux DTrace Guide\fR.
- .TP
--\fB\fB-V\fR\fR
--Report the highest D programming interface version supported by \fBdtrace\fR. The version information is printed to \fBstdout\fR and the \fBdtrace\fR command exits. Refer to the \fIOracle Linux DTrace Guide\fR for more information about DTrace versioning features. In conjunction with \fB-v\fR, also reports information on the version of the \fBdtrace\fR(1) tool and associated library.
-+\fB\fB\-V\fR\fR
-+Report the highest D programming interface version supported by \fBdtrace\fR. The version information is printed to \fBstdout\fR and the \fBdtrace\fR command exits. Refer to the \fIOracle Linux DTrace Guide\fR for more information about DTrace versioning features. In conjunction with \fB\-v\fR, also reports information on the version of the \fBdtrace\fR(1) tool and associated library.
- .TP
--\fB\fB-w\fR\fR
--Permit destructive actions in D programs specified using the \fB-s\fR, \fB-P\fR, \fB-m\fR, \fB-f\fR, \fB-n\fR, or \fB-i\fR options. If the \fB-w\fR option is not specified, \fBdtrace\fR does not permit the compilation or enabling of a D program that contains destructive actions.
-+\fB\fB\-w\fR\fR
-+Permit destructive actions in D programs specified using the \fB\-s\fR, \fB\-P\fR, \fB\-m\fR, \fB\-f\fR, \fB\-n\fR, or \fB\-i\fR options. If the \fB\-w\fR option is not specified, \fBdtrace\fR does not permit the compilation or enabling of a D program that contains destructive actions.
- .TP
--\fB\fB-x\fR \fIarg\fR [\fI=val\fR]\fR
-+\fB\fB\-x\fR \fIarg\fR [\fI=val\fR]\fR
- Enable or modify a DTrace runtime option or D compiler option. The list of options is found in the \fIOracle Linux DTrace Guide\fR. Boolean options are enabled by specifying their name. Options with values are set by separating the option name and value with an equals sign (\fB=\fR).
- .TP
--\fB\fB-Z\fR\fR
--Permit probe descriptions that match zero probes. If the \fB-Z\fR option is not specified, \fBdtrace\fR reports an error and exits if any probe descriptions specified in D program files (\fB-s\fR option) or on the command line (\fB-P\fR, \fB-m\fR, \fB-f\fR, \fB-n\fR, or \fB-i\fR options) contain descriptions that do not match any known probes.
--
-+\fB\fB\-Z\fR\fR
-+Permit probe descriptions that match zero probes. If the \fB\-Z\fR option is not specified, \fBdtrace\fR reports an error and exits if any probe descriptions specified in D program files (\fB\-s\fR option) or on the command line (\fB\-P\fR, \fB\-m\fR, \fB\-f\fR, \fB\-n\fR, or \fB\-i\fR options) contain descriptions that do not match any known probes.
-+.
- .SH OPERANDS
- .LP
--You can specify zero or more additional arguments on the \fBdtrace\fR command line to define a set of macro variables (\fB$1\fR, \fB$2\fR, and so forth). The additional arguments can be used in D programs specified using the \fB-s\fR option or on the command line. The use of macro variables is described further in the \fIOracle Linux DTrace Guide\fR.
--
-+You can specify zero or more additional arguments on the \fBdtrace\fR command line to define a set of macro variables (\fB$1\fR, \fB$2\fR, and so forth). The additional arguments can be used in D programs specified using the \fB\-s\fR option or on the command line. The use of macro variables is described further in the \fIOracle Linux DTrace Guide\fR.
-+.
- .SH EXIT STATUS
- .LP
- The following exit values are returned:
- .TP
- .B 0
- Successful completion. 
--
-+.IP
- For D program requests, an exit status of \fB0\fR indicates that programs were successfully compiled, probes were successfully enabled, or anonymous state was successfully retrieved. \fBdtrace\fR returns \fB0\fR even if the specified tracing requests encountered errors or drops.
- .TP
- .B 1
- An error occurred.
--
-+.IP
- For D program requests, an exit status of \fB1\fR indicates that program compilation failed or that the specified request could not be satisfied.
- .TP
- .B 2
- Invalid command line options or arguments were specified.
- .\" .RE
--
-+.
- .SH "ENVIRONMENT VARIABLES"
- .LP
- The following environment variables are consulted:
-@@ -180,7 +180,7 @@ Print CTF type library debugging output on standard error.
+@@ -179,15 +179,15 @@ Print libdtrace debugging output on standard error.
+ Print CTF type library debugging output on standard error.
  .IP DTRACE_OPT_*
  Set a given DTrace option.
- 
--Options set this way are overridden both by options specified via \fB-x\fR on the command line, and by \fBsetopt\fR statements.
-+Options set this way are overridden both by options specified via \fB\-x\fR on the command line, and by \fBsetopt\fR statements.
- 
+-
++.
+ Options set this way are overridden both by options specified via \fB\-x\fR on the command line, and by \fBsetopt\fR statements.
+-
++.
  .SH SEE ALSO
  .BR cpp (1),
-@@ -190,4 +190,4 @@ Options set this way are overridden both by options specified via \fB-x\fR on th
- 
+ .BR ssh (1)
+ .LP
+ .I Oracle Linux DTrace Guide
+-
++.
  .SH USAGE
  .LP
--When using the \fB-p\fR flag, \fBdtrace\fR stops the target processes while it is inspecting them and reporting results. A process can do nothing while it is stopped. This means that, if , for example, the X server is inspected by \fBdtrace\fR running in a window under the X server's control, the whole window system can become deadlocked, because the \fBdtrace\fR tool would be attempting to display its results to a window that cannot be refreshed. In such a case, logging in from another system using \fBssh\fR(1) and killing the offending \fBdtrace\fR tool clears the deadlock.
-+When using the \fB\-p\fR flag, \fBdtrace\fR stops the target processes while it is inspecting them and reporting results. A process can do nothing while it is stopped. This means that, if, for example, the X server is inspected by \fBdtrace\fR running in a window under the X server's control, the whole window system can become deadlocked, because the \fBdtrace\fR tool would be attempting to display its results to a window that cannot be refreshed. In such a case, logging in from another system using \fBssh\fR(1) and killing the offending \fBdtrace\fR tool clears the deadlock.
+ When using the \fB\-p\fR flag, \fBdtrace\fR stops the target processes while it is inspecting them and reporting results. A process can do nothing while it is stopped. This means that, if, for example, the X server is inspected by \fBdtrace\fR running in a window under the X server's control, the whole window system can become deadlocked, because the \fBdtrace\fR tool would be attempting to display its results to a window that cannot be refreshed. In such a case, logging in from another system using \fBssh\fR(1) and killing the offending \fBdtrace\fR tool clears the deadlock.
 -- 
 2.46.0.278.g36e3a12567
 
