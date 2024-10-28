@@ -1,79 +1,83 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5C81D2796
-	for <dtrace@lists.linux.dev>; Mon, 28 Oct 2024 21:18:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6793A1DFDA1
+	for <dtrace@lists.linux.dev>; Mon, 28 Oct 2024 21:18:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730150296; cv=fail; b=eWLT9KehLu3nMhDX/Vl06QlevP1UNYfbuwu7FKw0D1tm0qer4z11SFtLygvYF/8putEIeDT1alnipszD8vRYntM8gL0+0Af3swdCdTgrbymb1W8fxHyCfDS8psxcw8Fq2I64Ay35DdRfhw60Hs9EgVNOl07QM1vy5ObxK7tFi4g=
+	t=1730150298; cv=fail; b=FqfYnywCjmHB9lF+6fCSJtQdn0SCVMeRkBc2bdzkPT+N5OAqbHLVjZ3z/5LwHoJjeH8Z0FyiOsYHCBukjzA/TkngDXMBeuC/d8nNpNAzzd2EtxqLcT1l7HKi5iJa9f8k/ywSbcGiEXEvctlKYPPC0tAYRiY05BcdDT6YW+ZFjaE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730150296; c=relaxed/simple;
-	bh=ZV9ArBQ95fjn+lzdCCP93rIFPTighjbY8LvRUG6tn+8=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=C4wNMtm0V9GK+CeHr2X/uNYqJZy9ZNQn5qeBzwuM+CnVwMJlrMQ9wndT3hAvqEE33PcQvO+SngRYvh6ZKGb8fPqtwsBBMwu/quzlDuZZvV9WWNCIg/ARuNP6cCSXpUme5C4fxaSpk8uGxaRsRkBcc8y/iXw+3r+tsh+xfDi6KFM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=hq7FIj04; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=q+kj6b4u; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1730150298; c=relaxed/simple;
+	bh=LXYMtbVymZPpEuNlxpoh2T+BpV4Qsus4LcW9uYwpC/k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=eqCtwvppRQ99prazHwssbtw++e1ZKvLzov31XAuTwez/uq5AkBYl9QaaeOtsvS5ecH0E3kp0zpwFoMv5DjjtimgKE8j6Jd63JDt5jAj1pHrhlGetZYplHPhmTrV0mFhlWnQ3s9xzU8sbAMXG/BS2viXgSzQ3eQFitzm/9EW1ynw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=XqJjvDFu; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=QzAMpxHi; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="hq7FIj04";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="q+kj6b4u"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49SKtae2032545;
-	Mon, 28 Oct 2024 21:18:11 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XqJjvDFu";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="QzAMpxHi"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49SKtac1020944;
+	Mon, 28 Oct 2024 21:18:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=corp-2023-11-20; bh=voSDuNs+RO3ZSlG5
-	7+puSS1RDIX13UqGwXRw9l7O8Zg=; b=hq7FIj04oJ+BCfu6EMVL1rmM9+W4iCVs
-	7rBQ1ydF6QuAIRuKpwYI1WQ6gRmvdtzqIfwTPzttbfkFxihcSfj0fkNpSjSZLBUN
-	Zy+jE0+ljbiyX6/SHXoeubQm8LbiplaSkkJ04GEZngZlnuBvg5STtFCLihXjXk3h
-	9+7PBm8mI6gzxisth/qQQmQ1aoVcvzBgokfioPHbiZH9eg+5zKUzxSSe4cpklImp
-	uMVwJy4HM/ksyMCdp8RATtW8lwYhlUCblMBaDIyuiVkbbCDlU9NAHHIpBMeCiqBL
-	RK7yjhNJvdPUmRKH7dkK4y5hbh2q5r0O0RIs1+U1ZRkEe9W/zCu4sw==
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2023-11-20; bh=apzKsyx/DUsKkiBbOeIzSg0QwDccDptYKrk1bUg2ri4=; b=
+	XqJjvDFuHZIV6e+2wmIZsLx2oPzl6UAnjJZGpzi93FS3JQsRDr40uL6km8MoGKwY
+	MxEkcCeHE8hdbRIzDBb1Esno+EDq+8zO4MPgeuctR3UjrTWejg9Tn2fD++/LUjJ/
+	5602XzwxEkh/nfsGjUIGiMqlwq2kSpteR60tXKYNFQi5M7AWnph5bR2YseCBKZLU
+	VcavuzpLlJqcFawLirWNIxa0IF3FC4dnYWxkxII96s82Hjg2vGIp3cGz7skZ3pHq
+	l2MlSlunXssTL4/txTk6/3pxXFuFqKol2Hcb5aLV7Q+hM8d41ClnJvLryzz27PUZ
+	ctneXKJjAynzQEI8ZV9iJQ==
 Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42grc1uy5d-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42grdp3yx2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 28 Oct 2024 21:18:11 +0000 (GMT)
+	Mon, 28 Oct 2024 21:18:12 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49SKABMb040236;
-	Mon, 28 Oct 2024 21:18:10 GMT
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49SKABMe040236;
+	Mon, 28 Oct 2024 21:18:11 GMT
 Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2175.outbound.protection.outlook.com [104.47.59.175])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42hnan35xq-2
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42hnan35xq-5
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 28 Oct 2024 21:18:10 +0000
+	Mon, 28 Oct 2024 21:18:11 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Mw4MEucckST5/0ickw7F2rp/DDpbK7l//rgaJyioxeCjxgHFEUl87ljAMrOhChejAABuhautLC8GiKnFIAsF1i4249mn1+0xIftvBZBrBmtISXj6VQER9Mh775RRFWpNQFNvILZ01AgALS6CTHuHvDs9PxvFKVXazE6VDcseXSAeH7soUvkiICDVO2HAeOCCwQrreEWxjOn+SmwHcFIPur5ganM+TgwcTx9owONfjQFCmRGd/YBeZV9Rf8fK+Mvn9/aszy0CifG+dFiLngwrk4XafuBrSqFa2vy26SP82FHWjuYguy1uKdwx6ZZ1pdVipmHyaUWHUfcMriZRAPEj/w==
+ b=V1BA2j9xT3ZB1fXeNnHbD0C4oiDd/STwxAyfdFopVVZqmjhHkYflqK1X4uL3EKPtEs/iGB2GydQZl2SCxHopkYzKe6CodWQQijev9zeMIJfSwvy6vCibCbYexQtU0ne8ZP05shUA8tsANCJyuqjrtchQmCGytiIQhXO8KI186Gm6fYwgXEGVj284a7WVmFQ6KdhR7d5/M7msdEb6TY4f7cAVFPUfSlV+FBnT5H0Bis7C39IxOkYw0+RrDOmSrHETdo2/ko/ZOQVx1njNXy4dMDjaD3Hj+BO0uXo2DnXtOnt1XElrm18SSFi7pYR7FA0F5ZAPBB+5oeLdcaJOUARIKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=voSDuNs+RO3ZSlG57+puSS1RDIX13UqGwXRw9l7O8Zg=;
- b=IiomSubDwY8uxbl8PMe9HRs+Jl52xqF8Wnt2sEbtaFuT8sJ7segJ8c42sVMWG19ib4AQxSp9pQzl3L6OffpnIDjOD47Y3ArxQOtx2SYgZcWBXLaPodw4c82t8eyh2EXEckwXhGXwelsDYmKku+rf5cEFd4OB3Z9YSQTDSFNmXcU4u5wHwKbYoAik9awo3z1eEN0hahFqP4rcZK8n9cL1IzmwiVIb/qBNW1cz35XqeCElrOaQG32c9ZJ+ryn3NUIzgMJP13MSmw6FnMyy//U2R96Y8NJKue638MKgX7sKQxH8nc47jVklgOL6YQFRn4vXl/4tXbBka4+UUu4C7IAMdg==
+ bh=apzKsyx/DUsKkiBbOeIzSg0QwDccDptYKrk1bUg2ri4=;
+ b=b+tGX1a2ZD3qI+sEMqsl0JDbS5jBybX4JOx08hCP21mZWBIQCSWTxIht10NvjeDE+zQ0BCib3vBL/+iy5XINYI5/AiziwqLKh2EoG9fcrNGEIpL6BH7lcOizGASICta3HTRGJQVYex85iW4C6t6UZJKX1pQwm43lJbV/xhUFcGQtK6HcQ79cd7ckc8OKJAz28J1QV7XH7F2w4P3G90ZIOSpTOyyLh+wxmvkesk6pJG45XBXhZseaIfmt88978c+sxAC37OWc7WOH+vJ6fQcI46ST0d2Namc0mJP++FzNuZY+r2ROvqajW1cG7yV53gpxcbeIQznfoJS8+mq/OzuLog==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=voSDuNs+RO3ZSlG57+puSS1RDIX13UqGwXRw9l7O8Zg=;
- b=q+kj6b4uOCakpvh+HcwORiEUP0B0MwSjWVzMW6EvuqD13CczrKYjoOkd4FEPwwAQWq0EdCpkDuN9LQCavHUBm9GpBlv1f+YJ0R923RIs5f/9MXUY3qmkv4IGoN87wp0PnpfZ4RlkRxVqEXxXuPthLVTRNTdsWdKxmUyCBHE3MRI=
+ bh=apzKsyx/DUsKkiBbOeIzSg0QwDccDptYKrk1bUg2ri4=;
+ b=QzAMpxHiB2HEED6+hfpIA7r/37WECMVYzUX3YV4IYBhsJDGsYwjr+acUz3Lg7Bg/U7f8oDMpNgCmUJHEV7zj7la3TMLUjeSMW+rb4ZPmO8ms7IfCD2GBqeq6GDuoQJubMqZjkMy1/VBfRVeCrQm8uKSik+A5xl/Wng0hj7vXbNo=
 Received: from MN2PR10MB4093.namprd10.prod.outlook.com (2603:10b6:208:114::25)
  by CH3PR10MB7354.namprd10.prod.outlook.com (2603:10b6:610:12f::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.27; Mon, 28 Oct
- 2024 21:18:07 +0000
+ 2024 21:18:09 +0000
 Received: from MN2PR10MB4093.namprd10.prod.outlook.com
  ([fe80::d72e:fa5c:c426:b4b]) by MN2PR10MB4093.namprd10.prod.outlook.com
  ([fe80::d72e:fa5c:c426:b4b%4]) with mapi id 15.20.8069.027; Mon, 28 Oct 2024
- 21:18:07 +0000
+ 21:18:09 +0000
 From: Nick Alcock <nick.alcock@oracle.com>
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
 Cc: sam@gentoo.org
-Subject: [PATCH v2 00/14] gentoo, manpage, and assorted other small fixes
-Date: Mon, 28 Oct 2024 21:17:49 +0000
-Message-ID: <20241028211803.458685-1-nick.alcock@oracle.com>
+Subject: [PATCH v2 01/14] No longer depend on libsystemd
+Date: Mon, 28 Oct 2024 21:17:50 +0000
+Message-ID: <20241028211803.458685-2-nick.alcock@oracle.com>
 X-Mailer: git-send-email 2.46.0.278.g36e3a12567
+In-Reply-To: <20241028211803.458685-1-nick.alcock@oracle.com>
+References: <20241028211803.458685-1-nick.alcock@oracle.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO2P265CA0497.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:13a::22) To MN2PR10MB4093.namprd10.prod.outlook.com
+X-ClientProxiedBy: LO4P265CA0119.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c6::6) To MN2PR10MB4093.namprd10.prod.outlook.com
  (2603:10b6:208:114::25)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -83,79 +87,78 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MN2PR10MB4093:EE_|CH3PR10MB7354:EE_
-X-MS-Office365-Filtering-Correlation-Id: 17f30da6-b2ec-435d-f505-08dcf796048c
+X-MS-Office365-Filtering-Correlation-Id: 90483d81-c48f-44e9-19d9-08dcf79605af
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|10070799003|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Zqi6Tl8BOKx76wapbkX3J/pWsOqLiY0ACDRRCSAeg5cgR7D1VwYYoX1CL9FC?=
- =?us-ascii?Q?KXnwcusnkra4IkzVpILRlVyZ57chJPPhSuGyyw1MntM1ccr2SoR+UXvw+LUD?=
- =?us-ascii?Q?GLd+0+lU0H10+PjlhnfKK6KkvAfEtFWnVjnjpAItgdYNP8LXNoMa8CgU0xne?=
- =?us-ascii?Q?dJZyq5Z9LHQcwRRPMucvyM0El3Hv+SmTxvG+n94eof/RtvBf7nJbdCDWN5dI?=
- =?us-ascii?Q?TE/olMJ1fEXv2SSIsgOlH+rptudFZ2uBZ97UrDVMuMLWxCjX1d2x9t+rYLHx?=
- =?us-ascii?Q?uTyqJL+9kRgeMG4oNXkJ5ilnip1J23ocIw6JnPsob6gEdT8b+Z+nZ1r+fmhL?=
- =?us-ascii?Q?HDO+IoEy0FLmOpnF5PrsV6e4eR26at8ZpVxnGj0TZI/kqGvLoJSxkimgDlvU?=
- =?us-ascii?Q?LHoJ6ZhrmmydZKPP+E1UF5Gt9I5y7D5CLK0RZWq4PK0a2q7UdEvZ1sSZPcTl?=
- =?us-ascii?Q?VEeEuzO+1atuytxAO+AIixlX3NkCxrTBe50hNCtsasThf5kT8z7Mp3HoH4cP?=
- =?us-ascii?Q?3D61r9T9XYPg5iv6lC2KbMn9VmvOAFrBzcxOd1Is6KRbw6w0773scHECbYV3?=
- =?us-ascii?Q?iQ9gTHraWfFSHIMrdTkb9xyAbE6Ln2xwNWZ1ekKdgQBis/oGvDYGQr9FrADU?=
- =?us-ascii?Q?NQmR8XE/fKDTPkMffMMwfC4EyEvXlpQoCPSQ2PoahUiDip1Vl6M0FBVYkiyC?=
- =?us-ascii?Q?qZynttiv6nbhRDF0GB2RINiHWMtp9fMpUnuzfLs4x260D0RFxpHF0FGSyqsp?=
- =?us-ascii?Q?QVzMxJ1N7BIAUAO8aL/gHwY2JGyB0PH8BfjNQVKke7lUKtgBNVs7KuGfpPcS?=
- =?us-ascii?Q?xWOWFQSUaSebZ8REICsReVGQAH+W9tAc08FYBfuAHYvi4okaAj09m8O9acy9?=
- =?us-ascii?Q?KiSC+l+Nj4wUsDTzEDEJPm0Pc8CxXd1HMSDiESB/+dG/U7gEoYnBaVV9y8cl?=
- =?us-ascii?Q?N+4G11Gs1dtC1ra6pUo5VKe1TrqFsvk9ieGRhaM+jLTZ4yXgSieEUh9HKGpb?=
- =?us-ascii?Q?FYb3SpwhvdKiJeYX2fQwvs4a5x/X9fCPdD24cfnSnDpNPUZyYdeVqL/dCIk4?=
- =?us-ascii?Q?bq4UZMATQFJwQoT/h1SPFdAy0U49OZiCD2/KjsXpize3/r7cltDTOLgMxh4k?=
- =?us-ascii?Q?ZvcXyFDsmSv+cqMPF+LO1aogXzdEKTDpXQYcH51del+LpUh2gKZBiVVahjor?=
- =?us-ascii?Q?EHGNWUXk1lNX7+6bgQ2+WyS7scmZ6y/DEz8gWLXoF1nOKCKgI4un4MR6mKm+?=
- =?us-ascii?Q?mEyliIxPfaU2uMZbRV3yg/sH6UiSpPvJiFeMfa4aiJqt/5KKuSszFV/FeKuY?=
- =?us-ascii?Q?nHPjC1NXRq1Cm3oHPlSp36k4?=
+	=?us-ascii?Q?x1qbTrCGHrL+BDFRgZF2bUiQHtxGBdTuWnl8b4+62WvIThg8lb1CK/wqcGPG?=
+ =?us-ascii?Q?ryDRHPAgwznYOWzT8B7WGBY3cVMivOVW37Uv5xBQbN+/eunsV8nXXuKQQVzL?=
+ =?us-ascii?Q?GpH/Onb9f9m3ZutjQKc2MgifY5q/vLf73VYxdDJL1fr0VnaYSHyW5/AlmClU?=
+ =?us-ascii?Q?BVEABhluS3fZuNt7OXg1CT/Epb/yTP/B89G9GdAw+UBsB8T8lXzRa8eMEjPA?=
+ =?us-ascii?Q?d8zseTcG+xd02cSr73n8c/r9WmmVDgwlrL66AbsqeI0nnlcJIDLxwn15puSA?=
+ =?us-ascii?Q?uQtGrdDsnNsLmHRRVFwLJOQa4hqnQVU/eDXYsmBeWUBK/TuEwdCA5yDVG850?=
+ =?us-ascii?Q?0OA7Iesi+ueMEiPRbScHRtjK6Zxfqdnpup2qUHTp7gnkFpeZQHeynSkomvK9?=
+ =?us-ascii?Q?S1Yrv4c6hgxdCNpUoFufDTM0IAISX08+4Z3ieUhmYZ+cNuce3/+LFHUJHy2Y?=
+ =?us-ascii?Q?pI4UYIYzUXequ6QCjsKhMbHa1dsyzrsxEAFxwcrpWlsKjUPQGEDNu36x26w6?=
+ =?us-ascii?Q?7Ip8eBco570DhR2NjuMs1GGdrv+0vh57dY5L0FSnwPkWOsqZY/AlXqQcRjqB?=
+ =?us-ascii?Q?8h3pwXyipnWqrBzFwrKvxKDO0kc0ScQtwp9ldE1rA+qqOMWSB6vmQixKIK34?=
+ =?us-ascii?Q?ku1AGovpcJHZJbF2veEZvx8Vpb7B3wmbpsD83nx82vV9mPrjOSrecF8vhHdp?=
+ =?us-ascii?Q?gmAuVHqsYP8uDaFMPZl2XWUJTQMFbBJdnvleJ00qiSIT/QFwku6xCLD3vE2e?=
+ =?us-ascii?Q?bsdby8gLuuPuN7lrtmhdT3zV2TAB/pOD0Bz4fSPFyTNPaz+IL4jTK4d/V2Hu?=
+ =?us-ascii?Q?aucON/z4ylKw5kI6b2M41Z9EwqbvysbECSh4Y9atpk9Rds6G/oA95rGI5NXr?=
+ =?us-ascii?Q?+6PAUXey3sfa22ZqQbolmILyg+7RC0jQm956oOxoNkcgQtedLkQhUFZRcjVu?=
+ =?us-ascii?Q?ANIqPHbw8kpku7i90TMbgd2t5VSEiEhtRgteXw3zCevxhb9Exvgmyd1GFHBZ?=
+ =?us-ascii?Q?R4UHvP5ekvWUzCRLF+GtNVquDPe+NZMNwndafo3X1EWeoRUMX7+gAawCY/rD?=
+ =?us-ascii?Q?RwO4bS4evYlQhICeMqSvfrkMPgmoVf+V3RcMT76ML0GtHJjK677JHLEvg7HE?=
+ =?us-ascii?Q?tdn7u+dkT7THg2sicAYk2NcsMF/3l3mxMRdnsz+jLDEMUpmGlGK4J13wE2fB?=
+ =?us-ascii?Q?1MkMJinFXVSs9IlbRGGaSeex9PB5n0amOsqaxSQECNp53dkJ9e6WOuBQMMF/?=
+ =?us-ascii?Q?6v6WE7CZEJnVZdZmZzw9MxFcsj/roBsytl7r+k38CA=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB4093.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(10070799003)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?osyrtRRYDZer+/5ujlJE/bCBDxiTJSfBf3/D1ixVjUeuzseMklR3wnB1PMAm?=
- =?us-ascii?Q?6vAcrdHqFTYBDVz+EBv0ZB8UlSBiVWmbEcHJcOcrmdf15ygv0dU3DteBwCTP?=
- =?us-ascii?Q?iclgT2X7sXQJ2/bu3BShnTUc928gI/Zs8vbArMN2mT4oOt7HL200q4XpZeKB?=
- =?us-ascii?Q?fKE4FALHxEAx1pltdkuTihGZhb/8K02f30Uy1GB8NsEabtaYsHWCaMjXugEG?=
- =?us-ascii?Q?PyNEspN82SEU4XzyF7i79CrNMy387zHaIjDX2fC8gvEXqfTtQKllO9oVYuQx?=
- =?us-ascii?Q?R2/gKzB0fQDv6wcFymw1ui5pKI0y7CBbcrfmzEnObX9CK1Z0/fJ4OeaJlsLp?=
- =?us-ascii?Q?g2iGGcMN81JmEQ+OklvN+aAjcu1qc6bES8kw4Na8Cz0x099AQT/FmXo+BdbW?=
- =?us-ascii?Q?iOMTRVq3Rhzy1at+YpVS+0o1XxD2pknegyXR44OOAz1JTD7Zxqa0vnoJovug?=
- =?us-ascii?Q?3N917USE08cxfMRnb0yAqf2DjXjYJv4rzv58iREyht3dVGMcUkPHhC3/OJ7x?=
- =?us-ascii?Q?NgRFiIdrcWGQwq83GEP5uhYIJf5d/Urhn7Dy2vWS78yfuRtMR4YpbJwQRr6p?=
- =?us-ascii?Q?HP9VHtrpsmXT94e6aHGkW4qgqAaaHOc7WOEubyaAV5Pn/eXQ3Kjh/NxcAwKk?=
- =?us-ascii?Q?WiWzHibsDLHroRW8X+9AXj2/TH+fE/ap6vsjIilARwW79eswdKB4hfhryNIA?=
- =?us-ascii?Q?Y0WSnUe3hgQTlilGvLDOsK2ft7Ax/27+Z6scpuPJ0n4ERHRiHEcudkWrUEP5?=
- =?us-ascii?Q?IH1o5N893qyc/TVtMd27tloTZaHqi7Pgaxx7xVzcbeNEeJFg2zBFJ0aofelr?=
- =?us-ascii?Q?8MjZD/yn7AVKcWHNFmRxujbcSF5Zr6zVajsZrEflVO15C2Sr/3CvsNElKBkY?=
- =?us-ascii?Q?LB7sBuvsEFSVHJWhdqDC1bnHwfR4P1J9ZmNLV2nO9uOEHEnqOTH66qLWK5Iv?=
- =?us-ascii?Q?SUFW3Hq7mj7bu5ZcolwgPJ0rr+knZdde4J//q/8WDUURBBA8OXLfXVyp2MSY?=
- =?us-ascii?Q?EZvAyf3zbG/Fqe65zdiK2h9ALC70qisKVPWcqox2uRwG9BI6riu0WnBCIJSy?=
- =?us-ascii?Q?8oPs3BRKscpatm91UDb12BRtz6m8/lzBPhYrDtVJla8kwVOcLObEX5Skm0KK?=
- =?us-ascii?Q?tCLyG1DxUf8/HB+wvPpWI/eDvN9EAv4ZBeJC5axrTmxXpxyYBCD5YgTtwtqr?=
- =?us-ascii?Q?WI4YieXuUeACjdvs04Qa6GmNtGr1kj8q+2f2AMQ6v7UERgDNHnn3ud7lzzcE?=
- =?us-ascii?Q?gaNvxjc6yuF0TDVzH8g5y5h73enSKQsx5KUIS6rG+kPrzK2pLlh3DPEkBdi7?=
- =?us-ascii?Q?rwULCjcorhCGu+83lAfmOMIQ4JmEJGVhWws9KRVqLzSXJ8YRzqus4/CwCWlv?=
- =?us-ascii?Q?cyGVLSSNgjRbCVVao1364gxChzYZx6Xns9s6kaF0gxeauPTBsLVoEhxxBhfD?=
- =?us-ascii?Q?q/eyFadBxZMFcQ17klDYMmuxAVW4UDPpg9jwR9eUyM9N1Mg/KWJO8gXbZH0d?=
- =?us-ascii?Q?F8tvmf46Oqxcp/J3Sv8SM8SWG6uFMXMb3IciIjKFd/uf7Gbn//FnOs98xzma?=
- =?us-ascii?Q?NSCXlE7bTxCyVqA5wH3EWiz74Kc2inkOn3QsKLNTL6r1tcFiEo/gEsp3POcP?=
- =?us-ascii?Q?+Q=3D=3D?=
+	=?us-ascii?Q?ixZRKLpBHYV02aJAfCgHv1b7jOxe7GA9BYcZ4kLZMoRZgsWmHrO0eyRG2byu?=
+ =?us-ascii?Q?bhXwl8/DtJNKEJnYDSFmWgA+iCNyrqA+GrHyw/Fo1g3W/oxOO/7HR5g88e9w?=
+ =?us-ascii?Q?C2u0TUIEzmjQRsz7aSsaUx8BkPJ/RcvC70OlhVo3hwWVHuedscMihYx8YcsW?=
+ =?us-ascii?Q?4azdzgxVRRqHJ0n+6CQ01AzSw1LsC9qlxVFJCyF5g1jRCS5H4/7N41UmRrl5?=
+ =?us-ascii?Q?kDyAfygBXFID+/l3dwNqQaONECFrNM9GZYsfwG6ccLMfVQcqu2tc/NFsuYAo?=
+ =?us-ascii?Q?K/D2NnGYITJK8LlXExE+B+1b2F7aF8zFTJiit5b58SSp+CNyGJMDUaqjbaLi?=
+ =?us-ascii?Q?eYOvfOwu5nd9ntDNyasVpi3UR4/8GWKX0oJAuoUQff8QbnLELB1ZEBnTsRjQ?=
+ =?us-ascii?Q?KpiVQ8gytZP0AJZr96Qn7Or+/6+AJ+z8J/HKctrzk90vfrYS1WPhZeSewcwc?=
+ =?us-ascii?Q?BL/eqrdUMIEn4lsMtO0fXg7S5yenMGzOM3gj2YD5zyFhTw4bRvjCECnyV2PG?=
+ =?us-ascii?Q?CJ2u8LG3Oarh3aqGAc+/WoRpTwC0aCEwuM6tt9PVo0yTsR2bhLTXJDUvpKCt?=
+ =?us-ascii?Q?UwBE9wtQWi/gkgekj3Eex4YsVKn8dbOANwgkJvtg3JIASX7Cc0jtenlVeIwN?=
+ =?us-ascii?Q?pC1HeVF2wedVX0QMgGazLkDf38cQQeZqZ3JJfocekuyT03jMsMeaQ40r0+Tw?=
+ =?us-ascii?Q?AlrdB//DukhYGuSKVMmAs9T7LMeiygwODRU1YNJp5z/VavCCYVoriM/Tvt+C?=
+ =?us-ascii?Q?HEf98hc5iZv/1qSB5/F0jj+V5DTvkdDCId8qlpxLoEnca5Tli/k9l8U78llj?=
+ =?us-ascii?Q?KuApGVwi2vkbvGqGVD9tgzJuzyw4AcoZbCkx2ew1pzR/4KyBUE94uza9V6s9?=
+ =?us-ascii?Q?TT8SmcCnIYFwAt7WY+psdp64LaO/M9Ub2QrTjMvlQVZJSS/y4nFKpF537IV1?=
+ =?us-ascii?Q?9BcF0a5nFPznnYl9cCq2aPfv2TeaXDQ2QVZxHXEU4UbPNxtgARIAWzX43pL0?=
+ =?us-ascii?Q?DEC147kOmShirxT1gA4d29FRsHgCzIRZsHWJGhaqmdZjamlsipav61+cirjJ?=
+ =?us-ascii?Q?0R5Lq0HfMIKYU7c++qKN19VtP2pepjkQKjKnp9sCS5rBEp3hX+3/LARq3uyk?=
+ =?us-ascii?Q?5qcHcREdgTFJTqZudh8ImY4Dm7bcauTmbnYhg0U2iGgfG1SrF8r7a4KWxJ5h?=
+ =?us-ascii?Q?Dhj4penxydkU4zP8R/OhoYPmDLsqWQYp3SxEH5CKXKd5eAZQHt3r8PJQmavI?=
+ =?us-ascii?Q?lkyzRfkEz+NTKi0n/1NTg6UD4SVGwLTZdzsnodZrL+biPVhUpaYHNLx/ImkD?=
+ =?us-ascii?Q?43OrbdkNh1u9hDW16J6yLo35ljiA46eHd/W1kbaBaf9dqNOA6FIyREVyl3Cp?=
+ =?us-ascii?Q?qnjSYN6oDKPxjUTlzwbKL6gBF0r8PKsnYQ22b2Bq+MrSwSo1aN87eE8ZpqHp?=
+ =?us-ascii?Q?8LEQlgPbSZvaSOYqapGd6CFulWfafx/VsAE/xwviTz/3gKcC1aHo4PnAMVVB?=
+ =?us-ascii?Q?o3IeP5sN3r7BMMMjiBMzzDoI6QvUGc0MidewIaC81spFGNOWmnfT0XvIYnzG?=
+ =?us-ascii?Q?Uhe/v7tBIBYF4YWEc7/VefHtKc3/I0+VAYZEeckIXfeCjhaRd+JK4cF8fzgC?=
+ =?us-ascii?Q?Fw=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	8VdvyJHydUhgXcBsLQUchkyJFIMo0ebJRXOmuJCra4mh7j0e07FHY7jYWFrcVct1cuCeymqCCLvIguM6tkTAbT1CRCpUr/xf329plnujPcrZqagYESHMpjIYN91psvzXLXCUm+Fo375nSeE5NydOPgFe1yiU1TptSh9T7EdSPvQ1RppB05sjSJeYcI7znNUAWBAeWW/511yMOriMS1sV1s2SQIrom0K3z+FSyxM1SybGzk/5R51BGHPvg9N2Fr4uaAs4aQDhc2MHn5hbYQKMpwYOBbS9jBpMIrlmkDLDSfYhDKTdCq3Nq4HaqZ0PuBmLQv9RoWaIe28m+SaxFIimKFg/064N7x/7yROio5mwLlE7tuusNP489w0h/zvMghNIpTeq3amT2lZtoYAG0JMkT3QfxkNQELrWPvTRFe8fOjILdr/j7mDEWyMdH/JFvKzW9PTMaK8zL1gtN7Fl+gQJGyHGfZsI93+ETGRC/C6MaM0Vg7OrhWvcMz5iuEvWJ7E2tLn0jf7urK9lbHhbV/JLfY6zEycPrjjfI+JowVXV3O/HhJRHcNadWi5iT1NIP4xYstrihoH9y6oiJds5fJCrAWrRhgGvfR2LVP44+i20feQ=
+	iEqX/QyQNHDqtfUkqg40AwxAhbZOTPYo10rc8mUIl/8OcLvHJkW1vaKIdJLBuNAajdLgIJrgi4wQtw+n9GKjssKzc/oeENuHiYCf4CqoxdPGFgtUz/ka6py2aw+FGnlgYKMlRZDoX59XbtcYkTSGiHWit4/XhvmmNz233L4Bk4HkfGhCI4HfaRKvgcfGDxAndv2edIfuy6Y+GTXKmRrn/Phe4bRybCth+0H/oGnMif/OkY+lUmpSbe0EAu5+vJpJLYauG3skFjNmgTL60bckmDsbcVMou/xixhkeg3TxM4jzYVAULkpbCszGvQBwlDWaZMyE6jTgb6XchCMQwD4u7Jtq8uRPA/jgppwdEWJ6FM7eLG9VRtpmX6r6QcXBIWKb1YnhbHkLsk0GaNXBYFAtZ215209ywsNQKQZUAIa2Ams5813W8PDa/VXjX6ZjNp1Dyz9FmMjCA3LEK4a9ajJ1awA+R9V4A6HJYlOxPX7VJaCK7gHy7Fznm7p9RBxWTXQYAQUAQTdEhcDxleYFSYpVLMIOQo8zBS3XNlArq2Ules6rWy+5Q0kdZGXXMZM53HlP+i1LVELETv3lvXqbLbp55g+tnc1/kRen2fVr1rz4or0=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17f30da6-b2ec-435d-f505-08dcf796048c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90483d81-c48f-44e9-19d9-08dcf79605af
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4093.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2024 21:18:07.5047
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2024 21:18:09.3836
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: f3/fGUI805o0e9G2IIy3HNQExzRvFnj6N0YUu+0NhwOj7HPmyP4zxaSKkq+dC96NUced0T/JzAOF04fpT994Nw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: rMBHlkSmyTS8NWBZn3TxbAg90wpRNUpUniFso7CkFl253P5XUqe1GDPeFm6zTNATBApz5uEHnLtpwxymC+XKDg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7354
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
@@ -164,72 +167,258 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 ml
  mlxlogscore=999 phishscore=0 bulkscore=0 malwarescore=0 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
  definitions=main-2410280165
-X-Proofpoint-GUID: IxIHdbaJmwg7qvd5sr8Jr5A0BWPH8uVc
-X-Proofpoint-ORIG-GUID: IxIHdbaJmwg7qvd5sr8Jr5A0BWPH8uVc
+X-Proofpoint-ORIG-GUID: oecxmnUoIs0izRIUktohhPiqPRheAbWc
+X-Proofpoint-GUID: oecxmnUoIs0izRIUktohhPiqPRheAbWc
 
-Most of these are bugs reported by Gentoo, but their request for a
-dtprobed(8) manpage triggered a sweep of the dtrace manpage too, plus
-a fix to a rather unfortunate millisecs-versus-sedcs bug which caused
-us to wait for an hour and a half for a dtprobed parser child timeout
-rather than the intended five seconds.
+We only need this for the systemd notification protocol, and that's so
+simple there is MIT-0-licensed reusable code in the sd_notify manpage
+showing you how to use it.  That code looks pretty much OK, so I modified it
+lightly and pulled it into libport, with one tweak to remove the use of
+__attribute__((cleanup)) (it could be replaced by one line of perfectly
+trivial standard C code, saving five or six lines in all).
 
-The only potentially contentious ones are libsystemd (quite a lot of
-code, and not ours, but it's BSD-0-licensed and I took out the most
-ridiculously overkill parts), and the last two, which drop apparently
-redundant markup from the manpages whose purpose I'm not clear on but
-which seems to be ancient and is probably working around bugs in old
-Solaris troff or something. We can probably assume groff by this point,
-it's been the only maintained troff for decades.
+With libsystemd linkage gone, we need another way for the user to indicate
+that systemd is not in use and the systemd unit files are not wanted: so
+introduce a new --without-systemd (and corresponding --with-systemd=no,
+etc) in configure.  (Someone directly running make can just pass
+WITH_SYSTEMD= to make.)
 
-Changes since v1:
-  Review comment adjustments, and replacement of the INT_MAX
-  dt_probe_lookup2() fix with something rather more comprehensive
+We lose one feature of libsystemd's sd_notify: we no longer remove the
+NOTIFY_SOCKET env var from the environment, so our children could in theory
+pretend to be us and notify systemd on our behalf.  Since our only child
+is in a seccomped jail and is part of dtprobed anyway, this loss of
+functionality is purely theoretical.
 
-Many of these have already been reviewed and have a reviewed-by: I
-assume having the whole series reposted is nonetheless clearer
-(I can post only the non-reviewed-by:ed parts in future if you
-prefer).
-
-Nick Alcock (14):
-  No longer depend on libsystemd
-  pkgconfig: drop spaces in variable decls
-  configure, build: make valgrind optional
-  build: substitute LIBDIR in pkg-config files
-  probe: improve dt_probe_lookup2()
-  configure: fix dreadful behaviour of MANDIR / --mandir
-  man: the synopsis is ended with .YS, not .SY
-  man: use \- for option dashes, not -
-  man: drop blank lines
-  man: fix blank line in environment variables list
-  dtprobed: fix parser child timeout
-  man: add manpage for dtprobed(8)
-  man: drop double-\fB at the start of every option line
-  man: \fP-ize
-
- GNUmakefile              |   3 +-
- Makeconfig               |  37 +++++++++-
- cmd/Build                |   2 +-
- cmd/dtrace.8             | 151 ++++++++++++++++++++-------------------
- configure                |  11 ++-
- dtprobed/Build           |   9 +--
- dtprobed/dtprobed.8      |  64 +++++++++++++++++
- dtprobed/dtprobed.c      |  10 +--
- include/port.h           |   1 +
- libdtrace/dt_impl.h      |   2 +
- libdtrace/dt_probe.c     |  44 ++++--------
- libdtrace/dt_subr.c      |  10 +++
- libdtrace/dt_work.c      |  16 ++++-
- libport/Build            |   4 +-
- libport/systemd_notify.c |  70 ++++++++++++++++++
- uts/Build                |   1 +
- uts/dtrace.pc.in         |   6 +-
- uts/dtrace_sdt.pc.in     |   4 +-
- 18 files changed, 310 insertions(+), 135 deletions(-)
- create mode 100644 dtprobed/dtprobed.8
+Bug: https://github.com/oracle/dtrace-utils/issues/92
+Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
+---
+ GNUmakefile              |  1 +
+ Makeconfig               |  1 -
+ configure                |  8 +++--
+ dtprobed/Build           |  7 +---
+ dtprobed/dtprobed.c      |  8 +----
+ include/port.h           |  1 +
+ libport/Build            |  4 +--
+ libport/systemd_notify.c | 70 ++++++++++++++++++++++++++++++++++++++++
+ 8 files changed, 82 insertions(+), 18 deletions(-)
  create mode 100644 libport/systemd_notify.c
 
-
-base-commit: 8a1264bf0e818c8624be250eb5174714b62ed93c
+diff --git a/GNUmakefile b/GNUmakefile
+index e7657d466df5..cbf27b6be111 100644
+--- a/GNUmakefile
++++ b/GNUmakefile
+@@ -102,6 +102,7 @@ PKGCONFIGDIR = $(prefix)/share/pkgconfig
+ INSTPKGCONFIGDIR = $(DESTDIR)$(PKGCONFIGDIR)
+ TESTDIR = $(LIBDIR)/dtrace/testsuite
+ INSTTESTDIR = $(DESTDIR)$(TESTDIR)
++WITH_SYSTEMD = y
+ TARGETS =
+ 
+ DTRACE ?= $(objdir)/dtrace
+diff --git a/Makeconfig b/Makeconfig
+index f3d47c086f4a..346078598624 100644
+--- a/Makeconfig
++++ b/Makeconfig
+@@ -218,7 +218,6 @@ $(eval $(call check-symbol-rule,ELF_GETSHDRSTRNDX,elf_getshdrstrndx,elf))
+ $(eval $(call check-symbol-rule,LIBCTF,ctf_open,ctf,t))
+ $(eval $(call check-symbol-rule,STRRSTR,strrstr,c))
+ $(eval $(call check-symbol-rule,PTHREAD_ATFORK,pthread_atfork,c))
+-$(eval $(call check-symbol-rule,LIBSYSTEMD,sd_notify,systemd,t))
+ ifndef WANTS_LIBFUSE2
+ $(eval $(call check-symbol-rule,FUSE_LOG,fuse_set_log_func,fuse3))
+ $(eval $(call check-symbol-rule,LIBFUSE3,fuse_session_receive_buf,fuse3,t))
+diff --git a/configure b/configure
+index 4026a3eafcd3..72eb734a8380 100755
+--- a/configure
++++ b/configure
+@@ -93,9 +93,13 @@ built locally, none of these should be needed):
+ 
+ EOF
+ 	make help-overrides-header help-overrides-option
++	cat >&2 <<'EOF'
++--with-systemd=[yes/no]		Install the systemd unit files (default: yes)
++EOF
+         echo >&2
+         make help-overrides
+ 	cat >&2 <<'EOF'
++
+ Options controlling the compiler (pass on the command line):
+ 
+ CC				C compiler (may be a cross-compiler)
+@@ -153,12 +157,12 @@ for option in "$@"; do
+         --kernel-obj-dir=*) write_make_var KERNELOBJDIR "$option";;
+         --kernel-src-suffix=*) write_make_var KERNELSRCNAME "$option";;
+         --kernel-obj-suffix=*) write_make_var KERNELBLDNAME "$option";;
++        --with-systemd|--with-systemd=y*) write_make_var WITH_SYSTEMD "y";;
++        --with-systemd=n*|--without-systemd) write_make_var WITH_SYSTEMD "";;
+         HAVE_ELF_GETSHDRSTRNDX=*) write_config_var ELF_GETSHDRSTRNDX "$option";;
+         --with-libctf=*) write_config_var LIBCTF "$option";;
+         HAVE_LIBCTF=*) write_config_var LIBCTF "$option";;
+         HAVE_STRRSTR=*) write_config_var STRRSTR "$option";;
+-        --with-libsystemd=*) write_config_var LIBSYSTEMD "$option";;
+-        HAVE_LIBSYSTEMD=*) write_config_var LIBSYSTEMD "$option";;
+         HAVE_FUSE_LOG=*) write_config_var FUSE_LOG "$option";;
+         --with-libfuse3=*) write_config_var LIBFUSE3 "$option";;
+         HAVE_LIBFUSE3=*) write_config_var LIBFUSE3 "$option";;
+diff --git a/dtprobed/Build b/dtprobed/Build
+index 9132c3e31c8a..346cd6aee190 100644
+--- a/dtprobed/Build
++++ b/dtprobed/Build
+@@ -29,11 +29,6 @@ dtprobed_DEPS := libproc.a libcommon.a libport.a
+ dtprobed_SOURCES := dtprobed.c dof_stash.c seccomp-assistance.c
+ dtprobed_LIBSOURCES := libproc libcommon
+ 
+-ifdef HAVE_LIBSYSTEMD
+-dtprobed_CFLAGS += $(shell pkg-config --cflags libsystemd)
+-dtprobed_LIBS += $(shell pkg-config --libs libsystemd)
+-endif
+-
+ ifndef HAVE_FUSE_LOG
+ dtprobed_SOURCES += rpl_fuse_log.c
+ endif
+@@ -43,7 +38,7 @@ seccomp-assistance.c_CFLAGS := -fno-lto
+ endif
+ 
+ install-dtprobed-autostart::
+-ifdef HAVE_LIBSYSTEMD
++ifneq ($(WITH_SYSTEMD),)
+ 	mkdir -p $(INSTSYSTEMDUNITDIR) $(INSTSYSTEMDPRESETDIR)
+ 	$(call describe-install-target,$(INSTSYSTEMDUNITDIR),dtprobed.service)
+ 	sed 's,@SBINDIR@,$(SBINDIR),' < $(dtprobed_DIR)dtprobed.service.in > $(INSTSYSTEMDUNITDIR)/dtprobed.service
+diff --git a/dtprobed/dtprobed.c b/dtprobed/dtprobed.c
+index fdcdee14f851..c83f0adb56c4 100644
+--- a/dtprobed/dtprobed.c
++++ b/dtprobed/dtprobed.c
+@@ -61,10 +61,6 @@
+ 
+ #include <dtrace/ioctl.h>
+ 
+-#ifdef HAVE_LIBSYSTEMD
+-#include <systemd/sd-daemon.h>
+-#endif
+-
+ #include <dt_list.h>
+ #include "dof_parser.h"
+ #include "dof_stash.h"
+@@ -1073,9 +1069,7 @@ main(int argc, char *argv[])
+ 		sync_fd = -1;
+ 	}
+ 
+-#ifdef HAVE_LIBSYSTEMD
+-	sd_notify(1, "READY=1");
+-#endif
++	systemd_notify("READY=1");
+ 
+ 	ret = loop();
+ 
+diff --git a/include/port.h b/include/port.h
+index 427129000b4f..6ce8611e9025 100644
+--- a/include/port.h
++++ b/include/port.h
+@@ -29,6 +29,7 @@ int p_online(int cpun);
+ #define MUTEX_HELD(x)	((x)->__data.__count == 0)
+ 
+ int daemonize(int close_fds);
++int systemd_notify(const char *message);
+ 
+ _dt_noreturn_ void daemon_perr(int fd, const char *err, int err_no);
+ _dt_printflike_(2, 3) void daemon_log(int fd, const char *fmt, ...);
+diff --git a/libport/Build b/libport/Build
+index 48ed99e2b017..822049f5e547 100644
+--- a/libport/Build
++++ b/libport/Build
+@@ -1,5 +1,5 @@
+ # Oracle Linux DTrace.
+-# Copyright (c) 2011, 2023, Oracle and/or its affiliates. All rights reserved.
++# Copyright (c) 2011, 2024, Oracle and/or its affiliates. All rights reserved.
+ # Licensed under the Universal Permissive License v 1.0 as shown at
+ # http://oss.oracle.com/licenses/upl.
+ 
+@@ -8,7 +8,7 @@ LIBS += libport
+ 
+ libport_TARGET = libport
+ libport_DIR := $(current-dir)
+-libport_SOURCES = gmatch.c linux_version_code.c strlcat.c strlcpy.c p_online.c time.c daemonize.c
++libport_SOURCES = gmatch.c linux_version_code.c strlcat.c strlcpy.c p_online.c time.c daemonize.c systemd_notify.c
+ ifndef HAVE_CLOSE_RANGE
+ libport_SOURCES += close_range.c
+ endif
+diff --git a/libport/systemd_notify.c b/libport/systemd_notify.c
+new file mode 100644
+index 000000000000..f78bca6e14c5
+--- /dev/null
++++ b/libport/systemd_notify.c
+@@ -0,0 +1,70 @@
++/* SPDX-License-Identifier: MIT-0 */
++/* Lightly modified from the sd_notify manpage.  */
++
++#include <sys/socket.h>
++#include <sys/un.h>
++#include <errno.h>
++#include <stdlib.h>
++#include <stddef.h>
++#include <string.h>
++#include <unistd.h>
++
++int
++systemd_notify(const char *message)
++{
++	union sockaddr_union {
++		struct sockaddr sa;
++		struct sockaddr_un sun;
++	} socket_addr = {
++		.sun.sun_family = AF_UNIX,
++	};
++
++	size_t path_length, message_length;
++	int fd = -1;
++	const char *socket_path;
++
++	/* Verify the argument first */
++	if (!message)
++		return -EINVAL;
++
++	message_length = strlen(message);
++	if (message_length == 0)
++		return -EINVAL;
++
++	/* If the variable is not set, the protocol is a noop */
++	socket_path = getenv("NOTIFY_SOCKET");
++	if (!socket_path)
++		return 0; /* Not set? Nothing to do */
++
++	/* Only AF_UNIX is supported, with path or abstract sockets */
++	if (socket_path[0] != '/' && socket_path[0] != '@')
++		return -EAFNOSUPPORT;
++
++	path_length = strlen(socket_path);
++	/* Ensure there is room for NUL byte */
++	if (path_length >= sizeof(socket_addr.sun.sun_path))
++		return -E2BIG;
++
++	memcpy(socket_addr.sun.sun_path, socket_path, path_length);
++
++	/* Support for abstract socket */
++	if (socket_addr.sun.sun_path[0] == '@')
++		socket_addr.sun.sun_path[0] = 0;
++
++	fd = socket(AF_UNIX, SOCK_DGRAM|SOCK_CLOEXEC, 0);
++	if (fd < 0)
++		return -errno;
++
++	if (connect(fd, &socket_addr.sa, offsetof(struct sockaddr_un, sun_path) + path_length) != 0) {
++		close(fd);
++		return -errno;
++	}
++
++	ssize_t written = write(fd, message, message_length);
++	if (written != (ssize_t) message_length) {
++		close(fd);
++		return written < 0 ? -errno : -EPROTO;
++	}
++
++	return 1; /* Notified! */
++}
 -- 
 2.46.0.278.g36e3a12567
 
