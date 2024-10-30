@@ -1,84 +1,83 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446821E9067
-	for <dtrace@lists.linux.dev>; Wed, 30 Oct 2024 12:13:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECD22144B2
+	for <dtrace@lists.linux.dev>; Wed, 30 Oct 2024 16:35:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730290402; cv=fail; b=T3vU/QGnd4w7+quJSgK/I9HBkb2g5Ql88FwIPkPnfXW4hr+rSyfksPiyeOZReCXpEEQ+eq6yYDNz0CTbfycaLFYsDUE5tW/GiaAvUnOkXgxeoGWVW7w6jO1WL/Mr/VXemOOTC/xUUWMfhp45bTlSeD9tu3TUpAnAQ4VjxvLDCAc=
+	t=1730306143; cv=fail; b=Z1NEKWWBOB6apuLUwyKiJYkvjiX/SDJaIwezsVqe9yE6tFOCDV9IDyiy0cd1VfvwOlZOkOOZwdQfJ41MbFDLsMwjqNFGf6e0J3BeqGn7kRq483UwS8V7L6pb1YsOqz5VfnJyTI/wGOIMRDLLaCq3ftZcWeu8f+ZLluI9PCF+8uM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730290402; c=relaxed/simple;
-	bh=9MfXijDytb0B8Gcp5mwbk9FnWFlSMJIK8PCqt9SPgxo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iEv83jT0CrQBX6Z8Ra6pyvFUoZuLxWawysKicyZALeBQ4y8QYw3UIlfRojf73Ds+DGJUNyb2YNpcO2O4BY2sqYPvyhLHbjyUuPAVJZ+q8N+8tjcw6hk2XHcm1qy1bzzNNH4KZofU13+rV8EbvA2GAJBp+1kkh7Rfx8T/J4g7Y/I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=H0JUpIta; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=YZ0jdLj0; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1730306143; c=relaxed/simple;
+	bh=rUFpoeQWJFr25LWX5kAlHHmxsuENGvKE7VoUyb+9FwU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=DVwMJiuLmrDGMS3pAx57f4i0jP3Ly6pZIHXOVaaaUJrZ0VxDt2q8PBdg9F61A+6pk4T1SaOwFpLb7KYz+2XyFk5JlUn1oTzCMbDd6abWOhN+hPVGOStVWE0tFe36ZSkPznSHy+yWXFy+2/kfbM8fbS56z4d8XjW67u409UlUED4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=RVqi+rit; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=snspB29w; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="H0JUpIta";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="YZ0jdLj0"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49U1gXkq010279
-	for <dtrace@lists.linux.dev>; Wed, 30 Oct 2024 12:13:17 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="RVqi+rit";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="snspB29w"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49UGXhLS008258
+	for <dtrace@lists.linux.dev>; Wed, 30 Oct 2024 16:35:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=5iBPzEsPk8ubMtvSEKvxFVBtvTlNLwx2Rw+CO1IpIxo=; b=
-	H0JUpItaXJLRNjB4u7IRvYM3mDekJUxjbQb2+VLZnK2gcHtP9DsHZSt6pg657GYK
-	JzXTCUtGnAQYCXl25PC9B0623uwg4Zs3I41StJ4K26X0wjbHlmoliyBDLmrKdnZT
-	X0xC9ndH+z6tySRjNfA4sFEzGQM4+5mPGKPFfJtYUR4QHF8XCK9FfBqjz/eh0s6/
-	KLUHECb5wAGaeMeGdPXhMhUt9TuPunD3661tdPE/H66Opa584G9EqN4Mt4Ez5/O6
-	/Wdls8N1bChxeT279LrD9HqsTbWHiHz4gwtzz25CPqrRjdsQU2BfAGD3qg4DuTqm
-	witOjOEkIeXlJVdMTs7NqA==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42grdp7udf-1
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2023-11-20; bh=SVG/r4tutL0F6MCLsG
+	YosIJv1XoNTQDpYreYAfc2GAI=; b=RVqi+rituE73kiRUEocZJ8qP9QN3s9Jzs2
+	9K9Zeg80HQk9Bh5AnLq3GZju5bGSuArQN9u7TbyKNLwd2iXxs5LK3Udk9XoXIshW
+	w2rpqVmcWPWGgJuJmKafFfdyv6taW+BATa7H8W5/GXsUHLxtEwQUPR09MupnZDvk
+	yFqeAnN2CBBHOiNWqtATpbFSPB+lZVLACKl0qs8kGMaKdq+i2b8Ja1QE3xj5Apoa
+	t2KBvXg2QKEoofatC4YQ/+cOPnWSGqZSJHv2iiceVkXJ022fRSM0nAnNm03p6hrw
+	GWeaPU2PiKjg2r7NvWOhiErcapob0oHayhWeODbVSXQM4idomM3g==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42grc20cv9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 30 Oct 2024 12:13:16 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49UAF0Wv040216
-	for <dtrace@lists.linux.dev>; Wed, 30 Oct 2024 12:13:15 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2045.outbound.protection.outlook.com [104.47.58.45])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42hnaqfk1m-4
+	for <dtrace@lists.linux.dev>; Wed, 30 Oct 2024 16:35:39 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49UFo5hF004798
+	for <dtrace@lists.linux.dev>; Wed, 30 Oct 2024 16:35:38 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2045.outbound.protection.outlook.com [104.47.66.45])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42jb2vxshv-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 30 Oct 2024 12:13:15 +0000
+	for <dtrace@lists.linux.dev>; Wed, 30 Oct 2024 16:35:38 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mqW5b8BF92VUOn9YWyodQmRbhW88Y9VoFJWqedNsRu0USkeqFusphK1XqrdmAM8JMHFAQGKNRb4DUTcNHNNYRvKFHJGw3BYdYQU3BpC+SMdRv3ooMihWhBaw7XlanlS+tsrRLxK3aA+/nhHx05v4VYZ5g+1M99K1sGVjhBVT4xQaGpWqEAHjcFgDReNWncyNkZGLhcvK2NrZoaf9zbbkgIvYx3N62pLHz3/VC8kOMpKcLqe6NdSiqlnCf7TUerNsrWBLLXxRLWxvp53wT3wKfuK1+SbeFHJAYXZ650FASs8XFexQaHZyJhzckhPL0HgtntJ81V4sSv0Yo7PJg2PKtA==
+ b=Gm/p8omEVGTVPauqt9BRV3LF4hDd4LTIEpCxOUei3JdwXcdDCxN8vpNpp3j02Fj/OuWaCal4WAGDvLBFM57/Tgz+eh1F4F0A2UEvfjlioKCTNvXmlYB+gi+/LbfxLHk5Sn5c+hRZHMJpvdnY+mUytf4GNGtcE0JFy5M5D/cxa4CzvCqCx1Ac1NLBypNm8E89JyujQwHR03iklLcUK/eLwOL+v2knHEoYFxZsCfuWFfg1mr/R7AM679rcis1/E8XN4DPimEypMQRTpnjwq8OBiRrXoDq/btX0l0E50LeXd/woXUibQV7HsJmIUUJfIrB0in88L5/CJs8LK1Z4P7Y3Ug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5iBPzEsPk8ubMtvSEKvxFVBtvTlNLwx2Rw+CO1IpIxo=;
- b=cAvNFe8vJHS94ekzigawS+kGlTlKx3sMG6X3n5kQ1XlhyIaKEKQvKoxBkHFlyly3sVofxd28zwWsJLDRs9KCrtQSZk2WluyMEHVmEFJzCT5Zu+DDmrY3WgWbTbAzTeV/FNGODFMhC//8dZy/wMGwsAdIxfdv1IjF/1Jgz9B3bqzItYmY4Oh9gDKvtV9hBSz+S2CcXWNRV4lMWkOYyQFa20yZzWnGdPXLAB3UGt7Egy57hs5mwDK11iV4EZ/F8VYfpVt7cVqpqvqMwDqkj2/9pV2TkM6Eno0LiFwVz/3MHNaiLhCatiyy9KdGYpGzJTWZOaK2uWQzooEap/sV9gLNKA==
+ bh=SVG/r4tutL0F6MCLsGYosIJv1XoNTQDpYreYAfc2GAI=;
+ b=H1C4TmpAv03jsCntX5U55N6VzpuhEXmRBNiA9YgeBSGVliU28DerEnES5rzb4bdPxl5TZvx+7Qn9E8mpFUekIDzPMlXhIGe+vMdtJybz6dcvCXNQgup80ZmSbXPBCfHyer+pGUMDMujxEc45aeCtymK0uWUAfbsLDOpXrU7UDlRiGfQdYiDFJIUsxOPRvbykug+gsKzzuDRt1fO36B9ioHFZhB+OIOXy2bMEWgUt8uOE+PxZD2mmUHPcvw1ozqBoBtVLNq+GdcdmMIWAQUXouhOX0g/PAe+0A8Af90cMJyV6OnERYDOtE71oZJ0M9oKODk9a4A6b8bWiM2yGLuf3gw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5iBPzEsPk8ubMtvSEKvxFVBtvTlNLwx2Rw+CO1IpIxo=;
- b=YZ0jdLj0jGpJMcNbLesx2liOH7lq9Arw71LAHtj8eifGWhCXkYGa6Tv/ALz1bXMHVUo67XEXgPz6pGxXswY65zZ8rC4r+LrkqWsH3ty8mUVYEeaxuOIhRcMYRQ+NlrE+J1a9nb7tgcl/rMJfQxZLUm7o4EJgN24H0tWdCJ55BNY=
-Received: from DM6PR10MB4091.namprd10.prod.outlook.com (2603:10b6:5:155::28)
- by SJ2PR10MB7111.namprd10.prod.outlook.com (2603:10b6:a03:4c6::21) with
+ bh=SVG/r4tutL0F6MCLsGYosIJv1XoNTQDpYreYAfc2GAI=;
+ b=snspB29wzDxd7Gqapejm5nR0qXExbdj/7Lx7HFLYbfKXWrwPXBgWa5xgMNe4saUVAm5+s2mt9D66am7c3sU+/cgkAaMhrT0hKJV4EhacshUuZeSWfp9x38KWF2wHMc5EqAYt0eg0c6ROj0nM1Cnac01fiMllwHq9MnqnYIPAiOc=
+Received: from CO1PR10MB4769.namprd10.prod.outlook.com (2603:10b6:303:98::16)
+ by SJ2PR10MB7812.namprd10.prod.outlook.com (2603:10b6:a03:574::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.27; Wed, 30 Oct
- 2024 12:13:12 +0000
-Received: from DM6PR10MB4091.namprd10.prod.outlook.com
- ([fe80::3b9e:5ef0:46b4:6e02]) by DM6PR10MB4091.namprd10.prod.outlook.com
- ([fe80::3b9e:5ef0:46b4:6e02%7]) with mapi id 15.20.8069.027; Wed, 30 Oct 2024
- 12:13:12 +0000
-From: Nick Alcock <nick.alcock@oracle.com>
-To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Cc: Kris Van Hees <kris.van.hees@oracle.com>
-Subject: [PATCH REVIEWED v3 14/14] man: \fP-ize
-Date: Wed, 30 Oct 2024 12:12:36 +0000
-Message-ID: <20241030121236.257803-15-nick.alcock@oracle.com>
-X-Mailer: git-send-email 2.46.0.278.g36e3a12567
-In-Reply-To: <20241030121236.257803-1-nick.alcock@oracle.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.32; Wed, 30 Oct
+ 2024 16:35:35 +0000
+Received: from CO1PR10MB4769.namprd10.prod.outlook.com
+ ([fe80::6801:f7c:753b:5a82]) by CO1PR10MB4769.namprd10.prod.outlook.com
+ ([fe80::6801:f7c:753b:5a82%6]) with mapi id 15.20.8114.015; Wed, 30 Oct 2024
+ 16:35:35 +0000
+Date: Wed, 30 Oct 2024 12:35:32 -0400
+From: Kris Van Hees <kris.van.hees@oracle.com>
+To: Nick Alcock <nick.alcock@oracle.com>
+Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: Re: [PATCH v3 01/14] No longer depend on libsystemd
+Message-ID: <ZyJgVNFkIk9xahKU@oracle.com>
 References: <20241030121236.257803-1-nick.alcock@oracle.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO0P123CA0012.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:354::20) To DM6PR10MB4091.namprd10.prod.outlook.com
- (2603:10b6:5:155::28)
+ <20241030121236.257803-2-nick.alcock@oracle.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241030121236.257803-2-nick.alcock@oracle.com>
+X-ClientProxiedBy: MN2PR15CA0053.namprd15.prod.outlook.com
+ (2603:10b6:208:237::22) To CO1PR10MB4769.namprd10.prod.outlook.com
+ (2603:10b6:303:98::16)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -86,282 +85,366 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR10MB4091:EE_|SJ2PR10MB7111:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5175c254-2ce7-4fe7-0725-08dcf8dc3970
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4769:EE_|SJ2PR10MB7812:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8217864d-2a53-48d0-8e67-08dcf900e0de
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|10070799003|1800799024|366016;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?xTfRljlXcLCjNeSOP8iJFfbmwBFR4GwwPmQqjvdzf/PebbQXf7SIlOXliGRR?=
- =?us-ascii?Q?p0LP5/0/HAuI5uoYNaqI0B/ZQ3PcL9Zf3EbCPYPfglIVM5GsJA8Oqw633gtm?=
- =?us-ascii?Q?LR6htDV1+GerpRlNWe8IxRa+x/jtdejF7LIZi4C1YvbCUXskKc6OsG9I4t8P?=
- =?us-ascii?Q?xULm4EnWOwkqKKt9JtmkCY/9SjWiKB2MgUVqUgZZ02ouTV2JO1FR121GrNjD?=
- =?us-ascii?Q?aWCbiMBLDDrrFm0sIOoayyBYKuQeqFK9GIJbRiLMDJGAjqO5uiFRzSzq8mP2?=
- =?us-ascii?Q?nuOqY50I4qCeDOP8Hq4alZWwr34dwLHh0l3GGrAErxkVVmwRXe4Z4ctXecit?=
- =?us-ascii?Q?3EXqCtgIxJysGeUaPS6/YDycFxtJD+VDj+A41cRoBQGQ/eNqFoTU3HDjrTqF?=
- =?us-ascii?Q?IVCIk1tuMNWmmtqsTBJPnYmLAXcYwnv3la6IUEnIRD/jAln2KNhO/qAceNHq?=
- =?us-ascii?Q?hqvzmch0xJJ4FDH/VPudIW3myOQ1Tg7CR5Lmd5pT4npALB/9I5+lJ6Kz6NJW?=
- =?us-ascii?Q?7X4tr05H0ttFF0sCyLCfzxlkTzZMPO/Vml74/gBWwautELrGJP5dd7KeGcRO?=
- =?us-ascii?Q?nct5UqwH/+e2UtIgGbpyemOkpju15t3GVEHl43eIdTZvVbSPIn8cVY9DTd+M?=
- =?us-ascii?Q?L0DU0KQBOxxlacBzjyQjxsHXCVmtLSRar9tBXuWqvuy8RIJm0hOxSvLlqL5m?=
- =?us-ascii?Q?B0k2Zez5J3hUCG63FcHQhJdl6m02WnSwin2L5UWewqZzgid5eCpyjqLG0yol?=
- =?us-ascii?Q?BSesecNI5Fzm8G0QHbzU8T9rWxoqmQOtlOKCBJtxjSLrH7gI9KRIGy+dRvDK?=
- =?us-ascii?Q?mQSQxMruSWMVNF1jdL7oRwbv+UQj0jiDPjNx98wgnoQSEqtKP4oDKgG7yzz9?=
- =?us-ascii?Q?L2UVrIbnNq8eLelLS1WUYz8LcfAtRn0yhcuvAB+rCjo0zjhPPE2SJI49a9mm?=
- =?us-ascii?Q?EIssoVkHNU6oev+mIzyf3p72M7Nk4MCLQGt1wBridVfe8aYiDjnpNnYW2Fdq?=
- =?us-ascii?Q?2PcBlDZhJpTSx3q36ea1zXXqZzYWVAbs8o+PzbJ76R3NEp7BRV9FELxPrHT2?=
- =?us-ascii?Q?DygoVi3u1t1uYq7TRTmwoebtOlInxTQopSXpnv3RmP8emSE6M6/aIHEzrqMI?=
- =?us-ascii?Q?xkLDCtRCGA/h2GogGy9OkUBRFGCwToddiKYgAve5h6n7fdo1Jmm866aUMIrt?=
- =?us-ascii?Q?2Za2m89s1E7tCjEVr1H9Aa5Ec0+LtuFSDgRjs+yDycuFIOY2ujXvKZ0MWmOE?=
- =?us-ascii?Q?CojEFSyETiv2Erjk6hF7Uln9hvlZWASZoL06kCkIkHV2TxT5XqvlYTC+o3+O?=
- =?us-ascii?Q?hooBcztZ/YQOB9XsRdBulL9q?=
+	=?us-ascii?Q?ZEFCFc9z3k+F7hDQa4+puQLdxpiCYX0+IZ3h27BaFaGb6l2KR76MLDWGkpTe?=
+ =?us-ascii?Q?b7v0PBkyoLI9L1iRGMkVSpD8jFwecMKdmsF4qOLP4eRDzedNhTaQzJLxiFoW?=
+ =?us-ascii?Q?MbaL2w3xykTk5Hg/WQg81e5FP/pKOb9IS65Ljh25zFewpUTdMwfcNu5/T2/R?=
+ =?us-ascii?Q?ZFbdu3tClyyzIEl8qN3ta4AgTJsN5hUbi1XLqvISRMBxdYxJLWJGmPXBwzHq?=
+ =?us-ascii?Q?H8N88vELkRUcWTto1ajzHHNaSv5YZID8g0YjcKEKadQCW5drvq4dw0eVS2/n?=
+ =?us-ascii?Q?SKhYP14YU53SHbuiPhZL4oOFVNhHHEBYsZR6eIvFD4UUeOm5FXyS6peUwGmf?=
+ =?us-ascii?Q?lBFsSaeG7MnVtVod5FBzlj7gpWJdCVl0y5vEXvcHu3ppnfmZPpvOmgprKCZM?=
+ =?us-ascii?Q?XsfSaHpg00f87tKAzAzrga5KUiizoWG8FHCiCQ4br7ypORnloett1PZ/ZF6h?=
+ =?us-ascii?Q?SSQwZAzbeZceiRojHHGHq4ksdDPugBkCwnAL5K0gedHhjD4HDAMMdD4HAUU0?=
+ =?us-ascii?Q?NAIFfQwMp5cmOQJPGNka6q4ri/tPCPuP2b2a50ZuHxZVniaHMxAjEHlRGKW7?=
+ =?us-ascii?Q?Yt6r8zRi5R1R7Jt3g13Vri8SkvCqW1tlokZNeWvxvqorvlNOMBcU3YVSpK1U?=
+ =?us-ascii?Q?7t9HVYh7TDc7PNvtkODPSXwDMW6hWLaiIkC7VuEbSmU8Phje4LW5pN0xU+tK?=
+ =?us-ascii?Q?GcFrZk/66O5snfD1rM0TITbil+7zZE9YeyYjzEh+aXkZPqzhfjnteT7vY2z0?=
+ =?us-ascii?Q?4oExQgv6cX54WjMtWWDqCr5gtQDDwa9efvK777BfbgsL142C2vBmJdBQpIER?=
+ =?us-ascii?Q?WgmWktOOnhEJGLOlSI8SWR2d9zvjQMADfQ0xr/xPbYhIsSkHo/rkTkjooBgM?=
+ =?us-ascii?Q?OOmopBVEdCtub3kdkqR2+wGAVTzDFI9tcpEJ5oGRi5uTou30bM7AvFrumjA2?=
+ =?us-ascii?Q?b1TEAN0vHzV4MGLuMolwdSdmT3IOlZbRiUoVBaaGCMCCem+Bxt+vtp6AaG+P?=
+ =?us-ascii?Q?VsIK0hFPN958gN1BjQGzfN2brRDstXf3WxAJ6K8Wvys+/Y9JvXycXsNe1+aJ?=
+ =?us-ascii?Q?UArfNk3pHBobLv3T0m2s2JEsKJeMpRnaFa6CFvSaeWlZGnv4NhSksSPsehKM?=
+ =?us-ascii?Q?W3mqeU1l4GynfvEz9diC3zbVF75yTKXWcEV9Nz9hI/JSSx0iU2ybNxXErJci?=
+ =?us-ascii?Q?I3N+TeIAnCl24sg4Zn3ykCj3106w87sJ91kTo9ANps7iLI18m9CCxOBaH9dg?=
+ =?us-ascii?Q?ucXwEGoYIva9ZaNPggBMlnV+miHxRpWc2FvvAAgrjQ=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4091.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(1800799024)(366016);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4769.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?JJcWBw3sKbO+D7dUnqbGZQ4xCRTfoCdbY0pF69gF/o9xcT4P5j26hoJJf44i?=
- =?us-ascii?Q?UgvCSexIJSSjnmBgsw2LypNd8YND1xLJr0klIUZF1ds4H4Um2vp7GjPQw+XA?=
- =?us-ascii?Q?IhKcfLU/TuLwnEvkFJNlqR4vIMBEP/ItecRAZMYrYwKII9dltJKTpPy5EDAN?=
- =?us-ascii?Q?D30XGwa+jkKX0bQDIfZEfff3R1B72C8AZr61jADV0AMI3nql5et6H3uvlJMM?=
- =?us-ascii?Q?ujRsW2a1QP12AB6aCvxkG212xt+EITkRaB8aXdHfXwjFqDEtgdCv1fsJtG7g?=
- =?us-ascii?Q?bniOGxabJDvwQlfjDug9+d4nwVjcXWN+l2eYkj98r6iA2K7Sm48xm+FOckew?=
- =?us-ascii?Q?Iup/qIxdqjIQ8olFYPUYjauinUS28adn5yCTf/VmCqVbPOSg4xAIwgj/oyt2?=
- =?us-ascii?Q?xPUf62mWrgu6avtHaPBl7EVU7JM/UblxFHbQsJsT4bSRJjP4DBE4lSWarx9p?=
- =?us-ascii?Q?xFzaN261/QPP4RtWFETNaGzel6iolZQcLde9SB2x7yw0P8SB7UKsLk5Bnakq?=
- =?us-ascii?Q?4gusmt410h2fMZAb4g4FQ8vdt3kO+8ZXinNnB3HmjKFJ5R0kKfp8hDGx+15V?=
- =?us-ascii?Q?Ow+P5lbFha1CddxbxDIZDpvVoHyNfjRWaTptEEpmSM5xbmhDyTQlrH1OvAev?=
- =?us-ascii?Q?DArAb9ey7qJXUX3kj4JWqXIXQXpS5DB5Mah/URqlqDFaGaj+YAv8YFpPv16z?=
- =?us-ascii?Q?bQfNQN/cpemg9vdQ3eNBikRm27s4q39s2NhmpmARQwBHV/tSMNgQgl7MigLo?=
- =?us-ascii?Q?L9jBBu8ojYW3Z1qaDVy1bzIGIh8gx2sKl9iv2pQzybf+LiOkQfMkj8RnP9vC?=
- =?us-ascii?Q?6NJYQz2ldmJiZWHE0aLEsWvKAlZwXNy+0PN0RXY7VJ/xl0lmgRGAuoyuB2VI?=
- =?us-ascii?Q?nnV/xVMiyn7if1LfoIEt3AfIZztlzwVMa0K/q3oXICS++mut0ai+qROxFQue?=
- =?us-ascii?Q?uKZx2Rws6IprONanQP5/VGcGEkur7Pud8LJjVKd0PWT3n7QeHB/acUP0kt0f?=
- =?us-ascii?Q?BJ9F4PExbaT0igQsMZGauc1TPyOeL0GYI7WZtfHfCbXOiWg42jclNJwFXl4A?=
- =?us-ascii?Q?4SGoQ+nHl8bPk5iEb7hG2JTwHqHRdVeawTTKfzQ1weaJu50Ok9MT+uKBqQez?=
- =?us-ascii?Q?2MllkNH27nnHu7JbvJ8s1wUODD6kchfZ14CpkjehrlFesZk84If3OmlInHGq?=
- =?us-ascii?Q?3VIaXARFuU3AIDjZWN7t+DRCAZiWud2+6zzak/4oH01+NHzsq91sCi1TPJEJ?=
- =?us-ascii?Q?m7RJKd+OGffgocjeNVTWIwudNMc7KdycOPfzsX4Q8WZMQpdkNFeAZ/rN6FsH?=
- =?us-ascii?Q?a992+sAeF8lNbbcMi442dsLz+5x4oVVquqvo15AT+Fjqz9f4y2ztNdAB6RPq?=
- =?us-ascii?Q?9rSnPFeuS2O8WNIUDXSarnY2vlO0x91t7tCi/UHrXrz/jC27cp6Gd3sUZ/tG?=
- =?us-ascii?Q?T6B3/iNdkmQyQu9UZdvQDwgsQ0TUmmOiBGf2eL+l6ReTliAPJpeGbuVOBRnr?=
- =?us-ascii?Q?ngNdmqztdDSYr/zAucA/kpxackQSnDEoBQqOweJ/zlUfmvhXaBRuIs/6Ry7G?=
- =?us-ascii?Q?W969h2co3ZDhDPtCIc/aM3rvKyNh/P7ZH5jQpTre5Hn4UpynEmY6foLs46yr?=
- =?us-ascii?Q?Eg=3D=3D?=
+	=?us-ascii?Q?+PoR7ZEm1u5CZj9W1oW0vlp6TnEiK0lL6lB0u9DapXWmNNrnFottNSvYChSk?=
+ =?us-ascii?Q?ohLTPLMak00dVyHz9aTgOr0RDMTeuvz1B8FUKF1aVImRlVqoIqJdUcZ5OOSm?=
+ =?us-ascii?Q?dyeSqeM+l3wnYwb84dnhsyllyJZzSMuqOxnOfaFvjs52OnPpAXoLzgeERw+1?=
+ =?us-ascii?Q?jHfRZ+EqU/tjdtKHH+85RhMzrg2DmXpFky62foVGkGlRTTsJ3xJK5o3fwIXd?=
+ =?us-ascii?Q?BFPm5VVdcTMSmjw4Eig4an5FakzhjO3gzQa/Y3yUgjPl2DJcjcQOkO8OMjm2?=
+ =?us-ascii?Q?/altU6+yNUsaD1RUa2HMVpa+5s5Ln84fi2HHRmw4UhS4LiRuGAFFP92V6iN7?=
+ =?us-ascii?Q?iOHuUgq95bAe1ir+KJLHOcTrd1fSuU9axwnWkdYMV+GMgaOnoHOSM1c2FNTc?=
+ =?us-ascii?Q?8Sj54wjQ8x9NxTwy2UcrGeo1eD6TKfOLEwRLeucMTcRa/HVC3J9wzsT5Xv1W?=
+ =?us-ascii?Q?kIFBFKN3s30ncFKOcKrWC2lEIpOPmtw8ILRkwAqDqmwtWNYGFCrWP+Zn/LP7?=
+ =?us-ascii?Q?MUUPEEaBbZDZH8nIo7PiyoqL2WNo1QEhVEPHJ0wwNFIFt7/LxYCy+oueLZrO?=
+ =?us-ascii?Q?LCj+el1soiisUpZ9YoFR060hswQ3RP12Y8zRaI4LJFBiObIlGQ266sRPtKuR?=
+ =?us-ascii?Q?uelXMTxOOOusW51L9RcO0shZVeurPjvTOOoal/iKMZHqJS2tW+xPJkBYL/5D?=
+ =?us-ascii?Q?w94nOnDIZg80FpVr6q4MsnJTwXh6pePlLcIb3PnEw790iRDBWLu+RRIiscHm?=
+ =?us-ascii?Q?YR08U4rNZlbe0AApvGePCq5Kj6w18a1llOna7iOEyNv27OLcXJVHuge0AeOU?=
+ =?us-ascii?Q?Bp8KKCMXOFG620mwSf3H6rvlowQXng35uMiibobQ/wuEHyt78viUiGaNBFio?=
+ =?us-ascii?Q?cDWTNrENe1zpm4FVNd5HUkPLz039HWpems6B5gePlYaVWZFcA1pRBUeikSIF?=
+ =?us-ascii?Q?5AxCGzGhEqSLCW7Q7/Me14iKBS3TUYe0K/qkGI8wKi3rPIGCcVizHNnCPUPh?=
+ =?us-ascii?Q?qIR+zIpfk5qs3FKXg+MdMnJGfssQAXXgPR+FFbhzbmm33OYQ1dCAZPjA4gn1?=
+ =?us-ascii?Q?vFM13kHu1doQ6N3+ZdRWVHVeO+5GpeRUgkuE/3GX0HyNGj4vXwB6eVIcJI8H?=
+ =?us-ascii?Q?MMTPzWHA4BkmY0FQKqWbq3qqkeKnpZ0zW+23/+boO2/z5pm1ev8fb9KTnN/Z?=
+ =?us-ascii?Q?1Kuui72Cz8lpynMXDzsN67+KmsS+ENk4bWOPNyR7PRFPx2eZmPD20r6MHgct?=
+ =?us-ascii?Q?wwI7kMMOO4ox3qSWFYR+mVLknrWh2YH1toQeQ9hJmY5NtBIxoBteCkCsM8nV?=
+ =?us-ascii?Q?WzXc5SQxe7Cbcrsx+NUw70zCZTzdyrkltibx85+XbGOu9BnbQBwbkVu6j22N?=
+ =?us-ascii?Q?1m5DfL0ujzlvMXfvQ2xwKHD9/p5kE5jSqn8IF2auZWRFakWcWL5yrleREmLq?=
+ =?us-ascii?Q?1BE7m4jOd3SS0c8nYaOeuJ2JTdz2jn3GlqmMFiJ6ELeSBBqzv05Q3AOWPL9r?=
+ =?us-ascii?Q?cACNdwzZ6QDiLJaiBlzx3t75brZHuLbQ/FCQSPjqpPGGbw8oRkliWRIYQpv3?=
+ =?us-ascii?Q?fMqyGVv7KXgPpynrl/j0PkMJMFDos4DEdEyDU9YuGy+8f+VHxchc/j7Sh+ZB?=
+ =?us-ascii?Q?sA=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	IrVXsDBNn02rRjK2fvDdkrYa4KUntrijXQ4M7zS0Z5I1dnmjuWbEwzgw979x/mbXxM0j6BcQ7fn8QBBkJHka7t4/ebW9XtfuHq8bHlhV3WvEYiBumJDIh768HMoTPRH+ItVJE9SkytRkKRRN0RCMF+WTVC3n1jr1XOucTY4/5qEO7aSjcep/fL0P2VI+nuBWuMj+Bw7GM28KeyBnw919C508fPRgB78g7riVy7G21DaZ3XbSjN11QOuk9DZ4kKkbJiXGCaF8waaF92dNwDbD0rGTX8r3ykO4M33ZK3pc37NWdXyBCWTXvGyR6oY2NsPmpqiKpyeda0LC1cTOH7SG5PIHSCgrY36mWmGpFubbA2MgRfO9H+pu9QV8MuADTp2D7pE6GStjZkTyULApwBRiEs5HDaAN93iyJUB3d8OuWLmI6TbqrFSxrRrc/49I52t1JIx5LUCu0b8e5xmO0Gcz4I+bHYKBpzwKUusbC2TUyTIz57MsBaVz3TZLipQpFgtIQ5ZKlJc7eRXufhpshbz/XPq+ilfJz685ICBprJ+Z1QKYDmjHZVRUi1SOrecgJahnlIMlgyskLIywz9DHZWgrZ/8V+5ty4We+7ipmoeEg+sA=
+	j9NR+D/PQSPMjhsW0Vxz1w8/D+I3pA28E9YmpPG2g+yxCNbO/PzGUyaU9LYqmo+17jwx9zLdXx2ejaSH+cKViX0+dtxH0/4+QJBL/I9iIFUz+oDiXNwMbEd2EwVXNLGfD3EpC+XTpSHML9MeeVgj594ibV3Abbm6WnhXP4o/feraLmcgo9DWFX9pbsO/5ew00qw+nR7gVLk9HtZoDHnQXf6XV/KXeTYN+vCRVUKvSmzBcUEaXA79lhoaTSpM95rl8Rpu0MPvScM6BSBde/Ug03hjNgx6rV0vv1CScBHMxlwETqXg2ElRiXrC9XXfCvjWOQl8/QFrtaKm0wVLWY3hsKsa8s7p0agLVcpR0nRjMEcVhQ6mmzEo+Es8rX3l9Sf//ELpDG+kr28s0fZhUeg7ZAHHqfOef7DHSlZIG64cTMZWNp1nGstdv1B/IWA2kETUmag4uFqkLQIc9no8OT2SPR6EP5p/vOaOh7aYKuPKAfjhxK9MEMOR+gt4/1pMptcucs8GFvTr6few5rqwpmTVY+fk0aTpEuk1xF3813bd5zcgTyu81bxgTkt/kyvHq+S+0z+ieYBiJRrFVYYsVxoq553NBBiHcteQ7pHZpgP6nz8=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5175c254-2ce7-4fe7-0725-08dcf8dc3970
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4091.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8217864d-2a53-48d0-8e67-08dcf900e0de
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4769.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2024 12:13:12.2011
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2024 16:35:34.9634
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6g8Wtt7fNx0SDJ8kPBp+H2naGfwB52X1vXEAbUrr2c8KmspCxrtaAWTQEoDYPSf3UtG27nSwizTN24eR/KuJHg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR10MB7111
+X-MS-Exchange-CrossTenant-UserPrincipalName: UX++FagnKRCIo94lUQenF60rUowWevQV0n/ctzFTDppsO6AmK6SGzPR5sUxkvUw8TEnxHFQupg8h5i0R985U0NisgpahQRDnH4YmAYMgzZM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR10MB7812
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-30_10,2024-10-30_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 adultscore=0
- mlxlogscore=999 phishscore=0 bulkscore=0 malwarescore=0 spamscore=0
+ definitions=2024-10-30_14,2024-10-30_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0 bulkscore=0
+ adultscore=0 phishscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
- definitions=main-2410300095
-X-Proofpoint-ORIG-GUID: WWONArp4zgtv65ULyXpLa0NQrBl3j6C9
-X-Proofpoint-GUID: WWONArp4zgtv65ULyXpLa0NQrBl3j6C9
+ definitions=main-2410300129
+X-Proofpoint-GUID: L1HTkqd-7I5fSQqmcjRg5ZCfLTPgc6aY
+X-Proofpoint-ORIG-GUID: L1HTkqd-7I5fSQqmcjRg5ZCfLTPgc6aY
 
-This adjusts everything to use \fN...\fP rather than \fN...\fR everywhere:
-the few places that were using \fP (usually \fB\fIfilename\fP.ext\fR) were
-re-expressed into \fIfilename\fP\fB.ext\fP. \& was added in the instances
-of this pattern that weren't using it (about half were).
+On Wed, Oct 30, 2024 at 12:12:23PM +0000, Nick Alcock wrote:
+> We only need this for the systemd notification protocol, and that's so
+> simple there is MIT-0-licensed reusable code in the sd_notify manpage
+> showing you how to use it.  That code looks pretty much OK, so I modified it
+> lightly and pulled it into libport, with one tweak to remove the use of
+> __attribute__((cleanup)) (it could be replaced by one line of perfectly
+> trivial standard C code, saving five or six lines in all).
+> 
+> With libsystemd linkage gone, we need another way for the user to indicate
+> that systemd is not in use and the systemd unit files are not wanted: so
+> introduce a new --without-systemd (and corresponding --with-systemd=no,
+> etc) in configure.  (Someone directly running make can just pass
+> WITH_SYSTEMD= to make.)
+> 
+> We lose one feature of libsystemd's sd_notify: we no longer remove the
+> NOTIFY_SOCKET env var from the environment, so our children could in theory
+> pretend to be us and notify systemd on our behalf.  Since our only child
+> is in a seccomped jail and is part of dtprobed anyway, this loss of
+> functionality is purely theoretical.
+> 
+> (Fix a bit of tabdamage in configure while we're at it.)
+> 
+> Bug: https://github.com/oracle/dtrace-utils/issues/92
+> Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
 
-No effect on terminal or typeset output, other than very slightly improved
-layout around the filename stuff above.
-
-Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
 Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
----
- cmd/dtrace.8 | 72 ++++++++++++++++++++++++++--------------------------
- 1 file changed, 36 insertions(+), 36 deletions(-)
 
-diff --git a/cmd/dtrace.8 b/cmd/dtrace.8
-index 355484bd0d34..1f2d48a07531 100644
---- a/cmd/dtrace.8
-+++ b/cmd/dtrace.8
-@@ -39,9 +39,9 @@ dtrace \- DTrace dynamic tracing compiler and tracing utility
- .LP
- DTrace is a comprehensive dynamic tracing framework for the Linux operating system. DTrace provides a powerful infrastructure that permits administrators, developers, and service personnel to concisely answer arbitrary questions about the behavior of the operating system and user programs. 
- .LP
--The \fIOracle Linux DTrace Guide\fR describes how to use DTrace to observe, debug, and tune system behavior. Refer to this book for a detailed description of DTrace features, including the bundled DTrace observability tools, instrumentation providers, and the D programming language.
-+The \fIOracle Linux DTrace Guide\fP describes how to use DTrace to observe, debug, and tune system behavior. Refer to this book for a detailed description of DTrace features, including the bundled DTrace observability tools, instrumentation providers, and the D programming language.
- .LP
--The \fBdtrace\fR command provides a generic interface to the essential services provided by the DTrace facility, including:
-+The \fBdtrace\fP command provides a generic interface to the essential services provided by the DTrace facility, including:
- .RS +4
- .IP o
- Options that list the set of probes and providers currently published by DTrace
-@@ -57,100 +57,100 @@ Options that generate program stability reports
- Options that modify DTrace tracing and buffering behavior and enable additional D compiler features
- .RE
- .LP
--You can use \fBdtrace\fR to create D scripts by using it in a \fB#!\fR declaration to create an interpreter file. You can also use \fBdtrace\fR to attempt to compile D programs and determine their properties without actually enabling tracing using the \fB\-e\fR option. See \fBOPTIONS\fR. See the \fIOracle Linux DTrace Guide\fR for detailed examples of how to use the \fBdtrace\fR utility to perform these tasks.
-+You can use \fBdtrace\fP to create D scripts by using it in a \fB#!\fP declaration to create an interpreter file. You can also use \fBdtrace\fP to attempt to compile D programs and determine their properties without actually enabling tracing using the \fB\-e\fP option. See \fBOPTIONS\fP. See the \fIOracle Linux DTrace Guide\fP for detailed examples of how to use the \fBdtrace\fP utility to perform these tasks.
- .SH OPTIONS
- .LP
--The arguments accepted by the \fB\-P\fR, \fB\-m\fR, \fB\-f\fR, \fB\-n\fR, and \fB\-i\fR options can include an optional D language \fIpredicate\fR enclosed in slashes \fB//\fR and optional D language \fIaction\fR statement list enclosed in braces \fB{}\fR. D program code specified on the command line must be appropriately quoted to avoid interpretation of meta-characters by the shell.
-+The arguments accepted by the \fB\-P\fP, \fB\-m\fP, \fB\-f\fP, \fB\-n\fP, and \fB\-i\fP options can include an optional D language \fIpredicate\fP enclosed in slashes \fB//\fP and optional D language \fIaction\fP statement list enclosed in braces \fB{}\fP. D program code specified on the command line must be appropriately quoted to avoid interpretation of meta-characters by the shell.
- .LP
- The following options are supported:
- .TP
- \fB\-b\fP \fIbufsz\fP
--Set principal trace buffer size (\fIbufsz\fR). The trace buffer size can include any of the size suffixes \fBk\fR, \fBm\fR, \fBg\fR, or \fBt\fR. If the buffer space cannot be allocated, \fBdtrace\fR attempts to reduce the buffer size or exit depending on the setting of the \fBbufresize\fR property.
-+Set principal trace buffer size (\fIbufsz\fP). The trace buffer size can include any of the size suffixes \fBk\fP, \fBm\fP, \fBg\fP, or \fBt\fP. If the buffer space cannot be allocated, \fBdtrace\fP attempts to reduce the buffer size or exit depending on the setting of the \fBbufresize\fP property.
- .TP
- \fB\-c\fP \fIcmd\fP
--Run the specified command \fIcmd\fR and exit upon its completion. If more than one \fB\-c\fR option is present on the command line, \fBdtrace\fR exits when all commands have exited, reporting the exit status for each child process as it terminates. The process-ID of the first command is made available to any D programs specified on the command line or using the \fB\-s\fR option through the \fB$target\fR macro variable. Refer to the \fIOracle Linux DTrace Guide\fR for more information on macro variables.
-+Run the specified command \fIcmd\fP and exit upon its completion. If more than one \fB\-c\fP option is present on the command line, \fBdtrace\fP exits when all commands have exited, reporting the exit status for each child process as it terminates. The process-ID of the first command is made available to any D programs specified on the command line or using the \fB\-s\fP option through the \fB$target\fP macro variable. Refer to the \fIOracle Linux DTrace Guide\fP for more information on macro variables.
- .TP
- \fB\-C\fP
--Run the C preprocessor \fBcpp\fR(1) over D programs before compiling them. You can pass options to the C preprocessor using the \fB\-D\fR, \fB\-U\fR, \fB\-I\fR, and \fB\-H\fR options. You can select the degree of C standard conformance if you use the \fB\-X\fR option. For a description of the set of tokens defined by the D compiler when invoking the C preprocessor, see \fB\-X\fR.
-+Run the C preprocessor \fBcpp\fP(1) over D programs before compiling them. You can pass options to the C preprocessor using the \fB\-D\fP, \fB\-U\fP, \fB\-I\fP, and \fB\-H\fP options. You can select the degree of C standard conformance if you use the \fB\-X\fP option. For a description of the set of tokens defined by the D compiler when invoking the C preprocessor, see \fB\-X\fP.
- .TP
- \fB\-D\fP \fIname\fP \fB[=\fP\fIvalue\fP\fB]\fP
--Define \fIname\fR when invoking \fBcpp\fR(1) (enabled using the \fB\-C\fR option). If you specify the equals sign (\fB=\fR) and additional \fIvalue\fR, the name is assigned the corresponding value. This option passes the \fB\-D\fR option to each \fBcpp\fR invocation.
-+Define \fIname\fP when invoking \fBcpp\fP(1) (enabled using the \fB\-C\fP option). If you specify the equals sign (\fB=\fP) and additional \fIvalue\fP, the name is assigned the corresponding value. This option passes the \fB\-D\fP option to each \fBcpp\fP invocation.
- .TP
- \fB\-e\fP
- Exit after compiling any requests, but prior to enabling any probes. You can combine this option with D compiler options. This combination verifies that the programs compile without actually executing them and enabling the corresponding instrumentation.
- .TP
- \fB\-f\fP\fB[[\fP\fIprovider\fP\fB:]\fP\fImodule\fP\fB:]\fP\fIfunction\fP\fB[[\fP\fIpredicate\fP\fB]\fP\fIaction\fP\fB]]\fP
--Specify function name to trace or list (\fB\-l\fR option). The corresponding argument can include any of the probe description forms \fIprovider:module:function\fR, \fImodule:function\fR, or \fIfunction\fR. Unspecified probe description fields are left blank and match any probes regardless of the values in those fields. If no qualifiers other than \fIfunction\fR are specified in the description, all probes with the corresponding \fIfunction\fR are matched. The \fB\-f\fR argument can be suffixed with an optional D probe clause. You can specify more than one \fB\-f\fR option on the command line at a time.
-+Specify function name to trace or list (\fB\-l\fP option). The corresponding argument can include any of the probe description forms \fIprovider:module:function\fP, \fImodule:function\fP, or \fIfunction\fP. Unspecified probe description fields are left blank and match any probes regardless of the values in those fields. If no qualifiers other than \fIfunction\fP are specified in the description, all probes with the corresponding \fIfunction\fP are matched. The \fB\-f\fP argument can be suffixed with an optional D probe clause. You can specify more than one \fB\-f\fP option on the command line at a time.
- .TP
- \fB\-F\fP
--Coalesce trace output by identifying function entry and return. Function entry probe reports are indented and their output is prefixed with \fB->\fR. Function return probe reports are unindented and their output is prefixed with \fB<-\fR\&. System call entry probe reports are indented and their output is prefixed with \fB=>\fR. System call return probe reports are unindented and their output is prefixed with \fB<=\fR\&.
-+Coalesce trace output by identifying function entry and return. Function entry probe reports are indented and their output is prefixed with \fB->\fP. Function return probe reports are unindented and their output is prefixed with \fB<-\fP\&. System call entry probe reports are indented and their output is prefixed with \fB=>\fP. System call return probe reports are unindented and their output is prefixed with \fB<=\fP\&.
- .TP
- \fB\-G\fP
--Generate an ELF file containing an embedded DTrace program. The DTrace probes specified in the program are saved inside of a relocatable ELF object which can be linked into another program. If the \fB\-o\fR option is present, the ELF file is saved using the pathname specified as the argument for this operand. If the \fB\-o\fR option is not present and the DTrace program is contained with a file whose name is \fB\fIfilename\fR.d\fR, then the ELF file is saved using the name \fB\fIfilename\fR.o\fR. Otherwise the ELF file is saved using the name \fBd.out\fR.
-+Generate an ELF file containing an embedded DTrace program. The DTrace probes specified in the program are saved inside of a relocatable ELF object which can be linked into another program. If the \fB\-o\fP option is present, the ELF file is saved using the pathname specified as the argument for this operand. If the \fB\-o\fP option is not present and the DTrace program is contained with a file whose name is \fIfilename\fP\fB\&.d\fP, then the ELF file is saved using the name \fIfilename\fP\fB\&.o\fP. Otherwise the ELF file is saved using the name \fBd.out\fP.
- .TP
- \fB\-H\fP
--Print the pathnames of included files when invoking \fBcpp\fR(1) (enabled using the \fB\-C\fR option). This option passes the \fB\-H\fR option to each \fBcpp\fR invocation, causing it to display the list of pathnames, one for each line, to \fBstderr\fR.
-+Print the pathnames of included files when invoking \fBcpp\fP(1) (enabled using the \fB\-C\fP option). This option passes the \fB\-H\fP option to each \fBcpp\fP invocation, causing it to display the list of pathnames, one for each line, to \fBstderr\fP.
- .TP
- \fB\-h\fP
--Generate a header file containing macros that correspond to probes in the specified provider definitions. This option should be used to generate a header file that is included by other source files for later use with the \fB\-G\fR option. If the \fB\-o\fR option is present, the header file is saved using the pathname specified as the argument for that option. If the \fB\-o\fR option is not present and the DTrace program is contained with a file whose name is \fIfilename\fR\fB\&.d\fR, then the header file is saved using the name \fIfilename\fR\fB\&.h\fR.
-+Generate a header file containing macros that correspond to probes in the specified provider definitions. This option should be used to generate a header file that is included by other source files for later use with the \fB\-G\fP option. If the \fB\-o\fP option is present, the header file is saved using the pathname specified as the argument for that option. If the \fB\-o\fP option is not present and the DTrace program is contained with a file whose name is \fIfilename\fP\fB\&.d\fP, then the header file is saved using the name \fIfilename\fP\fB\&.h\fP.
- .TP
- \fB\-i\fP \fIprobe-id\fP\fB[[\fP\fIpredicate\fP] \fIaction\fP\fB]\fP
--Specify probe identifier (\fIprobe-id\fR) to trace or list (\fB\-l\fR option). You can specify probe IDs using decimal integers as shown by \fBdtrace\fR \fB\-l\fR. The \fB\-i\fR argument can be suffixed with an optional D probe clause. You can specify more than one \fB\-i\fR option at a time.
-+Specify probe identifier (\fIprobe-id\fP) to trace or list (\fB\-l\fP option). You can specify probe IDs using decimal integers as shown by \fBdtrace\fP \fB\-l\fP. The \fB\-i\fP argument can be suffixed with an optional D probe clause. You can specify more than one \fB\-i\fP option at a time.
- .TP
- \fB\-I\fP \fIpath\fP
--Add the specified directory \fIpath\fR to the search path for \fB#include\fR files when invoking \fBcpp\fR(1) (enabled using the \fB\-C\fR option). This option passes the \fB\-I\fR option to each \fBcpp\fR invocation. The specified \fIpath\fR is inserted into the search path ahead of the default directory list.
-+Add the specified directory \fIpath\fP to the search path for \fB#include\fP files when invoking \fBcpp\fP(1) (enabled using the \fB\-C\fP option). This option passes the \fB\-I\fP option to each \fBcpp\fP invocation. The specified \fIpath\fP is inserted into the search path ahead of the default directory list.
- .TP
- \fB\-L\fP \fIpath\fP
--Add the specified directory \fIpath\fR to the search path for DTrace libraries. DTrace libraries are used to contain common definitions that can be used when writing D programs. The specified \fIpath\fR is added after the default library search path. If it exists, a subdirectory of \fIpath\fR named after the minor version of the running kernel (e.g. 3.8) is searched immediately before \fIpath\fR. (But take note: dependency analysis is performed only within each directory, not across directories.)
-+Add the specified directory \fIpath\fP to the search path for DTrace libraries. DTrace libraries are used to contain common definitions that can be used when writing D programs. The specified \fIpath\fP is added after the default library search path. If it exists, a subdirectory of \fIpath\fP named after the minor version of the running kernel (e.g. 3.8) is searched immediately before \fIpath\fP. (But take note: dependency analysis is performed only within each directory, not across directories.)
- .TP
- \fB\-l\fP
--List probes instead of enabling them. If the \fB\-l\fR option is specified, \fBdtrace\fR produces a report of the probes matching the descriptions given using the \fB\-P\fR, \fB\-m\fR, \fB\-f\fR, \fB\-n\fR, \fB\-i\fR, and \fB\-s\fR options. If none of these options are specified, this option lists all probes.
-+List probes instead of enabling them. If the \fB\-l\fP option is specified, \fBdtrace\fP produces a report of the probes matching the descriptions given using the \fB\-P\fP, \fB\-m\fP, \fB\-f\fP, \fB\-n\fP, \fB\-i\fP, and \fB\-s\fP options. If none of these options are specified, this option lists all probes.
- .TP
- \fB\-m\fP [[\fIprovider:\fP] \fImodule:\fP [[\fIpredicate\fP] \fIaction\fP]]
--Specify module name to trace or list (\fB\-l\fR option). The corresponding argument can include any of the probe description forms \fIprovider:module\fR or \fImodule\fR. Unspecified probe description fields are left blank and match any probes regardless of the values in those fields. If no qualifiers other than \fImodule\fR are specified in the description, all probes with a corresponding \fImodule\fR are matched. The \fB\-m\fR argument can be suffixed with an optional D probe clause. More than one \fB\-m\fR option can be specified on the command line at a time.
-+Specify module name to trace or list (\fB\-l\fP option). The corresponding argument can include any of the probe description forms \fIprovider:module\fP or \fImodule\fP. Unspecified probe description fields are left blank and match any probes regardless of the values in those fields. If no qualifiers other than \fImodule\fP are specified in the description, all probes with a corresponding \fImodule\fP are matched. The \fB\-m\fP argument can be suffixed with an optional D probe clause. More than one \fB\-m\fP option can be specified on the command line at a time.
- .TP
- \fB\-n\fP [[[\fIprovider:\fP] \fImodule:\fP] \fIfunction:\fP] \fIname\fP [[\fIpredicate\fP] \fIaction\fP]
--Specify probe name to trace or list (\fB\-l\fR option). The corresponding argument can include any of the probe description forms \fIprovider:module:function:name\fR, \fImodule:function:name\fR, \fIfunction:name\fR, or \fIname\fR. Unspecified probe description fields are left blank and match any probes regardless of the values in those fields. If no qualifiers other than \fIname\fR are specified in the description, all probes with a corresponding \fIname\fR are matched. The \fB\-n\fR argument can be suffixed with an optional D probe clause. More than one \fB\-n\fR option can be specified on the command line at a time.
-+Specify probe name to trace or list (\fB\-l\fP option). The corresponding argument can include any of the probe description forms \fIprovider:module:function:name\fP, \fImodule:function:name\fP, \fIfunction:name\fP, or \fIname\fP. Unspecified probe description fields are left blank and match any probes regardless of the values in those fields. If no qualifiers other than \fIname\fP are specified in the description, all probes with a corresponding \fIname\fP are matched. The \fB\-n\fP argument can be suffixed with an optional D probe clause. More than one \fB\-n\fP option can be specified on the command line at a time.
- .TP
- \fB\-o\fP \fIoutput\fP
--Specify the \fIoutput\fR file for the \fB\-G\fR, \fB\-h\fR, and \fB\-l\fR options, or for the traced data itself. If the \fB\-G\fR option is present and the \fB\-s\fR option's argument is of the form \fB\fIfilename\fR.d\fR and \fB\-o\fR is not present, the default output file is \fB\fIfilename\fR.o\fR. Otherwise the default output file is \fBd.out\fR.
-+Specify the \fIoutput\fP file for the \fB\-G\fP, \fB\-h\fP, and \fB\-l\fP options, or for the traced data itself. If the \fB\-G\fP option is present and the \fB\-s\fP option's argument is of the form \fIfilename\fP\fB\&.d\fP and \fB\-o\fP is not present, the default output file is \fIfilename\fP\fB\&.o\fP. Otherwise the default output file is \fBd.out\fP.
- .TP
- \fB\-p\fP \fIpid\fP
--Grab the specified process-ID \fIpid\fR, cache its symbol tables, and exit upon its completion. If more than one \fB\-p\fR option is present on the command line, \fBdtrace\fR exits when all commands have exited, reporting the exit status for each process as it terminates. The first process-ID is made available to any D programs specified on the command line or using the \fB\-s\fR option through the \fB$target\fR macro variable. Refer to the \fIOracle Linux DTrace Guide\fR for more information on macro variables.
-+Grab the specified process-ID \fIpid\fP, cache its symbol tables, and exit upon its completion. If more than one \fB\-p\fP option is present on the command line, \fBdtrace\fP exits when all commands have exited, reporting the exit status for each process as it terminates. The first process-ID is made available to any D programs specified on the command line or using the \fB\-s\fP option through the \fB$target\fP macro variable. Refer to the \fIOracle Linux DTrace Guide\fP for more information on macro variables.
- .TP
- \fB\-P\fP \fIprovider\fP \fB[[\fP\fIpredicate\fP\fB]\fP \fIaction\fP]
--Specify provider name to trace or list (\fB\-l\fR option). The remaining probe description fields module, function, and name are left blank and match any probes regardless of the values in those fields. The \fB\-P\fR argument can be suffixed with an optional D probe clause. You can specify more than one \fB\-P\fR option on the command line at a time.
-+Specify provider name to trace or list (\fB\-l\fP option). The remaining probe description fields module, function, and name are left blank and match any probes regardless of the values in those fields. The \fB\-P\fP argument can be suffixed with an optional D probe clause. You can specify more than one \fB\-P\fP option on the command line at a time.
- .TP
- \fB\-q\fP
--Set quiet mode. \fBdtrace\fR suppresses messages such as the number of probes matched by the specified options and D programs and does not print column headers, the CPU ID, the probe ID, or insert newlines into the output. Only data traced and formatted by D program statements such as \fBtrace()\fR and \fBprintf()\fR is displayed to \fBstdout\fR.
-+Set quiet mode. \fBdtrace\fP suppresses messages such as the number of probes matched by the specified options and D programs and does not print column headers, the CPU ID, the probe ID, or insert newlines into the output. Only data traced and formatted by D program statements such as \fBtrace()\fP and \fBprintf()\fP is displayed to \fBstdout\fP.
- .TP
- \fB\-s\fP
--Compile the specified D program source file. If the \fB\-e\fR option is present, the program is compiled but instrumentation is not enabled. If the \fB\-l\fR option is present, the program is compiled and the set of probes matched by it is listed, but instrumentation is not enabled. If none of \fB\-e\fR, \fB\-l\fR, or \fB\-G\fR are present, the instrumentation specified by the D program is enabled and tracing begins.
-+Compile the specified D program source file. If the \fB\-e\fP option is present, the program is compiled but instrumentation is not enabled. If the \fB\-l\fP option is present, the program is compiled and the set of probes matched by it is listed, but instrumentation is not enabled. If none of \fB\-e\fP, \fB\-l\fP, or \fB\-G\fP are present, the instrumentation specified by the D program is enabled and tracing begins.
- .TP
- \fB\-S\fP
--Show D compiler intermediate code. The D compiler produces a report of the intermediate code generated for each D program to \fBstderr\fR.
-+Show D compiler intermediate code. The D compiler produces a report of the intermediate code generated for each D program to \fBstderr\fP.
- .TP
- \fB\-U\fP \fIname\fP
--Undefine the specified \fIname\fR when invoking \fBcpp\fR(1) (enabled using the \fB-C\fR option). This option passes the \fB-U\fR option to each \fBcpp\fR invocation.
-+Undefine the specified \fIname\fP when invoking \fBcpp\fP(1) (enabled using the \fB-C\fP option). This option passes the \fB-U\fP option to each \fBcpp\fP invocation.
- .TP
- \fB\-v\fP
--Set verbose mode. If the \fB\-v\fR option is specified, \fBdtrace\fR produces a program stability report showing the minimum interface stability and dependency level for the specified D programs. DTrace stability levels are explained in further detail in the \fIOracle Linux DTrace Guide\fR.
-+Set verbose mode. If the \fB\-v\fP option is specified, \fBdtrace\fP produces a program stability report showing the minimum interface stability and dependency level for the specified D programs. DTrace stability levels are explained in further detail in the \fIOracle Linux DTrace Guide\fP.
- .TP
- \fB\-V\fP
--Report the highest D programming interface version supported by \fBdtrace\fR. The version information is printed to \fBstdout\fR and the \fBdtrace\fR command exits. Refer to the \fIOracle Linux DTrace Guide\fR for more information about DTrace versioning features. In conjunction with \fB\-v\fR, also reports information on the version of the \fBdtrace\fR(1) tool and associated library.
-+Report the highest D programming interface version supported by \fBdtrace\fP. The version information is printed to \fBstdout\fP and the \fBdtrace\fP command exits. Refer to the \fIOracle Linux DTrace Guide\fP for more information about DTrace versioning features. In conjunction with \fB\-v\fP, also reports information on the version of the \fBdtrace\fP(1) tool and associated library.
- .TP
- \fB\-w\fP
--Permit destructive actions in D programs specified using the \fB\-s\fR, \fB\-P\fR, \fB\-m\fR, \fB\-f\fR, \fB\-n\fR, or \fB\-i\fR options. If the \fB\-w\fR option is not specified, \fBdtrace\fR does not permit the compilation or enabling of a D program that contains destructive actions.
-+Permit destructive actions in D programs specified using the \fB\-s\fP, \fB\-P\fP, \fB\-m\fP, \fB\-f\fP, \fB\-n\fP, or \fB\-i\fP options. If the \fB\-w\fP option is not specified, \fBdtrace\fP does not permit the compilation or enabling of a D program that contains destructive actions.
- .TP
- \fB\-x\fP \fIarg\fP [\fI=val\fP]
--Enable or modify a DTrace runtime option or D compiler option. The list of options is found in the \fIOracle Linux DTrace Guide\fR. Boolean options are enabled by specifying their name. Options with values are set by separating the option name and value with an equals sign (\fB=\fR).
-+Enable or modify a DTrace runtime option or D compiler option. The list of options is found in the \fIOracle Linux DTrace Guide\fP. Boolean options are enabled by specifying their name. Options with values are set by separating the option name and value with an equals sign (\fB=\fP).
- .TP
- \fB\-Z\fP
--Permit probe descriptions that match zero probes. If the \fB\-Z\fR option is not specified, \fBdtrace\fR reports an error and exits if any probe descriptions specified in D program files (\fB\-s\fR option) or on the command line (\fB\-P\fR, \fB\-m\fR, \fB\-f\fR, \fB\-n\fR, or \fB\-i\fR options) contain descriptions that do not match any known probes.
-+Permit probe descriptions that match zero probes. If the \fB\-Z\fP option is not specified, \fBdtrace\fP reports an error and exits if any probe descriptions specified in D program files (\fB\-s\fP option) or on the command line (\fB\-P\fP, \fB\-m\fP, \fB\-f\fP, \fB\-n\fP, or \fB\-i\fP options) contain descriptions that do not match any known probes.
- .
- .SH OPERANDS
- .LP
--You can specify zero or more additional arguments on the \fBdtrace\fR command line to define a set of macro variables (\fB$1\fR, \fB$2\fR, and so forth). The additional arguments can be used in D programs specified using the \fB\-s\fR option or on the command line. The use of macro variables is described further in the \fIOracle Linux DTrace Guide\fR.
-+You can specify zero or more additional arguments on the \fBdtrace\fP command line to define a set of macro variables (\fB$1\fP, \fB$2\fP, and so forth). The additional arguments can be used in D programs specified using the \fB\-s\fP option or on the command line. The use of macro variables is described further in the \fIOracle Linux DTrace Guide\fP.
- .
- .SH EXIT STATUS
- .LP
-@@ -159,12 +159,12 @@ The following exit values are returned:
- .B 0
- Successful completion. 
- .IP
--For D program requests, an exit status of \fB0\fR indicates that programs were successfully compiled, probes were successfully enabled, or anonymous state was successfully retrieved. \fBdtrace\fR returns \fB0\fR even if the specified tracing requests encountered errors or drops.
-+For D program requests, an exit status of \fB0\fP indicates that programs were successfully compiled, probes were successfully enabled, or anonymous state was successfully retrieved. \fBdtrace\fP returns \fB0\fP even if the specified tracing requests encountered errors or drops.
- .TP
- .B 1
- An error occurred.
- .IP
--For D program requests, an exit status of \fB1\fR indicates that program compilation failed or that the specified request could not be satisfied.
-+For D program requests, an exit status of \fB1\fP indicates that program compilation failed or that the specified request could not be satisfied.
- .TP
- .B 2
- Invalid command line options or arguments were specified.
-@@ -180,7 +180,7 @@ Print CTF type library debugging output on standard error.
- .IP DTRACE_OPT_*
- Set a given DTrace option.
- .IP
--Options set this way are overridden both by options specified via \fB\-x\fR on the command line, and by \fBsetopt\fR statements.
-+Options set this way are overridden both by options specified via \fB\-x\fP on the command line, and by \fBsetopt\fP statements.
- .
- .SH SEE ALSO
- .BR cpp (1),
-@@ -191,4 +191,4 @@ Options set this way are overridden both by options specified via \fB\-x\fR on t
- .
- .SH USAGE
- .LP
--When using the \fB\-p\fR flag, \fBdtrace\fR stops the target processes while it is inspecting them and reporting results. A process can do nothing while it is stopped. This means that, if, for example, the X server is inspected by \fBdtrace\fR running in a window under the X server's control, the whole window system can become deadlocked, because the \fBdtrace\fR tool would be attempting to display its results to a window that cannot be refreshed. In such a case, logging in from another system using \fBssh\fR(1) and killing the offending \fBdtrace\fR tool clears the deadlock.
-+When using the \fB\-p\fP flag, \fBdtrace\fP stops the target processes while it is inspecting them and reporting results. A process can do nothing while it is stopped. This means that, if, for example, the X server is inspected by \fBdtrace\fP running in a window under the X server's control, the whole window system can become deadlocked, because the \fBdtrace\fP tool would be attempting to display its results to a window that cannot be refreshed. In such a case, logging in from another system using \fBssh\fP(1) and killing the offending \fBdtrace\fP tool clears the deadlock.
--- 
-2.46.0.278.g36e3a12567
-
+> ---
+>  GNUmakefile              |  1 +
+>  Makeconfig               |  1 -
+>  configure                | 16 +++++----
+>  dtprobed/Build           |  7 +---
+>  dtprobed/dtprobed.c      |  8 +----
+>  include/port.h           |  1 +
+>  libport/Build            |  4 +--
+>  libport/systemd_notify.c | 70 ++++++++++++++++++++++++++++++++++++++++
+>  8 files changed, 86 insertions(+), 22 deletions(-)
+>  create mode 100644 libport/systemd_notify.c
+> 
+> diff --git a/GNUmakefile b/GNUmakefile
+> index e7657d466df5..cbf27b6be111 100644
+> --- a/GNUmakefile
+> +++ b/GNUmakefile
+> @@ -102,6 +102,7 @@ PKGCONFIGDIR = $(prefix)/share/pkgconfig
+>  INSTPKGCONFIGDIR = $(DESTDIR)$(PKGCONFIGDIR)
+>  TESTDIR = $(LIBDIR)/dtrace/testsuite
+>  INSTTESTDIR = $(DESTDIR)$(TESTDIR)
+> +WITH_SYSTEMD = y
+>  TARGETS =
+>  
+>  DTRACE ?= $(objdir)/dtrace
+> diff --git a/Makeconfig b/Makeconfig
+> index f3d47c086f4a..346078598624 100644
+> --- a/Makeconfig
+> +++ b/Makeconfig
+> @@ -218,7 +218,6 @@ $(eval $(call check-symbol-rule,ELF_GETSHDRSTRNDX,elf_getshdrstrndx,elf))
+>  $(eval $(call check-symbol-rule,LIBCTF,ctf_open,ctf,t))
+>  $(eval $(call check-symbol-rule,STRRSTR,strrstr,c))
+>  $(eval $(call check-symbol-rule,PTHREAD_ATFORK,pthread_atfork,c))
+> -$(eval $(call check-symbol-rule,LIBSYSTEMD,sd_notify,systemd,t))
+>  ifndef WANTS_LIBFUSE2
+>  $(eval $(call check-symbol-rule,FUSE_LOG,fuse_set_log_func,fuse3))
+>  $(eval $(call check-symbol-rule,LIBFUSE3,fuse_session_receive_buf,fuse3,t))
+> diff --git a/configure b/configure
+> index 4026a3eafcd3..c44c77383dd0 100755
+> --- a/configure
+> +++ b/configure
+> @@ -92,10 +92,14 @@ built locally, none of these should be needed):
+>  				"build"); seen under /lib/modules
+>  
+>  EOF
+> -	make help-overrides-header help-overrides-option
+> +        make help-overrides-header help-overrides-option
+> +        cat >&2 <<'EOF'
+> +--with-systemd=[yes/no]		Install the systemd unit files (default: yes)
+> +EOF
+>          echo >&2
+>          make help-overrides
+> -	cat >&2 <<'EOF'
+> +        cat >&2 <<'EOF'
+> +
+>  Options controlling the compiler (pass on the command line):
+>  
+>  CC				C compiler (may be a cross-compiler)
+> @@ -122,7 +126,7 @@ trap 'rm -rf build/.config.new build/.config-vars.mk.new' ERR
+>  for option in "$@"; do
+>      case "$option" in
+>          --help) help; exit 1;;
+> -	--prefix=*) write_make_var prefix "$option";;
+> +        --prefix=*) write_make_var prefix "$option";;
+>          --objdir=*) write_make_var objdir "$option";;
+>          --libdir=*) write_make_var LIBDIR "$option";;
+>          --bindir=*) write_make_var SBINDIR "$option";;
+> @@ -153,12 +157,12 @@ for option in "$@"; do
+>          --kernel-obj-dir=*) write_make_var KERNELOBJDIR "$option";;
+>          --kernel-src-suffix=*) write_make_var KERNELSRCNAME "$option";;
+>          --kernel-obj-suffix=*) write_make_var KERNELBLDNAME "$option";;
+> +        --with-systemd|--with-systemd=y*) write_make_var WITH_SYSTEMD "y";;
+> +        --with-systemd=n*|--without-systemd) write_make_var WITH_SYSTEMD "";;
+>          HAVE_ELF_GETSHDRSTRNDX=*) write_config_var ELF_GETSHDRSTRNDX "$option";;
+>          --with-libctf=*) write_config_var LIBCTF "$option";;
+>          HAVE_LIBCTF=*) write_config_var LIBCTF "$option";;
+>          HAVE_STRRSTR=*) write_config_var STRRSTR "$option";;
+> -        --with-libsystemd=*) write_config_var LIBSYSTEMD "$option";;
+> -        HAVE_LIBSYSTEMD=*) write_config_var LIBSYSTEMD "$option";;
+>          HAVE_FUSE_LOG=*) write_config_var FUSE_LOG "$option";;
+>          --with-libfuse3=*) write_config_var LIBFUSE3 "$option";;
+>          HAVE_LIBFUSE3=*) write_config_var LIBFUSE3 "$option";;
+> @@ -167,7 +171,7 @@ for option in "$@"; do
+>          HAVE_GETTID=*) write_config_var GETTID "$option";;
+>          HAVE_BPFV3=*) write_config_var BPFV3 "$option";;
+>          HAVE_BPFMASM=*) write_config_var BPFMASM "$option";;
+> -	*) echo "Unknown option $option" >&2
+> +        *) echo "Unknown option $option" >&2
+>             exit 1;;
+>      esac
+>  done
+> diff --git a/dtprobed/Build b/dtprobed/Build
+> index 9132c3e31c8a..346cd6aee190 100644
+> --- a/dtprobed/Build
+> +++ b/dtprobed/Build
+> @@ -29,11 +29,6 @@ dtprobed_DEPS := libproc.a libcommon.a libport.a
+>  dtprobed_SOURCES := dtprobed.c dof_stash.c seccomp-assistance.c
+>  dtprobed_LIBSOURCES := libproc libcommon
+>  
+> -ifdef HAVE_LIBSYSTEMD
+> -dtprobed_CFLAGS += $(shell pkg-config --cflags libsystemd)
+> -dtprobed_LIBS += $(shell pkg-config --libs libsystemd)
+> -endif
+> -
+>  ifndef HAVE_FUSE_LOG
+>  dtprobed_SOURCES += rpl_fuse_log.c
+>  endif
+> @@ -43,7 +38,7 @@ seccomp-assistance.c_CFLAGS := -fno-lto
+>  endif
+>  
+>  install-dtprobed-autostart::
+> -ifdef HAVE_LIBSYSTEMD
+> +ifneq ($(WITH_SYSTEMD),)
+>  	mkdir -p $(INSTSYSTEMDUNITDIR) $(INSTSYSTEMDPRESETDIR)
+>  	$(call describe-install-target,$(INSTSYSTEMDUNITDIR),dtprobed.service)
+>  	sed 's,@SBINDIR@,$(SBINDIR),' < $(dtprobed_DIR)dtprobed.service.in > $(INSTSYSTEMDUNITDIR)/dtprobed.service
+> diff --git a/dtprobed/dtprobed.c b/dtprobed/dtprobed.c
+> index fdcdee14f851..c83f0adb56c4 100644
+> --- a/dtprobed/dtprobed.c
+> +++ b/dtprobed/dtprobed.c
+> @@ -61,10 +61,6 @@
+>  
+>  #include <dtrace/ioctl.h>
+>  
+> -#ifdef HAVE_LIBSYSTEMD
+> -#include <systemd/sd-daemon.h>
+> -#endif
+> -
+>  #include <dt_list.h>
+>  #include "dof_parser.h"
+>  #include "dof_stash.h"
+> @@ -1073,9 +1069,7 @@ main(int argc, char *argv[])
+>  		sync_fd = -1;
+>  	}
+>  
+> -#ifdef HAVE_LIBSYSTEMD
+> -	sd_notify(1, "READY=1");
+> -#endif
+> +	systemd_notify("READY=1");
+>  
+>  	ret = loop();
+>  
+> diff --git a/include/port.h b/include/port.h
+> index 427129000b4f..6ce8611e9025 100644
+> --- a/include/port.h
+> +++ b/include/port.h
+> @@ -29,6 +29,7 @@ int p_online(int cpun);
+>  #define MUTEX_HELD(x)	((x)->__data.__count == 0)
+>  
+>  int daemonize(int close_fds);
+> +int systemd_notify(const char *message);
+>  
+>  _dt_noreturn_ void daemon_perr(int fd, const char *err, int err_no);
+>  _dt_printflike_(2, 3) void daemon_log(int fd, const char *fmt, ...);
+> diff --git a/libport/Build b/libport/Build
+> index 48ed99e2b017..822049f5e547 100644
+> --- a/libport/Build
+> +++ b/libport/Build
+> @@ -1,5 +1,5 @@
+>  # Oracle Linux DTrace.
+> -# Copyright (c) 2011, 2023, Oracle and/or its affiliates. All rights reserved.
+> +# Copyright (c) 2011, 2024, Oracle and/or its affiliates. All rights reserved.
+>  # Licensed under the Universal Permissive License v 1.0 as shown at
+>  # http://oss.oracle.com/licenses/upl.
+>  
+> @@ -8,7 +8,7 @@ LIBS += libport
+>  
+>  libport_TARGET = libport
+>  libport_DIR := $(current-dir)
+> -libport_SOURCES = gmatch.c linux_version_code.c strlcat.c strlcpy.c p_online.c time.c daemonize.c
+> +libport_SOURCES = gmatch.c linux_version_code.c strlcat.c strlcpy.c p_online.c time.c daemonize.c systemd_notify.c
+>  ifndef HAVE_CLOSE_RANGE
+>  libport_SOURCES += close_range.c
+>  endif
+> diff --git a/libport/systemd_notify.c b/libport/systemd_notify.c
+> new file mode 100644
+> index 000000000000..f78bca6e14c5
+> --- /dev/null
+> +++ b/libport/systemd_notify.c
+> @@ -0,0 +1,70 @@
+> +/* SPDX-License-Identifier: MIT-0 */
+> +/* Lightly modified from the sd_notify manpage.  */
+> +
+> +#include <sys/socket.h>
+> +#include <sys/un.h>
+> +#include <errno.h>
+> +#include <stdlib.h>
+> +#include <stddef.h>
+> +#include <string.h>
+> +#include <unistd.h>
+> +
+> +int
+> +systemd_notify(const char *message)
+> +{
+> +	union sockaddr_union {
+> +		struct sockaddr sa;
+> +		struct sockaddr_un sun;
+> +	} socket_addr = {
+> +		.sun.sun_family = AF_UNIX,
+> +	};
+> +
+> +	size_t path_length, message_length;
+> +	int fd = -1;
+> +	const char *socket_path;
+> +
+> +	/* Verify the argument first */
+> +	if (!message)
+> +		return -EINVAL;
+> +
+> +	message_length = strlen(message);
+> +	if (message_length == 0)
+> +		return -EINVAL;
+> +
+> +	/* If the variable is not set, the protocol is a noop */
+> +	socket_path = getenv("NOTIFY_SOCKET");
+> +	if (!socket_path)
+> +		return 0; /* Not set? Nothing to do */
+> +
+> +	/* Only AF_UNIX is supported, with path or abstract sockets */
+> +	if (socket_path[0] != '/' && socket_path[0] != '@')
+> +		return -EAFNOSUPPORT;
+> +
+> +	path_length = strlen(socket_path);
+> +	/* Ensure there is room for NUL byte */
+> +	if (path_length >= sizeof(socket_addr.sun.sun_path))
+> +		return -E2BIG;
+> +
+> +	memcpy(socket_addr.sun.sun_path, socket_path, path_length);
+> +
+> +	/* Support for abstract socket */
+> +	if (socket_addr.sun.sun_path[0] == '@')
+> +		socket_addr.sun.sun_path[0] = 0;
+> +
+> +	fd = socket(AF_UNIX, SOCK_DGRAM|SOCK_CLOEXEC, 0);
+> +	if (fd < 0)
+> +		return -errno;
+> +
+> +	if (connect(fd, &socket_addr.sa, offsetof(struct sockaddr_un, sun_path) + path_length) != 0) {
+> +		close(fd);
+> +		return -errno;
+> +	}
+> +
+> +	ssize_t written = write(fd, message, message_length);
+> +	if (written != (ssize_t) message_length) {
+> +		close(fd);
+> +		return written < 0 ? -errno : -EPROTO;
+> +	}
+> +
+> +	return 1; /* Notified! */
+> +}
+> -- 
+> 2.46.0.278.g36e3a12567
+> 
