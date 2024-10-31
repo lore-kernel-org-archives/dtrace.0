@@ -1,82 +1,78 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AA413A865
-	for <dtrace@lists.linux.dev>; Thu, 31 Oct 2024 18:56:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0AA19CC05
+	for <dtrace@lists.linux.dev>; Thu, 31 Oct 2024 22:52:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730401005; cv=fail; b=QfmwCjdI42cCsgKXCN/ypWxs98C0lUBkEN/jdIZ+HaMYJXFtRbYX4aIl739K2A4ZE4LXqWDQSDEGa6wUjwDincTmee1wv+bi87/HoP6YuhNGlm9am7B6lKysjyFVitNla3Jy2lJPTlguO/FrW/U1sQ9T/8zPPNV8YRfhFR8Vwrw=
+	t=1730415176; cv=fail; b=s97UVrfAzPjFIwjWUVq25X4wgqktwOJzcezJrICD30Ko5sT81CTdaLJ6rXmkMPrghVv/t3/KECp59SNZrgxtKp0Ob4MhpkhfC+Uw069txdbwzr8WFhMm1cnYc611X/0exKHCERlGu+L1woJ7NVhHmt7yhp+dNLXx5BzY4ZNYACA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730401005; c=relaxed/simple;
-	bh=+D7nxT0T5scnOYRo0Uyfys8lgK2FZQUMnyqFFLvDHSg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ltkcSAVyTEExZmHyGOM/x4AgakX8Tzvnw/Z2R1KePNzpQM6+zoLEu8ljnffJhv4dBpln4NP95kdMkngudj/r0aJ0r9lzGBYkoRkPwsEhH4fzxA3AzWtJLWsBNqW/ujNnFvbggZbsElDPf6y3OPwPw7dsbjgfPhoHM2/23JOTt6s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=a1GYnw2H; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=vo0k08cO; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1730415176; c=relaxed/simple;
+	bh=cP82ELki4nxn1v4DOrlxjxoxZV7EnX3/QaliMnX4adE=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=Pnrwaz4sf6DZS+s1P9FAmmrLZL/tcLlG2nZ8vIJ/HRfKr/K7u72SID6Z+aXfDQ4yTU/bpHt/z/9y7Vgl38cWYsz8bjLkeLdIWI19YL1MrCJzQYFkyGrXHUwpqlADjTVuEtNEfUsqKM36LZ18An89p5CmGKmHeieGkCTd4tgaWAY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=nB5c+kVq; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Vjo/deBq; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="a1GYnw2H";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="vo0k08cO"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49VHtdkm019729
-	for <dtrace@lists.linux.dev>; Thu, 31 Oct 2024 18:56:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=mUwhOA6f+9xKuXac2J
-	VP4jM/wKj3sjCg9aVA1e9Fooo=; b=a1GYnw2HB8QmeZWGJW3ijwwseImeoVF1YV
-	gpYsBlyctEXoM/CUpI3WfhjKaVWczGRYg1jeC8KKlQJZ7BXfK8b7PEOv4edMlf0P
-	QbTBQitKHVDBTo05cRmpMdh7Ba2fTuVfBdWI/A0PmMlh0WvTmirXPIf9ECgbroRb
-	gK8sfdJk12uORuOrChnhjpaZnZMhVNfoMe7pruVVJ+7Wl5la7Hf5uzSSGU8j+5Uw
-	tNN8EW29mm0xVqZr82iJJ/syH101Z5cyCgGA0xkO+OJ2KbWl97Emr+83P0ANdysb
-	h/muqiMS9U3glzB2IZwK0MCD1MscAQ1TDt2cVGTtqtyczqrU5AtQ==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42grdqjwg7-1
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="nB5c+kVq";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Vjo/deBq"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49VKrNQh027223
+	for <dtrace@lists.linux.dev>; Thu, 31 Oct 2024 22:52:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	content-type:date:from:message-id:mime-version:subject:to; s=
+	corp-2023-11-20; bh=Mbj6gbQV758qJXmC2hKCQpWinomH5+A9LJJlyZOA4nA=; b=
+	nB5c+kVqMe4GfFOmLJblS+ttXCOsy7pjtrNG7TNOSTnA8cej/nKijfCUzVoFWK1W
+	JvrQkThTa8ibiBMjmHB3WYFxbD/E9T8RUbF/0Dd1eTRfESCLA2yvwcSRDPwbJUA3
+	6BnB/JuZlQCnJIyns4FJPN9m2ujtYp+Ln1q4hYI4tKRyuziisnh6LgtYUUot5aqH
+	24lHzOe3tWztWQEwrz8BUl2aTiVZHZl8/V+pHATcQhAXHmFlQSLr7kbqjlSKUDxp
+	39iKfoeoaWZL4K4mklGaaloh+sgLuubJ5I2UTY3RF0R1xcBGH9tkevOCCYT6H7+O
+	1suLF84OvhJ8rrAyvtaqrg==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42grgmkg4k-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 31 Oct 2024 18:56:40 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49VHsod8008740
-	for <dtrace@lists.linux.dev>; Thu, 31 Oct 2024 18:56:40 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2172.outbound.protection.outlook.com [104.47.56.172])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 42hnecqgv1-2
+	for <dtrace@lists.linux.dev>; Thu, 31 Oct 2024 22:52:48 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49VLheIm040315
+	for <dtrace@lists.linux.dev>; Thu, 31 Oct 2024 22:52:47 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2173.outbound.protection.outlook.com [104.47.57.173])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42hnascecx-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 31 Oct 2024 18:56:39 +0000
+	for <dtrace@lists.linux.dev>; Thu, 31 Oct 2024 22:52:47 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PMZ8NB9n8jryLPtLB9YcQwoXYNhw+SzllQUaVTuLVynC9rUqvkMC9KdCnO4px2C7hoxWQf0A2He9GL7BBbYaWbXEnRbUMNTkO8K1IIeba9HL3YG7i1JsZ5s3kN90M3R4jOsGkCp68X9HQQY9XlEGRrc6orqGQEgApOHu4TCXuzMUpwSjVe0pysvZJ/ylPQemG7khQSLh1cz9dlam5nen7xGLdQA07NDUsZ0d3yevs0OOkW7gcFkKOvGcrk5leovTlPoaIWmURWpdeWrZQ/uBSFwQG9+PERyu9jhktQzRYXmqxz2E9qnlGXxg03C15691t8hf0dltjgb6ByxYxHmCFw==
+ b=Nevn8xKwe7r6/J4apMBiec4mBVXRp4ZJBqncjEjH3HI6OJ/sO+DtwQBhlqNECh53k6ChjiGk2YZp8J4ZVH8+1SPUhLZ6NzuDDzZJhuu1rDs/6aKdm1USFTDLm0IB6m+81CUESAbI1+YI55qb9Ol9jPBdGDu9tNwIrvf474QriC5uwVcu1ujowm4MYkUF/MxRXRamwzN9L0REH+J4zSUoiSck4gY8PtAdTZHerhIU9Aq6zlYg6nQky0B4xt/TKp64pOBXy9WdBIaPMh+uV9bbJwAXPTz13oJWYyTWx0vRhzbgqV6oS0fpomZUMwSGn/gNTeYZrVZP1xhVf/YuVnfI1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mUwhOA6f+9xKuXac2JVP4jM/wKj3sjCg9aVA1e9Fooo=;
- b=DUbIECk2OeC+qg0mJ0jJfmHQNTyaCfvF5gZdjPbMK4SjzoRgqe/MR0mVhZO/SKONkNsr/EEb5b1gGTV5lELUHoIjLEj4qQ2JznYy+fhKnWLQZLD+cKBUvbB6wfKgN0OycaInu/zlaNqPeLDjEGPibd7LGX4bFCYkuPC+HRKNRPxp5T9D6/7fmiYrosDYcKC5usb1QiGeRN8OmvDTIu3Q/tgF09RSGPnt4TIMdqlXb9BRL6fovboOOiJKJIuV9vqeP4a4i2Gd/0yRtKnCQQ4dTFIi78cBVOqO65WWd4M2hCFXjjnHSsef9lqcefzN4tqQHmpGHxGeIrWay0FHT41XGQ==
+ bh=Mbj6gbQV758qJXmC2hKCQpWinomH5+A9LJJlyZOA4nA=;
+ b=rI73AQjE/qQ3h9AOcQIT6Clhk9XtUXicBnsjsSHxLt+wPJjDdkHEG/AsIREJZlm7ADN4oj+mNdGQv/Ju0OcNUj1xW3v8KXsdhZxCwzwuTsTyyIMzq/pd9ggBRobYPgB7YSqO2PwRKHPuoYOZlu8sqEhSsEzGsCPKUep/7aBg6NviY8lmQzX0ucBK2xdozx46V3mpr2/HIssYmZsMifZyGrikLjzGR1ijIvd3JGxWF5zWZb8xg9N3plyECw47KcNQF/6+e6Q8BVba9JadVfwodrl8bkOrUYjHUMc1V5zmXvqcyKhAwwaXBfNhgiwIWxAGonTyCBxPifh6rASwFhvxEQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mUwhOA6f+9xKuXac2JVP4jM/wKj3sjCg9aVA1e9Fooo=;
- b=vo0k08cOQcRmfweqxNc+f6qhhoRWj2M7obIvdDbDSR9oD2lU33RQo6F/aW6DI7gZTt6035McvBk7rg6NkF6o5MvON3pdaM6PpuEDDgnCvYSEkRZzLgwQy4FsrZOKpkXad8xuoXtxzJrzTehNMRPJP8wHBOaRzcxwKmT1Us7BCQo=
-Received: from SA2PR10MB4780.namprd10.prod.outlook.com (2603:10b6:806:118::5)
- by SA2PR10MB4730.namprd10.prod.outlook.com (2603:10b6:806:117::21) with
+ bh=Mbj6gbQV758qJXmC2hKCQpWinomH5+A9LJJlyZOA4nA=;
+ b=Vjo/deBqeZ4DLdmOccLSq3qY6TZoP0lJhfmCGVnHngmNPbuwBpMXTvI/PLP8FhmmFdwKF1t3Th/rLSF9dj9nn5wyv+bUKc4BvmRNxBq54FTd3ui4RQdknkzAVNdSZMBSpIV+PAEXAYNQX89P3c0OR/+uyYfPcTd2ya0DASQJfIs=
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
+ by MW5PR10MB5876.namprd10.prod.outlook.com (2603:10b6:303:190::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.32; Thu, 31 Oct
- 2024 18:56:36 +0000
-Received: from SA2PR10MB4780.namprd10.prod.outlook.com
- ([fe80::b66:5132:4bd6:3acb]) by SA2PR10MB4780.namprd10.prod.outlook.com
- ([fe80::b66:5132:4bd6:3acb%7]) with mapi id 15.20.8114.015; Thu, 31 Oct 2024
- 18:56:36 +0000
-Date: Thu, 31 Oct 2024 14:56:31 -0400
-From: Kris Van Hees <kris.van.hees@oracle.com>
-To: Nick Alcock <nick.alcock@oracle.com>
-Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH v3 0/6] usdt typed args, translators and arg remapping
-Message-ID: <ZyPS35JNqCM9msZ6@oracle.com>
-References: <20241030120850.256884-1-nick.alcock@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241030120850.256884-1-nick.alcock@oracle.com>
-X-ClientProxiedBy: LO4P123CA0537.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:2c5::17) To SA2PR10MB4780.namprd10.prod.outlook.com
- (2603:10b6:806:118::5)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.20; Thu, 31 Oct
+ 2024 22:52:44 +0000
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::8b24:5536:3259:5a69%3]) with mapi id 15.20.8114.015; Thu, 31 Oct 2024
+ 22:52:44 +0000
+From: eugene.loh@oracle.com
+To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: [PATCH] test: stack_fbt
+Date: Thu, 31 Oct 2024 18:52:39 -0400
+Message-Id: <20241031225239.23661-1-eugene.loh@oracle.com>
+X-Mailer: git-send-email 2.18.4
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P302CA0031.GBRP302.PROD.OUTLOOK.COM
+ (2603:10a6:600:317::18) To CO6PR10MB5636.namprd10.prod.outlook.com
+ (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -84,183 +80,329 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PR10MB4780:EE_|SA2PR10MB4730:EE_
-X-MS-Office365-Filtering-Correlation-Id: f71c9870-c159-4c79-da7e-08dcf9ddbe89
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|MW5PR10MB5876:EE_
+X-MS-Office365-Filtering-Correlation-Id: fe2545eb-6297-4d72-0ecc-08dcf9febb5f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?GPdob0mBJMOfU0B7WHHINUowQaPJMTznaPbZM/6DR/hlH/ro2xovh4OHK+wS?=
- =?us-ascii?Q?W9gEHdgY2CpWlT9mguFEcLivyVRm86pVr880/gfefr42pSMCZmVGexzl0NWV?=
- =?us-ascii?Q?NUgcAqsXHsmpH7XOmVOeadWH6tHFJqOoGCIuLQEJOcsgLchgBNqYXvge208N?=
- =?us-ascii?Q?bADWCx7v1a7mVlPbzPOCOfQigqy3p+ERvfEvdZpcbw/5VgVtc8Lejsr4s8nb?=
- =?us-ascii?Q?7DoA3NOrxNPjd6VAE59Sb8S1s92LJCwEjQ2hjvvNBEpK1kf2uWRFJngZS4Dz?=
- =?us-ascii?Q?9pJdOo90sx4k3aKMCz9sr0UW8VDs3uxWdLp7zT+uLZXp6ynND/XMDCGpf5TY?=
- =?us-ascii?Q?KswtmuJKJaApPUKlXzyU6bh0kJblb0knxZslYh6deVX0sLPGFZipAtalFaFJ?=
- =?us-ascii?Q?lp39H601Hb+FRURTvtFXgqYPKPALPRTzHeKOkMznAfY8tk/mlo7LLEo9mgBa?=
- =?us-ascii?Q?g+GyBIaIeXkpljscmmTfsCZFiXVa2fC0fApwkfkobopZVvnYLb3aS0AWk0mQ?=
- =?us-ascii?Q?MBSpP205TxelNoxj/0QBhzosdOYNAUXM8XZO7OAe+ia/8benOwyGXNWCOAnd?=
- =?us-ascii?Q?hTwEdMPRa/rt3jogD8sZO5Xktp66+4XDiM1SflwKWlaqEizgdtuwiCeG0KBX?=
- =?us-ascii?Q?IyqeeNwuASv/5z/Hn1ldQl1WmtbFJlcfMCsWULfIbGNFH8JUKk1B1PLPL2R+?=
- =?us-ascii?Q?8dVW5k6XhuTYneF/vFKTGw9WCFbpux0R8uWCAsrG7X5Hj9rt9F8JMcX6xy7j?=
- =?us-ascii?Q?up1pmKp2OcXok/60728EugEKaFfbdbpqNA3lsSd00X3cyTAgXkfvDAf2XXBc?=
- =?us-ascii?Q?7ZA1ydv9ON0MsE7MBM+8JYCz0olJLuAXWhQa6UeiG/DhTEJtpW5HxbpPIyCZ?=
- =?us-ascii?Q?dQe1bQq7xU8gPl/W+XqzEzHdgXQwJFUfhIdqP4tF8Bgicrh+We+d8ARXqhp3?=
- =?us-ascii?Q?EMTUDh6zBuRSolnfNrWnaIguQiezLkZZOU8sLfOq9JeJUPMKOiC/u7eLIWP/?=
- =?us-ascii?Q?DKniCPxW1xRiSqDk3avOSl//ZA8awO8Tn/+PusOopPJfHa+3TtXTfng3xTwb?=
- =?us-ascii?Q?jlYK4yglwfiWL/6cykbsV6+tX/U6XtHQt+nwmi+laE4PrCbciLvm1j94S8RC?=
- =?us-ascii?Q?yvXGMVRWHIfDzwK7LvwVivaant16PJIXBB+l08pMMgLd0j14yPO+CuJG+Kl1?=
- =?us-ascii?Q?I13SZjGKXV/yzB6NWpbaCUDw+PkCf2mHm0yja1byOWR6Bd0CLVfC+BTiVnPb?=
- =?us-ascii?Q?enmj5bTyIqWtCO9T8q53w1FyjmXxa6nI+P/tpGSshrWo4b9rzKrvmE5CTmC0?=
- =?us-ascii?Q?0DX1Qdocb2jRQtco1NjDBkv0?=
+	=?us-ascii?Q?zHGeFC55/RzJXltsVzTuNYxA495uEgf1wTqoPaWedZFQ5EV6NpTpccckWs0M?=
+ =?us-ascii?Q?P/aQ0rUXOPJ1nLrMMoo9ik/ur8itT9swuU9HYtTd0lGupyBd0OCRgiuRkImW?=
+ =?us-ascii?Q?Ymp6JxTC+ac6DbGSjRa7BJFCSoyerWnCBDNFGSrXVHYV8RwKktkUF8N/ja8S?=
+ =?us-ascii?Q?V9cnuuT0s9xbukk28hUVCPe8SnEoTfb01pqCz3jdGWCwosn8MCCUaWmypU5C?=
+ =?us-ascii?Q?QWBPlxY4Flb3TDZzLslRcKIcoPF+3ViKNCKQ8WJAW61GXr8iRI4l11B8Qyb0?=
+ =?us-ascii?Q?x2INLKzo9AamfGGLm35w9lF/q2+9UA8qh55dO0bCaZsgo2Hy2LsK19fTnkVt?=
+ =?us-ascii?Q?cZ+yPyLvMPVweSyaVsYSyBiEaKIm1MWNN8NvodW+j1BLiPY3hI4K2/kAMlwX?=
+ =?us-ascii?Q?ZK2Jniz4+uEHi0UUEjEx1Mba9K/FlGpoRJwV1LwQLTvi6f0WMkaRgzxaA8ec?=
+ =?us-ascii?Q?3HTlLI/4LO/ZkAqnUhdAt03D0W9Ov6glVNu9fLMMeLTIZdA4Pc0fMX5zYeG3?=
+ =?us-ascii?Q?QJ6lvfAFF4yq4sjSOMJSmryzONBLK6zj6Qz6gxcCMgSPbq4bi6YQo5OIeS94?=
+ =?us-ascii?Q?PdaXdTTClgIBt8EpDC6r3YV1/Be/tw9/Xt0Pm3eNAOe92fOayvmcIvllXLjE?=
+ =?us-ascii?Q?qHAMxYy/K8OB/d7SCv1Dcjvk7yFNvhoBFwPjJQpv+iNOdaAuTpsXhRsQTFCB?=
+ =?us-ascii?Q?N98KY6e1Nj1EypRABjk5cBmy6KW33O2iknz2WD9H4KKtFf95yi55pGbBjHVi?=
+ =?us-ascii?Q?TK+0i+mO7+rHZF5RrSzBPi+kAH3VVLhIwmUolM2uODRmJJdT/vXf5prL1MiG?=
+ =?us-ascii?Q?vj4mVrlTj9UpI7B8Y2d5vY1ZlJooCWK8/uzmjfslVLB+VDxFr60Qx1VGI8lR?=
+ =?us-ascii?Q?wyr9u4ch9lTQsgByYvXubGMiyods7llcwCc56MOkmjVfQ9s2UTKksxRBlqic?=
+ =?us-ascii?Q?f1J2JqQ/WrUxkAQtfvf8a7li5ZtuVee3OEm+3aZkmjV2X65y9siw+OpyjwNd?=
+ =?us-ascii?Q?fc6S545afQEadlwWCsZ89PnrE3Ma4aPJfaPGkAuTqSUjCtfuIyQsB3wMm4lq?=
+ =?us-ascii?Q?vKQ3qr/bc+Ta0914H7tlmvRM1O4JbH6B7KuAmV9QoCVvHlEXmXVs1oqsdGNK?=
+ =?us-ascii?Q?nK5Yp/67RpWlTUh9NwHHlPtSK8RPrjabDlKg39Jo+7D/UBDTtt81jsAAG2ju?=
+ =?us-ascii?Q?VoIrlsptXfik0KPsnmo5uxRGmV6HJCo1fMsETs4HU4dgmb3FGkTKLxEMM3hL?=
+ =?us-ascii?Q?YEumugLvjLwG+qdM+kMd1X3tattjbjCr2YI80cop4je22KWaTqMstzYFgTti?=
+ =?us-ascii?Q?bTqDcHJqPfXIHzNA0OvcfC69?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA2PR10MB4780.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?JjjTQ/2kM8QV3XRMdeNEzBPWG4DGDSWyJfDWO3C8kNVn1VLi9oSOLqxvr1oG?=
- =?us-ascii?Q?yfOOdQG+ECmbcqMsu/MLNr+pG61Z3IX6hW9U3777/BzWvdJucesLGLQ+r1VB?=
- =?us-ascii?Q?EtX1xkqmxEY4y6v72O3qx9OKJIwfY8qSCslquJfvTtzrbifm6I5k5hD5IuxF?=
- =?us-ascii?Q?NB/lPhw/T82V5/Z+LcdGnsDnvmG3SUh3IEP9+h3LSBu3vbHjRGT9OSVWxRR9?=
- =?us-ascii?Q?5VZORE819VDsqBSQ+MTqAesNet6riGyt2zq5+68w2RKabRXc0JtIvwyYz9o5?=
- =?us-ascii?Q?nBbFBCn9n4pf9gkxno5gZtHYDNm95SeXZzM/CeTxYqHE8QBEuPlxAsCQlPi2?=
- =?us-ascii?Q?AX3GHXJNoCTTVWP3O5xBqOHbvp0+z5gVi/qAe+70huLCDco2PifI1V/E8LQ+?=
- =?us-ascii?Q?sT6lDAVW1TU46rdKBueypsLCq0OlFd+BZnSotNKJv9ZZws0fqR5N6s6upiSa?=
- =?us-ascii?Q?Q3/SRnxaxs/f9BrR3nduU7OVHPdWAcadkme1+g3r8RPTzL12nDxePz7qKwfk?=
- =?us-ascii?Q?PPU0xri1HU8C5FoVaxqHkKvepLrAqYUPigc4uF9Lyu8jCHjHLgc5SI2NoSMh?=
- =?us-ascii?Q?ZuiIDRgaxW+/spuO2qsDD1n/dfMWVzjlXrtDBar7W1sV+loOHa33gALmaZrg?=
- =?us-ascii?Q?AYKjqX9BqXZvMAapKQY/ZwpA3UEoMBhglnqOFyBX8q+wiSt5K/l4CKG5Onhi?=
- =?us-ascii?Q?ppnpKzLwAlSq2gdFlEx+MlvyB/MGq1Qn7WAEb+x4TLJhJ9FWWVYYJAlARcIp?=
- =?us-ascii?Q?xbq7VPRSsB2WtUosgXiFScHCRL8sLllEcZX2MNXBqRcuLaUSuNSodu8cVhqg?=
- =?us-ascii?Q?3kdawSjHuzMy4YvCosFbAr3YbDHtM2b2q356Clle29t+Zsl3rRvENp8whl0M?=
- =?us-ascii?Q?sCbLeGlmL257kIUnexTc9M0R6olAC2HiJK8TgkFjtwZx8d0+skk/FuaapFJq?=
- =?us-ascii?Q?X57XLeaRoh6i7aQsXKaNau0207F61jXZ2YkMhBAUzQCHw2h6glaUo2VGzYwe?=
- =?us-ascii?Q?6aOfS2ieOCDRm6DQAvxyL/wxCp9c3qbs2l6t2mSx0SOW1HPg98r1eMY1yuWL?=
- =?us-ascii?Q?098HVuQ4em1QbqmLW6Mdo+dEEd9m7SlIyB752kAFA1EMoFeP52b+NztDY2lq?=
- =?us-ascii?Q?8s1KQXoBgiR+cyfRlnflFdZiwdcctF0T3sTajEA4RvMf5UhsGIBouwgpWf1l?=
- =?us-ascii?Q?7/pYzYElttkkFYGco8AGZESBnP0EuOeQhaY8ScBWKSjxU0BfWbqtWAxv95S0?=
- =?us-ascii?Q?j/YdMLrYH3ANsCh61+Tb5iK4ssWeK4QpBLG9ZoU4YNYHZ16DVaJ0Upnmd6p8?=
- =?us-ascii?Q?LrsumXTTpLgjeRvK2tHF31KZoaZgfRqm3eADLEoRkeUR68SKBuFVyuNEbaLc?=
- =?us-ascii?Q?lZPSufsmQ0yIGm/cNSxRv7vlgqizbfi4iQEKnIIkUBd4ontEgpz4w8ShGNPE?=
- =?us-ascii?Q?c5d0wXU8ATG/JG0KBhB9fo3CcExIi327b8DUsEAK2yhXZrwHZSy2ix9ZFc+q?=
- =?us-ascii?Q?jxH72C71amVRrg+4wOFgmUHoPrjJRHkxakYPJvzLnDqMCSL6uFicbweMhNJF?=
- =?us-ascii?Q?3qz6OV7r/weLPE0YtHiQvbjygEs7fd26nGdr4RqCYeG4yAgzOAkLrLiCr07C?=
- =?us-ascii?Q?qw=3D=3D?=
+	=?us-ascii?Q?PAKFEOw+u+21+yiRhvs8+7kktNeT9BOd7Qj0Yje5f+PCSHNPO9nzIM1LmwZH?=
+ =?us-ascii?Q?TqL3TmL4cjiAt+6EHdMrIOta4U4LpT6rDL8VQHAIxYOLVY0hatlnsU377/Qa?=
+ =?us-ascii?Q?OnZbO82exFcXfZ+FCCC9EWYTyVmB/NAF7iWF5AudbGCir9+anqfL0PjGe0un?=
+ =?us-ascii?Q?5upXw1tDLE3M3FcurzbV1oR9U18g4PPIVfjvxnesxxelJY6L3mIy1DeRnPBC?=
+ =?us-ascii?Q?BQuFJyL4kLgPP9JBrKpjMBaIL7fC2JOOp7QDvcDWPT/lGXdCBFpKAqx2+Ot0?=
+ =?us-ascii?Q?mo0PWaQ6l0qQ0M9gi2lcJm0kl7aEkv117FPotuR0qwT08eFfi3OU8py+N+gT?=
+ =?us-ascii?Q?uH+lyIn6ffSj9eDVcndZXSGrCxgyLDcp+/tj+dAm/uLKMl/ONJTewesECq8Q?=
+ =?us-ascii?Q?zrLljfzCdS+Knh530yLhxbaxRUhVlUmeykQ18Gko+3gj/fvUjT9P6Ap/SrLT?=
+ =?us-ascii?Q?bVVh0KmlPoFiQz2OdeWNpCNP1Q1uFa8agc7uMoYCSSPUlpJj0DOVV9d/6P1O?=
+ =?us-ascii?Q?6gzEUVq+ZyYb8nKDJteC24qzvRxMv1TUhREhUXTQt9JHQZimvebcwNFUZe8n?=
+ =?us-ascii?Q?mE+emm19eiSKSw7XP+8voezlnBVJDOHQiNKNsQwdOEB2DBGq6OY9vyP4ONJV?=
+ =?us-ascii?Q?obiHTvSNcj4Ae6RSw3u2tzzO1XFah+CzC/f4vEZhs4+XQVcsCln9LMJpJcl7?=
+ =?us-ascii?Q?18GvG13N2l5C5YQKWmZ4xBClt0wSdsP2WFBvyuIf9IQeRI+a54ixbaVsUGHF?=
+ =?us-ascii?Q?4NTGIENXflr13uoiY1dNJNns/3yUsowwanMN7W9N2dBUVLaL4b0Bhn9ZsCRY?=
+ =?us-ascii?Q?2U9w3hQpobnuPYrnvieWeQnSGcZyRA7Mo8bTIilTygmUiwZyzhwODDVxrb0F?=
+ =?us-ascii?Q?8u6UTlI35c2UOfOCXqsadSi3XKjn8fFNJDbgqdOW8dE6Rmc5FsO6ksMLgJI4?=
+ =?us-ascii?Q?FIcvgUwCWsKtXmNLVw3qz6hZk295iSs7c4Ssu+wUQgG9vc6ZXeEh1Lq+5uYw?=
+ =?us-ascii?Q?gR90IJK7vnuhdzPDVxYXsDn9WjnCb+BqlKtNBKTRs+ufnW8Tm3GRrgydXK3S?=
+ =?us-ascii?Q?ktrSDcfQ0m/FjvIh2m+eTrQrUHqBhSTQUtm7qPIlCHqdhJu9JU0zHEux8O0I?=
+ =?us-ascii?Q?Fi7Qj/o6dgcxPaeWj4xpvc9pytWtHl8cGSkPdsPSUTsRR4awv8Z5KE3Bd38B?=
+ =?us-ascii?Q?KdBtpFYwFipSMPbQ8I0Fu4Iqrg88chHPMJBaOUHeFus5Ks/gxQnE/tk066zN?=
+ =?us-ascii?Q?HuQj/XNefWMp2pgjR9s1tDhnmT9J9HDLrp+U9cJHyex9HRbtooPsta66HX4K?=
+ =?us-ascii?Q?0yoeWv056x/DScEatW6A+jCOlFeZ85GfrF1UKT01DXCP+Ru74aXX473CM439?=
+ =?us-ascii?Q?0XskrgWlPtfoGInHFmWJWVNRgmgVs9w8ayoL+Tnou7RCO04neRE73JjZDP4p?=
+ =?us-ascii?Q?c+3OGMlw10SnU5M15AFpRgeQ4JlVji6MB2O+ttoaLpxT2NrPJQk9t43ynj+e?=
+ =?us-ascii?Q?AvQuplEYrh9NOqTvr7IG29vz6tt7+PAi2+EH5HlpR73GqtyBjF5S1jg8OqO9?=
+ =?us-ascii?Q?+mTZXVgobnKH4/xBPICSMg00FQ7qzdiZCFEwHmCl?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	iLQUXKGowdIFgjT8EvQWHNguQGw36NJQxTuXNC7fKRIfqh++elIpYWarFnRjxk1CmR4X/tEAL38cWRuoog18vXtlczPhYzpfHvGFbTlHoMun6B1ROTg2lIrdCV+cJt4oJUWvUbyK6MZnVw1TQFKs7ByMdsvOTdaBFAEP3IE3O1Bcu3RgaR2cg8SlMV4ZIdzfSouqe32ONBThZjLEn9zxIAK24k4wQ4bHLYZ+nPTXD8LNqYNn8ZNPhU/CkDoldKkcYfmxHiKF9oWGbsTwmGGj1i0tF/T66RUsxbisFsn+RekDJ9F+TmfGLwRQk+J5QLbVQtmBfIrqkrRHsZptygx64eYJjPWjJvnHe1ehOBH2GQEi5EV/sqecrcYCcsSKGYAfydPag1tuPfkjiXbuG8zQradIimZsg6Bxc/npI2Ut22jrRI5qAxDfEb3sME/3n85YmOeRPulTF5dv27vIGG/FXTwVngS+BuOFgwY9HltnC8Nkj0tWzMSJoXPLtRs6f42/U6LaabD0vNfhI+8vnmqCUI4M6H1gfLXfTMOUC7RrrRLB2N6xCgGPn7ZfwBiaCa6089eHhEPe6QFFK/Gz4hiEM64tUi1EtlEud0jOEQ+720M=
+	DU3D6uVKm7QD0hNrinySL5iVypwoYqitBi4LuqK0N9+TiNEHpdXphygalZQoMDXmO0KNAbFRi2FwwhOm54Au9mij6LfFf4AW2VmRrmmlqQNFcfu45jpITH0X8PaWRjwf+LHj58fDslHugPAONxQ6+6AFIE+Ce/oYe4q2FtDcsdHgOu+tR0sqKGapO7TDw3VfSOmvUe5P/uDSs0gIiSdj7TlsDdNkIjivAYR/SBWwWJkWU3lKmvYRYTwxXsTuU4mZ/As3zXrXNutIQ2MlcJx8Dvf+mqB79qIjjGDV4IifJqDfeEhKKJ5gzNG62qwTIn44YBYAMJ8Wt8n1gYjctSRghfzvlY28GEHK1kICq3HUvbLitBVQTTwsbgGkL149zTVZA/6vLwa8JJhbtNQ5H9wawsuG5dtGfEWDCHpoRUWmkC0ZP8hjn4O7BXm+oJS8di+8VVGbvN01h9ZH7ZhB9rX86H2qGqQWSnZzgH++5fmRxz7is3JArSb9UKsxOF2cJdfuwsVQP+wm8qS4HG4Wn/POmH5ndCkSYVfpeYa/mRHT/kPkOiTADe/pIrT2fS/iDFKIndxy+ZEDccobuf5P5KZY1/Ozs4Of8MPnNXuPrsAx2Yw=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f71c9870-c159-4c79-da7e-08dcf9ddbe89
-X-MS-Exchange-CrossTenant-AuthSource: SA2PR10MB4780.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe2545eb-6297-4d72-0ecc-08dcf9febb5f
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2024 18:56:36.1958
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2024 22:52:44.2997
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b1TBTupvNGx1R9xGDaTAKlcvy3vTIBYG9fOZCBhwaCjzDOhspzwTWggo29IpT10X6kefBk5ISk2KI1gWIzyDu9ac4gJ4DCQ+/kw48LIEx90=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4730
+X-MS-Exchange-CrossTenant-UserPrincipalName: utbQhriwVrWmjtK+KfC/0ncJod47Xo9F9zmvQ3rBxeYN24dKcGaIT2+28QPC4XYY4Q6noYP8AjvhMlG+P2q2Fg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR10MB5876
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-31_10,2024-10-31_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 spamscore=0
- mlxlogscore=999 malwarescore=0 adultscore=0 phishscore=0 suspectscore=0
+ definitions=2024-10-31_12,2024-10-31_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 adultscore=0
+ mlxlogscore=999 phishscore=0 bulkscore=0 malwarescore=0 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
- definitions=main-2410310143
-X-Proofpoint-GUID: FKGgSbW1fnzE9Gn0atl69QfmLZ50PjcX
-X-Proofpoint-ORIG-GUID: FKGgSbW1fnzE9Gn0atl69QfmLZ50PjcX
+ definitions=main-2410310172
+X-Proofpoint-GUID: nfnRmdZWs3XPev8jNxh-xE6ooTY8oFsY
+X-Proofpoint-ORIG-GUID: nfnRmdZWs3XPev8jNxh-xE6ooTY8oFsY
 
-Can you please rebase on github's devel?  Eugene's USDT work is on there and
-that impacts patches 5/6 and 6/6.
+From: Eugene Loh <eugene.loh@oracle.com>
 
-Also, 1/6 is already on devel.
+The test was being skipped on UEKR7 systems because __vfs_write
+was no longer traceable.  The expected stack on UEKR6 x86_64 was
+out of date.
 
-Please also searc hfor any occurences of /remap/ and fix those to use the
-more consistent "map" and "mapping" language.
+Switch to fbt::vfs_write:entry.  Convert to a .sh test, so that
+different stacks can be expected depending both on machine type
+and release number.
 
-On Wed, Oct 30, 2024 at 12:08:44PM +0000, Nick Alcock wrote:
-> This series adds back support for the probe foo (...) : (...) syntax
-> in USDT provider definitions.  The dtprobed side is routine, pulling
-> in the DOF and adding it to a new set of dof_parser.h records fed
-> through to the DOF stash and ultimately to dt_pid.c and eventually
-> dt_prov_uprobe.c: the end result is that the DOF for a given probe's
-> remappings ends up in the dt_uprobe_t in more or less the same form
-> as it was in the DOF.
-> 
-> After that things get tricky, because we want to remap not only arg[N] but
-> also argN references (the single existing test for USDT arg remapping
-> verifies that this works), but the SDT machinery depends on argN being
-> unremapped!  So we do the remapping in dt_prov_uprobe.c while reshuffling
-> things into dt_argdesc_t's, and tell the higher layers that no arg remapping
-> is ever being performed, then do the remapping in the trampoline by
-> physically reshuffling the arguments.  This seems to work without breaking
-> SDT on all supported architectures, and is surprisingly simple (at least, it
-> surprised me: multiple places where I thought I'd need hundreds of lines of
-> complex code turned out to need only three or four lines).
-> 
-> New tests are added to verify that USDT translators work when types change,
-> when arg counts change, and when there are no args at all, and that dtrace
-> -vln produces the right output (all previous tests for USDT -vln, translated
-> or not, are currently disabled because they all use wildcards: this new one
-> doesn't).
-> 
-> We also fix a couple of tiny error-related bugs encountered in the
-> course of development, one in usdt, one related to the print action.
-> 
-> Changes since v2:
->   Populate dt_argdesc_t's in USDT probe discovery rather than in
->   probe_info.
-> 
-> Changes since v1:
->   Adapted to review comments (all comments but the stuff around
->   trampolines and arg mapping, which I don't understand well
->   enough to implement); in particular track xlated args and
->   mappings together, and move from a flags word in the
->   dof_parser struct's DIT_PROBE record to an arg count
-> 
-> Nick Alcock (6):
->   error: add missing EDT_PRINT entry
->   usdt: get arg types and xlations into DTrace from the DOF
->   dtprobed: stop skipping zero-tracepoint probes in dof_stash.c
->   cg: add argument mapping in the trampoline
->   usdt: typed args and arg mapping
->   usdt: fix create_underlying error path
-> 
->  dtprobed/dof_stash.c                          |  21 +--
->  dtprobed/dtprobed.c                           |  10 +-
->  include/dtrace/pid.h                          |   7 +
->  libcommon/dof_parser.c                        | 150 ++++++++++++----
->  libcommon/dof_parser.h                        |  64 ++++++-
->  libdtrace/dt_cg.c                             |  36 +++-
->  libdtrace/dt_cg.h                             |   1 +
->  libdtrace/dt_error.c                          |   3 +-
->  libdtrace/dt_pid.c                            |  60 +++++++
->  libdtrace/dt_prov_uprobe.c                    | 168 +++++++++++++++++-
->  test/triggers/usdt-tst-argmap-prov.d          |   5 +-
->  test/triggers/usdt-tst-argmap.c               |   5 +-
->  .../dtrace-util/tst.ListProbesArgsUSDT.r      |  34 ++++
->  .../dtrace-util/tst.ListProbesArgsUSDT.r.p    |   2 +
->  .../dtrace-util/tst.ListProbesArgsUSDT.sh     |  83 +++++++++
->  test/unittest/usdt/err.argmap-null.d          |  40 +++++
->  test/unittest/usdt/err.argmap-null.r          |   2 +
->  test/unittest/usdt/err.argmap-null.r.p        |   2 +
->  test/unittest/usdt/tst.argmap-null.d          |  32 ++++
->  test/unittest/usdt/tst.argmap-typed-partial.d |  49 +++++
->  test/unittest/usdt/tst.argmap-typed.d         |  48 +++++
->  test/unittest/usdt/tst.argmap.d               |   3 +-
->  test/utils/showUSDT.c                         |   5 +-
->  23 files changed, 759 insertions(+), 71 deletions(-)
->  create mode 100644 test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r
->  create mode 100755 test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r.p
->  create mode 100755 test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh
->  create mode 100644 test/unittest/usdt/err.argmap-null.d
->  create mode 100644 test/unittest/usdt/err.argmap-null.r
->  create mode 100755 test/unittest/usdt/err.argmap-null.r.p
->  create mode 100644 test/unittest/usdt/tst.argmap-null.d
->  create mode 100644 test/unittest/usdt/tst.argmap-typed-partial.d
->  create mode 100644 test/unittest/usdt/tst.argmap-typed.d
-> 
-> 
-> base-commit: 8a1264bf0e818c8624be250eb5174714b62ed93c
-> -- 
-> 2.46.0.278.g36e3a12567
-> 
+Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+---
+ test/unittest/stack/tst.stack_fbt.aarch64.r |  14 ---
+ test/unittest/stack/tst.stack_fbt.d         |  25 ----
+ test/unittest/stack/tst.stack_fbt.sh        | 123 ++++++++++++++++++++
+ test/unittest/stack/tst.stack_fbt.x         |  10 --
+ test/unittest/stack/tst.stack_fbt.x86_64.r  |  13 ---
+ 5 files changed, 123 insertions(+), 62 deletions(-)
+ delete mode 100644 test/unittest/stack/tst.stack_fbt.aarch64.r
+ delete mode 100644 test/unittest/stack/tst.stack_fbt.d
+ create mode 100755 test/unittest/stack/tst.stack_fbt.sh
+ delete mode 100755 test/unittest/stack/tst.stack_fbt.x
+ delete mode 100644 test/unittest/stack/tst.stack_fbt.x86_64.r
+
+diff --git a/test/unittest/stack/tst.stack_fbt.aarch64.r b/test/unittest/stack/tst.stack_fbt.aarch64.r
+deleted file mode 100644
+index 3a2896c48..000000000
+--- a/test/unittest/stack/tst.stack_fbt.aarch64.r
++++ /dev/null
+@@ -1,14 +0,0 @@
+-                   FUNCTION:NAME
+-                          :BEGIN 
+-               __vfs_write:entry 
+-              vmlinux`__vfs_write
+-              vmlinux`ksys_write+{ptr}
+-              vmlinux`__arm64_sys_write+{ptr}
+-              vmlinux`el0_svc_common+{ptr}
+-              vmlinux`el0_svc_handler+{ptr}
+-              vmlinux`el0_svc+{ptr}
+-
+-
+--- @@stderr --
+-dtrace: script 'test/unittest/stack/tst.stack_fbt.d' matched 2 probes
+-dtrace: allowing destructive actions
+diff --git a/test/unittest/stack/tst.stack_fbt.d b/test/unittest/stack/tst.stack_fbt.d
+deleted file mode 100644
+index 27db21164..000000000
+--- a/test/unittest/stack/tst.stack_fbt.d
++++ /dev/null
+@@ -1,25 +0,0 @@
+-/*
+- * Oracle Linux DTrace.
+- * Copyright (c) 2021, Oracle and/or its affiliates. All rights reserved.
+- * Licensed under the Universal Permissive License v 1.0 as shown at
+- * http://oss.oracle.com/licenses/upl.
+- */
+-
+-/*
+- * ASSERTION: Test the stack action with the default stack depth.
+- *
+- * SECTION: Output Formatting/printf()
+- */
+-
+-#pragma D option destructive
+-
+-BEGIN
+-{
+-	system("echo write something > /dev/null");
+-}
+-
+-fbt::__vfs_write:entry
+-{
+-	stack();
+-	exit(0);
+-}
+diff --git a/test/unittest/stack/tst.stack_fbt.sh b/test/unittest/stack/tst.stack_fbt.sh
+new file mode 100755
+index 000000000..f70980a48
+--- /dev/null
++++ b/test/unittest/stack/tst.stack_fbt.sh
+@@ -0,0 +1,123 @@
++#!/bin/bash
++#
++# Oracle Linux DTrace.
++# Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
++# Licensed under the Universal Permissive License v 1.0 as shown at
++# http://oss.oracle.com/licenses/upl.
++#
++# This test verifies the nusdtprobes option.
++
++dtrace=$1
++
++# Set up test directory.
++
++DIRNAME=$tmpdir/stack_fbt.$$.$RANDOM
++mkdir -p $DIRNAME
++cd $DIRNAME
++
++# Use DTrace to capture stack() at vfs_write:entry.
++
++$dtrace $dt_flags $nusdt -wqn '
++BEGIN
++{
++	system("echo write something > /dev/null");
++}
++
++fbt::vfs_write:entry
++{
++	stack();
++	exit(0);
++}' >& dtrace.out
++
++if [ $? -ne 0 ]; then
++	echo ERROR: dtrace failed
++	cat dtrace.out
++	exit 1
++fi
++
++# Strip out pointer values.
++
++sed 's/+0x[0-9a-f]*$/+{ptr}/' dtrace.out > dtrace.post
++
++if [ $? -ne 0 ]; then
++	echo ERROR: awk failed
++	cat dtrace.out
++	exit 1
++fi
++
++# Figure out what stack to expect.
++
++read MAJOR MINOR <<< `uname -r | grep -Eo '^[0-9]+\.[0-9]+' | tr '.' ' '`
++
++if [ $MAJOR -eq 5 -a $MINOR -lt 8 ]; then
++	# up to 5.8
++	KERVER="A"
++else
++	# starting at 5.8
++	KERVER="B"
++fi
++
++if [ $(uname -m) == "x86_64" -a $KERVER == "A" ]; then
++cat << EOF > dtrace.cmp
++
++              vmlinux\`vfs_write+{ptr}
++              vmlinux\`__x64_sys_write+{ptr}
++              vmlinux\`x64_sys_call+{ptr}
++              vmlinux\`do_syscall_64+{ptr}
++              vmlinux\`entry_SYSCALL_64+{ptr}
++
++EOF
++elif [ $(uname -m) == "aarch64" -a $KERVER == "A" ]; then
++cat << EOF > dtrace.cmp
++
++              vmlinux\`vfs_write
++              vmlinux\`__arm64_sys_write+{ptr}
++              vmlinux\`el0_svc_common+{ptr}
++              vmlinux\`el0_svc_handler+{ptr}
++              vmlinux\`el0_svc+{ptr}
++
++EOF
++elif [ $(uname -m) == "x86_64" -a $KERVER == "B" ]; then
++cat << EOF > dtrace.cmp
++
++              vmlinux\`vfs_write+{ptr}
++              vmlinux\`ksys_write+{ptr}
++              vmlinux\`do_syscall_64+{ptr}
++              vmlinux\`entry_SYSCALL_64+{ptr}
++
++EOF
++elif [ $(uname -m) == "aarch64" -a $KERVER == "B" ]; then
++cat << EOF > dtrace.cmp
++
++              vmlinux\`vfs_write
++              vmlinux\`__arm64_sys_write+{ptr}
++              vmlinux\`invoke_syscall+{ptr}
++              vmlinux\`el0_svc_common+{ptr}
++              vmlinux\`do_el0_svc+{ptr}
++              vmlinux\`el0_svc+{ptr}
++              vmlinux\`el0t_64_sync_handler+{ptr}
++              vmlinux\`el0t_64_sync+{ptr}
++
++EOF
++else
++	echo ERROR: unrecognized platform
++	uname -r
++	uname -m
++	exit 1
++fi
++
++# Compare results.
++
++if ! diff -q dtrace.cmp dtrace.post; then
++	echo ERROR: results do not match
++	diff dtrace.cmp dtrace.post
++	echo "==== expect"
++	cat dtrace.cmp
++	echo "==== actual"
++	cat dtrace.out
++	exit 1
++fi
++
++echo success
++
++exit 0
+diff --git a/test/unittest/stack/tst.stack_fbt.x b/test/unittest/stack/tst.stack_fbt.x
+deleted file mode 100755
+index 4561df8bb..000000000
+--- a/test/unittest/stack/tst.stack_fbt.x
++++ /dev/null
+@@ -1,10 +0,0 @@
+-#!/bin/bash
+-
+-read MAJOR MINOR <<< `uname -r | grep -Eo '^[0-9]+\.[0-9]+' | tr '.' ' '`
+-
+-if [ $MAJOR -eq 5 -a $MINOR -lt 8 ]; then
+-	exit 0
+-else
+-	echo "Function __vfs_write no longer exists starting in 5.8"
+-	exit 2
+-fi
+diff --git a/test/unittest/stack/tst.stack_fbt.x86_64.r b/test/unittest/stack/tst.stack_fbt.x86_64.r
+deleted file mode 100644
+index 792ce80ad..000000000
+--- a/test/unittest/stack/tst.stack_fbt.x86_64.r
++++ /dev/null
+@@ -1,13 +0,0 @@
+-                   FUNCTION:NAME
+-                          :BEGIN 
+-               __vfs_write:entry 
+-              vmlinux`__vfs_write+{ptr}
+-              vmlinux`ksys_write+{ptr}
+-              vmlinux`__x64_sys_write+{ptr}
+-              vmlinux`do_syscall_64+{ptr}
+-              vmlinux`entry_SYSCALL_64+{ptr}
+-
+-
+--- @@stderr --
+-dtrace: script 'test/unittest/stack/tst.stack_fbt.d' matched 2 probes
+-dtrace: allowing destructive actions
+-- 
+2.43.5
+
