@@ -1,79 +1,84 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86261801
-	for <dtrace@lists.linux.dev>; Tue,  5 Nov 2024 00:06:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276211D90A4
+	for <dtrace@lists.linux.dev>; Tue,  5 Nov 2024 16:56:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730765221; cv=fail; b=cxolkM0MddzahmgYYbapuJwVkju1KGQqfHqUCwUggKbGnKzXZXdt5m6Yg6ufv2HqSt++yhpl0rAYs7x/2bYoz3+aLZeOJiAvkZP3Gm5RDCw2s+CYXboUT87ygQMbGyNt54UHI5pKbimjtYvoQYASph+DZdAL50n0ZnxtOs2rX3I=
+	t=1730825804; cv=fail; b=gYogeqPXPcDTsSq6tZtDWZeDcefaVmdYdM/zvQyySHZWw9+xMSsWaZGEFPrZZY9SlJUsjAWizlkftiHpKyWE2gSM2tNGbiwO305fOOprOmwvt1btr9dDl8fdE+6sHl6rdj6rfjkuosY95JkkCN7uSGTJwBPTPB6hO9rBpE3YxW8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730765221; c=relaxed/simple;
-	bh=iI1qmHSCze7htKT7Rsk/alic9H/8nDi0nhPMA48VmfQ=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=G696eig94y05YhchUEDspvznaOV1fDzuGCeLkHwykIN9cEzyIAJQFcmqaDrIRw9jHF015zc7OJCeghPOnCg2zDrveIgrZ7ht04lOLjQCltQsbHXjn0KUg3Y/tcGF6cYyZQk0j1/kRO17kM3YmT8FwCaXR0sF0xs3vLzFqULE6xk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=N1Q0BlAZ; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=GdDrkphM; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1730825804; c=relaxed/simple;
+	bh=p640lvHu/RT1Hm2+cZlHTSbshwlewcs5iQd6EcOgnxw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=phcD9GNqwKCvP7O/o8RK2McivuXF0k+/imvNN2AFi5TTS6xdxDV71eM5NQt5fobgB4FUsLekuSS+gCF7NbW4x5elRgqM2KE9HbOoG7HV2KFM7RyK1VpLkY7lqrfmXL/edYbJkVd71KvKLHnMhS/wEHA+XUq0otkk22HTBfgUin8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=iuXp0Cmp; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=PdnxZvJP; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="N1Q0BlAZ";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="GdDrkphM"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4Lh6xx006110
-	for <dtrace@lists.linux.dev>; Tue, 5 Nov 2024 00:06:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=corp-2023-11-20; bh=JjGA431DHUMiJFWO
-	6mXmi4SALmg9wyKVI3VdA51HV/M=; b=N1Q0BlAZzp0Dj4WkHPXLNp7T6MUhr2rU
-	xMWPrERe8dhYQd1f8tSIHvr3kQT2qvkRPkK8+xuhiVyM6TUvKrwreRmy7I5Z6bAy
-	XDtFrIpumuI6npBfIiS8ASdlLG9gNA3bIqLoeoxPoVA9pi4cQ/j+usZcO5UG5h9Z
-	7MXHjbd0aSBKABn1A5Q1lDyCLevUr4HtNtLwtHft8izG9Q9l2WVvuU8ndpuWT1Y0
-	fgPQZt0lMDCV7MgO+zwrTNCTQZhnMzid/k7Q9t6h1BzSzKxoGTT1BdzsAC5/umfV
-	zOG+9U1JMk9i9S2LWoRnnBPX+EEX1fZfRpQpGAR4DE+Z80awcI1vSw==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42nbpsm44q-1
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="iuXp0Cmp";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="PdnxZvJP"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A5Dibx9030068
+	for <dtrace@lists.linux.dev>; Tue, 5 Nov 2024 16:56:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2023-11-20; bh=9RAWk0fOXca4r6UBAE
+	b319ZySSZPFGFiDWTj4lB6Xa8=; b=iuXp0CmpY56GHIRSidySTYPfu19N9FkdPx
+	/bqNuwfrzGMk696XbXKgj7n6bTZ1NOw7K/+7GIILsjS/wsbR7P+Q3l8OPPp12EAq
+	TdG4yvk35UcOuKW9azpbnmWdsGtFoDcMgOCT1+RcWdG8T2gomrT+yeLGLW8svkvF
+	LHf7e1jr4E1LUfKiatkwDtldgWNwzypalW0F4Rli6HuGEAd1cvEOFpiaJzwtsAWg
+	Lbjc0UCEyeorf6FwHHhKy7dRq8yy4dVwy19vf5E923V0Jcupf8L4aJQARVf2BSBl
+	9cTXoy0V6JxBWepaKKLkSVjbywCMx2FsqjsjALvY/SrpuqHJKtzA==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42nc4bwx8h-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 05 Nov 2024 00:06:56 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4Mn6oK009712
-	for <dtrace@lists.linux.dev>; Tue, 5 Nov 2024 00:06:55 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2045.outbound.protection.outlook.com [104.47.55.45])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 42nahcrj4b-2
+	for <dtrace@lists.linux.dev>; Tue, 05 Nov 2024 16:56:39 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4A5FnS7a031493
+	for <dtrace@lists.linux.dev>; Tue, 5 Nov 2024 16:56:38 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2169.outbound.protection.outlook.com [104.47.57.169])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42nah74k92-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 05 Nov 2024 00:06:55 +0000
+	for <dtrace@lists.linux.dev>; Tue, 05 Nov 2024 16:56:38 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k+ed1jexUmOORlv2R258/abCV+w3LoBYbVV2XiT/S6FD4/WzxY9vb2uMumqzy8ZyLXZLX5txm8Ky2sBo+n6JMKf5YyC+uadSoZrNyzq3afBIxs2Ms9552S+LnHOPt0n+Xs8IfZPcpA7ofBXZvarixJv4pxFst4MYh8R9IH5vkM5jgxn1Y3AfdgBe2RIvR8UJs9TJy7TOVH+Qu0syVaD7ze0fm7otcFPWuFg1wuS4ZYW0CdC110vfZRd12iqoPI9LYyotPeALRZGLfb4KMClpH5oXq2y2pW7WK5ZpApIdrRrwBFhdqIJllNNTRXDpVTK4ptX7VbCzFssSElrM8w5R4w==
+ b=eu0aNq+ePKCBDHU2H6MB6jpH9QIzeodjWa0YGQfOmkIBYNCvAp5ud8eszq2Sv2trYr1bbv7HLXVtdUmUsRSvEh341FM+f8MnoQiIyjt3Rkxcu+GCQ7PB4mijBqKZVLHf+jlJeoEs0IZdjr6wHNIQQVMVN2bmtjJqjiR/Fo5ER9rNh+17cKO6NDrbWDLG9fPxmGqxH80wC11wmTghmJpnqX+osbuHai/LB65bs+6IOF+bM+k308GdWD7376FVs422EwY7Kl2d0AMJFQexFCT8nu0cOFc55P0qUUPpwXX+xtT6f+xeSN1QV4dlTEciwbwQBxckRtJ7WdwVLqeSloWXkw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JjGA431DHUMiJFWO6mXmi4SALmg9wyKVI3VdA51HV/M=;
- b=wDt6ZAYhE+gad3jVvuWIaOIeVvsXwzYANWECkSj1+HKr1ucU3+3oxIVY5GRR0XDJP9HgkgIjhCrN2+MaSEk6cF4hdeoa7q8i89Qa0MIwDLt83HussTTBYc0W3SQYDrq7/K7OvISdMBh51eOdajJ6iAQHMOEz36PtiVL0oAoM/b38xHBJFRvxFUHjyHkvatgri+yhJsctqKTuX6ju3zoyQ/C/j2VitAHn4Mu2OcN0HA0IJMW52/8TU0tja5ZodBYYmFAHuj0dU50AuIeze6VFuuiiLqqBwNW2wpRAR3BwZ453oCYXNhqaCWULcOX3MrFoAGbO5V5Zv4fR5KC886w6YQ==
+ bh=9RAWk0fOXca4r6UBAEb319ZySSZPFGFiDWTj4lB6Xa8=;
+ b=qnv6ixkut6U7F4f8GmS6KTKxgZ2tjBJs90SsGgYLXbCIxjclJfrqnSuX4JQqZEP6tn636wacDNo17Zd1ha1GvkEjksBYNjgdprwRyOO2tRK6mWg27okzldUoiKEwlXj1ckqHIPSmKLfk06VI0c7Npd1N3Lue3OdUQt4uKOYedY3EjBuiJU32jGEfalY43uOXcckgwGDvN7EZHv4dNb2qzi96aFO4W681avAkMm1+9isOx/769X/A2Qr7/iLlf5zlY9NCC+FcmCvwVSUCaAhFbTFPH6LLRgi3tSPikJfZsPV8PnublPFpxgkUuKI+xwHwVeMjaDfWe8LPYRPHkRFwhQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JjGA431DHUMiJFWO6mXmi4SALmg9wyKVI3VdA51HV/M=;
- b=GdDrkphMbylhCAj8wcFLrSOrSvw5zi0uqKj7sFceLQGozhNQ9DEISquDnUUDDBN2yMjmEjjHyqh9jnCDPlxQFMtitTADfZsK7j3LUC+06j26uPS6xXCl1qc1pQ4QL8dGuY87RXVpuGItKdXBGK3/Isdeks0wj3xQCkAZ7MSc+30=
-Received: from MN2PR10MB4093.namprd10.prod.outlook.com (2603:10b6:208:114::25)
- by CH4PR10MB8169.namprd10.prod.outlook.com (2603:10b6:610:23e::6) with
+ bh=9RAWk0fOXca4r6UBAEb319ZySSZPFGFiDWTj4lB6Xa8=;
+ b=PdnxZvJPUXD+MZjSFIqXmZI+DrjwTL86j0Qyv8heJefSckj1of9fcNzXweFeoswe8JwZByT9Iuv6dNcm79JnMcttrxVBzyS9OvsU/kTTDr/i3oqbYMm9vWQnXANRkhY6NRcXp8QQ0VFksgKhreiQq5g70x/spxXhgR9uym1Wa0o=
+Received: from CO1PR10MB4769.namprd10.prod.outlook.com (2603:10b6:303:98::16)
+ by CO1PR10MB4628.namprd10.prod.outlook.com (2603:10b6:303:6c::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Tue, 5 Nov
- 2024 00:06:50 +0000
-Received: from MN2PR10MB4093.namprd10.prod.outlook.com
- ([fe80::d72e:fa5c:c426:b4b]) by MN2PR10MB4093.namprd10.prod.outlook.com
- ([fe80::d72e:fa5c:c426:b4b%5]) with mapi id 15.20.8114.015; Tue, 5 Nov 2024
- 00:06:50 +0000
-From: Nick Alcock <nick.alcock@oracle.com>
-To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH v2 1/1] test: testsuite $dt_flags and linker flags problems
-Date: Tue,  5 Nov 2024 00:06:48 +0000
-Message-ID: <20241105000648.333286-1-nick.alcock@oracle.com>
-X-Mailer: git-send-email 2.46.0.278.g36e3a12567
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P265CA0131.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2c6::12) To MN2PR10MB4093.namprd10.prod.outlook.com
- (2603:10b6:208:114::25)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.19; Tue, 5 Nov
+ 2024 16:56:35 +0000
+Received: from CO1PR10MB4769.namprd10.prod.outlook.com
+ ([fe80::6801:f7c:753b:5a82]) by CO1PR10MB4769.namprd10.prod.outlook.com
+ ([fe80::6801:f7c:753b:5a82%6]) with mapi id 15.20.8114.031; Tue, 5 Nov 2024
+ 16:56:35 +0000
+Date: Tue, 5 Nov 2024 11:56:33 -0500
+From: Kris Van Hees <kris.van.hees@oracle.com>
+To: Nick Alcock <nick.alcock@oracle.com>
+Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: Re: [PATCH v5 1/6] usdt: get arg types and xlations into DTrace from
+ the DOF
+Message-ID: <ZypOQd2JYFq9I0XC@oracle.com>
+References: <20241105000608.333229-1-nick.alcock@oracle.com>
+ <20241105000608.333229-2-nick.alcock@oracle.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241105000608.333229-2-nick.alcock@oracle.com>
+X-ClientProxiedBy: MN0PR03CA0022.namprd03.prod.outlook.com
+ (2603:10b6:208:52f::21) To CO1PR10MB4769.namprd10.prod.outlook.com
+ (2603:10b6:303:98::16)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -81,2558 +86,605 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR10MB4093:EE_|CH4PR10MB8169:EE_
-X-MS-Office365-Filtering-Correlation-Id: 65d33f28-249f-4d20-4e32-08dcfd2dbf59
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4769:EE_|CO1PR10MB4628:EE_
+X-MS-Office365-Filtering-Correlation-Id: 572473f7-3251-419e-0442-08dcfdbacec4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|10070799003|366016|376014|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Ntnhprz7kf4877p0dWoDhDYUIqIR6ddXxCuhsVF9VnnLZt9Kf1VrhWrCNPr2?=
- =?us-ascii?Q?65F1TL9dCFQjwdQ5+bvDO4WnEmS97tAsnlrs+kMU0tsm+AqAphH+85egIhrU?=
- =?us-ascii?Q?JTfxIR2Ka3cgvtU3wPEKnLnfl6rr0UEqQrX1nmWgJgwLqWsHaANMWn862qF1?=
- =?us-ascii?Q?z//BVDPEjX8fVPL/SOCS8lpQjPh2C3vZDPpFRfgyAt3lKZ9k3sTk/RoDxUaC?=
- =?us-ascii?Q?BsiyE5Eyh7579VctgsL5bqrD/ZNW+knp7ONvGCg/umsjXjGWtonEujmrDLYZ?=
- =?us-ascii?Q?CjG+7HlQNvMrrtwhb+7ZZ/jxlKpvvANqcs+OQzc49THE8qFIhHIbdyQBd+6U?=
- =?us-ascii?Q?C1aCvOzZiX8DBowx5iPgQeVfdmcQMU/vBoMj174Zvjmo9pevGsB6VvJIvulL?=
- =?us-ascii?Q?puB4Mb43V8nJ6zjNYqHCuj0l/GXhBCaU0DPFNSUQJxtHVemNUjOSv5p3Dm8T?=
- =?us-ascii?Q?RxqQHATwV0/dehMpGNQrUFuBGGs81SByeYdFSkPzT6iO31KgPVwIQXKPCbRt?=
- =?us-ascii?Q?8eUg6aAW2UQGb6FztZ45qfz7rnsI6sUcM7pGjThFuUbziXqySU2yok+sLdmc?=
- =?us-ascii?Q?HWVab3n4S05ZV1MZKYDYOxZcZKspa7LB0NoAVpbEw0fhBW0AlRxNjL7C439+?=
- =?us-ascii?Q?9XPKCzmVB7D7EDkxpc0XtY9lQu2+xK/c1QXctt6atHyOVvl8q4GBGGQNuIWY?=
- =?us-ascii?Q?J9Fa6SeJASTDF1ITc2k5k01K8IylFxyOvVQdJyqLsa49JqxNhVZjcxY45Mrw?=
- =?us-ascii?Q?qMGn9Rhdt9+R0bir1xA3MkGrCrzd1gfwhQHalxCHvG/fN9Fb8A3y/TSjoPKQ?=
- =?us-ascii?Q?mUNO5fghevTgdV7vwNRM7UVrKY+fo+vRR+p8oo8x1cBL60B5o9o4Oe/9/Aei?=
- =?us-ascii?Q?v1p051fpV4mQ6mNKGwpSBH/0A/uJX5G7hlURP2scRrtkQD4GtXHVpT75F8H+?=
- =?us-ascii?Q?+jBg0r0FIfHKbFnDVW30i9kpN4VDS/7te6bwLfvkh8QuR1DC1EuxDycgN1ik?=
- =?us-ascii?Q?B9qxJpPm2+eerB1wGiTAR72dG8dc4VbOJBN54C2UXe/zbE5pwdw81uNqaOSh?=
- =?us-ascii?Q?SV9201KT8lfxpjHAsDmqQi3idsZ6NB2Em9t6mH+qR6qvRlvcIE9hLuiKFA06?=
- =?us-ascii?Q?Bbk2jR2nW9CJK5dy5UxVq8C+UXZZ0zwMjaaserEAajq3Jyaq+QuCPGhLBpsI?=
- =?us-ascii?Q?PY2l92lkXN25mXCSn6uiJiZwXclKkxdmv/hAhaY9RXomYnH+3smadWHLzkpF?=
- =?us-ascii?Q?uWZiRwsbtS1FdEA6B+MN62QQScTymy4FmzQoKYWZixxQGIXR8RODbzUVqBlc?=
- =?us-ascii?Q?2RFGxZgWvv4I3pkX1G3NeaYm?=
+	=?us-ascii?Q?Gvs0KGsyTemg7IA5ARceh3jKb2ElmTUDjLqbhrbCsOPaTFuR2U5GEJTBoz5W?=
+ =?us-ascii?Q?s2NfQ/Burwm3jflWe8ocYEoZQ/T3c+s93zZ4DMnTMcsOfUEab2oN4RAzVfpt?=
+ =?us-ascii?Q?7kqUD/nCLx8c/EcBlpwm56jXOOO+Mo5XIKAPIeRHBuXof65BHFACBPBRG6G7?=
+ =?us-ascii?Q?NW4OcVtF0JE56v1fqd3cYoOz+lqtU/FNeaxwp8rnq2R+4MvP4s2o7a8WQT7z?=
+ =?us-ascii?Q?ul2UM8D+naVxRkjgvRduql9smJFfT34OANeT0OenoILrm484uH8xCThcKsd/?=
+ =?us-ascii?Q?c3i7qGmtQdDvCfzDWHUbYtFiT2C7ErL68Q4NjmxH8eoJJFY4JlUFIWVcSsbv?=
+ =?us-ascii?Q?nKt0zX7Z8LAxRhbqkXZUWnFRnRA0LPpyKZTT0O0RpKJtQcSp3aNZ4zyp/qGA?=
+ =?us-ascii?Q?3aJt7sGObEyxJLkmGJ5zeFj5SNAzPK9qsyzQxv2Di7UHQ/DFgWQ2JXZUYxhT?=
+ =?us-ascii?Q?Ls2hmCzQTsuihl35Z30cUEmyktUOix/KPfKB4LMIqXTOMqu6/leCrksR/ex9?=
+ =?us-ascii?Q?Dg/6k9XxTbHl+R2YEDNIqYFue3w8lTaVHasch/fuRVYnAL7UFo/Sbi/lGNZE?=
+ =?us-ascii?Q?aEQWBuFU6acZbnjpOsvs9HfDF2XFiZoOnra88Ntywzwd5cIWzDJQRtRggJwG?=
+ =?us-ascii?Q?zD9ndOTriFUQ1nEgj1nzt0ui2WCh7QST5llIhiZV2/NAQBARJM7ltyPVGW68?=
+ =?us-ascii?Q?iqs2EcdkMgQPt5nUFmT01ai4JLKocVC4CJmW4Ucw8+65pNQKmQmhXATmduS0?=
+ =?us-ascii?Q?k/IjVEHxWAU7oREhRiaKnKc0NPHqSSaFQzDVCJmqnd9HvFw/vw8JeFcyk71w?=
+ =?us-ascii?Q?uRHrU+rqkX3DFX4hWSdKpLuzRauDAuRwJkwLQ61EZGw/RP/oSqxrE63syG6h?=
+ =?us-ascii?Q?1NSYYMRN4QD1+dyi5lKPz2wVtc2+lRB8pv0z72WJXMInRoBczrKAd5XqXD9H?=
+ =?us-ascii?Q?eDXix2fXnoXUBfLNvsc2YNGVKmmq88HVDvK4s8xQnhkXXVxVdgIY6ZmPlhRe?=
+ =?us-ascii?Q?IKuTxp7LwjDMWkn0z1YxQEpazwCmbO9SJ+Gbup80SDCfTfXKRBgVIXn/WKGy?=
+ =?us-ascii?Q?HYjsKwa3JBZiLDbY6x80Mzax5oy2FfN4m66we6TtKEccicNws7DUxS9z2Tq2?=
+ =?us-ascii?Q?b61mUZq4XdmxeaYWBmbCEZI20Rm1cmfAcTBdTtEwZd0WhFKdYAS8X41tiQqO?=
+ =?us-ascii?Q?2XVhO24KP6YlFXcHr5HOK7GCBLQil78dpF0umluZWcGvQU6JqSEYEduvSHG2?=
+ =?us-ascii?Q?OtcTJDLrTentBopWMBSTGDo5QWcjxgLi6R1L/DA1uoBPmnxDGm6DgKX3WwWp?=
+ =?us-ascii?Q?MIx2GvVoz/XLc6zfkLKofqqr?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB4093.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4769.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VAALLnu6jvNN9qiBZl+yP9wtljlNuGyN+f++ZCG/XUMdhganyyxZf29haun+?=
- =?us-ascii?Q?eJnJB0J4f9pUisepjzBmc/nyKUzPZe3AfbvBMKAqYu80nC+AlzKOG96a6+er?=
- =?us-ascii?Q?touRgbC29UjVvL+vZ8aJmfyGNGuNo3L0ablmRUoHFeprNJFlUMjw/iMNdUuE?=
- =?us-ascii?Q?OOuCZK1m+1+SyjKLx8TFsrfCrvLzCDU+oRPOixb4k53RDeV5uS3d97Oak8Sn?=
- =?us-ascii?Q?Xz81lY9IFn+k+tRnPYJUx2Jm3RXYsfbwTUaxRckVpI4+UK3HEto9JdHgoRuD?=
- =?us-ascii?Q?JtdvEMassXbz9aMpn6gjWylFkMB7qUuxr7IfYC9f52VJ47Qh7xtadDR6+3Ud?=
- =?us-ascii?Q?/I5NEQH2h4TXFz66jB13ZLD7c5OfYdRxnclmaFePF8hCJJ3bj7U2VEK0eQJW?=
- =?us-ascii?Q?Yrk+qfBtssPQrRA/jcZQPkd2jMykyIoZMsJLUBX+SueA5LcHf8UtCPDwtqoU?=
- =?us-ascii?Q?xHFQFf9hMSDajJqC60bHR+Aj21VP9GM5/o6WWAALF+Hi835T56jAKRbDfgUB?=
- =?us-ascii?Q?S296/YK8XR4eCE1Hpn9K0imJjOx/FgdRHDqDGsmaS49tIE/IYIX00mAw4Dy0?=
- =?us-ascii?Q?deL570H4jc3R8Khldd0sdNyKBuj9wUDOvgReLCz00sa+Qvf5ssXvK7f1g21I?=
- =?us-ascii?Q?zKkcon0IlG+AtyPVKHWenW4oDGVe9JsvxZilfVYRMv9YO6J70CJ7m/ppzIvH?=
- =?us-ascii?Q?uTbNqFpZOrqC7pkxPJ50C6ZGzYZzrDI7+ZZ+AQU74NeGLMlU0NlCuIrNJMoa?=
- =?us-ascii?Q?hA0K1srge/3yBKdX0rSXufwePFfipJsR4spINapZUPvuer+6O0rsAC3lxJuT?=
- =?us-ascii?Q?EmXqFETXeG68BZg2W94Wn7dZo3RXQPA6+k8kXTxqYO+vnUbCtrurajP1gspg?=
- =?us-ascii?Q?pPbhMBZOTMzvSKMjlhhGBI6e3HddOHYdrahQLt91K4Vrad60NirSzvDDwzMb?=
- =?us-ascii?Q?bdD+pHDg69Hm/8eaCT0lTALnpaOOS18A6jYqRv49MtnMm4hriMnzBfZ9ZECW?=
- =?us-ascii?Q?DBYvlgv3KMFF8yo+dWuEXGvl2WcEacLl/aRzu4YSuutnUTh86R8gV/UKnk8I?=
- =?us-ascii?Q?p52tDYmo0H3ppSp9lmH5f6UevDg8r6yNeZQ/aJvR3lKsxcAOSk+TY5aZNd3b?=
- =?us-ascii?Q?Y4Bi5fRXS/HyST3x4vN2dq2a2Iq183upWJfrNMFPupVgZtqcuP6v7/8kgaBa?=
- =?us-ascii?Q?BdBECK/HNtR3/2+8RLWjaECpNQBB0l2WAeZemMZXe0y9om3ACaC2fmDYvO06?=
- =?us-ascii?Q?7mELCNPi/mWX61k9OiWds0M24TN0iL/A7ePwT5LZsyyKj422gcLOW+ywxWiC?=
- =?us-ascii?Q?lenc3PpUF2vGJTPQ0Dhq+pjV2ZdJFkQEE1OfbSuOXKTGi+2uSwDzCj+5B2ql?=
- =?us-ascii?Q?9URzOlfc0gn2sTZWPLf4lcHjGnH7+m35fh2tjRfim/fJBWs6JQ90zC55hSt3?=
- =?us-ascii?Q?nMXf8BJQ6dq4DXrY8yUck2d2skCBdm98+J8VhILAyjBa2TNQB+DYOZVRJVap?=
- =?us-ascii?Q?Elp/zK2+r5vrt4xDb7oo5jrlkM5Huyezss/Vr0k67EdgNGnrdPCIMe4az2Ys?=
- =?us-ascii?Q?6Z6Z+pVCJ8/4NjHHn+lMn9rNrbMFWsNlQbiWpW/k2uue9E7shfrBpcfqy/dc?=
- =?us-ascii?Q?Lg=3D=3D?=
+	=?us-ascii?Q?hm7RKwaq0e2poJoKSLPn42ycupN5NaL4yH+vBI5V1VQPtMrGEMnPNpdacv+Q?=
+ =?us-ascii?Q?oWjsBn5zFa2/s9CHiwLcEa/ucwJA+vCIuHw5D9XMcek1dRxSSSNGpF6FA/dO?=
+ =?us-ascii?Q?xbgHCA3fwCV4P5AsDC3488cSlbPJy9VAPyVS42inFTRGtDJ/jFXJ2XROIZ5m?=
+ =?us-ascii?Q?+dp6M4RY+Lu/Nb81RD4bqrOkzpYNFByrJgZpY7c/Wy7IhXrIYdwTHNgcLcnM?=
+ =?us-ascii?Q?UMznhI395GXI7Ruq68Y1k3INSEbi54qoJpO9fvRBXTuVGMMQhv8a4RrxiAom?=
+ =?us-ascii?Q?CejcWzNok6YrElYGhaWc+CAT6+F2Q4j/Yt8URLtVE8U63yA2qvOs0CZ65S2Q?=
+ =?us-ascii?Q?bZLzsMaHERYJcPl12nGNQj1B/WieOKEL35zoJFrY+Wy5KBfXMAHyJIAPPkel?=
+ =?us-ascii?Q?wAVsmb26vU9OURHaEnFumphgfe7zbnLsCwLUvGn7yysX7+Q61wcxqXd+O3Xb?=
+ =?us-ascii?Q?RSDaMA6ZHvhAxMl1vTl/zKaBiV1EHynZW+PbpF5N1YzZ7KlaT0zzR2vRnbBC?=
+ =?us-ascii?Q?yS9ZJ/2pvG5BVvEI7bK5Inl8MSTRjb7ul0RnqfGIvO2ooAkidUQlrSYbtfmd?=
+ =?us-ascii?Q?U99FyIiQwVAvSOdG4qkVMjWeLOSgtSXiJyPRKFDnehYK0PHBTdKLmF6q6oJL?=
+ =?us-ascii?Q?YSpQ2ZXDqWCQh0ckXnWZJTpiSdZHxZ2YLOYceSjg77DQkVQFUoiNPICLTQXw?=
+ =?us-ascii?Q?MOrkVe5dInCZRYXeKpf1LjRvidL8hWIl7Cx6PwgpJ6s4lIBe9xX58IfqEt5y?=
+ =?us-ascii?Q?eKOOClxy/MNWKW0M17SMes7R6KPKfeo2HQ8Y2pojq0uaH4ojIE9NdErV7h1O?=
+ =?us-ascii?Q?JnaYxF1LQoJGkayHa259KMhTo4nLjZE0mHG7FxDf8IvWWmCFZUhi4OAQpZDr?=
+ =?us-ascii?Q?LCmKGwjLJFZkWThkmccHPkH3hg4gu56/kXIp7+weBxUYuyMxMiuv2yhOv/i5?=
+ =?us-ascii?Q?vGfG6P39n43MTZYY/8UrGgebaJR1D2Ca0eRW/KbSZvCHApag80PbWdBXpBZ6?=
+ =?us-ascii?Q?lEwG5kfHHYGESXPC/cPv09Wkqx1VvLXdbLjzYQ+UEa3/iXlzJnDJ02Vpw8+o?=
+ =?us-ascii?Q?gLEEdYDIqU5thdERckQBD09CUAF2R2inh89lfZc0msmeyUCwwP2FBhltjOZh?=
+ =?us-ascii?Q?Sc1P7WPOeLpIeYQXi2hnW7XR01L2bLyMP4WO/ttCC+MNI6yJIuCz7nj52iQ+?=
+ =?us-ascii?Q?vDtLG8aeAfpypcO8w7zkLyTm+eiwXj42GBD1YgSL0iM8YmLI3B1LkvVYr74E?=
+ =?us-ascii?Q?K3Oq+FhdHfj4UzDYKvnaxg7ZqCa6c2x1R03IqOeHj1O/whY1sD3UCS2dawd2?=
+ =?us-ascii?Q?sQCTKkEBx77AWxkwHD/cPtEk//KEHRCHcFQfpYkt4sjbVe8HrBI2T864ubaW?=
+ =?us-ascii?Q?vhwmTX6C9iwOFAaWRE2NhsnpFzhnjnTyYaBustrCpd2z9O2TPMySy4nJ3ox2?=
+ =?us-ascii?Q?EJjerZMfawjYfYJWHIMW8M0aUDuPhbKOSPPYKqdERMQng9ro9z5OeDlyH/i5?=
+ =?us-ascii?Q?aiVLS5ObKoiq4yBZfjMWP9OEKoSzwHeuKwGr+I0YeCCji26QNM62OjJWskOi?=
+ =?us-ascii?Q?wWdZijQLvKLAN50u/fqaML39oDZ3lSLL6E1plSXNGE922inqeTFeQSMSQloH?=
+ =?us-ascii?Q?Ww=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	aHly199WIqAQ/Ia260h0LAxhc/N/EdPW3yphsgE2Uk5TluK/PJ4A1+dnUcKDqVD8BICXynQLDoZ0K7dbWqyi5gbfqgv2wBoxao4f6tapo22oIt7Pc/SvG4+emGUcUo3uQ4FW9Gq44Gpj1vvIn+p8JE4syDy8UZbO6FAzBx54FwgG85UJZYRW0tIUPGv10Hpz3lwlFn8Y7nQpAHlrdTFUWgcgkDc+GIQy92fclA9qry+Y8EjUs9lrJY5gqC7NWPmt0mAMZ3rKKj90zi7+vrvhiibwWAj4hJgo95/VB77DwubwZ3MX/picAcsyi07U1BPRS3WCmbL7iz/zCapbeZYp8Ux48WhNGZS24SHuoXlZeYKBev3BVOovNp3Eqfq3a3APFmkm1IhtUD3yzhW6691oFFCUfwIGntsV5UNf4Im47dXokqkfutT5mGcjc8UD/TILRT2U0AkCxhWVEzaOLXfrpXYWNRNou0yuygSth0RhQb0yc0Sfw9r2ksaGx1yScHTcG3J94u66NZt/wGIKGYVJ9PfAvCVaWKbKExy91a2pPi5/xiexpn0TPyyt2M717ygrQTcXg6vJdojmgdMzSR38ncsPSfBgMgtG9UkerLeaDGY=
+	2mzKH5oMXTXBuGQ8/Y5rxogcljVZsql9tLzsiuop2BsdWlkj5hB1XH32D5Q8CjMHrVfqftR0GXFqvOddLFygRD5/35lqlow1ZTN8BEyfLMd4yVKTz9kbjvCRyn1XLWgQCj4XvKDC+Ztrkk7odbKE/HBWzj77ArQv6Z2MH3OmDvzgOFg3DoN2uFAW1BvwCER7ONVTWGAxt1AiGKlLw9TTD0skQxcRGMofF/gRyOsxvLz40M6qNBB/YX0/7AJc8fOM2/638a116KrEiFHehCEJojBveG6zv3fYUTEiuC37IgH2pxHaslynTNiNXzoBNpg2+ufe316eftsBSD+QqKwIt07s/p6VjoW+5yNOlV/EQZ/Ps0Od8ze49uEMiyYg+dKS03ir9skgtp6EkUUUmnq9rjDKgL1ck0ZUmlGQv72QLWSXMF3bE6YlVynDf57O68hh1yv1ZLo06rxemJc+WPclAP2+5C72uxp3Qh8ponyEmHTdgXZmKClHtQZR1RfKA2jJTadfRI4/44KEIfke3OsDv1TEnlCkFD2P2XpqKdntAqb8NayffefiyXpdpsforLZ7fI/qLkU8CwOKtYAbiSViXutBM45XoK94uB0xPoGhw20=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65d33f28-249f-4d20-4e32-08dcfd2dbf59
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4093.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 572473f7-3251-419e-0442-08dcfdbacec4
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4769.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 00:06:50.7850
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 16:56:35.6274
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n7LMehtxCU/+hly7Nkgcx0CmLMsqgJzH4G4AT1tfeJSC0hCHPGFOH4rCWCA9YvZOhn42Qjf/LMj/dxBMMwtC8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH4PR10MB8169
+X-MS-Exchange-CrossTenant-UserPrincipalName: tlmVKsZFhJ2wveUKhECfCQhKEV2ZlrRLpjO2z7d+MOXvtv3m8qJM6bAIqLr3BXNxb920COnAEKcPHi44s9fWZAexWtO+7It9gS06+ldQfhU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4628
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-11-04_21,2024-11-04_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0
- mlxlogscore=999 mlxscore=0 suspectscore=0 bulkscore=0 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2409260000 definitions=main-2411040192
-X-Proofpoint-ORIG-GUID: 04Zq0HAnwDFYzf3yUHM4RX9z80s77My5
-X-Proofpoint-GUID: 04Zq0HAnwDFYzf3yUHM4RX9z80s77My5
+ definitions=2024-11-05_06,2024-11-05_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999 spamscore=0
+ phishscore=0 malwarescore=0 adultscore=0 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
+ definitions=main-2411050130
+X-Proofpoint-ORIG-GUID: p4hh-J9s7hs2MQFdDV1var7uuYDRLipA
+X-Proofpoint-GUID: p4hh-J9s7hs2MQFdDV1var7uuYDRLipA
 
-The testsuite passes in a $dtrace environment variable: this must
-be an ELF executable because some tests use it in hashbang lines,
-so necessary flags are passed in in a $dt_flags variable which
-must be passed to every dtrace invocation.  These flags are largely
-path adjustments (-I etc) pointing DTrace to the in-source-tree
-testsuite or the out-of-tree SDT headers and such things: as such,
-it's unfortunate that a great many invocations were missed and that
-those invocations were largely things like -G that actually *use* -I.
+On Tue, Nov 05, 2024 at 12:06:03AM +0000, Nick Alcock wrote:
+> This change propagates native and xlated arg types and mapping info all
+> the way from the DOF, through the parser and dtprobed and the DOF stash,
+> into DTrace, where they end up in the pid_probespec_t for USDT probes.
+> We don't do anything with them once they get there in this commit: no
+> user-visible impacts expected.
+> 
+> We bump the DOF_PARSED_VERSION since we add three new types of record to the
+> dof_parser_t, all optional, covering native and xlated args and arg mapping
+> tables; to make life easier for consumers we emit them in a defined order
+> (documented in dof_parser.h), and add arg counts to the DIT_PROBE record
+> that precedes them indicating which will be present and how many args are in
+> them.  This means we retain the property that you can always tell which
+> records within a provider are coming next purely from records you already
+> have: there's no need to make decisions once the records turn up.  The DOF
+> stash hardly changes: all that happens is that the parsed data written to
+> each per-probe file gains some extra types of record (it can have
+> DIT_ARGS_NATIVE, DIT_ARGS_XLAT and DIT_ARGS_MAP entries following the
+> DIT_PROBE record now).
+> 
+> As usual with DOF_PARSED_VERSION bumps, DTraces that cross this change will
+> refuse to read probes added by dtprobeds that are on the other side of it.
+> (Restarting dtprobed will reparse all the probes in the stash to match the
+> new layout, and newly-started DTraces will pick that up -- so this only
+> affects running DTraces picking up new probes, which DTrace cannot do yet:
+> so no visible effects are expected.)
+> 
+> The code is a bit repetitive, with nargs, xargs and arg mapping all handled
+> separately even though the code is very similar.  In future maybe we could
+> unify them (but my attempts led to code that was much harder to read than
+> the original).
+> 
+> Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
 
-It also passes in a $test_cppflags variable which is meant to be
-used for C preprocessor invocations, but many tests which should
-use it don't use it, leading to the possibility (and, these days,
-the likelihood) of picking up SystemTap <sys/sdt.h> instead, or
-simply a compilation error if an installed testsuite is run.
+Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
 
-This uncovers another bug: the -I flags passed in in all the
-above cases are relative paths, so they are wrong for any tests
-that cd, such as almost any test that does any compiles (which
-all cd into directories under the $tmpdir). Make them absolute.
-
-runtest.sh also populates a test_ldflags containing -L arguments
-for libraries in the build tree, but this is never exported or
-used by any tests: pass that in too, and change linker invocations
-to use it instead.
-
-Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
----
- runtest.sh                                    |  3 ++-
- .../locking/tst.DestructionDoubleUnlock.sh    | 12 +++++------
- .../locking/tst.exit-process-kill-races.sh    |  4 ++--
- .../headers/tst.header-endianness.sh          |  2 +-
- test/unittest/actions/symmod/tst.symmod.sh    |  2 +-
- test/unittest/aggs/tst.aggmod_full2.sh        |  8 ++++----
- test/unittest/aggs/tst.aggpercpu.sh           |  2 +-
- test/unittest/aggs/tst.multicpus.sh           |  2 +-
- test/unittest/arrays/tst.uregsarray-check.sh  | 10 +++++-----
- test/unittest/builtinvar/tst.errno3.sh        |  2 +-
- test/unittest/cpc/err.cpcvscpustatpart1.sh    |  2 +-
- test/unittest/cpc/err.cpcvscpustatpart2.sh    |  2 +-
- test/unittest/cpc/err.cputrackfailtostart.sh  |  2 +-
- test/unittest/cpc/err.cputrackterminates.sh   |  2 +-
- test/unittest/cpc/tst.platformevent.sh        |  2 +-
- .../dtrace-util/tst.ListProbesArgsUSDT.sh     | 12 +++++------
- .../dtrace-util/tst.ListProbesFuncUSDT.sh     | 16 +++++++--------
- .../dtrace-util/tst.ListProbesModuleSDT.sh    |  2 +-
- .../dtrace-util/tst.ListProbesModuleUSDT.sh   | 12 +++++------
- .../dtrace-util/tst.ListProbesNameUSDT.sh     | 16 +++++++--------
- .../dtrace-util/tst.ListProbesProviderUSDT.sh | 14 ++++++-------
- test/unittest/dtrace-util/tst.ProcInvalid.sh  |  2 +-
- .../fbtprovider/err.D_ARGS_IDX.void-void.x    |  2 +-
- .../fbtprovider/err.D_ARGS_IDX.void.x         |  2 +-
- test/unittest/ip/tst.ipv4remotetcp.sh         |  2 +-
- test/unittest/misc/err.lockmem-pragma.sh      |  2 +-
- test/unittest/misc/tst.include.sh             |  4 ++--
- test/unittest/misc/tst.lockmem-cmdline.sh     |  2 +-
- test/unittest/misc/tst.lockmem-envvar.sh      |  2 +-
- test/unittest/misc/tst.lockmem-x.sh           |  2 +-
- test/unittest/misc/tst.parser1.sh             |  2 +-
- test/unittest/misc/tst.parser2.sh             |  2 +-
- test/unittest/misc/tst.parser4.sh             |  2 +-
- test/unittest/options/tst.bpflog-cmdline.sh   |  2 +-
- test/unittest/options/tst.bpflog-pragma.sh    |  2 +-
- .../unittest/options/tst.bpflogsize-pragma.sh |  2 +-
- test/unittest/options/tst.iregs.sh            |  2 +-
- test/unittest/options/tst.linktype.sh         |  6 +++---
- test/unittest/options/tst.modpath.x           |  2 +-
- test/unittest/options/tst.strip.sh            |  8 ++++----
- test/unittest/options/tst.switchrate.sh       |  2 +-
- test/unittest/options/tst.tregs.sh            |  2 +-
- test/unittest/pid/tst.offsets.sh              |  2 +-
- test/unittest/pid/tst.provregex3.sh           |  4 ++--
- test/unittest/pid/tst.provregex4.sh           |  6 +++---
- test/unittest/predicates/tst.predcache.sh     |  4 ++--
- test/unittest/printf/tst.wide-bug30404549.sh  |  2 +-
- test/unittest/printf/tst.wide.sh              |  2 +-
- .../providers/rawtp/err.lockmem-too-low.sh    |  4 ++--
- test/unittest/syscall/tst.openret.sh          |  2 +-
- test/unittest/usdt/tst.allargs.sh             |  7 ++++---
- test/unittest/usdt/tst.andpid.ksh             |  2 +-
- test/unittest/usdt/tst.badguess.sh            |  9 +++++----
- test/unittest/usdt/tst.corruptenv.sh          |  8 ++++----
- test/unittest/usdt/tst.dlclose1.sh            | 20 +++++++++----------
- test/unittest/usdt/tst.dlclose2.sh            | 18 ++++++++---------
- test/unittest/usdt/tst.dlclose3.sh            | 18 ++++++++---------
- test/unittest/usdt/tst.dlclose4.sh            | 14 ++++++-------
- test/unittest/usdt/tst.eliminate.sh           |  9 +++++----
- test/unittest/usdt/tst.enable_pid.sh          |  4 ++--
- test/unittest/usdt/tst.enabled.sh             | 11 +++++-----
- test/unittest/usdt/tst.enabled2.sh            | 11 +++++-----
- test/unittest/usdt/tst.entryreturn.sh         |  7 ++++---
- .../unittest/usdt/tst.exec-dof-replacement.sh | 11 +++++-----
- test/unittest/usdt/tst.execstack.sh           |  9 +++++----
- test/unittest/usdt/tst.fork.sh                | 11 +++++-----
- test/unittest/usdt/tst.forker.sh              |  2 +-
- test/unittest/usdt/tst.guess32.sh             | 11 +++++-----
- test/unittest/usdt/tst.guess64.sh             | 11 +++++-----
- test/unittest/usdt/tst.header.sh              |  9 +++++----
- test/unittest/usdt/tst.lingering.sh           | 11 +++++-----
- test/unittest/usdt/tst.link-idempotence.sh    | 11 +++++-----
- test/unittest/usdt/tst.linkpriv.sh            |  5 +++--
- test/unittest/usdt/tst.linkunpriv.sh          |  2 +-
- test/unittest/usdt/tst.manyprobes.sh          |  7 ++++---
- test/unittest/usdt/tst.manyprocs.sh           |  9 +++++----
- test/unittest/usdt/tst.multiple.sh            | 11 +++++-----
- test/unittest/usdt/tst.multitrace.sh          | 11 +++++-----
- test/unittest/usdt/tst.nusdtprobes.sh         |  8 ++++----
- test/unittest/usdt/tst.onlyenabled.sh         |  9 +++++----
- test/unittest/usdt/tst.pie.sh                 | 11 +++++-----
- test/unittest/usdt/tst.reeval.sh              |  7 ++++---
- test/unittest/usdt/tst.static.sh              |  7 ++++---
- test/unittest/usdt/tst.static2.sh             |  9 +++++----
- test/unittest/usdt/tst.user.sh                | 11 +++++-----
- 85 files changed, 283 insertions(+), 257 deletions(-)
-
-v2: one test dropped because it's now renamed and fixed up
-    (and otherwise modified) in the usdt typed-args series.
-
-diff --git a/runtest.sh b/runtest.sh
-index 681d748deaa8..46b532d7e161 100755
---- a/runtest.sh
-+++ b/runtest.sh
-@@ -554,7 +554,7 @@ if [[ -z $USE_INSTALLED ]]; then
-     dtrace="$(pwd)/build*/dtrace"
-     test_libdir="$(pwd)/build/dlibs"
-     test_ldflags="-L$(pwd)/build"
--    test_cppflags="-Iinclude -Iuts/common -Ibuild -Ilibdtrace -DARCH_$arch"
-+    test_cppflags="-I$(pwd)/include -I$(pwd)/uts/common -I$(pwd)/build -I$(pwd)/libdtrace -DARCH_$arch"
-     helper_device="dtrace/test-$$"
-     # Pre-existing directories from earlier tests are just fine!
-     # dtprobed will clean things up.
-@@ -590,6 +590,7 @@ else
-     fi
- fi
- export test_cppflags
-+export test_ldflags
- export test_libdir
- 
- # Figure out if the preprocessor supports -fno-diagnostics-show-option: if it
-diff --git a/test/expensive/locking/tst.DestructionDoubleUnlock.sh b/test/expensive/locking/tst.DestructionDoubleUnlock.sh
-index 1522f4a6260d..c9b9eadcd93a 100755
---- a/test/expensive/locking/tst.DestructionDoubleUnlock.sh
-+++ b/test/expensive/locking/tst.DestructionDoubleUnlock.sh
-@@ -1,7 +1,7 @@
- #!/bin/bash
- #
- # Oracle Linux DTrace.
--# Copyright (c) 2013, 2016, Oracle and/or its affiliates. All rights reserved.
-+# Copyright (c) 2013, 2024, Oracle and/or its affiliates. All rights reserved.
- # Licensed under the Universal Permissive License v 1.0 as shown at
- # http://oss.oracle.com/licenses/upl.
- #
-@@ -41,7 +41,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -59,17 +59,17 @@ main(int argc, char **argv)
- }
- EOF
- 
--${CC} ${CFLAGS} -c test.c
-+${CC} ${test_cppflags} ${CFLAGS} -c test.c
- if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${test_ldflags} ${CFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -81,7 +81,7 @@ script()
- 		./test &
- 		PID=$!
- 		disown %+
--		if ! $dtrace -p $PID -lP test_prov$PID; then
-+		if ! $dtrace $dt_flags -p $PID -lP test_prov$PID; then
- 		    kill -9 $PID
- 		    return 1
- 		fi
-diff --git a/test/expensive/locking/tst.exit-process-kill-races.sh b/test/expensive/locking/tst.exit-process-kill-races.sh
-index 53bbbf5dd795..187470ab4e46 100755
---- a/test/expensive/locking/tst.exit-process-kill-races.sh
-+++ b/test/expensive/locking/tst.exit-process-kill-races.sh
-@@ -89,10 +89,10 @@ while :; do
-     esac
- 
-     if [[ $state != "POUND" ]]; then
--	result="$($dtrace -qc test/triggers/delaydie -n 'tick-1s { printf("timeout\n"); exit(0); }' -n 'syscall::exit_group:entry /pid == $target/ { printf("exit\n"); exit(0); }')"
-+	result="$($dtrace $dt_flags -qc test/triggers/delaydie -n 'tick-1s { printf("timeout\n"); exit(0); }' -n 'syscall::exit_group:entry /pid == $target/ { printf("exit\n"); exit(0); }')"
-     else
- 	set -e
--	$dtrace -qc test/triggers/delaydie -n 'tick-1s { printf("timeout\n"); exit(0); }' -n 'syscall::exit_group:entry /pid == $target/ { printf("exit\n"); exit(0); }'
-+	$dtrace $dt_flags -qc test/triggers/delaydie -n 'tick-1s { printf("timeout\n"); exit(0); }' -n 'syscall::exit_group:entry /pid == $target/ { printf("exit\n"); exit(0); }'
- 	set +e
-     fi
- 
-diff --git a/test/internals/headers/tst.header-endianness.sh b/test/internals/headers/tst.header-endianness.sh
-index c5d67b284ac3..e45cc597071f 100755
---- a/test/internals/headers/tst.header-endianness.sh
-+++ b/test/internals/headers/tst.header-endianness.sh
-@@ -26,5 +26,5 @@ for header in ${OLDDIRNAME}/include/dtrace/*.h; do
-     #error $header: needs to include <sys/dtrace_types.h>
-     #endif
- EOF
--    $CC -c $CFLAGS -o /dev/null test.c
-+    $CC $test_cppflags -c $CFLAGS -o /dev/null test.c
- done
-diff --git a/test/unittest/actions/symmod/tst.symmod.sh b/test/unittest/actions/symmod/tst.symmod.sh
-index 2950c9b7fa27..d35914212c37 100755
---- a/test/unittest/actions/symmod/tst.symmod.sh
-+++ b/test/unittest/actions/symmod/tst.symmod.sh
-@@ -21,7 +21,7 @@ NAM=$MOD'`'$NAM
- 
- # run DTrace to test mod() and sym()
- # also test func(), but it is simply an alias for sym()
--read MYMOD MYNAM MYFUN <<< `$dtrace -qn 'BEGIN {mod(0x'$ADD'); sym(0x'$ADD'); func(0x'$ADD'); exit(0) }'`
-+read MYMOD MYNAM MYFUN <<< `$dtrace $dt_flags -qn 'BEGIN {mod(0x'$ADD'); sym(0x'$ADD'); func(0x'$ADD'); exit(0) }'`
- if [ $? -ne 0 ]; then
- 	exit 1
- fi
-diff --git a/test/unittest/aggs/tst.aggmod_full2.sh b/test/unittest/aggs/tst.aggmod_full2.sh
-index bb984af17794..66cfc002b233 100755
---- a/test/unittest/aggs/tst.aggmod_full2.sh
-+++ b/test/unittest/aggs/tst.aggmod_full2.sh
-@@ -124,25 +124,25 @@ EOF
- # build
- # ==================================================
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
- fi
- 
--${CC} ${CFLAGS} -c test.c
-+${CC} ${test_cppflags} ${CFLAGS} -c test.c
- if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
- 
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
- 
--${CC} ${CFLAGS} prov.o test.o
-+${CC} ${test_ldflags} ${CFLAGS} prov.o test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-diff --git a/test/unittest/aggs/tst.aggpercpu.sh b/test/unittest/aggs/tst.aggpercpu.sh
-index 2103546c3b90..e329097cca7f 100755
---- a/test/unittest/aggs/tst.aggpercpu.sh
-+++ b/test/unittest/aggs/tst.aggpercpu.sh
-@@ -17,7 +17,7 @@ cd $DIRNAME
- # forcing DTrace to aggregate results over all CPUs.
- #
- 
--$dtrace -xaggpercpu -qn '
-+$dtrace  $dt_flags -xaggpercpu -qn '
-     profile-600ms
-     {
-         printf("cpu %d\n", cpu);
-diff --git a/test/unittest/aggs/tst.multicpus.sh b/test/unittest/aggs/tst.multicpus.sh
-index bc4366845ab0..50eeaae44f96 100755
---- a/test/unittest/aggs/tst.multicpus.sh
-+++ b/test/unittest/aggs/tst.multicpus.sh
-@@ -17,7 +17,7 @@ cd $DIRNAME
- # forcing DTrace to aggregate results over all CPUs.
- #
- 
--$dtrace -qn '
-+$dtrace $dt_flags -qn '
-     profile-600ms
-     {
-         printf("cpu %d\n", cpu);
-diff --git a/test/unittest/arrays/tst.uregsarray-check.sh b/test/unittest/arrays/tst.uregsarray-check.sh
-index 99dd6980ec28..f55d36d0d97d 100755
---- a/test/unittest/arrays/tst.uregsarray-check.sh
-+++ b/test/unittest/arrays/tst.uregsarray-check.sh
-@@ -22,7 +22,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -46,17 +46,17 @@ int main(int c, char **v) {
- }
- EOF
- 
--${CC} ${CFLAGS} -c test.c
-+${CC} ${test_cppflags} ${CFLAGS} -c test.c
- if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${test_ldflags} ${CFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -64,7 +64,7 @@ fi
- 
- # run DTrace
- 
--$dtrace -c ./test -qn '
-+$dtrace $dt_flags -c ./test -qn '
- test_prov$target:::
- {
- 	printf("DTrace has PC %x and SP %x\n", uregs[R_PC], uregs[R_SP]);
-diff --git a/test/unittest/builtinvar/tst.errno3.sh b/test/unittest/builtinvar/tst.errno3.sh
-index e88d35bab99e..7546152f6259 100755
---- a/test/unittest/builtinvar/tst.errno3.sh
-+++ b/test/unittest/builtinvar/tst.errno3.sh
-@@ -35,7 +35,7 @@ int main(int c, char **v) {
- }
- EOF
- 
--$CC main.c
-+$CC $test_cppflags main.c
- if [ $? -ne 0 ]; then
-     echo compilation failed
-     exit 1
-diff --git a/test/unittest/cpc/err.cpcvscpustatpart1.sh b/test/unittest/cpc/err.cpcvscpustatpart1.sh
-index 4d3ddd41f1c1..e82551a12025 100755
---- a/test/unittest/cpc/err.cpcvscpustatpart1.sh
-+++ b/test/unittest/cpc/err.cpcvscpustatpart1.sh
-@@ -17,7 +17,7 @@
- 
- script()
- {
--	$dtrace -o $dtraceout -s /dev/stdin <<EOF
-+	$dtrace $dt_flags -o $dtraceout -s /dev/stdin <<EOF
- 	#pragma D option bufsize=128k
- 
- 	cpc:::PAPI_tot_ins-all-10000
-diff --git a/test/unittest/cpc/err.cpcvscpustatpart2.sh b/test/unittest/cpc/err.cpcvscpustatpart2.sh
-index d565465bc5d5..f55977847938 100755
---- a/test/unittest/cpc/err.cpcvscpustatpart2.sh
-+++ b/test/unittest/cpc/err.cpcvscpustatpart2.sh
-@@ -17,7 +17,7 @@
- 
- script()
- {
--        $dtrace -s /dev/stdin <<EOF
-+        $dtrace $dt_flags -s /dev/stdin <<EOF
-         #pragma D option bufsize=128k
- 
-         BEGIN
-diff --git a/test/unittest/cpc/err.cputrackfailtostart.sh b/test/unittest/cpc/err.cputrackfailtostart.sh
-index 6b2b5fcae917..2170445b2f7c 100755
---- a/test/unittest/cpc/err.cputrackfailtostart.sh
-+++ b/test/unittest/cpc/err.cputrackfailtostart.sh
-@@ -16,7 +16,7 @@
- 
- script()
- {
--        $dtrace -o $dtraceout -s /dev/stdin <<EOF
-+        $dtrace $dt_flags -o $dtraceout -s /dev/stdin <<EOF
-         #pragma D option bufsize=128k
- 
-         cpc:::PAPI_tot_ins-all-10000
-diff --git a/test/unittest/cpc/err.cputrackterminates.sh b/test/unittest/cpc/err.cputrackterminates.sh
-index ee644a92a618..46c1d5bd0396 100755
---- a/test/unittest/cpc/err.cputrackterminates.sh
-+++ b/test/unittest/cpc/err.cputrackterminates.sh
-@@ -16,7 +16,7 @@
- 
- script()
- {
--	$dtrace -s /dev/stdin <<EOF
-+	$dtrace $dt_flags -s /dev/stdin <<EOF
- 	#pragma D option bufsize=128k
- 
- 	cpc:::PAPI_tot_ins-all-10000
-diff --git a/test/unittest/cpc/tst.platformevent.sh b/test/unittest/cpc/tst.platformevent.sh
-index d77bc60cddc5..ca029e95d6ce 100755
---- a/test/unittest/cpc/tst.platformevent.sh
-+++ b/test/unittest/cpc/tst.platformevent.sh
-@@ -38,7 +38,7 @@ EOF
- 
- script()
- {
--        $dtrace -s /dev/stdin << EOD
-+        $dtrace $dt_flags -s /dev/stdin << EOD
-         #pragma D option quiet
-         #pragma D option bufsize=128k
- 
-diff --git a/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh
-index ad8dc2e7c267..06095b2de517 100755
---- a/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh
-+++ b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh
-@@ -33,7 +33,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -51,17 +51,17 @@ main(int argc, char **argv)
- }
- EOF
- 
--${CC} ${CFLAGS} -c test.c
-+${CC} ${test_cppflags} ${CFLAGS} -c test.c
- if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${test_ldflags} ${CFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -69,11 +69,11 @@ fi
- 
- script()
- {
--	$dtrace -c ./test -lvn 'test_prov$target:::go'
-+	$dtrace $dt_flags -c ./test -lvn 'test_prov$target:::go'
- 	./test &
- 	PID=$!
- 	disown %+
--	$dtrace -p $PID -lvn 'test_prov$target:::go'
-+	$dtrace $dt_flags -p $PID -lvn 'test_prov$target:::go'
- 	kill -9 $PID
- }
- 
-diff --git a/test/unittest/dtrace-util/tst.ListProbesFuncUSDT.sh b/test/unittest/dtrace-util/tst.ListProbesFuncUSDT.sh
-index 99ae995ebfcb..587b2ddfb7c0 100755
---- a/test/unittest/dtrace-util/tst.ListProbesFuncUSDT.sh
-+++ b/test/unittest/dtrace-util/tst.ListProbesFuncUSDT.sh
-@@ -35,7 +35,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -53,17 +53,17 @@ main(int argc, char **argv)
- }
- EOF
- 
--${CC} ${CFLAGS} -c test.c
-+${CC} ${test_cppflags} ${CFLAGS} -c test.c
- if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${test_ldflags} ${CFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -71,13 +71,13 @@ fi
- 
- script()
- {
--	$dtrace -c ./test -lf main
--	$dtrace -c ./test -lf 'main*'
-+	$dtrace $dt_flags -c ./test -lf main
-+	$dtrace $dt_flags -c ./test -lf 'main*'
- 	./test &
- 	PID=$!
- 	disown %+
--	$dtrace -p $PID -lf main
--	$dtrace -p $PID -lf 'main*'
-+	$dtrace $dt_flags -p $PID -lf main
-+	$dtrace $dt_flags -p $PID -lf 'main*'
- 	kill -9 $PID
- }
- 
-diff --git a/test/unittest/dtrace-util/tst.ListProbesModuleSDT.sh b/test/unittest/dtrace-util/tst.ListProbesModuleSDT.sh
-index b5d4646af71e..6fd49294dd5b 100755
---- a/test/unittest/dtrace-util/tst.ListProbesModuleSDT.sh
-+++ b/test/unittest/dtrace-util/tst.ListProbesModuleSDT.sh
-@@ -24,7 +24,7 @@ fi
- 
- dtrace=$1
- 
--$dtrace -lm dt_test && $dtrace -lm 'dt_t*'
-+$dtrace $dt_flags -lm dt_test && $dtrace $dt_flags -lm 'dt_t*'
- status=$?
- 
- exit $status
-diff --git a/test/unittest/dtrace-util/tst.ListProbesModuleUSDT.sh b/test/unittest/dtrace-util/tst.ListProbesModuleUSDT.sh
-index 5ae087fbf76c..1c5cc986ef67 100755
---- a/test/unittest/dtrace-util/tst.ListProbesModuleUSDT.sh
-+++ b/test/unittest/dtrace-util/tst.ListProbesModuleUSDT.sh
-@@ -35,7 +35,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -58,7 +58,7 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
-@@ -71,13 +71,13 @@ fi
- 
- script()
- {
--	$dtrace -c ./test -lm test
--	$dtrace -c ./test -lm 'tes*'
-+	$dtrace $dt_flags -c ./test -lm test
-+	$dtrace $dt_flags -c ./test -lm 'tes*'
- 	./test &
- 	PID=$!
- 	disown %+
--	$dtrace -p $PID -lm test
--	$dtrace -p $PID -lm 'tes*'
-+	$dtrace $dt_flags -p $PID -lm test
-+	$dtrace $dt_flags -p $PID -lm 'tes*'
- 	kill -9 $PID
- }
- 
-diff --git a/test/unittest/dtrace-util/tst.ListProbesNameUSDT.sh b/test/unittest/dtrace-util/tst.ListProbesNameUSDT.sh
-index 5c0509d89138..865e2d00eb61 100755
---- a/test/unittest/dtrace-util/tst.ListProbesNameUSDT.sh
-+++ b/test/unittest/dtrace-util/tst.ListProbesNameUSDT.sh
-@@ -35,7 +35,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -53,17 +53,17 @@ main(int argc, char **argv)
- }
- EOF
- 
--${CC} ${CFLAGS} -c test.c
-+${CC} ${test_cppflags} ${CFLAGS} -c test.c
- if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${test_ldflags} ${CFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -71,13 +71,13 @@ fi
- 
- script()
- {
--	$dtrace -c ./test -ln 'test_prov*:::go'
--	$dtrace -c ./test -ln 'test_prov*:::g*'
-+	$dtrace $dt_flags -c ./test -ln 'test_prov*:::go'
-+	$dtrace $dt_flags -c ./test -ln 'test_prov*:::g*'
- 	./test &
- 	PID=$!
- 	disown %+
--	$dtrace -p $PID -ln 'test_prov*:::go'
--	$dtrace -p $PID -ln 'test_prov*:::g*'
-+	$dtrace $dt_flags -p $PID -ln 'test_prov*:::go'
-+	$dtrace $dt_flags -p $PID -ln 'test_prov*:::g*'
- 	kill -9 $PID
- }
- 
-diff --git a/test/unittest/dtrace-util/tst.ListProbesProviderUSDT.sh b/test/unittest/dtrace-util/tst.ListProbesProviderUSDT.sh
-index 6eae82ed93d7..a5e9b8b9780f 100755
---- a/test/unittest/dtrace-util/tst.ListProbesProviderUSDT.sh
-+++ b/test/unittest/dtrace-util/tst.ListProbesProviderUSDT.sh
-@@ -35,7 +35,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -53,17 +53,17 @@ main(int argc, char **argv)
- }
- EOF
- 
--${CC} ${CFLAGS} -c test.c
-+${CC} ${test_cppflags} ${CFLAGS} -c test.c
- if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${test_ldflags} ${CFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -71,12 +71,12 @@ fi
- 
- script()
- {
--	$dtrace -c ./test -lP 'test*'
-+	$dtrace $dt_flags -c ./test -lP 'test*'
- 	./test &
- 	PID=$!
- 	disown %+
--	$dtrace -p $PID -lP test_prov$PID
--	$dtrace -p $PID -lP 'test*'
-+	$dtrace $dt_flags -p $PID -lP test_prov$PID
-+	$dtrace $dt_flags -p $PID -lP 'test*'
- 	kill -9 $PID
- }
- 
-diff --git a/test/unittest/dtrace-util/tst.ProcInvalid.sh b/test/unittest/dtrace-util/tst.ProcInvalid.sh
-index 54722585d0f2..770ba6028a18 100755
---- a/test/unittest/dtrace-util/tst.ProcInvalid.sh
-+++ b/test/unittest/dtrace-util/tst.ProcInvalid.sh
-@@ -22,4 +22,4 @@ fi
- 
- dtrace=$1
- 
--$dtrace -p 484837947 -n 'BEGIN { exit(0); }' || true
-+$dtrace $dt_flags -p 484837947 -n 'BEGIN { exit(0); }' || true
-diff --git a/test/unittest/fbtprovider/err.D_ARGS_IDX.void-void.x b/test/unittest/fbtprovider/err.D_ARGS_IDX.void-void.x
-index 35e10c72dc1c..ee3e214b7c40 100755
---- a/test/unittest/fbtprovider/err.D_ARGS_IDX.void-void.x
-+++ b/test/unittest/fbtprovider/err.D_ARGS_IDX.void-void.x
-@@ -1,7 +1,7 @@
- #!/bin/bash
- 
- # Skip test if FBT probes do not provide argument datatype info.
--types=`$dtrace -lvn fbt::oops_enter:return | gawk '/^[ 	]*args\[/ { $1 = ""; print }' | sort -u`
-+types=`$dtrace $dt_flags -lvn fbt::oops_enter:return | gawk '/^[ 	]*args\[/ { $1 = ""; print }' | sort -u`
- 
- if [[ -z "$types" ]]; then
- 	echo "FBT probes without args[] type info"
-diff --git a/test/unittest/fbtprovider/err.D_ARGS_IDX.void.x b/test/unittest/fbtprovider/err.D_ARGS_IDX.void.x
-index 46cb9d0d0d24..cc2b78845fa3 100755
---- a/test/unittest/fbtprovider/err.D_ARGS_IDX.void.x
-+++ b/test/unittest/fbtprovider/err.D_ARGS_IDX.void.x
-@@ -1,7 +1,7 @@
- #!/bin/bash
- 
- # Skip test if FBT probes do not provide argument datatype info.
--types=`$dtrace -lvn fbt::exit_creds:return | gawk '/^[ 	]*args\[/ { $1 = ""; print }' | sort -u`
-+types=`$dtrace $dt_flags -lvn fbt::exit_creds:return | gawk '/^[ 	]*args\[/ { $1 = ""; print }' | sort -u`
- 
- if [[ -z "$types" ]]; then
- 	echo "FBT probes without args[] type info"
-diff --git a/test/unittest/ip/tst.ipv4remotetcp.sh b/test/unittest/ip/tst.ipv4remotetcp.sh
-index 99ba1161c90d..577c5668b67c 100755
---- a/test/unittest/ip/tst.ipv4remotetcp.sh
-+++ b/test/unittest/ip/tst.ipv4remotetcp.sh
-@@ -69,7 +69,7 @@ cat > $tmpdir/tst.ipv4remotetcp.test.pl <<-EOPERL
- 	}
- EOPERL
- 
--$dtrace -c "/usr/bin/perl $tmpdir/tst.ipv4remotetcp.test.pl" -qs /dev/stdin <<EODTRACE
-+$dtrace $dt_flags -c "/usr/bin/perl $tmpdir/tst.ipv4remotetcp.test.pl" -qs /dev/stdin <<EODTRACE
- BEGIN
- {
- 	send = receive = 0;
-diff --git a/test/unittest/misc/err.lockmem-pragma.sh b/test/unittest/misc/err.lockmem-pragma.sh
-index d6ffdb355b65..1893f02d7eb8 100755
---- a/test/unittest/misc/err.lockmem-pragma.sh
-+++ b/test/unittest/misc/err.lockmem-pragma.sh
-@@ -9,7 +9,7 @@
- 
- dtrace=$1
- 
--$dtrace -qs /dev/stdin << EOF
-+$dtrace $dt_flags -qs /dev/stdin << EOF
- #pragma D option lockmem=1
- 
- BEGIN
-diff --git a/test/unittest/misc/tst.include.sh b/test/unittest/misc/tst.include.sh
-index 608dc030c692..9d9989a3eee1 100755
---- a/test/unittest/misc/tst.include.sh
-+++ b/test/unittest/misc/tst.include.sh
-@@ -32,8 +32,8 @@ void
- main()
- {}
- EOF
--	if $CC $CFLAGS -o $cofile $cfile >/dev/null 2>&1; then
--		$dtrace -xerrtags -C -s /dev/stdin \
-+	if $CC $test_cppflags $CFLAGS -o $cofile $cfile >/dev/null 2>&1; then
-+		$dtrace $dt_flags -xerrtags -C -s /dev/stdin \
- 		    >/dev/null 2>$errfile <<EOF
- #include <sys/$file>
- BEGIN
-diff --git a/test/unittest/misc/tst.lockmem-cmdline.sh b/test/unittest/misc/tst.lockmem-cmdline.sh
-index 90334baecf97..af2b7132549e 100755
---- a/test/unittest/misc/tst.lockmem-cmdline.sh
-+++ b/test/unittest/misc/tst.lockmem-cmdline.sh
-@@ -12,7 +12,7 @@ dtrace=$1
- for val in 1 268435456 unlimited; do
- 	ulimit -l $val
- 
--	$dtrace -qn 'BEGIN { @ = avg(1234); exit(0); }'
-+	$dtrace $dt_flags -qn 'BEGIN { @ = avg(1234); exit(0); }'
- 	echo $?
- done
- 
-diff --git a/test/unittest/misc/tst.lockmem-envvar.sh b/test/unittest/misc/tst.lockmem-envvar.sh
-index 05dcedc3e4ed..2b0cde01db00 100755
---- a/test/unittest/misc/tst.lockmem-envvar.sh
-+++ b/test/unittest/misc/tst.lockmem-envvar.sh
-@@ -12,7 +12,7 @@ dtrace=$1
- ulimit -l 1
- 
- for val in 16 1K 268435456K 262144M 256G unlimited; do
--	DTRACE_OPT_LOCKMEM=$val $dtrace -qn 'BEGIN { @ = avg(1234); exit(0); }'
-+	DTRACE_OPT_LOCKMEM=$val $dtrace $dt_flags -qn 'BEGIN { @ = avg(1234); exit(0); }'
- 	echo $?
- done
- 
-diff --git a/test/unittest/misc/tst.lockmem-x.sh b/test/unittest/misc/tst.lockmem-x.sh
-index ea8f5f3fd334..0f75b93f9e61 100755
---- a/test/unittest/misc/tst.lockmem-x.sh
-+++ b/test/unittest/misc/tst.lockmem-x.sh
-@@ -12,7 +12,7 @@ dtrace=$1
- ulimit -l 1
- 
- for val in 16 1K 268435456K 262144M 256G unlimited; do
--	$dtrace -xlockmem=$val -qn 'BEGIN { @ = avg(1234); exit(0); }'
-+	$dtrace $dt_flags -xlockmem=$val -qn 'BEGIN { @ = avg(1234); exit(0); }'
- 	echo $?
- done
- 
-diff --git a/test/unittest/misc/tst.parser1.sh b/test/unittest/misc/tst.parser1.sh
-index aebd41e72306..75df4f8245dc 100755
---- a/test/unittest/misc/tst.parser1.sh
-+++ b/test/unittest/misc/tst.parser1.sh
-@@ -17,7 +17,7 @@ chkfile=$tmpfile.check
- 
- # Run DTrace.
- 
--$dtrace -xtree=1 -e -n '
-+$dtrace $dt_flags -xtree=1 -e -n '
- BEGIN
- {
- 	x = 1234;
-diff --git a/test/unittest/misc/tst.parser2.sh b/test/unittest/misc/tst.parser2.sh
-index 6c2616ce8e90..803af8eae971 100755
---- a/test/unittest/misc/tst.parser2.sh
-+++ b/test/unittest/misc/tst.parser2.sh
-@@ -17,7 +17,7 @@ chkfile=$tmpfile.check
- 
- # Run DTrace.
- 
--$dtrace -xtree=2 -e -n '
-+$dtrace $dt_flags -xtree=2 -e -n '
- BEGIN
- {
- 	x = 1234;
-diff --git a/test/unittest/misc/tst.parser4.sh b/test/unittest/misc/tst.parser4.sh
-index 65f441c8b0bc..8f728e15d614 100755
---- a/test/unittest/misc/tst.parser4.sh
-+++ b/test/unittest/misc/tst.parser4.sh
-@@ -17,7 +17,7 @@ chkfile=$tmpfile.check
- 
- # Run DTrace.
- 
--$dtrace -xtree=4 -e -n '
-+$dtrace $dt_flags -xtree=4 -e -n '
- BEGIN
- {
- 	x = 1234;
-diff --git a/test/unittest/options/tst.bpflog-cmdline.sh b/test/unittest/options/tst.bpflog-cmdline.sh
-index 6a1ee1e28524..dd3971c0d9a3 100755
---- a/test/unittest/options/tst.bpflog-cmdline.sh
-+++ b/test/unittest/options/tst.bpflog-cmdline.sh
-@@ -8,6 +8,6 @@
- 
- dtrace=$1
- 
--$dtrace -xbpflog -qn 'BEGIN { exit(0); }' |& grep '^BPF: ' > /dev/null
-+$dtrace $dt_flags -xbpflog -qn 'BEGIN { exit(0); }' |& grep '^BPF: ' > /dev/null
- 
- exit $?
-diff --git a/test/unittest/options/tst.bpflog-pragma.sh b/test/unittest/options/tst.bpflog-pragma.sh
-index 7e959184037f..ae7b89bff602 100755
---- a/test/unittest/options/tst.bpflog-pragma.sh
-+++ b/test/unittest/options/tst.bpflog-pragma.sh
-@@ -8,7 +8,7 @@
- 
- dtrace=$1
- 
--$dtrace -qs /dev/stdin << EOT |& grep '^BPF: ' > /dev/null
-+$dtrace $dt_flags -qs /dev/stdin << EOT |& grep '^BPF: ' > /dev/null
- #pragma D option bpflog
- 
- BEGIN
-diff --git a/test/unittest/options/tst.bpflogsize-pragma.sh b/test/unittest/options/tst.bpflogsize-pragma.sh
-index 3dea3dd46191..b9f12b6d6f4c 100755
---- a/test/unittest/options/tst.bpflogsize-pragma.sh
-+++ b/test/unittest/options/tst.bpflogsize-pragma.sh
-@@ -67,7 +67,7 @@ cursiz=$((16 * 1024 * 1024 - 1))     # default size from dt_bpf_load_prog()
- while [ $cursiz -lt $((1024 * 1024 * 1024)) ]; do
- 
- 	# dtrace should not pass
--	$dtrace -qs D.d >& tmp.out
-+	$dtrace $dt_flags -qs D.d >& tmp.out
- 	if [ $? -eq 0 ]; then
- 		echo unexpected pass
- 		dump_files
-diff --git a/test/unittest/options/tst.iregs.sh b/test/unittest/options/tst.iregs.sh
-index f7a2fdaeba9a..15fb1b1ee994 100755
---- a/test/unittest/options/tst.iregs.sh
-+++ b/test/unittest/options/tst.iregs.sh
-@@ -13,7 +13,7 @@ dtrace=$1
- # once n becomes too small, there are insufficient registers
- for n in 8 7 6 5 4 3; do
- 
--    $dtrace -xiregs=$n -qn 'BEGIN {
-+    $dtrace $dt_flags -xiregs=$n -qn 'BEGIN {
-         a = b = c = d = e = f = g = h = i = j = k = l = 1;
-         trace(a + b * (c + d * (e + f * (g + h * (i + j * (k + l))))));
-         exit(0);
-diff --git a/test/unittest/options/tst.linktype.sh b/test/unittest/options/tst.linktype.sh
-index e1ac954501a3..564d9b0f6f18 100755
---- a/test/unittest/options/tst.linktype.sh
-+++ b/test/unittest/options/tst.linktype.sh
-@@ -24,7 +24,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -42,7 +42,7 @@ int main(int argc, char **argv)
- }
- EOF
- 
--${CC} ${CFLAGS} -c test.c
-+${CC} ${test_cppflags} ${test_ldflags} ${CFLAGS} -c test.c
- if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
-@@ -51,7 +51,7 @@ fi
- # link with different -xlinktype values
- 
- function mytest() {
--	$dtrace -G $1 -s prov.d test.o
-+	$dtrace $dt_flags -G $1 -s prov.d test.o
- 
- 	# report whether the link succeeded
- 	if [ $? -ne 0 ]; then
-diff --git a/test/unittest/options/tst.modpath.x b/test/unittest/options/tst.modpath.x
-index 928f00cc6786..383fc956541c 100755
---- a/test/unittest/options/tst.modpath.x
-+++ b/test/unittest/options/tst.modpath.x
-@@ -9,7 +9,7 @@ fi
- # Skip test if CTF info is not used for rawtp args[] types.  (If all rawtp
- # args[] types are "uint64_t", this is a symptom of our using the back-up
- # trial-and-error method.)
--types=`$dtrace -lvP rawtp | gawk '/^[ 	]*args/ { $1 = ""; print }' | sort -u`
-+types=`$dtrace $dt_flags -lvP rawtp | gawk '/^[ 	]*args/ { $1 = ""; print }' | sort -u`
- if [ "$types" == " uint64_t" ]; then
- 	echo "not using CTF for rawtp args types"
- 	exit 2
-diff --git a/test/unittest/options/tst.strip.sh b/test/unittest/options/tst.strip.sh
-index 4df78ca55dff..054955fb3d90 100755
---- a/test/unittest/options/tst.strip.sh
-+++ b/test/unittest/options/tst.strip.sh
-@@ -22,7 +22,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -40,7 +40,7 @@ int main(int argc, char **argv)
- }
- EOF
- 
--${CC} ${CFLAGS} -c test.c
-+${CC} ${test_cppflags} ${test_ldflags} ${CFLAGS} -c test.c
- if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
-@@ -50,14 +50,14 @@ fi
- 
- objdump="objdump --full-contents --section=.SUNW_dof prov.o"
- 
--$dtrace -G -xstrip -s prov.d test.o
-+$dtrace $dt_flags -G -xstrip -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF (stripped)" >& 2
- 	exit 1
- fi
- $objdump >& out.stripped.txt
- 
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
-diff --git a/test/unittest/options/tst.switchrate.sh b/test/unittest/options/tst.switchrate.sh
-index 0090caffe2fa..ce8065ab7b44 100755
---- a/test/unittest/options/tst.switchrate.sh
-+++ b/test/unittest/options/tst.switchrate.sh
-@@ -20,7 +20,7 @@ for nexpect in 1 16; do
- 	# Run the "instantaneous" D script with the prescribed switchrate.
- 	# Time it.  Round to the nearest number of seconds with int(t+0.5).
- 	nactual=`/usr/bin/time -f "%e" \
--	    $dtrace -xswitchrate=${nexpect}sec -qn 'BEGIN { exit(0) }' \
-+	    $dtrace $dt_flags -xswitchrate=${nexpect}sec -qn 'BEGIN { exit(0) }' \
- 	    |& gawk 'NF != 0 {print int($1 + 0.5)}'`
- 
- 	# Check the actual number of seconds to the expected value.
-diff --git a/test/unittest/options/tst.tregs.sh b/test/unittest/options/tst.tregs.sh
-index 85ff18e4af5d..65cdb83e774e 100755
---- a/test/unittest/options/tst.tregs.sh
-+++ b/test/unittest/options/tst.tregs.sh
-@@ -9,6 +9,6 @@
- dtrace=$1
- 
- for x in 3 5 9 11; do
--    $dtrace -xtregs=$x -qn 'BEGIN { @[1, 2, 3, 4, 5, 6, 7] = count(); exit(0) }'
-+    $dtrace $dt_flags -xtregs=$x -qn 'BEGIN { @[1, 2, 3, 4, 5, 6, 7] = count(); exit(0) }'
-     echo "tregs $x gives $?"
- done
-diff --git a/test/unittest/pid/tst.offsets.sh b/test/unittest/pid/tst.offsets.sh
-index a8070a5408d9..cc1a440d5152 100755
---- a/test/unittest/pid/tst.offsets.sh
-+++ b/test/unittest/pid/tst.offsets.sh
-@@ -65,7 +65,7 @@ fi
- # We are testing a glob in the pid$target:a.out:loopfunc: probe name.
- #
- 
--$dtrace -xstrsize=16 -qn '
-+$dtrace $dt_flags -xstrsize=16 -qn '
- pid$target:a.out:coldfunc:entry,
- pid$target:a.out:loopfunc:,
- pid$target:a.out:leaffunc:entry
-diff --git a/test/unittest/pid/tst.provregex3.sh b/test/unittest/pid/tst.provregex3.sh
-index 7ebfb28eecaa..41210ff09944 100755
---- a/test/unittest/pid/tst.provregex3.sh
-+++ b/test/unittest/pid/tst.provregex3.sh
-@@ -29,10 +29,10 @@ main.o: main.c prov.h
- 	cc $test_cppflags -c main.c
- 
- prov.h: prov.d
--	$dtrace -h -s prov.d
-+	$dtrace $dt_flags -h -s prov.d
- 
- prov.o: prov.d main.o
--	$dtrace -G -64 -s prov.d main.o
-+	$dtrace $dt_flags -G -64 -s prov.d main.o
- EOF
- 
- cat > $DIR/prov.d <<EOF
-diff --git a/test/unittest/pid/tst.provregex4.sh b/test/unittest/pid/tst.provregex4.sh
-index e4248e15a7af..5aa38fa98055 100755
---- a/test/unittest/pid/tst.provregex4.sh
-+++ b/test/unittest/pid/tst.provregex4.sh
-@@ -31,10 +31,10 @@ main.o: main.c prov.h
- 	cc $test_cppflags -c main.c
- 
- prov.h: prov.d
--	$dtrace -h -s prov.d
-+	$dtrace $dt_flags -h -s prov.d
- 
- provmain.o: prov.d main.o
--	$dtrace -G -o provmain.o -s prov.d main.o
-+	$dtrace $dt_flags -G -o provmain.o -s prov.d main.o
- 
- altlib.so: altlib.o provalt.o
- 	cc $test_cppflags -z defs --shared -o altlib.so altlib.o provalt.o
-@@ -43,7 +43,7 @@ altlib.o: altlib.c prov.h
- 	cc $test_cppflags -c altlib.c
- 
- provalt.o: prov.d altlib.o
--	$dtrace -G -o provalt.o -s prov.d altlib.o
-+	$dtrace $dt_flags -G -o provalt.o -s prov.d altlib.o
- EOF
- 
- cat > $DIR/prov.d <<EOF
-diff --git a/test/unittest/predicates/tst.predcache.sh b/test/unittest/predicates/tst.predcache.sh
-index 1ec6927dcea9..0a294e7623a5 100755
---- a/test/unittest/predicates/tst.predcache.sh
-+++ b/test/unittest/predicates/tst.predcache.sh
-@@ -78,7 +78,7 @@ unload()
- 
- script1()
- {
--	$dtrace -s /dev/stdin <<EOF
-+	$dtrace $dt_flags -s /dev/stdin <<EOF
- 	syscall:::entry
- 	/pid != $ppid/
- 	{
-@@ -95,7 +95,7 @@ EOF
- 
- script2()
- {
--	$dtrace -s /dev/stdin <<EOF
-+	$dtrace $dt_flags -s /dev/stdin <<EOF
- 
- 	#pragma D option statusrate=1ms
- 
-diff --git a/test/unittest/printf/tst.wide-bug30404549.sh b/test/unittest/printf/tst.wide-bug30404549.sh
-index 3c3eb6506d45..5ec0e4003091 100755
---- a/test/unittest/printf/tst.wide-bug30404549.sh
-+++ b/test/unittest/printf/tst.wide-bug30404549.sh
-@@ -17,7 +17,7 @@ fi
- dtrace=$1
- 
- # abbreviate output to a simple statement of length.  raw output is big (29M)
--$dtrace -qs /dev/stdin << EOF | gawk '{ print length($0); }'
-+$dtrace $dt_flags -qs /dev/stdin << EOF | gawk '{ print length($0); }'
- BEGIN
- {
- 	printf("%10000000d\n", 1);
-diff --git a/test/unittest/printf/tst.wide.sh b/test/unittest/printf/tst.wide.sh
-index 479ab8d30344..5c0c98d15a67 100755
---- a/test/unittest/printf/tst.wide.sh
-+++ b/test/unittest/printf/tst.wide.sh
-@@ -17,7 +17,7 @@ fi
- dtrace=$1
- 
- # abbreviate output, where the raw output of prints is big (29M)
--$dtrace -qs /dev/stdin << EOF | gawk '{
-+$dtrace $dt_flags -qs /dev/stdin << EOF | gawk '{
-   if (match($0, "  +"))
-     printf("%s{%d* }%s\n", substr($0, 1, RSTART - 1),
-       RLENGTH, substr($0, RSTART + RLENGTH));
-diff --git a/test/unittest/providers/rawtp/err.lockmem-too-low.sh b/test/unittest/providers/rawtp/err.lockmem-too-low.sh
-index 0c3d9a3c83ae..629c35ad7109 100755
---- a/test/unittest/providers/rawtp/err.lockmem-too-low.sh
-+++ b/test/unittest/providers/rawtp/err.lockmem-too-low.sh
-@@ -23,11 +23,11 @@ dtrace=$1
- # Determine whether the system respects setting the lockmem limit as root.
- # Some systems ignore lowering the limit, which means we cannot make it fail.
- # In that case, we report XFAIL.
--if $dtrace -xlockmem=1 -n 'BEGIN { exit(0); }' &> /dev/null; then
-+if $dtrace $dt_flags -xlockmem=1 -n 'BEGIN { exit(0); }' &> /dev/null; then
-     exit 67
- fi
- 
--$dtrace -xlockmem=1 -lvn rawtp:::sched_process_fork |& \
-+$dtrace $dt_flags -xlockmem=1 -lvn rawtp:::sched_process_fork |& \
-     gawk 'BEGIN {
- 	     err = 0;  # lockmem error messages
- 	     CTF = 0;  # arg types indicating CTF info
-diff --git a/test/unittest/syscall/tst.openret.sh b/test/unittest/syscall/tst.openret.sh
-index d3b018ab6ec5..c04b1522ef30 100755
---- a/test/unittest/syscall/tst.openret.sh
-+++ b/test/unittest/syscall/tst.openret.sh
-@@ -6,7 +6,7 @@
- # http://oss.oracle.com/licenses/upl.
- 
- script() {
--	$dtrace -c 'cat shajirosan' -qs /dev/stdin <<EOF
-+	$dtrace $dt_flags -c 'cat shajirosan' -qs /dev/stdin <<EOF
- 	syscall::open*:entry
- 	/pid == \$target/
- 	{
-diff --git a/test/unittest/usdt/tst.allargs.sh b/test/unittest/usdt/tst.allargs.sh
-index d233615f6aef..179552b65ece 100755
---- a/test/unittest/usdt/tst.allargs.sh
-+++ b/test/unittest/usdt/tst.allargs.sh
-@@ -17,6 +17,7 @@ fi
- dtrace=$1
- CC=/usr/bin/gcc
- CFLAGS="-std=gnu89 $test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-allargs.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -73,18 +74,18 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
- fi
- 
--$dtrace -c ./test -qs /dev/stdin <<EOF
-+$dtrace $dt_flags -c ./test -qs /dev/stdin <<EOF
- test_prov\$target:::zero
- {
- 	printf("%s:%s:%s\n", probemod, probefunc, probename);
-diff --git a/test/unittest/usdt/tst.andpid.ksh b/test/unittest/usdt/tst.andpid.ksh
-index b0ad1e398d53..ab7d2a74233c 100644
---- a/test/unittest/usdt/tst.andpid.ksh
-+++ b/test/unittest/usdt/tst.andpid.ksh
-@@ -11,7 +11,7 @@ fi
- 
- dtrace=$1
- 
--$dtrace -c date -s /dev/stdin <<EOF
-+$dtrace $dt_flags -c date -s /dev/stdin <<EOF
- plockstat\$target::mutex_lock_impl:,
- pid\$target::mutex_lock_impl:
- {}
-diff --git a/test/unittest/usdt/tst.badguess.sh b/test/unittest/usdt/tst.badguess.sh
-index ae4865f6fc27..b6ff9e233828 100755
---- a/test/unittest/usdt/tst.badguess.sh
-+++ b/test/unittest/usdt/tst.badguess.sh
-@@ -12,7 +12,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-badguess.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -24,7 +25,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -48,13 +49,13 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c 64-bit" >& 2
- 	exit 1
- fi
--$CC $CFLAGS -m32 -c -o test32.o test.c
-+$CC $LDFLAGS -m32 -c -o test32.o test.c
- if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c 32-bit" >& 2
- 	exit 1
- fi
- 
--$dtrace -G -s prov.d test32.o test64.o
-+$dtrace $dt_flags -G -s prov.d test32.o test64.o
- if [ $? -eq 0 ]; then
- 	echo "DOF generation failed to generate a warning" >& 2
- 	exit 1
-diff --git a/test/unittest/usdt/tst.corruptenv.sh b/test/unittest/usdt/tst.corruptenv.sh
-index 4f465c2c9db0..eac24827ba99 100755
---- a/test/unittest/usdt/tst.corruptenv.sh
-+++ b/test/unittest/usdt/tst.corruptenv.sh
-@@ -29,16 +29,16 @@ cat > Makefile <<EOF
- all: main
- 
- main: main.o prov.o
--	\$(CC) -o main main.o prov.o
-+	\$(CC) \$(test_ldflags) -o main main.o prov.o
- 
- main.o: main.c prov.h
--	\$(CC) -c main.c
-+	\$(CC) \$(test_cppflags) -c main.c
- 
- prov.h: prov.d
--	$dtrace -h -s prov.d
-+	$dtrace $dt_flags -h -s prov.d
- 
- prov.o: prov.d main.o
--	$dtrace -G -s prov.d main.o
-+	$dtrace $dt_flags -G -s prov.d main.o
- EOF
- 
- cat > prov.d <<EOF
-diff --git a/test/unittest/usdt/tst.dlclose1.sh b/test/unittest/usdt/tst.dlclose1.sh
-index ee4d95f3bf20..bf0ffd5f2029 100755
---- a/test/unittest/usdt/tst.dlclose1.sh
-+++ b/test/unittest/usdt/tst.dlclose1.sh
-@@ -44,30 +44,30 @@ cat > Makefile <<EOF
- all: main livelib.so deadlib.so
- 
- main: main.o prov.o
--	\$(CC) -o main main.o -ldl
-+	\$(CC) \$(test_ldflags) -o main main.o -ldl
- 
- main.o: main.c
--	\$(CC) -c main.c
-+	\$(CC) \$(test_cppflags) -c main.c
- 
- 
- livelib.so: livelib.o prov.o
--	\$(CC) -shared -o livelib.so livelib.o prov.o -lc
-+	\$(CC) \$(test_ldflags) -shared -o livelib.so livelib.o prov.o -lc
- 
- livelib.o: livelib.c prov.h
--	\$(CC) -c livelib.c
-+	\$(CC) \$(test_cppflags) -c livelib.c
- 
- prov.o: livelib.o prov.d
--	$dtrace -G -s prov.d livelib.o
-+	$dtrace \$(dt_flags) -G -s prov.d livelib.o
- 
- prov.h: prov.d
--	$dtrace -h -s prov.d
-+	$dtrace \$(dt_flags) -h -s prov.d
- 
- 
- deadlib.so: deadlib.o
--	\$(CC) -shared -o deadlib.so deadlib.o -lc
-+	\$(CC) \$(test_ldflags) -shared -o deadlib.so deadlib.o -lc
- 
- deadlib.o: deadlib.c
--	\$(CC) -c deadlib.c
-+	\$(CC) \$(test_cppflags) -c deadlib.c
- 
- clean:
- 	rm -f main.o livelib.o prov.o prov.h deadlib.o
-@@ -203,11 +203,11 @@ pid=$!
- echo started pid $pid
- 
- mywait 6 "started"  myfile.txt # wait for process to start
--$dtrace -lP test_prov$pid      # check USDT probes
-+$dtrace $dt_flags -lP test_prov$pid      # check USDT probes
- kill -s USR1 $pid              # signal process
- 
- mywait 6 "dlclosed" myfile.txt # wait for process to dlclose
--$dtrace -lP test_prov$pid      # check USDT probes
-+$dtrace $dt_flags -lP test_prov$pid      # check USDT probes
- kill -s KILL $pid              # kill process
- 
- exit 0
-diff --git a/test/unittest/usdt/tst.dlclose2.sh b/test/unittest/usdt/tst.dlclose2.sh
-index 6044cf4b191d..907685a68627 100755
---- a/test/unittest/usdt/tst.dlclose2.sh
-+++ b/test/unittest/usdt/tst.dlclose2.sh
-@@ -26,30 +26,30 @@ cat > Makefile <<EOF
- all: main livelib.so deadlib.so
- 
- main: main.o prov.o
--	\$(CC) -o main main.o -ldl
-+	\$(CC) \$(test_ldflags) -o main main.o -ldl
- 
- main.o: main.c
--	\$(CC) -c main.c
-+	\$(CC) \$(test_cppflags) -c main.c
- 
- 
- livelib.so: livelib.o prov.o
--	\$(CC) -shared -o livelib.so livelib.o prov.o -lc
-+	\$(CC) \$(test_ldflags) -shared -o livelib.so livelib.o prov.o -lc
- 
- livelib.o: livelib.c prov.h
--	\$(CC) -c livelib.c
-+	\$(CC) \$(test_cppflags) -c livelib.c
- 
- prov.o: livelib.o prov.d
--	$dtrace -G -s prov.d livelib.o
-+	$dtrace \$(dt_flags) -G -s prov.d livelib.o
- 
- prov.h: prov.d
--	$dtrace -h -s prov.d
-+	$dtrace \$(dt_flags) -h -s prov.d
- 
- 
- deadlib.so: deadlib.o
--	\$(CC) -shared -o deadlib.so deadlib.o -lc
-+	\$(CC) \$(test_ldflags) -shared -o deadlib.so deadlib.o -lc
- 
- deadlib.o: deadlib.c
--	\$(CC) -c deadlib.c
-+	\$(CC) \$(test_cppflags) -c deadlib.c
- 
- clean:
- 	rm -f main.o livelib.o prov.o prov.h deadlib.o
-@@ -128,7 +128,7 @@ if [ $? -ne 0 ]; then
- fi
- 
- script() {
--	$dtrace -c ./main -Zqs /dev/stdin <<EOF
-+	$dtrace $dt_flags -c ./main -Zqs /dev/stdin <<EOF
- 	test_prov*:::
- 	{
- 		printf("%s:%s:%s\n", probemod, probefunc, probename);
-diff --git a/test/unittest/usdt/tst.dlclose3.sh b/test/unittest/usdt/tst.dlclose3.sh
-index 9ee91c8d23ab..0b70906fcdc6 100755
---- a/test/unittest/usdt/tst.dlclose3.sh
-+++ b/test/unittest/usdt/tst.dlclose3.sh
-@@ -32,28 +32,28 @@ cat > Makefile <<EOF
- all: main livelib.so deadlib.so
- 
- main: main.o prov.o
--	\$(CC) -o main main.o -ldl
-+	\$(CC) \$(test_ldflags) -o main main.o -ldl
- 
- main.o: main.c
--	\$(CC) -c main.c
-+	\$(CC) \$(test_cppflags) -c main.c
- 
- livelib.so: livelib.o prov.o
--	\$(CC) -shared -o livelib.so livelib.o prov.o -lc
-+	\$(CC) \$(test_ldflags) -shared -o livelib.so livelib.o prov.o -lc
- 
- livelib.o: livelib.c prov.h
--	\$(CC) -c livelib.c
-+	\$(CC) \$(test_cppflags) -c livelib.c
- 
- prov.o: livelib.o prov.d
--	$dtrace -G -s prov.d livelib.o
-+	$dtrace \$(dt_flags) -G -s prov.d livelib.o
- 
- prov.h: prov.d
--	$dtrace -h -s prov.d
-+	$dtrace \$(dt_flags) -h -s prov.d
- 
- deadlib.so: deadlib.o
--	\$(CC) -shared -o deadlib.so deadlib.o -lc
-+	\$(CC) \$(test_ldflags) -shared -o deadlib.so deadlib.o -lc
- 
- deadlib.o: deadlib.c
--	\$(CC) -c deadlib.c
-+	\$(CC) \$(test_cppflags) -c deadlib.c
- 
- clean:
- 	rm -f main.o livelib.o prov.o prov.h deadlib.o
-@@ -122,7 +122,7 @@ if [ $? -ne 0 ]; then
- fi
- 
- script() {
--	$dtrace -c ./main -s /dev/stdin <<EOF
-+	$dtrace $dt_flags -c ./main -s /dev/stdin <<EOF
- 	pid\$target:a.out:foo:entry
- 	{
- 		gotit = 1;
-diff --git a/test/unittest/usdt/tst.dlclose4.sh b/test/unittest/usdt/tst.dlclose4.sh
-index 58be453b048d..c13404caf92b 100755
---- a/test/unittest/usdt/tst.dlclose4.sh
-+++ b/test/unittest/usdt/tst.dlclose4.sh
-@@ -30,22 +30,22 @@ cat > Makefile <<EOF
- all: main livelib.so
- 
- main: main.o prov.o
--	\$(CC) -o main main.o -ldl
-+	\$(CC) \$(test_ldflags) -o main main.o -ldl
- 
- main.o: main.c
--	\$(CC) -c main.c
-+	\$(CC) \$(test_cppflags) -c main.c
- 
- livelib.so: livelib.o prov.o
--	\$(CC) -shared -o livelib.so livelib.o prov.o -lc
-+	\$(CC) \$(test_ldflags) -shared -o livelib.so livelib.o prov.o -lc
- 
- livelib.o: livelib.c prov.h
--	\$(CC) -c livelib.c
-+	\$(CC) \$(test_cppflags) -c livelib.c
- 
- prov.o: livelib.o prov.d
--	$dtrace -G -s prov.d livelib.o
-+	$dtrace \$(dt_flags) -G -s prov.d livelib.o
- 
- prov.h: prov.d
--	$dtrace -h -s prov.d
-+	$dtrace \$(dt_flags) -h -s prov.d
- 
- clean:
- 	rm -f main.o livelib.o prov.o prov.h
-@@ -141,7 +141,7 @@ fi
- #     ls /run/dtrace/stash/dof-pid/$pid/*/parsed/test_prov:livelib.so:go:go
- 
- function check_USDT_probes() {
--	$dtrace -lP test_prov$pid |& awk '
-+	$dtrace $dt_flags -lP test_prov$pid |& awk '
- 	    /ID *PROVIDER *MODULE *FUNCTION *NAME/ { next }
- 	    /test_prov'$pid' *livelib\.so *go *go/ { exit(0) }
- 	    /No probe matches description/ { exit(1) }'
-diff --git a/test/unittest/usdt/tst.eliminate.sh b/test/unittest/usdt/tst.eliminate.sh
-index 63541ff2454f..e74896bbe619 100755
---- a/test/unittest/usdt/tst.eliminate.sh
-+++ b/test/unittest/usdt/tst.eliminate.sh
-@@ -17,7 +17,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-eliminate.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -29,7 +30,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -59,12 +60,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-diff --git a/test/unittest/usdt/tst.enable_pid.sh b/test/unittest/usdt/tst.enable_pid.sh
-index 91923014d8e0..cdb34e8ab6eb 100755
---- a/test/unittest/usdt/tst.enable_pid.sh
-+++ b/test/unittest/usdt/tst.enable_pid.sh
-@@ -115,7 +115,7 @@ EOF
- # Build the test program.
- #
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >&2
- 	exit 1
-@@ -125,7 +125,7 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test" >&2
- 	exit 1
- fi
--$dtrace -G -64 -s prov.d main.o
-+$dtrace $dt_flags -G -64 -s prov.d main.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >&2
- 	exit 1
-diff --git a/test/unittest/usdt/tst.enabled.sh b/test/unittest/usdt/tst.enabled.sh
-index 2c0a5b405e7a..4cd1eccdb7ac 100755
---- a/test/unittest/usdt/tst.enabled.sh
-+++ b/test/unittest/usdt/tst.enabled.sh
-@@ -12,7 +12,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-enabled.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -24,7 +25,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -48,12 +49,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -61,7 +62,7 @@ fi
- 
- script()
- {
--	$dtrace -c ./test -qs /dev/stdin <<EOF
-+	$dtrace $dt_flags -c ./test -qs /dev/stdin <<EOF
- 	test_prov\$target:::
- 	{
- 		printf("%s:%s:%s\n", probemod, probefunc, probename);
-diff --git a/test/unittest/usdt/tst.enabled2.sh b/test/unittest/usdt/tst.enabled2.sh
-index c70bef507e89..1732085e6f3b 100755
---- a/test/unittest/usdt/tst.enabled2.sh
-+++ b/test/unittest/usdt/tst.enabled2.sh
-@@ -16,7 +16,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-enabled2.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -28,7 +29,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -62,12 +63,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -77,7 +78,7 @@ script()
- {
- 	./test
- 
--	$dtrace -c ./test -qs /dev/stdin <<EOF
-+	$dtrace $dt_flags -c ./test -qs /dev/stdin <<EOF
- 	test_prov\$target:::
- 	{
- 	}
-diff --git a/test/unittest/usdt/tst.entryreturn.sh b/test/unittest/usdt/tst.entryreturn.sh
-index d777c1acdf41..84af967234ba 100755
---- a/test/unittest/usdt/tst.entryreturn.sh
-+++ b/test/unittest/usdt/tst.entryreturn.sh
-@@ -15,6 +15,7 @@ fi
- dtrace=$1
- CC=/usr/bin/gcc
- CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-entryreturn.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -59,12 +60,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -72,7 +73,7 @@ fi
- 
- script()
- {
--	$dtrace -wqZFs /dev/stdin <<EOF
-+	$dtrace $dt_flags -wqZFs /dev/stdin <<EOF
- 	BEGIN
- 	{
- 		system("$DIRNAME/test");
-diff --git a/test/unittest/usdt/tst.exec-dof-replacement.sh b/test/unittest/usdt/tst.exec-dof-replacement.sh
-index 9f30bbfcc32e..d6c5a8c0f4a4 100755
---- a/test/unittest/usdt/tst.exec-dof-replacement.sh
-+++ b/test/unittest/usdt/tst.exec-dof-replacement.sh
-@@ -15,7 +15,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-exec-dof-replacement.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -33,7 +34,7 @@ provider test_prov {
- };
- EOF
- 
--if ! { $dtrace -h -s prov1.d && dtrace -h -s prov2.d; } then
-+if ! { $dtrace $dt_flags -h -s prov1.d && dtrace -h -s prov2.d; } then
- 	echo "failed to generate header files" >&2
- 	exit 1
- fi
-@@ -70,11 +71,11 @@ if ! { ${CC} ${CFLAGS} -c test1.c && ${CC} ${CFLAGS} -c test2.c; } then
- 	echo "failed to compile test programs" >&2
- 	exit 1
- fi
--if ! { $dtrace -G -s prov1.d test1.o && $dtrace -G -s prov2.d test2.o; } then
-+if ! { $dtrace $dt_flags -G -s prov1.d test1.o && $dtrace $dt_flags -G -s prov2.d test2.o; } then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--if ! { ${CC} ${CFLAGS} -o test1 test1.o prov1.o && ${CC} ${CFLAGS} -o test2 test2.o prov2.o; } then
-+if ! { ${CC} ${LDFLAGS} -o test1 test1.o prov1.o && ${CC} ${LDFLAGS} -o test2 test2.o prov2.o; } then
- 	echo "failed to link final executables" >& 2
- 	exit 1
- fi
-@@ -89,7 +90,7 @@ PROC=$!
- while [[ -d /proc/$PROC ]] && [[ "$(readlink /proc/$PROC/exe)" =~ test1$ ]]; do
-     sleep 1
- done
--$dtrace -p $PROC '-Ptest_prov$target' -l
-+$dtrace $dt_flags -p $PROC '-Ptest_prov$target' -l
- status2=$?
- kill $PROC
- 
-diff --git a/test/unittest/usdt/tst.execstack.sh b/test/unittest/usdt/tst.execstack.sh
-index 242a2ed9d9ee..e7b59105bf46 100755
---- a/test/unittest/usdt/tst.execstack.sh
-+++ b/test/unittest/usdt/tst.execstack.sh
-@@ -12,7 +12,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- OBJDUMP=/usr/bin/objdump
- READELF=/usr/bin/readelf
- 
-@@ -29,7 +30,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -54,7 +55,7 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
-@@ -64,7 +65,7 @@ if [ $? -eq 0 ]; then
- 	echo "EXEC flag on .note.GNU-stack" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${lDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-diff --git a/test/unittest/usdt/tst.fork.sh b/test/unittest/usdt/tst.fork.sh
-index dc30b2c5598b..9b2b372a06e8 100755
---- a/test/unittest/usdt/tst.fork.sh
-+++ b/test/unittest/usdt/tst.fork.sh
-@@ -13,7 +13,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-fork.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -25,7 +26,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -58,19 +59,19 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
- fi
- 
- script() {
--	$dtrace -c ./test -Zqs /dev/stdin <<EOF
-+	$dtrace $dt_flags -c ./test -Zqs /dev/stdin <<EOF
- 	test_prov*:::
- 	{
- 		printf("%s:%s:%s\n", probemod, probefunc, probename);
-diff --git a/test/unittest/usdt/tst.forker.sh b/test/unittest/usdt/tst.forker.sh
-index 92513eb5de7e..aa51970420de 100755
---- a/test/unittest/usdt/tst.forker.sh
-+++ b/test/unittest/usdt/tst.forker.sh
-@@ -25,7 +25,7 @@ id=$!
- disown %+
- 
- while kill -0 $id >/dev/null 2>&1; do
--	$dtrace -p $id -s /dev/stdin <<-EOF
-+	$dtrace $dt_flags -p $id -s /dev/stdin <<-EOF
- 		forker*:::fire
- 		/i++ == 4/
- 		{
-diff --git a/test/unittest/usdt/tst.guess32.sh b/test/unittest/usdt/tst.guess32.sh
-index 20ad0e7346ab..7a130e178c02 100755
---- a/test/unittest/usdt/tst.guess32.sh
-+++ b/test/unittest/usdt/tst.guess32.sh
-@@ -12,7 +12,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-guess32.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -24,7 +25,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -48,12 +49,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -m32 -o test test.o prov.o
-+${CC} ${LDFLAGS} -m32 -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -61,7 +62,7 @@ fi
- 
- script()
- {
--	$dtrace -c ./test -qs /dev/stdin <<EOF
-+	$dtrace $dt_flags -c ./test -qs /dev/stdin <<EOF
- 	test_prov\$target:::
- 	{
- 		printf("%s:%s:%s\n", probemod, probefunc, probename);
-diff --git a/test/unittest/usdt/tst.guess64.sh b/test/unittest/usdt/tst.guess64.sh
-index 52750baf4792..23b7a241cdcd 100755
---- a/test/unittest/usdt/tst.guess64.sh
-+++ b/test/unittest/usdt/tst.guess64.sh
-@@ -12,7 +12,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-guess64.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -24,7 +25,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -48,12 +49,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -61,7 +62,7 @@ fi
- 
- script()
- {
--	$dtrace -c ./test -qs /dev/stdin <<EOF
-+	$dtrace $dt_flags -c ./test -qs /dev/stdin <<EOF
- 	test_prov\$target:::
- 	{
- 		printf("%s:%s:%s\n", probemod, probefunc, probename);
-diff --git a/test/unittest/usdt/tst.header.sh b/test/unittest/usdt/tst.header.sh
-index c96b8787c84c..c5e411be66b0 100755
---- a/test/unittest/usdt/tst.header.sh
-+++ b/test/unittest/usdt/tst.header.sh
-@@ -12,7 +12,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-header.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -27,7 +28,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -52,12 +53,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-diff --git a/test/unittest/usdt/tst.lingering.sh b/test/unittest/usdt/tst.lingering.sh
-index bee59df44da7..079acb75db2d 100755
---- a/test/unittest/usdt/tst.lingering.sh
-+++ b/test/unittest/usdt/tst.lingering.sh
-@@ -15,7 +15,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-lingering.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -28,7 +29,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -57,12 +58,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -74,7 +75,7 @@ TRIGPID=$!
- trap 'kill -9 $TRIGPID' ERR EXIT
- 
- script() {
--	$dtrace -p $TRIGPID -qs /dev/stdin <<EOF
-+	$dtrace $dt_flags -p $TRIGPID -qs /dev/stdin <<EOF
- 	test_prov\$target:::$1
- 	{
- 		printf("%s:%s:%s\n", probemod, probefunc, probename);
-diff --git a/test/unittest/usdt/tst.link-idempotence.sh b/test/unittest/usdt/tst.link-idempotence.sh
-index 77c2c26db5d3..643ba10ca7cd 100755
---- a/test/unittest/usdt/tst.link-idempotence.sh
-+++ b/test/unittest/usdt/tst.link-idempotence.sh
-@@ -12,7 +12,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-link-idempotence.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -24,7 +25,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -48,13 +49,13 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
--$dtrace -G -s prov.d test.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to regenerate DOF" >& 2
- 	exit 1
-diff --git a/test/unittest/usdt/tst.linkpriv.sh b/test/unittest/usdt/tst.linkpriv.sh
-index c008e66df838..2c89f5d46345 100755
---- a/test/unittest/usdt/tst.linkpriv.sh
-+++ b/test/unittest/usdt/tst.linkpriv.sh
-@@ -13,6 +13,7 @@ fi
- dtrace=$1
- CC=/usr/bin/gcc
- CFLAGS="-std=gnu99 $test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-linkpriv.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -49,12 +50,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-diff --git a/test/unittest/usdt/tst.linkunpriv.sh b/test/unittest/usdt/tst.linkunpriv.sh
-index bf52bc6ad015..9ef386392b30 100755
---- a/test/unittest/usdt/tst.linkunpriv.sh
-+++ b/test/unittest/usdt/tst.linkunpriv.sh
-@@ -53,7 +53,7 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
-diff --git a/test/unittest/usdt/tst.manyprobes.sh b/test/unittest/usdt/tst.manyprobes.sh
-index a3b238745acd..c0deb8df030d 100755
---- a/test/unittest/usdt/tst.manyprobes.sh
-+++ b/test/unittest/usdt/tst.manyprobes.sh
-@@ -13,6 +13,7 @@ fi
- dtrace=$1
- CC=/usr/bin/gcc
- CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- DIRNAME="$tmpdir/usdt-manyprobes.$$.$RANDOM"
- mkdir -p $DIRNAME
- cd $DIRNAME
-@@ -47,12 +48,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s manyprobes.d test.o
-+$dtrace $dt_flags -G -s manyprobes.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o manyprobes.o
-+${CC} ${LDFLAGS} -o test test.o manyprobes.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -60,7 +61,7 @@ fi
- 
- script()
- {
--	$dtrace -c ./test -qs /dev/stdin <<EOF
-+	$dtrace $dt_flags -c ./test -qs /dev/stdin <<EOF
- 	manyprobes\$target:::test1, manyprobes\$target:::test750, manyprobes\$target:::test1999
- 	{
- 		printf("%s:%s:%s\n", probemod, probefunc, probename);
-diff --git a/test/unittest/usdt/tst.manyprocs.sh b/test/unittest/usdt/tst.manyprocs.sh
-index f820ed231c38..585503029581 100755
---- a/test/unittest/usdt/tst.manyprocs.sh
-+++ b/test/unittest/usdt/tst.manyprocs.sh
-@@ -15,7 +15,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-manyprocs.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -27,7 +28,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -63,12 +64,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-diff --git a/test/unittest/usdt/tst.multiple.sh b/test/unittest/usdt/tst.multiple.sh
-index b31e8eff705d..1fd30dc6f7d8 100755
---- a/test/unittest/usdt/tst.multiple.sh
-+++ b/test/unittest/usdt/tst.multiple.sh
-@@ -12,7 +12,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-multiple.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -26,7 +27,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -58,12 +59,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -74,7 +75,7 @@ script() {
- 	# rtld activity monitoring from triggering repeated
- 	# probe scans (checking for problems doing one-off scans of
- 	# already-running processes while probing multiple probes).
--	./test & { WAIT=$!; sleep 1; $dtrace -qs /dev/stdin $WAIT <<EOF; }
-+	./test & { WAIT=$!; sleep 1; $dtrace $dt_flags -qs /dev/stdin $WAIT <<EOF; }
- 	test_prov\$1:::go
- 	{
- 		printf("%s:%s:%s\n", probemod, probefunc, probename);
-diff --git a/test/unittest/usdt/tst.multitrace.sh b/test/unittest/usdt/tst.multitrace.sh
-index dcabde620c03..4e53dbb99250 100755
---- a/test/unittest/usdt/tst.multitrace.sh
-+++ b/test/unittest/usdt/tst.multitrace.sh
-@@ -15,7 +15,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-multitrace.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -28,7 +29,7 @@ provider test_multitrace {
- };
- EOF
- 
--$dtrace -h -s multitrace.d
-+$dtrace $dt_flags -h -s multitrace.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -60,19 +61,19 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s multitrace.d test.o
-+$dtrace $dt_flags -G -s multitrace.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o multitrace.o
-+${CC} ${LDFLAGS} -o test test.o multitrace.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
- fi
- 
- script() {
--	exec $dtrace -qws /dev/stdin $1 $2 $3 <<'EOF'
-+	exec $dtrace $dt_flags -qws /dev/stdin $1 $2 $3 <<'EOF'
- 	int fired[pid_t];
- 	int exited[pid_t];
- 
-diff --git a/test/unittest/usdt/tst.nusdtprobes.sh b/test/unittest/usdt/tst.nusdtprobes.sh
-index 50f18a6caedf..c7769647c0f4 100755
---- a/test/unittest/usdt/tst.nusdtprobes.sh
-+++ b/test/unittest/usdt/tst.nusdtprobes.sh
-@@ -61,22 +61,22 @@ EOF
- 
- # Build the trigger.
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >&2
- 	exit 1
- fi
--cc $test_cppflags -c main.c
-+gcc $test_cppflags -c main.c
- if [ $? -ne 0 ]; then
- 	echo "failed to compile test" >&2
- 	exit 1
- fi
--$dtrace -G -64 -s prov.d main.o
-+$dtrace $dt_flags -G -64 -s prov.d main.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >&2
- 	exit 1
- fi
--cc $test_cppflags -o main main.o prov.o
-+gcc $test_ldflags -o main main.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >&2
- 	exit 1
-diff --git a/test/unittest/usdt/tst.onlyenabled.sh b/test/unittest/usdt/tst.onlyenabled.sh
-index a469fac156c0..d3487834e79f 100755
---- a/test/unittest/usdt/tst.onlyenabled.sh
-+++ b/test/unittest/usdt/tst.onlyenabled.sh
-@@ -12,7 +12,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-onlyenabled.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -24,7 +25,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -49,12 +50,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-diff --git a/test/unittest/usdt/tst.pie.sh b/test/unittest/usdt/tst.pie.sh
-index 854cd85b6d0a..0d62c3762ae8 100755
---- a/test/unittest/usdt/tst.pie.sh
-+++ b/test/unittest/usdt/tst.pie.sh
-@@ -12,7 +12,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS="-fno-inline -pie"
-+CFLAGS="-fno-inline -pie $test_cppflags"
-+LDFLAGS="-pie $test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-pie.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -24,7 +25,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -52,12 +53,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -65,7 +66,7 @@ fi
- 
- script()
- {
--	$dtrace -c ./test -qs /dev/stdin <<EOF
-+	$dtrace $dt_flags -c ./test -qs /dev/stdin <<EOF
- 	test_prov\$target:::
- 	{
- 		printf("%s:%s:%s\n", probemod, probefunc, probename);
-diff --git a/test/unittest/usdt/tst.reeval.sh b/test/unittest/usdt/tst.reeval.sh
-index 56011a4fbe52..371eee3dbc07 100755
---- a/test/unittest/usdt/tst.reeval.sh
-+++ b/test/unittest/usdt/tst.reeval.sh
-@@ -14,6 +14,7 @@ fi
- dtrace=$1
- CC=/usr/bin/gcc
- CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-reeval.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -40,12 +41,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -53,7 +54,7 @@ fi
- 
- script()
- {
--	$dtrace -wZs /dev/stdin <<EOF
-+	$dtrace $dt_flags -wZs /dev/stdin <<EOF
- 	BEGIN
- 	{
- 		system("$DIRNAME/test");
-diff --git a/test/unittest/usdt/tst.static.sh b/test/unittest/usdt/tst.static.sh
-index bd71c2e46e1f..81b3ba0412f6 100755
---- a/test/unittest/usdt/tst.static.sh
-+++ b/test/unittest/usdt/tst.static.sh
-@@ -13,6 +13,7 @@ fi
- dtrace=$1
- CC=/usr/bin/gcc
- CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-static.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -50,12 +51,12 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -63,7 +64,7 @@ fi
- 
- script()
- {
--	$dtrace -c ./test -qs /dev/stdin <<EOF
-+	$dtrace $dt_flags -c ./test -qs /dev/stdin <<EOF
- 	test_prov\$target:::
- 	{
- 		printf("%s:%s:%s\n", probemod, probefunc, probename);
-diff --git a/test/unittest/usdt/tst.static2.sh b/test/unittest/usdt/tst.static2.sh
-index 29fd35979395..115a95511e11 100755
---- a/test/unittest/usdt/tst.static2.sh
-+++ b/test/unittest/usdt/tst.static2.sh
-@@ -17,6 +17,7 @@ fi
- dtrace=$1
- CC=/usr/bin/gcc
- CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-static2.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -54,18 +55,18 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create initial DOF" >& 2
- 	exit 1
- fi
- rm -f prov.o
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create final DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
-@@ -73,7 +74,7 @@ fi
- 
- script()
- {
--	$dtrace -c ./test -qs /dev/stdin <<EOF
-+	$dtrace $dt_flags -c ./test -qs /dev/stdin <<EOF
- 	test_prov\$target:::
- 	{
- 		printf("%s:%s:%s\n", probemod, probefunc, probename);
-diff --git a/test/unittest/usdt/tst.user.sh b/test/unittest/usdt/tst.user.sh
-index fc916f500a02..30513acca141 100755
---- a/test/unittest/usdt/tst.user.sh
-+++ b/test/unittest/usdt/tst.user.sh
-@@ -14,7 +14,8 @@ fi
- 
- dtrace=$1
- CC=/usr/bin/gcc
--CFLAGS=
-+CFLAGS="$test_cppflags"
-+LDFLAGS="$test_ldflags"
- 
- DIRNAME="$tmpdir/usdt-user.$$.$RANDOM"
- mkdir -p $DIRNAME
-@@ -26,7 +27,7 @@ provider test_prov {
- };
- EOF
- 
--$dtrace -h -s prov.d
-+$dtrace $dt_flags -h -s prov.d
- if [ $? -ne 0 ]; then
- 	echo "failed to generate header file" >& 2
- 	exit 1
-@@ -50,19 +51,19 @@ if [ $? -ne 0 ]; then
- 	echo "failed to compile test.c" >& 2
- 	exit 1
- fi
--$dtrace -G -s prov.d test.o
-+$dtrace $dt_flags -G -s prov.d test.o
- if [ $? -ne 0 ]; then
- 	echo "failed to create DOF" >& 2
- 	exit 1
- fi
--${CC} ${CFLAGS} -o test test.o prov.o
-+${CC} ${LDFLAGS} -o test test.o prov.o
- if [ $? -ne 0 ]; then
- 	echo "failed to link final executable" >& 2
- 	exit 1
- fi
- 
- script() {
--	$dtrace -c 'ppriv -e -s A=basic ./test' -Zqs /dev/stdin <<EOF
-+	$dtrace $dt_flags -c 'ppriv -e -s A=basic ./test' -Zqs /dev/stdin <<EOF
- 	test_prov\$target:::
- 	{
- 		printf("%s:%s:%s\n", probemod, probefunc, probename);
--- 
-2.46.0.278.g36e3a12567
-
+> ---
+>  dtprobed/dof_stash.c   |  15 +++--
+>  dtprobed/dtprobed.c    |  10 ++-
+>  include/dtrace/pid.h   |   7 ++
+>  libcommon/dof_parser.c | 150 +++++++++++++++++++++++++++++++----------
+>  libcommon/dof_parser.h |  64 ++++++++++++++++--
+>  libdtrace/dt_pid.c     |  59 ++++++++++++++++
+>  6 files changed, 256 insertions(+), 49 deletions(-)
+> 
+> diff --git a/dtprobed/dof_stash.c b/dtprobed/dof_stash.c
+> index 0e639076f655..8bf465678217 100644
+> --- a/dtprobed/dof_stash.c
+> +++ b/dtprobed/dof_stash.c
+> @@ -59,8 +59,10 @@
+>   *    startup if the dof_parsed_t structure changed.  The file consists of a
+>   *    uint64_t version number (DOF_PARSED_VERSION), then a stream of
+>   *    dof_parsed_t records, the first of type DIT_PROVIDER, the second
+> - *    DIT_PROBE, then as many struct dof_parsed_t's of type DIT_TRACEPOINT as
+> - *    the DIT_PROBE record specifies.
+> + *    DIT_PROBE, then optionally some DIT_*ARGS records (if the count of native
+> + *    args in the probe is >0, you get a DIT_NATIVE_ARGS: if the count of xlated
+> + *    args is >0, you get DIT_XLAT_ARGS and DIT_MAP_ARGS), then as many struct
+> + *    dof_parsed_t's of type DIT_TRACEPOINT as the DIT_PROBE record specifies.
+>   *
+>   * /run/dtrace/probes/: Per-probe info, written by dtprobed, read by DTrace.
+>   *
+> @@ -640,9 +642,14 @@ dof_stash_write_parsed(pid_t pid, dev_t dev, ino_t ino, dt_list_t *accum)
+>  			break;
+>  		}
+>  
+> -		/* Tracepoint: add to already-open file.  */
+> +		/* Args info or tracepoint: add to already-open file.  */
+> +		case DIT_ARGS_NATIVE:
+> +		case DIT_ARGS_XLAT:
+> +		case DIT_ARGS_MAP:
+>  		case DIT_TRACEPOINT:
+> -			assert(state == DIT_PROBE || state == DIT_TRACEPOINT);
+> +			assert(state == DIT_PROBE || state == DIT_ARGS_NATIVE ||
+> +			       state == DIT_ARGS_XLAT || state == DIT_ARGS_MAP ||
+> +			       state == DIT_TRACEPOINT);
+>  			state = accump->parsed->type;
+>  
+>  			if (write_chunk(parsed_fd, accump->parsed, accump->parsed->size) < 0)
+> diff --git a/dtprobed/dtprobed.c b/dtprobed/dtprobed.c
+> index f4c6be1e045d..2ca39b26f88a 100644
+> --- a/dtprobed/dtprobed.c
+> +++ b/dtprobed/dtprobed.c
+> @@ -791,16 +791,20 @@ process_dof(pid_t pid, int out, int in, dev_t dev, ino_t inum, dev_t exec_dev,
+>  		if (dof_stash_push_parsed(&accum, probe) < 0)
+>  			goto oom;
+>  
+> -		for (j = 0; j < probe->probe.ntp; j++) {
+> +		j = 0;
+> +		do {
+>  			dof_parsed_t *tp = dof_read(pid, in);
+>  
+>  			errmsg = "no tracepoints in a probe, or parse state corrupt";
+> -			if (!tp || tp->type != DIT_TRACEPOINT)
+> +			if (!tp || tp->type == DIT_PROVIDER || tp->type == DIT_PROBE)
+>  				goto err;
+>  
+>  			if (dof_stash_push_parsed(&accum, tp) < 0)
+>  				goto oom;
+> -		}
+> +
+> +			if (tp->type == DIT_TRACEPOINT)
+> +				j++;
+> +		} while (j < probe->probe.ntp);
+>  	}
+>  
+>  	if (!reparsing)
+> diff --git a/include/dtrace/pid.h b/include/dtrace/pid.h
+> index 0129674adf0c..25bfacfdbfe2 100644
+> --- a/include/dtrace/pid.h
+> +++ b/include/dtrace/pid.h
+> @@ -35,6 +35,13 @@ typedef struct pid_probespec {
+>  	ino_t pps_inum;				/* object inode */
+>  	char *pps_fn;				/* object full filename */
+>  	uint64_t pps_off;			/* probe offset (in object) */
+> +	int pps_nargc;				/* number of native args */
+> +	int pps_xargc;				/* number of xlated and mapped args */
+> +	char *pps_nargv;			/* array of native args */
+> +	size_t pps_nargvlen;			/* (high estimate of) length of array */
+> +	char *pps_xargv;			/* array of xlated args */
+> +	size_t pps_xargvlen;			/* (high estimate of) length of array */
+> +	int8_t *pps_argmap;			/* mapped arg indexes */
+>  
+>  	/*
+>  	 * Fields below this point do not apply to underlying probes.
+> diff --git a/libcommon/dof_parser.c b/libcommon/dof_parser.c
+> index d6631a1afdcb..1792a8bfcc84 100644
+> --- a/libcommon/dof_parser.c
+> +++ b/libcommon/dof_parser.c
+> @@ -807,10 +807,11 @@ validate_provider(int out, dof_hdr_t *dof, dof_sec_t *sec)
+>  		}
+>  
+>  		dt_dbg_dof("      Probe %d %s:%s:%s:%s with %d offsets, "
+> -			   "%d is-enabled offsets\n", j,
+> +			   "%d is-enabled offsets, %i args, %i nargs, argidx %i\n", j,
+>  			   strtab + prov->dofpv_name, "",
+>  			   strtab + prb->dofpr_func, strtab + prb->dofpr_name,
+> -			   prb->dofpr_noffs, prb->dofpr_nenoffs);
+> +			   prb->dofpr_noffs, prb->dofpr_nenoffs,
+> +			   prb->dofpr_xargc, prb->dofpr_nargc, prb->dofpr_argidx);
+>  	}
+>  
+>  	return 0;
+> @@ -879,12 +880,26 @@ validate_probe(int out, dtrace_helper_probedesc_t *dhpb)
+>  	return 0;
+>  }
+>  
+> +static size_t
+> +strings_len(const char *strtab, size_t count)
+> +{
+> +	size_t len = 0;
+> +
+> +	for (; count > 0; count--) {
+> +		size_t this_len = strlen(strtab) + 1;
+> +
+> +		len += this_len;
+> +		strtab += this_len;
+> +	}
+> +	return len;
+> +}
+> +
+>  static void
+>  emit_probe(int out, dtrace_helper_probedesc_t *dhpb)
+>  {
+>  	int		i;
+> -	dof_parsed_t	*probe_msg;
+> -	size_t		probe_msg_size;
+> +	dof_parsed_t	*msg;
+> +	size_t		msg_size;
+>  	char		*ptr;
+>  
+>  	dt_dbg_dof("      Creating probe %s:%s:%s:%s\n", dhpb->dthpb_prov,
+> @@ -893,35 +908,106 @@ emit_probe(int out, dtrace_helper_probedesc_t *dhpb)
+>  	if (validate_probe(out, dhpb) != 0)
+>  		return;
+>  
+> -	probe_msg_size = offsetof(dof_parsed_t, probe.name) +
+> -	    strlen(dhpb->dthpb_mod) + 1 + strlen(dhpb->dthpb_func) + 1 +
+> -	    strlen(dhpb->dthpb_name) + 1;
+> +	/*
+> +	 * Compute the size of all the optional elements first, to fill out the
+> +	 * flags.
+> +	 */
+>  
+> -	probe_msg = malloc(probe_msg_size);
+> -	if (!probe_msg) {
+> -		dof_error(out, ENOMEM, "Out of memory allocating probe");
+> -		return;
+> -	}
+> +	msg_size = offsetof(dof_parsed_t, probe.name) +
+> +		   strlen(dhpb->dthpb_mod) + 1 +
+> +		   strlen(dhpb->dthpb_func) + 1 +
+> +		   strlen(dhpb->dthpb_name) + 1;
+>  
+> -	memset(probe_msg, 0, probe_msg_size);
+> +	msg = malloc(msg_size);
+> +	if (!msg)
+> +		goto oom;
+>  
+> -	probe_msg->size = probe_msg_size;
+> -	probe_msg->type = DIT_PROBE;
+> -	probe_msg->probe.ntp = dhpb->dthpb_noffs + dhpb->dthpb_nenoffs;
+> -	ptr = stpcpy(probe_msg->probe.name, dhpb->dthpb_mod);
+> +	memset(msg, 0, msg_size);
+> +
+> +	msg->size = msg_size;
+> +	msg->type = DIT_PROBE;
+> +	msg->probe.ntp = dhpb->dthpb_noffs + dhpb->dthpb_nenoffs;
+> +	msg->probe.nargc = dhpb->dthpb_nargc;
+> +	msg->probe.xargc = dhpb->dthpb_xargc;
+> +
+> +	ptr = stpcpy(msg->probe.name, dhpb->dthpb_mod);
+>  	ptr++;
+>  	ptr = stpcpy(ptr, dhpb->dthpb_func);
+>  	ptr++;
+>  	strcpy(ptr, dhpb->dthpb_name);
+> -	dof_parser_write_one(out, probe_msg, probe_msg_size);
+> +	dof_parser_write_one(out, msg, msg_size);
+>  
+> -	free(probe_msg);
+> +	free(msg);
+>  
+> -	/* XXX TODO translated args
+> -	   pp->ftp_nargs = dhpb->dthpb_xargc;
+> -	   pp->ftp_xtypes = dhpb->dthpb_xtypes;
+> -	   pp->ftp_ntypes = dhpb->dthpb_ntypes;
+> -	*/
+> +	/*
+> +	 * Emit info on all native and translated args in turn.
+> +	 *
+> +	 * FIXME: this code is a bit repetitious.
+> +	 *
+> +	 * First native args (if any).
+> +	 */
+> +
+> +	if (dhpb->dthpb_nargc > 0) {
+> +		size_t	nargs_size;
+> +
+> +		nargs_size = strings_len(dhpb->dthpb_ntypes, dhpb->dthpb_nargc);
+> +		msg_size = offsetof(dof_parsed_t, nargs.args) + nargs_size;
+> +
+> +		msg = malloc(msg_size);
+> +		if (!msg)
+> +			goto oom;
+> +
+> +		memset(msg, 0, msg_size);
+> +
+> +		msg->size = msg_size;
+> +		msg->type = DIT_ARGS_NATIVE;
+> +		memcpy(msg->nargs.args, dhpb->dthpb_ntypes, nargs_size);
+> +		dof_parser_write_one(out, msg, msg_size);
+> +
+> +		free(msg);
+> +
+> +		/* Then translated args. */
+> +
+> +		if (dhpb->dthpb_xargc > 0) {
+> +			size_t	xargs_size, map_size;
+> +
+> +			xargs_size = strings_len(dhpb->dthpb_xtypes,
+> +						 dhpb->dthpb_xargc);
+> +			msg_size = offsetof(dof_parsed_t, xargs.args) +
+> +				   xargs_size;
+> +
+> +			msg = malloc(msg_size);
+> +			if (!msg)
+> +				goto oom;
+> +
+> +			memset(msg, 0, msg_size);
+> +
+> +			msg->size = msg_size;
+> +			msg->type = DIT_ARGS_XLAT;
+> +			memcpy(msg->xargs.args, dhpb->dthpb_xtypes, xargs_size);
+> +			dof_parser_write_one(out, msg, msg_size);
+> +
+> +			free(msg);
+> +
+> +			/* Then the mapping table. */
+> +
+> +			map_size = dhpb->dthpb_xargc * sizeof(int8_t);
+> +			msg_size = offsetof(dof_parsed_t, argmap.argmap) +
+> +				   map_size;
+> +
+> +			msg = malloc(msg_size);
+> +			if (!msg)
+> +				goto oom;
+> +
+> +			memset(msg, 0, msg_size);
+> +
+> +			msg->size = msg_size;
+> +			msg->type = DIT_ARGS_MAP;
+> +			memcpy(msg->argmap.argmap, dhpb->dthpb_args, map_size);
+> +			dof_parser_write_one(out, msg, msg_size);
+> +			free(msg);
+> +		}
+> +	}
+>  
+>  	/*
+>  	 * Emit info on each tracepoint in turn.
+> @@ -938,18 +1024,10 @@ emit_probe(int out, dtrace_helper_probedesc_t *dhpb)
+>  	for (i = 0; i < dhpb->dthpb_nenoffs; i++)
+>  		emit_tp(out, dhpb->dthpb_base, dhpb->dthpb_enoffs[i], 1);
+>  
+> -	/*
+> -	 * XXX later:
+> -	 * If the arguments are shuffled around we set the argument remapping
+> -	 * table. Later, when the probe fires, we only remap the arguments
+> -	 * if the table is non-NULL.
+> -	 *
+> -	for (i = 0; i < dhpb->dthpb_xargc; i++) {
+> -		if (dhpb->dthpb_args[i] != i) {
+> -			pp->ftp_argmap = dhpb->dthpb_args;
+> -			break;
+> -		}
+> -	} */
+> +	return;
+> + oom:
+> +	dof_error(out, ENOMEM, "Out of memory allocating %zi bytes for probe",
+> +		  msg_size);
+>  }
+>  
+>  static void
+> diff --git a/libcommon/dof_parser.h b/libcommon/dof_parser.h
+> index d3a6836f15fd..8f42d00551e3 100644
+> --- a/libcommon/dof_parser.h
+> +++ b/libcommon/dof_parser.h
+> @@ -15,10 +15,19 @@
+>  #include <dtrace/helpers.h>
+>  
+>  /*
+> - * Result of DOF probe parsing.  We receive a provider info structure, followed
+> - * by N probe info structures each of which is followed by possibly many
+> - * tracepoint info structures, all tagged.  Things not yet used for probe
+> - * creation (like args, translated types, etc) are not returned.
+> + * Result of DOF probe parsing.  The order of elements in the parsed stream
+> + * is:
+> + *
+> + * DIT_PROVIDER (at least 1, which contains...)
+> + *   DIT_PROBE (at least 1, each of which has...)
+> + *     DIT_ARGS_NATIVE (1, optional)
+> + *     DIT_ARGS_XLAT (1, optional)
+> + *     DIT_ARGS_MAP (1, optional)
+> + *     DIT_TRACEPOINT (any number >= 1)
+> + *
+> + * The dof_parsed.provider.flags word indicates the presence of the
+> + * various optional args records in the following stream (you can rely on
+> + * them if it simplifies things, but you don't have to).
+>   *
+>   * On error, a DIT_ERR structure is returned with an error message.
+>   */
+> @@ -27,7 +36,10 @@ typedef enum dof_parsed_info {
+>  	DIT_PROVIDER = 0,
+>  	DIT_PROBE = 1,
+>  	DIT_TRACEPOINT = 2,
+> -	DIT_ERR = 3
+> +	DIT_ERR = 3,
+> +	DIT_ARGS_NATIVE = 4,
+> +	DIT_ARGS_XLAT = 5,
+> +	DIT_ARGS_MAP = 6,
+>  } dof_parsed_info_t;
+>  
+>  /*
+> @@ -37,7 +49,7 @@ typedef enum dof_parsed_info {
+>   * start which is the version of the dof_parseds within it.  The data flowing
+>   * over the stream from the seccomped parser has no such prefix.
+>   */
+> -#define DOF_PARSED_VERSION 1
+> +#define DOF_PARSED_VERSION 2
+>  
+>  typedef struct dof_parsed {
+>  	/*
+> @@ -59,18 +71,58 @@ typedef struct dof_parsed {
+>  			 */
+>  			char name[1];
+>  		} provider;
+> +
+>  		struct dpi_probe_info {
+>  			/*
+>  			 * Number of tracepoints that follow.
+>  			 */
+>  			size_t ntp;
+>  
+> +			/*
+> +			 * Number of native arguments that follow (if > 0, a
+> +			 * DIT_ARGS_NATIVE will be received).
+> +			 */
+> +			size_t nargc;
+> +
+> +			/*
+> +			 * Number of xlated arguments that follow (if > 0, a
+> +			 * DIT_ARGS_XLAT and DIT_ARGS_MAP will be received).
+> +			 */
+> +			size_t xargc;
+> +
+>  			/*
+>  			 * Probe module, function, and name (\0-separated).
+>  			 */
+>  			char name[1];
+>  		} probe;
+>  
+> +		/* V2+ only.  */
+> +		struct dpi_probe_args_native_info {
+> +			/*
+> +			 * Array of native args.  nargc in length.
+> +			 */
+> +			char args[1];
+> +		} nargs;
+> +
+> +		/* V2+ only.  */
+> +		struct dpi_probe_args_xlat_info {
+> +			/*
+> +			 * Array of translated args.  xargc in length.
+> +			 */
+> +			char args[1];
+> +		} xargs;
+> +
+> +		/*
+> +		 * V2+ only.
+> +		 */
+> +		struct dpi_probe_args_map_info {
+> +			/*
+> +			 * Mapping from native arg index to xlated arg index.
+> +			 * xargc in length.
+> +			 */
+> +			int8_t argmap[1];
+> +		} argmap;
+> +
+>  		struct dpi_tracepoint_info {
+>  			/*
+>  			 * Offset of this tracepoint.
+> diff --git a/libdtrace/dt_pid.c b/libdtrace/dt_pid.c
+> index 41a87955ec1b..71ac1754d343 100644
+> --- a/libdtrace/dt_pid.c
+> +++ b/libdtrace/dt_pid.c
+> @@ -866,6 +866,9 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, dt_proc_t *dpr,
+>  		uint64_t *dof_version;
+>  		char *prv, *mod, *fun, *prb;
+>  		dof_parsed_t *provider, *probe;
+> +		ssize_t nargvlen = 0, xargvlen = 0;
+> +		char *nargv = NULL, *xargv = NULL;
+> +		int8_t *argmap = NULL;
+>  
+>  		/*
+>  		 * Regular files only: in particular, skip . and ..,
+> @@ -917,6 +920,47 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, dt_proc_t *dpr,
+>  		p += probe->size;
+>  		seen_size += probe->size;
+>  
+> +		/*
+> +		 * Assume the order given in dof_parser.h, for simplicity.
+> +		 */
+> +		if (probe->probe.nargc > 0) {
+> +			dof_parsed_t *args = (dof_parsed_t *) p;
+> +
+> +			if (!validate_dof_record(path, args, DIT_ARGS_NATIVE,
+> +						 dof_buf_size, seen_size))
+> +				goto parse_err;
+> +
+> +			nargv = args->nargs.args;
+> +			nargvlen = args->size - offsetof(dof_parsed_t, nargs.args);
+> +			assert(nargvlen >= 0);
+> +
+> +			p += args->size;
+> +			seen_size += args->size;
+> +		}
+> +		if (probe->probe.xargc > 0) {
+> +			dof_parsed_t *args = (dof_parsed_t *) p;
+> +
+> +			if (!validate_dof_record(path, args, DIT_ARGS_XLAT,
+> +						 dof_buf_size, seen_size))
+> +				goto parse_err;
+> +
+> +			xargv = args->xargs.args;
+> +			xargvlen = args->size - offsetof(dof_parsed_t, xargs.args);
+> +			assert(xargvlen >= 0);
+> +
+> +			p += args->size;
+> +			seen_size += args->size;
+> +
+> +			if (!validate_dof_record(path, args, DIT_ARGS_MAP,
+> +						 dof_buf_size, seen_size))
+> +				goto parse_err;
+> +
+> +			argmap = args->argmap.argmap;
+> +
+> +			p += args->size;
+> +			seen_size += args->size;
+> +		}
+> +
+>  		/*
+>  		 * Now the parsed DOF for this probe's tracepoints.
+>  		 */
+> @@ -967,6 +1011,21 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, dt_proc_t *dpr,
+>  			psp.pps_off = tp->tracepoint.addr - pmp->pr_file->first_segment->pr_vaddr;
+>  			psp.pps_nameoff = 0;
+>  
+> +			if (nargv) {
+> +				psp.pps_nargc = probe->probe.nargc;
+> +				psp.pps_nargvlen = nargvlen;
+> +				psp.pps_nargv = nargv;
+> +			}
+> +
+> +			if (xargv) {
+> +				psp.pps_xargc = probe->probe.xargc;
+> +				psp.pps_xargvlen = xargvlen;
+> +				psp.pps_xargv = xargv;
+> +			}
+> +
+> +			if (argmap)
+> +				psp.pps_argmap = argmap;
+> +
+>  			dt_dprintf("providing %s:%s:%s:%s for pid %d\n", psp.pps_prv,
+>  				   psp.pps_mod, psp.pps_fun, psp.pps_prb, psp.pps_pid);
+>  			if (pvp->impl->provide_probe(dtp, &psp) < 0) {
+> -- 
+> 2.46.0.278.g36e3a12567
+> 
