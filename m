@@ -1,85 +1,82 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2509A13D51E
-	for <dtrace@lists.linux.dev>; Tue,  5 Nov 2024 18:02:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290C21EBA09
+	for <dtrace@lists.linux.dev>; Tue,  5 Nov 2024 18:53:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730829724; cv=fail; b=ipnJfUZ3+QWVMEcA57aSUHZY2fWEQ+VA73smBiMssFyWYOmOCIYiMyeL94PchQHSW4MjEyd8bG1yv1PL9o8fKeuyQOT2VwBEBFIrwjFbPvaW+HTcCzZuun6hlCWCtxbpWqCCQwCtBL5xJ6XKLBsKU7XJF9d5IfjUsAk2ENUoExU=
+	t=1730832837; cv=fail; b=OeHW45+38/jbXarL0tWXFJ4lJEz4CRXD4wgMPI468Pueel8kEN/V5iVZi9+9fIZghfzinrhvJyTPVQOFLfq92KWU8yQT4bwY1ZzN2gwMBTkG/QKw7yW83/V02R4RCcT9V4r4fdCI9ZJEOOuiEvYtP5CXZVVv5kAwZ9poc7L4yiE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730829724; c=relaxed/simple;
-	bh=7CJHKe4wop74UYnIuTz/tZWIs9xYEVpn6PFnE6tcOJs=;
+	s=arc-20240116; t=1730832837; c=relaxed/simple;
+	bh=vEE/h0QFbPeho4pcRAnQLLJDh0TdE5lGjKtTDkaIxl0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=u859jRGNmCpchbMerDdMbzI/c2lk2tlv2iUzCSAZf2fb2D15Et1COKbMEcgBSljDLUud03Zsw+9rzEBE2vQMv1Q7WHgP5VZXuOLkvJumCgthHvHrq+uh0jdYKFt1CpYgZdMBJb75f60FutkxRy0F53GxzpxEldYGX3uwkxx0dbI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=GHNRW6np; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=fy5Rh/IJ; arc=fail smtp.client-ip=205.220.165.32
+	 Content-Disposition:In-Reply-To:MIME-Version; b=gJiPJP4/OMQ5KO2mCeg7AqKmbBOZ1gGYW1cylRkRpXW3l/AzJAbfpXSqc70GTf5RtAbLilXiH9gVBYCB5Dd/g22jkykBwxxrQt//50oWCrV7eOho2FbGcm95754OWLf7zBsAgs/kXZ997L4Ye3K2D0ZtU05BV8cvwz5rmFja/ts=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=UIkSsRax; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=caAS+u2e; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="GHNRW6np";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="fy5Rh/IJ"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A5DiZlJ030190
-	for <dtrace@lists.linux.dev>; Tue, 5 Nov 2024 18:02:01 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="UIkSsRax";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="caAS+u2e"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A5DiYiQ009194
+	for <dtrace@lists.linux.dev>; Tue, 5 Nov 2024 18:53:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=69Y7lk0zjzLGFoBJBg
-	j7ABqduJYzkPL2+s8pKtFMVvA=; b=GHNRW6npQd3bTnwLocVrEOBFqAHgQdeHZe
-	XAEqESUZOJhWmFmkIsAg0SXI1d0i3hNy098Z7QbaN8dvxLoH1eY4vS/+x+HGXGJP
-	pD/1duZEVlag3jvIFAP83IG26Ebv9j8+DQSxHRQOfSuuOYAKbblqQtVFzwI2r0Pg
-	No+nct8XWX5TaPiqsDXtEK3F32ogiqtICtW0lArp+sIUP40rgoti8rVRHxZYGRbV
-	pQG+kdUuE6uYRyul9QozGD0eFuzr0KFj1NzNvPR6elw3t/DMalnQVjBJ4wVrle/d
-	+iPMpJeTPWWPL/ssnz8pS/QhHPQD+6XVgOMdwOH+lt692o3WQk+A==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42nanyx367-1
+	:references:subject:to; s=corp-2023-11-20; bh=ankVlM27RrcnL40DrN
+	3o5WOeBoOUr801Vo9NiFptvlo=; b=UIkSsRaxx/xuAH4hKMB23UrFNVb2wVI8q1
+	F/o+On2A/uu1wjoSi4AkrltapNrNDskKGtP3O+on22t+UDiRTN/QMXHjA06YEguf
+	ovB1R5cD8jYm246zVM+Bhq9FP0Wm5040uVouTMAUdzkSdNwc+DE88hABz4nyZ95Q
+	0dOJ0JkM2bvG/2TBngPjjbTuHbB4O42gW/JbIcymMh91KQGexIbU93gtHWUCgnEF
+	HgH8CfwTmYPBDen8OJtIsgdEVmtowxJS/ebuGpIUTiav/YjGlwZY2652lV/1LXpK
+	aPrsW/WS55q6D46VaLIrJIQkNfVNE3QihorrS0JDrnwDq+bq8A4Q==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42ncmt64dp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 05 Nov 2024 18:02:00 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4A5HfkRT036334
-	for <dtrace@lists.linux.dev>; Tue, 5 Nov 2024 18:01:59 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2045.outbound.protection.outlook.com [104.47.58.45])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 42nahdry3e-1
+	for <dtrace@lists.linux.dev>; Tue, 05 Nov 2024 18:53:53 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4A5IV6CM009833
+	for <dtrace@lists.linux.dev>; Tue, 5 Nov 2024 18:53:52 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2041.outbound.protection.outlook.com [104.47.58.41])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 42nahdu8j0-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 05 Nov 2024 18:01:59 +0000
+	for <dtrace@lists.linux.dev>; Tue, 05 Nov 2024 18:53:52 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uj92LhdQ7OmmOsjmDUDmCz/VEmnxfE178d2OUL9kVrr7g4oDeXBZyKPR73JQyLrPgq3WeLRBGlrgGp8xQrXCgwGMG0RECHZmGUelAiHDfCJgglvrn5mq5Mb1rYyleMj0UL5tfRiGjZJw8ld1eOOSLMd3TQdxLYm75g8zZFvy3nlU9yhGc+uKlaV8txD982AaiLw4eZhM/qJnBD1gnzGhdeCux1g47V0ZPwpcrvR/juWS/4vzfphGeJHT5dPJ00mjvzRlyZ2y3EjK4pU4fnqXVlgxPuOX80BXiZ8eaQz+o/ZHnNSyNgFgjX7qmErbobMQHttqg3iUQ1E2hHGGWoIcDw==
+ b=Ta8qXtBqJdpKZRodkYDxGoiN6MARsHpOlSfu/2G/phcnyjbN+41J2Zld9nhP1JcHN+jFMp2mKQot0E9DMj+Osv1QweYafW2HL1+Nj/GQVoviPA2ys7eNSeEAOXlQNuwp3kU/BEa6hIJYkTFnZjhyWQH91AFFTnfuSLlqHIjG+YMPmyUiJbppHwvjzvdevX7ViQoArWQK8RgUsGinUE752yG/vx+daEgtqQkvbByZwRVOEuAz3V0tcqwNn2Hx2XeK5SUur8dfsbn1q9GrhPiaY8yy23r6LedpYcYxcP1zDI498wKEaDfN8aQy3KvcWmGmoy7ZiVbWsd25S8I5dy3t+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=69Y7lk0zjzLGFoBJBgj7ABqduJYzkPL2+s8pKtFMVvA=;
- b=XCC8nhmRKTdzf9e1RJVgOQpcDWxShPZMguOasZTx4OPKhdDFLNj7moOOctvtt/9Lf4J8D1AVUFbZxNQsLCkuBeY4+Pg/kmGLNprry8HqK2i3KHn8LVn6xa4ynidp6NJhlocciDKOEuIe/16TVO0T0J6OCto1EkHfJxeB1fhA2gn5m8sPG30ZxtQMFlBcH3IkKQvBpSzBeoLI2A4Pf8sa2rdGbMoAIeqAzLHYMqmHyxFzC0ydB05yJfuIr2pnSciPP9e05AESNF155dgwUT81e+5b72lv6qkbAPf4G4zKQOqz9eAsXczRRf4TgWtfTVXVuCpiSRtyL+JYIpTLcnSGoQ==
+ bh=ankVlM27RrcnL40DrN3o5WOeBoOUr801Vo9NiFptvlo=;
+ b=pmQr9VGDjywG5y2xV2I9+z4U61+tTeX/gN5p3xYf7KSuFtRayX3W/CmdPDHQBLg6BCgGl2WKjVrtQ3tcoTms867t2hssosX63nbm510uABMvZQo90LtBv/QHQbkmKrOrrQCrcSiTuIs40kRjJwlIWjvb3AU3hqExWUfVI7DjhX0afEzeqaIhKnKRk+jxQE4Cz4BJRgN7P6zTgB8XCvg5+W7NDpg0v/imaIo1KNiF4SESB6NISLOifpEMHCjwRIsocl45MxqYDT96oW5sYbCAM9t5qgvvZ6t1T8rmIMPUJBy/om1DnxatelzV1bci2JA+xZY6U7TEpJduovYnynaLfg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=69Y7lk0zjzLGFoBJBgj7ABqduJYzkPL2+s8pKtFMVvA=;
- b=fy5Rh/IJ3vcUzJxVeWkby+PM409RiY+AOHWL274mMShKSie7rBWI5I/ZXIEtDXO1yOITf9oLicXnF1C0veU+PC1D1W3Jf8cul8sFLrGUD3cZAVrDqL9mwUuN8by4vxE3u3VJD8ave57WdN69uS1nZxHHmMpbqcMrgreH6p04tZA=
+ bh=ankVlM27RrcnL40DrN3o5WOeBoOUr801Vo9NiFptvlo=;
+ b=caAS+u2ex62HCWgpD1lv+JgfzrZ9NljCcA0PtIz8PQ81dQGXjrbgw7vNFEzrm4JoSaGpIcH7WOyQ2ZZ2wUvtweCxYRK6WZWBcA5kTc6hWEMvQjSIcf4/sJmq5/Bwva3mhzdsLEHoPBGoicaPRCw8ZVXr7NQ844Uf8281Jz8tpAE=
 Received: from CO1PR10MB4769.namprd10.prod.outlook.com (2603:10b6:303:98::16)
- by SA3PR10MB7094.namprd10.prod.outlook.com (2603:10b6:806:31b::14) with
+ by PH0PR10MB5625.namprd10.prod.outlook.com (2603:10b6:510:f8::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Tue, 5 Nov
- 2024 18:01:24 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.19; Tue, 5 Nov
+ 2024 18:53:49 +0000
 Received: from CO1PR10MB4769.namprd10.prod.outlook.com
  ([fe80::6801:f7c:753b:5a82]) by CO1PR10MB4769.namprd10.prod.outlook.com
  ([fe80::6801:f7c:753b:5a82%6]) with mapi id 15.20.8114.031; Tue, 5 Nov 2024
- 18:01:24 +0000
-Date: Tue, 5 Nov 2024 13:01:21 -0500
+ 18:53:49 +0000
+Date: Tue, 5 Nov 2024 13:53:45 -0500
 From: Kris Van Hees <kris.van.hees@oracle.com>
-To: Kris Van Hees <kris.van.hees@oracle.com>
-Cc: Nick Alcock <nick.alcock@oracle.com>, dtrace@lists.linux.dev,
-        dtrace-devel@oss.oracle.com
-Subject: Re: [DTrace-devel] [PATCH v5 1/6] usdt: get arg types and xlations
- into DTrace from the DOF
-Message-ID: <ZypdcfLQrWI+osnV@oracle.com>
+To: Nick Alcock <nick.alcock@oracle.com>
+Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: Re: [PATCH v5 4/6] usdt: typed args and arg mapping
+Message-ID: <ZyppufnpOOJuaDxU@oracle.com>
 References: <20241105000608.333229-1-nick.alcock@oracle.com>
- <20241105000608.333229-2-nick.alcock@oracle.com>
- <ZypOQd2JYFq9I0XC@oracle.com>
+ <20241105000608.333229-5-nick.alcock@oracle.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZypOQd2JYFq9I0XC@oracle.com>
-X-ClientProxiedBy: SJ0PR03CA0355.namprd03.prod.outlook.com
- (2603:10b6:a03:39c::30) To CO1PR10MB4769.namprd10.prod.outlook.com
+In-Reply-To: <20241105000608.333229-5-nick.alcock@oracle.com>
+X-ClientProxiedBy: SJ0PR13CA0017.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c0::22) To CO1PR10MB4769.namprd10.prod.outlook.com
  (2603:10b6:303:98::16)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -88,614 +85,1004 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4769:EE_|SA3PR10MB7094:EE_
-X-MS-Office365-Filtering-Correlation-Id: 24e4168e-6c9c-4993-0580-08dcfdc3dcde
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4769:EE_|PH0PR10MB5625:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef23c2cb-7d00-4054-0746-08dcfdcb2ef5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?J6ZU32Jadkt5on3ERbQud4JG8MhQglc9FCPHjqkwenknlYgjA0Eb1eHzIHJb?=
- =?us-ascii?Q?mgSrUWz3Ix1ZrkiZk+iXVOYXyHtiwyoZeyUG7imA7yqExmF/QxLg31l2eebd?=
- =?us-ascii?Q?/IpGAlhdkXGzvnN8FLDcm4MEsE7vXRDEh5q++5bOFUhf1G5bbZSgMwvutvz1?=
- =?us-ascii?Q?gkuQy/k2RuGvv+hFqVSXXxFMHpJZYW4Bp/pf08wyC54BMdcjPYU2+U3LyY28?=
- =?us-ascii?Q?ujHy7zlGBxToH/z/pqA37lVZTVKOPQyiCEfSI6s31f60zKeZTSCEMVDSGbqn?=
- =?us-ascii?Q?WcdCSs+Un6xBuMVoSpIySwfLlRDMmfgJtc+rHmv6zrkmaVap7/JnYdx49/1t?=
- =?us-ascii?Q?UeQC6oe2O+6AiycidPQcoWG3wsB+8CgpUvu6yaWZ8DRhQZaMKYJ9GURnwnU4?=
- =?us-ascii?Q?NyPrmyneMVmYB1N79ndZQ7ImZxUvRPDy8l6XG32hSvBAKuVYux7ANrvq4LNW?=
- =?us-ascii?Q?oEn3JPJ3Q+tVOLInMw2Fay5R0PuelOUGwCjsVOrWIE8+NrYYvmgVP15COp4j?=
- =?us-ascii?Q?uM43T/MilIOh0AfyzoWAmLD6D3eR2unndIxShjCxJyJMT6MuyibfFYvUyTpl?=
- =?us-ascii?Q?Oi4GxdcDuQ0eTqXOJj17DuQkrr9bqeQAGcWriWPELUMzHvecamtUpA8/PtyO?=
- =?us-ascii?Q?HtmzRnocqYUXMcnnw80VrXFgTHaVAnB+bS9W8qeO0LWUECdD+7bB04y+NhiX?=
- =?us-ascii?Q?5S9cXbaxTckn6yii6mGm3uFvFboFS4aCw9FMSJrWIf9GF0RNNKoaqTtgYw4s?=
- =?us-ascii?Q?mWMX64Us3n7yeylg5gt3nKIVlMPMb8b0KRBFzEsiWwwmhGp+bMLRWe4sXFcU?=
- =?us-ascii?Q?bKg38sHvdYKRSFTjdqoh6TjXcEmR9tAOdMKwjgIBYZ5+U0tJOwUx4XfGCPrx?=
- =?us-ascii?Q?nKXFjea59F0+6bixwVqlajC4+EqiLctRBPBj6hLv1N1RPdKm7DAZwOq+SIGy?=
- =?us-ascii?Q?T5f8z+NV+SMb8NNTADUUv5eMAYezQorJ0TWS/v6Jf5rKSMbsMOQ5H10bIwrc?=
- =?us-ascii?Q?V7aCU5rZRmYLLbQVTzRofJILUBK4fGfS/GR2f4YRPciU3wZsfEO5b0NWWhnL?=
- =?us-ascii?Q?x7HlgTve2rb9UPUn7E8LbkuSoA8V4V2bLU+BhEAdiINO7dnldSLeQ7QULsVb?=
- =?us-ascii?Q?2LUAsn62GctnTO9IRSRZNs49qvejGKGLe06zByjbqTFgdYqY+1q5RHzU6Kj1?=
- =?us-ascii?Q?6rc2ZfAGIKDO8ZIczbTZXfVcBgo08e9yXITaZBZwIDqqn6y1DZmdhZcDu7c3?=
- =?us-ascii?Q?+BJJS2YadvueKhdLyCCwAx8Vnj46SfYz5JYXoyGTNb0EGhY37EtXVB+g9pd6?=
- =?us-ascii?Q?FN0mbGgtMqFrQ3/RcPoEDX2D?=
+	=?us-ascii?Q?dp5IngiE3aD/sO9XUtGlieY6gl8CCYA5JFNryEuZ1lS4i1WTkgz67mVsy5hM?=
+ =?us-ascii?Q?jrrVqz/WDST5eu1asKmZYhxq7zRtnZegGe4z9gCT3FT5WJmJVltH0X5vgvdh?=
+ =?us-ascii?Q?hayXlio6wusDEBQfGCDKwmFkt4SYmwY4JqlTKqSZJdFTt9kWQjUOSJLd7cD5?=
+ =?us-ascii?Q?9b7mii6Mee5ojOZQMHYiWDWiiSQ2sKhZajXElBbaWr+lUg8Zsxwv/EKAtDuJ?=
+ =?us-ascii?Q?2ED77i8DhABN++EW3NqN+jPQ2wzQVw1ZW8Mk7Q3KC+ectzXrPYZD01PK2hJd?=
+ =?us-ascii?Q?LKgbEjIXJczIMI505vSWQgDhH1MCr+LmtHHMwk0us0uBBqQKi7v8Lt0FrLr4?=
+ =?us-ascii?Q?UZAydb8P0ISQGPWY2hblfnqNslylvdskTm4b4buId6ZfkgeQYOiaEgtOc6WX?=
+ =?us-ascii?Q?pohk+1+V03zwuTzscZl88UFp3iwKose/nS3zhuV/I1LBPeWlNhdKEI9Zq2Sb?=
+ =?us-ascii?Q?WJX0gqUCScAoBTLvjkcMPmzZ5AtH6pAlkbMw6fLNhLUqjz/piufySl/NjZKa?=
+ =?us-ascii?Q?p7yI5dvC/wHEBeVtPSYQ3UMffTCEuTiU0qfZ/nLycQIq9JmsJjCPCCSz9P9U?=
+ =?us-ascii?Q?E7RrY8bufPMcDr/fSZrB2FxL9z97Ge8CS3eX10XQ6GJXyiaMj38iYZL0OH4n?=
+ =?us-ascii?Q?VeERaJm8IsTOlEAJ+6ktrGFOXu/X4mrw255X4wDUhNKW0gcTdOIDSvt/TJvM?=
+ =?us-ascii?Q?8kAC1tmaEsTM5Lpcq8FUG511qsc1emTxEcs3La9g3IoUL2wxWzL/z7y3rdOs?=
+ =?us-ascii?Q?hpFv8gyn5uwweiMtbHdz0cqn6/uyo/iVywbJfTsiaOnAXWa+aeJiQhCsuCJZ?=
+ =?us-ascii?Q?rWvbJOo0A9PF4VAQlawriZGkEZNxP6jR8FJxOwpeT+Ih77dn8uAtPywPGj5Q?=
+ =?us-ascii?Q?I5/gIP1LnZlcGjtRSaN90mx6OYD56xbi8SbAfyTwXcvnSkkmXd0Oy9n66WwO?=
+ =?us-ascii?Q?NgYzLsS5FN+FuNf961mmCsN6GyDhoUl2jSKZDn+GrwFG0Nnh7/q37hiLAwKq?=
+ =?us-ascii?Q?LlwQyCPnK+MF56ACvNR9L13U0Tc9xLwx1S0EwQZaBW2slq28c+SA3Qy4mWaQ?=
+ =?us-ascii?Q?d9DI8TQJjQ6dX6Uq8H+mO9Qwtw2ai5C6ma2BW6jKmLPtgJy6eLTNEePKBzBz?=
+ =?us-ascii?Q?3E0Y5QyMcSapjNoF1EaLV9TxUXSEVcCOiAQUl/PE2E8TCDwpDB+g+NfDfnLC?=
+ =?us-ascii?Q?sge+27yhO4x5fIKdB/wpFvGMQXCIrPaGTjbLvnUSUcEaDdFE3TngDrHk5yLZ?=
+ =?us-ascii?Q?9+lgRsWrGHA9UL++dQu8KNIREq3HW3QSwS0vjuiZulcF4mNMhcZ/mp1auZ6u?=
+ =?us-ascii?Q?Uuc+FcYo4VJgneoAs79mn4eI?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4769.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4769.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?k6mmCe2yJUTy5t22gTJ3G9tDL9cFC/NDEQ2pHoQe1LB0JNeqwySfSe4yeQMm?=
- =?us-ascii?Q?q+4D73hCl37pO/AywqGrPsx01VG+QdoXovcG6L90WekzBGO+dAWiC+G5ZCC1?=
- =?us-ascii?Q?+iSt0SfuLLYBaeWvfOX9fFNktgR1iCxeVabACYcpV7PeeI2IFJjTL9CwxJiu?=
- =?us-ascii?Q?hh7ihoZn88CaNtnl81bcNIvq+YMflUVJGHCOS/yY4V84LAGrokK7JIHnKGvF?=
- =?us-ascii?Q?r8dMvgGaT8tq5Mp5964rSDdhjdhqJVXpluYDGqk6+YB0MJjbSHVXEVCLeykw?=
- =?us-ascii?Q?H6C+hXzpL8nQBl/9RQUxxE2UtnuqZv3FSyPl7LfemmaIy4hQ6+RTs+6nWR3F?=
- =?us-ascii?Q?Jht7QRsTBqHKZyAM31Ux1Kv+ZotUhpFxhY6DdPkhz973NrPIRoQLm3+ruO4e?=
- =?us-ascii?Q?kzft44xGUSq8IcmDEy1Rjrhm30JUhbvgJtBnaJuEVF919B8IIBfCIAJ2zmgD?=
- =?us-ascii?Q?dIvfsYr+EqQK+YNckJ0lR1BA2A9+833XkylTxdIpXaLDXAEIRy8lI76uz5FK?=
- =?us-ascii?Q?ejo8OQtyc6k2dV6AEtdILwE6fywWkKxdisU8MdRuZUiyEioj0DAn1DyAkgxh?=
- =?us-ascii?Q?4gXItnIcT6LVgmzndWUTO3t40HYPs6ZDJEgwu3z5fGa7/mxj+WfIIv9wcOs8?=
- =?us-ascii?Q?iIf6Gz0E1Q+/jobyQ3nYSlLeNC1pBDIsKm+zmMHlMLZ4KnKZceQk1/gSvm1A?=
- =?us-ascii?Q?GYf7Jcs6Am0Q+RBroNdm4uU9oV7qkeHaWenSPW5Wwx9kVAUxKqPzG3Gu5gYE?=
- =?us-ascii?Q?wsDLtUfwlYjOJQvw6R3iPjh/+NnAQ+Hos1mlfwitpDUiciMk2m+fbaom7cbR?=
- =?us-ascii?Q?B0fTLcd7TdDbXFD0n4GmTbtgVFQwDtvyykYiA8fia/SSZe95klxk1OZbn/tI?=
- =?us-ascii?Q?V9X/HimY8MZ080A6xoGa19prHTLTEAOEy7Jcnf1lfjCgaOb3fq+jl4SL3VGo?=
- =?us-ascii?Q?boIR61RqO2euDhdTcmKcV/aci9GkBEFUWiuvcNXtz4yTrbx6Xw19wwZpn14r?=
- =?us-ascii?Q?LAGwsQlNYhLRVSZS6zW7pw5Gd8IRTQMCXFqGkgQnvAkV8JjxVNP60Im3DgS0?=
- =?us-ascii?Q?5VTZtLoDpyRq/w39lsVOP9b/LlZw+YCyEmHsK0NCkOwSxKkTfPREj6xrfdlz?=
- =?us-ascii?Q?bA+OLQljcV2BvS3HhQLzAcR4e59hC+3xLxRdnz2wL13xSuEQtsn4TdK9Eczg?=
- =?us-ascii?Q?fYJZdHT5X8eSbBSf1M5DCZKi8bK4cbIZZXgOUso8hjaWZuSXTtZJ006eT63S?=
- =?us-ascii?Q?QANdtA5Di/RaqOQWs221YjgYGzwYLHM1hU+GfYEl5AXYqzZfdVc4v9+QuI3p?=
- =?us-ascii?Q?bWyJOhgglpkN+TEE69hof5R05YjpnCqRLrbOeyY7GK2HYOQghbEYkUNqXKYv?=
- =?us-ascii?Q?PaBwCYNfxlnSQpH435Q9C3CA1V+3OpJs9wjAJuc6du49J5LnqLfnsG4yDtSC?=
- =?us-ascii?Q?Ofk8UeUFQGNWGATmh5W+eVTzSa0ScmE/SU/PeOllepXdNIjLkHDwhkpb+wSb?=
- =?us-ascii?Q?3YZ+Y/pLX4N1ZXfri9vYpMUbUjY8J70474HY1MEDAoiyLlLhtKa89rKP5Lgn?=
- =?us-ascii?Q?XSf1pyWe1ytIUvKqJBa3e6y0WY3e1uDPI+/vUqV32Y1O+r5iUhOnFfoo5EGj?=
- =?us-ascii?Q?/g=3D=3D?=
+	=?us-ascii?Q?/1B2+y7hKvLkphLJwmEDhMfMlwgYgZlGp67a1yg7QLRaAxA/idUjOWQTcU2i?=
+ =?us-ascii?Q?N79le/bUe9rJd+YH3J5xTOYDKQItGsbJMWS9e36wh8Hi7h/9KflW44ZsDfb2?=
+ =?us-ascii?Q?XcVpvH9CEE0TCiU2L2eUKKJQBl9JH1kIU+rP6NT/ENiAshf9Rv5RUBfciE8U?=
+ =?us-ascii?Q?rm0bwZ0sEz9YYIf0Hh9D3PyrTKTDWwAHgIhScf8lRBC3rQrySkSzjCYRvYV1?=
+ =?us-ascii?Q?dtNeePMMEXam8m3QnQJnx2SYFjl+8X4vKmE2wGXMtU3MRB8yhwHsG8sfbRNr?=
+ =?us-ascii?Q?GbQvkd0NkTnHew7pcfzR0rbK9oUTMbWj53OcgDjmk30lvBIkYIh7s6R9+VAY?=
+ =?us-ascii?Q?4KvVmDkvvCeubNnLX4IM38QT6ZfqIF4zPUN57nF1z6hQr/JOxIe6mgjA1UfZ?=
+ =?us-ascii?Q?/2KOSoW1Q8CvlLZkU2cy8iKjk3ytVgsWfay2wd58qAcjF7zy9l4MYZg9nrhm?=
+ =?us-ascii?Q?e8cH5gkTDQJzXjOrCpCf77dBQyfRpatX6fnQnhpzURc+/lwiQ7VbR/HjczH+?=
+ =?us-ascii?Q?f0wMrLXdOpUcm5Mguo6QC1Jq9PbrMYkvNGKvwwgX4mdmVjZxc1Wkzh9SL8JN?=
+ =?us-ascii?Q?83gx+52b26q/PO8F4ab95Ife0Z1E2FTx8eC2t3V7MN7T+RcIrN4RKjsQb6YM?=
+ =?us-ascii?Q?/s64ZiWi/i/geqVaV4KhVkSkj6cR+0Jht6IWhz19OWrgNSGDzLQMSBgEVc6U?=
+ =?us-ascii?Q?/oxz+oqtqUB5FYXLobOBKBRYZ8DJVajznhkYKYr18vAPs+Flg0tcYukvLgD3?=
+ =?us-ascii?Q?8oF+aRz4VflXOk37JvbbkeFJ0HMbcdAMA+aE/Cb7kOZalECafOzM15VBXPky?=
+ =?us-ascii?Q?QKynBOBwoOuT9LT6xSAEd4Xvh8Qm7kjHtBcTcEsPo8yBgFop3SF1kGJ36hY/?=
+ =?us-ascii?Q?u+0cqmmwC7hLaK66AUE02we3rkJfoDyBzXMc5O9GPUwow7iBIj1nhcq+0lPC?=
+ =?us-ascii?Q?lMPLDuhqDoj0iTMkdqzEp0NEktlSe8V51JS+RZKhSfOag+0M2rHw0fKlGDoy?=
+ =?us-ascii?Q?677P4fSFeeij+EzHZ8er95IlI/WSG35rqra91efuKqlwQL8PQhCxzt/yWI/W?=
+ =?us-ascii?Q?d/nGPV20pFWnNqADNlGKu5r9IojyCwtAJ3ljuv/npeAxpoVNYd2fKhS+/jU2?=
+ =?us-ascii?Q?f5/+ZAYZTPuWj29brcd2ySvjpGhvIztLGjnipiSkisLWZPbdue/AbENVMlgw?=
+ =?us-ascii?Q?zqDEMwjqUBUdhEaqLbOG0FtLEZQxUwAYk4cIPnn03EIdqy60hjZr18POT1IB?=
+ =?us-ascii?Q?oZ/oGgupwxUAtV01pxTmnU4OldCj7wlH86yLH5OtQKubmaIPNvm13xw9sFby?=
+ =?us-ascii?Q?MBzhQ7MOYNTaA5OHmsFx0dYfYpd0tCdocohqzU7Z+7EM1jt1xavcMI1DPcgx?=
+ =?us-ascii?Q?/4Y+M0K8PgOpFxAwz1BrzHSuy3GousdLk59sPPuJ3xL/XheZJxxiqDDGt1G7?=
+ =?us-ascii?Q?REE9mSQcoVsY3x2JN44cD3PEeF3r2bzX4MSvwgkxbpMB1NqhMTYnOXbPHE98?=
+ =?us-ascii?Q?AAj5a4wmw8s5NWO3ryee2jAZgz3AXPEj/CGd0DtEFeJId1XbfSa6fOvlRssm?=
+ =?us-ascii?Q?H0xc0q2QUqjEr6jVowR0huqxOvMh9pSYEVDdBCyXw53J6+PDCi12lXbFXXir?=
+ =?us-ascii?Q?vw=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	tqhGLGKp9hbxKpecmSxU0SZmhJfQax/hZSY19hCpwp5siBRYT9S2jocQKHeVeOyYcHeGF1fWCy2+hLNcjjx8vNSatOXVCPcwtSDnvVfS0+uUIS0lfZjR40aMToUuS4reUufOHVOlvLtNLqcSQNAckCBiWys9R86TiAtHgDAfxLPuHQsyo8Oem2VXQPCVCgVExyMKhNwCs4RpBo12aENKIt4BQMG0sOTE717JmOxwXADzYS/5nPRkixhaDmriG2x1vKso9VMDKLZyrTQ+RhfHpcxbnrpAZ8ua2DkLyvWKwz++amo7Oy+3UrysJM7Oxmlxc5+DrTju1sMx4Ttnafh0Tk82TC7pWehGnhN2bnSjFyj7fAqxk7P8PB/hIpc2xlNsOtiUK1KL5E8TPDBmTd7CFt+lhfp2JSusA4gYMLDQAawuHZXv6JlETgBVTUQDmXuPXOiaEzqFGBY4L09O8FCiwNyyvyHgA7lOAuDIjFSjF7HSfFwRNW9KIIkhPJRxPV4hnnBAldxkNt5ZkgjUtfkOGDMDjm5ub4KjCYrtxVm/lox8pkI5lTOdUKhdFPLEU+lnsdHe680MrSSeMj9OuuhQiVyV7REKpRg86BvRAAfr2sY=
+	ZMG62M8Il0g5Gt4uzn07WxlI0Hk/RkoqZp8rqxBoQb6rmijYxZk3z3y5KY8Q8+IbckAQ9Cko5HGRIqil5BpkAvuFcRm8P/RBFzSG5gENGI543oDFVP3lXArTiAxAyDQFPy1f2xWhwm2vMXNXwGSwOVvrm+3j/0qziyxxg4CgmeNA9yfYKpvuly464REL2+PcNIoj7v2fyDMk9NEChvSIWAhv5IHbvDW3/+tbZ890FaPNsqk3IeWpsDk/oijl1zBiE12RBPBu2Jm6DeZwULxjwqHMKFovk0lAkDKkedUranF1BNVohp9TmwHNm7DzXjoGMAInOmNFWqUNtBhYdN1DtorL8dVSjTd35YodXC3LzwFtppAQ7IKVfnEE2DzMvVHu1O6t/1OjUF/0z4cP3BUJJptrgw477rci8KOgYd9Katy6IJ1h/uD9dGA7+o5F5J9LOV9QEk6zPnnNAVDUY7p7T4ES8O6ZcpUOg1FJI+5/1m5gEC9vic47I5BQUO4vlNVI1DocpCfNWFH/fFtO88gybDjI/b/weW7aubzokq29+gomlGkkSDi2fv9E94dlooprJrhe10HH3EzGCDlhM7Tv/9m44jm/M1PaVZKCzfqNDWQ=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24e4168e-6c9c-4993-0580-08dcfdc3dcde
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef23c2cb-7d00-4054-0746-08dcfdcb2ef5
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4769.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 18:01:24.7832
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 18:53:49.0376
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t8nP96SEV+EysNDjtnJX2iM1q8jAI3lfplUhTLTJnlfx9CqQt2MrLXkr/vZiEn2Z2hwINBnwoMKDDiDFuKW5wqeWpRZ0VuPz1CFx6n/KY2Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR10MB7094
+X-MS-Exchange-CrossTenant-UserPrincipalName: zp5Ve8r/BjtEPjP0EGK9gk7Lr/2uHg2r4vP+j/g3+im3tydin0qEAg1zcRioajQyiVfKgN5oU7lrJ+muVV44MWRaXWhO7uNI/1qy0gf6lP8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5625
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-11-05_06,2024-11-05_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- spamscore=0 mlxlogscore=999 mlxscore=0 phishscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2409260000 definitions=main-2411050139
-X-Proofpoint-ORIG-GUID: C2s12FGYGJCGdQbfGKKEnsyoazQyeA3K
-X-Proofpoint-GUID: C2s12FGYGJCGdQbfGKKEnsyoazQyeA3K
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0
+ mlxlogscore=999 mlxscore=0 suspectscore=0 bulkscore=0 malwarescore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2409260000 definitions=main-2411050145
+X-Proofpoint-GUID: suRCY_gKO3xD6DFleiZER87_JdCy4PEw
+X-Proofpoint-ORIG-GUID: suRCY_gKO3xD6DFleiZER87_JdCy4PEw
 
-Reviewed-by withdrawn - see my comments on patch 4/6 (that one contains a diff
-that belongs in this patch).
+On Tue, Nov 05, 2024 at 12:06:06AM +0000, Nick Alcock wrote:
+> This change propagates the arg type and mapping info we just got into the
+> pid_probespec_t onward into the underlying dt_uprobe_t, shuffles the native
+> types before handing off a 1:1 mapping to the dt_probe_t, and calls
+> dt_cg_tramp_map_args() to apply the requested mappings.  With this, USDT
+> probes should now have visible types which obey the :-notation translators
+> specified in their .d fils (this is now tested).
 
-On Tue, Nov 05, 2024 at 11:56:33AM -0500, Kris Van Hees via DTrace-devel wrote:
-> On Tue, Nov 05, 2024 at 12:06:03AM +0000, Nick Alcock wrote:
-> > This change propagates native and xlated arg types and mapping info all
-> > the way from the DOF, through the parser and dtprobed and the DOF stash,
-> > into DTrace, where they end up in the pid_probespec_t for USDT probes.
-> > We don't do anything with them once they get there in this commit: no
-> > user-visible impacts expected.
-> > 
-> > We bump the DOF_PARSED_VERSION since we add three new types of record to the
-> > dof_parser_t, all optional, covering native and xlated args and arg mapping
-> > tables; to make life easier for consumers we emit them in a defined order
-> > (documented in dof_parser.h), and add arg counts to the DIT_PROBE record
-> > that precedes them indicating which will be present and how many args are in
-> > them.  This means we retain the property that you can always tell which
-> > records within a provider are coming next purely from records you already
-> > have: there's no need to make decisions once the records turn up.  The DOF
-> > stash hardly changes: all that happens is that the parsed data written to
-> > each per-probe file gains some extra types of record (it can have
-> > DIT_ARGS_NATIVE, DIT_ARGS_XLAT and DIT_ARGS_MAP entries following the
-> > DIT_PROBE record now).
-> > 
-> > As usual with DOF_PARSED_VERSION bumps, DTraces that cross this change will
-> > refuse to read probes added by dtprobeds that are on the other side of it.
-> > (Restarting dtprobed will reparse all the probes in the stash to match the
-> > new layout, and newly-started DTraces will pick that up -- so this only
-> > affects running DTraces picking up new probes, which DTrace cannot do yet:
-> > so no visible effects are expected.)
-> > 
-> > The code is a bit repetitive, with nargs, xargs and arg mapping all handled
-> > separately even though the code is very similar.  In future maybe we could
-> > unify them (but my attempts led to code that was much harder to read than
-> > the original).
-> > 
-> > Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
+Not sure why I didn't catch this earlier but this is confusing (or possibly
+wrong?)...  Perhaps the problem is that you are trying to put too much into a
+single summary sentence.
+
+There is no shuffling of native types.
+
+What happens (based on my reading of the code) is that:
+
+- arg data in pid_probespec_t is propagated into the underlying dt_uprobe_t
+  where it is stored as a dt_argdesc_t array
+- the trampoline shuffles the argument values according to the mapping data
+  in the underlying probe
+- calls to probe_info() retrieve arg data as a dt_argdesc_t array with 1:1
+  mapping (because the trace program can only access arguments after they
+  were already mapped)
+
+Also.... "fils" -> "file"
+
+> The probe info has been moved from the underlying probe to the overlying one
+
+"probe info" -> "probe info hook"
+
+> as part of this: underlying probes don't have any user-visible args to
+> get info for, and their probe_info functions are never called.  We do all
+> the arg reshuffling in a function ultimately called from USDT probe
+
+There is no arg reshuffling or shuffling... all that happens is that the
+dt_argdesc_t array is populated.
+
+> discovery via provide_underlying, so it predates trampoline setup let alone
+> probe_info on the overlying probe and all the args info is present before
+> it is needed.  (We intentionally do not shuffle the args in
+> dt_cg_tramp_map_args specifically so that we are not sensitive to the
+
+Actually, dt_cg_tramp_map_args() specifically *does* the arg shuffling (the
+mapping of args).  That is its sole purpose.
+
+> relative call order of trampoline() versus probe_info(), but there's no
+> escaping the requirement for USDT probe discovery to predate all of this:
+> but this was already a requirement in any case.)
+
+There is no call order relation in any way between trampoline and probe_info.
+In fact, except for some special providers that do not have a low-level probe
+implementation component, trampolines are not generated until all olauses have
+been copiled.
 > 
-> Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
+> We make one assumption for simplicity, noted by a TODO in the source.
+> We assume that overlying probes all have the same native types and mappings,
+> so we don't need to look at more than one underlying probe to figure out what
+> they are.  DTrace always generates such a thing, but DOF specifying multiple
+> overlapping probes seems perfectly possible for other programs to generate.
+> This should probably be validated in dof_parser.c in future.
+
+Since you added validation that rejects multiple USDT probes using the same
+tracepoint (underlying probe), this is a moot point.  There is no assumption
+anymore in any case.  Any underlying probe can only be associated with a single
+overlying probe, so storing the arg data in the underlying probe is valid.
+
+If you feel the need to mention that other DOF generators could potentially
+create DOF that associates multiple overying probes with the same underlying
+probe. that's fine, but since your code will not accept that, I don't think
+there is a need to mention it.
+
+> Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
+> ---
+>  include/dtrace/pid.h                          |   1 +
+>  libdtrace/dt_pid.c                            |   3 +-
+>  libdtrace/dt_prov_uprobe.c                    | 185 ++++++++++++++++--
+>  test/triggers/usdt-tst-argmap-prov.d          |   5 +-
+>  test/triggers/usdt-tst-argmap.c               |   5 +-
+>  .../dtrace-util/tst.ListProbesArgsUSDT.r      |  34 ++++
+>  .../dtrace-util/tst.ListProbesArgsUSDT.r.p    |   2 +
+>  .../dtrace-util/tst.ListProbesArgsUSDT.sh     |  83 ++++++++
+>  test/unittest/usdt/err.argmap-null.d          |  41 ++++
+>  test/unittest/usdt/err.argmap-null.r          |   2 +
+>  test/unittest/usdt/err.argmap-null.r.p        |   2 +
+>  test/unittest/usdt/tst.argmap-null.d          |  32 +++
+>  test/unittest/usdt/tst.argmap-typed-partial.d |  49 +++++
+>  test/unittest/usdt/tst.argmap-typed.d         |  48 +++++
+>  test/unittest/usdt/tst.argmap.d               |   5 +-
+>  15 files changed, 478 insertions(+), 19 deletions(-)
+>  create mode 100644 test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r
+>  create mode 100755 test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r.p
+>  create mode 100755 test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh
+>  create mode 100644 test/unittest/usdt/err.argmap-null.d
+>  create mode 100644 test/unittest/usdt/err.argmap-null.r
+>  create mode 100755 test/unittest/usdt/err.argmap-null.r.p
+>  create mode 100644 test/unittest/usdt/tst.argmap-null.d
+>  create mode 100644 test/unittest/usdt/tst.argmap-typed-partial.d
+>  create mode 100644 test/unittest/usdt/tst.argmap-typed.d
 > 
-> > ---
-> >  dtprobed/dof_stash.c   |  15 +++--
-> >  dtprobed/dtprobed.c    |  10 ++-
-> >  include/dtrace/pid.h   |   7 ++
-> >  libcommon/dof_parser.c | 150 +++++++++++++++++++++++++++++++----------
-> >  libcommon/dof_parser.h |  64 ++++++++++++++++--
-> >  libdtrace/dt_pid.c     |  59 ++++++++++++++++
-> >  6 files changed, 256 insertions(+), 49 deletions(-)
-> > 
-> > diff --git a/dtprobed/dof_stash.c b/dtprobed/dof_stash.c
-> > index 0e639076f655..8bf465678217 100644
-> > --- a/dtprobed/dof_stash.c
-> > +++ b/dtprobed/dof_stash.c
-> > @@ -59,8 +59,10 @@
-> >   *    startup if the dof_parsed_t structure changed.  The file consists of a
-> >   *    uint64_t version number (DOF_PARSED_VERSION), then a stream of
-> >   *    dof_parsed_t records, the first of type DIT_PROVIDER, the second
-> > - *    DIT_PROBE, then as many struct dof_parsed_t's of type DIT_TRACEPOINT as
-> > - *    the DIT_PROBE record specifies.
-> > + *    DIT_PROBE, then optionally some DIT_*ARGS records (if the count of native
-> > + *    args in the probe is >0, you get a DIT_NATIVE_ARGS: if the count of xlated
-> > + *    args is >0, you get DIT_XLAT_ARGS and DIT_MAP_ARGS), then as many struct
-> > + *    dof_parsed_t's of type DIT_TRACEPOINT as the DIT_PROBE record specifies.
-> >   *
-> >   * /run/dtrace/probes/: Per-probe info, written by dtprobed, read by DTrace.
-> >   *
-> > @@ -640,9 +642,14 @@ dof_stash_write_parsed(pid_t pid, dev_t dev, ino_t ino, dt_list_t *accum)
-> >  			break;
-> >  		}
-> >  
-> > -		/* Tracepoint: add to already-open file.  */
-> > +		/* Args info or tracepoint: add to already-open file.  */
-> > +		case DIT_ARGS_NATIVE:
-> > +		case DIT_ARGS_XLAT:
-> > +		case DIT_ARGS_MAP:
-> >  		case DIT_TRACEPOINT:
-> > -			assert(state == DIT_PROBE || state == DIT_TRACEPOINT);
-> > +			assert(state == DIT_PROBE || state == DIT_ARGS_NATIVE ||
-> > +			       state == DIT_ARGS_XLAT || state == DIT_ARGS_MAP ||
-> > +			       state == DIT_TRACEPOINT);
-> >  			state = accump->parsed->type;
-> >  
-> >  			if (write_chunk(parsed_fd, accump->parsed, accump->parsed->size) < 0)
-> > diff --git a/dtprobed/dtprobed.c b/dtprobed/dtprobed.c
-> > index f4c6be1e045d..2ca39b26f88a 100644
-> > --- a/dtprobed/dtprobed.c
-> > +++ b/dtprobed/dtprobed.c
-> > @@ -791,16 +791,20 @@ process_dof(pid_t pid, int out, int in, dev_t dev, ino_t inum, dev_t exec_dev,
-> >  		if (dof_stash_push_parsed(&accum, probe) < 0)
-> >  			goto oom;
-> >  
-> > -		for (j = 0; j < probe->probe.ntp; j++) {
-> > +		j = 0;
-> > +		do {
-> >  			dof_parsed_t *tp = dof_read(pid, in);
-> >  
-> >  			errmsg = "no tracepoints in a probe, or parse state corrupt";
-> > -			if (!tp || tp->type != DIT_TRACEPOINT)
-> > +			if (!tp || tp->type == DIT_PROVIDER || tp->type == DIT_PROBE)
-> >  				goto err;
-> >  
-> >  			if (dof_stash_push_parsed(&accum, tp) < 0)
-> >  				goto oom;
-> > -		}
-> > +
-> > +			if (tp->type == DIT_TRACEPOINT)
-> > +				j++;
-> > +		} while (j < probe->probe.ntp);
-> >  	}
-> >  
-> >  	if (!reparsing)
-> > diff --git a/include/dtrace/pid.h b/include/dtrace/pid.h
-> > index 0129674adf0c..25bfacfdbfe2 100644
-> > --- a/include/dtrace/pid.h
-> > +++ b/include/dtrace/pid.h
-> > @@ -35,6 +35,13 @@ typedef struct pid_probespec {
-> >  	ino_t pps_inum;				/* object inode */
-> >  	char *pps_fn;				/* object full filename */
-> >  	uint64_t pps_off;			/* probe offset (in object) */
-> > +	int pps_nargc;				/* number of native args */
-> > +	int pps_xargc;				/* number of xlated and mapped args */
-> > +	char *pps_nargv;			/* array of native args */
-> > +	size_t pps_nargvlen;			/* (high estimate of) length of array */
-> > +	char *pps_xargv;			/* array of xlated args */
-> > +	size_t pps_xargvlen;			/* (high estimate of) length of array */
-> > +	int8_t *pps_argmap;			/* mapped arg indexes */
-> >  
-> >  	/*
-> >  	 * Fields below this point do not apply to underlying probes.
-> > diff --git a/libcommon/dof_parser.c b/libcommon/dof_parser.c
-> > index d6631a1afdcb..1792a8bfcc84 100644
-> > --- a/libcommon/dof_parser.c
-> > +++ b/libcommon/dof_parser.c
-> > @@ -807,10 +807,11 @@ validate_provider(int out, dof_hdr_t *dof, dof_sec_t *sec)
-> >  		}
-> >  
-> >  		dt_dbg_dof("      Probe %d %s:%s:%s:%s with %d offsets, "
-> > -			   "%d is-enabled offsets\n", j,
-> > +			   "%d is-enabled offsets, %i args, %i nargs, argidx %i\n", j,
-> >  			   strtab + prov->dofpv_name, "",
-> >  			   strtab + prb->dofpr_func, strtab + prb->dofpr_name,
-> > -			   prb->dofpr_noffs, prb->dofpr_nenoffs);
-> > +			   prb->dofpr_noffs, prb->dofpr_nenoffs,
-> > +			   prb->dofpr_xargc, prb->dofpr_nargc, prb->dofpr_argidx);
-> >  	}
-> >  
-> >  	return 0;
-> > @@ -879,12 +880,26 @@ validate_probe(int out, dtrace_helper_probedesc_t *dhpb)
-> >  	return 0;
-> >  }
-> >  
-> > +static size_t
-> > +strings_len(const char *strtab, size_t count)
-> > +{
-> > +	size_t len = 0;
-> > +
-> > +	for (; count > 0; count--) {
-> > +		size_t this_len = strlen(strtab) + 1;
-> > +
-> > +		len += this_len;
-> > +		strtab += this_len;
-> > +	}
-> > +	return len;
-> > +}
-> > +
-> >  static void
-> >  emit_probe(int out, dtrace_helper_probedesc_t *dhpb)
-> >  {
-> >  	int		i;
-> > -	dof_parsed_t	*probe_msg;
-> > -	size_t		probe_msg_size;
-> > +	dof_parsed_t	*msg;
-> > +	size_t		msg_size;
-> >  	char		*ptr;
-> >  
-> >  	dt_dbg_dof("      Creating probe %s:%s:%s:%s\n", dhpb->dthpb_prov,
-> > @@ -893,35 +908,106 @@ emit_probe(int out, dtrace_helper_probedesc_t *dhpb)
-> >  	if (validate_probe(out, dhpb) != 0)
-> >  		return;
-> >  
-> > -	probe_msg_size = offsetof(dof_parsed_t, probe.name) +
-> > -	    strlen(dhpb->dthpb_mod) + 1 + strlen(dhpb->dthpb_func) + 1 +
-> > -	    strlen(dhpb->dthpb_name) + 1;
-> > +	/*
-> > +	 * Compute the size of all the optional elements first, to fill out the
-> > +	 * flags.
-> > +	 */
-> >  
-> > -	probe_msg = malloc(probe_msg_size);
-> > -	if (!probe_msg) {
-> > -		dof_error(out, ENOMEM, "Out of memory allocating probe");
-> > -		return;
-> > -	}
-> > +	msg_size = offsetof(dof_parsed_t, probe.name) +
-> > +		   strlen(dhpb->dthpb_mod) + 1 +
-> > +		   strlen(dhpb->dthpb_func) + 1 +
-> > +		   strlen(dhpb->dthpb_name) + 1;
-> >  
-> > -	memset(probe_msg, 0, probe_msg_size);
-> > +	msg = malloc(msg_size);
-> > +	if (!msg)
-> > +		goto oom;
-> >  
-> > -	probe_msg->size = probe_msg_size;
-> > -	probe_msg->type = DIT_PROBE;
-> > -	probe_msg->probe.ntp = dhpb->dthpb_noffs + dhpb->dthpb_nenoffs;
-> > -	ptr = stpcpy(probe_msg->probe.name, dhpb->dthpb_mod);
-> > +	memset(msg, 0, msg_size);
-> > +
-> > +	msg->size = msg_size;
-> > +	msg->type = DIT_PROBE;
-> > +	msg->probe.ntp = dhpb->dthpb_noffs + dhpb->dthpb_nenoffs;
-> > +	msg->probe.nargc = dhpb->dthpb_nargc;
-> > +	msg->probe.xargc = dhpb->dthpb_xargc;
-> > +
-> > +	ptr = stpcpy(msg->probe.name, dhpb->dthpb_mod);
-> >  	ptr++;
-> >  	ptr = stpcpy(ptr, dhpb->dthpb_func);
-> >  	ptr++;
-> >  	strcpy(ptr, dhpb->dthpb_name);
-> > -	dof_parser_write_one(out, probe_msg, probe_msg_size);
-> > +	dof_parser_write_one(out, msg, msg_size);
-> >  
-> > -	free(probe_msg);
-> > +	free(msg);
-> >  
-> > -	/* XXX TODO translated args
-> > -	   pp->ftp_nargs = dhpb->dthpb_xargc;
-> > -	   pp->ftp_xtypes = dhpb->dthpb_xtypes;
-> > -	   pp->ftp_ntypes = dhpb->dthpb_ntypes;
-> > -	*/
-> > +	/*
-> > +	 * Emit info on all native and translated args in turn.
-> > +	 *
-> > +	 * FIXME: this code is a bit repetitious.
-> > +	 *
-> > +	 * First native args (if any).
-> > +	 */
-> > +
-> > +	if (dhpb->dthpb_nargc > 0) {
-> > +		size_t	nargs_size;
-> > +
-> > +		nargs_size = strings_len(dhpb->dthpb_ntypes, dhpb->dthpb_nargc);
-> > +		msg_size = offsetof(dof_parsed_t, nargs.args) + nargs_size;
-> > +
-> > +		msg = malloc(msg_size);
-> > +		if (!msg)
-> > +			goto oom;
-> > +
-> > +		memset(msg, 0, msg_size);
-> > +
-> > +		msg->size = msg_size;
-> > +		msg->type = DIT_ARGS_NATIVE;
-> > +		memcpy(msg->nargs.args, dhpb->dthpb_ntypes, nargs_size);
-> > +		dof_parser_write_one(out, msg, msg_size);
-> > +
-> > +		free(msg);
-> > +
-> > +		/* Then translated args. */
-> > +
-> > +		if (dhpb->dthpb_xargc > 0) {
-> > +			size_t	xargs_size, map_size;
-> > +
-> > +			xargs_size = strings_len(dhpb->dthpb_xtypes,
-> > +						 dhpb->dthpb_xargc);
-> > +			msg_size = offsetof(dof_parsed_t, xargs.args) +
-> > +				   xargs_size;
-> > +
-> > +			msg = malloc(msg_size);
-> > +			if (!msg)
-> > +				goto oom;
-> > +
-> > +			memset(msg, 0, msg_size);
-> > +
-> > +			msg->size = msg_size;
-> > +			msg->type = DIT_ARGS_XLAT;
-> > +			memcpy(msg->xargs.args, dhpb->dthpb_xtypes, xargs_size);
-> > +			dof_parser_write_one(out, msg, msg_size);
-> > +
-> > +			free(msg);
-> > +
-> > +			/* Then the mapping table. */
-> > +
-> > +			map_size = dhpb->dthpb_xargc * sizeof(int8_t);
-> > +			msg_size = offsetof(dof_parsed_t, argmap.argmap) +
-> > +				   map_size;
-> > +
-> > +			msg = malloc(msg_size);
-> > +			if (!msg)
-> > +				goto oom;
-> > +
-> > +			memset(msg, 0, msg_size);
-> > +
-> > +			msg->size = msg_size;
-> > +			msg->type = DIT_ARGS_MAP;
-> > +			memcpy(msg->argmap.argmap, dhpb->dthpb_args, map_size);
-> > +			dof_parser_write_one(out, msg, msg_size);
-> > +			free(msg);
-> > +		}
-> > +	}
-> >  
-> >  	/*
-> >  	 * Emit info on each tracepoint in turn.
-> > @@ -938,18 +1024,10 @@ emit_probe(int out, dtrace_helper_probedesc_t *dhpb)
-> >  	for (i = 0; i < dhpb->dthpb_nenoffs; i++)
-> >  		emit_tp(out, dhpb->dthpb_base, dhpb->dthpb_enoffs[i], 1);
-> >  
-> > -	/*
-> > -	 * XXX later:
-> > -	 * If the arguments are shuffled around we set the argument remapping
-> > -	 * table. Later, when the probe fires, we only remap the arguments
-> > -	 * if the table is non-NULL.
-> > -	 *
-> > -	for (i = 0; i < dhpb->dthpb_xargc; i++) {
-> > -		if (dhpb->dthpb_args[i] != i) {
-> > -			pp->ftp_argmap = dhpb->dthpb_args;
-> > -			break;
-> > -		}
-> > -	} */
-> > +	return;
-> > + oom:
-> > +	dof_error(out, ENOMEM, "Out of memory allocating %zi bytes for probe",
-> > +		  msg_size);
-> >  }
-> >  
-> >  static void
-> > diff --git a/libcommon/dof_parser.h b/libcommon/dof_parser.h
-> > index d3a6836f15fd..8f42d00551e3 100644
-> > --- a/libcommon/dof_parser.h
-> > +++ b/libcommon/dof_parser.h
-> > @@ -15,10 +15,19 @@
-> >  #include <dtrace/helpers.h>
-> >  
-> >  /*
-> > - * Result of DOF probe parsing.  We receive a provider info structure, followed
-> > - * by N probe info structures each of which is followed by possibly many
-> > - * tracepoint info structures, all tagged.  Things not yet used for probe
-> > - * creation (like args, translated types, etc) are not returned.
-> > + * Result of DOF probe parsing.  The order of elements in the parsed stream
-> > + * is:
-> > + *
-> > + * DIT_PROVIDER (at least 1, which contains...)
-> > + *   DIT_PROBE (at least 1, each of which has...)
-> > + *     DIT_ARGS_NATIVE (1, optional)
-> > + *     DIT_ARGS_XLAT (1, optional)
-> > + *     DIT_ARGS_MAP (1, optional)
-> > + *     DIT_TRACEPOINT (any number >= 1)
-> > + *
-> > + * The dof_parsed.provider.flags word indicates the presence of the
-> > + * various optional args records in the following stream (you can rely on
-> > + * them if it simplifies things, but you don't have to).
-> >   *
-> >   * On error, a DIT_ERR structure is returned with an error message.
-> >   */
-> > @@ -27,7 +36,10 @@ typedef enum dof_parsed_info {
-> >  	DIT_PROVIDER = 0,
-> >  	DIT_PROBE = 1,
-> >  	DIT_TRACEPOINT = 2,
-> > -	DIT_ERR = 3
-> > +	DIT_ERR = 3,
-> > +	DIT_ARGS_NATIVE = 4,
-> > +	DIT_ARGS_XLAT = 5,
-> > +	DIT_ARGS_MAP = 6,
-> >  } dof_parsed_info_t;
-> >  
-> >  /*
-> > @@ -37,7 +49,7 @@ typedef enum dof_parsed_info {
-> >   * start which is the version of the dof_parseds within it.  The data flowing
-> >   * over the stream from the seccomped parser has no such prefix.
-> >   */
-> > -#define DOF_PARSED_VERSION 1
-> > +#define DOF_PARSED_VERSION 2
-> >  
-> >  typedef struct dof_parsed {
-> >  	/*
-> > @@ -59,18 +71,58 @@ typedef struct dof_parsed {
-> >  			 */
-> >  			char name[1];
-> >  		} provider;
-> > +
-> >  		struct dpi_probe_info {
-> >  			/*
-> >  			 * Number of tracepoints that follow.
-> >  			 */
-> >  			size_t ntp;
-> >  
-> > +			/*
-> > +			 * Number of native arguments that follow (if > 0, a
-> > +			 * DIT_ARGS_NATIVE will be received).
-> > +			 */
-> > +			size_t nargc;
-> > +
-> > +			/*
-> > +			 * Number of xlated arguments that follow (if > 0, a
-> > +			 * DIT_ARGS_XLAT and DIT_ARGS_MAP will be received).
-> > +			 */
-> > +			size_t xargc;
-> > +
-> >  			/*
-> >  			 * Probe module, function, and name (\0-separated).
-> >  			 */
-> >  			char name[1];
-> >  		} probe;
-> >  
-> > +		/* V2+ only.  */
-> > +		struct dpi_probe_args_native_info {
-> > +			/*
-> > +			 * Array of native args.  nargc in length.
-> > +			 */
-> > +			char args[1];
-> > +		} nargs;
-> > +
-> > +		/* V2+ only.  */
-> > +		struct dpi_probe_args_xlat_info {
-> > +			/*
-> > +			 * Array of translated args.  xargc in length.
-> > +			 */
-> > +			char args[1];
-> > +		} xargs;
-> > +
-> > +		/*
-> > +		 * V2+ only.
-> > +		 */
-> > +		struct dpi_probe_args_map_info {
-> > +			/*
-> > +			 * Mapping from native arg index to xlated arg index.
-> > +			 * xargc in length.
-> > +			 */
-> > +			int8_t argmap[1];
-> > +		} argmap;
-> > +
-> >  		struct dpi_tracepoint_info {
-> >  			/*
-> >  			 * Offset of this tracepoint.
-> > diff --git a/libdtrace/dt_pid.c b/libdtrace/dt_pid.c
-> > index 41a87955ec1b..71ac1754d343 100644
-> > --- a/libdtrace/dt_pid.c
-> > +++ b/libdtrace/dt_pid.c
-> > @@ -866,6 +866,9 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, dt_proc_t *dpr,
-> >  		uint64_t *dof_version;
-> >  		char *prv, *mod, *fun, *prb;
-> >  		dof_parsed_t *provider, *probe;
-> > +		ssize_t nargvlen = 0, xargvlen = 0;
-> > +		char *nargv = NULL, *xargv = NULL;
-> > +		int8_t *argmap = NULL;
-> >  
-> >  		/*
-> >  		 * Regular files only: in particular, skip . and ..,
-> > @@ -917,6 +920,47 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, dt_proc_t *dpr,
-> >  		p += probe->size;
-> >  		seen_size += probe->size;
-> >  
-> > +		/*
-> > +		 * Assume the order given in dof_parser.h, for simplicity.
-> > +		 */
-> > +		if (probe->probe.nargc > 0) {
-> > +			dof_parsed_t *args = (dof_parsed_t *) p;
-> > +
-> > +			if (!validate_dof_record(path, args, DIT_ARGS_NATIVE,
-> > +						 dof_buf_size, seen_size))
-> > +				goto parse_err;
-> > +
-> > +			nargv = args->nargs.args;
-> > +			nargvlen = args->size - offsetof(dof_parsed_t, nargs.args);
-> > +			assert(nargvlen >= 0);
-> > +
-> > +			p += args->size;
-> > +			seen_size += args->size;
-> > +		}
-> > +		if (probe->probe.xargc > 0) {
-> > +			dof_parsed_t *args = (dof_parsed_t *) p;
-> > +
-> > +			if (!validate_dof_record(path, args, DIT_ARGS_XLAT,
-> > +						 dof_buf_size, seen_size))
-> > +				goto parse_err;
-> > +
-> > +			xargv = args->xargs.args;
-> > +			xargvlen = args->size - offsetof(dof_parsed_t, xargs.args);
-> > +			assert(xargvlen >= 0);
-> > +
-> > +			p += args->size;
-> > +			seen_size += args->size;
-> > +
-> > +			if (!validate_dof_record(path, args, DIT_ARGS_MAP,
-> > +						 dof_buf_size, seen_size))
-> > +				goto parse_err;
-> > +
-> > +			argmap = args->argmap.argmap;
-> > +
-> > +			p += args->size;
-> > +			seen_size += args->size;
-> > +		}
-> > +
-> >  		/*
-> >  		 * Now the parsed DOF for this probe's tracepoints.
-> >  		 */
-> > @@ -967,6 +1011,21 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, dt_proc_t *dpr,
-> >  			psp.pps_off = tp->tracepoint.addr - pmp->pr_file->first_segment->pr_vaddr;
-> >  			psp.pps_nameoff = 0;
-> >  
-> > +			if (nargv) {
-> > +				psp.pps_nargc = probe->probe.nargc;
-> > +				psp.pps_nargvlen = nargvlen;
-> > +				psp.pps_nargv = nargv;
-> > +			}
-> > +
-> > +			if (xargv) {
-> > +				psp.pps_xargc = probe->probe.xargc;
-> > +				psp.pps_xargvlen = xargvlen;
-> > +				psp.pps_xargv = xargv;
-> > +			}
-> > +
-> > +			if (argmap)
-> > +				psp.pps_argmap = argmap;
-> > +
-> >  			dt_dprintf("providing %s:%s:%s:%s for pid %d\n", psp.pps_prv,
-> >  				   psp.pps_mod, psp.pps_fun, psp.pps_prb, psp.pps_pid);
-> >  			if (pvp->impl->provide_probe(dtp, &psp) < 0) {
-> > -- 
-> > 2.46.0.278.g36e3a12567
-> > 
+> diff --git a/include/dtrace/pid.h b/include/dtrace/pid.h
+> index 25bfacfdbfe2..c53e600475df 100644
+> --- a/include/dtrace/pid.h
+> +++ b/include/dtrace/pid.h
+> @@ -22,6 +22,7 @@ typedef enum pid_probetype {
+>  	DTPPT_ENTRY,
+>  	DTPPT_RETURN,
+>  	DTPPT_OFFSETS,
+> +	DTPPT_USDT,
+>  	DTPPT_IS_ENABLED
+>  } pid_probetype_t;
+>  
+> diff --git a/libdtrace/dt_pid.c b/libdtrace/dt_pid.c
+> index 71ac1754d343..a0b3d892fd23 100644
+> --- a/libdtrace/dt_pid.c
+> +++ b/libdtrace/dt_pid.c
+> @@ -950,6 +950,7 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, dt_proc_t *dpr,
+>  
+>  			p += args->size;
+>  			seen_size += args->size;
+> +			args = (dof_parsed_t *) p;
+
+This change belongs in patch 1/6...  without it that 1/6 patch is validating
+the wrong data.
+
+>  
+>  			if (!validate_dof_record(path, args, DIT_ARGS_MAP,
+>  						 dof_buf_size, seen_size))
+> @@ -1000,7 +1001,7 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, dt_proc_t *dpr,
+>  				goto oom;
+>  			}
+>  
+> -			psp.pps_type = tp->tracepoint.is_enabled ? DTPPT_IS_ENABLED : DTPPT_OFFSETS;
+> +			psp.pps_type = tp->tracepoint.is_enabled ? DTPPT_IS_ENABLED : DTPPT_USDT;
+>  			psp.pps_prv = prv;
+>  			psp.pps_mod = mod;
+>  			psp.pps_fun = fun;
+> diff --git a/libdtrace/dt_prov_uprobe.c b/libdtrace/dt_prov_uprobe.c
+> index a8c1ab2761f0..28f5351be21a 100644
+> --- a/libdtrace/dt_prov_uprobe.c
+> +++ b/libdtrace/dt_prov_uprobe.c
+> @@ -46,9 +46,11 @@
+>  /* Provider name for the underlying probes. */
+>  static const char	prvname[] = "uprobe";
+>  
+> -#define PP_IS_RETURN	1
+> -#define PP_IS_FUNCALL	2
+> -#define PP_IS_ENABLED	4
+> +#define PP_IS_RETURN	0x1
+> +#define PP_IS_FUNCALL	0x2
+> +#define PP_IS_ENABLED	0x4
+> +#define PP_IS_USDT	0x8
+> +#define PP_IS_MAPPED	0x10
+>  
+>  typedef struct dt_uprobe {
+>  	dev_t		dev;
+> @@ -57,7 +59,10 @@ typedef struct dt_uprobe {
+>  	uint64_t	off;
+>  	int		flags;
+>  	tp_probe_t	*tp;
+> -	dt_list_t	probes;		/* pid/USDT probes triggered by it */
+> +	int		argc;		   /* number of args */
+> +	dt_argdesc_t	*args;		   /* args array (points into argvbuf) */
+> +	char		*argvbuf;	   /* arg strtab */
+> +	dt_list_t	probes;		   /* pid/USDT probes triggered by it */
+>  } dt_uprobe_t;
+>  
+>  typedef struct list_probe {
+> @@ -123,6 +128,8 @@ static void probe_destroy_underlying(dtrace_hdl_t *dtp, void *datap)
+>  	dt_tp_destroy(dtp, tpp);
+>  	free_probe_list(dtp, dt_list_next(&upp->probes));
+>  	dt_free(dtp, upp->fn);
+> +	dt_free(dtp, upp->args);
+> +	dt_free(dtp, upp->argvbuf);
+>  	dt_free(dtp, upp);
+>  }
+>  
+> @@ -516,6 +523,83 @@ static int discover(dtrace_hdl_t *dtp)
+>  	return 0;
+>  }
+>  
+> +/*
+> + * Populate args for an underlying probe.  This really relates to an overlying
+> + * USDT probe (all overlying probes associated with a given underlying probe
+> + * must have the same args), but the overlying probe doesn't exist at the point
+> + * this is populated, so we must put it in the underlying probe instead and pull
+> + * it out when the overlying probe info is called for.
+
+"all overlying probes associated with a given underlying probe" makes little
+sense when it is already established (ad code guarantees) that there will
+only be a single overlying USDT probe for any underlying probe - and any other
+overlying probe is therefore a pid probe and does not have defined arguments.
+
+Pehaps better would be:
+
+/*
+ * Populate args for an underlying probe for use by the overlying USDT probe.
+ * The overlying probe does not exist yet at this point, so the arg data is
+ * stored in the underlying probe instead and will be accessed when probe_info
+ * is called in the overlying probe.
+
+> + *
+> + * Move it into dt_argdesc_t's for use later on. The char *'s in that structure
+> + * are pointers into the argvbuf array, which is a straight concatenated copy of
+> + * the nargc/xargc in the pid_probespec_t.
+
+nargc/xargc -> nargv/xargv
+
+> + */
+> +static int populate_args(dtrace_hdl_t *dtp, const pid_probespec_t *psp,
+> +			 dt_uprobe_t *upp)
+> +{
+> +	char	**nargv = NULL;
+> +	char	*nptr = NULL, *xptr = NULL;
+> +	size_t	i;
+> +
+> +	upp->argc = psp->pps_xargc;
+> +
+> +	/*
+> +	 * If we have a nonzero number of args, we always have at least one narg
+> +	 * and at least one xarg.  Double-check to be sure.  (These are not
+> +	 * populated, and thus left 0/NULL, for non-USDT probes.)
+> +	 */
+> +	if (upp->argc == 0 || psp->pps_xargv == NULL || psp->pps_nargv == NULL
+> +		|| psp->pps_xargvlen == 0 || psp->pps_nargvlen == 0)
+> +		return 0;
+> +
+> +	upp->argvbuf = dt_alloc(dtp, psp->pps_xargvlen + psp->pps_nargvlen);
+> +	if(upp->argvbuf == NULL)
+> +		return -1;
+> +	memcpy(upp->argvbuf, psp->pps_xargv, psp->pps_xargvlen);
+> +	xptr = upp->argvbuf;
+> +
+> +	memcpy(upp->argvbuf + psp->pps_xargvlen, psp->pps_nargv, psp->pps_nargvlen);
+> +	nptr = upp->argvbuf + psp->pps_xargvlen;
+> +
+> +	upp->args = dt_calloc(dtp, upp->argc, sizeof(dt_argdesc_t));
+> +	if (upp->args == NULL)
+> +		return -1;
+> +
+> +	/*
+> +	 * Construct an array to allow accessing native args by index.
+> +	 */
+> +
+
+Remove blank line.
+
+> +	if ((nargv = dt_calloc(dtp, psp->pps_nargc, sizeof (char *))) == NULL)
+> +		goto fail;
+> +
+> +	for (i = 0; i < psp->pps_nargc; i++, nptr += strlen(nptr) + 1)
+> +		nargv[i] = nptr;
+> +
+> +        /*
+> +	 * Fill up the upp->args array based on xargs.  If this indicates that
+> +	 * mapping is needed, note as much.
+> +	 */
+> +
+
+Remove blank line.
+
+> +	for (i = 0; i < upp->argc; i++, xptr += strlen(xptr) + 1) {
+> +		int map_arg = psp->pps_argmap[i];
+> +
+> +		upp->args[i].native = nargv[map_arg];
+> +		upp->args[i].xlate = xptr;
+> +		upp->args[i].mapping = map_arg;
+> +		upp->args[i].flags = 0;
+> +
+> +                if (i != map_arg)
+> +			upp->flags |= PP_IS_MAPPED;
+> +	}
+> +
+> +	free(nargv);
+> +	return 0;
+> +
+> + fail:
+> +	free(nargv);
+> +	return -1;
+> +}
+> +
+>  /*
+>   * Look up or create an underlying (real) probe, corresponding directly to a
+>   * uprobe.  Since multiple pid and USDT probes may all map onto the same
+> @@ -530,7 +614,7 @@ static dt_probe_t *create_underlying(dtrace_hdl_t *dtp,
+>  	char			prb[DTRACE_NAMELEN];
+>  	dtrace_probedesc_t	pd;
+>  	dt_probe_t		*uprp;
+> -	dt_uprobe_t		*upp;
+> +	dt_uprobe_t		*upp = NULL;
+>  
+>  	/*
+>  	 * The underlying probes (uprobes) represent the tracepoints that pid
+> @@ -555,6 +639,7 @@ static dt_probe_t *create_underlying(dtrace_hdl_t *dtp,
+>  	case DTPPT_IS_ENABLED:
+>  	case DTPPT_ENTRY:
+>  	case DTPPT_OFFSETS:
+> +	case DTPPT_USDT:
+>  		snprintf(prb, sizeof(prb), "%lx", psp->pps_off);
+>  		break;
+>  	default:
+> @@ -568,6 +653,8 @@ static dt_probe_t *create_underlying(dtrace_hdl_t *dtp,
+>  	pd.fun = psp->pps_fun;
+>  	pd.prb = prb;
+>  
+> +	dt_dprintf("Providing underlying probe %s:%s:%s:%s @ %lx\n", psp->pps_prv,
+> +		   psp->pps_mod, psp->pps_fn, psp->pps_prb, psp->pps_off);
+>  	uprp = dt_probe_lookup(dtp, &pd);
+>  	if (uprp == NULL) {
+>  		dt_provider_t	*pvp;
+> @@ -591,12 +678,24 @@ static dt_probe_t *create_underlying(dtrace_hdl_t *dtp,
+>  			goto fail;
+>  
+>  		uprp = dt_probe_insert(dtp, pvp, pd.prv, pd.mod, pd.fun, pd.prb,
+> -				      upp);
+> +				       upp);
+>  		if (uprp == NULL)
+>  			goto fail;
+>  	} else
+>  		upp = uprp->prv_data;
+>  
+> +	/*
+> +	 * Only one USDT probe can correspond to each underlying probe.
+> +	 */
+> +	if (psp->pps_type == DTPPT_USDT && upp->flags == PP_IS_USDT) {
+> +		dt_dprintf("Found overlapping USDT probe at %lx/%lx/%lx/%s\n",
+> +			   upp->dev, upp->inum, upp->off, upp->fn);
+> +		goto fail;
+> +	}
+> +
+> +	if (populate_args(dtp, psp, upp) < 0)
+> +		goto fail;
+
+Why bother calling this for a non-USDT probe?
+I would use:
+	if ( psp->pps_type == DTPPT_USD && populate_args(dtp, psp, upp) < 0)
+
+> +
+>  	switch (psp->pps_type) {
+>  	case DTPPT_RETURN:
+>  	    upp->flags |= PP_IS_RETURN;
+> @@ -604,15 +703,19 @@ static dt_probe_t *create_underlying(dtrace_hdl_t *dtp,
+>  	case DTPPT_IS_ENABLED:
+>  	    upp->flags |= PP_IS_ENABLED;
+>  	    break;
+> +	case DTPPT_USDT:
+> +	    upp->flags |= PP_IS_USDT;
+> +	    break;
+>  	default: ;
+>  	    /*
+>  	     * No flags needed for other types.
+>  	     */
+>  	}
+> -
+
+I would leave the blank line.
+
+>  	return uprp;
+>  
+>  fail:
+> +	dt_dprintf("Failed to instantiate %s:%s:%s:%s\n", psp->pps_prv,
+> +		   psp->pps_mod, psp->pps_fn, psp->pps_prb);
+>  	probe_destroy(dtp, upp);
+>  	return NULL;
+>  }
+> @@ -732,7 +835,7 @@ static int provide_pid_probe(dtrace_hdl_t *dtp, const pid_probespec_t *psp)
+>  
+>  static int provide_usdt_probe(dtrace_hdl_t *dtp, const pid_probespec_t *psp)
+>  {
+> -	if (psp->pps_type != DTPPT_OFFSETS &&
+> +	if (psp->pps_type != DTPPT_USDT &&
+>  	    psp->pps_type != DTPPT_IS_ENABLED) {
+>  		dt_dprintf("pid: unknown USDT probe type %i\n", psp->pps_type);
+>  		return -1;
+> @@ -786,7 +889,12 @@ static void enable_usdt(dtrace_hdl_t *dtp, dt_probe_t *prp)
+>   *	int dt_uprobe(dt_pt_regs *regs)
+>   *
+>   * The trampoline will first populate a dt_dctx_t struct.  It will then emulate
+> - * the firing of all dependent pid* probes and their clauses.
+> + * the firing of all dependent pid* and USDT probes and their clauses, or (in
+> + * the case of is-enabled probes), do the necessary copying (is-enabled probes
+> + * have no associated clauses and their behaviour is hardwired).
+> + *
+> + * Trampolines associated with USDT probes will also arrange for argument
+> + * shuffling if the argmap array calls for it.
+
+I would drop this since you mention the napping in a comment below already.
+Here is is potentially confusing because trampolines are associated with the
+underlying probe, and that probe might have both pid probes and a USDT probe
+associated with it.
+
+>   */
+>  static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+>  {
+> @@ -864,7 +972,7 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+>  	}
+>  
+>  	/*
+> -	 * USDT
+> +	 * USDT.
+>  	 */
+>  
+>  	/* In some cases, we know there are no USDT probes. */  // FIXME: add more checks
+> @@ -873,6 +981,16 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+>  
+>  	dt_cg_tramp_copy_args_from_regs(pcb, 0);
+>  
+> +	/*
+> +	 * Apply arg mappings, if needed.
+> +	 */
+> +	if (upp->flags & PP_IS_MAPPED) {
+> +
+> +		/* dt_cg_tramp_map_args() works from the saved args. */
+> +		dt_cg_tramp_save_args(pcb);
+> +		dt_cg_tramp_map_args(pcb, upp->args, upp->argc);
+> +	}
+> +
+>  	/*
+>  	 * Retrieve the PID of the process that caused the probe to fire.
+>  	 */
+> @@ -1083,8 +1201,49 @@ attach_bpf:
+>  static int probe_info(dtrace_hdl_t *dtp, const dt_probe_t *prp,
+>  		      int *argcp, dt_argdesc_t **argvp)
+>  {
+> -	*argcp = 0;			/* no known arguments */
+> -	*argvp = NULL;
+> +	size_t		i;
+> +	list_probe_t	*pup = prp->prv_data;
+> +	dt_uprobe_t	*upp;
+> +	size_t		argc = 0;
+> +	dt_argdesc_t	*argv = NULL;
+> +
+> +	/* No underlying probes?  No args.  */
+> +	if (!pup)
+> +		goto done;
+> +
+> +	upp = pup->probe->prv_data;
+> +	if (!upp || upp->args == NULL)
+> +		goto done;
+> +
+> +	argc = upp->argc;
+> +
+
+Remove blank line.
+
+> +	argv = dt_calloc(dtp, argc, sizeof(dt_argdesc_t));
+> +	if (argv == NULL)
+> +		return dt_set_errno(dtp, EDT_NOMEM);
+> +
+> +	for (i = 0; i < argc; i++) {
+> +		argv[i].native = strdup(upp->args[i].native);
+> +		if (upp->args[i].xlate)
+> +			argv[i].xlate = strdup(upp->args[i].xlate);
+> +		argv[i].mapping = i;
+> +
+
+Perhaps add a comment here that this is code to handle an allocation failure?
+Or move this to the end of the function with a fail: label, and goto to that
+if allocation fails (since that makes it more obvious that this is code to
+handle an allocation failure).
+
+> +		if (argv[i].native == NULL ||
+> +		    (upp->args[i].xlate != NULL && argv[i].xlate == NULL)) {
+> +			size_t j;
+> +
+> +			for (j = 0; j <= i; j++) {
+> +				free((char *) argv[i].native);
+> +				free((char *) argv[i].xlate);
+> +			}
+> +
+> +			dt_free(dtp, argv);
+> +			return dt_set_errno(dtp, EDT_NOMEM);
+> +		}
+> +	}
+> +
+> +done:
+> +	*argcp = argc;
+> +	*argvp = argv;
+>  
+>  	return 0;
+>  }
+> @@ -1152,7 +1311,6 @@ dt_provimpl_t	dt_uprobe = {
+>  	.load_prog	= &dt_bpf_prog_load,
+>  	.trampoline	= &trampoline,
+>  	.attach		= &attach,
+> -	.probe_info	= &probe_info,
+>  	.detach		= &detach,
+>  	.probe_destroy	= &probe_destroy_underlying,
+>  	.add_probe	= &add_probe_uprobe,
+> @@ -1178,6 +1336,7 @@ dt_provimpl_t	dt_usdt = {
+>  	.populate	= &populate_usdt,
+>  	.provide_probe	= &provide_usdt_probe,
+>  	.enable		= &enable_usdt,
+> +	.probe_info	= &probe_info,
+>  	.probe_destroy	= &probe_destroy,
+>  	.discover	= &discover,
+>  	.add_probe	= &add_probe_usdt,
+> diff --git a/test/triggers/usdt-tst-argmap-prov.d b/test/triggers/usdt-tst-argmap-prov.d
+> index 28134baa6fa3..d8c3e88c4616 100644
+> --- a/test/triggers/usdt-tst-argmap-prov.d
+> +++ b/test/triggers/usdt-tst-argmap-prov.d
+> @@ -1,10 +1,13 @@
+>  /*
+>   * Oracle Linux DTrace.
+> - * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+> + * Copyright (c) 2006, 2024, Oracle and/or its affiliates. All rights reserved.
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+>  
+>  provider test_prov {
+>  	probe place(int i, int j) : (int j, int i, int i, int j);
+> +	probe place2(int i, char *j) : (char *j, int i, int i, char *j);
+> +	probe place3(int i, char *j) : (char *j);
+> +	probe place4(int i, char *j) : ();
+
+It might be worth adding tests for -lvn for all these cases, as an extra
+check that probe info is being provided correctly, even in the case where we
+do not actually trace.
+
+>  };
+> diff --git a/test/triggers/usdt-tst-argmap.c b/test/triggers/usdt-tst-argmap.c
+> index 89a0a53fc1d5..9244092514ff 100644
+> --- a/test/triggers/usdt-tst-argmap.c
+> +++ b/test/triggers/usdt-tst-argmap.c
+> @@ -1,6 +1,6 @@
+>  /*
+>   * Oracle Linux DTrace.
+> - * Copyright (c) 2006, 2020, Oracle and/or its affiliates. All rights reserved.
+> + * Copyright (c) 2006, 2024, Oracle and/or its affiliates. All rights reserved.
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+> @@ -12,6 +12,9 @@ main(int argc, char **argv)
+>  {
+>  	for (;;) {
+>  		DTRACE_PROBE2(test_prov, place, 10, 4);
+> +		DTRACE_PROBE(test_prov, place2, 255, "foo");
+> +		DTRACE_PROBE(test_prov, place3, 126, "bar");
+> +		DTRACE_PROBE(test_prov, place4, 204, "baz");
+>  	}
+>  
+>  	return 0;
+> diff --git a/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r
+> new file mode 100644
+> index 000000000000..8bcfa92ff6b0
+> --- /dev/null
+> +++ b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r
+> @@ -0,0 +1,34 @@
+> +   ID   PROVIDER            MODULE                          FUNCTION NAME
+> + XX test_provXXXX              test                              main go
+> +
+> +	Probe Description Attributes
+> +		Identifier Names: Private
+> +		Data Semantics:   Private
+> +		Dependency Class: Unknown
+> +
+> +	Argument Attributes
+> +		Identifier Names: Private
+> +		Data Semantics:   Private
+> +		Dependency Class: Unknown
+> +
+> +	Argument Types
+> +		args[0]: char *
+> +		args[1]: int
+> +
+> +   ID   PROVIDER            MODULE                          FUNCTION NAME
+> + XX test_provXXXX              test                              main go
+> +
+> +	Probe Description Attributes
+> +		Identifier Names: Private
+> +		Data Semantics:   Private
+> +		Dependency Class: Unknown
+> +
+> +	Argument Attributes
+> +		Identifier Names: Private
+> +		Data Semantics:   Private
+> +		Dependency Class: Unknown
+> +
+> +	Argument Types
+> +		args[0]: char *
+> +		args[1]: int
+> +
+> diff --git a/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r.p b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r.p
+> new file mode 100755
+> index 000000000000..c575983adf65
+> --- /dev/null
+> +++ b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r.p
+> @@ -0,0 +1,2 @@
+> +#!/bin/sed -rf
+> +s,test_prov[0-9]*,test_provXXXX,g; s,^ *[0-9]+, XX,g;
+> diff --git a/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh
+> new file mode 100755
+> index 000000000000..ad8dc2e7c267
+> --- /dev/null
+> +++ b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh
+> @@ -0,0 +1,83 @@
+> +#!/bin/bash
+> +#
+> +# Oracle Linux DTrace.
+> +# Copyright (c) 2013, 2024, Oracle and/or its affiliates. All rights reserved.
+> +# Licensed under the Universal Permissive License v 1.0 as shown at
+> +# http://oss.oracle.com/licenses/upl.
+> +
+> +##
+> +#
+> +# ASSERTION:
+> +# Testing -lvn option with USDT probes with a valid probe name.
+> +#
+> +# SECTION: dtrace Utility/-ln Option
+> +#
+> +##
+> +
+> +if [ $# != 1 ]; then
+> +	echo expected one argument: '<'dtrace-path'>'
+> +	exit 2
+> +fi
+> +
+> +dtrace=$1
+> +CC=/usr/bin/gcc
+> +CFLAGS=
+> +
+> +DIRNAME="$tmpdir/list-probes-args-usdt.$$.$RANDOM"
+> +mkdir -p $DIRNAME
+> +cd $DIRNAME
+> +
+> +cat > prov.d <<EOF
+> +provider test_prov {
+> +	probe go(int a, char *b) : (char *b, int a);
+> +};
+> +EOF
+> +
+> +$dtrace -h -s prov.d
+> +if [ $? -ne 0 ]; then
+> +	echo "failed to generate header file" >& 2
+> +	exit 1
+> +fi
+> +
+> +cat > test.c <<EOF
+> +#include <sys/types.h>
+> +#include "prov.h"
+> +
+> +int
+> +main(int argc, char **argv)
+> +{
+> +	TEST_PROV_GO(666, "foo");
+> +	sleep(10);
+> +}
+> +EOF
+> +
+> +${CC} ${CFLAGS} -c test.c
+> +if [ $? -ne 0 ]; then
+> +	echo "failed to compile test.c" >& 2
+> +	exit 1
+> +fi
+> +$dtrace -G -s prov.d test.o
+> +if [ $? -ne 0 ]; then
+> +	echo "failed to create DOF" >& 2
+> +	exit 1
+> +fi
+> +${CC} ${CFLAGS} -o test test.o prov.o
+> +if [ $? -ne 0 ]; then
+> +	echo "failed to link final executable" >& 2
+> +	exit 1
+> +fi
+> +
+> +script()
+> +{
+> +	$dtrace -c ./test -lvn 'test_prov$target:::go'
+> +	./test &
+> +	PID=$!
+> +	disown %+
+> +	$dtrace -p $PID -lvn 'test_prov$target:::go'
+> +	kill -9 $PID
+> +}
+> +
+> +script
+> +status=$?
+> +
+> +exit $status
+> diff --git a/test/unittest/usdt/err.argmap-null.d b/test/unittest/usdt/err.argmap-null.d
+> new file mode 100644
+> index 000000000000..ba765bea7a04
+> --- /dev/null
+> +++ b/test/unittest/usdt/err.argmap-null.d
+> @@ -0,0 +1,41 @@
+> +/*
+> + * Oracle Linux DTrace.
+> + * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
+> + * Licensed under the Universal Permissive License v 1.0 as shown at
+> + * http://oss.oracle.com/licenses/upl.
+> + */
+> +
+> +/* @@trigger: usdt-tst-argmap */
+> +/* @@trigger-timing: before */
+> +/* @@runtest-opts: $_pid */
+> +
+> +/*
+> + * ASSERTION: Verify that a probe left with no args at all due to mapping
+> + *            has no args.
+> + */
+> +
+> +BEGIN
+> +{
+> +	/* Timeout after 5 seconds */
+> +	timeout = timestamp + 5000000000;
+> +}
+> +
+> +test_prov$1:::place4
+> +/args[0] != 204 || args[0] == 204/
+> +{
+> +	printf("this should never happen");
+> +	exit(1);
+> +}
+> +
+> +test_prov$1:::place4
+> +{
+> +	printf("nor should this");
+> +	exit(1);
+> +}
+> +
+> +profile:::tick-1
+> +/timestamp > timeout/
+> +{
+> +	trace("test timed out");
+> +	exit(1);
+> +}
+> diff --git a/test/unittest/usdt/err.argmap-null.r b/test/unittest/usdt/err.argmap-null.r
+> new file mode 100644
+> index 000000000000..215475e39b48
+> --- /dev/null
+> +++ b/test/unittest/usdt/err.argmap-null.r
+> @@ -0,0 +1,2 @@
+> +-- @@stderr --
+> +dtrace: failed to compile script test/unittest/usdt/err.argmap-null.d: line 24: index 0 is out of range for test_provXXXX:::place4 args[ ]
+> diff --git a/test/unittest/usdt/err.argmap-null.r.p b/test/unittest/usdt/err.argmap-null.r.p
+> new file mode 100755
+> index 000000000000..c575983adf65
+> --- /dev/null
+> +++ b/test/unittest/usdt/err.argmap-null.r.p
+> @@ -0,0 +1,2 @@
+> +#!/bin/sed -rf
+> +s,test_prov[0-9]*,test_provXXXX,g; s,^ *[0-9]+, XX,g;
+> diff --git a/test/unittest/usdt/tst.argmap-null.d b/test/unittest/usdt/tst.argmap-null.d
+> new file mode 100644
+> index 000000000000..dacf4c4f569a
+> --- /dev/null
+> +++ b/test/unittest/usdt/tst.argmap-null.d
+> @@ -0,0 +1,32 @@
+> +/*
+> + * Oracle Linux DTrace.
+> + * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
+> + * Licensed under the Universal Permissive License v 1.0 as shown at
+> + * http://oss.oracle.com/licenses/upl.
+> + */
+> +
+> +/* @@trigger: usdt-tst-argmap */
+> +/* @@trigger-timing: before */
+> +/* @@runtest-opts: $_pid */
+> +
+> +/*
+> + * ASSERTION: Verify that you can map to no args at all.
+> + */
+> +
+> +BEGIN
+> +{
+> +	/* Timeout after 5 seconds */
+> +	timeout = timestamp + 5000000000;
+> +}
+> +
+> +test_prov$1:::place4
+> +{
+> +	exit(0);
+> +}
+> +
+> +profile:::tick-1
+> +/timestamp > timeout/
+> +{
+> +	trace("test timed out");
+> +	exit(1);
+> +}
+> diff --git a/test/unittest/usdt/tst.argmap-typed-partial.d b/test/unittest/usdt/tst.argmap-typed-partial.d
+> new file mode 100644
+> index 000000000000..8c4d7273c0ab
+> --- /dev/null
+> +++ b/test/unittest/usdt/tst.argmap-typed-partial.d
+> @@ -0,0 +1,49 @@
+> +/*
+> + * Oracle Linux DTrace.
+> + * Copyright (c) 2007, 2024, Oracle and/or its affiliates. All rights reserved.
+> + * Licensed under the Universal Permissive License v 1.0 as shown at
+> + * http://oss.oracle.com/licenses/upl.
+> + */
+> +
+> +/* @@trigger: usdt-tst-argmap */
+> +/* @@trigger-timing: before */
+> +/* @@runtest-opts: $_pid */
+> +
+> +/*
+> + * ASSERTION: Verify that args[N] variables are properly typed when mapped,
+> + *            even if some args are unused.
+> + */
+> +
+> +BEGIN
+> +{
+> +	/* Timeout after 5 seconds */
+> +	timeout = timestamp + 5000000000;
+> +}
+> +
+> +test_prov$1:::place3
+> +/stringof(args[0]) != "bar"/
+> +{
+> +	printf("arg is %s; should be \"bar\"",
+> +	    stringof(args[0]));
+> +	exit(1);
+> +}
+> +
+> +test_prov$1:::place3
+> +/stringof(copyinstr(arg0)) != "bar"/
+> +{
+> +	printf("arg is %s; should be \"bar\"",
+> +	    stringof(copyinstr(arg0)));
+> +	exit(1);
+> +}
+> +
+> +test_prov$1:::place3
+> +{
+> +	exit(0);
+> +}
+> +
+> +profile:::tick-1
+> +/timestamp > timeout/
+> +{
+> +	trace("test timed out");
+> +	exit(1);
+> +}
+> diff --git a/test/unittest/usdt/tst.argmap-typed.d b/test/unittest/usdt/tst.argmap-typed.d
+> new file mode 100644
+> index 000000000000..1243e059b8ae
+> --- /dev/null
+> +++ b/test/unittest/usdt/tst.argmap-typed.d
+> @@ -0,0 +1,48 @@
+> +/*
+> + * Oracle Linux DTrace.
+> + * Copyright (c) 2007, 2024, Oracle and/or its affiliates. All rights reserved.
+> + * Licensed under the Universal Permissive License v 1.0 as shown at
+> + * http://oss.oracle.com/licenses/upl.
+> + */
+> +
+> +/* @@trigger: usdt-tst-argmap */
+> +/* @@trigger-timing: before */
+> +/* @@runtest-opts: $_pid */
+> +
+> +/*
+> + * ASSERTION: Verify that args[N] variables are properly typed when mapped.
+> + */
+> +
+> +BEGIN
+> +{
+> +	/* Timeout after 5 seconds */
+> +	timeout = timestamp + 5000000000;
+> +}
+> +
+> +test_prov$1:::place2
+> +/stringof(args[0]) != "foo" || args[1] != 255 || args[2] != 255 || stringof(args[3]) != "foo"/
+> +{
+> +	printf("args are %s, %d, %d, %s; should be \"foo\", 255, 255, \"foo\"",
+> +	    stringof(args[0]), args[1], args[2], stringof(args[3]));
+> +	exit(1);
+> +}
+> +
+> +test_prov$1:::place2
+> +/stringof(copyinstr(arg0)) != "foo" || arg1 != 255 || arg2 != 255 || stringof(copyinstr(arg3)) != "foo"/
+> +{
+> +	printf("args are %s, %d, %d, %s; should be \"foo\", 255, 255, \"foo\"",
+> +	    stringof(copyinstr(arg0)), arg1, arg2, stringof(copyinstr(arg3)));
+> +	exit(1);
+> +}
+> +
+> +test_prov$1:::place2
+> +{
+> +	exit(0);
+> +}
+> +
+> +profile:::tick-1
+> +/timestamp > timeout/
+> +{
+> +	trace("test timed out");
+> +	exit(1);
+> +}
+> diff --git a/test/unittest/usdt/tst.argmap.d b/test/unittest/usdt/tst.argmap.d
+> index 7896dc07e0e2..a7d68da3dfbc 100644
+> --- a/test/unittest/usdt/tst.argmap.d
+> +++ b/test/unittest/usdt/tst.argmap.d
+> @@ -1,17 +1,16 @@
+>  /*
+>   * Oracle Linux DTrace.
+> - * Copyright (c) 2007, 2020, Oracle and/or its affiliates. All rights reserved.
+> + * Copyright (c) 2007, 2024, Oracle and/or its affiliates. All rights reserved.
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+>  
+> -/* @@xfail: dtv2 */
+>  /* @@trigger: usdt-tst-argmap */
+>  /* @@trigger-timing: before */
+>  /* @@runtest-opts: $_pid */
+>  
+>  /*
+> - * ASSERTION: Verify that argN and args[N] variables are properly remapped.
+> + * ASSERTION: Verify that argN and args[N] variables are properly mapped.
+>   */
+>  
+>  BEGIN
+> -- 
+> 2.46.0.278.g36e3a12567
 > 
-> _______________________________________________
-> DTrace-devel mailing list
-> DTrace-devel@oss.oracle.com
-> https://oss.oracle.com/mailman/listinfo/dtrace-devel
