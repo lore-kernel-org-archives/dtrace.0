@@ -1,82 +1,82 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A357163
-	for <dtrace@lists.linux.dev>; Tue,  5 Nov 2024 00:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F85A2D
+	for <dtrace@lists.linux.dev>; Tue,  5 Nov 2024 00:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730765190; cv=fail; b=jvwcM01NHOMmMlSlehBKv20gfc7sdJMKfqRMjVcDgxMjEWm6kYky9TiIJOv7kEoESTRGw4ggJmpfgtr3+IJMLxFeob9fddEj0J1oVXMihuaFgd0z6E8uHeftigddXXlKWngM2u6lPy/FsFmRNOCB8ivaD16+P+UTEG0ODKiAHlE=
+	t=1730765193; cv=fail; b=It3z3Y/R8mBnDrde+GpB/u/N7jypdB4wHudF306wvBsgK1K1y0c+4adhxaD5sdgZHsR8+6t4wyoHe8zfX3BktzPdsZLk2C0tJoqFGMICN65+T7jG2R59tSOMdZAs4T6aU5JlKNgIm1Kgl4oDeQsQJUEXO8L/DqHVwXB+kZkyTY0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730765190; c=relaxed/simple;
-	bh=UNl9oX0+fmCHXq1+Doa9KAeY9w+892oQTlM/KLfFEJk=;
+	s=arc-20240116; t=1730765193; c=relaxed/simple;
+	bh=c7/o/oxiNqr7b3Otz45Ki+AH/4W09i16CO/fxl9vO8M=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Lv/tA+jABwshHs+Qn/ZPgnx6npM3DHQXB1PPoQyb1x5iX2VUHxSEK9HCbSmZbxMZekJ8rfWL9ySajlR/E11Vl/b3pQ3olOHUGivh/KYKdE/x1TD+DYHST+lCgxZ1vpW750FYrWvtCrlnm4r9mN9HoYLrCTjjAfNlDAREAb8acnE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=VSjSZGj7; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=EueVpmKL; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Type:MIME-Version; b=ctFLzRSBXzJpIX/k7zATVJtZjpKe7CQ19uPLhJ6mAcg955Hn6WkSbJDD/BWXlu2j4JaIRxoRAC59CyBBo7TdCBsKj8um+PVXaYrFviiHS3Qd4IfcEferTabfXGB+Rn8tNgggMRsVd5yfkmxe/zS1qnDdWPoYk/IrZOUq68s98nI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=lkOkaHhS; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=lLd887Va; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="VSjSZGj7";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="EueVpmKL"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4Lh1hu028134
-	for <dtrace@lists.linux.dev>; Tue, 5 Nov 2024 00:06:27 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="lkOkaHhS";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="lLd887Va"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4LhD7u031204
+	for <dtrace@lists.linux.dev>; Tue, 5 Nov 2024 00:06:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=h0Lv65gFBRYbMWCfJ9Nq6IQs8qFcFm/4b4DriDDishQ=; b=
-	VSjSZGj7KO8137K5E1GyKzx7lOthlhGvul431riIJ0e2TUp9Pp1KcZKwPN2dZwnA
-	1nyM2pR7ZeWhyDQbA0J+iKplGJ0e6s6yzgdQUe+rO4UdCTiRRyLlKV2Mpw1nacth
-	3DjxXXbuiZQBqKz4UyEFG8RWBn0hOBZSjxx7pQlUFR0QPxxzAxpkJ0ZQ5suH5sUJ
-	beZfRDfuWudlCknB24T4tzyar0VIvpBikm7mu3k2apDQ63KGWOyh6WBBHU4ytVw2
-	f7nLk9gYPTbQmHir/7CZ6u0S5tS4IyyH8LBcJx305JwDhh+lMtxjd1perORKHezG
-	2YZXinDVfrGt6cCwb4ubEQ==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42nav245fm-1
+	corp-2023-11-20; bh=zNsGD+AFa2IRHNC6WtXcK04REswVP2qrLviIdnqgLVE=; b=
+	lkOkaHhSM9oDsztifggZlfMcIBukdhRGtyFCsW96nlA0lVRJOE6RodY2gRdj4NMB
+	+65y+8CJZvVotRexl/x7HBRX8SpdIBpW6gil/dpRGnibtfNvLwrdDGZk7ZzkETyu
+	lckZasPBFXQa4jziSdbHhRv0g3KNPXpGrOmE0LMMqWfpg7uqr+G8P+BUxt7PyJ3j
+	yKLrgkos+sHS2BvY14DLQqN7EA3R+asKaFlYg6CedWdgy12i6/VFgrdLI85iYbnX
+	IlKlLy9Mqng7TKtZz+NRZGRK4z+b+Ekys+dFgSV/hoKkA+yj3Zek77/zp30tfd0w
+	toEiC7QxpW+lsv21FajTUg==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42ncmt437s-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 05 Nov 2024 00:06:26 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4MVwaC009833
-	for <dtrace@lists.linux.dev>; Tue, 5 Nov 2024 00:06:26 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 42nahcrhne-4
+	for <dtrace@lists.linux.dev>; Tue, 05 Nov 2024 00:06:30 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4MEELg031392
+	for <dtrace@lists.linux.dev>; Tue, 5 Nov 2024 00:06:28 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42nah67dr9-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 05 Nov 2024 00:06:26 +0000
+	for <dtrace@lists.linux.dev>; Tue, 05 Nov 2024 00:06:28 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XxWmPGQld+nM+rxDeKmZ8cIWS4ZEtTUX4dO82pQuRAKUmlZb+0t7A1fsFc4mfQ7Igwk/Qesv+fAqduKIBIfAcyDSGIT9ldQ9bqZG+BesRfOiQ78sE2yLmhkXzTLCdb17gs1biXUeMk+QJ/9//1OxdCuZIL5x1N4vELGEgIBrpVuXR4Xw3ZzAEePi6oYVUFmqNdETCIQORIgmvy8a1apxD8ran2pB+Vq72au3hImfXQErXBpqHrACon/tg6lfPAKwFNXyEMgNrTHpJOa7U4hhq3y8iejjDbdOoLvNEJ1eXRVMiAcsa5flHpWq3UVwSscFfRIq+KMSceFfMdcI3SrOQQ==
+ b=k35gUZPE43wmtejQnMuVxJDkzep8MSvy0yU0mFG48NctkLlPqBxlAS8HZMif2HeQU3uuxowC3HG4E4NmEeXQmZBSm0CWaHX16DrxfRbz20wb9s3vAAA40BX5sZxUIVFXbXW2H59a+7pZ5trPTleUPqBdZfZIqozj4kOv3gofo6zeaDde+vQmiPSX7mHddxF/K4UiblE/Aylx9shIUgBqD6L8QB5Lw3YtJZg1JWCI7hHzH+PedRhPvzBpHvaHK/wjHzEchHYzGhKdFHzGxSNG1eSTkK17l7uLPzLVYAYal0ZeUcB8enthblm/R1AiZMuMZoZ7wxnhUbtcUk83bX/zvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h0Lv65gFBRYbMWCfJ9Nq6IQs8qFcFm/4b4DriDDishQ=;
- b=n9pq8Fo3JcCQh9Qm7hKFMNi00Jd0W4FziMEDFUQ/uP8q7kzLJE72C7ikk0VFXWVIXsSWOX7yKEwHY7D9DdZuALddcwvXamRtE97cKzm4VGvftP5QrAgGbluX1ZEWf3iMyxvvJ3NSlWctYE/MGxn/nKxMuo2nrZWSmcgeiiAybHdM62x3BoDElJaMBDF3CqNu/mrkk9rx/DpM7HUMCwNllXftkoarPLqflqzXbuSZYtPn9/e3v/+5Ewn0zPa0Q4xz9qfp7VRAKZuvVqlABW2jsYpJHkcu3NRZgMn5yiHKF/jNDC4f+5i1BluXg6a0bZJhYwgsl948jp9I/2RJBwTWow==
+ bh=zNsGD+AFa2IRHNC6WtXcK04REswVP2qrLviIdnqgLVE=;
+ b=uApePgFfZUCahIIgLDqWar0yos9blWLaCOIYSrG6agIs2vG/azcmwaNcZm0Fu2rQPirQ0jhotGkDwqG7dOm/A2Ip4soqVoJKd3tvICnZRApfrrgzTbtMa5r6vTYMsuot6fmMts8k8hDio0+7TXQtpPpf49zKjcakuGF3aJY+PvRonEG+2RVzrIyo50jn67Z8KlyQg2oW71S/K3h/TpsflJ5ROwOIc+xQ1WjLBsrshC6iO1ANLT7LrlAJhrnRYd4Rm/NDVN46ptLg/VWe4murzJPO0ZRhMyrrT8hzhWxkduzT2Z23yJUrf2Rsw2GstO7reyVhNXeIOINy3FrjZOC84A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h0Lv65gFBRYbMWCfJ9Nq6IQs8qFcFm/4b4DriDDishQ=;
- b=EueVpmKLUkDU4Bh39mftGNDJirrNHWGLk4lfQZH/OgTCnHuoBGgaYzg6FhmP8lVicb51XPRHvM8R2yXEUhtzep6KF9Ndk15gddrIVfojw+DeD4Kx897uB9NHhqbijUUd8xOQmAFukPHGu2k6pizSJKvsmOVmOQWY6rNDYEwYZ7A=
+ bh=zNsGD+AFa2IRHNC6WtXcK04REswVP2qrLviIdnqgLVE=;
+ b=lLd887VaNNg8RWHz29zstlZUilNhZIiSJPNNSLx8BFDmBsnkJGHUf7T8tRCCxG/p7ex58YuBs0p8fRQavZ0UAJXDt1my9uo+pcr2LfQAXqWHNNWW4AhpncYTZ1A4janpNjeRp5r4YpwMW6rTRHcETg72+zGAyPw0uQGUBfAdWJU=
 Received: from MN2PR10MB4093.namprd10.prod.outlook.com (2603:10b6:208:114::25)
  by DM4PR10MB6693.namprd10.prod.outlook.com (2603:10b6:8:113::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Tue, 5 Nov
- 2024 00:06:23 +0000
+ 2024 00:06:24 +0000
 Received: from MN2PR10MB4093.namprd10.prod.outlook.com
  ([fe80::d72e:fa5c:c426:b4b]) by MN2PR10MB4093.namprd10.prod.outlook.com
  ([fe80::d72e:fa5c:c426:b4b%5]) with mapi id 15.20.8114.015; Tue, 5 Nov 2024
- 00:06:23 +0000
+ 00:06:24 +0000
 From: Nick Alcock <nick.alcock@oracle.com>
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH v5 4/6] usdt: typed args and arg mapping
-Date: Tue,  5 Nov 2024 00:06:06 +0000
-Message-ID: <20241105000608.333229-5-nick.alcock@oracle.com>
+Subject: [PATCH v5 5/6] usdt: new tests for USDT arg sanity with overlapping pid probes
+Date: Tue,  5 Nov 2024 00:06:07 +0000
+Message-ID: <20241105000608.333229-6-nick.alcock@oracle.com>
 X-Mailer: git-send-email 2.46.0.278.g36e3a12567
 In-Reply-To: <20241105000608.333229-1-nick.alcock@oracle.com>
 References: <20241105000608.333229-1-nick.alcock@oracle.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO2P265CA0388.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:f::16) To MN2PR10MB4093.namprd10.prod.outlook.com
+X-ClientProxiedBy: LO4P123CA0025.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:151::12) To MN2PR10MB4093.namprd10.prod.outlook.com
  (2603:10b6:208:114::25)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -86,903 +86,557 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MN2PR10MB4093:EE_|DM4PR10MB6693:EE_
-X-MS-Office365-Filtering-Correlation-Id: ec96fc4f-f35e-4e86-5fb7-08dcfd2daeae
+X-MS-Office365-Filtering-Correlation-Id: 9257c14c-0635-48b6-1741-08dcfd2dafd2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|10070799003;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?JjFp56c2+Ra6pnKixH12MVEoMKEhpeJNkzA2NLZrS+kw223jxHmtyqxKZrOq?=
- =?us-ascii?Q?6P2e+FTswJAV0u0zBXOYD7BEzKoVR3y6K17qgzI6XcFgxBzLMMPx4lrBlFEq?=
- =?us-ascii?Q?STtUqfoThhFXXifkPkOvm1gpt1GSgbNvZVBUo2VAZdr6wxJBCuz0SEqpQw4G?=
- =?us-ascii?Q?ao129DsW/EEVK0h+LjVwAgeHwyi95h/m+LtfzpbG5dKdqwFdbp/GWAEdsvQY?=
- =?us-ascii?Q?9hWUbxrxsEZDLbeFeL6T5mEUUliGwKf+TUHrLznhFoGLRMAknU4jwPO33PZY?=
- =?us-ascii?Q?IiR36V0YAfLU0fRMfR8hOgo/3p9/qjAeD5oYpj99t/z3u0JORAAjA3HzKtuI?=
- =?us-ascii?Q?9MAxtcLMVa2tAH7ry1aeaPyiX0MOWT/e5ok/gwTzNmeLn39/jULUtw+AhznS?=
- =?us-ascii?Q?neHW2oLI2x4eawLwJ+zFeSFJipdOIokH5u368rWLpZz6hI07WAyPBcdtvOxa?=
- =?us-ascii?Q?mjWYbFGGjNXdB0zSlbunAabb64ZIsRZ722/afo6RHAwkBi+fwEe1DK/DwCpn?=
- =?us-ascii?Q?90vjHhgxmLaYNSaQSYJ6d34x4pLDHDv/RdmZXxc5x3SQ4vnHEF9lTBXZvzSb?=
- =?us-ascii?Q?Pfz98oN4YH32txlSUCfqZiBS+TrNqBf91sQsa7LR1miV1Rn9TZTZhIq84QPb?=
- =?us-ascii?Q?D7Ouo59KwlvLTEKoBgP7ydE/POk0u15B5aLxnhPR0ck30XH2s0FGwwmNkMjk?=
- =?us-ascii?Q?8booxaGd+Ci8rTuPAyMVFScmX+/63tKsIXXXTpt3smeBBSojR7O2pjAAM9uz?=
- =?us-ascii?Q?wqk1o6lrVlBgHRMOTXBUMPMwVP7Xlcgq7rqY3DewGGp1ciYElMAp65Qn7ZBj?=
- =?us-ascii?Q?bdi6yy7XUP84ju6u9V7DsIAfZgRDw0hwCgOBUqppzexoo26PHCPR8Vx+cKCV?=
- =?us-ascii?Q?4IX77yJq43Z1iV5Mh/ZpTLfIJXZN2KVmipsBKKOi9we/31EniF2CihtvMtNR?=
- =?us-ascii?Q?w00OMFRaxcI7u/KV7HKBFPpjEXjw5v5VRiUODfl8zRckXWWCF4QueCqvR4nw?=
- =?us-ascii?Q?mcBYYxlf75RxZI7S+qpsrThSJ/ozKLPSJrUjImfdzhPqg73h1Kxl+wYfMdVK?=
- =?us-ascii?Q?EwNESUimGWeuBKL5eY8rhP0VBoL1995rO9LirCHWLd0xxvYX1a2hJAl/v3zG?=
- =?us-ascii?Q?VcRbXfINlFc36Z7Vzz6aNKY7+vj2mVS9QrtYX560JNa8vbcZDSGBJQbdmMVr?=
- =?us-ascii?Q?uhePyiYOGMy5mBsKKcpMFXD9sR94WZR1ic7Rc8ubWZ9wBkpj0bSpo1KhYA2c?=
- =?us-ascii?Q?f2CKwhAMZ/VIDaQ9qimOjzOV8QNsucpiIwyl4nRcmpOR1fAeM3OPxis9+MeO?=
- =?us-ascii?Q?rWAxP68U0mWqC8ga7zR2ybeC?=
+	=?us-ascii?Q?6Fwv3Syyh1pgTPBfyi+kF2vt4UNRZiLid90RRPDoVOlgGyBPyhWSfwRQVQum?=
+ =?us-ascii?Q?8BunO02SpeGUEaU5WolxFlarZdtmi4NtmxT1Or4zJ/Ijd5KngH4/WJCGlWV2?=
+ =?us-ascii?Q?TUPoTuSUoCKY2VZjBipAL/9TDWFyKKW6cAUmgJwSP63KyCPJgZ20BFsK5w9U?=
+ =?us-ascii?Q?K0UwBPttWk0RFNPpfOhHQwhAT2hNVmTOwUgCxix6ATQ0dBSRbi6feCn2BNdb?=
+ =?us-ascii?Q?08A0ew3h/tXRqxAbHvpozuapk2M7W6Qjl1A/Kn8KlMoGp6CIawCV615k7u4c?=
+ =?us-ascii?Q?BuuLNsKVJzQkLWTDd5V+DOMHcSk59ydLdV9u+qYasUUOf4Q0E5yKXNdYUceJ?=
+ =?us-ascii?Q?gy/bM1LH1uvOUkV/D8iIiSnPgkk6Rj3x9UqA4rf5SVZRZiRGAnsiiUFzA/AH?=
+ =?us-ascii?Q?OZ0265+nsjcazLeNEHEQ6VIpdpDjaaHpDbLgWH7wfBdGoGNSH/jjjVAlq0f0?=
+ =?us-ascii?Q?AhXXQpPZdqPpC3TZC03IBFTqAkxvno1IUo6NxP7Sq+B/rMp7nHLSmoIMv7RF?=
+ =?us-ascii?Q?tye5uVZEe0yWBBorx9o/KZuNFT6IRsAs0iSRF3BoEuYNFjRZFvHJGqluZAak?=
+ =?us-ascii?Q?ZZZiEGjT+p1n1FqRiE4fyDfRI0ElwJRWDaNoArJ5AJl8wYa5dk0mmDCUM2s/?=
+ =?us-ascii?Q?idM2w9iGMxZFS/GZNKAl1yeZvgudHCbkZq5oLZAsY6/SbZD5NQze5oM4ieWp?=
+ =?us-ascii?Q?Icdh9i6obeB9ZfRHeLRWePvXqRH9YbaSogOVQMwTKp7DMY4p/ZJjyGNMeVjZ?=
+ =?us-ascii?Q?K0uMqlJp+9k/5vPLVf+XLn4rwjUmdqx3cRnr0DtJq5F3ZicANnu2h+Oc+Oqe?=
+ =?us-ascii?Q?C6VPY4LGd4V+EMnpSwjaX6o4GIPLoIt/4nAq5xevkIBlf8XhQFwPXilv1jQp?=
+ =?us-ascii?Q?YbYzV5Xs92QN2XkIf0jQxBTcy/ExzzEVMDFBsZnE06D9HDvZwu3vFBpCH05h?=
+ =?us-ascii?Q?Bmr+hI4MVAC2X43clW1TKeY2Ay1IMvlKZ1BRD1bAGpaQbcU+aa9a2wQv6w3j?=
+ =?us-ascii?Q?2kZgkiSfBdMLUA6Jpb5ObSjwKtvmxoQv0Gq7LeE4jjNoMUtYZlO6jFtKeveM?=
+ =?us-ascii?Q?7C0InvGz56AiWqKDf33HZHg8DJTQYkjq5m5pv/XIiRk6Q7aog7QJ9Vv6oWwt?=
+ =?us-ascii?Q?L1ThWSVmlNaUF2kHK3YvE3U/Hmu7VbDWCHOBOdKq/nvnjNg2a/Cz1TtOkkc3?=
+ =?us-ascii?Q?0HxYZiu1B5wq0YNagTBrNTzMaF/iTSV76/V8gIz7mvXD4rJk9OW26lQD8t+Z?=
+ =?us-ascii?Q?4+GrNhmfR3a76niU5IVbbf5gx57X5gK2KAqNbipahbPRCndVA7oz96sEjyEm?=
+ =?us-ascii?Q?aGIhjOGFt8w8n6RU4dG8dItp?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB4093.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(10070799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?r4mQSb5RgrErDTwC6pUJxaJEEi0b/8ZpPVdxxNDqlow92RNpDxso+8ZEhqp7?=
- =?us-ascii?Q?8GbcjK9hc3KPXaHiSkHZgJ1+mhClEwrVr6YxMjRtgJD9XOOX3UUZeQ+jkWOF?=
- =?us-ascii?Q?LQ1YBwx+rlR0AFoIierslSliS0JWbtj6eACa7spKTpsYSrvt+QxB7qYZ9i0E?=
- =?us-ascii?Q?PN9wuxVD0AvTk/yrB9jj8djLNLWHCf0S7vA26PSFB+5HEhwepZ2yX/fdjbM2?=
- =?us-ascii?Q?n4YHRbf2H9PgWl3E5afKP3xk3nIHynErcS12lNQOxOONE21ZHGczLzt3UpsH?=
- =?us-ascii?Q?ewdjwH1hmxJxLZdWF9obUa8SWO/vmAlgi7mw96ofqUChbUvdAFS0ZHdBtumc?=
- =?us-ascii?Q?3gsNYOrRM33BbqIZDH2eY6FyuIYAse3J42Ad8XRsZDjPpqMkHAatFhrTrjb4?=
- =?us-ascii?Q?dvw4rmaGtSs1jTJ2Z3O15SFhKDrkUwz++fu9lHVW6QxrqrzT4UGc3YR01KTi?=
- =?us-ascii?Q?gMe9IPbuXRx64e3ix3hirokdaAyPggc9lETjzz/ObDCYZtiTFPenB30d87eZ?=
- =?us-ascii?Q?bYgREb4EyYVRzpZFPx7M6RX7Md+0DxO+p1S4EsqvsdSwBtzC1XqkoVGMERGP?=
- =?us-ascii?Q?y2nDlo1DrQJlJgs/udb5q2729cjGlHMcOe3evaGiuMtVIFwr/wylhK3dcIas?=
- =?us-ascii?Q?fnfl5bp3MZWZ+sOpXODfiGxbg2MlH4jXZcK5bl5gAgAKu4sCQTaSgs0UK7lB?=
- =?us-ascii?Q?5FOTMY527C0Wh+qhzmv79y+GvkkJhNnbMXt6GV0vs0AjYzc9+QNcch4CxLbw?=
- =?us-ascii?Q?NRSVmz3RuAOCMK1Fm+FFvQbvkoanHrpI0+L4/9CLc1t04L2jVQnhuHYyN60M?=
- =?us-ascii?Q?xxwudmw7VvAR0piJ5c99XcFKx5ErKBM7H0jSxsWTjUHx/v57+G8Ln8m9GexW?=
- =?us-ascii?Q?po1TTCTxqmJDY5no3fo/EG7tOrMn0uFs3yNbizPQxRlUfN6C4J95INmbmMRd?=
- =?us-ascii?Q?Xp+uXzEtSUdUGObUG5GmNToA4yuF7HSe+OOMlX1X5hAjibdp8jfbpfBaWi3G?=
- =?us-ascii?Q?6EM0O9E7pdK6mi25b6tLdFVgnzTlYWa0NjUtX699UDrMdJCz4l3xGccYjogx?=
- =?us-ascii?Q?1Bz8FBKkDCV4NKDBVxAUqxejutE+yilwrmc7L6D4+zxzZ0Ge2ZRtS1Dzan81?=
- =?us-ascii?Q?pdulIl2FdjhUvK+WoOL6aSvQIJ/A7IrQgSgChzdKu/Gb3P4K8uQ18aq8POxj?=
- =?us-ascii?Q?Rj0jVbWH9EWldAaDpWRKx8vYYwpcah87Xkbm4mHGvBCCyCSnIZ5CwbfLKRGs?=
- =?us-ascii?Q?QqwjOKnB8HM7HPwOVbU8Lx912zyo5u134JPsSoV8WJdzeO7+sGPja0wjcPJl?=
- =?us-ascii?Q?fwyLZemV4EGtOO3I+qSUciKK8KidsvO3CFkjxHLar7INJJlhGTMlN3r7/l5f?=
- =?us-ascii?Q?DHyUJHwu2lUGVlcsa1KiQM+OItVWC3ICWytbjYp67nWAItB9sHKy/EPKixf4?=
- =?us-ascii?Q?/AP9tc5FnvqDs7S6FesQm7S4SdfoYHRRWD/Qg0NaVAAlwFyVBeXwKTGdLJP8?=
- =?us-ascii?Q?tHd8NuZ1wr1GNkAVfwTd06WHYykpLNZlxNCP0vDEmgfAXlYNvjtmxQp4OW+q?=
- =?us-ascii?Q?l/6+0C17B8B3gXcVYY8jRcIVNeMbu4Q0lN7atPRZQJdcDRdKrAxnUQHDabD0?=
- =?us-ascii?Q?TA=3D=3D?=
+	=?us-ascii?Q?l59InPaTLQytbhPnYyjdRNjbT9SM7MTgXash+fIXcu+aAitYr56mGRNEegj9?=
+ =?us-ascii?Q?/qL622epy66JxxwLVetqkG0w7630OEH7DRRkcLMg+a47EWmSwbzhCyND1Nbw?=
+ =?us-ascii?Q?JN5KzDYatLIwhPuzN638muJCQ93+ao/ifDTXOXFRwB87U3WmwrOYub+a16WH?=
+ =?us-ascii?Q?bNFRkQyNczY7GPJh5F2095KlUETSCnLic9pAujlw4qONl0+hL8TVPPCCppuj?=
+ =?us-ascii?Q?+HEnAkiL8bzegY82PUzFqB9CFGxcEraxtCDQoKXOwiPf8IBpDervqLxpRpuC?=
+ =?us-ascii?Q?9lmyG5aI6NcogfTeVCPfJkRYG3ESQrGZYQLaPxfokmBipaQ0yPkqJNlxePjs?=
+ =?us-ascii?Q?99GWzO6h8F0tAxbioGJIWKy1nbkW/ZXMCoUmGM4DVOQqvtq5d3RIyIpnoGxs?=
+ =?us-ascii?Q?sMlIudM66pBjPVu5/eZbiq2pf0mjjVc8RaGN2M8tmE2xCqPCNhMY/Hh5m82H?=
+ =?us-ascii?Q?TqNm6CkAnvcJFOW9fKN5HV57WRMtLey/Z3x3tqdnmuGmNdPyNtrrP4qOIkfI?=
+ =?us-ascii?Q?Gh5Ki643hBusP8qoakbzX1QEngm8ksjjzx336H5Y8H7dFPoBcacRxkOWijIe?=
+ =?us-ascii?Q?eWwg7ong4AU62wnRYBfsutbxN2s1ahldigv2vow4geF3/zblG8pG6fXpUESx?=
+ =?us-ascii?Q?itLo0FMMogZ6zXXhUnLvK7WuzRjNId27ROftsJIZM0276aGlY3H6LAA2YHri?=
+ =?us-ascii?Q?OTCg+KtoKuuowjBXf1kOtSN2UF20WyZlOOpcZSyy3zB1QVrJFsOeqTBDD8V6?=
+ =?us-ascii?Q?NSihyXnEBz3O+fLF7KnAzY14JfN/GNIVe+VnmyKyg9Vyxgaiyv1cOH+hlbiQ?=
+ =?us-ascii?Q?zPOxArXyOdMoN1GYmC1F4TJZDIi1zL0yde5qJu7am6hfHdGRWrAsKlYm7/XJ?=
+ =?us-ascii?Q?GlU0iOdck7PEGIwpzfcG2wtTbz1AK/0igc0hhUsUM/+GGFRG7FwgQUNMNn2+?=
+ =?us-ascii?Q?CeTFGwFrhLtxhLSSXMrp1Ifx9ycA/WjMCfEmLmrozGal7yLZZfJbqxSr3REs?=
+ =?us-ascii?Q?rdebw6pPm8RlZL0kFe8tlJQr7mqYdIPgb10/HgdVhBQ6uWDSm7yoeq2KCXEi?=
+ =?us-ascii?Q?1nYMjvIlfDbuFj7DiWn9HJKvzGGtnrc9hCz2Knm+Jz6cGtLzw0vLQCEG9UUX?=
+ =?us-ascii?Q?870mQniLXQanIB3AQPazmOeM31Gp39/kSWEEJfVpFate6rSvJ2qUW0OaiHUO?=
+ =?us-ascii?Q?FkUSgnnaeDsXzYxipC3uPsYrcVyvx5hqSy/snSyQoeeQAXdce4TlPZ1rh0Se?=
+ =?us-ascii?Q?hs0XHBsCTcE3IBivPlmV6gZ+8wGgmkhpboU/bL0DnUdxog8BU770RTIZr7Wg?=
+ =?us-ascii?Q?PI1oI70NVmYFMk8LVNGQVjADFQ+yMjaY8afA0vI8lYnh1reROCmCBFUqsNve?=
+ =?us-ascii?Q?4SvisoYAuF+WZZkCG0fhfIuFAtogQY5II38YR3FVRSb1TRFR+EeourYgXj5T?=
+ =?us-ascii?Q?SQC+6NFYSkjOKqMA/rlKrEBsd9DQTBJcM1/uggcfCUclpBr0l1hVnt7KmyoA?=
+ =?us-ascii?Q?IBtOtfgGvEYhfOq1EViqZEGAgNC7yABwNJA3TyAzh5ZYkIauE9tepsjnBB0N?=
+ =?us-ascii?Q?U0lOoo9I2tprYSqaPVNbCCV3Izi3Ur+o9w92m+U9cLfdDFKAbefUaIqhgXqM?=
+ =?us-ascii?Q?Sg=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	Q9YgY5Tyga0K9Jc2XL6eRAoDJYskwqz/Z2qPvFL9I+MV+RNeIzAvUmI9VSuXL7vrP/HUsQ/7AsFauwb3IhVvGVF7F37vIx8wg5hSacSz1W1uomcDfexDq0UNRffdOmncXVElURx98wK7tKxw+FBx094Y8G1h7mwuLUdbUGMezTY4y7baH4wM2THOswhGvqz4KMhP3Q2TZZaGE1zT3p/JQ7m3DNKKWR6JfCgB5wA/YNM/oTWYszVhtkf8lZiLi9DYzoljVciuXqedC/FRLUY96ACY3nB4miDXwSPH39ZAm1HZ+ZM/yUPB+oq82S/OO0j2VIWSEfEES0N0Uy/Voxc4VYB8Ecx221dL+TA7OeuSfF8vEM/DifM8PffSwwiY7BuBOiJuglA9iCQJGNjHXR1EF8bJDIDi4Bu6+o1VDzCQvLASVSBNxL32q+dAlOs+SUAKRsUtwKnj3VsoA8LrgEqlpf6Osow95CRy9KBrLi2gDjZq4HZ+r5jaH1tsceWVCGebdat3ScvKMsC1bJm+buwMst4kkLR8pvoQTeBIGgImm+tGP29No0d/ME3363OaQV8J6TKWYwOyKBBZ6zWPzyly9vTy4/ethUyLZlzSB9TkhKI=
+	807N/sBdmd9Goo3IMSIR4wtglyrU/IyP/44gOhwzjSRtt3EI0k3sP7POfwZbUGeWIQ5VNenpa3udYL9TZORIAPuRH694Oj/2j3OwH9HJRVnt07D950ru2rZqoA1PpvJrRPZfDKaoGM1QQkwBm7XAX2Tdosm5xy8IP388xEKWAFBGehzThYePHmBnlKHADZwH4W+0HDXPnlF1BEiQSCQF47D3EKw/BxI+ACf+JjG1LhkPtAvVOL6b0TcbI5Jypa4V9d/rIwXL6LWr0kRPXPFywtZTieRgwsPT0wWFjIUZ+bMFc86M6anvaC8P+wf4s+mzZrM9DnNHizUtJd6Nmuqaj/ysk/38pHHCKRsHFRBzy4KHfU86maWwK7sptKxW65NFja9UbBGKZ2YvZsHwYVEkYCDSQZ6PxU5X5Y70iXvRRrhzmVbHJY3jW7iclW+Ff9qdviA0RHP01oPwg1h0e6idbtpHPEVK1HjV3Huc4k+BDIki+LxaLAyyRDx5zl6Y5hacRK0L9yno+OvnDt1tKQ+g5GZEmjA2o3vMZMpU49lipwEf2O+ydRleB/M9/md4TIaIIXPAUmUlciBwQT0xOE123NSHNxU8y2SZuXXVzbHdQ8M=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec96fc4f-f35e-4e86-5fb7-08dcfd2daeae
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9257c14c-0635-48b6-1741-08dcfd2dafd2
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4093.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 00:06:22.7398
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 00:06:24.6869
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AHAN6BfkxqfDEnS69XHNrkOsZfRMisAkDGSZxi3nSU1AB8N1W8EpzCWdnsxfeZ1hjM/rfXgs4RWkPRgALyY5Cg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: L8XlFfluPH4gymoHYMXKIdvSPhZOX3m/QF+1O8dA5albbguDyej7adlzy2TZB4Lp6ktLWp6UezEVK8K0VBIfyQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB6693
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-11-04_21,2024-11-04_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0
- mlxlogscore=999 mlxscore=0 suspectscore=0 bulkscore=0 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2409260000 definitions=main-2411040192
-X-Proofpoint-GUID: nxvJRpPmkWgHR8TOdqWQLZAH9NSXP0RJ
-X-Proofpoint-ORIG-GUID: nxvJRpPmkWgHR8TOdqWQLZAH9NSXP0RJ
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999 spamscore=0
+ phishscore=0 malwarescore=0 adultscore=0 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
+ definitions=main-2411040192
+X-Proofpoint-GUID: jOVZAR0vzFL0XfBVHXfnOTrLnfOkHIEA
+X-Proofpoint-ORIG-GUID: jOVZAR0vzFL0XfBVHXfnOTrLnfOkHIEA
 
-This change propagates the arg type and mapping info we just got into the
-pid_probespec_t onward into the underlying dt_uprobe_t, shuffles the native
-types before handing off a 1:1 mapping to the dt_probe_t, and calls
-dt_cg_tramp_map_args() to apply the requested mappings.  With this, USDT
-probes should now have visible types which obey the :-notation translators
-specified in their .d fils (this is now tested).
+This generalizes the existing tst.pidprobes.sh to check the args
+reported by the probe both with and without arg mapping in place.
 
-The probe info has been moved from the underlying probe to the overlying one
-as part of this: underlying probes don't have any user-visible args to
-get info for, and their probe_info functions are never called.  We do all
-the arg reshuffling in a function ultimately called from USDT probe
-discovery via provide_underlying, so it predates trampoline setup let alone
-probe_info on the overlying probe and all the args info is present before
-it is needed.  (We intentionally do not shuffle the args in
-dt_cg_tramp_map_args specifically so that we are not sensitive to the
-relative call order of trampoline() versus probe_info(), but there's no
-escaping the requirement for USDT probe discovery to predate all of this:
-but this was already a requirement in any case.)
-
-We make one assumption for simplicity, noted by a TODO in the source.
-We assume that overlying probes all have the same native types and mappings,
-so we don't need to look at more than one underlying probe to figure out what
-they are.  DTrace always generates such a thing, but DOF specifying multiple
-overlapping probes seems perfectly possible for other programs to generate.
-This should probably be validated in dof_parser.c in future.
+Everything seems to work.
 
 Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
 ---
- include/dtrace/pid.h                          |   1 +
- libdtrace/dt_pid.c                            |   3 +-
- libdtrace/dt_prov_uprobe.c                    | 185 ++++++++++++++++--
- test/triggers/usdt-tst-argmap-prov.d          |   5 +-
- test/triggers/usdt-tst-argmap.c               |   5 +-
- .../dtrace-util/tst.ListProbesArgsUSDT.r      |  34 ++++
- .../dtrace-util/tst.ListProbesArgsUSDT.r.p    |   2 +
- .../dtrace-util/tst.ListProbesArgsUSDT.sh     |  83 ++++++++
- test/unittest/usdt/err.argmap-null.d          |  41 ++++
- test/unittest/usdt/err.argmap-null.r          |   2 +
- test/unittest/usdt/err.argmap-null.r.p        |   2 +
- test/unittest/usdt/tst.argmap-null.d          |  32 +++
- test/unittest/usdt/tst.argmap-typed-partial.d |  49 +++++
- test/unittest/usdt/tst.argmap-typed.d         |  48 +++++
- test/unittest/usdt/tst.argmap.d               |   5 +-
- 15 files changed, 478 insertions(+), 19 deletions(-)
- create mode 100644 test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r
- create mode 100755 test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r.p
- create mode 100755 test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh
- create mode 100644 test/unittest/usdt/err.argmap-null.d
- create mode 100644 test/unittest/usdt/err.argmap-null.r
- create mode 100755 test/unittest/usdt/err.argmap-null.r.p
- create mode 100644 test/unittest/usdt/tst.argmap-null.d
- create mode 100644 test/unittest/usdt/tst.argmap-typed-partial.d
- create mode 100644 test/unittest/usdt/tst.argmap-typed.d
+ .../usdt/{tst.pidprobes.sh => pidprobes.sh}   |  54 +++-
+ test/unittest/usdt/tst.pidargmap.sh           |  11 +
+ test/unittest/usdt/tst.pidargs.sh             |  11 +
+ test/unittest/usdt/tst.pidprobes.sh           | 284 +-----------------
+ 4 files changed, 67 insertions(+), 293 deletions(-)
+ copy test/unittest/usdt/{tst.pidprobes.sh => pidprobes.sh} (83%)
+ create mode 100755 test/unittest/usdt/tst.pidargmap.sh
+ create mode 100755 test/unittest/usdt/tst.pidargs.sh
 
-diff --git a/include/dtrace/pid.h b/include/dtrace/pid.h
-index 25bfacfdbfe2..c53e600475df 100644
---- a/include/dtrace/pid.h
-+++ b/include/dtrace/pid.h
-@@ -22,6 +22,7 @@ typedef enum pid_probetype {
- 	DTPPT_ENTRY,
- 	DTPPT_RETURN,
- 	DTPPT_OFFSETS,
-+	DTPPT_USDT,
- 	DTPPT_IS_ENABLED
- } pid_probetype_t;
+diff --git a/test/unittest/usdt/tst.pidprobes.sh b/test/unittest/usdt/pidprobes.sh
+similarity index 83%
+copy from test/unittest/usdt/tst.pidprobes.sh
+copy to test/unittest/usdt/pidprobes.sh
+index 8d18c89a4aec..c9769fc318e7 100755
+--- a/test/unittest/usdt/tst.pidprobes.sh
++++ b/test/unittest/usdt/pidprobes.sh
+@@ -5,9 +5,12 @@
+ # Licensed under the Universal Permissive License v 1.0 as shown at
+ # http://oss.oracle.com/licenses/upl.
+ #
+-# This test verifies that USDT and pid probes can share underlying probes.
++# This test verifies various properties of USDT and pid probes sharing
++# underlying probes.
  
-diff --git a/libdtrace/dt_pid.c b/libdtrace/dt_pid.c
-index 71ac1754d343..a0b3d892fd23 100644
---- a/libdtrace/dt_pid.c
-+++ b/libdtrace/dt_pid.c
-@@ -950,6 +950,7 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, dt_proc_t *dpr,
+ dtrace=$1
++usdt=$2
++mapping=$3
  
- 			p += args->size;
- 			seen_size += args->size;
-+			args = (dof_parsed_t *) p;
+ # Set up test directory.
  
- 			if (!validate_dof_record(path, args, DIT_ARGS_MAP,
- 						 dof_buf_size, seen_size))
-@@ -1000,7 +1001,7 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, dt_proc_t *dpr,
- 				goto oom;
- 			}
+@@ -17,13 +20,21 @@ cd $DIRNAME
  
--			psp.pps_type = tp->tracepoint.is_enabled ? DTPPT_IS_ENABLED : DTPPT_OFFSETS;
-+			psp.pps_type = tp->tracepoint.is_enabled ? DTPPT_IS_ENABLED : DTPPT_USDT;
- 			psp.pps_prv = prv;
- 			psp.pps_mod = mod;
- 			psp.pps_fun = fun;
-diff --git a/libdtrace/dt_prov_uprobe.c b/libdtrace/dt_prov_uprobe.c
-index a8c1ab2761f0..28f5351be21a 100644
---- a/libdtrace/dt_prov_uprobe.c
-+++ b/libdtrace/dt_prov_uprobe.c
-@@ -46,9 +46,11 @@
- /* Provider name for the underlying probes. */
- static const char	prvname[] = "uprobe";
+ # Create test source files.
  
--#define PP_IS_RETURN	1
--#define PP_IS_FUNCALL	2
--#define PP_IS_ENABLED	4
-+#define PP_IS_RETURN	0x1
-+#define PP_IS_FUNCALL	0x2
-+#define PP_IS_ENABLED	0x4
-+#define PP_IS_USDT	0x8
-+#define PP_IS_MAPPED	0x10
- 
- typedef struct dt_uprobe {
- 	dev_t		dev;
-@@ -57,7 +59,10 @@ typedef struct dt_uprobe {
- 	uint64_t	off;
- 	int		flags;
- 	tp_probe_t	*tp;
--	dt_list_t	probes;		/* pid/USDT probes triggered by it */
-+	int		argc;		   /* number of args */
-+	dt_argdesc_t	*args;		   /* args array (points into argvbuf) */
-+	char		*argvbuf;	   /* arg strtab */
-+	dt_list_t	probes;		   /* pid/USDT probes triggered by it */
- } dt_uprobe_t;
- 
- typedef struct list_probe {
-@@ -123,6 +128,8 @@ static void probe_destroy_underlying(dtrace_hdl_t *dtp, void *datap)
- 	dt_tp_destroy(dtp, tpp);
- 	free_probe_list(dtp, dt_list_next(&upp->probes));
- 	dt_free(dtp, upp->fn);
-+	dt_free(dtp, upp->args);
-+	dt_free(dtp, upp->argvbuf);
- 	dt_free(dtp, upp);
- }
- 
-@@ -516,6 +523,83 @@ static int discover(dtrace_hdl_t *dtp)
- 	return 0;
- }
- 
-+/*
-+ * Populate args for an underlying probe.  This really relates to an overlying
-+ * USDT probe (all overlying probes associated with a given underlying probe
-+ * must have the same args), but the overlying probe doesn't exist at the point
-+ * this is populated, so we must put it in the underlying probe instead and pull
-+ * it out when the overlying probe info is called for.
-+ *
-+ * Move it into dt_argdesc_t's for use later on. The char *'s in that structure
-+ * are pointers into the argvbuf array, which is a straight concatenated copy of
-+ * the nargc/xargc in the pid_probespec_t.
-+ */
-+static int populate_args(dtrace_hdl_t *dtp, const pid_probespec_t *psp,
-+			 dt_uprobe_t *upp)
-+{
-+	char	**nargv = NULL;
-+	char	*nptr = NULL, *xptr = NULL;
-+	size_t	i;
-+
-+	upp->argc = psp->pps_xargc;
-+
-+	/*
-+	 * If we have a nonzero number of args, we always have at least one narg
-+	 * and at least one xarg.  Double-check to be sure.  (These are not
-+	 * populated, and thus left 0/NULL, for non-USDT probes.)
-+	 */
-+	if (upp->argc == 0 || psp->pps_xargv == NULL || psp->pps_nargv == NULL
-+		|| psp->pps_xargvlen == 0 || psp->pps_nargvlen == 0)
-+		return 0;
-+
-+	upp->argvbuf = dt_alloc(dtp, psp->pps_xargvlen + psp->pps_nargvlen);
-+	if(upp->argvbuf == NULL)
-+		return -1;
-+	memcpy(upp->argvbuf, psp->pps_xargv, psp->pps_xargvlen);
-+	xptr = upp->argvbuf;
-+
-+	memcpy(upp->argvbuf + psp->pps_xargvlen, psp->pps_nargv, psp->pps_nargvlen);
-+	nptr = upp->argvbuf + psp->pps_xargvlen;
-+
-+	upp->args = dt_calloc(dtp, upp->argc, sizeof(dt_argdesc_t));
-+	if (upp->args == NULL)
-+		return -1;
-+
-+	/*
-+	 * Construct an array to allow accessing native args by index.
-+	 */
-+
-+	if ((nargv = dt_calloc(dtp, psp->pps_nargc, sizeof (char *))) == NULL)
-+		goto fail;
-+
-+	for (i = 0; i < psp->pps_nargc; i++, nptr += strlen(nptr) + 1)
-+		nargv[i] = nptr;
-+
-+        /*
-+	 * Fill up the upp->args array based on xargs.  If this indicates that
-+	 * mapping is needed, note as much.
-+	 */
-+
-+	for (i = 0; i < upp->argc; i++, xptr += strlen(xptr) + 1) {
-+		int map_arg = psp->pps_argmap[i];
-+
-+		upp->args[i].native = nargv[map_arg];
-+		upp->args[i].xlate = xptr;
-+		upp->args[i].mapping = map_arg;
-+		upp->args[i].flags = 0;
-+
-+                if (i != map_arg)
-+			upp->flags |= PP_IS_MAPPED;
-+	}
-+
-+	free(nargv);
-+	return 0;
-+
-+ fail:
-+	free(nargv);
-+	return -1;
-+}
-+
- /*
-  * Look up or create an underlying (real) probe, corresponding directly to a
-  * uprobe.  Since multiple pid and USDT probes may all map onto the same
-@@ -530,7 +614,7 @@ static dt_probe_t *create_underlying(dtrace_hdl_t *dtp,
- 	char			prb[DTRACE_NAMELEN];
- 	dtrace_probedesc_t	pd;
- 	dt_probe_t		*uprp;
--	dt_uprobe_t		*upp;
-+	dt_uprobe_t		*upp = NULL;
- 
- 	/*
- 	 * The underlying probes (uprobes) represent the tracepoints that pid
-@@ -555,6 +639,7 @@ static dt_probe_t *create_underlying(dtrace_hdl_t *dtp,
- 	case DTPPT_IS_ENABLED:
- 	case DTPPT_ENTRY:
- 	case DTPPT_OFFSETS:
-+	case DTPPT_USDT:
- 		snprintf(prb, sizeof(prb), "%lx", psp->pps_off);
- 		break;
- 	default:
-@@ -568,6 +653,8 @@ static dt_probe_t *create_underlying(dtrace_hdl_t *dtp,
- 	pd.fun = psp->pps_fun;
- 	pd.prb = prb;
- 
-+	dt_dprintf("Providing underlying probe %s:%s:%s:%s @ %lx\n", psp->pps_prv,
-+		   psp->pps_mod, psp->pps_fn, psp->pps_prb, psp->pps_off);
- 	uprp = dt_probe_lookup(dtp, &pd);
- 	if (uprp == NULL) {
- 		dt_provider_t	*pvp;
-@@ -591,12 +678,24 @@ static dt_probe_t *create_underlying(dtrace_hdl_t *dtp,
- 			goto fail;
- 
- 		uprp = dt_probe_insert(dtp, pvp, pd.prv, pd.mod, pd.fun, pd.prb,
--				      upp);
-+				       upp);
- 		if (uprp == NULL)
- 			goto fail;
- 	} else
- 		upp = uprp->prv_data;
- 
-+	/*
-+	 * Only one USDT probe can correspond to each underlying probe.
-+	 */
-+	if (psp->pps_type == DTPPT_USDT && upp->flags == PP_IS_USDT) {
-+		dt_dprintf("Found overlapping USDT probe at %lx/%lx/%lx/%s\n",
-+			   upp->dev, upp->inum, upp->off, upp->fn);
-+		goto fail;
-+	}
-+
-+	if (populate_args(dtp, psp, upp) < 0)
-+		goto fail;
-+
- 	switch (psp->pps_type) {
- 	case DTPPT_RETURN:
- 	    upp->flags |= PP_IS_RETURN;
-@@ -604,15 +703,19 @@ static dt_probe_t *create_underlying(dtrace_hdl_t *dtp,
- 	case DTPPT_IS_ENABLED:
- 	    upp->flags |= PP_IS_ENABLED;
- 	    break;
-+	case DTPPT_USDT:
-+	    upp->flags |= PP_IS_USDT;
-+	    break;
- 	default: ;
- 	    /*
- 	     * No flags needed for other types.
- 	     */
- 	}
--
- 	return uprp;
- 
- fail:
-+	dt_dprintf("Failed to instantiate %s:%s:%s:%s\n", psp->pps_prv,
-+		   psp->pps_mod, psp->pps_fn, psp->pps_prb);
- 	probe_destroy(dtp, upp);
- 	return NULL;
- }
-@@ -732,7 +835,7 @@ static int provide_pid_probe(dtrace_hdl_t *dtp, const pid_probespec_t *psp)
- 
- static int provide_usdt_probe(dtrace_hdl_t *dtp, const pid_probespec_t *psp)
- {
--	if (psp->pps_type != DTPPT_OFFSETS &&
-+	if (psp->pps_type != DTPPT_USDT &&
- 	    psp->pps_type != DTPPT_IS_ENABLED) {
- 		dt_dprintf("pid: unknown USDT probe type %i\n", psp->pps_type);
- 		return -1;
-@@ -786,7 +889,12 @@ static void enable_usdt(dtrace_hdl_t *dtp, dt_probe_t *prp)
-  *	int dt_uprobe(dt_pt_regs *regs)
-  *
-  * The trampoline will first populate a dt_dctx_t struct.  It will then emulate
-- * the firing of all dependent pid* probes and their clauses.
-+ * the firing of all dependent pid* and USDT probes and their clauses, or (in
-+ * the case of is-enabled probes), do the necessary copying (is-enabled probes
-+ * have no associated clauses and their behaviour is hardwired).
-+ *
-+ * Trampolines associated with USDT probes will also arrange for argument
-+ * shuffling if the argmap array calls for it.
-  */
- static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
- {
-@@ -864,7 +972,7 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
- 	}
- 
- 	/*
--	 * USDT
-+	 * USDT.
- 	 */
- 
- 	/* In some cases, we know there are no USDT probes. */  // FIXME: add more checks
-@@ -873,6 +981,16 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
- 
- 	dt_cg_tramp_copy_args_from_regs(pcb, 0);
- 
-+	/*
-+	 * Apply arg mappings, if needed.
-+	 */
-+	if (upp->flags & PP_IS_MAPPED) {
-+
-+		/* dt_cg_tramp_map_args() works from the saved args. */
-+		dt_cg_tramp_save_args(pcb);
-+		dt_cg_tramp_map_args(pcb, upp->args, upp->argc);
-+	}
-+
- 	/*
- 	 * Retrieve the PID of the process that caused the probe to fire.
- 	 */
-@@ -1083,8 +1201,49 @@ attach_bpf:
- static int probe_info(dtrace_hdl_t *dtp, const dt_probe_t *prp,
- 		      int *argcp, dt_argdesc_t **argvp)
- {
--	*argcp = 0;			/* no known arguments */
--	*argvp = NULL;
-+	size_t		i;
-+	list_probe_t	*pup = prp->prv_data;
-+	dt_uprobe_t	*upp;
-+	size_t		argc = 0;
-+	dt_argdesc_t	*argv = NULL;
-+
-+	/* No underlying probes?  No args.  */
-+	if (!pup)
-+		goto done;
-+
-+	upp = pup->probe->prv_data;
-+	if (!upp || upp->args == NULL)
-+		goto done;
-+
-+	argc = upp->argc;
-+
-+	argv = dt_calloc(dtp, argc, sizeof(dt_argdesc_t));
-+	if (argv == NULL)
-+		return dt_set_errno(dtp, EDT_NOMEM);
-+
-+	for (i = 0; i < argc; i++) {
-+		argv[i].native = strdup(upp->args[i].native);
-+		if (upp->args[i].xlate)
-+			argv[i].xlate = strdup(upp->args[i].xlate);
-+		argv[i].mapping = i;
-+
-+		if (argv[i].native == NULL ||
-+		    (upp->args[i].xlate != NULL && argv[i].xlate == NULL)) {
-+			size_t j;
-+
-+			for (j = 0; j <= i; j++) {
-+				free((char *) argv[i].native);
-+				free((char *) argv[i].xlate);
-+			}
-+
-+			dt_free(dtp, argv);
-+			return dt_set_errno(dtp, EDT_NOMEM);
-+		}
-+	}
-+
-+done:
-+	*argcp = argc;
-+	*argvp = argv;
- 
- 	return 0;
- }
-@@ -1152,7 +1311,6 @@ dt_provimpl_t	dt_uprobe = {
- 	.load_prog	= &dt_bpf_prog_load,
- 	.trampoline	= &trampoline,
- 	.attach		= &attach,
--	.probe_info	= &probe_info,
- 	.detach		= &detach,
- 	.probe_destroy	= &probe_destroy_underlying,
- 	.add_probe	= &add_probe_uprobe,
-@@ -1178,6 +1336,7 @@ dt_provimpl_t	dt_usdt = {
- 	.populate	= &populate_usdt,
- 	.provide_probe	= &provide_usdt_probe,
- 	.enable		= &enable_usdt,
-+	.probe_info	= &probe_info,
- 	.probe_destroy	= &probe_destroy,
- 	.discover	= &discover,
- 	.add_probe	= &add_probe_usdt,
-diff --git a/test/triggers/usdt-tst-argmap-prov.d b/test/triggers/usdt-tst-argmap-prov.d
-index 28134baa6fa3..d8c3e88c4616 100644
---- a/test/triggers/usdt-tst-argmap-prov.d
-+++ b/test/triggers/usdt-tst-argmap-prov.d
-@@ -1,10 +1,13 @@
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2024, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
- 
- provider test_prov {
- 	probe place(int i, int j) : (int j, int i, int i, int j);
-+	probe place2(int i, char *j) : (char *j, int i, int i, char *j);
-+	probe place3(int i, char *j) : (char *j);
-+	probe place4(int i, char *j) : ();
+-cat > prov.d <<EOF
++if [[ -z $mapping ]]; then
++    cat > prov.d <<EOF
+ provider pyramid {
+ 	probe entry(int, char, int, int);
  };
-diff --git a/test/triggers/usdt-tst-argmap.c b/test/triggers/usdt-tst-argmap.c
-index 89a0a53fc1d5..9244092514ff 100644
---- a/test/triggers/usdt-tst-argmap.c
-+++ b/test/triggers/usdt-tst-argmap.c
-@@ -1,6 +1,6 @@
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2020, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2024, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-@@ -12,6 +12,9 @@ main(int argc, char **argv)
- {
- 	for (;;) {
- 		DTRACE_PROBE2(test_prov, place, 10, 4);
-+		DTRACE_PROBE(test_prov, place2, 255, "foo");
-+		DTRACE_PROBE(test_prov, place3, 126, "bar");
-+		DTRACE_PROBE(test_prov, place4, 204, "baz");
- 	}
+ EOF
++else
++    cat > prov.d <<EOF
++provider pyramid {
++	probe entry(int a, char b, int c, int d) : (int c, int d, int a, char b);
++};
++EOF
++fi
  
- 	return 0;
-diff --git a/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r
-new file mode 100644
-index 000000000000..8bcfa92ff6b0
---- /dev/null
-+++ b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r
-@@ -0,0 +1,34 @@
-+   ID   PROVIDER            MODULE                          FUNCTION NAME
-+ XX test_provXXXX              test                              main go
+-cat > main.c <<EOF
++cat > main.c <<'EOF'
+ #include <stdio.h>
+ #include "prov.h"
+ 
+@@ -48,7 +59,7 @@ EOF
+ 
+ # Build the test program.
+ 
+-$dtrace -h -s prov.d
++$dtrace $dt_flags -h -s prov.d
+ if [ $? -ne 0 ]; then
+ 	echo "failed to generate header file" >&2
+ 	exit 1
+@@ -61,12 +72,12 @@ fi
+ if [[ `uname -m` = "aarch64" ]]; then
+ 	objdump -d main.o > disasm_foo.txt.before
+ fi
+-$dtrace -G -64 -s prov.d main.o
++$dtrace $dt_flags -G -64 -s prov.d main.o
+ if [ $? -ne 0 ]; then
+ 	echo "failed to create DOF" >&2
+ 	exit 1
+ fi
+-cc $test_cppflags -o main main.o prov.o
++cc $test_ldflags -o main main.o prov.o
+ if [ $? -ne 0 ]; then
+ 	echo "failed to link final executable" >&2
+ 	exit 1
+@@ -75,7 +86,7 @@ fi
+ # Check that the program output is 0 when the USDT probe is not enabled.
+ # That is, the PYRAMID_ENTRY_ENABLED() is-enabled checks should not pass.
+ 
+-./main > main.out
++./main standalone > main.out
+ echo "my result: 0" > main.out.expected
+ if ! diff -q main.out main.out.expected > /dev/null; then
+ 	echo '"my result"' looks wrong when not using DTrace
+@@ -88,11 +99,25 @@ fi
+ 
+ # Run dtrace.
+ 
+-$dtrace $dt_flags -q -c ./main -o dtrace.out -n '
++cat >> pidprobes.d <<'EOF'
+ p*d$target::foo:
+ {
+ 	printf("%d %s:%s:%s:%s %x\n", pid, probeprov, probemod, probefunc, probename, uregs[R_PC]);
+-}' > main.out2
++}
++EOF
 +
-+	Probe Description Attributes
-+		Identifier Names: Private
-+		Data Semantics:   Private
-+		Dependency Class: Unknown
++if [[ -n $usdt ]]; then
++	echo 'pyramid$target::foo: {' >> pidprobes.d
 +
-+	Argument Attributes
-+		Identifier Names: Private
-+		Data Semantics:   Private
-+		Dependency Class: Unknown
++	if [[ -n $mapping ]]; then
++		echo 'printf("%d %s:%s:%s:%s %i %i %i %c\n", pid, probeprov, probemod, probefunc, probename, args[0], args[1], args[2], args[3]);' >> pidprobes.d
++	else
++		echo 'printf("%d %s:%s:%s:%s %i %c %i %i\n", pid, probeprov, probemod, probefunc, probename, args[0], args[1], args[2], args[3]);' >> pidprobes.d
++	fi
++	echo '}' >> pidprobes.d
++fi
 +
-+	Argument Types
-+		args[0]: char *
-+		args[1]: int
-+
-+   ID   PROVIDER            MODULE                          FUNCTION NAME
-+ XX test_provXXXX              test                              main go
-+
-+	Probe Description Attributes
-+		Identifier Names: Private
-+		Data Semantics:   Private
-+		Dependency Class: Unknown
-+
-+	Argument Attributes
-+		Identifier Names: Private
-+		Data Semantics:   Private
-+		Dependency Class: Unknown
-+
-+	Argument Types
-+		args[0]: char *
-+		args[1]: int
-+
-diff --git a/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r.p b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r.p
++$dtrace $dt_flags -q -c ./main -o dtrace.out -s pidprobes.d > main.out2
+ if [ $? -ne 0 ]; then
+ 	echo "failed to run dtrace" >&2
+ 	cat main.out2
+@@ -271,8 +296,17 @@ for pc in $pcs; do
+ done
+ echo $usdt_pcs | awk '{printf("'$pid' pyramid'$pid':main:foo:entry %x\n", $1);}' >> dtrace.out.expected
+ echo $usdt_pcs | awk '{printf("'$pid' pyramid'$pid':main:foo:entry %x\n", $2);}' >> dtrace.out.expected
++if [[ -n $usdt ]]; then
++	if [[ -z $mapping ]]; then
++		echo "$pid pyramid$pid:main:foo:entry 2 a 16 128" >> dtrace.out.expected
++		echo "$pid pyramid$pid:main:foo:entry 4 b 32 256" >> dtrace.out.expected
++	else
++		echo "$pid pyramid$pid:main:foo:entry 16 128 2 a" >> dtrace.out.expected
++		echo "$pid pyramid$pid:main:foo:entry 32 256 4 b" >> dtrace.out.expected
++	fi
++fi
+ 
+-# Sort and check.
++# Sort and check (dropping any wake-up firings from deferred probing).
+ 
+ sort dtrace.out          > dtrace.out.sorted
+ sort dtrace.out.expected > dtrace.out.expected.sorted
+diff --git a/test/unittest/usdt/tst.pidargmap.sh b/test/unittest/usdt/tst.pidargmap.sh
 new file mode 100755
-index 000000000000..c575983adf65
+index 000000000000..0c83f8703539
 --- /dev/null
-+++ b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.r.p
-@@ -0,0 +1,2 @@
-+#!/bin/sed -rf
-+s,test_prov[0-9]*,test_provXXXX,g; s,^ *[0-9]+, XX,g;
-diff --git a/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh
-new file mode 100755
-index 000000000000..ad8dc2e7c267
---- /dev/null
-+++ b/test/unittest/dtrace-util/tst.ListProbesArgsUSDT.sh
-@@ -0,0 +1,83 @@
++++ b/test/unittest/usdt/tst.pidargmap.sh
+@@ -0,0 +1,11 @@
 +#!/bin/bash
 +#
 +# Oracle Linux DTrace.
-+# Copyright (c) 2013, 2024, Oracle and/or its affiliates. All rights reserved.
++# Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
 +# Licensed under the Universal Permissive License v 1.0 as shown at
 +# http://oss.oracle.com/licenses/upl.
-+
-+##
 +#
-+# ASSERTION:
-+# Testing -lvn option with USDT probes with a valid probe name.
-+#
-+# SECTION: dtrace Utility/-ln Option
-+#
-+##
++# This test verifies that USDT and pid probes that share underlying probes
++# do not apply arg mappings (incorrectly) to the pid probes.
 +
-+if [ $# != 1 ]; then
-+	echo expected one argument: '<'dtrace-path'>'
-+	exit 2
-+fi
-+
-+dtrace=$1
-+CC=/usr/bin/gcc
-+CFLAGS=
-+
-+DIRNAME="$tmpdir/list-probes-args-usdt.$$.$RANDOM"
-+mkdir -p $DIRNAME
-+cd $DIRNAME
-+
-+cat > prov.d <<EOF
-+provider test_prov {
-+	probe go(int a, char *b) : (char *b, int a);
-+};
-+EOF
-+
-+$dtrace -h -s prov.d
-+if [ $? -ne 0 ]; then
-+	echo "failed to generate header file" >& 2
-+	exit 1
-+fi
-+
-+cat > test.c <<EOF
-+#include <sys/types.h>
-+#include "prov.h"
-+
-+int
-+main(int argc, char **argv)
-+{
-+	TEST_PROV_GO(666, "foo");
-+	sleep(10);
-+}
-+EOF
-+
-+${CC} ${CFLAGS} -c test.c
-+if [ $? -ne 0 ]; then
-+	echo "failed to compile test.c" >& 2
-+	exit 1
-+fi
-+$dtrace -G -s prov.d test.o
-+if [ $? -ne 0 ]; then
-+	echo "failed to create DOF" >& 2
-+	exit 1
-+fi
-+${CC} ${CFLAGS} -o test test.o prov.o
-+if [ $? -ne 0 ]; then
-+	echo "failed to link final executable" >& 2
-+	exit 1
-+fi
-+
-+script()
-+{
-+	$dtrace -c ./test -lvn 'test_prov$target:::go'
-+	./test &
-+	PID=$!
-+	disown %+
-+	$dtrace -p $PID -lvn 'test_prov$target:::go'
-+	kill -9 $PID
-+}
-+
-+script
-+status=$?
-+
-+exit $status
-diff --git a/test/unittest/usdt/err.argmap-null.d b/test/unittest/usdt/err.argmap-null.d
-new file mode 100644
-index 000000000000..ba765bea7a04
---- /dev/null
-+++ b/test/unittest/usdt/err.argmap-null.d
-@@ -0,0 +1,41 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/* @@trigger: usdt-tst-argmap */
-+/* @@trigger-timing: before */
-+/* @@runtest-opts: $_pid */
-+
-+/*
-+ * ASSERTION: Verify that a probe left with no args at all due to mapping
-+ *            has no args.
-+ */
-+
-+BEGIN
-+{
-+	/* Timeout after 5 seconds */
-+	timeout = timestamp + 5000000000;
-+}
-+
-+test_prov$1:::place4
-+/args[0] != 204 || args[0] == 204/
-+{
-+	printf("this should never happen");
-+	exit(1);
-+}
-+
-+test_prov$1:::place4
-+{
-+	printf("nor should this");
-+	exit(1);
-+}
-+
-+profile:::tick-1
-+/timestamp > timeout/
-+{
-+	trace("test timed out");
-+	exit(1);
-+}
-diff --git a/test/unittest/usdt/err.argmap-null.r b/test/unittest/usdt/err.argmap-null.r
-new file mode 100644
-index 000000000000..215475e39b48
---- /dev/null
-+++ b/test/unittest/usdt/err.argmap-null.r
-@@ -0,0 +1,2 @@
-+-- @@stderr --
-+dtrace: failed to compile script test/unittest/usdt/err.argmap-null.d: line 24: index 0 is out of range for test_provXXXX:::place4 args[ ]
-diff --git a/test/unittest/usdt/err.argmap-null.r.p b/test/unittest/usdt/err.argmap-null.r.p
++exec $(dirname $_test)/pidprobes.sh $1 t t
+diff --git a/test/unittest/usdt/tst.pidargs.sh b/test/unittest/usdt/tst.pidargs.sh
 new file mode 100755
-index 000000000000..c575983adf65
+index 000000000000..53cba7c39624
 --- /dev/null
-+++ b/test/unittest/usdt/err.argmap-null.r.p
-@@ -0,0 +1,2 @@
-+#!/bin/sed -rf
-+s,test_prov[0-9]*,test_provXXXX,g; s,^ *[0-9]+, XX,g;
-diff --git a/test/unittest/usdt/tst.argmap-null.d b/test/unittest/usdt/tst.argmap-null.d
-new file mode 100644
-index 000000000000..dacf4c4f569a
---- /dev/null
-+++ b/test/unittest/usdt/tst.argmap-null.d
-@@ -0,0 +1,32 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
++++ b/test/unittest/usdt/tst.pidargs.sh
+@@ -0,0 +1,11 @@
++#!/bin/bash
++#
++# Oracle Linux DTrace.
++# Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
++# Licensed under the Universal Permissive License v 1.0 as shown at
++# http://oss.oracle.com/licenses/upl.
++#
++# This test verifies that USDT and pid probes that share underlying probes
++# get the arguments correct for the USDT probes.
 +
-+/* @@trigger: usdt-tst-argmap */
-+/* @@trigger-timing: before */
-+/* @@runtest-opts: $_pid */
-+
-+/*
-+ * ASSERTION: Verify that you can map to no args at all.
-+ */
-+
-+BEGIN
-+{
-+	/* Timeout after 5 seconds */
-+	timeout = timestamp + 5000000000;
-+}
-+
-+test_prov$1:::place4
-+{
-+	exit(0);
-+}
-+
-+profile:::tick-1
-+/timestamp > timeout/
-+{
-+	trace("test timed out");
-+	exit(1);
-+}
-diff --git a/test/unittest/usdt/tst.argmap-typed-partial.d b/test/unittest/usdt/tst.argmap-typed-partial.d
-new file mode 100644
-index 000000000000..8c4d7273c0ab
---- /dev/null
-+++ b/test/unittest/usdt/tst.argmap-typed-partial.d
-@@ -0,0 +1,49 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2007, 2024, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/* @@trigger: usdt-tst-argmap */
-+/* @@trigger-timing: before */
-+/* @@runtest-opts: $_pid */
-+
-+/*
-+ * ASSERTION: Verify that args[N] variables are properly typed when mapped,
-+ *            even if some args are unused.
-+ */
-+
-+BEGIN
-+{
-+	/* Timeout after 5 seconds */
-+	timeout = timestamp + 5000000000;
-+}
-+
-+test_prov$1:::place3
-+/stringof(args[0]) != "bar"/
-+{
-+	printf("arg is %s; should be \"bar\"",
-+	    stringof(args[0]));
-+	exit(1);
-+}
-+
-+test_prov$1:::place3
-+/stringof(copyinstr(arg0)) != "bar"/
-+{
-+	printf("arg is %s; should be \"bar\"",
-+	    stringof(copyinstr(arg0)));
-+	exit(1);
-+}
-+
-+test_prov$1:::place3
-+{
-+	exit(0);
-+}
-+
-+profile:::tick-1
-+/timestamp > timeout/
-+{
-+	trace("test timed out");
-+	exit(1);
-+}
-diff --git a/test/unittest/usdt/tst.argmap-typed.d b/test/unittest/usdt/tst.argmap-typed.d
-new file mode 100644
-index 000000000000..1243e059b8ae
---- /dev/null
-+++ b/test/unittest/usdt/tst.argmap-typed.d
-@@ -0,0 +1,48 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2007, 2024, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/* @@trigger: usdt-tst-argmap */
-+/* @@trigger-timing: before */
-+/* @@runtest-opts: $_pid */
-+
-+/*
-+ * ASSERTION: Verify that args[N] variables are properly typed when mapped.
-+ */
-+
-+BEGIN
-+{
-+	/* Timeout after 5 seconds */
-+	timeout = timestamp + 5000000000;
-+}
-+
-+test_prov$1:::place2
-+/stringof(args[0]) != "foo" || args[1] != 255 || args[2] != 255 || stringof(args[3]) != "foo"/
-+{
-+	printf("args are %s, %d, %d, %s; should be \"foo\", 255, 255, \"foo\"",
-+	    stringof(args[0]), args[1], args[2], stringof(args[3]));
-+	exit(1);
-+}
-+
-+test_prov$1:::place2
-+/stringof(copyinstr(arg0)) != "foo" || arg1 != 255 || arg2 != 255 || stringof(copyinstr(arg3)) != "foo"/
-+{
-+	printf("args are %s, %d, %d, %s; should be \"foo\", 255, 255, \"foo\"",
-+	    stringof(copyinstr(arg0)), arg1, arg2, stringof(copyinstr(arg3)));
-+	exit(1);
-+}
-+
-+test_prov$1:::place2
-+{
-+	exit(0);
-+}
-+
-+profile:::tick-1
-+/timestamp > timeout/
-+{
-+	trace("test timed out");
-+	exit(1);
-+}
-diff --git a/test/unittest/usdt/tst.argmap.d b/test/unittest/usdt/tst.argmap.d
-index 7896dc07e0e2..a7d68da3dfbc 100644
---- a/test/unittest/usdt/tst.argmap.d
-+++ b/test/unittest/usdt/tst.argmap.d
-@@ -1,17 +1,16 @@
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2007, 2020, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2007, 2024, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
++exec $(dirname $_test)/pidprobes.sh $1 t ""
+diff --git a/test/unittest/usdt/tst.pidprobes.sh b/test/unittest/usdt/tst.pidprobes.sh
+index 8d18c89a4aec..e63d9f5dc096 100755
+--- a/test/unittest/usdt/tst.pidprobes.sh
++++ b/test/unittest/usdt/tst.pidprobes.sh
+@@ -7,286 +7,4 @@
+ #
+ # This test verifies that USDT and pid probes can share underlying probes.
  
--/* @@xfail: dtv2 */
- /* @@trigger: usdt-tst-argmap */
- /* @@trigger-timing: before */
- /* @@runtest-opts: $_pid */
- 
- /*
-- * ASSERTION: Verify that argN and args[N] variables are properly remapped.
-+ * ASSERTION: Verify that argN and args[N] variables are properly mapped.
-  */
- 
- BEGIN
+-dtrace=$1
+-
+-# Set up test directory.
+-
+-DIRNAME=$tmpdir/pidprobes.$$.$RANDOM
+-mkdir -p $DIRNAME
+-cd $DIRNAME
+-
+-# Create test source files.
+-
+-cat > prov.d <<EOF
+-provider pyramid {
+-	probe entry(int, char, int, int);
+-};
+-EOF
+-
+-cat > main.c <<EOF
+-#include <stdio.h>
+-#include "prov.h"
+-
+-void foo() {
+-	int n = 0;
+-
+-	PYRAMID_ENTRY(2, 'a', 16, 128);
+-	if (PYRAMID_ENTRY_ENABLED())
+-		n += 2;
+-	PYRAMID_ENTRY(4, 'b', 32, 256);
+-	if (PYRAMID_ENTRY_ENABLED())
+-		n += 8;
+-	printf("my result: %d\n", n);
+-}
+-
+-int
+-main(int argc, char **argv)
+-{
+-	foo();
+-}
+-EOF
+-
+-# Build the test program.
+-
+-$dtrace -h -s prov.d
+-if [ $? -ne 0 ]; then
+-	echo "failed to generate header file" >&2
+-	exit 1
+-fi
+-cc $test_cppflags -c main.c
+-if [ $? -ne 0 ]; then
+-	echo "failed to compile test" >&2
+-	exit 1
+-fi
+-if [[ `uname -m` = "aarch64" ]]; then
+-	objdump -d main.o > disasm_foo.txt.before
+-fi
+-$dtrace -G -64 -s prov.d main.o
+-if [ $? -ne 0 ]; then
+-	echo "failed to create DOF" >&2
+-	exit 1
+-fi
+-cc $test_cppflags -o main main.o prov.o
+-if [ $? -ne 0 ]; then
+-	echo "failed to link final executable" >&2
+-	exit 1
+-fi
+-
+-# Check that the program output is 0 when the USDT probe is not enabled.
+-# That is, the PYRAMID_ENTRY_ENABLED() is-enabled checks should not pass.
+-
+-./main > main.out
+-echo "my result: 0" > main.out.expected
+-if ! diff -q main.out main.out.expected > /dev/null; then
+-	echo '"my result"' looks wrong when not using DTrace
+-	echo === got ===
+-	cat main.out
+-	echo === expected ===
+-	cat main.out.expected
+-	exit 1
+-fi
+-
+-# Run dtrace.
+-
+-$dtrace $dt_flags -q -c ./main -o dtrace.out -n '
+-p*d$target::foo:
+-{
+-	printf("%d %s:%s:%s:%s %x\n", pid, probeprov, probemod, probefunc, probename, uregs[R_PC]);
+-}' > main.out2
+-if [ $? -ne 0 ]; then
+-	echo "failed to run dtrace" >&2
+-	cat main.out2
+-	cat dtrace.out
+-	exit 1
+-fi
+-echo "my result: 10" > main.out2.expected
+-if ! diff -q main.out2 main.out2.expected > /dev/null; then
+-	echo '"my result"' looks wrong when using DTrace
+-	echo === got ===
+-	cat main.out2
+-	echo === expected ===
+-	cat main.out2.expected
+-	exit 1
+-fi
+-
+-# Check that the program output is 10 when the USDT probe is enabled.
+-# That is, the PYRAMID_ENTRY_ENABLED() is-enabled checks should pass.
+-
+-echo "my result: 10" > main.out2.expected
+-
+-if ! diff -q main.out2 main.out2.expected > /dev/null; then
+-	echo '"my result"' looks wrong
+-	echo === got ===
+-	cat main.out2
+-	echo === expected ===
+-	cat main.out2.expected
+-	exit 1
+-fi
+-
+-# Get the reported pid.
+-
+-if [ `awk 'NF != 0 { print $1 }' dtrace.out | uniq | wc -l` -ne 1 ]; then
+-	echo no unique pid
+-	cat dtrace.out
+-	exit 1
+-fi
+-pid=`awk 'NF != 0 { print $1 }' dtrace.out | uniq`
+-
+-# Disassemble foo().
+-
+-objdump -d main | awk '
+-BEGIN { use = 0 }             # start by not printing lines
+-use == 1 && NF == 0 { exit }  # if printing lines but hit a blank, then exit
+-use == 1 { print }            # print lines
+-/<foo>:/ { use = 1 }          # turn on printing when we hit "<foo>:" (without printing this line itself)
+-' > disasm_foo.txt
+-
+-# From the disassembly, get the PCs for foo()'s instructions.
+-
+-pcs=`awk '{print strtonum("0x"$1)}' disasm_foo.txt`
+-pc0=`echo $pcs | awk '{print $1}'`
+-
+-# From the disassembly, get the PCs for USDT probes.
+-# Check libdtrace/dt_link.c's arch-dependent dt_modtext() to see
+-# what sequence of instructions signal a USDT probe.
+-
+-if [[ `uname -m` = "x86_64" ]]; then
+-
+-	# It is the first of five nop instructions in a row.
+-	# So track pc[-6], pc[-5], pc[-4], pc[-3], pc[-2], pc[-1], pc[0]
+-	# as well as whether they are nop.
+-
+-	usdt_pcs_all=`awk '
+-	BEGIN {
+-		pc6 = -1; is_nop6 = 0;
+-		pc5 = -1; is_nop5 = 0;
+-		pc4 = -1; is_nop4 = 0;
+-		pc3 = -1; is_nop3 = 0;
+-		pc2 = -1; is_nop2 = 0;
+-		pc1 = -1; is_nop1 = 0;
+-	}
+-	{
+-		# pc0 is current instruction
+-		pc0 = strtonum("0x"$1);
+-
+-		# decide whether it is a nop
+-		is_nop0 = 0;
+-		if (NF == 3 &&
+-		    $2 == "90" &&
+-		    $3 == "nop")
+-			is_nop0 = 1;
+-
+-		# report if pc[-5] is a USDT instruction
+-		if (is_nop6 == 0 &&
+-		    is_nop5 == 1 &&
+-		    is_nop4 == 1 &&
+-		    is_nop3 == 1 &&
+-		    is_nop2 == 1 &&
+-		    is_nop1 == 1 &&
+-		    is_nop0 == 0)
+-			print pc5;
+-
+-		# prepare advance to next instruction
+-		pc6 = pc5;  is_nop6 = is_nop5;
+-		pc5 = pc4;  is_nop5 = is_nop4;
+-		pc4 = pc3;  is_nop4 = is_nop3;
+-		pc3 = pc2;  is_nop3 = is_nop2;
+-		pc2 = pc1;  is_nop2 = is_nop1;
+-		pc1 = pc0;  is_nop1 = is_nop0;
+-	}' disasm_foo.txt`
+-
+-	# We expect 4 USDT probes (2 USDT and 2 is-enabled).
+-	if [ `echo $usdt_pcs_all | awk '{print NF}'` -ne 4 ]; then
+-		echo ERROR: expected 4 USDT probes but got $usdt_pcs_all
+-		cat disasm_foo.txt
+-		exit 1
+-	fi
+-
+-	# Separate them into regular and is-enabled PCs.
+-	# We assume they alternate.
+-	usdt_pcs=`echo $usdt_pcs_all | awk '{ print $1, $3 }'`
+-	usdt_pcs_isenabled=`echo $usdt_pcs_all | awk '{ print $2, $4 }'`
+-
+-elif [[ `uname -m` = "aarch64" ]]; then
+-
+-	# The initial compilation of foo() makes it obvious where the
+-	# USDT probes are.  We just have to add the function offset in.
+-	usdt_pcs=`awk '/<__dtrace_pyramid___entry>/ { print strtonum("0x"$1) + '$pc0' }' disasm_foo.txt.before`
+-	usdt_pcs_isenabled=`awk '/<__dtraceenabled_pyramid___entry>/ { print strtonum("0x"$1) + '$pc0' }' disasm_foo.txt.before`
+-
+-	# We expect 4 USDT probes (2 USDT and 2 is-enabled).
+-	if [ `echo $usdt_pcs | awk '{print NF}'` -ne 2 -o \
+-	     `echo $usdt_pcs_isenabled | awk '{print NF}'` -ne 2 ]; then
+-		echo ERROR: expected 4 USDT probes but got $usdt_pcs and $usdt_pcs_isenabled
+-		cat disasm_foo.txt.before
+-		exit 1
+-	fi
+-
+-else
+-	echo ERROR unrecognized machine hardware name
+-	exit 1
+-fi
+-
+-# We expect all of the USDT probe PCs to be among the PCs in objdump output.
+-
+-for pc in $usdt_pcs $usdt_pcs_isenabled; do
+-	if echo $pcs | grep -q -vw $pc ; then
+-		echo ERROR: cannot find USDT PC $pc in $pcs
+-		exit 1
+-	fi
+-done
+-
+-# Get the PC for the pid return probe.  (Just keep it in hex.)
+-
+-pc_return=`awk '/'$pid' pid'$pid':main:foo:return/ { print $NF }' dtrace.out`
+-
+-objdump -d main | awk '
+-/^[0-9a-f]* <.*>:$/ { myfunc = $NF }         # enter a new function
+-/^ *'$pc_return'/ { print myfunc; exit(0) }  # report the function $pc_return is in
+-' > return_func.out
+-
+-echo "<main>:" > return_func.out.expected    # since we use uretprobe for pid return probes, the PC will be in the caller
+-
+-if ! diff -q return_func.out return_func.out.expected > /dev/null; then
+-	echo ERROR: return PC looks to be in the wrong function
+-	echo === got ===
+-	cat return_func.out
+-	echo === expected ===
+-	cat return_func.out.expected
+-	exit 1
+-fi
+-
+-# Build up a list of expected dtrace output:
+-# - a blank line
+-# - pid entry
+-# - pid return
+-# - pid offset
+-# - two USDT probes (ignore is-enabled probes)
+-
+-echo > dtrace.out.expected
+-printf "$pid pid$pid:main:foo:entry %x\n" $pc0 >> dtrace.out.expected
+-echo   "$pid pid$pid:main:foo:return $pc_return" >> dtrace.out.expected
+-for pc in $pcs; do
+-	printf "$pid pid$pid:main:foo:%x %x\n" $(($pc - $pc0)) $pc >> dtrace.out.expected
+-done
+-echo $usdt_pcs | awk '{printf("'$pid' pyramid'$pid':main:foo:entry %x\n", $1);}' >> dtrace.out.expected
+-echo $usdt_pcs | awk '{printf("'$pid' pyramid'$pid':main:foo:entry %x\n", $2);}' >> dtrace.out.expected
+-
+-# Sort and check.
+-
+-sort dtrace.out          > dtrace.out.sorted
+-sort dtrace.out.expected > dtrace.out.expected.sorted
+-
+-if ! diff -q dtrace.out.sorted dtrace.out.expected.sorted ; then
+-	echo ERROR: dtrace output looks wrong
+-	echo === got ===
+-	cat dtrace.out.sorted
+-	echo === expected ===
+-	cat dtrace.out.expected.sorted
+-	echo === diff ===
+-	diff dtrace.out.sorted dtrace.out.expected.sorted
+-	exit 1
+-fi
+-
+-echo success
+-exit 0
++exec $(dirname $_test)/pidprobes.sh $1 "" ""
 -- 
 2.46.0.278.g36e3a12567
 
