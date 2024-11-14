@@ -1,86 +1,88 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1E416EB4C
-	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 19:53:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD23BE4E
+	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 20:38:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731614029; cv=fail; b=NtjwTdHH2/L5ZdUwllPEjeTm1k6+iKzitoizNZ0n11of3zQdyrx0LhhQWo+k5ymrX4ADGMcUTUa979JjEbmTI8F838YgK/ohyYesVJPaOOLjZKj7YZQm+PTRmIu/MeuodRUmbS02fb14Bqo7nNcKvVlMxtiYpdBz8X9IvyMyI8w=
+	t=1731616728; cv=fail; b=OEVOXUAhPFzAbSfT+/f3TT/WRNg3NmLIdw+H9CtiD8ZYBCkAv++DkUUwA+vbsSiMqQ3k/EkPxoZ83rs+nubKLsrOc6zMobffRTlzymD9jyXtXuf128ZhayIA740jKwOeEsb+5GLyd9duA71AT3KDy6qUlcI4bZXglAQh0HB6hbw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731614029; c=relaxed/simple;
-	bh=cptDs4o/8bJKjSg27jcYigwMmQZUpKLyFcN13JRZHgc=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=bRQmkF/JFa/8yHMI2sVu4zL+YhcmihJ5iNiKNev5u9E0p/H0hIdkypnxT/BItUluupT79UASMvGA0OMC/cM0ug2qCv8Djqel7mz1AesGScWsAzxWNVG8veSYNjodWwVPP3e2fYmj6xfdgouFeVrKk1+xKJytQJnIouKhwl4MDa8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=XUYFedEC; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=OvBry89p; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1731616728; c=relaxed/simple;
+	bh=ou5xGkh9IrsuYAQ/gUY5dntGm93tKHofMPKXRJV0e8c=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	 Content-Type:MIME-Version; b=CXGggCyZ8T2OT42f+zsLQ12uXyE5v5/7+F7v18aQHLzJmg10v5PA3UdUVreIgvLJ6ALLoUXIARKvqO508DV6JihzJIPOjW52rpS02T4zjGk7lB63O/kcXl7w7ByR89rb5si8D34qYF3v0Ox8kvlCz0VDWtIRUaj7uCagqps6J60=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=KT1x0j+y; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=nXzYRsHr; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XUYFedEC";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="OvBry89p"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="KT1x0j+y";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="nXzYRsHr"
 Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AEJfgwH008105
-	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 19:53:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AEJfgNC008084
+	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 20:38:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=TfYa706O2yCzSb7jpumGq9P05Z/7NV84A1gCWHrMoBs=; b=
-	XUYFedECTySupNwWED3DpaG1tbQNBXGAwrWjc8opusizjnwSnqoiZ+LVFUDfW9NR
-	4yDYP+G4+rGx265lR7cDQJQ0rYLNFVtkxIZV+3DkAOJsUdibylofyd97Mb2PTRXL
-	2D3HnED7R1u9FsgMIgQ/Dw3YIxSRLm4CdkrtnbU1Diy2Ijs2gGiALe89V1rUI5H7
-	IS704v6L87OQpDzoMF+R4JdOzM69rgTO6DNANpzQh71X3KpR8B1LJzz5N3PuJY5z
-	Y80f3RLbhA7jEz+BpRXrAz5wFPww6SltM83wm5qyOPir/SSsdE3DWKPrOzgeLBVU
-	AZvsA7cSK4cdKfPpgC4B/w==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42t0kc261f-1
+	corp-2023-11-20; bh=HmGPUhw5SDZZQlHOaqjqFGv5uAtAvpMipkdNnRlF3ac=; b=
+	KT1x0j+ysIC5mrH/bYzbrBlJ0//urL18si7VvTvTQiTG4QKOIaVZtt9brH+w8ZXQ
+	Qf/OScC1Swm2eHIWyfhyL+Hnow8Zy3xcqDVGXqCuOK9tSXHdcytBDPP4uqSOm7Wr
+	dKDFom57ZvIESD1qxCoreCSRvR3yeUkmVx5nzShpEucJ1v+z4MvyFEu3EjcHv+h4
+	qsMEGNvUwvvGIHkzOI9+xCNFuY3isCVrp1JT5XXI1ciT59L+AAhnilIJBSB1S0cU
+	KJSD5yZW7Fquwm32T0eoV/IKpE1Ypfqy7gtf5WLr7wr8vyh/Die8BBmXsgJNr2SA
+	15QrHF70+EtTJkzIn1oxXw==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42t0kc28f7-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 19:53:46 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4AEI9VJ0000430
-	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 19:53:45 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2046.outbound.protection.outlook.com [104.47.55.46])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 42tbpapet2-2
+	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 20:38:46 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4AEKEiWX036059
+	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 20:38:45 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2173.outbound.protection.outlook.com [104.47.56.173])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42sx6bb91n-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 19:53:44 +0000
+	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 20:38:45 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LEBOplW9LuUWd/zVNHqKfzx1Iwrl+ZXQg/YbZ6T6YPkt7noHgQDYYbrLPe8cnlAITwa+gZJCn6jFIEsjMbZ0g/9iv6lFzjwtueM0eQQ/IxpfPFd1Cgf7WLN5jm1wdzPbZkUkA31L0wgLmzh4eRYj1BBRI2JwLsJRBP1mnbarJhYVJnO5UL//+sO6CwdgWebn3cmLnosVcRvVBjEypOk9EWdxWRlpmLowhFhm54peI+UVQtxqYijI+t0hg4F94q3FP7B503ZDcsFx1SW0FSuyPeAVvc3ODmQTwhXJ6NaHGPSW0uqGYX3kaJ+bToCuQubtJcPMGnqwKpcJM4h9egA4Jg==
+ b=JLFYcAWWW415EgUCWB+mC6tjHCCCmMV0BFkrLqvy0IHbrWBgmoZw0rFk6vwtFFJkYfPMOMgWTqkB/sSeHH/1rKhHcScL/+duiG2HDvhQ2hiIX8FRf0qr8rWYt6E6ReCgPhyJxtE/RGH0bUN7HAVCW1WSz5ZZb9ulehUAwk/osj3hoFtMWmUqNQRUmiet1fAjIywuEkARG4BjkaB/dIBoKFkyxsGnQjo2BbgJs79PMGseMeS+syshtFFsv7NlFlXT3EZ6UkFLBzQCyHCkTq0PtQcIy7CYttMsoq1oaJkxapoA8lurRVsgFoand1SZfop1uawc5pBzKHNj1kl4rdSB9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TfYa706O2yCzSb7jpumGq9P05Z/7NV84A1gCWHrMoBs=;
- b=ZAuhurr//QaTHtI7q/NCDZbm6p6alisbM6m8/k4efqPQ58nPOc/F6MII7+33iAYxbaIaAkff46gnfta3Dzs0D+J71wH1S2hUGqKcDvtABJcHp8sGCye4SOF6Xd8989wgTdZ8hdmQQmr6Et3nk71qa+LXGBZ7BcKjDiOmSmmx0eK9KrXuD1I0QlPnJHRTcy39rNTdH3zyBIoMAFq5GbKdO80jVCpDAVzaK2NZLe3IRVpJ30V7pdISQgkkajeG7QuU4t8Oy+/jZ+ROxYTKl6XgULfqa2fMbE2lMxcyqkr6RbZjk8sDd5hablkXcUw5LvQMcE93FjXq/7Ac/1AaVTsnvw==
+ bh=HmGPUhw5SDZZQlHOaqjqFGv5uAtAvpMipkdNnRlF3ac=;
+ b=wDhfW5nN7ffPp2Y3XFLdRCd+4GgZooe8bDKzNmei9mzbQcjrwqLUXwm5swEjxCDPwt0xmWBQ41kk8PN9C+aei+iTbMZzU0czQfAE//Ab/AbZ1FFsU0Li3VpELvVyZHo1Ox+9zcQJoLUH31eN+SRraKy/6Y0QpuyvDof/y9FY2LVoPXLZ/AczB6UrdSzIj5dZ0KXhQ2Wccph9D8JAlprFrnlDtI6rbg4aC22xcedcqKSlX7tdjEDCEbZQh6bUTPBYGjFOc00OGDkuoAm4V25BbcbVd3vufSBabtczAvOL5zRX0lV0AsyFvf239Gzwb8tqJMw2R+EXNv59z3USzYkO7g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TfYa706O2yCzSb7jpumGq9P05Z/7NV84A1gCWHrMoBs=;
- b=OvBry89p/ssnGGgFWgbOLIFqSTdMYfqR36ZS6AxuXTujpyx2dAwmAyCxvc0Mka0r3b8AEAQ0F2xbvJrZYZTtgRAPiqjkGwZyGT6oamAB7ePXp5cS4yliLCIZ6EUVdmEooDSuQ8LZk9xla87pWkvCfcI2ePgJeXI9AqfuuRlHHZE=
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by MW4PR10MB6679.namprd10.prod.outlook.com (2603:10b6:303:227::21) with
+ bh=HmGPUhw5SDZZQlHOaqjqFGv5uAtAvpMipkdNnRlF3ac=;
+ b=nXzYRsHrmA9p/FMkLGNhkbIFxSGLyyhftj1f9aN+oMf/jsnF1V17sMb4TQ/4BvKU7CpjeZAo6LHvXlhNpcZITdwniXTrnWLme6Db6+PK37eSS0Bt8qnV1Tl23maKJHqVD3dZU9nFT6lb62YWHYbX9hjrQwO6v5pWdqbZIhhEu+w=
+Received: from DS7PR10MB5037.namprd10.prod.outlook.com (2603:10b6:5:3a9::23)
+ by PH0PR10MB4566.namprd10.prod.outlook.com (2603:10b6:510:36::23) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.17; Thu, 14 Nov
- 2024 19:53:41 +0000
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::8b24:5536:3259:5a69%3]) with mapi id 15.20.8158.017; Thu, 14 Nov 2024
- 19:53:41 +0000
-Message-ID: <07a4d685-cc8f-d6f6-0d1d-e5933bddeafe@oracle.com>
-Date: Thu, 14 Nov 2024 14:53:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] dtprobed: handle multiple providers in a single piece of
- DOF
-Content-Language: en-US
-To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.19; Thu, 14 Nov
+ 2024 20:38:41 +0000
+Received: from DS7PR10MB5037.namprd10.prod.outlook.com
+ ([fe80::824a:572e:d9d7:e9f1]) by DS7PR10MB5037.namprd10.prod.outlook.com
+ ([fe80::824a:572e:d9d7:e9f1%5]) with mapi id 15.20.8158.017; Thu, 14 Nov 2024
+ 20:38:38 +0000
+From: Nick Alcock <nick.alcock@oracle.com>
+To: Eugene Loh <eugene.loh@oracle.com>
+Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: Re: [PATCH] dtprobed: handle multiple providers in a single piece
+ of DOF
 References: <20241114160352.47939-1-nick.alcock@oracle.com>
-From: Eugene Loh <eugene.loh@oracle.com>
-In-Reply-To: <20241114160352.47939-1-nick.alcock@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0351.namprd03.prod.outlook.com
- (2603:10b6:a03:39c::26) To CO6PR10MB5636.namprd10.prod.outlook.com
- (2603:10b6:303:14b::20)
+	<07a4d685-cc8f-d6f6-0d1d-e5933bddeafe@oracle.com>
+Emacs: because one operating system isn't enough.
+Date: Thu, 14 Nov 2024 20:38:33 +0000
+In-Reply-To: <07a4d685-cc8f-d6f6-0d1d-e5933bddeafe@oracle.com> (Eugene Loh's
+	message of "Thu, 14 Nov 2024 14:53:39 -0500")
+Message-ID: <87frntwnxy.fsf@esperi.org.uk>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.3 (gnu/linux)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: LO2P265CA0041.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:61::29) To DS7PR10MB5037.namprd10.prod.outlook.com
+ (2603:10b6:5:3a9::23)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -88,281 +90,328 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|MW4PR10MB6679:EE_
-X-MS-Office365-Filtering-Correlation-Id: dedb2c3c-6451-4f89-0353-08dd04e60a09
+X-MS-TrafficTypeDiagnostic: DS7PR10MB5037:EE_|PH0PR10MB4566:EE_
+X-MS-Office365-Filtering-Correlation-Id: d817baeb-fceb-4573-bb60-08dd04ec519e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|10070799003|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?R0tnRW1kSEtKWUorbUZCOWVoS0VaU2dBVTh3Si8rS0t1THIxYU1YOTZUNm1Y?=
- =?utf-8?B?SnFHRzQ2K0t3dU1aNHFleE5XcDFjNEFDRnNWdjc2SFhMYjdod2o1TmxvOVRx?=
- =?utf-8?B?Vkc1SmR2VHR0b3B3Y3E5RTJxMHhuRm1QTjRaeEh0N1VLVHkvZkNqdUxZTjFw?=
- =?utf-8?B?TWpMcmdSMWFQMnBRMGhVZ2RVSkgxSDNWaUpVcmpBQzdvYWxKZjBSdWxWYUlW?=
- =?utf-8?B?OFRsd1NaQTJNYzBOdXdjL0tMSDRiaXYwRSs5aHBDbTFqaDBaWnlmREJ3QUVq?=
- =?utf-8?B?VzdWaUtWWUhZaEJ6NU1DNGZrTnJKMDhxOHpLZzFkKzd1Z1duOEZGVnBIeE5t?=
- =?utf-8?B?ajFuSTJXaUkya0ZVSHFQZTQ4TWdnWDErWlU5NG12Mzl2bVdMdGVheGE5c08r?=
- =?utf-8?B?WUNJRHQzcGRUQzc4VWwwUU9lb3o5WUg3WVBxeW1iYysvcmk0V0JOTkJaem5i?=
- =?utf-8?B?MHRncHVZYkhub3p6T0laRjJPaTZBRDRlKzV0T200NmV0MFkwSlVUMjRPS0ls?=
- =?utf-8?B?bjMzaTZNd0ZXeXFBaXRDaE0vMlJ6VUpSNG1PSmhmMzJ6LzMzc2RJNzRCeWJN?=
- =?utf-8?B?ZVliZVhCSHcxeFg4VzkrTnpUa0l0Wm5Kdk1WUGJqVktDUXU0emx4ZWRwOEl5?=
- =?utf-8?B?SGRNUGFBT3FqYnRHV0E1cG84dkRaMmlubWtqUktHTVdsa2N6NmtKRkp0eStZ?=
- =?utf-8?B?RG1tQ2pNelNHWGhUY3VSb1poUHQwSXN6bHkrMFN2OThCSC91Z1hTUnZCbzFi?=
- =?utf-8?B?THN2OG5YS1NHNDlmUEhkOG5mcmhqS3F6d2lhdENGeXdZaHVhaWNJOWxoUE9G?=
- =?utf-8?B?a2w1aTZKZWVhcEQxL1Y3SVNSTnhwb3ZHaGQ4S1VQekkrUHp3Zm5sUWJsUkJP?=
- =?utf-8?B?V05XcXdmcDIwZjNFcnFSUHZKRFVGeEppWkU0RkZyam9RaFhRNXpZd09Mcmdi?=
- =?utf-8?B?V0dOSFFSR0Zoa3lDWDE3NFVhVVd3ZnR6c3FxKy9DTnBXb1V0RTd3TVExYnpv?=
- =?utf-8?B?U3lZdk4va2JGWkR0YVF6eThQNGVpNU54bU5qSnNsMkVQYnVoeTVSMDRveW1r?=
- =?utf-8?B?b2ZrMEp4QnVZSHFzOE14cEkwb0tlbnpFLzAxemw1cU1mamhhREpZZFREdm92?=
- =?utf-8?B?NEE2eEZjWWkydDhIWEVuNDZxY25renhTSTB4cjd5SlNYdFA3ZUlDQkJ1UTR2?=
- =?utf-8?B?U0ZqbWcrZTVJeTgwYkV2akdQNmxnZ1gxLzFpV2dRRGh4aXJuOW82elQ4aXN5?=
- =?utf-8?B?TlNpL1U4V1dkQlJzbDVSZk5FNGRacHIvQ21NOENPeVVUSXhKY2wreER6L1dB?=
- =?utf-8?B?ekhvem9Wd0xXN2ZGQ0xlRlRadHRjL2VrNEhFdUNQaWNBakx4T0lSRzMzbk5q?=
- =?utf-8?B?WFBFdzFRTVdkMVJMaEpEMUhJQ2pibjdUem4wY0p2aEdKU1FLQk1OMkxsV3Nx?=
- =?utf-8?B?QkM0bHJKTURIRXp0VjNWNlhYUEZJVFoyWjB0aGs4SndOZS8raTJ3V2N5OHBl?=
- =?utf-8?B?VVE5YkRWVXhCcVZOa1hiUjRZejQwUXJsM1hlN3dQR2ZEYlJUV2Y5aXpCWWQy?=
- =?utf-8?B?QUdEYWhNczlCT1QxL3cxOWhsSnkwQ1pxeUNRWHR3cG9yNms2a25CYXViWGpO?=
- =?utf-8?B?RGgwUzVPQW90eFlFVitYSmp2WDg1YTByNjA1RkhEMVFzU0daUFU4eW1DT0k0?=
- =?utf-8?B?azd2RzVnSTZYZlBrRTdHVVFxL2NpcUFCZ0tMem1rT3lVOFZuRGlqMXd5SEl5?=
- =?utf-8?Q?9289lJButCmurAZCFzoye6MjmkMRU01Wcr5bDAX?=
+	=?utf-8?B?TUtIeDJFcm04NXBQTWtsSUQxWVZjQmR3RXpkN3AyMnc0WVBmZGN5a05Odk9B?=
+ =?utf-8?B?TjVuaHhheTBDRVE3bEI1ZGF3NnE3cWZ1Q2tCOUNDMmEveHB1QVRlK2pYKzlF?=
+ =?utf-8?B?NmZYZVBRSndrUzAreldabGdrTnNheGRFMVdoWUlEamNpNVJ6NXV4RUo0VkRl?=
+ =?utf-8?B?VUovZVY3djRQZ1QyWFNzNWZCWlZyY2l1R2puR1B0Uyt1emdRM0taRy9xdGxV?=
+ =?utf-8?B?OGZFaXNVSmxmK2Z2TnJ6cnl6Wnp0YktHSlR4WmU1SGlEN2hkbW1kVUNjNVJS?=
+ =?utf-8?B?clFWOHk3cXJBWlptTFo5d0xNV0lKVDhSVDJNMldGcGNVanRFbDQwSG1hNGNv?=
+ =?utf-8?B?MDRSS1V2TlYxNmViaVI5V1BzODhvOFN6S0VUdXpXNkw4aW1vcHdvZWxpYlhu?=
+ =?utf-8?B?cldjWjdVNEl3UThUSUR6MG1RQWxXeVB4OTRDOU5hbk1sSDJkRnJWaVlwang1?=
+ =?utf-8?B?TGMyckpZbUF6MFZVU1BvK1d5VVlKYWE2Q0tnR2hxN2ltdndMTzZvNGtjS241?=
+ =?utf-8?B?RzYvWlRYUisvczRGaElBeE1DZjlrZGRSSWNGV2Zmc05kWGRrVXREQUxhcjk1?=
+ =?utf-8?B?TUczeTEzZHZKUWdNeDFNV2xqZmtNMUYrM2x6d3AzT0hsRndvZmlsZXhwSTJG?=
+ =?utf-8?B?c3YzTUZwaWozQmN0WEpuNHlrMUkrZjBhMVFjejVtZXltaTZKUGlBTTJaU29s?=
+ =?utf-8?B?R1VsMDZ1ckRUby8rb0NTa2tpaXZOMEo0dWpPaVdFRDQ4OUpxWFJicDNOU2J0?=
+ =?utf-8?B?aEIxbGdQWUdDVHdTeFZvbzl1RElBdklYQUo4N2c4b2x4b2ZlcWNGck5OMTBw?=
+ =?utf-8?B?R28xbGFaa0lTWldKVnVBQ0Nta1ZPV2JNNFpqbXJSSE4rM1FpRFJydlJwTDZX?=
+ =?utf-8?B?YUtYMVZ4MldHMnVjTXJ3QW5PVUxocldFbG9qQzFtVlplZXpOVHFtUHhma2U1?=
+ =?utf-8?B?NCt0bWFkQUQrREIrVS9KVlUwLzhEd2FmVVVjNVBGYjRURlh3NnY5TXErWlB6?=
+ =?utf-8?B?ZUNiOUN2RTJSUzhPeVhYZEtRUGRqWjRTalJodUdudlBGdlpGTFpwbVJlOVNp?=
+ =?utf-8?B?dFMvQUpNTUIzZ25tTjZaLytuZEdxb0dXRW5ZVWdCR3c0bHVhQWEwMW1rRnZl?=
+ =?utf-8?B?UFlJazNsM2ZmSVlubHZEeitzMDFPeDRzNDlUSWUrVUhpUXBPRDJMeUFSUEFz?=
+ =?utf-8?B?cUFDdXlmUnBKS0ZmRUhGY3BFdWRpT2RGQThJUllZT212eWdBUk55eEt1ajl4?=
+ =?utf-8?B?OXYwYUJpSzZvMFFtNDlwK2JSR3RWdlpSZDc1ckJOKzBiWDJ3bjZaendMY1dQ?=
+ =?utf-8?B?dnRZRFBrU1kzSTdEeWp2dkhKaWY1QmJhaHlUUSs4VWYwbjhGbUpzUEpLMnFN?=
+ =?utf-8?B?MUxBSk9ETlgrakc1UVFsZFhndVM3YlIyZEROelhEZjRxNWVCRURCZDV6Sndm?=
+ =?utf-8?B?MjY0TFNITWk5U3lWUFpNUENpMVM2c3RQd3RWczZuZ3Q2STZrWUVIa3pNNkVI?=
+ =?utf-8?B?a1hEY2M2Z1hydWhiUWE4VDhmelR6Vm1ya1VtK3VkOVY0UVhra01ydGxpTlJG?=
+ =?utf-8?B?NmRWT242TjZKcGpFc29uejFrd05GS05Sb1FLcUp0K0IxVFJ6VnE5ek1TVGhL?=
+ =?utf-8?B?UHFIQ2ZhckluQjk4bWhWZVl5UnR3VW1ZZThiMVYyTlArR3RIYWJlWlZhRXdW?=
+ =?utf-8?B?THYxYUcrZmRiWU9wSUV4RXVLRGJuMzRmY1VWcUZ1ZUVIMkNVWjhac3Y3Mm5H?=
+ =?utf-8?Q?r15bVBsof7Z2KFv2Jl3Ot5WGLbFwKmCrk5IGI1I?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR10MB5037.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(10070799003)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SklWTCtneWdzaFFiTDR5bExGNVpmR2ZGSGt4Q0xLTlNSZ3hJYWlrN3BnUGhw?=
- =?utf-8?B?Z3dkdU1MMDM1eWxXQ3h1RytMNm1UUDU2UDByNU9wSC9CMTVyaVVuQTJDNjUv?=
- =?utf-8?B?akJTUlZNQ2dRdlpJSkZLdmZCdExNb21vV3V4RGJUZHVuS0ZiWkZwazZjT2wv?=
- =?utf-8?B?UUFHdTZpL3FZMEZTQ0FnZmdaNXlNeGVjT0tTS2c5V2xIRG1CVFRTYXBQUW9U?=
- =?utf-8?B?Mi81cTh1b3V1R1hCOGNrMHlSdnRLNjM4K2RsVkcwaTc0UW5vTWFTRlZab2hk?=
- =?utf-8?B?SUxITHJvSk1iVUZnTlZqSWM3ekNxWVgzeEozdklPMTJqWmVHckhSVkFjWlBO?=
- =?utf-8?B?c0VUMDA5TnpJaWdZRHdsM1daaVd0SFgxSGU0RmtsTEw2MVkyUW4vbVU3R0xF?=
- =?utf-8?B?eWF0Qzc1K2p5YmR2ck51TGdtUFJPNnlNNEJDNzZRVWwzdmRRWmo2K2VGa1hp?=
- =?utf-8?B?TzUxaDVEazhZWXAramRSend2UFJhbEZscGk5SUlLRHlqVjB4VmV6RXNNaVoz?=
- =?utf-8?B?WFE0NkNlc3pmMTMvVUs5ektCTUg2R1ZZUHBjcnRlTWkyOFFDWWlncTVDdktN?=
- =?utf-8?B?WW14Y1U3d0czTG5RTDB5aU5HK2RZb2M1Y3EvdHluR01mT2VEWGU3Ym1ONmli?=
- =?utf-8?B?QjgwMDk3WituekI4TytXZlhSa1BkRnZWVEdGZ3pXM3YvMWhpeEIwOXBYK0tC?=
- =?utf-8?B?cnZzeUpNL3UweWE0SXR2UHlzUkN2UVR3K2dSSi9CY3c1a2NKa2lNc1NWVnNS?=
- =?utf-8?B?QWNaYk5KdzhSMnRwcEY5MUNWQVY0bHNGM3ZiSGdGR253T3J6OGlZemdEL3VM?=
- =?utf-8?B?QVZmNHlESFhJSFU1UG9Qcm9iakl2RkRrVUUzaUFTQ1cvT0lrMG1mZWJNQkZD?=
- =?utf-8?B?NWxIbXdVc054YVZPMGhza3VyTEIzY05DTXcrSzVIa3FwbjVCdFA5Uk0xMFZl?=
- =?utf-8?B?Ukp0bkUrNDhsM054YWRzd3VOM083M3E4T2FhdGJRZUNhTGpJMFpSeTNxWTVk?=
- =?utf-8?B?MUQ3c2xVRkpQRkprckR0V3JIWG5WaldvTllleGc1NUc3aGVqTk56dk1TQkdx?=
- =?utf-8?B?R1l2cjQ4WlRpMldaOWYreE1kZml2RHF0ZFc3Y0NEaXdYeElUSlE0QzVHL3E2?=
- =?utf-8?B?T2h5S05GRkxNbVptUnFsclpieFpjUEplcGp6dTBRcDcxS09TWWEzOUVhcUNZ?=
- =?utf-8?B?QUc5SzA4RmpUNU1QOE8wSkNBS2JwUUQyOVlxRGczY1l5WE53WjN1bGlmM0RU?=
- =?utf-8?B?dU5aQktRUm9hSVhqVE0xNVF5UGY0VWF0OWpzMEYzME4rRDZIR2x1anZvaVdx?=
- =?utf-8?B?ZWJUSHlYOEpncUVlUlJVTHd1WW1RUlNDWEFpc1llUUR6Z3FBZUxrZGtUbFFB?=
- =?utf-8?B?Vzkzc0R0aXRoZjh1a3Q5dXNNQ29OMWpiOU5FMnlGKzV1dHJxOFFha3J4QWtE?=
- =?utf-8?B?ckNHY3RZTzEzTHp6QVJlRno0am1lbEM3RDlMZXhKMTEwdFJEVXNBK21QZTN2?=
- =?utf-8?B?eHBwU2ZWQXdtNjFpa083NjExTW54ZHoxbElURjVBdVFWbmJpb1dIL3JNYmZS?=
- =?utf-8?B?ZVV2QU1MN2UwK2dBM2N1MElXS3F4UFluM1JsMmQ5dm96UGs4OHhPV2UzNUE4?=
- =?utf-8?B?K1VvaUNhWjJxVmFNdUdCajNmTUMyd1FCRk1acWRxQ2NBaVZmS1dxVzY5cHlC?=
- =?utf-8?B?Z0xsWHRyazJ1R0l4bC9iSUFRTUNURUFKb2VtYThLalZYOTdoUjJlUHZUMHRE?=
- =?utf-8?B?RG9hRUpMYnNoNmE1Nkl6RTBrV2ZGNkx2VlNsVHB6dElvVmhMYmpPZWFxTzhF?=
- =?utf-8?B?YTI5U2hGZ2FqTFg5TXVZSm5Ua1A2cUdYN3VMb2dmVUt1aU9GS3M0ZU55S3lq?=
- =?utf-8?B?d25SVVltZjhHeTloK1hqazhORVJzakNIazR3bXJVeUt5MklYL0xybGw4NE1u?=
- =?utf-8?B?RnZNTzFsN25LSmFxaDc1S2t2M1hBMEt3SWlPTDdHLzU1amxJeWRZMmQ4ckRH?=
- =?utf-8?B?TEZkcG5aVFdUWE1ra2NvMUk0dWZRdUhOZnJIK0NybFpBcEplS2c2N3NyajB0?=
- =?utf-8?B?U0Rad1h4YWhaY2lWZ05WWWUxaWR3QjNkTXNCUFJiSGh5N0FIYi8xNkpjWGVh?=
- =?utf-8?Q?d4jninjRakVAmIRfdGQnp/9it?=
+	=?utf-8?B?RVI4a0hhSVRFT28vdmRaTStvTGhjdWIyWmtpL09HRVYxQW93UkZGaXZDcXpE?=
+ =?utf-8?B?a29ESHNoc0IzZWZUZU9lNFZWMXAwNFhxajdoekJ2eU90bWJod1Q3R2VyZENs?=
+ =?utf-8?B?VUhhNVpuUGdNbGlNaUJWV1pMTzMrZGtIUUJucWdzK3VRZzcyeWNPRHJjTTh0?=
+ =?utf-8?B?RklIMVNvOXpTbEdDd29yb09CaTR3UU9qcFdKUVRZaDRYRkVoenY0dCtSdktn?=
+ =?utf-8?B?eTh2SHBRYVhoVlQ4TXFzei9vZU1lSGVMWUQ3ZVJ2QnZHb21OMGZpRzdqYVZt?=
+ =?utf-8?B?ZlZ5c0QzQTRHQStWY1RWYlZxcWQ4WVY2bWFyakpZdDExOW1jQWhqWnp1YTZD?=
+ =?utf-8?B?M3lOTDM2SEVwb0FqdkxuU0g5QkRjVFR4em11eHNKS1F5ZG9FZnNQa2Ewclcz?=
+ =?utf-8?B?aThCUHV2VGJ5M3V3OFJPMFcrVGZLS2hDb21zL1pUQmFyN1pnZFlzdFlSdS9y?=
+ =?utf-8?B?OXRQNG9PVXZCNlJjNEMxQTNDeFVXSXU1MkVyV0ZuSTN4TVdSRFJnUS9aa0ZG?=
+ =?utf-8?B?ZEtEbDl4OW9SVDBseHJ6bllSaUk3b0pLRnVVZW9JL01CQTZicm1jZ1pXN3pT?=
+ =?utf-8?B?TVppb1cxeDNNcFpxNERMcVk4cnRJcVcrSUQxZXNkS1l4dkd1MFpMbWVBV1VC?=
+ =?utf-8?B?Zk1GSEl4U2ZSd0F6SnQ0RE15WXBUY3R3NVFvVEpBdTh0MGJ6MjdySVdXUXJS?=
+ =?utf-8?B?ZmRaRldvejNaMUY3K3R6OUNKTWRQQ0tuWUtKelpWT2EraWJPc0xwWDVYMjZw?=
+ =?utf-8?B?U1A5STN3eUQwVjZIeVBoQXVlT0VHR0xVeVlaL0pEcERWaUJVdzdKVHBoeGxD?=
+ =?utf-8?B?YUt0RVVRbms2WDY4clAvWFNjeE1ETkhWRFA0YUtnLzMyMG16M09PbmtZRWND?=
+ =?utf-8?B?RkdMTFhMYTY2OXc2Z3NWaG9FS2ZCZjJYbTBZMUFnbGRYYy83RUFDa2lJTkFB?=
+ =?utf-8?B?NHBWY0FJWWE5QVJNelQrblVRbmlIMWJuZzdFbXJvelROd2dQMWg4L0VmeUta?=
+ =?utf-8?B?WUNUZTVhOFlmQ0xrRnlxbGZOd1FZaVY4Z3pYWGtYaE55V0xVWnllaXBQMUxF?=
+ =?utf-8?B?TXUza3dTelpaUDdwU2VaSUdBMVhGOGt4ajJCbkNoSGdENWFCbU9mb2xNSTA4?=
+ =?utf-8?B?cTBQLzVMSkRXV2ZsY08xbEFraTBYRlNHcTNHZ1p2QndORXIyaFRwTU5ab1p4?=
+ =?utf-8?B?MlZsdlVOZGc1M3RGRTl6SmZWZ3RGTUJJY0hVa3RHK0JSemtKTEdPTUNmTVhD?=
+ =?utf-8?B?ZG05SWY2bkpwblJ3Rk1ZRTNFUStCZDU0cFY5WU11NUNMcWVZeEdVZ0pjNStq?=
+ =?utf-8?B?MkNUclFqV3I2SGNsYnlhaW5sbk9nWitwcDhWakUxWDlRSDJaTk1IMm1NR2Jr?=
+ =?utf-8?B?LzNjWnNGTjVGYTlia1psR3A0SWRHMnFiWlQ0djZwSXpOcS9MankzUG9FZEhK?=
+ =?utf-8?B?VnhyTC9ZZmE2VUc2S2greFVad1RaUCtHRDNuR053dzZpZHRuSnJtbWNNWnh4?=
+ =?utf-8?B?ODF3QVRROVFEQld6TUNSUlk3Mm1ZZTJEZGpZbnZSY1FWVWwydXZpT20zclZL?=
+ =?utf-8?B?c09HTEZsL0hmSGhIMUNTSlNqWW1Ibk4ycG44M2NOQ3RTdFU4NzhZYlpRMnNZ?=
+ =?utf-8?B?Z0xNVElCTHV6U3ZYazZnU3NqUzU3R1MydEJlNkI0WmtBaHMxUlZJL1FyT0Vn?=
+ =?utf-8?B?VjRJU250Z2JMN29LSFBJS3lJdmRySFhJUkU4L29Sb0JQVWtRR1dQcFFIaFdm?=
+ =?utf-8?B?bkcrWnFYV0l1bnp3VWVNVFo1MXdFZUtidC9jeHloMUJBRHVwd2NMdld3WDJ0?=
+ =?utf-8?B?VXMvRDVMVzREam1LbFZzL0lobHU1cFpCOHNVSHZraHFzRFR1UW1IMW5JMkxR?=
+ =?utf-8?B?VktSaTFWNnAyeVdjSjluN1pQZDBjaWk1dENpbHA3TTFUblByZEIxZDNQWlRJ?=
+ =?utf-8?B?Y3FBYm5tNmpPKzR0VWgrcUlJS3B3VDhlZTFsK0d1QVZPc1hta09CTUdmZUkw?=
+ =?utf-8?B?VG9XS09aQmF3d0VrVDlBek9sWENSdHlZZXhRU3hRTlNRZUsyNjdHS0FJdytz?=
+ =?utf-8?B?UDVmTjdWeDdUYlJXMFNQaEw4dzA2NzZqRkI4aEZ0WmplTXRiTHBpWUN6ZEZM?=
+ =?utf-8?B?L3BaL0s5c0tpQWNHeWJKNUwyUk9xVUNkNTJzTytJUUFYVFRoNHZWckpkUlIr?=
+ =?utf-8?B?R0E9PQ==?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	1pgDcbV8kYB6QSExsZh9WDV/TdxfvzbHjYIVQRrzd3i5hEJ3OBfzVik/YVoSxJRe/mwVh114JbV1WG9nIbDmYwvizqV+E+VrzcFzqww+NbbhYsQ7fUr0EelY1ACp5tlMn3gGfDX3N8eM86vPOGxxUGuDxeixkHWIU/F76bdBanw7zUpJhsWhKys+GADbeEUtDrH0p+e6zt+voLSkYHBbFDxLVtUmrqbcqrbDPYDe2pGNHgm2t1QktQ99x/W19NSIXXOwTcv8QMce1KyQ19zKKycW4iS7vsVaXrqUlWWPAE1jiRGdgnIXGOtZ2fDzMhQdj8F83ke7S26OpnFQ1S43XV/hLCrNKN91zbnZHBEwvwIOMJxGC1gynG5jWLVkuFnMwfMd48kHcwLs9yop2aAsxeiMqV/WUYntWsn+vsUnYFpX7R1OSTP3DRKf6/qrQeMPNKIfAFnzAFd21DPiOCRILcVqfU9JRLdJH3pd9vpF4r8riRJVMkzHrVlcbUes8PJMeDLXmQ7hc5G3AWCazRJAPjg3UAE0pKRVCl3QH0kNSG5he9d1qF2UjEbcXk+12rryW9/mX6jpH5ECptrF97mHzZ3gbU8IzJWgD2Hnsv+ZW/Q=
+	GzWY5FGSYrmY5XaWO6kFohJkoTntctAyPLe6GZr7VbINpK3vrmMJHoPL6lj5KJvlq88Vbqryg5XLzHYBa1drOmhs9ouJW+Oyu/fkjBbdGHVuUMI+LXKlSahaycTcCSXXR7zK22SNPQzAoGiqhsim9wCRe2WRt0yesm/r0axE/Fw1SsSg8prFyRFqsLQIE1caXVJlfxQ9QraLUn/WNPXZHkuLvo9RULno8VT4SiXukcw7tWG16Lgk22UNhoHfwBzuO8nYFwCrKLdlbhPYreqfdvqa69W78dtBDYRnIetxN+MZGeId7JBoDBXtg98fonCfg96g3G2W3oCk33zNm21niFkZ3hliz0PcQHj1RZFHFOxqmoLozRWsTFUT68uz+N4ZuoltcJgGc26zQ00VPWvLLDNzfPNCFzowPbQqxHnSbBuA1V8M+647+hehNkFTtLpLcC2qyB93n9AshDI1BoId46WMjsmA2Y6hMfs96rBZ4xlmJTNjKGR6Il0kWMlgYhYd9DryEen8Zy0f520npOrHzafDzcRbyc5uxviddK2noWFBFZvx/EHqqFyqznZhS6dVmztnqpi3K5TJUo2Qx2lBZ+MS+sXAlY9+jjgOn/dLHWI=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dedb2c3c-6451-4f89-0353-08dd04e60a09
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d817baeb-fceb-4573-bb60-08dd04ec519e
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB5037.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2024 19:53:41.5250
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2024 20:38:38.6794
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WYS1Y7XcGKghUfGV/GNxZbbnzmuJT2kmiZBzt8jlhNL2WULyEv5dq4DueABM7aAdrg4IEHtPW2VgOQCxak6nSw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB6679
+X-MS-Exchange-CrossTenant-UserPrincipalName: FRIAGBEBL/W2kaW8musgYDA5Y7dTl3AELN+dP9lkb06sSMaW+JToN2Kx240/59kfCZDS3vV16sxpnJdSjYJvEQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4566
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-11-14_05,2024-11-13_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 malwarescore=0
- mlxlogscore=999 spamscore=0 phishscore=0 adultscore=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0 mlxscore=0
+ bulkscore=0 suspectscore=0 phishscore=0 mlxlogscore=999 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
- definitions=main-2411140155
-X-Proofpoint-GUID: u3o4_LawtybNrcVygNy7FAJup4ShtFBb
-X-Proofpoint-ORIG-GUID: u3o4_LawtybNrcVygNy7FAJup4ShtFBb
+ definitions=main-2411140162
+X-Proofpoint-GUID: 49i9ga5zo27n5KtcZZJXEHvACQayMXEj
+X-Proofpoint-ORIG-GUID: 49i9ga5zo27n5KtcZZJXEHvACQayMXEj
 
-I'm not familiar with this code, but here is some amateur feedback...
+On 14 Nov 2024, Eugene Loh told this:
 
-On 11/14/24 11:03, Nick Alcock wrote:
-> A given ELF object can of course contain as many providers as you like.  The
-> DOF stash format, DOF stash management code and DTrace itself are all set up
-> fine to handle DOF with multiple providers in: but, alas, the code that
-> reads the DOF from the parser child in response to an ioctl() assumes that
-> one provider is all it will ever see.
+> I'm not familiar with this code, but here is some amateur feedback...
+
+:)
+
+> On 11/14/24 11:03, Nick Alcock wrote:
+>> diff --git a/libcommon/dof_parser.h b/libcommon/dof_parser.h
+>> @@ -24,6 +24,7 @@
+>>    *     DIT_ARGS_XLAT (1, optional)
+>>    *     DIT_ARGS_MAP (1, optional)
+>>    *     DIT_TRACEPOINT (any number >=3D 1)
+>> + * DIT_EOF (no more providers, last record)
+>>    *
+>>    * The dof_parsed.provider.flags word indicates the presence of the
+>>    * various optional args records in the following stream (you can rely=
+ on
 >
-> This is not ideal, but rejigging it introduces an interesting problem: when
-> do you *stop* reading providers from the parser stream?  Right now,
-> dof_parser.c loops over all of its providers and emits them until all are
-> done, then just stops: there is no indication of how many providers there
-> are or that this is the last provider or anything (though if there are none,
-> it does try to send an empty provider to avoid the caller blocking waiting
-> for a reply that will never come).
+> The new line has indentation inconsistent with the pre-existing lines.
+
+Intentional. The full context might make this clearer:
+
+ * DIT_PROVIDER (at least 1, which contains...)
+ *   DIT_PROBE (at least 1, each of which has...)
+ *     DIT_ARGS_NATIVE (1, optional)
+ *     DIT_ARGS_XLAT (1, optional)
+ *     DIT_ARGS_MAP (1, optional)
+ *     DIT_TRACEPOINT (any number >=3D 1)
+ * DIT_EOF (no more providers, last record)
+
+i.e. this is showing that "this is at the level of the DIT_PROVIDER
+(after all DIT_PROVIDERs) through indentation. It is *not* at the level
+of the DIT_TRACEPOINT.
+
+>> diff --git a/test/triggers/Build b/test/triggers/Build
+>> @@ -13,7 +13,8 @@ EXTERNAL_64BIT_TRIGGERS =3D testprobe readwholedir mma=
+p bogus-ioctl open delaydie
+>>       ustack-tst-spin ustack-tst-mtspin \
+>>       visible-constructor visible-constructor-static visible-constructor=
+-static-unstripped
+>>   -EXTERNAL_64BIT_SDT_TRIGGERS =3D usdt-tst-argmap usdt-tst-args usdt-ts=
+t-forker usdt-tst-defer usdt-tst-special
+>> +EXTERNAL_64BIT_SDT_TRIGGERS =3D usdt-tst-argmap usdt-tst-args usdt-tst-=
+forker usdt-tst-defer \
+>> +    usdt-tst-multiprovider usdt-tst-special
+>>   EXTERNAL_64BIT_TRIGGERS +=3D $(EXTERNAL_64BIT_SDT_TRIGGERS)
+>>     EXTERNAL_32BIT_TRIGGERS :=3D visible-constructor-32
 >
-> It's a bit annoying to try to figure out how many providers there are in
-> advance, so instead of that, take a route that's easier both to emit and
-> parse, drop the empty provider stuff, and simply add a DIT_EOF record which
-> indicates "no more providers expected", which is always sent last.  (We
-> stuff this in before DIT_ARGS_* in the enum because it makes more conceptual
-> sense right after DIT_ERR, and DIT_ARGS_* hasn't released anywhere yet.)
+> Okay.=C2=A0 Introducing a new test/triggers that is used by only one test=
+ is... well, I guess it's a judgment call.
+
+It makes the test way simpler :) and if we do add another test that
+actually fires these probes, it won't be used by only one test.
+
+>> diff --git a/test/triggers/usdt-tst-multiprovider-prov.d b/test/triggers=
+/usdt-tst-multiprovider-prov.d
+>> new file mode 100644
+>> @@ -0,0 +1,12 @@
+>> +/*
+>> + * Oracle Linux DTrace.
+>> + * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserve=
+d.
+>> + * Licensed under the Universal Permissive License v 1.0 as shown at
+>> + * http://oss.oracle.com/licenses/upl.
+>> + */
+>> +
+>> +/* @@skip: provider declaration - not a test */
 >
-> With that in place it's a simple matter to loop adding parsed DOF to the
+> I don't think the @@skip is needed for something inside test/triggers.
 
-I'm not sure what this is saying, but how about adding a comma right 
-after "loop"?
+I copied it from other things in test/triggers just in case. You're
+probably right. I'll submit another patch dropping it from everything in
+test/triggers.
 
-> stash's accumulator until we hit an EOF record.  Memory management is
-> complicated a little, because a single parsed buffer (reply from dof_parser)
-> is now owned by multiple accumulator records in the stash: but every one of
-> those is terminated by a DIT_EOF, which appears nowhere else, so we can just
-> not free a parsed buffer unless it's of type DIT_EOF.
+(I think it originally appeared in usdt-tst-forker-prov.d, and
+replicated from there.)
+
+>> +
+>> +provider prova { probe entrya(); };
+>> +provider provb { probe entryb(); };
+>> +provider provc { probe entryc(); };
 >
-> Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
+> We should stress test more:
+> *) =C2=A0 multiple probes per provider
+
+See v2 of this series! this had... er... fallout.
+
+> *) =C2=A0 some probes with same and different names as in other providers
+> *) =C2=A0 probe args (including probes in different providers handling ar=
+gs differently)
+
+I don't really see how this could possibly go wrong -- nothing after the
+mid-parser stage can possibly have cross-provider interference as far as
+I can see, and that stage doesn't know or care about any of this stuff.
+
+But ICBW...
+
+>> diff --git a/test/triggers/usdt-tst-multiprovider.c b/test/triggers/usdt=
+-tst-multiprovider.c
+>> new file mode 100644
+>> index 0000000000000..430c0cdd2cf4d
+>> --- /dev/null
+>> +++ b/test/triggers/usdt-tst-multiprovider.c
+>> @@ -0,0 +1,22 @@
+>> +/*
+>> + * Oracle Linux DTrace.
+>> + * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserve=
+d.
+>> + * Licensed under the Universal Permissive License v 1.0 as shown at
+>> + * http://oss.oracle.com/licenses/upl.
+>> + */
+>> +
+>> +/*
+>> + * A trigger with multiple providers in it.
+>> + */
+>> +#include <stdio.h>
 >
-> diff --git a/libcommon/dof_parser.h b/libcommon/dof_parser.h
-> @@ -24,6 +24,7 @@
->    *     DIT_ARGS_XLAT (1, optional)
->    *     DIT_ARGS_MAP (1, optional)
->    *     DIT_TRACEPOINT (any number >= 1)
-> + * DIT_EOF (no more providers, last record)
->    *
->    * The dof_parsed.provider.flags word indicates the presence of the
->    * various optional args records in the following stream (you can rely on
+> stdio.h not needed
 
-The new line has indentation inconsistent with the pre-existing lines.
+Agreed.
 
-> diff --git a/test/triggers/Build b/test/triggers/Build
-> @@ -13,7 +13,8 @@ EXTERNAL_64BIT_TRIGGERS = testprobe readwholedir mmap bogus-ioctl open delaydie
->       ustack-tst-spin ustack-tst-mtspin \
->       visible-constructor visible-constructor-static visible-constructor-static-unstripped
->   
-> -EXTERNAL_64BIT_SDT_TRIGGERS = usdt-tst-argmap usdt-tst-args usdt-tst-forker usdt-tst-defer usdt-tst-special
-> +EXTERNAL_64BIT_SDT_TRIGGERS = usdt-tst-argmap usdt-tst-args usdt-tst-forker usdt-tst-defer \
-> +    usdt-tst-multiprovider usdt-tst-special
->   EXTERNAL_64BIT_TRIGGERS += $(EXTERNAL_64BIT_SDT_TRIGGERS)
->   
->   EXTERNAL_32BIT_TRIGGERS := visible-constructor-32
+>> +#include <unistd.h>
+>
+> only needed for usleep()
 
-Okay.  Introducing a new test/triggers that is used by only one test 
-is... well, I guess it's a judgment call.
+... ack.
 
-> diff --git a/test/triggers/usdt-tst-multiprovider-prov.d b/test/triggers/usdt-tst-multiprovider-prov.d
-> new file mode 100644
-> @@ -0,0 +1,12 @@
-> +/*
-> + * Oracle Linux DTrace.
-> + * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-> + * Licensed under the Universal Permissive License v 1.0 as shown at
-> + * http://oss.oracle.com/licenses/upl.
-> + */
-> +
-> +/* @@skip: provider declaration - not a test */
+>> +#include "usdt-tst-multiprovider-prov.h"
+>> +
+>> +int main(int argc, char **argv)
+>> +{
+>> +	PROVA_ENTRYA();
+>> +	PROVB_ENTRYB();
+>> +	PROVC_ENTRYC();
+>> +	usleep(5 * 1000 * 1000);
+>
+> usleep not needed and just taking up test time.=C2=A0 It was originally i=
+n some tests that were checking /run/dtrace "manually".
 
-I don't think the @@skip is needed for something inside test/triggers.
+Ahhh. Dropped.
 
-> +
-> +provider prova { probe entrya(); };
-> +provider provb { probe entryb(); };
-> +provider provc { probe entryc(); };
+>> +	return 0;
+>> +}
+>> diff --git a/test/unittest/usdt/tst.multiprovider.r b/test/unittest/usdt=
+/tst.multiprovider.r
+>> new file mode 100644
+>> index 0000000000000..b83f559a7e7ff
+>> --- /dev/null
+>> +++ b/test/unittest/usdt/tst.multiprovider.r
+>> @@ -0,0 +1,3 @@
+>> +ID provaPID usdt-tst-multiprovider main entrya
+>> +ID provbPID usdt-tst-multiprovider main entryb
+>> +ID provcPID usdt-tst-multiprovider main entryc
+>> diff --git a/test/unittest/usdt/tst.multiprovider.r.p b/test/unittest/us=
+dt/tst.multiprovider.r.p
+>> new file mode 100755
+>> index 0000000000000..ae8493e3d5be4
+>> --- /dev/null
+>> +++ b/test/unittest/usdt/tst.multiprovider.r.p
+>> @@ -0,0 +1,2 @@
+>> +#!/bin/sh
+>> +grep -v '^ *ID' | sed 's,^[0-9]*,ID,; s,prov\(.\)[0-9]*,prov\1PID,; s, =
+ *, ,g'
+>
+> Okay, though the "grep -v" would be clearer to me if it checked=C2=A0 '^ =
+*ID *PROVIDER *MODULE *FUNCTION *NAME$'.
 
-We should stress test more:
-*)   multiple probes per provider
-*)   some probes with same and different names as in other providers
-*)   probe args (including probes in different providers handling args 
-differently)
+Why? We're not dependent on the format of the header, we just want to
+get rid of it. Having the test fail because the header we don't care
+about changed layout seems wrong.
 
+I might just drop the first line with tail -n +1...
 
-> diff --git a/test/triggers/usdt-tst-multiprovider.c b/test/triggers/usdt-tst-multiprovider.c
-> new file mode 100644
-> index 0000000000000..430c0cdd2cf4d
-> --- /dev/null
-> +++ b/test/triggers/usdt-tst-multiprovider.c
-> @@ -0,0 +1,22 @@
-> +/*
-> + * Oracle Linux DTrace.
-> + * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-> + * Licensed under the Universal Permissive License v 1.0 as shown at
-> + * http://oss.oracle.com/licenses/upl.
-> + */
-> +
-> +/*
-> + * A trigger with multiple providers in it.
-> + */
-> +#include <stdio.h>
+> This whole thing would be clearer to me as a single awk, but maybe that's=
+ just me.
 
-stdio.h not needed
+How? Piles of gmatches?
 
-> +#include <unistd.h>
+> Comments might be nice.=C2=A0 I'm not sure how comfortably people read re=
+gex...=C2=A0 I need to concentrate hard to figure it out.
 
-only needed for usleep()
+Honestly this is just doing some "replace changing numbers" stuff like a
+hundred other .p's in the testsuite. Looking at the .r makes it obvious
+what it's up to.
 
-> +#include "usdt-tst-multiprovider-prov.h"
-> +
-> +int main(int argc, char **argv)
-> +{
-> +	PROVA_ENTRYA();
-> +	PROVB_ENTRYB();
-> +	PROVC_ENTRYC();
-> +	usleep(5 * 1000 * 1000);
+>> diff --git a/test/unittest/usdt/tst.multiprovider.sh b/test/unittest/usd=
+t/tst.multiprovider.sh
+>> new file mode 100755
+>> index 0000000000000..d5b72c2be77ec
+>> --- /dev/null
+>> +++ b/test/unittest/usdt/tst.multiprovider.sh
+>> @@ -0,0 +1,15 @@
+>> +#!/bin/bash
+>> +#
+>> +# Oracle Linux DTrace.
+>> +# Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved=
+.
+>> +# Licensed under the Universal Permissive License v 1.0 as shown at
+>> +# http://oss.oracle.com/licenses/upl.
+>> +#
+>> +if [ $# !=3D 1 ]; then
+>> +	echo expected one argument: '<'dtrace-path'>'
+>> +	exit 2
+>> +fi
+>> +
+>> +dtrace=3D$1
+>> +
+>> +exec $dtrace $dt_flags -l -P 'prov*' -c `pwd`/test/triggers/usdt-tst-mu=
+ltiprovider
+>
+> Okay, but there should also be a test that actually fires probes.
 
-usleep not needed and just taking up test time.  It was originally in 
-some tests that were checking /run/dtrace "manually".
+... why? What we care about is that DTrace can see the probes properly
+(since we already know from other tests that once it can do that,
+everything else works), and -l is an easy way to verify that (and in
+general exercise the entire pathway up to USDT probe discovery in dtrace
+itself) without having to get tangled up in even *more* possible bugs
+around probe firing. I hit enough bugs in the parser writing this as it
+was...
 
-> +	return 0;
-> +}
-> diff --git a/test/unittest/usdt/tst.multiprovider.r b/test/unittest/usdt/tst.multiprovider.r
-> new file mode 100644
-> index 0000000000000..b83f559a7e7ff
-> --- /dev/null
-> +++ b/test/unittest/usdt/tst.multiprovider.r
-> @@ -0,0 +1,3 @@
-> +ID provaPID usdt-tst-multiprovider main entrya
-> +ID provbPID usdt-tst-multiprovider main entryb
-> +ID provcPID usdt-tst-multiprovider main entryc
-> diff --git a/test/unittest/usdt/tst.multiprovider.r.p b/test/unittest/usdt/tst.multiprovider.r.p
-> new file mode 100755
-> index 0000000000000..ae8493e3d5be4
-> --- /dev/null
-> +++ b/test/unittest/usdt/tst.multiprovider.r.p
-> @@ -0,0 +1,2 @@
-> +#!/bin/sh
-> +grep -v '^ *ID' | sed 's,^[0-9]*,ID,; s,prov\(.\)[0-9]*,prov\1PID,; s,  *, ,g'
+I mean I can write one but I don't see what it's going to tell us.
 
-Okay, though the "grep -v" would be clearer to me if it checked  '^ *ID 
-*PROVIDER *MODULE *FUNCTION *NAME$'.
-
-This whole thing would be clearer to me as a single awk, but maybe 
-that's just me.
-
-Comments might be nice.  I'm not sure how comfortably people read 
-regex...  I need to concentrate hard to figure it out.
-
-> diff --git a/test/unittest/usdt/tst.multiprovider.sh b/test/unittest/usdt/tst.multiprovider.sh
-> new file mode 100755
-> index 0000000000000..d5b72c2be77ec
-> --- /dev/null
-> +++ b/test/unittest/usdt/tst.multiprovider.sh
-> @@ -0,0 +1,15 @@
-> +#!/bin/bash
-> +#
-> +# Oracle Linux DTrace.
-> +# Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-> +# Licensed under the Universal Permissive License v 1.0 as shown at
-> +# http://oss.oracle.com/licenses/upl.
-> +#
-> +if [ $# != 1 ]; then
-> +	echo expected one argument: '<'dtrace-path'>'
-> +	exit 2
-> +fi
-> +
-> +dtrace=$1
-> +
-> +exec $dtrace $dt_flags -l -P 'prov*' -c `pwd`/test/triggers/usdt-tst-multiprovider
-
-Okay, but there should also be a test that actually fires probes.
+--=20
+NULL && (void)
