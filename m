@@ -1,79 +1,83 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA07116ABC6
-	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 22:01:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E971AC427
+	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 22:01:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731621694; cv=fail; b=l2BiqZOkf508gyUPcS26DZPz9CkygRAYyanyhjx+vFoxatahYLhlrgTk1zU3igKHjgkJ2PnGUN7GSic5OIgH4umtAo4s+jWKd7/+XuTgoL3Q8b0KZHCVOc/5roHwsxGRI9DId3wMPj9MzX3lUez4FXIxfp+vCPtMXrJY8AiY3TY=
+	t=1731621696; cv=fail; b=VvAogCQGILDfoPtLrUzx7JnQhg3u9QxFELGOgKmv3jdVjIcGUZj3AseyV9zjA9uab4yaIYp6Qmd36W3TEC4s23pNEYEivJOu2Wacad7/BlCZ8HKwvXURJgxX8hgh9B9XtaJbZBOmOGugv60zohZEYMLvMlkiPEVsMe/HKqsIkBI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731621694; c=relaxed/simple;
-	bh=jJrKuyE/vO+98WZ5F4MjO2cvCHD8fYiRP31wJsjjfiY=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=id+6Cropz1xs2h93/CCMpbQYB48MvSSLz78Y68WTL0YxqSGSpQnHCBJLDJoDBsTDH01RRszlj1A6S9Vt9GEBaGCoxmDyLVf1HjZcpGzLQi4TSJs5+g80bHS0ahJJq52IbuzruDBbjUkJ9K1MY4cHXcI7KYKn5t73xcLZfNJtxVc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=f5ghioj5; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Cbo/cCjX; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1731621696; c=relaxed/simple;
+	bh=/lE3xU+1SuuauxRQAb0VpJsz4NLLmuA37A+tHcfvp8k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=XBlUpEQZjEku3JyWCQTo2WB2HxQSkGNTZFyZIVZYeptdXLjFSA+fa9ABLmPeNLHSi3UKHGMusc4bPMrFcOW87ili1zmu194SaLAKKe6E3rVKKupg9zAUhjLnDd0t8lY6CrIoiUsSeng8F6IlD5/SZp5H1UqLS6z3Cin2EOQ9gEU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=VRkQc2Qu; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=mj6/IZzW; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="f5ghioj5";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Cbo/cCjX"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AELfcPi008006
-	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 22:01:31 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="VRkQc2Qu";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="mj6/IZzW"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AELfadg020976
+	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 22:01:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=corp-2023-11-20; bh=TMXgZvaG6NgHAM8s
-	uIi40iXNro5PC0ZWA2oGXrIubyk=; b=f5ghioj5GmXHtgBCMfi/DAFA9tJxblih
-	BL/WQiAWQi4ipLVTfCEKkoWl1Nvy00jyjkP56Z3MbzLLF20ERrIW4bCopNi3adFK
-	NDhRPQ38XI/UrxP5dbM8t6Z7D2SKMKXFysKS+BVwyMRxxlqx+puUcEnWMLlgplob
-	Dln1kt1zFboepfEQmMwNQ3llm6P5v/Apupqmehjqqe/M2aGKW3yNdHflTZOxKQNb
-	pv6COd+Y/5P65zgLXb50EU3s7pIcc9yvgXrpjpBPVKLVchlfhBLWPrhpsjbcMVL/
-	6gZEkGl9hxbatUCvQNavpd/0vPCYHeNfeRBg7ZEackJmtFA1tExOog==
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2023-11-20; bh=S9XcIYW0ciWw5JijA4NDAhZVdS3v/wilZkx6fwb5miI=; b=
+	VRkQc2QuD6icHCubVSxFj57hb3FYC+GhHNpsHmnsolGS+ucqjJzPMgiH+ZrgMBZa
+	Kiw/i0Q6+axpHJSeUW/7RY5bN3MW6GbXHEcvKxpMVhoQ+b+XEKb/zTVwaUPZdH8r
+	cT4Yey+Fx5jjXQWHwSYOMdUagsGYpOHr9SlUUbf2tKTRkRYo/f/dcs3oEGvtqrQI
+	Dg18TLLUQf8jqItgETp6jq1RSzMnzPb1hmQfmxlOfLkseEKNhhLo462RXNDXZJ0W
+	D7DESoQ7QgRMRJKcSUxrWPv6FTT5EGasQ6ZKXwvaXTY51TUFup7rZHAfmdQ4VZxI
+	2zwHZeehgLyJZGVwCfxzfQ==
 Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42t0mbjcw1-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42t0n529tr-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 22:01:30 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 22:01:32 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4AELVFSs036004
-	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 22:01:17 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2043.outbound.protection.outlook.com [104.47.66.43])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42sx6bec15-2
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4AELfnkL035988
+	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 22:01:22 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2176.outbound.protection.outlook.com [104.47.56.176])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42sx6bec5g-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 22:01:16 +0000
+	for <dtrace@lists.linux.dev>; Thu, 14 Nov 2024 22:01:22 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hvl4hs3CxuAbPJ3xLNnKHMAWU7823JHzw2O1VM+ISp1uw5TgHBE2Z+G+bwox+EdXPP2ccGsSRpvy1/A411Th77mCg/bbAHrzRkS9nk6PzuFDRhlEid4zAtoOkmJzZa28cOzNFnQetRB0/k2TkaVefbfBcbA/oMID4luVeTyuleS1NyWA4CdGBUb2LJD3j+sAAboCtQzdAeV+U2uN1pVPgxyB8gNLAg7tr4TO27+Gc8RF8hJchHIgSxNT3UtKWCjrSbChNNmkd+aAo1f22266QLhcukng0cII0AOOGH8y4m7ryS5mssDx5MmkxRFjfHLpAw10Z5kdY7w6NBcTm915uw==
+ b=yxn4EB0Ql0Ian5oAVOWUetXrqeqSO9VMW0N8R/iXVnUoxiEg4wJifbExt+tBZrHHSUROM4mxHflrHkp7Zd+zmE6H2GjI8s+D4LTrZ82fGu+S03tW7EoIXuWDMb+P94D9D8Z2uq+yXNiLilTKm3FOh+t1hwYXMIS0Wt/erT5oCE4UVDL/op823xTxO8Feif7udzvI/nPW+fTAPGdkYbfV6f++f77qdDOosZu+37KP2wsOO8Z9gFMPt8s+y14jmeuxqZ80mtJtIpE9zHTU+hHJ8Ie76SdEx1cOqQOAqUH7J7AzpZNtbm6PIbgkbWpc375+H8wVMJMPq2+QnRxbz5imIg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TMXgZvaG6NgHAM8suIi40iXNro5PC0ZWA2oGXrIubyk=;
- b=XIxy/BYsYalKuWgEriN9OBIhweZbqviVjjIIzKmOfyjS9m7zIa/hkY34FYXBHdOheMKfR87G41qB6/Lnp8XDcnhOjbFWFjlVPxKD7iXEN1StZ6CdSMgnVaJ+kh8GQUnfmnWcFyPvxwrOZRX2Xaa6k5c4y9QOX/hh+1cXxWX1wQjkGWoRbATF5EMoXBt/zVugXIGNDU/hwFcMcqj9jzSIbaZ+jeBaDnTXgX0PSoluwgrX/AYCOj4cddCHxvmozW4CKIwJM4jsFv0V9jrECqM/RO2yF4ywNwg9Q0zubh+L+qOOj0j+2LGrE5s9WREyFppb9dvdRj+L8XRhUcblYEdx0Q==
+ bh=S9XcIYW0ciWw5JijA4NDAhZVdS3v/wilZkx6fwb5miI=;
+ b=pckysfLfXAouEyMlraqbNBw/UhQzjUpJITepAM0aiHV+B+KRuTkG4IoStDAWelmbQKZO/lsciUIsGQzgqDElW9YCsYhL5NFMIsgsqKQGNQwVIeTjOh04qBrens1Xlan7IFno+imSO0eIDfG40and4iWujD9erE6NQZ1V7CG/BmwMiE9KnElckl4/hvcBV5uj4YfZ9XB373mzYLU0pJ5/4AWp6Fzy1kP4C856efbZxMuHRYOm341TZ4coxUQZ7MLwkT1fwX/1UFevRjncnX4bQE6jQVdu0tt4yRiI8klfRi52j0L9OoC421K5EkffrzNusrfvhR0Lb6htEVRnPu/65Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TMXgZvaG6NgHAM8suIi40iXNro5PC0ZWA2oGXrIubyk=;
- b=Cbo/cCjXCOdjA3uBxMrYHnNHgLGMJv7fFORTfl4snsd1zGXiPFBqU/5G8H5VGFBShHW9Yb/cAzWRNDvEej+++Ds1XC2vYyk7Zoqxn0LjQCxjmgG4AvBmIwov4Z0vbfXafUgnCdC+vViKXf53/exlb78WG2/gHxV4bplZMdIurJo=
+ bh=S9XcIYW0ciWw5JijA4NDAhZVdS3v/wilZkx6fwb5miI=;
+ b=mj6/IZzWCIjai11T+WrVJenrQ5WLXIDsfBAJA0uj6/kkNrTa5hdFsKct3kpctBC5n8LzSpIF8nAzr29YFBs79P5OI9TW1cs5+sxY2B34HjNuv+PoOg9NSAMlCqSOpGRbqinwfW4r78Vig0OUh9QBE8oCuP87OIaSiQuoC2vTLJ0=
 Received: from DS7PR10MB5037.namprd10.prod.outlook.com (2603:10b6:5:3a9::23)
  by MW5PR10MB5873.namprd10.prod.outlook.com (2603:10b6:303:19b::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.28; Thu, 14 Nov
- 2024 22:01:13 +0000
+ 2024 22:01:20 +0000
 Received: from DS7PR10MB5037.namprd10.prod.outlook.com
  ([fe80::824a:572e:d9d7:e9f1]) by DS7PR10MB5037.namprd10.prod.outlook.com
  ([fe80::824a:572e:d9d7:e9f1%5]) with mapi id 15.20.8158.017; Thu, 14 Nov 2024
- 22:01:13 +0000
+ 22:01:20 +0000
 From: Nick Alcock <nick.alcock@oracle.com>
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
 Cc: eugene.loh@oracle.com
-Subject: [PATCH v2 1/4] dtprobed: handle multiple providers in a single piece of DOF
-Date: Thu, 14 Nov 2024 22:01:05 +0000
-Message-ID: <20241114220108.95647-1-nick.alcock@oracle.com>
+Subject: [PATCH v2 4/4] probe: make it possible to destroy probes in more cases
+Date: Thu, 14 Nov 2024 22:01:08 +0000
+Message-ID: <20241114220108.95647-4-nick.alcock@oracle.com>
 X-Mailer: git-send-email 2.46.0.278.g36e3a12567
+In-Reply-To: <20241114220108.95647-1-nick.alcock@oracle.com>
+References: <20241114220108.95647-1-nick.alcock@oracle.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO2P265CA0443.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:e::23) To DS7PR10MB5037.namprd10.prod.outlook.com
+X-ClientProxiedBy: LO4P123CA0593.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:295::8) To DS7PR10MB5037.namprd10.prod.outlook.com
  (2603:10b6:5:3a9::23)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -83,79 +87,79 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS7PR10MB5037:EE_|MW5PR10MB5873:EE_
-X-MS-Office365-Filtering-Correlation-Id: c07d8887-efcf-4bc5-ee98-08dd04f7dad1
+X-MS-Office365-Filtering-Correlation-Id: 2ac9914a-212c-4dd2-9386-08dd04f7def2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|10070799003|366016|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?xZYqWOOezr84AwZBq7OnuQEvNLRwRLfJVIHfUPJPTDYOBOwdXY8i8TChqOvd?=
- =?us-ascii?Q?gUQ+VmtlZw7pvWP0IDTPz/e0bPiIdWU1T8k2EIDskaAeINObR6yhz5lIUGmH?=
- =?us-ascii?Q?PYLBcq8iD6ppblBuy0UzKrvZ87xiOOfb5Zkvnw1UUbyxHqufQoVTxwGylYZT?=
- =?us-ascii?Q?3/xYSjjeYSC8ZZ+0RJimHyRqbVxYIf83lJedUYoSOh4jT2rqQnFMV78L7D0n?=
- =?us-ascii?Q?fH+WUX9ktcxQDtIQAm7bQbuiHmKZUjZ/Ibgvcbvh1zDeX5YANruEKP9MH25h?=
- =?us-ascii?Q?7Ks7Ov9v/zVSGxWC0dsmkqGLqCYApxuJgt+ES9VuZr3CRF27UdzTWXYQajvG?=
- =?us-ascii?Q?IgNiGIEjnYkXtN828mpPaCOcrYfNilwzHNuN+L/URJHlzUuIklvPsaxIFQRc?=
- =?us-ascii?Q?A84QhM1W7YuB6FZj/DGD86wTR/7eAYWYzNEh/MfKYhvepZ2Oe2OkxpMR6V9Y?=
- =?us-ascii?Q?jrJZA/ZHKuHAoAfTWP2c/Gv0mOzKlQJliLNECSKmtmHQNrZLrXBuXGKnGi2v?=
- =?us-ascii?Q?FW5jzQ2ZVqIVsQVGZxuF+2BVfgr+VYPPlp5Fof6TfFwxdpG1eLGWySC5cZGk?=
- =?us-ascii?Q?KqYlHntuGCcnNeH02nfk5KpVI52zF90tmwM+DEdrrzEeILwzyE7TVS4sSuKn?=
- =?us-ascii?Q?zmdMeE+rDlPUpKIFXQLPzyW9A4nz7e2Gk60FaZB+lpzDnPbC5xS+rIH7S6lF?=
- =?us-ascii?Q?rZ9bkDu98QoaEKbttqVxp3CVXRJd4JueeicROd8Utp4Tojlsms21DTDwkNbQ?=
- =?us-ascii?Q?TCtHH4yGCVgmPxCClYXKhgr+VZEZ47189m7rD8ltq5qCtbaF+R27AVyHedAA?=
- =?us-ascii?Q?KuJUu916vQqBK1dLV40DazON/P/YYlFs1Ylk1cOo3iW9psgyeGMc2Hjub6gV?=
- =?us-ascii?Q?NbrVX2zfndZWXRnhu3DgXJUXs57GhGlrkPt8H9F66iwcak1cdyO21dO7x1h5?=
- =?us-ascii?Q?IuvX+PAAh2OVT+h6ltNxDVp5bus4VA3yJlP9+q+y86Yn5PYDRrlnriRnWt6b?=
- =?us-ascii?Q?OwpRyR/TimK5TJK0mBpEEzP1816vPOVKuw9iPQwkPGcvfZjzoXfV8g9THgTB?=
- =?us-ascii?Q?JxYTRNZ5f4PIaDLZEblSA1EP8OpxaIxlqKViLDtJjg+sdSTKnVCr0/xvI8hl?=
- =?us-ascii?Q?ouhpSZfftS6DNJIZ+/oINOYH/rCzpUndJqVnk8WbC1BL6dEEmeLU93p9gZ3F?=
- =?us-ascii?Q?LnHyf0RcK53PAsnq/JT1w+ekh+i8oCUDXAp0X+t0kZ3kRe2AIKE1tz5EaY7G?=
- =?us-ascii?Q?EaAWZXIREGYZGhH/+5ipYsGOg/iDAj20NahD3ygZyL4nfXEgpqRMDTa8SW++?=
- =?us-ascii?Q?nxYljJ42CPUYuZXaE6n9U6AL?=
+	=?us-ascii?Q?IcMjlU4fXgSheqQAPURUn42MeUgg9skeh5R9RAaX3V+BPN8AQvt36kLaeFej?=
+ =?us-ascii?Q?EuOD/RcJpRIYzxycIYgVpXdId7j2tCNzpzcmIPom0rA3ees4bJ0PrilXiIK6?=
+ =?us-ascii?Q?XEs4aAH3ILoZTFno5YuDxP6q+4f1wfrn+/z2FAnlntzTi/rF6XU7zcq54Lms?=
+ =?us-ascii?Q?u55c2+hX42KXBq75o9eAJTsja4JkcTtqTKfE3ND3exGGzmJeF/f+uQXrekCp?=
+ =?us-ascii?Q?Xr3kgRD+Dhe6cpMSV4lqP4mD+NfpbVq7lMzEiwfQUddd28VAbA40Q8fTx58q?=
+ =?us-ascii?Q?DOILRnsVvUgD2DOCajLr4MvfjsqCuk4A9W08zVVDCk4aB+rZ+Wa8A51ijxqC?=
+ =?us-ascii?Q?mSeCNq+4wrkiioFAD2NJl/PG0X/hUSCex+xkSXMj2fWWqezGAsVIO6RXY1G0?=
+ =?us-ascii?Q?6L2bW+pU05L/4yDcdaQ2AzHpxTsumAn9vvYMhylx+/tunZGsTSJFKRFBV+Ma?=
+ =?us-ascii?Q?5PLu+ZD2AC2JcS/Ak4YswVj1SRmeZM1v/FCI5rZCbVNFI5sV3kdD5tKWNaBJ?=
+ =?us-ascii?Q?yCVyKpW3FkhsQmzlhgiWi6b6iTcyfgTq6E2ROQDba4RG1+oMVlA0nnMej+FT?=
+ =?us-ascii?Q?+gP0dGFf5ESjjgQFa84e5x2Fu4oP8jNNMZL1f/Tybq/bs06wuS2560bmih9o?=
+ =?us-ascii?Q?3wtWHo7KYIbC794aFJb7E8fh5J7e2W4OIyFc2CyB9vDvlzGLSBjdEoiEKJTA?=
+ =?us-ascii?Q?Pnz85hj8FzpSES0pvgQe1J6jmCBFa0H4xLpLFEX98C3VJwLDo2dIhYNzd6Wb?=
+ =?us-ascii?Q?WkPay0kiY7CKOzs7aK5MoA2yTzgJu9C4gPKmN6h7+NYmJty1yIt5m6ci78YL?=
+ =?us-ascii?Q?TbGGSNglON4d40wRM2qOIeK8WL+O71PqyyyRN7i8YYo0//JPiQNCbOzljoqV?=
+ =?us-ascii?Q?Xx0jeJhQB1BHDg7RXUcU26vvStQKEeIMOL5SA2fwW0MbOpodiMLeNz4QI2w1?=
+ =?us-ascii?Q?FE3UJ8qEvACyHWcv2WBQy2nMXZPGMnM+r1by9Hf6yRb0c4TjIE5jIjY4SGUN?=
+ =?us-ascii?Q?H5+Qt/5c2VatZLukkBPx+PCJ4BOeCo+DrGw2Dg9k21b4dGQwXpn/jzYuR5hI?=
+ =?us-ascii?Q?h+jjDi1hsLlhlBaweeLf8eVqBxTctcvAmc2uH9Zpo1Y1Q5l1jBHRZp3hJ6tM?=
+ =?us-ascii?Q?g/VCRbaKkZ3RoQHxhurylj+zh/pOTnWWFvlx3R2Kgp58DKv94vifk+9gJBjG?=
+ =?us-ascii?Q?MGp9G3AQfB++8azDTlbrE2Gjv4xikQJ6f34jJpKv3sZT5O7oR2129uRSU+nE?=
+ =?us-ascii?Q?HyjPrQ+Pj2RcQE/R3DnPdnLwQZ7lIrmnxcdGHiFRHoOFY/airtD/Tt3Eqfj2?=
+ =?us-ascii?Q?hdsas9NqAZDTLbFPBpOfYj4O?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR10MB5037.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?nn8jLaDemS9h4PEzZtoZH+H5KVfw8NB7ogHt1BM25djvXSzDa0xd/RXEfC2o?=
- =?us-ascii?Q?d2HYvW1LKgvzDOe0MhGgP7+lAxn7ZkxBFRNjWyVjpWH7ooCyS1aktt8Njxqr?=
- =?us-ascii?Q?he5JYbouo3tT4Yy7VZCc/xljlBvxP2oGc3bBdXpNvZSHB9fRoXdgOjj+IfKJ?=
- =?us-ascii?Q?gPmzzufd0HpixDAOdzxs8gVpa1atstNyGh605WURZJlEESKuEc4kKs9mZeKw?=
- =?us-ascii?Q?987IJ/cBaB/1Gu5+32wPphDTeFaUvnL8klZlSUzLEfgnI2B8+MVuBsmacckv?=
- =?us-ascii?Q?5ngmts+lzquTKpoyYRdpM6vT46mCLxQViRAlyfXXwVF5N/T2NTsWdJmuk1GH?=
- =?us-ascii?Q?XXf+4nY+ucNnJkOmYdhteB1aXfH8DhRl1jbvmjx5yqOoFe/+TBswlsoPvHiQ?=
- =?us-ascii?Q?pVl1EnpoXOSWncY6qeaGCy9hniV/UYJ9Cwia6Xx4UflkGDKjELoWl2xIcmKu?=
- =?us-ascii?Q?YPeCMsrd839Lb7OO2sS+Z6mxJLH68cu0rJmyBX+D0TtZLu6qwSWIXDOQGEgm?=
- =?us-ascii?Q?V/Uq/QYLtthrKv3wn6hrkKQXHubEkz7LMY1U9c90F3041+AMsrk0WtwEZHi3?=
- =?us-ascii?Q?L7RBkDhhzF28CKbxEDxRIyQKTb6kechAxg3agMIJ3OPSuW2oGqDBUt19GEvP?=
- =?us-ascii?Q?wb4OVDLpIblJyv3hEOTWX3u/HgSxNXwKK5rMUVzNers2+z7roJ1cNUl5SxAH?=
- =?us-ascii?Q?qh/2aGS+nP1QiiGFYXAXcUrgbwbjUY40YuwxXJTwIgNTUFdew86uDYEHbDqr?=
- =?us-ascii?Q?3r12ShHWXNTROedP3AGO0nb8L5c2SFnzKpt3KBstt6w3fULE2JB/T/nu897D?=
- =?us-ascii?Q?GX5DmMp7hHDC3hDJ5q4PPOy7bY3TLxeV5/JXYXdXYp7itzjZxUYsnNzXmMEW?=
- =?us-ascii?Q?/n3nh8+Z5ZEo4gmcZhAbVAYxif1j8N3icZzbbmT+sJCQfqxkjnqXtDhCrCEk?=
- =?us-ascii?Q?FerePgVeC1dBkH5DmMTft0V7gbDxeUMafVbWeaRXIn0Ka2KxKDXciAaIxZL4?=
- =?us-ascii?Q?W6EiTTY2Qab8i+C+4tMCApVjVuQexMFAAYYViY19uQN7ovDf1ZGpoeP/9oQ0?=
- =?us-ascii?Q?kG7Q8MGa0cAhaAiyG8ywp/UdGSBBGTmnHFfhT/208S+kLcrlIeUuT3P1Hn2Z?=
- =?us-ascii?Q?8N3iuyquoCFHcEeL75KkePKDoyztSqJTAXyx94c+ywsm6HgFLVFBh+OPz8jD?=
- =?us-ascii?Q?l/8UI6E1qEdQUL3+LFV1NDfEMcDK9do58Uzsi/fZV3HI6T1J6B23z+u9/wmh?=
- =?us-ascii?Q?ifLmk8GjM4NB9OxVWFWCrPhRZfC0Jaulktljl0do1ByGZAGCDQvJejWSBab6?=
- =?us-ascii?Q?YYuFnI+u3We2m6nJPOZLzTF2/7b3Rr0uUmfezE0Qd/VAvktn5MR/MZrMPo6z?=
- =?us-ascii?Q?sXPK0zhi1w9K04F3tScL9PVbA3RhVaRgFOGrkZrkY7exYuWoi76Mk89gzSzM?=
- =?us-ascii?Q?UgLLVxFeOOV203PosYwKoB0wcCDbNg7S5RuRZhBDTMV6AK4iA7jRfcF3ASMP?=
- =?us-ascii?Q?0um2v71F+ItZhuNrT3v+y8PNT7zQPy/otCPfdz6Kjr38C4tXrHZKmT0kSMlV?=
- =?us-ascii?Q?24HZk3PtV4wMbsgyGPP9gDFCAdfk8oxUypvzDYpoD78PvEoqIMiVSn2ZyRmO?=
- =?us-ascii?Q?sg=3D=3D?=
+	=?us-ascii?Q?uGwKipMDy9aTTRmYEwW4RIO9mFCW0ETGuXNh0zTeH+YBVARe3oSdGBIM0a4L?=
+ =?us-ascii?Q?kXMhUj+2DPnXPcOha9g7IdzQu7at0Zu44jITjk4u6eKyo8bR/LglM9U0L3gG?=
+ =?us-ascii?Q?u59oVXL/LUuDqpOOnscm1xhArbY6jBbtydA/JTOUFZuJW2o520L56CbsgD4f?=
+ =?us-ascii?Q?ZF5OI89RqJZmC8PLajXSdSNTKPaY+cJF8occqp5zlPDEVzTQqEn8mWQPEVhn?=
+ =?us-ascii?Q?ZSKiJt38jizuiFtTa3OsOqlHYXRbIHtyAfxxP88fHZKsLg+3hpmhtkhnBcOE?=
+ =?us-ascii?Q?x5UZIAS8SeToZ9P3bwVL1DjaFFdWxEpiKoe/8gH/IynFFp49VbyJBhitlKvN?=
+ =?us-ascii?Q?SU1XUUIBmeS2QB/FN8SV7VZhKsyOafa8C8itSahM7nNStJH0jHp5fx0+Jmhf?=
+ =?us-ascii?Q?fe72lDxYuYdISYx9+8kz9GppnE5dQSakGlP3mZDBgmnuB/8G2UFfp7lEmKhH?=
+ =?us-ascii?Q?hhMqL5fTUIX0edyCyf2MCXm7/ngntM7yQ+XDFgOKO9BYim47qHd7SAp8Xgnb?=
+ =?us-ascii?Q?tefkb2iDk2MFo4b+6lhRZZR/rMG86kLmMjBjTMsl7TPj/ydIWNa+hUXl22cu?=
+ =?us-ascii?Q?4eeTuwZlXSL6Y/ARwvWVGKlMrlESADgWcN+MUgrovMJdWOUaEiZ5ik7TD2up?=
+ =?us-ascii?Q?HigvEenJkAjQfNjREGK8Qy3fI+QdpH2KRFoh5t7hHedvWBozMYVLLyna+b7K?=
+ =?us-ascii?Q?mmzCeUPtC3J2hIUWiBiNfhCO15kp2/lFZRQfoLBP/+LPu/dvHJv85iYwx5Tu?=
+ =?us-ascii?Q?eIADuqjaZ0KbcnyfTFb/pT3S5v5njZWEkUXtZeEWtR6nhT4IN/kDomHOa7Lj?=
+ =?us-ascii?Q?QmRMMbLZYInPDNbjnvSbVnUT83wcbHd4/zInVY/PY/tpJJE58wdpF0GsXexN?=
+ =?us-ascii?Q?O+UfNiCcqIjb3zMbsgtNu4jA7qpvA+37NiVoo3D7m6CNb5Hd8oxEoDWCkm9d?=
+ =?us-ascii?Q?HV1bnp0gaQP7Keq2eSdcsOJHZ/b95nH6RrdXmtqUZltAhzJ8YSzWIKTjIvsd?=
+ =?us-ascii?Q?rjDxjMp1ml89rWnBkfsTXnoVBtVGJF7zH9dkZbMutYRkjJbKdqTc2T/W+4AB?=
+ =?us-ascii?Q?Sq+WUnMzdxC5i1BPzjVGQuyrXOk8/4SPOrzvHScBTRXT+QWAcmm4eatvDO2f?=
+ =?us-ascii?Q?o5J9IXrWTySrXSA04mpVm3LUrwPN8B7YcF7ThbpCO0TuvYxFR4XBPidKgipE?=
+ =?us-ascii?Q?AGEpTg1lLds6pBYVSTSmutxnyNKyp5UfIrImFIEU38agqUhrVFXF6dvC+iwx?=
+ =?us-ascii?Q?tZ/XO9yOcM5CtmH+7uryIeIqQyvLFtqQlZIoLT0kLOdlBP5wInjkHP9DomUK?=
+ =?us-ascii?Q?myS65vndY3U6AylUFuIPlyggCwiQjiriQYAaGikvabfnfyXTdQBSZhJfM8w7?=
+ =?us-ascii?Q?39SosPAeLaUJPVF7QLdGR2aUWS83lvHGNrqXicm61meyGYKxk/IuLOLxwSVK?=
+ =?us-ascii?Q?VPv/8RRi+LVa74oVjKbrXjsx6G5BC8YqcMT8Z6msi9vZADNXYpKrpCaLfsOf?=
+ =?us-ascii?Q?ghWjkEEbWHdjlkO0caqDcvsjVU2smrQxxl8l9o1N3NhVvSQSwW3m4XI1SvTv?=
+ =?us-ascii?Q?cptOyO8WT+gaeVrRLUvM4IFNgJzXoERKgT4tTJYMMSge4UrGmW5eX5IOIFKc?=
+ =?us-ascii?Q?Yg=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	d49bameh8G7F50Wtf3OI6Xr3e8roQq3KyNDp5Rx5MAo2+HJ3YanoBxQzlTdAR2KHbAGyDX34GUZkuWqo1N+WUWiU9wWmPfhclYvALy7QmrRbFWu4gml2cH7YGwPKBXw6EHu1zvJwp6QFxGxz9e7Q7CCM72szEEqcHH5e6iwGlbDFGlWmMNI1woyEjKLJA/YFST9whmi5fH+Qrf1yuirsZfmJ6o8A6ZR1fhWYrSLCZYsUxnKPOiH9ii7m7S5hq2z8K2yCMNBIBMTU4Zlv6fdwEX3FVr7lVkxQ5ro5RzmhZ58WeC6N13Ax1srTUZQp3t+e56JrcRkuuF4j9gEyB5ct58f9XW40+J645vmgUSOAgOEmchID3T4MtUeosj5Us0YYCpOFSqdaClujRF63AuskcpbbIWDltmh+964DH10hXN2imkvD4Uf1mKEhkXRPugeuimU3kVT53r/NymOTYxChfLCnwR80LYeqGkOcjCuEiXvenuCI5U3Rr/Ji1r/fr83OFZfWlGnTpHCDR9FYtQer9SSzmN4MsIfKdU8rDdG56xCFBf1hy4wn9V6tNZ3N1x5iAI7MGA0sJaspiCl2H1pAhreridDJ3E9InOrJlPxM7EU=
+	p6NaneTkpa81gncFUyux2U/r4yx3U2AYXKKO8o8sJDYR0zZaxAI9QhQbv6E7YkFr8XlTO56BRN3Ah23DckmZNsghCC6/bjuECLoi6D2wTIku8HJ4B8Iz2LgE3YuzdYYnZqBjIS7yIsGa6DnJksIDEngQL0/Gmbo2zaTFYZ0u7Wp08ETznntUP0pZp2z6tSNdDXHlWUJmqxajUQdUDiFOVOu5LQg/F9i1BXOWVFqkpIjNdYRmh6nbdtSndPb9PlOPJVcRhDwoYI3aZd2PwFJQR1pDk2tYl0O5IjDtPUxJZ4niBpU3sYuOKKLVHtFcHu/+a2hAzz/CyjAP9CEtXS5x2YcLIPSBJMJ492dDud+BMKMz6pD3tD0xTMhIITqKo0yvkRZ2Mp4d0BTt6OKcHt6s1O5CDsa3gChzTm0aCT0Qu/vm0Y7XPoHNOfPjvSL0gB1qhPaLgOCX2FsAX/uUPxLYHYBthd56DF6HSpSDhQY0yHybxcd6tRpeR4g/cid/RRiRRjELA9pn6vyKCCPpRjdsGgCNBJeNgqYfhNckuHW5r+YXCBzD+j2GFJt7et3K2P6K+NUCpJGR8cd2/B2xCFyDcg1MMQFBBRbVdMZNUj2dBMk=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c07d8887-efcf-4bc5-ee98-08dd04f7dad1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ac9914a-212c-4dd2-9386-08dd04f7def2
 X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB5037.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2024 22:01:13.3881
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2024 22:01:20.1565
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: X4y+poIH7m32IXNq+XOtqe5DHfZ6tE+0WJVYRNSPbnu+Ska+JvQo2PyI9xSycj5Y9jqU/fa18ydGrmy1aJfThg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: SD5kBDpGdlZTNtRaS/TIdZ9P4X9aelwfAafPzfPsk39f7OU8d2FNRWhnCHzlbFprMuPK6/LaVZtnvFK+1gmCow==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR10MB5873
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
@@ -164,353 +168,117 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malw
  bulkscore=0 suspectscore=0 phishscore=0 mlxlogscore=999 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
  definitions=main-2411140173
-X-Proofpoint-GUID: a9PgPAUqkCzjVW06H3lEVktv5xLi9HIt
-X-Proofpoint-ORIG-GUID: a9PgPAUqkCzjVW06H3lEVktv5xLi9HIt
+X-Proofpoint-ORIG-GUID: GgL4yACdZFfyZv_RZaSsZ04hHxYhD5wQ
+X-Proofpoint-GUID: GgL4yACdZFfyZv_RZaSsZ04hHxYhD5wQ
 
-A given ELF object can of course contain as many providers as you like.  The
-DOF stash format, DOF stash management code and DTrace itself are all set up
-fine to handle DOF with multiple providers in: but, alas, the code that
-reads the DOF from the parser child in response to an ioctl() assumes that
-one provider is all it will ever see.
+In particular, when the parser has failed (so we have no yypcb)
+but we have successfully defined some interface-only probes but
+not yet cooked them (so we have no provimpl), we can find that
+*both* our sources for a dtp in dt_probe_destroy are unavailable.
 
-This is not ideal, but rejigging it introduces an interesting problem: when
-do you *stop* reading providers from the parser stream?  Right now,
-dof_parser.c loops over all of its providers and emits them until all are
-done, then just stops: there is no indication of how many providers there
-are or that this is the last provider or anything (though if there are none,
-it does try to send an empty provider to avoid the caller blocking waiting
-for a reply that will never come).
+Make one available in the dt_probe_t as well.
 
-It's a bit annoying to try to figure out how many providers there are in
-advance, so instead of that, take a route that's easier both to emit and
-parse, drop the empty provider stuff, and simply add a DIT_EOF record which
-indicates "no more providers expected", which is always sent last.  (We
-stuff this in before DIT_ARGS_* in the enum because it makes more conceptual
-sense right after DIT_ERR, and DIT_ARGS_* hasn't released anywhere yet.)
+The test in this commit provides a .d like this:
 
-With that in place it's a simple matter to loop adding parsed DOF to the
-stash's accumulator until we hit an EOF record.  Memory management is
-complicated a little, because a single parsed buffer (reply from dof_parser)
-is now owned by multiple accumulator records in the stash: but every one of
-those is terminated by a DIT_EOF, which appears nowhere else, so we can just
-not free a parsed buffer unless it's of type DIT_EOF.
+provider prova { probe entrya(); };
+provider provb { probe entryb(); probe entryc(int, char *) : (char *, int); };
+
+prova is defined but not cooked because parsing failed in provb, so we get
+this crash when trying to do final cleanup of prova, long after the parser is
+gone:
+
+1  0x00007ffff7cf408a in dt_iddtor_probe (idp=0x3cee000) at libdtrace/dt_ident.c:542
+2  0x00007ffff7cf4d5a in dt_ident_destroy (idp=0x3cee000) at libdtrace/dt_ident.c:964
+3  0x00007ffff7d0c226 in dt_node_free (dnp=0x21e05b0) at libdtrace/dt_parser.c:571
+4  0x00007ffff7d17748 in dt_node_list_free (pnp=0x3cee1b8) at libdtrace/dt_parser.c:4851
+5  0x00007ffff7d0c460 in dt_node_free (dnp=0x3cee180) at libdtrace/dt_parser.c:643
+6  0x00007ffff7d177ab in dt_node_link_free (pnp=0x3cee278) at libdtrace/dt_parser.c:4865
+7  0x00007ffff7d3df8b in dt_provider_del_prov (head=0x0, pvp=0x3cee1f0) at libdtrace/dt_provider.c:74
+8  0x00007ffff7cf1d32 in dt_htab_destroy (dtp=0x53eb20, htab=0x187a8a0) at libdtrace/dt_htab.c:108
+9  0x00007ffff7d0842e in dtrace_close (dtp=0x53eb20) at libdtrace/dt_open.c:1306
+10 0x0000000000403f8e in dfatal (fmt=0x4d6a45 "failed to compile script %s") at cmd/dtrace.c:194
+11 0x0000000000404b9b in compile_file (dcp=0x536990) at cmd/dtrace.c:480
+12 0x00000000004073c9 in main (argc=8, argv=0x7fffffffe788) at cmd/dtrace.c:1351
 
 Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
 ---
- dtprobed/dof_stash.c                        | 12 +++-
- dtprobed/dtprobed.c                         | 63 ++++++++++++++-------
- libcommon/dof_parser.c                      | 23 +++-----
- libcommon/dof_parser.h                      |  8 ++-
- test/triggers/Build                         |  6 +-
- test/triggers/usdt-tst-multiprovider-prov.d | 12 ++++
- test/triggers/usdt-tst-multiprovider.c      | 23 ++++++++
- test/unittest/usdt/tst.multiprovider.r      |  4 ++
- test/unittest/usdt/tst.multiprovider.r.p    |  2 +
- test/unittest/usdt/tst.multiprovider.sh     | 15 +++++
- 10 files changed, 126 insertions(+), 42 deletions(-)
- create mode 100644 test/triggers/usdt-tst-multiprovider-prov.d
- create mode 100644 test/triggers/usdt-tst-multiprovider.c
- create mode 100644 test/unittest/usdt/tst.multiprovider.r
- create mode 100755 test/unittest/usdt/tst.multiprovider.r.p
- create mode 100755 test/unittest/usdt/tst.multiprovider.sh
+ libdtrace/dt_probe.c                          | 14 +++-----
+ libdtrace/dt_probe.h                          |  1 +
+ .../unittest/usdt/err.argmap-name-required.sh | 34 +++++++++++++++++++
+ 3 files changed, 40 insertions(+), 9 deletions(-)
+ create mode 100755 test/unittest/usdt/err.argmap-name-required.sh
 
-Changes since v1: test multiple probes.
-
-This had fallout -- see later commits in this series!
-
-diff --git a/dtprobed/dof_stash.c b/dtprobed/dof_stash.c
-index 82fdd3174759d..296987ad41e93 100644
---- a/dtprobed/dof_stash.c
-+++ b/dtprobed/dof_stash.c
-@@ -360,7 +360,13 @@ dof_stash_free(dt_list_t *accum)
- 	for (accump = dt_list_next(accum); accump != NULL;
- 	     accump = dt_list_next(accump)) {
- 		dt_list_delete(accum, accump);
--		free(accump->parsed);
-+
-+		/*
-+		 * All parsed memory regions are terminated by an EOF, so once
-+		 * we encounter the EOF, this region can safely be freed.
-+		 */
-+		if (accump->parsed->type == DIT_EOF)
-+			free(accump->parsed);
- 		free(last_accump);
- 		last_accump = accump;
- 	}
-@@ -656,6 +662,10 @@ dof_stash_write_parsed(pid_t pid, dev_t dev, ino_t ino, dt_list_t *accum)
- 			fuse_log(FUSE_LOG_ERR, "dtprobed: parser error: %s\n",
- 				 accump->parsed->err.err);
- 			goto err_provider_close;
-+		/* EOF: nothing to do.  No need to record this parser-stream
-+		 * implementation detail into the parsed representation.  */
-+		case DIT_EOF:
-+			break;
- 
- 		default:
- 			/*
-diff --git a/dtprobed/dtprobed.c b/dtprobed/dtprobed.c
-index 2ca39b26f88a9..86865eb467b67 100644
---- a/dtprobed/dtprobed.c
-+++ b/dtprobed/dtprobed.c
-@@ -772,41 +772,60 @@ process_dof(pid_t pid, int out, int in, dev_t dev, ino_t inum, dev_t exec_dev,
- 			dof_parser_tidy(1);
- 			continue;
- 		}
--		if (provider->type != DIT_PROVIDER)
-+		if (provider->type != DIT_PROVIDER && provider->type != DIT_EOF)
- 			goto err;
- 		break;
- 	} while (!provider);
- 
--	if (dof_stash_push_parsed(&accum, provider) < 0)
--		goto oom;
--
--	for (i = 0; i < provider->provider.nprobes; i++) {
--		dof_parsed_t *probe = dof_read(pid, in);
--		size_t j;
--
--		errmsg = "no probes in this provider, or parse state corrupt";
--		if (!probe || probe->type != DIT_PROBE)
--			goto err;
--
--		if (dof_stash_push_parsed(&accum, probe) < 0)
-+	while (provider->type != DIT_EOF) {
-+		if (dof_stash_push_parsed(&accum, provider) < 0)
- 			goto oom;
- 
--		j = 0;
--		do {
--			dof_parsed_t *tp = dof_read(pid, in);
-+		fuse_log(FUSE_LOG_DEBUG, "Parser read: provider %s, %i probes\n",
-+			 provider->provider.name, provider->provider.nprobes);
- 
--			errmsg = "no tracepoints in a probe, or parse state corrupt";
--			if (!tp || tp->type == DIT_PROVIDER || tp->type == DIT_PROBE)
-+		for (i = 0; i < provider->provider.nprobes; i++) {
-+			dof_parsed_t *probe = dof_read(pid, in);
-+			size_t j;
-+
-+			errmsg = "no probes in this provider, or parse state corrupt";
-+			if (!probe || probe->type != DIT_PROBE)
- 				goto err;
- 
--			if (dof_stash_push_parsed(&accum, tp) < 0)
-+			if (dof_stash_push_parsed(&accum, probe) < 0)
- 				goto oom;
- 
--			if (tp->type == DIT_TRACEPOINT)
--				j++;
--		} while (j < probe->probe.ntp);
-+			j = 0;
-+			do {
-+				dof_parsed_t *tp = dof_read(pid, in);
-+
-+				errmsg = "no tracepoints in a probe, or parse state corrupt";
-+				if (!tp || tp->type == DIT_PROVIDER ||
-+				    tp->type == DIT_PROBE || tp->type == DIT_EOF)
-+					goto err;
-+
-+				fuse_log(FUSE_LOG_DEBUG, "Parser read: adding %s:%s to stash\n",
-+					 provider->provider.name, probe->probe.name);
-+
-+				if (dof_stash_push_parsed(&accum, tp) < 0)
-+					goto oom;
-+
-+				if (tp->type == DIT_TRACEPOINT)
-+					j++;
-+			} while (j < probe->probe.ntp);
-+		}
-+
-+		errmsg = "subsequent provider read failed, or stream not properly terminated";
-+		provider = dof_read(pid, in);
-+		if (!provider)
-+			goto err;
- 	}
- 
-+	/* Push the EOF on.  */
-+
-+	if (dof_stash_push_parsed(&accum, provider) < 0)
-+		goto oom;
-+
- 	if (!reparsing)
- 		if ((gen = dof_stash_add(pid, dev, inum, exec_dev, exec_inum, dh,
- 					 in_buf, in_bufsz)) < 0)
-diff --git a/libcommon/dof_parser.c b/libcommon/dof_parser.c
-index 1792a8bfcc849..ae5abe5220929 100644
---- a/libcommon/dof_parser.c
-+++ b/libcommon/dof_parser.c
-@@ -1145,7 +1145,7 @@ dof_parse(int out, dof_helper_t *dhp, dof_hdr_t *dof)
+diff --git a/libdtrace/dt_probe.c b/libdtrace/dt_probe.c
+index ccaa3081c5b23..31c78d6d987e1 100644
+--- a/libdtrace/dt_probe.c
++++ b/libdtrace/dt_probe.c
+@@ -140,8 +140,7 @@ alloc_arg_nodes(dtrace_hdl_t *dtp, dt_provider_t *pvp, int argc)
+ static void
+ dt_probe_alloc_args(dt_probe_t *prp, int nargc, int xargc)
  {
- 	int			i, rv;
- 	uintptr_t		daddr = (uintptr_t)dof;
--	int			count = 0;
-+	dof_parsed_t		eof;
+-	dt_provider_t	*pvp = prp->prov;
+-	dtrace_hdl_t	*dtp = pvp->pv_hdl;
++	dtrace_hdl_t	*dtp = prp->dtp;
+ 	dt_node_t	*nargs = NULL, *xargs = NULL;
+ 	int		i;
  
- 	dt_dbg_dof("DOF 0x%p from helper {'%s', %p, %p}...\n",
- 		   dof, dhp ? dhp->dofhp_mod : "<none>", dhp, dof);
-@@ -1157,8 +1157,7 @@ dof_parse(int out, dof_helper_t *dhp, dof_hdr_t *dof)
- 	}
+@@ -252,6 +251,7 @@ dt_probe_create(dtrace_hdl_t *dtp, dt_ident_t *idp, int protoc,
+ 	prp->pr_inst = NULL;
+ 	prp->argv = dt_calloc(dtp, xargc, sizeof(dtrace_typeinfo_t));
+ 	prp->argc = xargc;
++	prp->dtp = dtp;
  
- 	/*
--	 * Look for helper providers, validate their descriptions, and
--	 * parse them.
-+	 * Look for providers, validate their descriptions, and parse them.
- 	 */
- 	if (dhp != NULL) {
- 		dt_dbg_dof("  DOF 0x%p Validating and parsing providers...\n", dof);
-@@ -1177,25 +1176,19 @@ dof_parse(int out, dof_helper_t *dhp, dof_hdr_t *dof)
- 				dof_destroy(dhp, dof);
- 				return;
- 			}
--			count++;
- 			emit_provider(out, dhp, dof, sec);
- 		}
- 	}
- 
- 	/*
--	 * If nothing was written, emit an empty result to wake up
--	 * the caller.
-+	 * Always emit an EOF, to wake up the caller if nothing else, but also
-+	 * to notify the caller that there are no more providers to read.
- 	 */
--	if (count == 0) {
--		dof_parsed_t empty;
-+	memset(&eof, 0, sizeof(dof_parsed_t));
- 
--		memset(&empty, 0, sizeof(dof_parsed_t));
+ 	if ((prp->nargc != 0 && prp->nargv == NULL) ||
+ 	    (prp->xargc != 0 && prp->xargv == NULL) ||
+@@ -323,12 +323,7 @@ dt_probe_destroy(dt_probe_t *prp)
+ 	dt_probe_stmt_t		*psp, *psp_next;
+ 	dt_probe_instance_t	*pip, *pip_next;
+ 	dt_probe_dependent_t	*dep, *dep_next;
+-	dtrace_hdl_t		*dtp;
 -
--		empty.size = offsetof(dof_parsed_t, provider.name);
--		empty.type = DIT_PROVIDER;
--		empty.provider.nprobes = 0;
--		dof_parser_write_one(out, &empty, empty.size);
--	}
-+	eof.size = offsetof(dof_parsed_t, provider.nprobes);
-+	eof.type = DIT_EOF;
-+	dof_parser_write_one(out, &eof, eof.size);
+-	if (prp->prov != NULL)
+-		dtp = prp->prov->pv_hdl;
+-	else
+-		dtp = yypcb->pcb_hdl;
++	dtrace_hdl_t		*dtp = prp->dtp;
  
- 	dof_destroy(dhp, dof);
- }
-diff --git a/libcommon/dof_parser.h b/libcommon/dof_parser.h
-index 8f42d00551e3f..75aa3082161b7 100644
---- a/libcommon/dof_parser.h
-+++ b/libcommon/dof_parser.h
-@@ -24,6 +24,7 @@
-  *     DIT_ARGS_XLAT (1, optional)
-  *     DIT_ARGS_MAP (1, optional)
-  *     DIT_TRACEPOINT (any number >= 1)
-+ * DIT_EOF (no more providers, last record)
-  *
-  * The dof_parsed.provider.flags word indicates the presence of the
-  * various optional args records in the following stream (you can rely on
-@@ -37,9 +38,10 @@ typedef enum dof_parsed_info {
- 	DIT_PROBE = 1,
- 	DIT_TRACEPOINT = 2,
- 	DIT_ERR = 3,
--	DIT_ARGS_NATIVE = 4,
--	DIT_ARGS_XLAT = 5,
--	DIT_ARGS_MAP = 6,
-+	DIT_EOF = 4,
-+	DIT_ARGS_NATIVE = 5,
-+	DIT_ARGS_XLAT = 6,
-+	DIT_ARGS_MAP = 7,
- } dof_parsed_info_t;
+ 	if (prp->difo)
+ 		dt_difo_free(dtp, prp->difo);
+@@ -473,7 +468,7 @@ dt_probe_define(dt_provider_t *pvp, dt_probe_t *prp, const char *fname,
+ dt_node_t *
+ dt_probe_tag(dt_probe_t *prp, uint_t argn, dt_node_t *dnp)
+ {
+-	dtrace_hdl_t *dtp = prp->prov->pv_hdl;
++	dtrace_hdl_t *dtp = prp->dtp;
+ 	dtrace_typeinfo_t dtt;
+ 	size_t len;
+ 	char *tag;
+@@ -557,6 +552,7 @@ dt_probe_insert(dtrace_hdl_t *dtp, dt_provider_t *prov, const char *prv,
+ 	prp->prov = prov;
+ 	prp->prv_data = datap;
+ 	prp->argc = -1;
++	prp->dtp = dtp;
  
- /*
-diff --git a/test/triggers/Build b/test/triggers/Build
-index 107b3b4d1f2e8..c50c265ccec7d 100644
---- a/test/triggers/Build
-+++ b/test/triggers/Build
-@@ -13,7 +13,8 @@ EXTERNAL_64BIT_TRIGGERS = testprobe readwholedir mmap bogus-ioctl open delaydie
-     ustack-tst-spin ustack-tst-mtspin \
-     visible-constructor visible-constructor-static visible-constructor-static-unstripped
+ 	dt_htab_insert(dtp->dt_byprv, prp);
+ 	dt_htab_insert(dtp->dt_bymod, prp);
+diff --git a/libdtrace/dt_probe.h b/libdtrace/dt_probe.h
+index 2a78cb9ca4dae..da7a341354225 100644
+--- a/libdtrace/dt_probe.h
++++ b/libdtrace/dt_probe.h
+@@ -55,6 +55,7 @@ typedef struct dt_probe {
+ 	int argc;			/* output argument count */
+ 	dt_probe_instance_t *pr_inst;	/* list of functions and offsets */
+ 	dtrace_difo_t *difo;		/* BPF probe program */
++	dtrace_hdl_t *dtp;		/* pointer to containing dtrace_hdl */
+ } dt_probe_t;
  
--EXTERNAL_64BIT_SDT_TRIGGERS = usdt-tst-argmap usdt-tst-args usdt-tst-forker usdt-tst-defer usdt-tst-special
-+EXTERNAL_64BIT_SDT_TRIGGERS = usdt-tst-argmap usdt-tst-args usdt-tst-forker usdt-tst-defer \
-+    usdt-tst-multiprovider usdt-tst-special
- EXTERNAL_64BIT_TRIGGERS += $(EXTERNAL_64BIT_SDT_TRIGGERS)
- 
- EXTERNAL_32BIT_TRIGGERS := visible-constructor-32
-@@ -206,6 +207,9 @@ usdt-tst-forker_PROV := usdt-tst-forker-prov.d
- # usdt-tst-defer calls USDT probes based on dtrace -h
- usdt-tst-defer_PROV := usdt-tst-defer-prov.d
- 
-+# usdt-tst-multiprovider calls USDT probes based on dtrace -h
-+usdt-tst-multiprovider_PROV := usdt-tst-multiprovider-prov.d
-+
- # usdt-tst-special calls USDT probes based on dtrace -h
- usdt-tst-special_CFLAGS := -fno-inline -O2
- usdt-tst-special_PROV := usdt-tst-special-prov.d
-diff --git a/test/triggers/usdt-tst-multiprovider-prov.d b/test/triggers/usdt-tst-multiprovider-prov.d
-new file mode 100644
-index 0000000000000..530693ea71fe7
---- /dev/null
-+++ b/test/triggers/usdt-tst-multiprovider-prov.d
-@@ -0,0 +1,12 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/* @@skip: provider declaration - not a test */
-+
-+provider prova { probe entrya(); };
-+provider provb { probe entryb(); probe entryc(int a, char *b) : (char * b, int a); };
-+provider provc { probe entryd(); };
-diff --git a/test/triggers/usdt-tst-multiprovider.c b/test/triggers/usdt-tst-multiprovider.c
-new file mode 100644
-index 0000000000000..a954111379d9f
---- /dev/null
-+++ b/test/triggers/usdt-tst-multiprovider.c
-@@ -0,0 +1,23 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/*
-+ * A trigger with multiple providers in it.
-+ */
-+#include <stdio.h>
-+#include <unistd.h>
-+#include "usdt-tst-multiprovider-prov.h"
-+
-+int main(int argc, char **argv)
-+{
-+	PROVA_ENTRYA();
-+	PROVB_ENTRYB();
-+	PROVB_ENTRYC(666, "foo");
-+	PROVC_ENTRYD();
-+	usleep(5 * 1000 * 1000);
-+	return 0;
-+}
-diff --git a/test/unittest/usdt/tst.multiprovider.r b/test/unittest/usdt/tst.multiprovider.r
-new file mode 100644
-index 0000000000000..60a15c01eeee3
---- /dev/null
-+++ b/test/unittest/usdt/tst.multiprovider.r
-@@ -0,0 +1,4 @@
-+ID provaPID usdt-tst-multiprovider main entrya
-+ID provbPID usdt-tst-multiprovider main entryb
-+ID provbPID usdt-tst-multiprovider main entryc
-+ID provcPID usdt-tst-multiprovider main entryd
-diff --git a/test/unittest/usdt/tst.multiprovider.r.p b/test/unittest/usdt/tst.multiprovider.r.p
+ extern dt_probe_t *dt_probe_lookup2(dt_provider_t *, const char *);
+diff --git a/test/unittest/usdt/err.argmap-name-required.sh b/test/unittest/usdt/err.argmap-name-required.sh
 new file mode 100755
-index 0000000000000..ae8493e3d5be4
+index 0000000000000..3fdefb8130ac7
 --- /dev/null
-+++ b/test/unittest/usdt/tst.multiprovider.r.p
-@@ -0,0 +1,2 @@
-+#!/bin/sh
-+grep -v '^ *ID' | sed 's,^[0-9]*,ID,; s,prov\(.\)[0-9]*,prov\1PID,; s,  *, ,g'
-diff --git a/test/unittest/usdt/tst.multiprovider.sh b/test/unittest/usdt/tst.multiprovider.sh
-new file mode 100755
-index 0000000000000..d5b72c2be77ec
---- /dev/null
-+++ b/test/unittest/usdt/tst.multiprovider.sh
-@@ -0,0 +1,15 @@
++++ b/test/unittest/usdt/err.argmap-name-required.sh
+@@ -0,0 +1,34 @@
 +#!/bin/bash
 +#
 +# Oracle Linux DTrace.
@@ -518,16 +286,33 @@ index 0000000000000..d5b72c2be77ec
 +# Licensed under the Universal Permissive License v 1.0 as shown at
 +# http://oss.oracle.com/licenses/upl.
 +#
++# Make sure we get the right error when mappings are defined with no
++# argument.
++
 +if [ $# != 1 ]; then
 +	echo expected one argument: '<'dtrace-path'>'
 +	exit 2
 +fi
 +
 +dtrace=$1
++CC=/usr/bin/gcc
++CFLAGS="$test_cppflags"
++LDFLAGS="$test_ldflags"
 +
-+exec $dtrace $dt_flags -l -P 'prov*' -c `pwd`/test/triggers/usdt-tst-multiprovider
-
-base-commit: 68d14f30b5ffaaea405354a2edf44279127d209a
++DIRNAME="$tmpdir/argmap-name-required.$$.$RANDOM"
++mkdir -p $DIRNAME
++cd $DIRNAME
++
++# We define multiple probes here to verify the absence of a potential error
++# where parser failures when previous probes have been successfully defined
++# causes crashes due to problems freeing still-uncooked probes.
++
++cat > prov.d <<EOF
++provider prova { probe entrya(); };
++provider provb { probe entryb(); probe entryc(int, char *) : (char *, int); };
++EOF
++
++exec $dtrace $dt_flags -h -s prov.d
 -- 
 2.46.0.278.g36e3a12567
 
