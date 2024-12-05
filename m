@@ -1,85 +1,85 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7842C1B4123
-	for <dtrace@lists.linux.dev>; Thu,  5 Dec 2024 23:23:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37EA84A22
+	for <dtrace@lists.linux.dev>; Thu,  5 Dec 2024 23:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733441009; cv=fail; b=XZYyPXabC0hWpQdNm3bCyUovy322GrYrN8bAHyBt+hL8AA33NG8+mT7rkR+8eVXzsjVtpuXCevmTkMbqVI049gZZMWX78WyAGcVCtWYvU6AbmDus4ND8NaFjwtX1R+s/B/bm2WmnWdra1EUGS32+5ieSdEO0Md3/ZywfJJDlKJw=
+	t=1733441476; cv=fail; b=EfsxauCrz3LKJPzZH1wFaPOnZDP2pgHbi+OQ3fR0Y6kq1vCUix6AKlmqtlKGAJ5i0p/gPxLIcHwFSw8ooeKy5I4saOOomf+la8zACd0hLEgdTXzs919isRoVNXkv2PuopnsoIK4W9+iSWp/MwOOm8TJLG2ElwO5Ed9zABYO2FfY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733441009; c=relaxed/simple;
-	bh=Kb6Olalxq2ihp205O7hGtKMOeEeB/uMEVWv9WJ17U3M=;
+	s=arc-20240116; t=1733441476; c=relaxed/simple;
+	bh=ipe8NsJAQBcmPMfD/Bi4g0NfAGvarNZvLDx0ZNbmOoc=;
 	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=KRSZGuiTRM8q6CWMgmqYg0zO/fvSYQXXEtD4XeVueXi413l3cTTUEyKBD05xYrbTcYMRbn2+ey4/2aIp3+Uc3yMs0wbZa0DJ0JbTyyF/li5FNHYy1cWI1YZzg74YCA2F98V3jw2vzchSQk+HhUgiev526uO4oKs/Codh7DwHIQI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=cVbo7azi; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=q3QyrGyD; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Type:MIME-Version; b=UXxZZhedWdx0x3iC5huRqd2bjgbELGcBI66Gg2+4ai0ma4dV5Y1CrdwL6/cC12bNWZauWakxoeUSjEo6K6/m8Tdbaf56rQirKfx2/VKGnVvnaPAyaHcTj4yVyvuMN3slQ2Gf+wps2moK+UWOOsoaaBGB0Bzy4TbFCVzqZ/4xXdc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=OikftKgM; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=OWAWTHeo; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="cVbo7azi";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="q3QyrGyD"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B5LNW5h025656
-	for <dtrace@lists.linux.dev>; Thu, 5 Dec 2024 23:23:26 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="OikftKgM";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="OWAWTHeo"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B5LNZ9n013040
+	for <dtrace@lists.linux.dev>; Thu, 5 Dec 2024 23:31:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=F2h9i6mW6Q0S8BcyHGXH2f8KeMbvcE/OsG9qDV1gDjE=; b=
-	cVbo7aziqaZjUPmCaTQG4RGFkWAEWOfg/CBvQH5y84JyINc7TR3/pr3zm+iQ4/Ci
-	Eg8qlS2HcbyH7SisjzBuA28V1Uio3YKadQXVmG9ERlzOcH69Uap4ljr3MIS04g4r
-	Qf1JIgWJGOhhHhqe42vxLwgeDLubckxOFDHiPjSVPdv5JjsttOtOU2m+hZ7WKtXq
-	h7e/Bfk7DjU0mPSnzZgo0vKLHg1wcUWmEIcH5hq98tklv7Ip+bsVlFSYrUAG5awQ
-	YJVdki7/V5MwEVic0TRcMkQ1nKnpBzkvce3t5SdSXjo3w6iDSzjYlbO9QGhUQFQ7
-	kP0Q3D7iiAj9YV6SeuCTDg==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 437tasc73v-1
+	corp-2023-11-20; bh=O9AufQLzpaZoUaXJGBpsrGGmntozGIv8II9kmJJZAKs=; b=
+	OikftKgMVF2Hcnknhrjrx/lG/C3CGbIAvKmX19XtQ7IMMI5XTa/0Z/WnR8ImcYsK
+	2VIWP3yuvB9dU6UFgGviyjHARxf2dMZmxYSTMBaLSajuqgY2vDM1Yha9HU6KmXEV
+	AoGOX88bhG79vv//6h0osBS1oxmHDQwfQFyegu0jOG44jlorSHCPgKiZt55gFPik
+	yCqhWL0gJKcaC8Mds1OgkBSe37VVua/zmcJC/IVvEmOK4SDpvLLBzolz9osCkFLx
+	ht/R7O1RYO0emtWkJQstUzaTEIVRQHlhdSJyaqiQndLIRG/e/7bFpNBAkRY6QgBK
+	1Z4vai5RU5A/cV1jvj7Vag==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 437tk949bt-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 05 Dec 2024 23:23:25 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4B5M0RGO020378
-	for <dtrace@lists.linux.dev>; Thu, 5 Dec 2024 23:23:24 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2174.outbound.protection.outlook.com [104.47.57.174])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 437s5bks51-2
+	for <dtrace@lists.linux.dev>; Thu, 05 Dec 2024 23:31:12 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4B5NA2kh001458
+	for <dtrace@lists.linux.dev>; Thu, 5 Dec 2024 23:31:12 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 437s5bk2c4-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 05 Dec 2024 23:23:24 +0000
+	for <dtrace@lists.linux.dev>; Thu, 05 Dec 2024 23:31:12 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DM4+EiEqhWF6iAgnSQd7lxMHorm0l1sqi/ylZSveEjvYB48ZXJlr8TolLqP4FB9x7YJ9n2NTl4Oo9aynnGfzjwVFun8j/JVbWRTMsMLCCoTqTu4oGjelRomUfo4NMcghqsOevgE8Lpqv5sKxJyNYUkzuL0GYM5N+gPMY0E2NvNZGf4U6/E/eHuxW6Yb3j+FXiFiUmGFtmsX4hdyFr6Ymlq6qGazQjA4ceBiIvJcOmDjulntBIJSdzAm+faxSf/ow0KNJHkR3aDNzrlWo49bqKGCYJWoTKWizH+cXuUbifvXBRqHsz5LKt/UfMqXHREWrYKjvFiF6WZ4sv+vDV5aGcw==
+ b=loxEWbKhtDROaAdve6ot53bU3taEmK+8oMpu+hNMEif3NeG62KZrFbEG4XiX8676wc2/AST2rtb1bYewkn8ARZOiIohTnQ/vOOw97W79cSWTKc1PwdbAAYDx70kv7pKvU8PhYfLP2OsVlKUAFNiEYmcBQhED1k0lpHDX+3YpWw21bvYPhD8z7cSBEMmWYiSi3WwkEQQmV2jiamMuw6nfNZojc5nNqtaUIwm+hb1vuzpz8xKfdYO6maOlDr9CMHUr2SC6iH5eQe+RXFB4xL438enYz/Fzmy5aZV6XpZC8LhcH/pguK1Z2AhSLXxwmZMm/xx0aIx/Ms8zJdU3wc9X5kw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F2h9i6mW6Q0S8BcyHGXH2f8KeMbvcE/OsG9qDV1gDjE=;
- b=UCec6XBi82MG83zeS06icZnmtPQO/fkR1tRvB/Isca98tLyLW5rYtuYIsj5UwmrgrPMhgKYYED4LAzX1LwWMqoYUZvjtU7/vO+ezC5Qaj4X7gNNH2YvFZWjHtoQpEpes5l0GkCRXVG7f19iHTgYjPnQ/MfGRU89MRNye/QFKfox2KSsMxE4d86/IlhFFzI7OdCN6aVF4AEA8BxVL6NTADs+q+D0zl9fGsSSrQh1QhH/c7XnOkd7RgQ/IDvzqym5JsnAIrWmygIMIllxb8r8rDqu/cP/JU1gkQJ24Gr7DLWKpVfgQTpYJE1xc4sbZoQ7P54MF1E/CNc3C90nz+EDwrg==
+ bh=O9AufQLzpaZoUaXJGBpsrGGmntozGIv8II9kmJJZAKs=;
+ b=uChDzOmAanF3LUJLKWtaJg/CqftVdWfdP2SYlCLF7bxvtmNwT4X5ZbTv+2cu4KmylUj+1NPNE3l2lftLw6YOI5w1xuIA++QBYkc+S5FdGiNvr26yYUprQuftHfGinaxS+pasrOOjeTj2zyrZJNf5CPbK1O6JUWu4DUxP6o/cDOQeXohvIKMBwcZJny3qRBae5E/MPw3xO20MdnjoNMfQ/3jNmctzm3feFlm7grIu3bgIGqscWc83A9UsNZNx7sk7u4k2nuvwFwudItPaw8x3XTcAIWDtHJe3etd5HC6+/FIdhk0EyZwUYB/bLTvo9+qc/WLnYAHReOAUVUSxDCg00A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F2h9i6mW6Q0S8BcyHGXH2f8KeMbvcE/OsG9qDV1gDjE=;
- b=q3QyrGyDds7aO6CfNPI3AprWzr8AtkevIG3C/cH+3HjMgyJ9IAf30WgiDHYcx2iaBIHLvpdilMh8GK/YXDFDZUCzRjqEa9kKBN4gNviG+WnqmJRgmkXoFN9JzYuZfMc/YjbASeeD3BJl49R566bTyEJhoyKvnRkgUFVs8BelLwI=
+ bh=O9AufQLzpaZoUaXJGBpsrGGmntozGIv8II9kmJJZAKs=;
+ b=OWAWTHeocv/Vpk4V0Rqp9X5BL1Of4ODw5nmQsMsEffh2pUkXBgVcWlC/tyR5f/gEP5CsG17qi8hhuoJhI7aL+wUJO4rdw/Fjb4zQGQpE4IqpwKR/827M2PrDotaZZjS/DlwkoHVe5ktH3ffR7SIAy1+fvo8wLS9t6pfLn9gLl1k=
 Received: from SJ0PR10MB5647.namprd10.prod.outlook.com (2603:10b6:a03:3da::17)
- by DS0PR10MB7510.namprd10.prod.outlook.com (2603:10b6:8:166::17) with
+ by PH0PR10MB5595.namprd10.prod.outlook.com (2603:10b6:510:f7::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.20; Thu, 5 Dec
- 2024 23:23:10 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.11; Thu, 5 Dec
+ 2024 23:31:08 +0000
 Received: from SJ0PR10MB5647.namprd10.prod.outlook.com
  ([fe80::8db4:df1d:6afd:e4a7]) by SJ0PR10MB5647.namprd10.prod.outlook.com
  ([fe80::8db4:df1d:6afd:e4a7%7]) with mapi id 15.20.8230.010; Thu, 5 Dec 2024
- 23:23:10 +0000
-Message-ID: <47717e88-6c23-b137-4fdb-ef9da7dce8d4@oracle.com>
-Date: Thu, 5 Dec 2024 18:23:07 -0500
+ 23:31:08 +0000
+Message-ID: <8c6cb08e-130e-4d4e-529d-7513243d9b1f@oracle.com>
+Date: Thu, 5 Dec 2024 18:31:07 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH] rawfbt: new provider
+Subject: Re: [PATCH v2 2/4] fbt: clean up fprobe/kprobe support
 Content-Language: en-US
 To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
         dtrace-devel@oss.oracle.com
-References: <PH8SPRMB00374BF4E363FDE8B36D9E86C2302@PH8SPRMB0037.namprd10.prod.outlook.com>
+References: <SJ0PR10MB635036FA69C3F542A5518385C2302@SJ0PR10MB6350.namprd10.prod.outlook.com>
 From: Eugene Loh <eugene.loh@oracle.com>
-In-Reply-To: <PH8SPRMB00374BF4E363FDE8B36D9E86C2302@PH8SPRMB0037.namprd10.prod.outlook.com>
+In-Reply-To: <SJ0PR10MB635036FA69C3F542A5518385C2302@SJ0PR10MB6350.namprd10.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL0PR05CA0002.namprd05.prod.outlook.com
- (2603:10b6:208:91::12) To SJ0PR10MB5647.namprd10.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR13CA0199.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c3::24) To SJ0PR10MB5647.namprd10.prod.outlook.com
  (2603:10b6:a03:3da::17)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -88,537 +88,194 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5647:EE_|DS0PR10MB7510:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1b8c93c5-9aef-451d-5d15-08dd1583c861
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB5647:EE_|PH0PR10MB5595:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1852dfba-15a5-40f8-dbbc-08dd1584e57c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?OThTeXFYYnZLeVR6R2o0N2wxRk9rVS8wdWdKZDFYL0VyWjlnZ0VBTDdjNEZq?=
- =?utf-8?B?U2VRK1RVQjFLVzV0S1BBRjgza1VNR1BCZjROY2Izc1BEYzdIS3R6d3hnUlJl?=
- =?utf-8?B?SVk5ckQycE5OUTg4Nyt4Ty9iZ3VNZllGdTJobUlVSFozSHZqcGNCWEF1UDRk?=
- =?utf-8?B?UDA2bkUwOWFrT1B2R2tZUzJJcTVSR0orYzNvbndZOE5oY3VCd1hKMVlQa2kr?=
- =?utf-8?B?ZEpTUTRhSFlCU05idEF1ak5aaXZKc2FpOTVJVmtMUlpQamM1S3BWUTlwZ2Z0?=
- =?utf-8?B?Z0pzb3I1b3czbUN0K3BtZXl4OVRKcU94Rit3dmNjN2hxcDgxaW9yQjJrek9N?=
- =?utf-8?B?WHo0WmFrcENjajUrY3g1UjJ1OHc4L0swaGp1U1l4bnkvcjhPRWxyeWdDTkNi?=
- =?utf-8?B?UG90UDI2SlRSaEZ0cjhhK0J3NFNLMlpVeXh2THhDSjNUK2RMYUFnME5IRHNs?=
- =?utf-8?B?NFgraVFUTDhYWkFSazY2ZEhlbDFDV3hlczRNS1NuL3VqSjFXTFAzeGZYc3FZ?=
- =?utf-8?B?VENGZ3FPYmtKZmJFN2tiTVNaVGp3SXptamRqOVBxM1d1Z3N6UjN4SzF3aVhv?=
- =?utf-8?B?cmtGTXYwWmtKTDlWdTRqeU1NRC9ySHRlSW5zSXlIT2s5VVpxNFVaYzVHY1hE?=
- =?utf-8?B?eU5tcDJuQjRWM3diMUpZZFd5MnM2dkVmRlhzeTh4dzNOVFpMMFczYXJmeDRB?=
- =?utf-8?B?UVFDeGw4SGlwOVpqbXdzOTNKZGlQS29mL0NiRTMvbHJUTWtYT0w4TnZ5Mk1K?=
- =?utf-8?B?L25zZEc5QUJHR0lRWU13aS8wYW5oeVlsc3dVVzlUblh2Z215SVBVYi9pcUd2?=
- =?utf-8?B?OWVueTRrTUJHcFNBbzBWM1VNcmZwS0ptYWRXamFtbWx2Y2p5ZTlwZkcvWkEw?=
- =?utf-8?B?bTJadEI2TUR3ZUpuYUp6L3EyV1lJRkZNKzR4S3N4MEFOR2J3UGZQSlZVK1lT?=
- =?utf-8?B?d3I3dmJhamdxRUZjTW5ibXJyMG01ZGNKQWZsRjFoN20xbjJuSEo3RHZrOWt2?=
- =?utf-8?B?YXFvZGlZWmN6WXQwWFNSZDZGUExNTFJtTFd2WlFpYW9FakdjUDV0REtwajIr?=
- =?utf-8?B?RFdYRGdWSHlsODU0YUNNTkxRbFhOenRoMG9xWGJmb0NWbEVKdGt5cUtYZTdl?=
- =?utf-8?B?ZTZ2eGRYa3I0UGNHQ1phckJFd081bW42K1ZydzF6SmNUNXVUNTBMS2NBMkV0?=
- =?utf-8?B?Y1hnY0hIR2ZTZHRlQnlJSFZJZlFtYXFONEVhSEFoZ2RMcjJJdHMvMHhLckNC?=
- =?utf-8?B?UUZXZk5OUG9lQlV4TmEvY0lzZW9MSWRob05jNzN6VjYrbGNwSjlBdkJoWEdK?=
- =?utf-8?B?SkFnd1NWeXBIU2xXbFExdFFFYkFXMFZxWTlBWVRrL3YyTmNVK2JYOXUvd0d4?=
- =?utf-8?B?eU5QV3VXK3RobUl3YlFuWk1jTGhZUFR2djNkdkhVYkhpZFdyWVBPUFk4NFpt?=
- =?utf-8?B?R3ZTVDZhSktMSzVNelE1RStxVmkvQ1l5SDE5eTIzdWhQRnYybFk4ME9FVnJt?=
- =?utf-8?B?UUZBZzZreExEQW5pdnlTbFYzdUY4SCt6cGtkYVUvcU9Gb0Fod1N1WXkwQ2Jl?=
- =?utf-8?B?ZVB4RlpvWTl5dytsRUE2N2poMTdVaDQyajlqT29DWlFTMnNzVFV2VG02R2cv?=
- =?utf-8?B?ejdBaytXWmtpQjhsRlN2SGgzVFE2RVVnWForV1ZMeE9QTFBOampNN3FManRh?=
- =?utf-8?B?MUtQSzg5bTZCTEFqKzBMYUVvaXBEL0JyMGwzcUtwQnhYNlR0dDRmSHExOUdo?=
- =?utf-8?B?dStiNEhmU0dWWllGa096RGs4RENMY3dtUWErTHUvODRPSSt1dHh5MlRZMGNr?=
- =?utf-8?Q?OTTZ0nI+NzK/yNsFnHHnB5kiBdjBbeWfMcxzY=3D?=
+	=?utf-8?B?aEMvc1d5TEZUazRDRmZzNXVKa0RDS3lXNmo5UW9hY0Z4bWpJTmdzcEhtc3VD?=
+ =?utf-8?B?c0ljb3VZbVNlNWNnb1F0dTJaYlFsK2ppQWprOU50OFBBbm1EVmNWSHhjMFNC?=
+ =?utf-8?B?MDlrZDBNcnpXKzN6K3pxM1BUVGNGZVZHZDNGd2NyRmxSVVJnQnVmOE9xZTNI?=
+ =?utf-8?B?ZnoyZkhhQVJzSno1clJOVlF5d2djZFlScjJhUThMSmNlZFRUOEEyZnVpQXdP?=
+ =?utf-8?B?eW5LUk1Pb21zb1ZSVTgxR01VRlV3eEw2RXRKTk1ZWGxBRm5XYm9BOE1vaTh0?=
+ =?utf-8?B?OVUwTkRhQk9aWE84dEVQOU1GMXJaTkhLamZhUjRiREdQR2VMZ2tBSkE4RGJ1?=
+ =?utf-8?B?ZU1vMW5hbW11ZytraVVEME9HaGhSUUxsbnVwWEVJSUJManpEdE1YZGpYMEVv?=
+ =?utf-8?B?VDlZZVllMTlNcDVhOEpoRHVlMWZhWDVQNXZXNDdUN0ZaMC9ydGVFdGdKZmRn?=
+ =?utf-8?B?M0dPN1VWMXdTTFZGTHpmbkp4b2U0VFlGdDd2cW01blFIaVkzQlpPd0Y1MGN6?=
+ =?utf-8?B?ak81K3A5NDVVNXZ6UWE3aHJwS0xsaUtrM2ZJUVNmM3RVNmhia0dPOFNhOFli?=
+ =?utf-8?B?MHp6WHlxdlByMEFvTjBoLytXZ3RHUjVPcWZMVi9TYzNuUHhRUERKZVhQRjF4?=
+ =?utf-8?B?aEkxYXd0R3FJa2ZydnBzYWZydkJLdmxFTkk0RERpWjZidDV1U3kva2UwMU01?=
+ =?utf-8?B?WUw3R2I2TWw4VGhkNXJiN2FVcGpHcE9yOXQrTVQvQVh1emJnWWFnWmhtbGln?=
+ =?utf-8?B?Y1pnT0EyRWZGQnowN3ZuT2ExTlVncVNTQXozdkQ1anlENi84dC9mVHAzdFpQ?=
+ =?utf-8?B?dk0yR3dDWVM5eEVoR1J1LzBRNkUxSVBnbTlvVTV1RENIbE5YKzRzdzV3amU4?=
+ =?utf-8?B?aDk0UE5rZkFwanFub3pIOHZRS054M251MTVab1RORW5EdFI2cFV4ajVMcTRL?=
+ =?utf-8?B?cDFzNHNnQlJiL0QzTTVqUnUyK2RxSjUwZEJMQ1ZQQzFIL0ltWStrK0NNTGp5?=
+ =?utf-8?B?Y0t2UkplWG1vYTRJQjFHVm1yWFdKREdVbXdlUUdmVFF5aEZXSFRhSTc4Zlg3?=
+ =?utf-8?B?Mkx1aEFSRDNjL2lFcEVFU2QzcVp4dCszeFFCUU05ODZEVWI0VXFLUDlCUWtm?=
+ =?utf-8?B?OG9oUytNM3pTUnpSVVdmb1g1K2hleThLbmNJWnN5MytmRWUwcVlRRE8xQUUx?=
+ =?utf-8?B?RzZ4RkZFOTJrZGZCQTBXY0V3Z2pxcmJ0QVR4cUpHc3FvdElGdW5vYVNhSks3?=
+ =?utf-8?B?L0g5R2U3cHRJVkF0QkZIQ2FuUEFsUDdGM0VOWkFFQ0l2VnpqbWlKMG9CaytB?=
+ =?utf-8?B?UnZzYlg2SWdscFdGVjN4Mkx0QTAzYjFIQUJRaUJYMG1McFF3bkhrYmErYnVT?=
+ =?utf-8?B?TTMvT3pDSW0vS0J3Wit6Vm9rRzNGSTEwejJBT01QclI1VTh4OVhRUWhabnp4?=
+ =?utf-8?B?OHFKaTNiZ2FrTnQ1eXlMck5tUVVaRXRteXVUdW9JcTRBQUZ2ZUpkVTBhdi9n?=
+ =?utf-8?B?ZTh0N2gyNC9zV3RSS1A2TWh1bHBFVGVkZVJhekRCdmxKZDVUMnZCdnZlbHJ4?=
+ =?utf-8?B?aHNtaFpXbHRMa1lHNDh1ak9zU3RjWXdWdTJwd1NTN1c1MXJjWFlVZjZUOW9W?=
+ =?utf-8?B?elNSZmh2V3cwRStEUDhqVXNvQXJIZmR1dW9OeDBWeHB2S1dESkxEMEZydWlQ?=
+ =?utf-8?B?SDdUWnlnQ0IrUXBWUWd4L0RobUNHck9raFpxSVZhbi9iNmhGWXIrUHJkNmFY?=
+ =?utf-8?B?VVg5bVhOMWk0eHpGMDNJOStDS0FqNGR3SnpMdHV6NUV3OGcyTjU4TlJMZEpp?=
+ =?utf-8?B?VnNZSTBTVGVRaFFDTGVzdz09?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5647.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WlEyY3dXL3JOUHFHNjlXdEY4MU4wdEw4WnloNU1QaG95UE0wUkd4Rm96cDh4?=
- =?utf-8?B?SnFaQmpKb3VwMlZVbVlGK0ZVdjhzYkIxSWwxcC80dUNDNEEvMG9ZN0JuRTlH?=
- =?utf-8?B?bVZrUlIyYytNaytSTWxGM0U4dlI3VFBOcnJxT1NXdjBVcnpNWnJ2NGRwakZ0?=
- =?utf-8?B?SFBIMklIY1BFbmRJd1hDVng5K0orMlFDSTJIWFJvWnlITFZMS3ZBYWRSTW90?=
- =?utf-8?B?RkJTZU82TDU5VTVwQzdNNy95d2ZnZVQwM00vU3d4YzdCdGhuamxoK25Sa2Q0?=
- =?utf-8?B?a2diZFV6WEF3YkttWGNPeHZCV1VON2hCdWlFVFgyTVdwR1JjcE1UakZPUDZ2?=
- =?utf-8?B?UkRxTnpqbGJwcE0wVWRUVjVGOHJqN3FZZlZvQVl3TmJCNmdkNXU0WXNvM2FH?=
- =?utf-8?B?R0xqRklXZUx2NFBOcFFkd2JSUFpvVXNoVzVaMmpzOURFSCtUOGFMbkNPNVBV?=
- =?utf-8?B?WDJHWU12ekpqb2luNWFDZ1VNRkpobjJQZ0V3bWRXOFhyaW95VEJvU2RUNnZC?=
- =?utf-8?B?ZG9UZU8xTXFOU0J2Q1ZacWRETlV5dk5uZGFrWTROZHVtNFEzeTlQRzJtTVdR?=
- =?utf-8?B?aE43ZU83ZHlmU0luYWx4eDdMcUlJbyt6TnJYcVBhQU1tMm15Y25xdEx5d1By?=
- =?utf-8?B?YkRGa2RwSEFMd3lKY2dmVHBmYWdBYisyL0twenpYeCtFNmdDS1VrbkZmRmt4?=
- =?utf-8?B?SGlVR25GTW1PU0dJK1ovM0FNNEt5UzIyS2haQzVRM1hnWEZrTGN2NE1GZHdP?=
- =?utf-8?B?UFdyMkExNm9UVzFwNldIdUUwZC85R3UxNGhNa21DZ0JFdVZWWG95aTJIR2pJ?=
- =?utf-8?B?cGpmc1JOcXU3Tk9qZVdKb1BUcWFkOWxzSk0vSkE2bk5NNzduWFpaY1RIbWQ1?=
- =?utf-8?B?YzRhSzZYdzY5eFMzQUlkSnVQblhib1dySzRraTFvdm9wbFRYMWh3RGlHQUp3?=
- =?utf-8?B?UVJPS25JUitkWFhjWGtyR1NwcERwelRaVlVESzFCUXlFbWFBK2pwbEhWQ1N2?=
- =?utf-8?B?UkVnaW9nZEpMVklWOVdKNDMxTGViVFgwN1B5NDBTeHFpYldmY0RHN1IxWWw5?=
- =?utf-8?B?ZVlFVjdSdVovbkVDV1hxbERlMk0vNkFncjAyYlhlamxhZ2toWkV0VllZaWo5?=
- =?utf-8?B?STk0bFFlVis3djM4N1k0TTRoOG1TS2E1VUVBcWhmOUtIS3lBRC9zYlBtL3dP?=
- =?utf-8?B?dmhveURvY1VNUEdvK0J0MmJLZEVLcXhIRmNJS3lBdDdNMkxoY2IwaHVkcHcw?=
- =?utf-8?B?bm16MS8rV3JkYXNWQktndVlJS2RKeEZ6Ti9yVk5SK1VEc2NaNWRCc2VxbUdP?=
- =?utf-8?B?WjVyNXo0aVVsZmlMSDBORi94bGhEVm9mT2xmQjZ2R2JPQ0N1dEk5aUdNR0Vk?=
- =?utf-8?B?QmlSU2drb095R0ROZlN5eThxb1l0YTc5UnFnVE13SG5BaitlaG82YTFGUGFP?=
- =?utf-8?B?N3NuVmhUeWl0SytFN3ozL2lzdXhlQzZBZnJsQytIRC9zcUpjd2RYWTVZQ1FN?=
- =?utf-8?B?Z0lLVGE1VUtjdXd0Q2lkUW5SRWQ2dnBrUjBnQTJ3dHIvYWh4NU1zdzBLKzc3?=
- =?utf-8?B?UkVTTXd4bUc4NWNIdnpHc3RwODJQaGNKaVFkdEl0MnFQVWVQN3pQVndyczVj?=
- =?utf-8?B?blV6dUdpdUN4Qi94bG53cVJQR1lpaml5K2VucDUwY2M5TGdPV3pybDhxeGtX?=
- =?utf-8?B?TjhWMHZLdW5EQktYOUdBZmxwcTZKZVhJS211cHJTV2pLUmpVL3NnOG1tL3dz?=
- =?utf-8?B?UXNlV2NnWVlJY2hJWjMwMXJFcndqcjRZbXUxR0o5VHhWV24xdFd1QTJ0bndO?=
- =?utf-8?B?Nm8va0cwd05hbEFxdzFzZUhtOUVGMUZjZHJwN3hhSTFBTkRVWFBNVXVYbFF4?=
- =?utf-8?B?cTBzd28xRW5LZTFLcU81dTdXVjdabHFYc0VuNlIwQmJTbWhmSzlQQWFYK2xI?=
- =?utf-8?B?Umpyd3VCdUxmdzBlVHNIdi9iTEtIdDkycXQ0WUJoNVFidXZQeEpQNERHK0pn?=
- =?utf-8?B?ZlB5cThZTlN1M3BYcE9vVkh4enRUNzFkVllvRWxqNUV1UElWUU1qekpzMy9E?=
- =?utf-8?B?elArSHNCQzROVUNQektTSGJWWVdZY0RRc2hQWTJHZHY3OEc2N3gyNkNraFM2?=
- =?utf-8?Q?/0Mi3fXTXdeddfoysgZzpjSyD?=
+	=?utf-8?B?T0tFaU11d1VXOEp5ajZ3cEZUQ3ZnYlNzTXRqLzNHZzg2Qjhud3RTa1dObVZD?=
+ =?utf-8?B?ZFZCLzdTK0FiaHpDcVk2UGdMY0RnQUVqNzBNeXhZaHJ6YTdzbUxLQWg2MjRt?=
+ =?utf-8?B?bi9rYndJVXJsby9hYVRDQUhxY0FEa2Y2STJaVERFeDFJVDFYRWV1dmRwNlZu?=
+ =?utf-8?B?UHpqWTNXR2J4c2lxZmcxWGFYbHZTQno5ajdWR0NEYmRFWjRPelExeTVqVTlB?=
+ =?utf-8?B?bTEveDNsKyt3ckNTbExxVkV6K3BlM3pmZUZsTFdIS2UySFhhWEtSNVRCMktV?=
+ =?utf-8?B?K0JMZjhsbHlkWHpOL3NyN2E0THFzV2xHbXZGREx3Z0ZVU2k3eHI3ZCtidzBO?=
+ =?utf-8?B?emRGOW9VK3loWGF5TXVBZXVnL1hFeGlTZU45S25seTdXSFZyUE1yRG5MYkxr?=
+ =?utf-8?B?eGZDSTR5UjlFL2dJOWxsNnNGNXZmL2FEeU5FVUhqRS9DeHYycTEyL3pyblVF?=
+ =?utf-8?B?ZkliU3V3T0IyaGdpUjZOOTJzcDliNFQ5bTRwVnJpbzBkL0tmVlQ5ZGhCaHE2?=
+ =?utf-8?B?L3ZIZTBqWlA4dGhBNTFlcUh2MVd0N2tpVVZ4djlPWTlDYSszQndkMkp1S0lP?=
+ =?utf-8?B?Mi9GSXgvZlVvRlUrTW5pMGNZZ2tnQ1Izb1ZMdlZ3c3pUbHBhTnFXcGxsQzJy?=
+ =?utf-8?B?M3VqcGduQ3pmYTdhUnRZVXg0bXpnUVVZTnc0eTExR2V1eGdkR3g4ZnNNNUd6?=
+ =?utf-8?B?RlNLcDg5cU4vS3F4b2Z1SmsxdldLL214RG9CdTdlUVhqUkMwOUdGbG53VHMw?=
+ =?utf-8?B?MHQycFh4N1JpMmJmV2s0M2srcW1NMHplemt1OVFhN2ZQSUp1U3ZtN05rditZ?=
+ =?utf-8?B?SENDNVlMblFOWXpucHFOaklrd3ZnQzRaOXUvcDB0RGQyYVZydGpFWng4Vi9t?=
+ =?utf-8?B?aWJadDRBTmhwRW9MSUFVM0xXRFgwSXVUQkszMGRjZTRoVGlKaTAyRXEzWUFs?=
+ =?utf-8?B?c1JUanhqdTA2bGJOSm9DSGlGdERCVlhZRTJEblNQRTAyUE9wNHNzeTdlZXdm?=
+ =?utf-8?B?VUhZeFVTZzlWeFFnMnNVS3p0TmRwallPNC9ZREYrSW5JSWJxL3hDSjA4dmVk?=
+ =?utf-8?B?aDl4aHdhbnVlS2hiRmt6dy9KTUJTczlIWVRmTHlWcGcvSENLZ2lscVJnUElh?=
+ =?utf-8?B?ZENkZTVlM2lFbkk5T2pER0FEQ0FDcDdtRXV0SEx6dHlkTnR4cTVrSGNrSm5J?=
+ =?utf-8?B?TjcwV0dTVmlpUzl1Qy9CNk1uLzRBV254ckJlTjhRbHA2S0NjWWR0TG5Taisz?=
+ =?utf-8?B?KzIzU01haXpjckRFUWJhMktLbzBCWUtIaUxvZUNpQjI2R0ZtYnFKWXRua2tj?=
+ =?utf-8?B?NVhsVGRYY2lNQk1Cb1Q1YTdHdFBTZmQ1VVA2QXNSZ09mVXFNS0lrWHhvZGQ0?=
+ =?utf-8?B?VGlCVS80TjVNalRSTXpaanphdjY1cklEcTRWZGRZbTlRZzBZNWx6TzI3STc0?=
+ =?utf-8?B?RHBpcnlCcmoxcG05SVM2azhkUWJVN0I5SGZoZG9oVU5SVGpVT3dabHBCamtQ?=
+ =?utf-8?B?TUYvMHZNSHR1ZCtNVGRyaGFoeGc4VW43Wk1LUDU4Q3NKbUdPTjVJTGMxOWZY?=
+ =?utf-8?B?UFZCUHMrZ0R4ZGdLZGMxQnRWTlZ5K0RSM0pOV2VBWGJRd202OTBTRlNMcnQ4?=
+ =?utf-8?B?aDdZUllkRzQvT1dpSHpyTkxTSnIrM0JXZGE4b1pLY1V1bDcvY0orUVU4ZSto?=
+ =?utf-8?B?VTJ0R2NEOTcwMG5zNy8rbEdIcDJ5RDQ0Vm5CV2hPakx6SldZSUFoSG9WZ3hr?=
+ =?utf-8?B?RnFPRHZRcTZmTjJ3cnBkd3l1R25IMEJ2S01jekVqa3d0NGJVR0FiM1FTUXpL?=
+ =?utf-8?B?Y0F4Zmg2Q0NrL1R2UFd0VUxOUVRIaUFpRmgrVHp6SExvWWsxZ1FkM1hVQTR5?=
+ =?utf-8?B?UmNSajJheDhQL1p6ZkUzbEhFaGNQZlpid1VzTkNTL1h4YjdLSVJqclc2Y3FC?=
+ =?utf-8?B?dHNpTU5PU01NdWhtTGhxUnVvNUxHK3oralJpL0EzUWZ2K21qY2JvQXJXb3Mr?=
+ =?utf-8?B?ME5YdGR6cFVod1AwdEE4a01QUXdlam9vZUkvajQvdVFQeXVpb2wvTkdmdlFI?=
+ =?utf-8?B?ZUNFVGlDN1hjZEJRKzZDSzdLazR0Y1ZFNXlmK0pMUVpweHNvSU5lQU1qQStp?=
+ =?utf-8?Q?YszVrYNAd+hnVSrtt/3Dw/RzQ?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	lJOzA2EP4G+h+WcmXAPqOtg5JJjTlcX/UQwOjpjDrMc+YTcfMPhlI8jil8FH6g+kaXrW7sumPiUY849l+y/73+9zA/G4HNTf1ZL/i8g0bl41OqhUwqIhHCMqXg0enOKj560zNMNvD6NrRt4MLLzpsaMw/c1mngpzH6R8kqWPiz884+spFGq97xAB0dOoOiNzCuVWCblfZA5MBInYnuWVHfOR2JpjOfZ7v1EsxUyzc/LQxLjylId6/4WH3LmS+91cSHedKiGpdLdAAZQCSzWyEFXvJwph4u/MugfeQ3pfV7F4Y4o6CTlJbatVlIdPE/SoeJtXNArHyVjAfIFzeiQjauMdgdOjWsC7ocGoEFrXDOt10EDgWw4VfCsxsyo13CUvYgdugyXkXCZWLQi4xFc0CfNnFiadFkTtfUn2autbIx26yZpqKzGxSiIYf0i7piP9VRBmcErdH1IlDLSat8SbOQFo488CqMLO/vg7LMqKMU6vQQCI7Walrmo/JBIT5Sy74jljXxeUFwVpxhNVqXN8TEIlvta4FNjw8EDhICzyHt7oOiz3MFf6WIswZ4wvlZTWS0NwV83ppqc563H8Bk57NvxX4aoM4htt+cEv7MvdEJU=
+	CeJh8VEDcZQPos/8wdhT2XLvSC6L8toWNtVDoMgDpt5TFy1Q6+nLLRwNFON3amlVZMnhIKtQek4ER0aEDgWMQGOcaZMgP9ZpIcfYIA9DGLgSkapHSPuq97R+Cf2v8gfNmRpU2V+68IBEkN5yvNQE3mi+zvZ29vbjWMq1eE66QljA7BQj0mWYZILVivaHHPmnsBBoYE2i/rYDh3quCfXNB4Rrl/G2js4RSNBiutSgopHbD/Ih8YyqQJt5mNBYuCoJguKR3vwHHqP9N/ecbxNK87Dx6dDp0amqc5T+FlNuXmnt4+Bz8Bftgq9hH9jjbvVnssRSjeAd5vZqQUyqsIvx6zjXhlvc1jc9EBO5YX6T2C3wwp3Ee89wmV6Te7meJh6B1FVE9c7nOMIxPYhyJuCD4f1Ys2/4jz30CChKPLDOK5Y3Ddf/crKSlw6EcHu38WMQ2I6zTztBJsSYdTYDKYhzxt2nkBaaMe9W1IeAEcA+IfbDHq+hbP1T+ewsi74LSsOVrbjlqLrMCp+ab6ria0cOMuQvdgIqgyX+AjdANld9hhey71112icD8rYCrfM1PKBFQsIRcIab8NkFRwRXzU8yY3EszXSo0K/bznFWn9Cz2qM=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b8c93c5-9aef-451d-5d15-08dd1583c861
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1852dfba-15a5-40f8-dbbc-08dd1584e57c
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5647.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2024 23:23:10.4981
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2024 23:31:08.8265
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qqVQsMZC2zzw5d4/PU3WJwB/leXeZ9JDkNLg9A+7f1JMeehdrK67kR+dHntwasQ+OYx3echeDmpad17zHv5ojQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7510
+X-MS-Exchange-CrossTenant-UserPrincipalName: FMZJbzJ7E7ttmaoPtM74RVuZumc1mOK4ph4+h+/6u6YHp/3zdCf+0PphNtUzIp9cnQwJURAaWWJcXaGq3uUo2A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5595
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2024-12-05_16,2024-12-05_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=999
- spamscore=0 suspectscore=0 malwarescore=0 mlxscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2411120000 definitions=main-2412050175
-X-Proofpoint-GUID: BNEXS62Go46AZAOfuUUNv3G_d6ZSCJlr
-X-Proofpoint-ORIG-GUID: BNEXS62Go46AZAOfuUUNv3G_d6ZSCJlr
+ bulkscore=0 phishscore=0 malwarescore=0 mlxscore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2411120000 definitions=main-2412050176
+X-Proofpoint-ORIG-GUID: CWbPVYZ5SpAOlczXh--jzzFdiqFCSC0F
+X-Proofpoint-GUID: CWbPVYZ5SpAOlczXh--jzzFdiqFCSC0F
 
-There are a lot of comments below, but presumably they will be easy to 
-adapt.  So:
 Reviewed-by: Eugene Loh <eugene.loh@oracle.com>
+with the tiniest typo:
 
-Anyhow...
+On 12/5/24 18:20, Kris Van Hees wrote:
+> Instead of leaking dt_fbt_fprobe outside of the FBT provider so that
+> there is *something* to represent the FBT provider, use a minimal
+> dt_fbt that does the job of providing a hook to the populate function,
+> which then will update dt_fbt from dt_fbt_fprobe o dt_fbt_kprobe
 
-Add comment in the commit message that this is the old kprobes provider?
+s/o /or /
 
-Should there be a test?
-
-On 12/5/24 14:42, Kris Van Hees wrote:
-> This provider provides access to all kprobe-based probes that are
-> available on the system.  This includes any compiler-generated
-> optimized variants of functions, named <func>.<suffix>.
+> depending on what implementation is available (fprobe is preferred).
 >
 > Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+> ---
+>   libdtrace/dt_prov_fbt.c | 13 ++++++++++---
+>   libdtrace/dt_provider.c |  2 +-
+>   libdtrace/dt_provider.h |  3 +--
+>   3 files changed, 12 insertions(+), 6 deletions(-)
 >
-> diff --git a/libdtrace/dt_prov_rawfbt.c b/libdtrace/dt_prov_rawfbt.c
-> new file mode 100644
-> index 00000000..edfd36b4
-> --- /dev/null
-> +++ b/libdtrace/dt_prov_rawfbt.c
-> @@ -0,0 +1,330 @@
-> +/*
-> + * Oracle Linux DTrace.
-> + * Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-> + * Licensed under the Universal Permissive License v 1.0 as shown at
-> + * http://oss.oracle.com/licenses/upl.
-> + *
-> + * The Raw Function Boundary Tracing provider for DTrace.
-> + *
-> + * The kernel provides kprobes to trace specific symbols.  They are listed in
-> + * the TRACEFS/available_filter_functions file.  Kprobes may be associated with
-> + * a symbol in the core kernel or with a symbol in a specific kernel module.
-> + * Whereas the fbt provider supports tracing regular symbols only, the rawfbt
-> + * provider also provides access to synthetic symbols, i.e. symbols created by
-> + * compiler optimizations.
-> + *
-> + * Mapping from event name to DTrace probe name:
-> + *
-> + *	<name>					rawfbt:vmlinux:<name>:entry
-> + *						rawfbt:vmlinux:<name>:return
-> + *   or
-> + *	<name> [<modname>]			rawfbt:<modname>:<name>:entry
-> + *						rawfbt:<modname>:<name>:return
-> + */
-> +#include <assert.h>
-> +#include <errno.h>
-> +#include <fcntl.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <unistd.h>
-> +#include <linux/bpf.h>
-> +#include <linux/btf.h>
-> +#include <sys/stat.h>
-> +#include <sys/types.h>
+> diff --git a/libdtrace/dt_prov_fbt.c b/libdtrace/dt_prov_fbt.c
+> index da288401..8d8545c4 100644
+> --- a/libdtrace/dt_prov_fbt.c
+> +++ b/libdtrace/dt_prov_fbt.c
+> @@ -57,6 +57,9 @@ static const dtrace_pattr_t	pattr = {
+>   { DTRACE_STABILITY_PRIVATE, DTRACE_STABILITY_PRIVATE, DTRACE_CLASS_ISA },
+>   };
+>   
+> +dt_provimpl_t			dt_fbt_fprobe;
+> +dt_provimpl_t			dt_fbt_kprobe;
 > +
-> +#include <bpf_asm.h>
+>   /*
+>    * Scan the PROBE_LIST file and add entry and return probes for every function
+>    * that is listed.
+> @@ -64,7 +67,6 @@ static const dtrace_pattr_t	pattr = {
+>   static int populate(dtrace_hdl_t *dtp)
+>   {
+>   	dt_provider_t		*prv;
+> -	dt_provimpl_t		*impl;
+>   	FILE			*f;
+>   	char			*buf = NULL;
+>   	char			*p;
+> @@ -73,9 +75,9 @@ static int populate(dtrace_hdl_t *dtp)
+>   	dtrace_syminfo_t	sip;
+>   	dtrace_probedesc_t	pd;
+>   
+> -	impl = BPF_HAS(dtp, BPF_FEAT_FENTRY) ? &dt_fbt_fprobe : &dt_fbt_kprobe;
+> +	dt_fbt = BPF_HAS(dtp, BPF_FEAT_FENTRY) ? dt_fbt_kprobe : dt_fbt_kprobe;
+>   
+> -	prv = dt_provider_create(dtp, prvname, impl, &pattr, NULL);
+> +	prv = dt_provider_create(dtp, prvname, &dt_fbt, &pattr, NULL);
+>   	if (prv == NULL)
+>   		return -1;			/* errno already set */
+>   
+> @@ -463,3 +465,8 @@ dt_provimpl_t	dt_fbt_kprobe = {
+>   	.detach		= &kprobe_detach,
+>   	.probe_destroy	= &dt_tp_probe_destroy,
+>   };
 > +
-> +#include "dt_btf.h"
-> +#include "dt_dctx.h"
-> +#include "dt_cg.h"
-> +#include "dt_module.h"
-> +#include "dt_provider_tp.h"
-> +#include "dt_probe.h"
-> +#include "dt_pt_regs.h"
-> +
-> +static const char		prvname[] = "rawfbt";
-> +static const char		modname[] = "vmlinux";
-> +
-> +#define KPROBE_EVENTS		TRACEFS "kprobe_events"
-> +#define PROBE_LIST		TRACEFS "available_filter_functions"
-> +
-> +#define FBT_GROUP_FMT		GROUP_FMT "_%s"
-> +#define FBT_GROUP_DATA		GROUP_DATA, prp->desc->prb
-> +
-> +static const dtrace_pattr_t	pattr = {
-> +{ DTRACE_STABILITY_EVOLVING, DTRACE_STABILITY_EVOLVING, DTRACE_CLASS_COMMON },
-> +{ DTRACE_STABILITY_PRIVATE, DTRACE_STABILITY_PRIVATE, DTRACE_CLASS_UNKNOWN },
-> +{ DTRACE_STABILITY_PRIVATE, DTRACE_STABILITY_PRIVATE, DTRACE_CLASS_ISA },
-> +{ DTRACE_STABILITY_EVOLVING, DTRACE_STABILITY_EVOLVING, DTRACE_CLASS_COMMON },
-> +{ DTRACE_STABILITY_PRIVATE, DTRACE_STABILITY_PRIVATE, DTRACE_CLASS_ISA },
-> +};
-> +
-> +/*
-> + * Scan the PROBE_LIST file and add entry and return probes for every function
-> + * that is listed.
-> + */
-> +static int populate(dtrace_hdl_t *dtp)
-> +{
-> +	dt_provider_t		*prv;
-> +	FILE			*f;
-> +	char			*buf = NULL;
-> +	size_t			len  = 0;
-
-Extra space before the =.
-
-Incidentally, nice catch:  n was being used for two distinct purposes:  
-counting (for which it was uninitialized) and buflen. But then shouldn't 
-this problem be corrected in the file where it originally appeared...  
-not to mention the other files with this same problem?  That is the 
-pre-existing problem exists in:
-     dt_prov_fbt.c
-     dt_prov_rawtp.c
-     dt_prov_sdt.c
-     dt_prov_syscall.c
-
-> +	size_t			n = 0;
-> +	dtrace_syminfo_t	sip;
-> +	dtrace_probedesc_t	pd;
-> +
-> +	prv = dt_provider_create(dtp, prvname, &dt_rawfbt, &pattr, NULL);
-> +	if (prv == NULL)
-> +		return -1;			/* errno already set */
-> +
-> +	f = fopen(PROBE_LIST, "r");
-> +	if (f == NULL)
-> +		return 0;
-> +
-> +	while (getline(&buf, &len, f) >= 0) {
-> +		char		*p, *q;
-
-Okay, but q could also be declared in the innermost clause in which it 
-is used.
-
-> +		const char	*mod = modname;
-> +		dt_probe_t	*prp;
-> +
-> +		/*
-> +		 * Here buf is either "funcname\n" or "funcname [modname]\n".
-> +		 * The last line may not have a linefeed.
-> +		 */
-> +		p = strchr(buf, '\n');
-> +		if (p) {
-> +			*p = '\0';
-> +			if (p > buf && *(--p) == ']')
-> +				*p = '\0';
-> +		}
-> +
-> +		/*
-> +		 * Now buf is either "funcname" or "funcname [modname".  If
-> +		 * there is no module name provided, we will use the default.
-> +		 */
-> +		p = strchr(buf, ' ');
-> +		if (p) {
-> +			*p++ = '\0';
-> +			if (*p == '[')
-> +				p++;
-> +		}
-> +
-> +#define strstarts(var, x) (strncmp(var, x, strlen (x)) == 0)
-> +		/* Weed out __ftrace_invalid_address___* entries. */
-> +		if (strstarts(buf, "__ftrace_invalid_address__") ||
-> +		    strstarts(buf, "__probestub_") ||
-> +		    strstarts(buf, "__traceiter_"))
-> +			continue;
-> +#undef strstarts
-> +
-> +		/*
-> +		 * If we did not see a module name, perform a symbol lookup to
-> +		 * try to determine the module name.
-> +		 */
-> +		if (!p) {
-> +			/*
-> +			 * For synthetic symbol names (those containing '.'),
-> +			 * we need to use the base name (before the '.') for
-> +			 * module name lookup, because the synthetic forms are
-> +			 * not recorded in kallsyms information.
-> +			 *
-> +			 * We replace the first '.' with a 0 to terminate the
-> +			 * string, and after the lookup, we put it back.
-> +			 */
-> +			q = strchr(buf, '.');
-> +			if (q != NULL)
-> +				*q = '\0';
-> +
-> +			if (dtrace_lookup_by_name(dtp, DTRACE_OBJ_KMODS, buf,
-> +						  NULL, &sip) == 0)
-> +				mod = sip.object;
-> +
-> +			if (q != NULL)
-> +				*q = '.';
-> +		} else
-> +			mod = p;
-> +
-> +		/*
-> +		 * Due to the lack of module names in
-> +		 * TRACEFS/available_filter_functions, there are some duplicate
-> +		 * function names.  The kernel does not let us trace functions
-> +		 * that have duplicates, so we need to remove the existing one.
-> +		 */
-
-This represents a change in behavior from fbt kprobe.  We used not to 
-create the new one, but here we remove the old one.  How about a comment 
-on why the change.
-
-> +		pd.id = DTRACE_IDNONE;
-> +		pd.prv = prvname;
-> +		pd.mod = mod;
-> +		pd.fun = buf;
-> +		pd.prb = "entry";
-> +		prp = dt_probe_lookup(dtp, &pd);
-> +		if (prp != NULL) {
-> +			dt_probe_destroy(prp);
-> +			continue;
-> +		}
-> +
-> +		if (dt_tp_probe_insert(dtp, prv, prvname, mod, buf, "entry"))
-> +			n++;
-> +		if (dt_tp_probe_insert(dtp, prv, prvname, mod, buf, "return"))
-> +			n++;
-> +	}
-> +
-> +	free(buf);
-> +	fclose(f);
-> +
-> +	return n;
-> +}
-> +
-> +/*
-> + * Generate a BPF trampoline for a FBT probe.
-> + *
-> + * The trampoline function is called when a FBT probe triggers, and it must
-> + * satisfy the following prototype:
-> + *
-> + *	int dt_fbt(dt_pt_regs *regs)
-
-Should that be dt_rawfbt?
-
-> + *
-> + * The trampoline will populate a dt_dctx_t struct and then call the function
-> + * that implements the compiled D clause.  It returns 0 to the caller.
-> + */
-> +static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
-> +{
-> +	dt_cg_tramp_prologue(pcb);
-> +
-> +	/*
-> +	 * After the dt_cg_tramp_prologue() call, we have:
-> +	 *				//     (%r7 = dctx->mst)
-> +	 *				//     (%r8 = dctx->ctx)
-> +	 */
-> +	dt_cg_tramp_copy_regs(pcb);
-> +	if (strcmp(pcb->pcb_probe->desc->prb, "return") == 0) {
-> +		dt_irlist_t	*dlp = &pcb->pcb_ir;
-> +
-> +		dt_cg_tramp_copy_rval_from_regs(pcb);
-> +
-> +		/*
-> +		 * fbt:::return arg0 should be the function offset for
-> +		 * return instruction.  Since we use kretprobes, however,
-> +		 * which do not fire until the function has returned to
-> +		 * its caller, information about the returning instruction
-> +		 * in the callee has been lost.
-> +		 *
-> +		 * Set arg0=-1 to indicate that we do not know the value.
-> +		 */
-> +		dt_cg_xsetx(dlp, NULL, DT_LBL_NONE, BPF_REG_0, -1);
-> +		emit(dlp,  BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(0), BPF_REG_0));
-> +	} else
-> +		dt_cg_tramp_copy_args_from_regs(pcb, 1);
-> +	dt_cg_tramp_epilogue(pcb);
-> +
-> +	return 0;
-> +}
-> +
-> +static int attach(dtrace_hdl_t *dtp, const dt_probe_t *prp, int bpf_fd)
-> +{
-> +	if (!dt_tp_probe_has_info(prp)) {
-> +		char	*fn, *prb, *p;
-> +		FILE	*f;
-> +		size_t	len;
-> +		int	fd, rc = -1;
-> +
-> +		/*
-> +		 * The tracepoint event we will be creating needs to have a
-> +		 * valid name.  We use a copy of the probe name, with . -> _
-> +		 * conversion.
-> +		 */
-> +		prb = strdup(prp->desc->fun);
-
-strdup()... memory leak?
-
-> +		for (p = prb; *p; p++) {
-> +			if (*p == '.')
-> +				*p = '_';
-> +		}
-> +
-> +		/*
-> +		 * Register the kprobe with the tracing subsystem.  This will
-> +		 * create a tracepoint event.
-> +		 */
-> +		fd = open(KPROBE_EVENTS, O_WRONLY | O_APPEND);
-> +		if (fd == -1)
-> +			return -ENOENT;
-> +
-> +		rc = dprintf(fd, "%c:" FBT_GROUP_FMT "/%s %s\n",
-> +			     prp->desc->prb[0] == 'e' ? 'p' : 'r',
-> +			     FBT_GROUP_DATA, prb, prp->desc->fun);
-> +		close(fd);
-> +		if (rc == -1)
-> +			return -ENOENT;
-> +
-> +		/* create format file name */
-> +		len = snprintf(NULL, 0, "%s" FBT_GROUP_FMT "/%s/format",
-> +			       EVENTSFS, FBT_GROUP_DATA, prb) + 1;
-> +		fn = dt_alloc(dtp, len);
-
-Use asprintf() instead?
-
-> +		if (fn == NULL)
-> +			return -ENOENT;
-> +
-> +		snprintf(fn, len, "%s" FBT_GROUP_FMT "/%s/format", EVENTSFS,
-> +			 FBT_GROUP_DATA, prb);
-> +
-> +		/* open format file */
-> +		f = fopen(fn, "r");
-> +		dt_free(dtp, fn);
-> +		if (f == NULL)
-> +			return -ENOENT;
-> +
-> +		/* read event id from format file */
-> +		rc = dt_tp_probe_info(dtp, f, 0, prp, NULL, NULL);
-> +		fclose(f);
-> +
-> +		if (rc < 0)
-> +			return -ENOENT;
-> +	}
-> +
-> +	/* attach BPF program to the probe */
-> +	return dt_tp_probe_attach(dtp, prp, bpf_fd);
-> +}
-> +
-> +static int probe_info(dtrace_hdl_t *dtp, const dt_probe_t *prp, int *argcp,
-> +		      dt_argdesc_t **argvp)
-> +{
-> +	*argcp = 0;			/* no arguments by default */
-> +	*argvp = NULL;
-> +
-> +	return 0;
-> +}
-
-With d44036087 ("probe: probes in providers without probe_info() have no 
-args"), such a probe_info() is no longer necessary.
-
-> +
-> +/*
-> + * Try to clean up system resources that may have been allocated for this
-> + * probe.
-> + *
-> + * If there is an event FD, we close it.
-> + *
-> + * We also try to remove any kprobe that may have been created for the probe.
-
-kprobe, yes.  But that fixes the "uprobe" typo that was in 
-kprobe_detach().  So, how about fixing that typo in dt_prov_fbt.c in 
-this patch while we're at it.
-
-> + * This is harmless for probes that didn't get created.  If the removal fails
-> + * for some reason we are out of luck - fortunately it is not harmful to the
-> + * system as a whole.
-> + */
-> +static void detach(dtrace_hdl_t *dtp, const dt_probe_t *prp)
-> +{
-> +	int	fd;
-> +
-> +	if (!dt_tp_probe_has_info(prp))
-> +		return;
-> +
-> +	dt_tp_probe_detach(dtp, prp);
-> +
-> +	fd = open(KPROBE_EVENTS, O_WRONLY | O_APPEND);
-> +	if (fd == -1)
-> +		return;
-> +
-> +	dprintf(fd, "-:" FBT_GROUP_FMT "/%s\n", FBT_GROUP_DATA,
-> +		prp->desc->fun);
-> +	close(fd);
-> +}
-> +
-> +dt_provimpl_t	dt_rawfbt = {
-> +	.name		= "rawfbt",
-
-Use prvname instead of "rawfbt"?
-
-> +	.prog_type	= BPF_PROG_TYPE_KPROBE,
+> +dt_provimpl_t	dt_fbt = {
+> +	.name		= prvname,
 > +	.populate	= &populate,
-> +	.load_prog	= &dt_bpf_prog_load,
-> +	.trampoline	= &trampoline,
-> +	.attach		= &attach,
-> +	.probe_info	= &probe_info,
-> +	.detach		= &detach,
-> +	.probe_destroy	= &dt_tp_probe_destroy,
 > +};
 > diff --git a/libdtrace/dt_provider.c b/libdtrace/dt_provider.c
-> index 1e2e844e..0c621197 100644
+> index ca8b53df..1e2e844e 100644
 > --- a/libdtrace/dt_provider.c
 > +++ b/libdtrace/dt_provider.c
-> @@ -36,6 +36,7 @@ const dt_provimpl_t *dt_providers[] = {
+> @@ -30,7 +30,7 @@
+>   const dt_provimpl_t *dt_providers[] = {
+>   	&dt_dtrace,		/* list dt_dtrace first */
+>   	&dt_cpc,
+> -	&dt_fbt_fprobe,
+> +	&dt_fbt,
+>   	&dt_io,
+>   	&dt_ip,
 >   	&dt_lockstat,
->   	&dt_proc,
->   	&dt_profile,
-> +	&dt_rawfbt,
->   	&dt_rawtp,
->   	&dt_sched,
->   	&dt_sdt,
 > diff --git a/libdtrace/dt_provider.h b/libdtrace/dt_provider.h
-> index f62137de..59a8d62e 100644
+> index 8f143dce..f62137de 100644
 > --- a/libdtrace/dt_provider.h
 > +++ b/libdtrace/dt_provider.h
-> @@ -82,6 +82,7 @@ extern dt_provimpl_t dt_ip;
+> @@ -76,8 +76,7 @@ typedef struct dt_provimpl {
+>   /* list dt_dtrace first */
+>   extern dt_provimpl_t dt_dtrace;
+>   extern dt_provimpl_t dt_cpc;
+> -extern dt_provimpl_t dt_fbt_fprobe;
+> -extern dt_provimpl_t dt_fbt_kprobe;
+> +extern dt_provimpl_t dt_fbt;
+>   extern dt_provimpl_t dt_io;
+>   extern dt_provimpl_t dt_ip;
 >   extern dt_provimpl_t dt_lockstat;
->   extern dt_provimpl_t dt_proc;
->   extern dt_provimpl_t dt_profile;
-> +extern dt_provimpl_t dt_rawfbt;
->   extern dt_provimpl_t dt_rawtp;
->   extern dt_provimpl_t dt_sched;
->   extern dt_provimpl_t dt_sdt;
-> diff --git a/test/utils/clean_probes.sh b/test/utils/clean_probes.sh
-> index 8292b309..16052cbc 100755
-> --- a/test/utils/clean_probes.sh
-> +++ b/test/utils/clean_probes.sh
-> @@ -70,7 +70,7 @@ fi
->   	     { sub(/:/, "/"); }
->   
->   	     {
-> -		 if (/_fbt_/)
-> +		 if (/_(raw)?fbt_/)
->   		     kpv[kpc++] = $0;
->   		 else
->   		     upv[upc++] = $0;
