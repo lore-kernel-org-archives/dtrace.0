@@ -1,16 +1,16 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F340D40BF5
-	for <dtrace@lists.linux.dev>; Fri, 24 Jan 2025 02:51:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069AD1D5142
+	for <dtrace@lists.linux.dev>; Fri, 24 Jan 2025 02:51:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737687063; cv=none; b=g7ANiHU3VmG+MAGHu03a6xpXuFkI7I94ayoiopi9/YJQRPx/1JiKxMHBDYKbeasiapviL4Jv4vcpZdbeP2KWW/NMQg4IoTN+VOkWQciS8HRlIsb3Wd6v+0M3+XAUVM7RPIruuH3GVfMMZE3kFDLdIDCbHfIm6S6k2PNe9pr66PE=
+	t=1737687064; cv=none; b=qeUmDFYwB+DH514oYe/KtMbrxGtkeK9iEfGIYkwMb7m+Hy1xQAg1zFqxvqRbWcV4qix+iJZ/iuOpIy2DEqmY3J4Hj899wHdWf1oLBdMVpu6B3JO/s5stubEQOllkWx+F1/GxE9Cqo2T1cjvtsjpMVy1XKkhfaBGprD3hahOSnEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737687063; c=relaxed/simple;
-	bh=tPZ2nEvH1bhcFez/UhNBkuQWdohA1WKAImSmOPDVFe4=;
+	s=arc-20240116; t=1737687064; c=relaxed/simple;
+	bh=iQn4U0TMBduSf9bJcuWZn4kPI6vEenCr1KNluYY8LdM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hWUnXmQGKFn6LLwNx0o0lfirUkxYKvSkhaq8pfDtl7cBsH6W59ARTWmpfztIJaYYi5luuG9ZWnAZux+yuN/cuCyLiyH3ST0rex2lyQYP12Exw0ZMJZ17ZDTReXGyWCGkhZ0yBIgn7umSyj1hofLmybUmotBZ04uETbKzLl8EH10=
+	 MIME-Version; b=Y4Uz8JHreKcQZDz3at1VLuR1726QzXkZCiuwycQieEKc0MjG54T8niBbKt9iADBvaoOogxscWWBDgNB+5v8iYPtvTeNNI40MBohGOXfjj6heKU8OuIPlMIfyJu62Y0bI6jvKfiSlo8WIL3o1glUtb28n4f0I8DUyCjMm1MuMGyY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
@@ -19,14 +19,14 @@ Received: from mop.. (unknown [82.8.138.118])
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sam@gentoo.org)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 9F1873434E1;
-	Fri, 24 Jan 2025 02:51:00 +0000 (UTC)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 943073430BD;
+	Fri, 24 Jan 2025 02:51:01 +0000 (UTC)
 From: Sam James <sam@gentoo.org>
 To: dtrace@lists.linux.dev
 Cc: Sam James <sam@gentoo.org>
-Subject: [PATCH 1/4] test: fix 'harness' typo
-Date: Fri, 24 Jan 2025 02:49:47 +0000
-Message-ID: <2fc6a32931506257f24b24e0c35259189fb37108.1737686990.git.sam@gentoo.org>
+Subject: [PATCH 2/4] test: fix bashism in tst.bitfield-offset.x
+Date: Fri, 24 Jan 2025 02:49:48 +0000
+Message-ID: <d9c8271d6b8c6a4ec5b821097d4afd1ff6bfbaa3.1737686990.git.sam@gentoo.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1737686990.git.sam@gentoo.org>
 References: <cover.1737686990.git.sam@gentoo.org>
@@ -38,40 +38,25 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Noticed when grepping for something else.
+trap ERR is a bashism and won't work with e.g. dash, just change
+the shebang to #!/bin/bash in this case as ERR is a bit messy to handle
+(it'd be trivial here but there's no real reason to not use bash).
 
 Signed-off-by: Sam James <sam@gentoo.org>
 ---
- test/unittest/io/check_io_probe_args.sh | 2 +-
- test/unittest/io/dump_io_probe_args.d   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ test/unittest/bitfields/tst.bitfield-offset.x | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/test/unittest/io/check_io_probe_args.sh b/test/unittest/io/check_io_probe_args.sh
-index 50dba6c6..8e1f5a4c 100755
---- a/test/unittest/io/check_io_probe_args.sh
-+++ b/test/unittest/io/check_io_probe_args.sh
-@@ -6,7 +6,7 @@
+diff --git a/test/unittest/bitfields/tst.bitfield-offset.x b/test/unittest/bitfields/tst.bitfield-offset.x
+index 4397461a..ae57c2b5 100755
+--- a/test/unittest/bitfields/tst.bitfield-offset.x
++++ b/test/unittest/bitfields/tst.bitfield-offset.x
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ # Licensed under the Universal Permissive License v 1.0 as shown at
  # http://oss.oracle.com/licenses/upl.
- 
  #
--# @@skip: not used directly by the test hardness; called by other scripts
-+# @@skip: not used directly by the test harness; called by other scripts
- #
- 
- infile=$1
-diff --git a/test/unittest/io/dump_io_probe_args.d b/test/unittest/io/dump_io_probe_args.d
-index a28b2d61..5b5ba90f 100644
---- a/test/unittest/io/dump_io_probe_args.d
-+++ b/test/unittest/io/dump_io_probe_args.d
-@@ -4,7 +4,7 @@
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
--/* @@skip: not used directly by the test hardness; called by other scripts */
-+/* @@skip: not used directly by the test harness; called by other scripts */
- 
- /*
-  * For all io::: probes, dump "all" probe arguments (and their interesting members).
 -- 
 2.48.1
 
