@@ -1,85 +1,86 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A6BEAF6
-	for <dtrace@lists.linux.dev>; Tue, 28 Jan 2025 23:35:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFA71802B
+	for <dtrace@lists.linux.dev>; Wed, 29 Jan 2025 00:53:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738107322; cv=fail; b=l18Wok2lzn7DxqljPvsUInwtJ1qDFZlwG3kefmCtCa/jftaC4bkW/POopdG5GpCXyJPx+gPoONyOQBmXheA2PSALbWwDzVxXasfcNgzb2LMy2Iy8gnEbbKQA32a746fO1i4PebqelPzSt9j67ASz2Awj6aU+NiLYswKCs1vm6mI=
+	t=1738112040; cv=fail; b=RwO9eBCadAjPWGA5/OjCCfaVJkjxr+jIEUVWbf8KoZJHmKxWaRf31tsjIGKlC0BG95TiTc1IX7HwDoVH74Quc36lIm1uia5YaYzaReDESv0ywv4a1LAZv3XCFM6mKhZQwjMyFj5vzpQD1Z+AQK5d554llixWyVoroGIT6V4EH6Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738107322; c=relaxed/simple;
-	bh=aURFmPFcfOrfTmkqH88+hdg39NOWj9SchKRv6jgP+Fc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=EMpS7vIPYjv7usJ6emqSxIxRa1H1hAx5hF3kGdQ1lfeA96Icnv69pG2V9/eLuc3i3/iyyo0kshd79KSusYUwvZ0a+wBqEwQsNQfqUnzhavVw+WR25+JRWIqnlC3/MlArkhqkHnbtksKG+1f/VP4n3vwjWbDHJi9/kgs5+ob3r4o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=bZWo+pKc; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=HwneGX2y; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1738112040; c=relaxed/simple;
+	bh=E2EGeUd87dDYmt8zp6CAsSTD7IegCOken6SeGwA++hw=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Sa52uEilkIF1WrOpW+l16NNnFjO1iDlVHpDZJBHHS6uYu327KA8GbQAYhJS5PMAPwEc2ieEvFu/jDCJiCfJuqmz8c4xsg0jK4Tmbx4r7Xb0/PUCkXCTdHmUcJWEjZ2e3wNRyilPa30asxs+2vSu+aOmSVHKD9YcMYl0zXBQJuXw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=WfMxv06M; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=XZlH5Prn; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="bZWo+pKc";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="HwneGX2y"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50SN8K0C029025
-	for <dtrace@lists.linux.dev>; Tue, 28 Jan 2025 23:35:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=mxcEcqZlcyz+AoS0/F
-	PcMxsb2jBLPlY7mjEWE6e1H+g=; b=bZWo+pKck23k/GEjM0H39BzBM2tfGLjRi+
-	myHD5b5/+PO6j1hD2V59iAkvCB9/a0VSKwy4ZjWNA23KgbQ1YT6iZNAP5ukPKjgN
-	l3RpizlnVQQ8eTGDWY7K5wOYkU2++95EOQrTWJt+EkCX4aqAVWITJFXQKiMDkpnQ
-	ier3JF8xaIgclR6kP909zTlxlwQsqtpTHaOU8bMJyKzSrMrfH/oBtaUDwAPqvkMX
-	x1hskcdDwCHCUK0M+Zat0G7GTQsW529C5JRw0BeTW67tyndVDwPLC1Ge+ieyuFTi
-	oSFMn+ZmlIsJ8IwU1GXr7YLdLD/RL+cRAMTF97h0Gf+57MWe5y9Q==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44f8mg00w2-1
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="WfMxv06M";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="XZlH5Prn"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50T01wFO020143
+	for <dtrace@lists.linux.dev>; Wed, 29 Jan 2025 00:53:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2023-11-20; bh=IRkFefF6n24yCdKvxHlHbRhKQzNH5opfC5vZ47O3v6Q=; b=
+	WfMxv06Mf70Sk1QEIjZKD2yCVmVJjuevHeoVutkuae6LSjGFWROLVKgam9l2X5YY
+	veYjs40GUHkvnzWdNIGPEJ717t/nXaFR9PhYNpg4XPP+IDlj1e9wbECjst7gXnbd
+	xuBWR0krSxEekDh/r7XN3kk/ShGudCD3gzIUw+ht10lrvffbLQ1iDc8z98jr4sFd
+	K7H242GDCB9OH5HHz8VNFoS7Et3Zf0JFHq8R2OfIq6JiZVsNY3U7d9PC1uXbThoQ
+	rfQ1/oGGPL3Lf/h54Eb9oJB9aRL7iAhmDzqRcf/VoUSL8inIp8aEu/25+nLhzhRn
+	hwmzNwkne9I5ZsqHrjEU6A==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44f9e8021k-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 28 Jan 2025 23:35:19 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 50SN4Nh9036793
-	for <dtrace@lists.linux.dev>; Tue, 28 Jan 2025 23:35:18 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2172.outbound.protection.outlook.com [104.47.59.172])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 44cpd912x6-2
+	for <dtrace@lists.linux.dev>; Wed, 29 Jan 2025 00:53:56 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 50SMjDVC022044
+	for <dtrace@lists.linux.dev>; Wed, 29 Jan 2025 00:53:55 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2048.outbound.protection.outlook.com [104.47.58.48])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 44cpd9437d-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 28 Jan 2025 23:35:18 +0000
+	for <dtrace@lists.linux.dev>; Wed, 29 Jan 2025 00:53:55 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ct62FrS/8icUu1ls3fiNiYjBgZlmBDUvAYaMgRxnkMKC5lQcvXVhZHETszzRvsXihypyyePXjYuaEkIiUqWUGO1Xz4VjFS3y32kDOZ5WrVi3/oPW4A6I4lBJrBWLEXaeZyt4GJOxRnifX+zYj2G3x1jJw7yhNHufoL30NMO34cdvAFZy6hVjc01Dm95QXtLVDAL9tCJTv2Jt91xITEAyRnAErex9w08TyBnKqptA8bQw60W+2CbIOKOSlUzAhY2ygKSFpQ6TV9ENIQXYGYGLaYwVSn5RB13Ewjy1s6JeL/v2fQyMAO5CiBVxfYmaoR2h9oaiW17UXlCdZFNCYmDKnw==
+ b=cyfHCobQSxOiYrsTxtg43fsJa24U+tQHvS5OrrTdWuRCzDClDCMEcLTBEF7LLqEDNV3z/URTPP9onndeKacerprL0LK545lqe+UYGez/TZG1yMise8bGA1IMnnub308A6ztVNHOUpxaimXk7eilTdKQHaM8POyLlJt5JXC5tACZwsofMz5hZAOKRoz/pQQJr0KFOXSD91oX/ao77aX9ECHbNrDhmuqFj1BGAErrKxqFV4+NDrMtUtwyzMZL1JlABHpFoG6wbDRX2wjzsGJCpnuPj+InGU2lHqL21/jcNREaXI6gbH+VLnZqCjbTk/qTph7fhCfArdsV8sxx5XiidBw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mxcEcqZlcyz+AoS0/FPcMxsb2jBLPlY7mjEWE6e1H+g=;
- b=Uk29KSrFJd4oORNz2jotXbPCyItLdjPjbz/KkPOYwpCpoK9AUC0j0z14KFk9+gdIDLyny+yxURBWJBDCX/JCOld4aBDr+471uWxx/ezOjZwdrp7TsJsqxVIkzgu3vKNwIJ2jQFjCgbIMQw+5rkz9jVV5u+BcWigeXir1XDKEqU6/RnN5SgJPQd9hmCpawQPT5YddUo0mwufKXOyFQ9/x31uGVud3DOx2+owbpYBepDzZWOgGKvd6O748a+qCD73GAdZFKJUtU4C6GNEknULTPHDS+70xOMLhyXJkvhTjF7gbQHM0rRFNjmYpkQ5hUHzrBe/lXKQgLHvjGV+nu5sjjw==
+ bh=IRkFefF6n24yCdKvxHlHbRhKQzNH5opfC5vZ47O3v6Q=;
+ b=J1acCRirDt1LHcpKG38938ST2Jl0K7xBjXkmsY0shVn5WlVuraKQWudGLiWtnK394rn37g2iOuE8P1B3RLk2arcL+leDqx/aaY80MVRzcIfoYNbVpkb49fzeW76ZY9aA4jQrGvI+9BlG4AhdUdjV7cUCgYcQyQ8jmKoFwJE62qMjvxZoLoVnnG67a0ihNWA4E0yK8HPRgBpmWQUXaHDfLTST+kJczKrnDCsCiMhSws5xNroSoqAX+4Ufo9U/xtY2lv98PwWqARHZQXUb2/UNiOjwke835sznV5LtE6EAdsixGdbLP1RO5fuUYDaIjTl0QzAqsDWYXhD2bRtSZ2wJlg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mxcEcqZlcyz+AoS0/FPcMxsb2jBLPlY7mjEWE6e1H+g=;
- b=HwneGX2yI82YEP5yn7X7IfUsuHT+7oObhODAK2wb7iS+Unx3FAVHxNA/oyxt+YVel2tl7WZ4ySXdNzljJY39ioXe3b+XesPhHCwJ3p14h/fABDocLlG1nbHnlq/F/YiewP+P731y3J6tUq4HU7dxwTMbWEMkik8Fxk8YBqBfVIk=
-Received: from PH8PR10MB6337.namprd10.prod.outlook.com (2603:10b6:510:1cc::10)
- by CO1PR10MB4484.namprd10.prod.outlook.com (2603:10b6:303:90::12) with
+ bh=IRkFefF6n24yCdKvxHlHbRhKQzNH5opfC5vZ47O3v6Q=;
+ b=XZlH5PrnOZyOHPRH7eaBt63Ej83KuPyp6+oleiLP2guRcHbS+0ondgvAuuz1/PPT6U7lkF53sbl1xB44KcM7VNHQVfJBamysjwoKTWmiuJuDhYyw8x1UTnEi8INGr+B20mXz3H0BTtPVpPM+Si+1Y7bBMomlxe/9LZqMWnLLzRA=
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
+ by CO6PR10MB5651.namprd10.prod.outlook.com (2603:10b6:303:14e::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.23; Tue, 28 Jan
- 2025 23:35:16 +0000
-Received: from PH8PR10MB6337.namprd10.prod.outlook.com
- ([fe80::5aad:120e:fe7c:ea88]) by PH8PR10MB6337.namprd10.prod.outlook.com
- ([fe80::5aad:120e:fe7c:ea88%5]) with mapi id 15.20.8398.014; Tue, 28 Jan 2025
- 23:35:16 +0000
-Date: Tue, 28 Jan 2025 18:35:13 -0500
-From: Kris Van Hees <kris.van.hees@oracle.com>
-To: Eugene Loh <eugene.loh@oracle.com>
-Cc: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.23; Wed, 29 Jan
+ 2025 00:53:52 +0000
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::8b24:5536:3259:5a69%7]) with mapi id 15.20.8377.021; Wed, 29 Jan 2025
+ 00:53:52 +0000
+Message-ID: <9164adb5-a6b1-a7ff-530c-6aa30fa57be3@oracle.com>
+Date: Tue, 28 Jan 2025 19:53:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 5/6] procfs: add 'execargs' global variable as inline
+Content-Language: en-US
+To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
         dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH v2 1/6] bpf: separate bvar implementation into separate
- functions
-Message-ID: <Z5lpsQVsme+dwGVa@oracle.com>
-References: <PH8PR10MB633775D451C8DC2B4847D601C2EF2@PH8PR10MB6337.namprd10.prod.outlook.com>
- <996362c0-a77b-9265-395b-bfd9d17e9343@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <996362c0-a77b-9265-395b-bfd9d17e9343@oracle.com>
-X-ClientProxiedBy: BLAPR05CA0018.namprd05.prod.outlook.com
- (2603:10b6:208:36e::13) To PH8PR10MB6337.namprd10.prod.outlook.com
- (2603:10b6:510:1cc::10)
+References: <PH8PR10MB63378175F68DB1DD5D55463FC2EF2@PH8PR10MB6337.namprd10.prod.outlook.com>
+From: Eugene Loh <eugene.loh@oracle.com>
+In-Reply-To: <PH8PR10MB63378175F68DB1DD5D55463FC2EF2@PH8PR10MB6337.namprd10.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0368.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a1::13) To CO6PR10MB5636.namprd10.prod.outlook.com
+ (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -87,143 +88,404 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR10MB6337:EE_|CO1PR10MB4484:EE_
-X-MS-Office365-Filtering-Correlation-Id: 12808444-f53c-4060-521b-08dd3ff46b5b
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|CO6PR10MB5651:EE_
+X-MS-Office365-Filtering-Correlation-Id: 533b5d2b-be65-49d3-d839-08dd3fff667d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?A31morQUDTHJC4CZAn4oSy23DLNGkyv+LbVN2O1S1FcUOZvs8UqHNOtQ9h3M?=
- =?us-ascii?Q?fyeshqMDmrVSuV3v17is7Bet9l1ZUwDMaMaDXoc9TAG2Ra/cOCk2TNN06C9B?=
- =?us-ascii?Q?pUNjN5dUZvtXXUZwlwFsmiTOelJltKb2PH9b4a/dnlEYYn7Eo+mivfwf7cCN?=
- =?us-ascii?Q?ciDeldWBnc2/wtm++ykrEG9Uoci+EMWNGkSgJ6eiu0t+1pEOXTsBSmoAB31+?=
- =?us-ascii?Q?xEdjBYC72TT96eN5rm7ktkDqizLUxXBG5IrN83xKylmSTLycCJNbuQKM2Wrk?=
- =?us-ascii?Q?61pgBU7dSiTQmM427gDPnpX+bgxKKvxbV+LAIyNn3MdiVbfcmPua7l/XaHb8?=
- =?us-ascii?Q?ASmHtlEGpWyswLTDg6mzRFAwNO15Bttc8pQEek6sZV6tcQWA34a+BP/QXV7T?=
- =?us-ascii?Q?XGExnYMt05Hr79EsZFOwNDjlfMiZMNQjXXXdFTt4j/77Zz+xKHbiCfV9E/gN?=
- =?us-ascii?Q?wEuNZyu1Sv1YyJKf0DI2HNgVWB69Ly8ruO5uBrvojNuS5B6IoB/wUPun2vV4?=
- =?us-ascii?Q?GSbsrJXOD8uj86yj7L9pzQJHUpjY+WmRIre3Hg0bm/S2J9jwAkKXnyMMSBRk?=
- =?us-ascii?Q?NNOnmw2wiL358bIibUIIG2qDCT6Dgho43O98GsCKj8j6lujzjXvPrp2lcnsX?=
- =?us-ascii?Q?d4e30A3NafwBO46JjFTNZw2SkWIlAWGwpquV0LfqgrGVZEgBujHDK0UtgwtE?=
- =?us-ascii?Q?4YS5PjN/+8epzDFggjOTOh39m4E+/uZqYe7eHwDZRwc8Pwa080Sgwey+1/tw?=
- =?us-ascii?Q?mEyLLpeJ+y7QXzRXR33BsyXcl5/L2WhO9KVcrx+tlppdG88SvDUdp9P4596e?=
- =?us-ascii?Q?Sg6xoIX8dJhItL6YtArXr/K4QRk/m9lyV7l7XE7lZWgHzUQiv3OM5GJRc02E?=
- =?us-ascii?Q?KjUKp6OqtaQn/jimzn1UqMqDRkqQPz1br94pFxVMVlZktsUR5+w5mqY/S/ry?=
- =?us-ascii?Q?BjRfQyHP1hL5yPyasj5oBb9tn1pcDiOqOXApMg4qKdB1Ii2KqrQPUAv7cHGi?=
- =?us-ascii?Q?gdw4k6cgYpZ+5RJ3wEYyhfqz+Tb+lZHgTVJ0a2KzixzO6Qll5ndPcWuS7QL3?=
- =?us-ascii?Q?AvyUT1EPwUr5tLzcz5Q0f8dr7q9ZNn97UgufdzkvdZtazfN6LWvCsDH1XzG2?=
- =?us-ascii?Q?YhelRVeDVbxtpKHK1JLGwT3WGpOWG01vydOtasfbxnABL6/IRV2EURwomRL7?=
- =?us-ascii?Q?ea1nG/Avs742ABG1870xhUaOJ4PztBxq+FiTimI5Y7J1PrYANo2gNAwP4xYz?=
- =?us-ascii?Q?IlJNlK3Dtwqy7ZEd/CDrgDqVW68EAYuY12PsJnOzk3SKxuEWb2kUJm+w4iIb?=
- =?us-ascii?Q?vHUsTFXlffq0RfnZTSg7d9rXRNQCRAdqN4NpBJc218QZtoriIO/xZaTHJjLH?=
- =?us-ascii?Q?XJX9o/4v9CGJ1N+m2/31aFOXd1qq?=
+	=?utf-8?B?TkFwS2p3anJXN0U2Yk9WVVdVdzAzdjJCaVR6NTVucHFuNzUwOUZrL2xyYmti?=
+ =?utf-8?B?dEMwQlE4cXJhT1JkNVZYaWRPdzQxcVhUc1BocDhQbmlVejJhLzRUOTNBVEcy?=
+ =?utf-8?B?VkRZWkU0ZjJ1K3Z2TGJLT29wM2l0OHZkSHZ2K3pzd2RrVFlVY0cyUE5lUSs1?=
+ =?utf-8?B?dnB3NkpJMWkwWno1ZkI4aUM2aklzbmtraExIaHM3MmFodGNJMWxXa2hLWEhw?=
+ =?utf-8?B?eGtENnQ5VGFNVVVTUzZMVWdlajJPL2hQVjJ4RFE0N1Z5b0RLbnJjYUxocWtq?=
+ =?utf-8?B?Q3c3VjdhUmVJa2oxTFVUcFFQa2RSeWlKNVFlMTkzZEhqZlN1ZmlHSnBUajRO?=
+ =?utf-8?B?UlEwMFVobDh0dGM3TVR1ejF3Ylh5UkRZNUZLM2JmUjVsUHpacm1wQ1R6TU92?=
+ =?utf-8?B?T3loYlUzbFQ2S1B4VXFPaGhsc01memJBQittQ21rMHUrWU9RZk5CTnBLVXBa?=
+ =?utf-8?B?U0JIeG9lRlQybFB6aDQ2U1lmS0g3UTcveUJrWlhPRDBzMWptWUdzV2pmWDNy?=
+ =?utf-8?B?VWRhdDJhQjA5N3lnOTdmMS9XY1ZCVlBQWVNlNG84a3lRcUdNN0dGODg5UVdJ?=
+ =?utf-8?B?ODdQZ0VQeWlpZ3hQZHJERnlGd0ZxUGZaMjVIN1lQRE82a2NkcEk4d2I1bElw?=
+ =?utf-8?B?WTVabjg5c2pYL0ZMY0IrRy9ZQ0Q1eUYzaDRoejBiZGM4MGZIVUYxOVFLK3Fu?=
+ =?utf-8?B?SGExaXBIV0dWajQ1NzkwNThKV3RMbGxUV21TRnF3QVZqK25PS0NSUGtXaTRS?=
+ =?utf-8?B?clN2U053M2Ura2FUUGJYVmY0V0ZnczhRREJSMVZOSUduS2xQVTdVQWhqQTNY?=
+ =?utf-8?B?Z1VrUW5oVjVwR3VEQ2Vod2tMYStqVnEzNHNDMDVjTTFzRTNaTm5hcGVjb3dN?=
+ =?utf-8?B?dHZCLzh2Y0pTR1o5dm9Cc1VwUjBFRWZqTi92Mm8yUng0aDZCelRRS29sQ2Zv?=
+ =?utf-8?B?Q3k5Y3VNK3U2aHRoNUhnQ1NRV3I2Kzd5VDZSS3k2MlJsc0hiNkpOM0pmUU5J?=
+ =?utf-8?B?WllaTHh3NzZ4bFpiNGtVSXh5dGJUWFcxMG9qZFZVR3lSR2VLQWtqWFBWcURH?=
+ =?utf-8?B?YzdiakVoV1NrdkVDWndrS2hCendqdWRwY0hvb0FTbDhOTitSL05ZeUtyOE45?=
+ =?utf-8?B?YmZuUkpCKzRZZmxnbjhHZndMcTdzT0VMdXo3MVNwVEpCOGlEWDBpUzhWLzNu?=
+ =?utf-8?B?TXNPck5rd0s3KzBKakZuUElxN3BMS1ZVcUFGRHVZbXR4d3RkeTdKTmZsWmxZ?=
+ =?utf-8?B?MjQ4YXRjbDNWQUJINWowcGd6Q1dhRHZUR2tzeWp6YTRsclp5NUFaL2hRWGhZ?=
+ =?utf-8?B?MEdFMTFldDNzQWpxR2RnbGNoNGptUWRLTnZHYk1kM3pzNzBWZTZrNUhuWXlB?=
+ =?utf-8?B?WGIvazd6UUFVeHpuenVLcDE0MjdIVEppSFJ3bkIxcUtLUmNaUjdSL2lGY0xI?=
+ =?utf-8?B?THgzVHdYaTgwL0pEOHJnZnlFK0VSL2FqU1RJYlpuRTlORDFIZWRrQmhXQkhF?=
+ =?utf-8?B?b1BCb1RiTUx0WjVCUUEvMlpuQmpNRW5wNVN0bFdGQ1hIUWs3TkNDaHNvUm9N?=
+ =?utf-8?B?amtneU9oNUJOZFRSWThQZ1M0enAwZjR1QjN1VXE5dWdoeWlwaWJGKzJXU3R3?=
+ =?utf-8?B?aURhK2phQ0hobjFqNEFSWVZaUm4reGFIMk1DL0k0MkZxTmFQQ2FJRzRoY3Y2?=
+ =?utf-8?B?WWxMWFVXc252dEFHblh4RGs1SFlnTkU4WXRnRzBhSlVYc0FiN2t0UjJxU2th?=
+ =?utf-8?B?Q2RkR0lScytJMGlLTFdBRVdCRmd2K05Hc2JBWldKc2svMVY0dXloRWpDZC84?=
+ =?utf-8?B?cE5nUURhcCs2N3ArSnMrOFhoL1EyTU5yc0I0WExZTExCdHJBcTBtby94VzNa?=
+ =?utf-8?Q?aJ4+pGOyJw4G+?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR10MB6337.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ZQMWPMJFh5pHrBQE7CPNXrKl89Mm2XnhBaC0ZQUJQD5Y+9/IDMkVFuJzMr4J?=
- =?us-ascii?Q?FNrJuRJgwNinSBK2P5u2KdgPjAxH3nbJQE3/emCofxe8PMXSxHz4StzXXA0l?=
- =?us-ascii?Q?npWINrsR/ybMUo9ewOo9+hg8qfU7p6ghRx+pcLA3KORJEGfIu7vYZS1CT9AM?=
- =?us-ascii?Q?t7jw+O9SL3Q2Ezv5+rqMtVsbGoyKuv8yvcAAFKrls2tsTGQAwfyGrbrMydfp?=
- =?us-ascii?Q?qf/M4wJn/gqretS0CX9+8fsx2tSZ1JRsJzqvBSHstz1bU/npL1QZ0oatuzdX?=
- =?us-ascii?Q?9BSQHt73AkGpdWvLsJtwF2TpQfwfhaf1xc9AS1Rg62hdY9QLcB1ol1wugtaf?=
- =?us-ascii?Q?uJ/xAXFHp5kOVlbPSzYSQ5W96y0naS7yDF8uDQzNOo6Ga7NwUIdSy66GkoJZ?=
- =?us-ascii?Q?5enlaV5iHkU7PgcJY7KpU63/cCcs9kpeicdHwygKDdLRwrYyFr7oRACG/qr+?=
- =?us-ascii?Q?30flt2vn16H9X1Gnpu8fRYv9J765Cqz4p0tIQhivNlUiE4azp5s/wk32WWmN?=
- =?us-ascii?Q?ePk56Q7xCqftchDvkS4Ywm+J0nvUu5pKWBM9Yy2MPOAzS/0swoO+OwGmE9Gw?=
- =?us-ascii?Q?7wXDkFYoR7hG+qJuPM6z3x/EauQZHF68o6TSIuRddud8MdpWFHjUdbRO5qFh?=
- =?us-ascii?Q?J8PxB7K9C1Alw/beLsMC05j4xqfsTygO+Ty4gJ6+1nhDs69J9HrOHD7R0IH6?=
- =?us-ascii?Q?HsT4l4O1Uu+qDlLk7H41+xarqsGYzKenIFcA0G23wu8fN1o/DSTHYRofhjlG?=
- =?us-ascii?Q?DfKuFJvXeGeo5W+v9Lva5Kjdo0zloOjPfqloCb9GsoaLEwv3zaPPfMumvco1?=
- =?us-ascii?Q?XZWe/SEGsvA/K3GVYtxXLyDGlUzOE0Mg6mS/1wtDxPRPHODCa6NXctD9Mv7g?=
- =?us-ascii?Q?XVtd6llzVKLI1CNsZSEZTvy7LK+hl9iEESsQqspyvadzuGzxV53IjgH7WV7P?=
- =?us-ascii?Q?HyYqpLl+sHbwuCmaCCS5yFMAOc0/SUrS6KbEKaCx8hThBqb5mzw5NXenKFlK?=
- =?us-ascii?Q?3beRnIjCmM2/hhnmW+bmU4RRxw3o+4prbplBnHqm5gb88B3wO3nz8qtVk4A6?=
- =?us-ascii?Q?TjNd/ogBDEHjwTzpy53C+0KWBBs3eLlh5GW8oGSQ/m02K1miz7BDouSZQHco?=
- =?us-ascii?Q?ROIq+9wuLwe5Bafe2dex42Dri2/4ZCWD1D0X969OLm+ov0J3WHcbLCQEKKMm?=
- =?us-ascii?Q?QerbERWiCjHZeKucQbnw3lckwqVlbZsnB9Gvw4i9onpAO2OSwYmGlLCTqh6/?=
- =?us-ascii?Q?zJVugJLswVUNUNk9JRhTbUNW5BgRYL0qatZ7d4oy75n+iWjtlFPrezUfsgHS?=
- =?us-ascii?Q?foK2CfoCsoBSYsCoXleZ8OgnE5LlZsYic85BjBwgy3Nb87EOGZpwNTRY3BEV?=
- =?us-ascii?Q?AKhiVr/5BNXJKZIaIwt5KqzgcgdGD88TGOM80EsLWitE1wuWHwtrMFf5mxrB?=
- =?us-ascii?Q?DKDuameklpxRMIp6ZG8b4c4SgSPVTnYxUbUQYGbei0jMbUif7g04IXR5Fscy?=
- =?us-ascii?Q?hxgJn+xYjqRTbe6/YkpAE37uVpIvpY0GXQlnxAVqBu7vAlnNFP+yBGjv0HhU?=
- =?us-ascii?Q?t20SC8sMrsdrgxhJnseM6W1P1XPlowSsPbIoBej9gkILP9GNBRkyMxT3zpIv?=
- =?us-ascii?Q?Dg=3D=3D?=
+	=?utf-8?B?eGQ4YWZwNGEvL2RnbmtWc005cmNmSmxoUEViQlhVTGxQbE9tV3UxdHNVTmZJ?=
+ =?utf-8?B?QjF5NHhKckpENndPb0RJMWpPTzUxeTZmTkNBNTJNT3FuTHJPSThQSnpwSUhn?=
+ =?utf-8?B?aGRYbDIzTXFOdytPWUUvUHlpZ0ZlZXJPZk8xa05EZitYYUFjSHl2OGRJYUo3?=
+ =?utf-8?B?VHFYQVVPNnZNS3Q4YW1UL0VlNVB1Z256NXVicWlzRXdZYWduNUFYbk1MSlJh?=
+ =?utf-8?B?aHhTQ05QRndJMmp4Mi9VVTRxUzlSQmF6SitlbHR4cWdFUlpMamJCWFIyYXJZ?=
+ =?utf-8?B?TEpYMzRnM01xY2k0UXMzNE12M1JhRXorbnYxQTFzVG9aVllpSCtIdVo3Q2VZ?=
+ =?utf-8?B?UnZtNEE5bkJvT3E1c1B2YURPTk1DUi8wZk1qeUpBUXVMOFZFdjNxN0g3QU5I?=
+ =?utf-8?B?MGppODBnVXV2VVg0RmFWRTlyS2Z4bUQ5d1FFNkM4SXRRRzZ2M2RiK0NoTEVQ?=
+ =?utf-8?B?QTVQMUlMdVJQaHNaVlRZc1lwNFlpSXl2c3NOYmRBQnMxcTU3cDJzeFRMK0cr?=
+ =?utf-8?B?dnJnUVRaUDB5clE2YlRyS2dhU3hsYmgwYmtvTllES0RMVnBwWllGN0Z0dEtS?=
+ =?utf-8?B?bjlwdjBva3VYWTh3R1FKQVd0TWJjV1dlTFY4V2VpYWZGbXhvZ3pLcG1FRWRE?=
+ =?utf-8?B?S1ZuSjJkNkJBajhSVVc3djlxUXg0Rmg1TGczemdDS2UwU2NJWll3d05LK3B5?=
+ =?utf-8?B?dTlBeUhoWER4YW0yOTE3ZFp6WWU4OEhJU1NBL2xhVllZVmZJZVhZV1BjWllL?=
+ =?utf-8?B?a09zUm9lOUVCWHlNOFQxY2dVeDBIMGIveFNhZVp1bEtZa1Z5QkhVZlhpY2I2?=
+ =?utf-8?B?Z2Z0U0RGUEJmeVc2ZVNUczhKbnBRRTgxYXI1aitUc3Nya1JnQkErTndnS3E5?=
+ =?utf-8?B?cG8xREduTTUrMWJhamIyZ04vU1hpb3RUTDUzVnNrQk15MExXaGI5eUJzaWtk?=
+ =?utf-8?B?K1QxM2NLODdVNkthVUowMXVzQ1RkMGlZS0ZUVDFsQnA0cXd1WW4rS2NUV1Q3?=
+ =?utf-8?B?SmNsV0hTU2RvMTkvUWozWXJiMGtYVE5taXowWGQzOU9wb0gwYm1yUjRDVVc4?=
+ =?utf-8?B?cG9ZNThYNkRycU9Vd1hTcjRMSnhnYkFjY0VuZDNWZFdCZlNqdVBlY0tDSWlM?=
+ =?utf-8?B?MDdVRHZ2eDNnNHFqZHZONWc0RUlTTW1JaGExV0FFNGh6SDlncWZtQXJoQTJ4?=
+ =?utf-8?B?eEtnaUNTRUlHbUMySlJEaGp0QlVWSUNZNjBYSUJZbHlRTWVBcG1CNStaNWMv?=
+ =?utf-8?B?N1d4Q2FqODVwYmdCb2xVVE1LV0I5OURMUFJRbE1iNmdBSmJ1NGhBd21tNXVU?=
+ =?utf-8?B?VC9lbDJkRWNzWUMzSElTaVVVRXZsNW5HQVVjd3l1bk1Hd0lpeU13K1JtMW4w?=
+ =?utf-8?B?b0x3YWd2TWxiMk9Bd3dqTDYwTEh0YkpJVDgybG5VRG9Ec0dWUHRWRDM1OEVJ?=
+ =?utf-8?B?ejJpVnN6MVgreWhPR0tQNkJCdWxKalQ3WWVHalI5Sm0wYmJCVEZpKytlZmpE?=
+ =?utf-8?B?MmFtaEcva09WYUhuVnA2QmRwNGJBRCtBL0FtYkVYZmJtUGJjUzVhZEduMkZK?=
+ =?utf-8?B?UjVsbDUwcjAwWThQYXdGSHRVSSs3QlZCWVNoY01FYU1ha0duZmNpNExFdlZW?=
+ =?utf-8?B?OGh0cjFOczdLMG5PVWluc2ROakVIM1RDbEc0a1ZCUk5haUlvZFJqdm1lcjk3?=
+ =?utf-8?B?RU00NUJQN1R5eEl6VWdOVkZLSWJHUDd0UUVpN25kVEVncWdibHkreWlJbnJq?=
+ =?utf-8?B?STNZdG5lL2ZTS0ZtWkxQckJyYXhJWURyOGxjd3RWZko0UktWN216UmhKV1Bt?=
+ =?utf-8?B?bkVSTk9DSkJqUUgxUDAzajg5Q21uN3hwVGMrOUozc3h1SkJnUFVyVW1wMXdQ?=
+ =?utf-8?B?VHpOUWpxcTJMZGxSNmhhQWFpVEl4NVVXM0JYb0Rhdnp6Y0tTRkhpZFVnWFE0?=
+ =?utf-8?B?b2JGbUNDYk5pY3lLeWRDQS9FT1JhcXducUt5dzZoUFdqU3ZsUE5yMnFWTnho?=
+ =?utf-8?B?eGJkSHdadnM5WVhBTzNEU3VVdFF1M2RYcFcwSnd4VXdLOUgxWWZWTW1zakY3?=
+ =?utf-8?B?RU85VlBkTGhpbUE3VFhCRjBTSnE3TnBRK3p6bmpiUVBlQTNPZTRCV1FLREho?=
+ =?utf-8?Q?Jw3xWWSUbpsZPQJjnekl5UDId?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	HUORAd+27skkOOUuU5G+jNEnxohzcS1cVZ3KE+MV/gMpWu/GIFWGJbNDVBK//ENkVNiZQBYaPUuMF23Trm0PalwVqXrp1DP0TZvLHiL2f3vnmQ7+gKTUE5Kky4ai1BnOVqFSdOr5Yaty6LOvZ5pSuwoUUayhCAY+berAufzAUgd6jkbOg4Fr+do57XBsrVcKd19L2dT5zkhcCRyMTbTcYhdEWhowyjpzF/jaXJTCtfQqa0J2sF8oV8EehtHVa2k6BO+1J6u/iHQDdYqCgxHgMwklBQCR+zv5X3TYo77eXEQy4qa1nPHkWRkXTUhMK01YnvcPHskkAzWG0kxLuYzh+0ULY5aYxdvqqhaQHPgLIMymo3taBqpgBtT9ha7OTwGpBYiftnL6oFBnz9i9VqurmkohoztoZdrUJ7LOw4Wcrh/TzsEV2WJmjy55MwAjdvP0qbn7N33nT82bFRxxpW8rYW1DUAPNNwi8Uo/ut3VfHpSjMpbNW/s5OnbbKazMYu6D1pGpVdrlsX6wevekttT3pvqxwLyi+2cklBxsR2q/1mvgC7N7Qp9QirfR6Wo5z33HD0w5RNnuv7yIgnM9OEI2ftD7fyBdgzmC/hEPKkqDRG0=
+	BSVYivo+XlvJEZe7pRqv3MNrozaP3uqnhOaiGj0C/ifDk33ZbH1HpMGJhkjTZw8ii6Tog1Ax9VLoiaoKg9BPKJdNgYVnl4apWJ/AkHWxvU8C6iMyiF44QKpJnkreSARhALjuWRsSDfiXO2A5pAyaJYjSjPEhPGgyABPfcb6edHO4qvV2OA6LPRAiT13SDituesTywuj5TrcIkFfbQ/q8Vs6uEhf/Fj34R4E2XFj/oxe9Lt3eUcxNdS/aQ2g3bVYfE1eGcr3xK16C98+eTi+JzSCwO1A3CBEgDd19ygjiRyce2Ln5+84td0ZzdVW9Ny1kS9Db/8rFrSKhjulBt9sjNouaHP0z1v7lzG93DWTVOEfvCuU1UWS4MXQfipN3igP/8/lSowCCkRItF+h7kYNkDqoazlRAiJQpPxO9Ah5cZM4NkJiQNzwgoDGs2BbFgLN5uaLnrKhILi7l7WeSIlFWdIkMkJKq8zA1LWQ9vS9/1mMHdlDPQK3k0ZkZvJeAqJTgPr8I7FNBVopCldwq6cITvHlaB6VZYGO+WY+etXXT7+IUxOd/NQ+K2bHwXHWbj/kUbUzDI+JFqQpQf20Bmrdaz0Yn7mWYQaaAKXd/pi8xuEQ=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12808444-f53c-4060-521b-08dd3ff46b5b
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR10MB6337.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 533b5d2b-be65-49d3-d839-08dd3fff667d
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2025 23:35:16.4407
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2025 00:53:52.6891
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Bvt+nm7gVFImF9On3vquml8MlVD0F6ZghjY7GHY3LmUYph4xfOrL6SBsVse+UaaTLmYrnpDsVqWiA1osEn9u0usk55iJfIKxMuPMN60asrs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4484
+X-MS-Exchange-CrossTenant-UserPrincipalName: JhBKtfrYnKt7cjJL2WNA4QX8Q3vwmOhExc2xp5fpZbN4ysHo/Hw1Sm/Pl+AvazjjfWPDbjyplNODzNBXEXy6tQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5651
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-01-28_04,2025-01-27_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0 suspectscore=0
- mlxlogscore=999 phishscore=0 adultscore=0 mlxscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2411120000
- definitions=main-2501280171
-X-Proofpoint-ORIG-GUID: _GTMkHVdT65PpYSWDPVD0BI4LODbVgQK
-X-Proofpoint-GUID: _GTMkHVdT65PpYSWDPVD0BI4LODbVgQK
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0
+ mlxlogscore=999 bulkscore=0 phishscore=0 mlxscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2411120000 definitions=main-2501290005
+X-Proofpoint-ORIG-GUID: _JvQ14r77cDzFqM6Jk4vBgDf1zhTruZg
+X-Proofpoint-GUID: _JvQ14r77cDzFqM6Jk4vBgDf1zhTruZg
 
-On Tue, Jan 28, 2025 at 06:29:43PM -0500, Eugene Loh wrote:
-> Reviewed-by: Eugene Loh <eugene.loh@oracle.com>
-> 
-> If there is some quantification or other characterization of the benefit
-> that could be added to the commit message, that would be nice.
+I'd like a little more context here.
 
-Sure.
+Features:  There is a new execargs global variable.  I take it this is 
+new to D or an extension to the D language?  Would it make sense to call 
+this a built-in variable?  Are we also exposing a new function 
+d_execargs()?  Shouldn't there be tests for using execargs or 
+d_execargs() in scripts?  I cannot tell if we are adding new user 
+features (which should be tested) or not.
 
-> And...
-> 
-> On 1/28/25 01:31, Kris Van Hees wrote:
-> > The handling of builtin variables was done with a single big function
-> > that therefore got linked into every single BPF program (twice if the
-> > builtin variable might raise a fault).  Providing separate functions
-> > for most builtin variables reduces BPF program size significantly.
-> > 
-> > This also reduces pressure on the BPF verifies.
-> > 
-> > Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
-> > 
-> > diff --git a/bpf/get_bvar.c b/bpf/get_bvar.c
-> > @@ -19,18 +19,21 @@
-> >   # define noinline	__attribute__((noinline))
-> >   #endif
-> > -extern struct bpf_map_def cpuinfo;
-> > -extern struct bpf_map_def probes;
-> > -extern struct bpf_map_def state;
-> > -extern struct bpf_map_def usdt_names;
-> > -
-> > -extern uint64_t PC;
-> > -extern uint64_t STBSZ;
-> > -extern uint64_t STKSIZ;
-> > -extern uint64_t BOOTTM;
-> > +extern struct bpf_map_def	cpuinfo;
-> > +extern struct bpf_map_def	probes;
-> > +extern struct bpf_map_def	state;
-> > +extern struct bpf_map_def	usdt_names;
-> > +
-> > +extern uint64_t	BOOTTM;
-> > +extern uint64_t	NPROBES;
-> > +extern uint64_t	PC;
-> > +extern uint64_t	STBSZ;
-> > +extern uint64_t	STKSIZ;
-> >   extern uint64_t STACK_OFF;
-> > -extern uint64_t STACK_SKIP;
-> > -extern uint64_t NPROBES;
-> > +extern uint64_t	STACK_SKIP;
-> > +extern uint64_t	TASK_COMM;
-> > +extern uint64_t	TASK_REAL_PARENT;
-> > +extern uint64_t	TASK_TGID;
-> 
-> Did you intend to change the indentation on STACK_OFF as well?
+Testing:  I see that the following patch (6/6) lifts some XFAILs on some 
+pr_psargs tests.  Should tst.psinfo.d be added to them? And should the 
+removal of XFAIL for test/unittest/builtinvar/tst.psinfo-bug21974606.d 
+be moved from that patch to this one?  And should there be correctness 
+checks for this output:  not simply "does this script not blow up?" but 
+actually "does this script produce correct or even just sensible output?"?
 
-Woops, will fix.
+I'll look more but am certainly unclear if we're talking new D features 
+here (and if so, why they're not tested).
+
+On 1/28/25 01:31, Kris Van Hees wrote:
+
+> The 'execargs' global variable provides the psargs for curthread.
+>
+> Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+> ---
+>   dlibs/aarch64/5.11/procfs.d | 4 ++++
+>   dlibs/aarch64/5.12/procfs.d | 4 ++++
+>   dlibs/aarch64/5.14/procfs.d | 4 ++++
+>   dlibs/aarch64/5.16/procfs.d | 4 ++++
+>   dlibs/aarch64/5.2/procfs.d  | 4 ++++
+>   dlibs/aarch64/5.6/procfs.d  | 4 ++++
+>   dlibs/aarch64/6.1/procfs.d  | 4 ++++
+>   dlibs/aarch64/6.10/procfs.d | 4 ++++
+>   dlibs/x86_64/5.11/procfs.d  | 4 ++++
+>   dlibs/x86_64/5.12/procfs.d  | 4 ++++
+>   dlibs/x86_64/5.14/procfs.d  | 4 ++++
+>   dlibs/x86_64/5.16/procfs.d  | 4 ++++
+>   dlibs/x86_64/5.2/procfs.d   | 4 ++++
+>   dlibs/x86_64/5.6/procfs.d   | 4 ++++
+>   dlibs/x86_64/6.1/procfs.d   | 4 ++++
+>   dlibs/x86_64/6.10/procfs.d  | 4 ++++
+>   libdtrace/procfs.d.in       | 4 ++++
+>   17 files changed, 68 insertions(+)
+>
+> diff --git a/dlibs/aarch64/5.11/procfs.d b/dlibs/aarch64/5.11/procfs.d
+> index 70a43ddf..9c06fe1f 100644
+> --- a/dlibs/aarch64/5.11/procfs.d
+> +++ b/dlibs/aarch64/5.11/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/aarch64/5.12/procfs.d b/dlibs/aarch64/5.12/procfs.d
+> index 70a43ddf..9c06fe1f 100644
+> --- a/dlibs/aarch64/5.12/procfs.d
+> +++ b/dlibs/aarch64/5.12/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/aarch64/5.14/procfs.d b/dlibs/aarch64/5.14/procfs.d
+> index ef27bb70..2824d137 100644
+> --- a/dlibs/aarch64/5.14/procfs.d
+> +++ b/dlibs/aarch64/5.14/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/aarch64/5.16/procfs.d b/dlibs/aarch64/5.16/procfs.d
+> index cad2d2c5..daf30745 100644
+> --- a/dlibs/aarch64/5.16/procfs.d
+> +++ b/dlibs/aarch64/5.16/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/aarch64/5.2/procfs.d b/dlibs/aarch64/5.2/procfs.d
+> index 6b1b1b9c..3594e5e9 100644
+> --- a/dlibs/aarch64/5.2/procfs.d
+> +++ b/dlibs/aarch64/5.2/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/aarch64/5.6/procfs.d b/dlibs/aarch64/5.6/procfs.d
+> index 70a43ddf..9c06fe1f 100644
+> --- a/dlibs/aarch64/5.6/procfs.d
+> +++ b/dlibs/aarch64/5.6/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/aarch64/6.1/procfs.d b/dlibs/aarch64/6.1/procfs.d
+> index 4cb7b77c..2d52f079 100644
+> --- a/dlibs/aarch64/6.1/procfs.d
+> +++ b/dlibs/aarch64/6.1/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/aarch64/6.10/procfs.d b/dlibs/aarch64/6.10/procfs.d
+> index 4cb7b77c..2d52f079 100644
+> --- a/dlibs/aarch64/6.10/procfs.d
+> +++ b/dlibs/aarch64/6.10/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/x86_64/5.11/procfs.d b/dlibs/x86_64/5.11/procfs.d
+> index c2be76d8..7679db2e 100644
+> --- a/dlibs/x86_64/5.11/procfs.d
+> +++ b/dlibs/x86_64/5.11/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/x86_64/5.12/procfs.d b/dlibs/x86_64/5.12/procfs.d
+> index c2be76d8..7679db2e 100644
+> --- a/dlibs/x86_64/5.12/procfs.d
+> +++ b/dlibs/x86_64/5.12/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/x86_64/5.14/procfs.d b/dlibs/x86_64/5.14/procfs.d
+> index 28fada6d..3a348ebc 100644
+> --- a/dlibs/x86_64/5.14/procfs.d
+> +++ b/dlibs/x86_64/5.14/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/x86_64/5.16/procfs.d b/dlibs/x86_64/5.16/procfs.d
+> index cad2d2c5..daf30745 100644
+> --- a/dlibs/x86_64/5.16/procfs.d
+> +++ b/dlibs/x86_64/5.16/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/x86_64/5.2/procfs.d b/dlibs/x86_64/5.2/procfs.d
+> index 08696cf7..6ad926ee 100644
+> --- a/dlibs/x86_64/5.2/procfs.d
+> +++ b/dlibs/x86_64/5.2/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/x86_64/5.6/procfs.d b/dlibs/x86_64/5.6/procfs.d
+> index c2be76d8..7679db2e 100644
+> --- a/dlibs/x86_64/5.6/procfs.d
+> +++ b/dlibs/x86_64/5.6/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/x86_64/6.1/procfs.d b/dlibs/x86_64/6.1/procfs.d
+> index 4cb7b77c..2d52f079 100644
+> --- a/dlibs/x86_64/6.1/procfs.d
+> +++ b/dlibs/x86_64/6.1/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/dlibs/x86_64/6.10/procfs.d b/dlibs/x86_64/6.10/procfs.d
+> index 4cb7b77c..2d52f079 100644
+> --- a/dlibs/x86_64/6.10/procfs.d
+> +++ b/dlibs/x86_64/6.10/procfs.d
+> @@ -261,6 +261,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
+> diff --git a/libdtrace/procfs.d.in b/libdtrace/procfs.d.in
+> index e9d50349..827d6b81 100644
+> --- a/libdtrace/procfs.d.in
+> +++ b/libdtrace/procfs.d.in
+> @@ -307,6 +307,10 @@ inline string root = d_path(&(curthread->fs->root));
+>   #pragma D attributes Stable/Stable/Common root
+>   #pragma D binding "1.0" root
+>   
+> +inline string execargs = d_execargs(curthread);
+> +#pragma D attributes Stable/Stable/Common root
+> +#pragma D binding "2.0" execargs
+> +
+>   inline int CLD_EXITED = 1;
+>   #pragma D binding "1.0" CLD_EXITED
+>   inline int CLD_KILLED = 2;
