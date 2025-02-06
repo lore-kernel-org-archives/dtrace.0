@@ -1,89 +1,78 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB178B66E
-	for <dtrace@lists.linux.dev>; Sat,  1 Feb 2025 02:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C039235346
+	for <dtrace@lists.linux.dev>; Thu,  6 Feb 2025 16:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738375470; cv=fail; b=Drw/lSkayiVaE1PTwIzKOV6gRHoqadQMIWerVy6sO+DXNiT1fWc/WoxVPfsdYpbaG3lGJQcOrv91WQxf0FpXKqIrWf88r4vYSrGFCKBint7yj31Ue6KhP9XH6IUh92fN4s0WJ6/OCwdhDfSff0x6F+bxHGsA1idI0rCtr2K8s+g=
+	t=1738860408; cv=fail; b=TE22HmeLo/88x6PtmLLSOPgvYnx0bdP0hWr/7NCTwNI1oQZlPjdRN46jJuByA7MhGix2ghBw+B4AbHPKaIqpvUH4VLL3Vu91aYgBbCMTZhjjYfZ1IxZtZ7ZJ2FpD7TW5zNiT9zIuVVHaOdgw+1jQ1ydQzjuCHSXNBuQD9qUVb2Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738375470; c=relaxed/simple;
-	bh=q3NojZfwmcCYK2SzWfeg+nWujoLm1y2tnLz/NjTU6hs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=C78evZS2duKDBYUQuQQpj7UMQG3PG0L+5wFRTAEEb2dBB2ALv8kgEP3SvoKyq3G8/9F65oS7QhiL7dlRHu9Rv2MEuihyftZ7iiSNL7aZSJppvJBkuOEzDFdzy+eqcBrP/QQaYTIog+K77zMFtV1JmRop1QQ8fck6lRb+fi6VHBk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=a8qkixmT; dkim=fail (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=UPVxvrRj reason="signature verification failed"; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1738860408; c=relaxed/simple;
+	bh=9KwJlp5mFWsPpxNGGMkl1Y7ELAErTZlzq0dDRXvgkZk=;
+	h=Date:From:To:Subject:Content-Type:Message-ID:MIME-Version; b=T5WMMkgwxorApo16wgUKg3wAaBG/Zhz3T7Blj5kSH8Snp08iAofwUUxTtBnBgptAroOegFuQR/bYcj1F1ht3NlPafpgm1Sy6sD84i3SfYhU5XZSYy2+Ns6mYl+GLE1K0A+FbB4UBLyGzle/QeOg4r5ErBOziC2qJTGRPNl/0P9M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=KKndzDV5; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Zrpjj+Ya; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="a8qkixmT";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="UPVxvrRj"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5111iq23014973
-	for <dtrace@lists.linux.dev>; Sat, 1 Feb 2025 02:04:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=jqeAy0cS74roMdufgqhiOHR/EIhKnqjJjOocdd7JGzQ=; b=
-	a8qkixmTRODeMdnmk6c/0UT6kWZa61QR8w19OVM+htQcMK0spx/ZGQ/n9rxtJesw
-	ZfDmIT3QXi+S1/UraZFjbHQv4nIq9mXyKXnsqayUh2LdJJK2N/TagKRiY6YxDt/t
-	D+ybRxe7riSIKTR09GzM4uwcW9d2x3Cz4EsO7SVAof0HD5bd8IVY8NAQxQ2YGVyH
-	W/oOzL3PwXw1fdCXtlYc9zUdPxhAhDw1jM4zERjgcrTUqtTB9Yos8MOXb0mZCfOP
-	pD0qf6kBDF/8TdvZVVgmxknvoSEuYdFw3nxvb9ekJYJpf3lLMFN4ZYA7I+sEs5+g
-	lMor4NnLfWvWC7Bpxa1aeA==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44ha7e80h3-1
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="KKndzDV5";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Zrpjj+Ya"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 516EB1SS028568
+	for <dtrace@lists.linux.dev>; Thu, 6 Feb 2025 16:46:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	content-type:date:from:message-id:mime-version:subject:to; s=
+	corp-2023-11-20; bh=jhZWp5x9KDdVGm7PfmzFk+lKe2BdtDGopTF/4I3lOoY=; b=
+	KKndzDV57mrLXbUWjS+m2StuALTXSuSxDbB13icfM2FVGnnja34cCpSQNcPy4KgU
+	hTrJZe8h9IYBfXt5j7b5rlAToi1uehmKbPbnvZJtdB02c2WdtHtLpEvYZwxVYbUv
+	YWjarmOyJoyITrEZHABhYd0K5hil0D1LIChGK9evgnkLE7nMMqUz4Q6rNsJolUVN
+	UUyXKED8zsgPWxx8az2Qo36VElHfEvELGS48Lk19N9KA5XU6b3uPvxunsKDaVddN
+	NDXLt50ZT9KRVJRo0Wmj7Of9bgIr2Usb1f/U+q7+DX33U8g1SoZPpftU6mHteM/V
+	nbijZIeCH+MaLqrrsbO4+Q==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44kku4vygy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Sat, 01 Feb 2025 02:04:27 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5111YEPr028306
-	for <dtrace@lists.linux.dev>; Sat, 1 Feb 2025 02:04:27 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 44ha258fc9-2
+	for <dtrace@lists.linux.dev>; Thu, 06 Feb 2025 16:46:44 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 516G8OC9020693
+	for <dtrace@lists.linux.dev>; Thu, 6 Feb 2025 16:46:44 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2040.outbound.protection.outlook.com [104.47.70.40])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 44j8fs3bt5-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Sat, 01 Feb 2025 02:04:27 +0000
+	for <dtrace@lists.linux.dev>; Thu, 06 Feb 2025 16:46:44 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tNUVe0pCj+I5zq8ST3x8ntI0pW9ClkB6YNgZXWXqJfz1FVWGsYlYFe9/+AUkTCr0eE8XdWo2tn27HLYK+DEbWiVyoUpD4eyy/dH5xL2+jJF19AX82fhzwNJ2A71HeSTHTNuJLjscqk0H99vz+tgb2hq5yaw1Fof5TEnjQHikVKV2icm00ZMcvbygaKeRezBU0qsB1CYKtoUoY0EN11vr+Vk0FEWQ+USLaUhIQu9kIqDa44KHuHgmDFCHh9a3LhmudqY5s6iVZ2u24TgolYBMv0tf++i6qe99QU6xW3fkLY4I79Ui2+fAAyDd5yPWzZoLhCL2w3V4RX48ZT7BxK12TQ==
+ b=w0ckVxrdQ46ElJhjnITW9RoX9vHxODUo9b1/WCrPeo/YnWPQg4NVKVE9B1ievqofuQPPu3A7SRzlccdedjAtgqcRu8knUtmeFHNNe8SBwQ5OmTTWOUEf0h9FBoF8U0yvgJuasWuYz7ZsQlr7Nmlk6YRoeZAYtU4hWn4cxqy5S2DTNvYnteWHwuX7vC8MdsBPqIlzb+PD1a8Rt9WPHtS1ZgLUcMZNPSPEhsH5PQ+LG6qpo1AjBXBdcTqLsgj2vohBJHIjChzyO4Y8ZuztVdhdO9MT1QdlkTYu1B2PNO+r7eyl+tTtE0+jizPBVH4LQng0daeaBWqOAnK7dEf5eIbPfg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nhwtOtJ6zbZsGk5XPsGFrHrFSIvHs9mLntWvK9MOai0=;
- b=mYXJVz5dSN7SmE45/D4XA18J4+qta0XFBNNPHxlrjzUAor6+oSW6FWeKfESHnpGUaxttJEY6lNJbsZgNY1W5pT9qfKHCSvjGTkYUGculHqK4YGuuuzmNLNlK1ljOvJLJGAiFxUyMkaNHCDTP6vJ5xP1lwvEgtQtOniKD5TG/Yk1Q7QP0a+8eyEcrc4D42MDdyR9k3XHdXJSU0aohzN1n9pqSQVw7eNYNlT6dgmhrBrNgTUYW7UFL0Tm2ePgPAu8gcl+cQ76JvgR+O7xfWB+3yJV8D2YUd/D2MfjDu5CN1w4sZo31v5LbDp0UwN3i4JCrV6dMy1R6MZSgDgvdzOe6LQ==
+ bh=jhZWp5x9KDdVGm7PfmzFk+lKe2BdtDGopTF/4I3lOoY=;
+ b=fPjQIAVjwzNZXPm9SdnGeLcLcwJZkhpxun8xWzoG2/0HThxVvV03Bfeld54QA8FZRO1p2xag26lCd+lXMhe6KsKU/WjxNvlWw9YnMIBFOfvwiGTdNXvWIxTeDVVGxYdM+WdwpB/6JWqo2+29/gVKri/yFPoGQDGpLOXxcEHA/TVtcnMAbANPy1tu3kwXn0APg999tt+4NlHZe1fYW99f9RD6bedVjQyJteIobo3CcKWIpSJyhHpSJlv0RHfkn5VGbIwU5ppQQzDSdvvfW+rm7U+dqZchMhUyoOb2yawoZz3ZZX59NFGAhQTulhkNwGKTiTzAIdexDqUW4AiF1x1vNA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nhwtOtJ6zbZsGk5XPsGFrHrFSIvHs9mLntWvK9MOai0=;
- b=UPVxvrRjVfvdG2jhrmV6H9hIWeKvBAVbg5BcgWNNKw9y1imoxjR0XJBmtZ+o/2HT6daIavEahQCGckBVYFpeaRlZZtOQTQAox47HMSB6TsQRMvgYoq9+N4/+D3a+hPJqF9L3djcWmU4ueQMs4FMWWfBpBIYZSNhkFYpn6Jmi1DQ=
+ bh=jhZWp5x9KDdVGm7PfmzFk+lKe2BdtDGopTF/4I3lOoY=;
+ b=Zrpjj+Ya/jOygXkixoBf53wOBBGZ8HYljXj1MwOQ6qO33tgK/AHnNsmy90vfBGfCTJoO1qWC3xBPJvwnJaXo1vXtV9lk67eOlTU5hmKDcDQ3f1/MM4hwuNi/nIP5cXAbcctKzQGgHS1V46fxZpcvDq1LppF7BCsQbFXAqLVKuSQ=
 Received: from PH8PR10MB6337.namprd10.prod.outlook.com (2603:10b6:510:1cc::10)
- by SA2PR10MB4748.namprd10.prod.outlook.com (2603:10b6:806:112::14) with
+ by DS7PR10MB4989.namprd10.prod.outlook.com (2603:10b6:5:3a9::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8293.19; Sat, 1 Feb
- 2025 02:04:24 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.12; Thu, 6 Feb
+ 2025 16:46:40 +0000
 Received: from PH8PR10MB6337.namprd10.prod.outlook.com
  ([fe80::5aad:120e:fe7c:ea88]) by PH8PR10MB6337.namprd10.prod.outlook.com
- ([fe80::5aad:120e:fe7c:ea88%5]) with mapi id 15.20.8398.018; Sat, 1 Feb 2025
- 02:04:24 +0000
-Date: Fri, 31 Jan 2025 21:04:21 -0500
+ ([fe80::5aad:120e:fe7c:ea88%5]) with mapi id 15.20.8398.025; Thu, 6 Feb 2025
+ 16:46:40 +0000
+Date: Thu, 06 Feb 2025 11:46:39 -0500
 From: Kris Van Hees <kris.van.hees@oracle.com>
-To: Eugene Loh <eugene.loh@oracle.com>
-Cc: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
-        dtrace-devel@oss.oracle.com
-Subject: Re: [DTrace-devel] [PATCH v2 4/6] procfs: implement d_execargs() for
- pr_psargs translator support
-Message-ID: <Z52BJVoO+xxz5k/+@oracle.com>
-References: <PH8PR10MB6337029F91AD9127B9013409C2EE2@PH8PR10MB6337.namprd10.prod.outlook.com>
- <b5896523-3248-fea2-3a02-ba13353c52f0@oracle.com>
- <Z5z8TG9TsewzE5dI@kvh-deb-bpf.us.oracle.com>
- <b42108ba-e583-9204-71b3-859b9a46873a@oracle.com>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b42108ba-e583-9204-71b3-859b9a46873a@oracle.com>
-X-ClientProxiedBy: BLAPR05CA0017.namprd05.prod.outlook.com
- (2603:10b6:208:36e::29) To PH8PR10MB6337.namprd10.prod.outlook.com
+To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: [PATCH] trace: fix char-array handling
+Content-Type: text/plain
+X-ClientProxiedBy: BLAPR05CA0014.namprd05.prod.outlook.com
+ (2603:10b6:208:36e::18) To PH8PR10MB6337.namprd10.prod.outlook.com
  (2603:10b6:510:1cc::10)
+Message-ID:
+ <PH8PR10MB6337447CA1EB2716CC4CE522C2F62@PH8PR10MB6337.namprd10.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -91,141 +80,555 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR10MB6337:EE_|SA2PR10MB4748:EE_
-X-MS-Office365-Filtering-Correlation-Id: c31de7db-13da-4ba4-3f83-08dd4264bfe2
+X-MS-TrafficTypeDiagnostic: PH8PR10MB6337:EE_|DS7PR10MB4989:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2264471-650e-4ee9-cc98-08dd46cdd494
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	=?iso-8859-1?Q?rxOkgMlBvOLKfGeIkUEbNELmxMYcIiKovhJB9PNppdW8DgOcLrsGSbjImQ?=
- =?iso-8859-1?Q?Y+usHYz2oeuTJwQKfeIUya8PXWOqLD79kIFUSFOlUvOv3RUkrp42Xuvy4U?=
- =?iso-8859-1?Q?dcA3xVfWh024ySxeAw8q/WCa0GbUInML/6uDtV3P6DvZeS83sG8CZcCHHk?=
- =?iso-8859-1?Q?Vow6yAYYFrs11x322f+gq19+mFHWmbZYN1bDafzXyMI8AN1B8oamd1h6VR?=
- =?iso-8859-1?Q?hWf7PcRM8aO6r9nB78U7BM3Kck8ii0oXOU0ZVCcG1eD64PcLdVvU5fiVXw?=
- =?iso-8859-1?Q?Ccd/8AqkKrMkyeHLi4rAxGDrk1hJutUYzZoeZS4zb4BGDMkMfeHJAaikVP?=
- =?iso-8859-1?Q?8jy91kIaNjjykQL+QxHrniOsiFhMBH524JmU+sdr+FeVKLetCIKmf/zcsR?=
- =?iso-8859-1?Q?9rnwWStbvxP7RRrQ1j6GBbhQnO/ztIryXIhRgXYlH+KLWzOaycfzETNGwh?=
- =?iso-8859-1?Q?m0O7L0rzPABhUOoegBIgApWV0/QjcuotLKLHpOQyTeU2Y4emOrn6P/iOuy?=
- =?iso-8859-1?Q?ALCJFJjl/94eWt0672vA5TYYkS+GcPHBRA/wCW67jS+nO8lGy7h5zMTx7j?=
- =?iso-8859-1?Q?w8vBUVQ6gmvjjvW/iYmIDxCCMCb6LssegBKKWolDBzXJQUgJzPHhaXpCQI?=
- =?iso-8859-1?Q?Tr7rbWP5A3ryQeSNT3ZyM+U4jCnGuYIyaqhwpzD5MWuci3Bz4fb5UJQNle?=
- =?iso-8859-1?Q?03FUr21VTt942xegrNLyizN5zw/fq2nFwAM+q3YpNXTSVsqTGEkDk5IEOD?=
- =?iso-8859-1?Q?1MZ0UOy7r/EX5QduVnHw0WIQo8p7g0JYsJSjwzv3xgCTgJ/HNQ1xj0Xm1L?=
- =?iso-8859-1?Q?NNqNo0r+30wc9KOCOX7qeC3Uylvp/Rp6h34FtbqUzBdnVHzLeBkqAB4SP1?=
- =?iso-8859-1?Q?/dV0q69nM0RC3kMws7ORbGPkPgCZsK52UikbCD26V+lPLMQzvo+o0vdpbK?=
- =?iso-8859-1?Q?42AXF92bmQMpVCC2MQ+K3PiXKFRUytWPvIAgjoF4rmPAQpmA6LX/kjxqyS?=
- =?iso-8859-1?Q?LcSUk8r4Z2oHFHFUI4aqF6nfaS9s8W2DlJaWs7GFhsDtSnpsUsoFKtROl0?=
- =?iso-8859-1?Q?X3qjiJQYXMWQDCUllcaehmvRRE/0xEMkWeMXjwU1q6Ky8+R3joEVlFa1vS?=
- =?iso-8859-1?Q?F9guaEEDjmtztUGbXn/Y38WS4vR86STiZZdrAa+HSOLHhxji4BGO9C04WO?=
- =?iso-8859-1?Q?JDI084L24Uv3zCWeQPHIe6GY5i1W2WHQesxroviejrQFbK6E8uKnAOoy+2?=
- =?iso-8859-1?Q?dBD5K1oUKgtsMpd8J4A+RVBBSlf2S8bTyjeiw33hXZh5x5QwAMaPQ3qsIs?=
- =?iso-8859-1?Q?uYxiyxZ0lfI+D4HtsdmbUifK6NtBogmrPUKvxJl1hCSlh7HaK8kDyB7uDW?=
- =?iso-8859-1?Q?OoERCUPPxa9vQJTEbNH25PC5pwmv5UmqA0nUzIWTHrm6L8jCZrc+p+Xii9?=
- =?iso-8859-1?Q?QjfJah3DBoWJYKj4?=
+	=?us-ascii?Q?I2X8IqYV7IMRlRHsIwyFJ3/4py6PD2Nfi+wo906tBKF6l0AUSMGhfHieW08t?=
+ =?us-ascii?Q?eN5XF9VIGyaUP5v2jRoZ3WreHq2JLm8fbnNzIW1OsNZVdQZbdyCD3IZSnubK?=
+ =?us-ascii?Q?f0jjO7ST9PbWMuUgcBf8NFbQGcTOX/sLIrxwYskBAtxbWN7Ql5nNTU1lrX6V?=
+ =?us-ascii?Q?E7kmC4Z4FyNuO5Yh1NijL8hoUDuHB8+bT8Jj3fOyFSnRE2MJ/WDF7nuEa2gR?=
+ =?us-ascii?Q?7p1/wnT/QU/wYRCafcnVilosqd9zuN5kDJvk25psSqaX3iKLeRddpiZnfnN2?=
+ =?us-ascii?Q?HXHkxZ2kQf2E50DXtn/bOVN9Jx9Y3VCCNzWxC3/ATEfY54fFtNc9LYxW+lHc?=
+ =?us-ascii?Q?5skj+4i0+fCm9Z1Biqmj0JukTtpO5NVQXJKjwXwERo/+Pc13YiLl/nvxd13Q?=
+ =?us-ascii?Q?l67EceG6ZTNX5Dpa3hxvebH4mEAd//g0QNXMZ5SmDJIbTGnpUI87vgDyUNPW?=
+ =?us-ascii?Q?Tdh7NlyhOWzloxeo+UCSdKLV+Y/hIYgg1N9N/LVuEXP7lnY1uXku2pwCxJjW?=
+ =?us-ascii?Q?lEBqeTE+Ay5HRFMltPSdAim9gq9sK/Eb634BW7KoScjsp9kPQwgTfyFrjh1f?=
+ =?us-ascii?Q?N7x7BjXtbLUqXojVb+3sCFlnefjfSTcy69zotZqUP8nMVj4sPOKsRUSbdba6?=
+ =?us-ascii?Q?nqwrCDJWqDpxyWvwXlXfVLCIGp+Ex6LOkDnsPmK8/xVfH6+Fp3BaTs9XVP/m?=
+ =?us-ascii?Q?gvoj+g1toToXhsOCdgux35znVS9x0NeRWDoFI0ENnu6m7LdNry8uVJRMoN04?=
+ =?us-ascii?Q?88LRB5mtihG5PGKmG8Uw3yOGAveycgb2yyQ6q77H8AI8H2YZoBWu0SEvOuSx?=
+ =?us-ascii?Q?FvMoePKiG5U6dMpQt/Nd7jY+R9BpqRbKjsuaFgPICwULxm7vbHFJ7HI0ELHf?=
+ =?us-ascii?Q?8PcKiOdF3lf1BmuvI4WJsdsdIg77O6kHQ3IqBFzYcP9ovPbd0GlCvZC90T5m?=
+ =?us-ascii?Q?/3franihE6SkQMi7Jjp7OmsALl9tfrm3D87IBL/TyUYpRBMYPG6VthF3avA/?=
+ =?us-ascii?Q?S46fINhgztpi77gWSgS9TYMNe917Gqq2Usid/PvFG3I/QR6IvfjLJO/EJJ+V?=
+ =?us-ascii?Q?JsgVJIadGj8g+QjLh6/jDaUzEIyIDqMtF+/rT05YhuXOK8ConGlkq86DD/1G?=
+ =?us-ascii?Q?GOf4pe9ClWECJxWAZ8Lmshr6w+EvjsZsTSBQNBWWatkFXklJhBp3tItJ77sx?=
+ =?us-ascii?Q?4BO9MSSRgsTmZW01RW3rD3m+Q5HE7giTUa3D1YOiWg/qDvCwjXG4PORI04g9?=
+ =?us-ascii?Q?OzYLR97IQIRFQCcFw5eTb3hNxaNsNI0jP53nbAj0TLLq7MqWR7AGCMv/CfRW?=
+ =?us-ascii?Q?bqg5b2ANNdLqXGvPfAf2rL6jzMxOtApI30PTf86eQTwGMQ=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR10MB6337.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR10MB6337.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?LMVuiiTUge0xMnzozys5KFJeWVVK2K7RxEePrmjW/3OzZL40em17RtcW0X?=
- =?iso-8859-1?Q?4ypvBu8Nt4IUE/gQakyeB1EW2Iont8cDCwiYj4H17dSCW/pcXmAVicY1x6?=
- =?iso-8859-1?Q?k+gXNQO88Vp+E9PUQ8yoYuoLX43qVFvuQQQkXPaZ11euq2P8iaTGqj+x1T?=
- =?iso-8859-1?Q?hCqclsxi479L+xF3qSQVCdwrYVe7tH5cvi+oSRzXpIM4Fzerh2wfQFfGL8?=
- =?iso-8859-1?Q?px1DJhge6mu3cWQatG9x35++p2subtwz443vrpEq+MupuMAh8SbAKUTBvu?=
- =?iso-8859-1?Q?DnHq0ipVGwAeYSSo/Adxd3ogAgigGfgIdE485Q5A5jgcBsIemxx1lv4JTV?=
- =?iso-8859-1?Q?bDKmRveVBlwE3KxqQ+OQci3ymwta5S+X4FrupM0bqcEp9blItxhoufbFx3?=
- =?iso-8859-1?Q?wxdA8+pbOKYUnFViLpVOC/XXbL9XRYru7hrlqQlgJC+wODCNRotV73Mk3L?=
- =?iso-8859-1?Q?JtlmiWkfSJi/7E/iRWMv16Fr/1i9ezvveSnSFOTVj/Ql525rCUEKXTcKc8?=
- =?iso-8859-1?Q?S9IApoXuC1gxABIEYUhUrksryfQyK9yPSwJ+5r/m2HMiUCqviuT8Hnu6v+?=
- =?iso-8859-1?Q?Zu6vK8hWqPq/ER2+Yc0QCWuZdNDajNV72VRdjv0OtCV6VdbzU5xRXq/jsp?=
- =?iso-8859-1?Q?k8JqscLGiZenrFFenrlbvPCsvvZVRMvFEGqh1Pl8bkz/TX7Bi3l265PoE+?=
- =?iso-8859-1?Q?muRlQ8XQjvoTk+jQGakP3XeQG8tjiapV3BNhFCzheDjJIRoMYKB75Qi8iC?=
- =?iso-8859-1?Q?uGsSzdXyd28b7yxAp36ZeedI7j+IM7K31pRnGqk5ygNa3SftKx3eRjvXi9?=
- =?iso-8859-1?Q?4g0f1zDyJOzcqG6xTIe7/Tg5wW3eMTnXTY1fccS2Y1iISJgK15cqfJjXcd?=
- =?iso-8859-1?Q?yzA1SHYXQJUkQreLBSOyNukGLke+O1hG8NkL9LIYHhISORGnLwVinwXDvs?=
- =?iso-8859-1?Q?Pq+xC+yjak4X4qotxZuv/aipFaVAsfc4QySFdRmyTZSWwGdPwcOOJDTxFE?=
- =?iso-8859-1?Q?LpGm1ZqF8suRBftTy5roRn3G57vmNpteNjHoyPxF+78wNMfp+ioe8enGl2?=
- =?iso-8859-1?Q?0r4DsUO5fKf+xgHUbSHdUecTaNyKVD6jHCUFoiWXQUgRJPWqQh7yLsV7Ru?=
- =?iso-8859-1?Q?ab0entiPMt0NxB/hNXkTbOOIgf7ARqsoZaQ1mXdKf+MdQVzT1I/+AlLHD6?=
- =?iso-8859-1?Q?A7USxaFsqyJ4GkxVe6h0bywml92rq01N6Dg8yZ5bJFQofwU8tkMwiUp7U0?=
- =?iso-8859-1?Q?7SZy+0uf5oKT2f+9UKykyIUnInjYp9WlGcehY2AMIz6V0paxQRgS03bT8B?=
- =?iso-8859-1?Q?nNSQrSOt9CvhDmxt0a6bWVFwI9+eepdHorBr1tviR+MZXjdAK+21l8pqd6?=
- =?iso-8859-1?Q?f2d26I987XJYguQgU9KEd0d0xDaWLahdxGyQsvs/W89j1bFb3P7+jxgA1k?=
- =?iso-8859-1?Q?d5O0Nam5o6P8xOGXRa3ccsyWTcTbE7hQX8D3IAYyKuVeXq6N7VzPWpkn/S?=
- =?iso-8859-1?Q?brOSs6m/wFaJ8HDT6n59o7iGQYMH0HGbP2RIsSqJWgNkoQJyZfnrDiGQv5?=
- =?iso-8859-1?Q?a58Tdf76Ox/4eGiUuIKqwKPqXGDUZJhn3jSaaKF304P82LAIj2+2x5KGTp?=
- =?iso-8859-1?Q?aukboE9RzZR50gZCd+hT3YxGblMIYLHE2xqDCVuPrpp5+9fwCMM8MrtQ?=
- =?iso-8859-1?Q?=3D=3D?=
+	=?us-ascii?Q?wJ941Y4mIkqCjow8Z3e65kMdgLx0UBJ+ZaShJetwS9JuQSbvCmvkQggV3QOU?=
+ =?us-ascii?Q?3qvNd6dgVo889/wGRjWpTmnPZ6NsVecGJMA5NyrFD/Tyfysc+THpaimpDWvn?=
+ =?us-ascii?Q?d0cLPQo3/ipKgADG+UWxJICPL3ShmK9XCYtNJj/MIkWRhMGmE91cnG3Laxnv?=
+ =?us-ascii?Q?TWJq6wi/Kvq+hVdVx2rMOystTOGJO6b1h82GrtA0kepOO5YU9XlNWUtIQsPA?=
+ =?us-ascii?Q?9vMUVZKUe15j1Tz/nqlR6OK7xRNZQM6TqzMaFObhtdua8jMQuqHtmLe3p5Y0?=
+ =?us-ascii?Q?FZhp28C1Nj14Gf133ZL3xw2+L1vvC/jb1g2g5q1uSsyZwXF2LsFUr4BlSPrU?=
+ =?us-ascii?Q?eYl5ZRTAJKwWwIL/Hjla9B/8M15pz91+pVCN95IC0OwzHGhnDFlJtYQ7b46f?=
+ =?us-ascii?Q?fknS1LwCfKIyD34DiIHusEwuetjTFxx380REl6+Z53Zx73LxSO7kWgEn89JL?=
+ =?us-ascii?Q?7Nrnq+sEuCTQG9wJlKROlMmKRTgOPv3hoiG6ecCZz+2jsC7o3+ze8YQ6/2KW?=
+ =?us-ascii?Q?9ABmIWW+sUlEOua0PH5twDRfBX6RhM0mE4gEinns+F+JJh8ju+DKfOTgJoqq?=
+ =?us-ascii?Q?fiqf8Mn3Tryq/6P0q7hjukhLynmFUYZZxN0iEXR5xudJHw/Du66Rw7KF3Rwq?=
+ =?us-ascii?Q?hklJepipTuckdoKvl2QspXzmkvx0OfZaiv1XB+/Xgqs2RBNexxoiu+Wjupky?=
+ =?us-ascii?Q?+o6LrBb7zI4RPibEl6RXeSb+RK2SaWnI2H3D0i91zgiX5msCeQJYc1T4v+tt?=
+ =?us-ascii?Q?TqaKuP8A92ZUiEY9qU+OkSH/wL97Kg1GY+ZcdtduEl2OA1lCpt/K34Cnw4Oh?=
+ =?us-ascii?Q?G8mNRYfXLVcX8f6O389w636591K3PVHYyiZ8N116ivQRlP26MiGLW4ptiHzf?=
+ =?us-ascii?Q?wKra0NGM20Sh5OaYhJvZCB9XCH36V5uiF0d8JzKTQ1neR+pY86jIUm1LSKNC?=
+ =?us-ascii?Q?ireNez4+NpyxSbPwnBNk1s77wuqiaskf6eL1ZnfKHZO+1XsINEgcmP5OJn0z?=
+ =?us-ascii?Q?zk603usBvS6X9KfGi0qhhw+DSsI2AumrsFaApR51sNU4tWR4hQHrLTDJPsQv?=
+ =?us-ascii?Q?A02LTH+AX2J9IjjQMyB4aDNsxrgvsNO+C3cq/PkDgw7QMp49VCcqPcCSlwIx?=
+ =?us-ascii?Q?XDKut4zy4TeqUGHA+zv2OfNYRNTsNTkoIqGTwUrR03r0wiNKbCPpw1SKxk1N?=
+ =?us-ascii?Q?PJE/LsswzfzDmetuxXJTohKXKV5LcxJ5dp4ylK0pYmN1V4d8tf5JBA5uDWPn?=
+ =?us-ascii?Q?tX+bnRoS3K92lzzG43z200KO/sXWu7qWHKNtFb4dSt78CtRkZfUJXlPYs+F+?=
+ =?us-ascii?Q?R6VgGHngqP/ech+DM+yxarAKXsfrJZXxDs1AJ83+p3T0kocXYIb+9NmP9S3N?=
+ =?us-ascii?Q?6F0UaQYG9t6kNae6ClgmTumDV/AWSZtxkBkBgC4bhMaVJlEX/3L/8vK/MPOK?=
+ =?us-ascii?Q?5ef+qBagVe8VXArjN/yb9DAHLmqQsM2hsfhGEXR83mC8ynnpHqsmzbXW8Xok?=
+ =?us-ascii?Q?UOCXt1rIB+edqw1fwXScihx1/l31zVy4phzlpKMeZ0wfAUINO7ksiRy9wjwQ?=
+ =?us-ascii?Q?iM3N92sEhqOitiigZDpnfAu/JHNFR8GkcNBewBDOS0mNFGwo//6oEAEMHkMt?=
+ =?us-ascii?Q?Zw=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	GHYbepLl609BbmDkNnVpqipXo88fy2+dkkFGS+HDdLGGRyo9JyJRY/V/ppR4PpJcb9ZFxiltnMgSMiRUPh7XzhQum+AkSVQnuy3xHxzW8z3VGMDbOtf8C3+HmVCkG1U+z0SR5gQdvSPJzDseCn9DoEIs28feJJAwjXAiIIPxM8RLYskEHk13NFg+pnDB61/jf3Od+6gApVKWRnTZAK31lOFDWvoWBUdZC/21TsBOzCgaKi/OOFwPsbDWUGSjozXK162u06UDCh4W/XAMCZyQlznWzWlKneLCUxx8cSpzW520GDGYjPHDEtK7Mn9MSrUWoiCGlT28sIvBoiNLpAyy8dakLxb3J90IOoPc5nahQjzf3VdrwtQICqwbwKKb7fjTua1f4mefAYtxQgxr+mce33n9kolkixr4FKQggogDp8Ss+WyYTRXFe7WUOnWqHY01vxg8PodVOxLSCrBioY68vY+3cWXCxq/Nw9B7oSZlLUi7m0M2IN9BJOkc4s6FX7NBRd9/oFi90nWp/rg3W9MWP3x6msu+jPSrVI88hPKLRChEK5MocT5sWPmEetn+SnCGKPel9dDZMgPy9FYWzShgYiDj61ZNfbizb5XxNG+G0Q0=
+	iuTYlyB1W/DeIXdbE/vknnDHQ2NcUl9A7KAj1Av5N5XNidr7fFTu4zwJgO3XwVgco25lYq2NDXOXViOClM/8J/tyI2+k/VaznkO+yVDEc7/dMj2pCQhudAiMWjz9mFYuDC5J8cmL9rpucg8QGpO4+NKUPfxNB4kiRQb3KH32/ely/yK5G2oOSYA3sWWcz/EyXTbvY1cIEogqvPlZOMT6aOpz04fXg2n9lRawZfYRKJt2LHzRB08zNULbqbR2JOHvk+IHRCSjkrogMgjGjbK3tFUY0yEDatcJJB2HQ1BrL2iiI4ayb02hOiyFMoX6TuGX0gYGDhTXYb85aFnHFPrTv7093EdRyPbSjATGwzNzxaOaMrJk5O17xNIwK6QnP2py7f/aFWsnvkfF+T0seOL2bS32pDOuD09J42j3yRcxeDzCe+70qaLDu2K4SdAjLVbIuN/QBWrB1rn0PpfJlbGlScntgEYZlltKwDXKjoMpH6zilQzWEpLKYnG6YH4TRpTSN6ZgclMV5+lfdJmaCTAyUHmD4D4wSaMyX9OghflXDWI3qnW7OPQTOe9/Kz0EfW5oXb+uigdG5dXkbG40OkOaq5TrwQ/3inctIKLqiktYdHM=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c31de7db-13da-4ba4-3f83-08dd4264bfe2
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2264471-650e-4ee9-cc98-08dd46cdd494
 X-MS-Exchange-CrossTenant-AuthSource: PH8PR10MB6337.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2025 02:04:24.1043
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 16:46:40.6695
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TZg4DnZdD+QAD07D+04HDpVYezfYjvDKja6w8HalT52FwNR5uRJxqoZaRC6JRORllTMF5mLve7dPMYFkdbVd9Y6DSaQKe/jpCx66q4IINtk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4748
+X-MS-Exchange-CrossTenant-UserPrincipalName: YGOjwONu+Y66d41PM2AEQOCY3pQoPK8ldnXRqY+YUnCB08bmZ3luQ70cWVkqNZpjgI/PdU9Ufgpychu9pBuRzuIyGzZJEzVwiCp1WRJMLvk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB4989
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-31_09,2025-01-31_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
- mlxscore=0 phishscore=0 spamscore=0 adultscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2501170000 definitions=main-2502010015
-X-Proofpoint-ORIG-GUID: A0SoNfbN8Si9FzZ0i-MNFFsCf43dPS5V
-X-Proofpoint-GUID: A0SoNfbN8Si9FzZ0i-MNFFsCf43dPS5V
+ definitions=2025-02-06_05,2025-02-05_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 phishscore=0
+ mlxlogscore=999 bulkscore=0 suspectscore=0 adultscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2501170000
+ definitions=main-2502060135
+X-Proofpoint-GUID: ojuMC47esb6qI5fu6kujuwbUeobvxqGi
+X-Proofpoint-ORIG-GUID: ojuMC47esb6qI5fu6kujuwbUeobvxqGi
 
-On Fri, Jan 31, 2025 at 03:29:50PM -0500, Eugene Loh wrote:
-> On 1/31/25 11:37, Kris Van Hees wrote:
-> 
-> > On Thu, Jan 30, 2025 at 02:22:44PM -0500, Eugene Loh wrote:
-> > > For
-> > > test/unittest/funcs/d_execargs/tst.d_execargs.d
-> > > test/unittest/proc/tst.pr_psargs.d
-> > > how about a few more arguments?  E.g.,
-> > > system("/bin/echo TEST abcde fghijkl");
-> > > (I don't have anything particular in mind that this might catch. Just trying
-> > > to poke a little harder.)
-> > Sure, although it does not really improve the testing because we are looping
-> > over all characters, changing '\0' into ' ', except for the last one.  If it
-> > works for one it works for all, but I also do not mind adding a few extra
-> > arguments.
-> 
-> Cool.  Again, I have nothing particular in mind that this would stress -- if
-> it catches something, it would be something unforeseen.
-> 
-> Incidentally, I hadn't run proc/tst.pr_args.d.  I just tried:
-> 
-> *)  On ARM UEK6 (OL7 and OL8), I got
-> dtrace: error in dt_clause_1 for probe ID 98979
-> (proc:vmlinux::exec-success): invalid address (0xfffff895fa9f) at BPF pc 934
-> dtrace: error in dt_clause_1 for probe ID 98979
-> (proc:vmlinux::exec-success): invalid address (0xffffcb24faa0) at BPF pc 934
-> Maybe UEK6 is not of interest, but there you have it.  Some copyin thing?  I
-> don't know.
+The special handling of strings in the consumer's trace implementation
+did not correctly account for char-arrays that do not necessarily are
+intended to hold string data.  Thr trace action is documented to print
+data as an ASCII string if it can be represented as such, i.e. if it
+comprises only printable characters, optionally terminated by one or
+more 0-bytes.
 
-Hm, yes, come to think of it - arg_start and arg_end seem to indeed point to
-the userspace stack so they might very well be userspace addresses.  I am not
-sure, so I will investigate and if necessary will adjust the patch to handle
-that.
+The implementation for trace on both producer and consumer side was
+using the data alignment as a marker to determine whether data should
+be printed as a string (alignment == 1) or not.  The real alignment
+of the data should be used, reverting code back to the necessary
+heuristics in dt_print_bytes().
 
-> *)  On most platforms, I got
->              0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f 0123456789abcdef
->          0: 2f 62 69 6e 2f 65 63 68 6f 20 54 45 53 54 00 20 /bin/echo TEST.
->         10: 54 45 53 54 00 00 00 00 00 00 00 00 00 00 00 00 TEST............
->         20: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
->         30: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
->         40: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
-> I do not know where those extra chars are coming from, but the test is
-> exposing itself to printing out garbage in any case.  Maybe use printf()
-> instead of trace so that we do not print out the buffer past the NUL char
-> (and get more compact and readable output to boot)?
+The dtrace_diftype struct has its dtdt_pad member renamed as dtdt_align.
 
-Aha, that is a bug.  Well, the output is not (and should remain as-is precisely
-for catching things like this)...  pr_psargs[] is defined as a char array of
-length 80.  So, the output is accurate but we need to ensure we clear the
-remainder of the string data.
+Added several new test cases to cover various possibilities.
+
+Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+---
+ include/dtrace/dif.h                          |  2 +-
+ libdtrace/dt_cg.c                             | 16 ++++++----
+ libdtrace/dt_consume.c                        | 20 ++-----------
+ libdtrace/dt_parser.c                         |  2 +-
+ .../actions/trace/tst.array-char-multi-nul.d  | 30 +++++++++++++++++++
+ .../actions/trace/tst.array-char-multi-nul.r  |  8 +++++
+ .../trace/tst.array-char-str-multi-nul.d      | 30 +++++++++++++++++++
+ .../trace/tst.array-char-str-multi-nul.r      |  5 ++++
+ .../actions/trace/tst.array-char-str-no-nul.d | 30 +++++++++++++++++++
+ .../actions/trace/tst.array-char-str-no-nul.r |  5 ++++
+ .../actions/trace/tst.array-char-str.d        | 30 +++++++++++++++++++
+ .../actions/trace/tst.array-char-str.r        |  5 ++++
+ .../trace/tst.array-char-unprintable.d        | 30 +++++++++++++++++++
+ .../trace/tst.array-char-unprintable.r        |  8 +++++
+ test/unittest/actions/trace/tst.array.d       | 11 +++++--
+ test/unittest/actions/trace/tst.array.r       |  2 +-
+ test/unittest/actions/trace/tst.array.r.p     |  6 ----
+ 17 files changed, 206 insertions(+), 34 deletions(-)
+ create mode 100644 test/unittest/actions/trace/tst.array-char-multi-nul.d
+ create mode 100644 test/unittest/actions/trace/tst.array-char-multi-nul.r
+ create mode 100644 test/unittest/actions/trace/tst.array-char-str-multi-nul.d
+ create mode 100644 test/unittest/actions/trace/tst.array-char-str-multi-nul.r
+ create mode 100644 test/unittest/actions/trace/tst.array-char-str-no-nul.d
+ create mode 100644 test/unittest/actions/trace/tst.array-char-str-no-nul.r
+ create mode 100644 test/unittest/actions/trace/tst.array-char-str.d
+ create mode 100644 test/unittest/actions/trace/tst.array-char-str.r
+ create mode 100644 test/unittest/actions/trace/tst.array-char-unprintable.d
+ create mode 100644 test/unittest/actions/trace/tst.array-char-unprintable.r
+ delete mode 100755 test/unittest/actions/trace/tst.array.r.p
+
+diff --git a/include/dtrace/dif.h b/include/dtrace/dif.h
+index 576bda2c..70257b2f 100644
+--- a/include/dtrace/dif.h
++++ b/include/dtrace/dif.h
+@@ -33,7 +33,7 @@ typedef struct dtrace_diftype {
+ 	uint8_t dtdt_kind;
+ 	uint8_t dtdt_ckind;
+ 	uint8_t dtdt_flags;
+-	uint8_t dtdt_pad;
++	uint8_t dtdt_align;
+ 	uint32_t dtdt_size;
+ } dtrace_diftype_t;
+ 
+diff --git a/libdtrace/dt_cg.c b/libdtrace/dt_cg.c
+index 6e74b4b0..a5c9aa09 100644
+--- a/libdtrace/dt_cg.c
++++ b/libdtrace/dt_cg.c
+@@ -1601,12 +1601,11 @@ static int
+ dt_cg_store_val(dt_pcb_t *pcb, dt_node_t *dnp, dtrace_actkind_t kind,
+ 		dt_pfargv_t *pfp, int arg)
+ {
+-	dtrace_diftype_t	vtype;
+ 	dtrace_hdl_t		*dtp = pcb->pcb_hdl;
+ 	dt_irlist_t		*dlp = &pcb->pcb_ir;
+ 	dt_regset_t		*drp = pcb->pcb_regs;
+ 	uint_t			off;
+-	size_t			size;
++	size_t			size, align;
+ 	int			not_null = 0;
+ 	int			cflags = pcb->pcb_stmt->dtsd_clauseflags;
+ 
+@@ -1619,10 +1618,14 @@ dt_cg_store_val(dt_pcb_t *pcb, dt_node_t *dnp, dtrace_actkind_t kind,
+ 			longjmp(yypcb->pcb_jmpbuf, EDT_NOREG);
+ 		emit(dlp, BPF_MOV_IMM(dnp->dn_reg, dnp->dn_ident->di_id));
+ 		size = sizeof(dnp->dn_ident->di_id);
++		align = size;
+ 	} else {
++		dtrace_diftype_t	vtype;
++
+ 		dt_cg_node(dnp, dlp, drp);
+ 		dt_node_diftype(dtp, dnp, &vtype);
+ 		size = vtype.dtdt_size;
++		align = vtype.dtdt_align;
+ 
+ 		/*
+ 		 * A DEREF of a REF node does not get resolved in dt_cg_node()
+@@ -1664,7 +1667,7 @@ dt_cg_store_val(dt_pcb_t *pcb, dt_node_t *dnp, dtrace_actkind_t kind,
+ 
+ 	if (dt_node_is_scalar(dnp) || dt_node_is_float(dnp) ||
+ 	    dnp->dn_kind == DT_NODE_AGG) {
+-		off = dt_rec_add(dtp, dt_cg_fill_gap, kind, size, size, pfp,
++		off = dt_rec_add(dtp, dt_cg_fill_gap, kind, size, align, pfp,
+ 				 arg);
+ 
+ 		emit(dlp, BPF_STOREX(size, BPF_REG_9, off, dnp->dn_reg));
+@@ -1678,8 +1681,8 @@ dt_cg_store_val(dt_pcb_t *pcb, dt_node_t *dnp, dtrace_actkind_t kind,
+ 			dt_cg_check_ptr_arg(dlp, drp, dnp, NULL);
+ 
+ 		TRACE_REGSET("store_val(): Begin ");
+-		off = dt_rec_add(dtp, dt_cg_fill_gap, kind, size + 1,
+-				 1, pfp, arg);
++		off = dt_rec_add(dtp, dt_cg_fill_gap, kind, size + 1, 1, pfp,
++				 arg);
+ 
+ 		/*
+ 		 * Copy the string data (no more than STRSIZE + 1 bytes) to the
+@@ -1706,7 +1709,8 @@ dt_cg_store_val(dt_pcb_t *pcb, dt_node_t *dnp, dtrace_actkind_t kind,
+ 
+ 	/* Handle tracing of by-ref values (arrays, struct, union). */
+ 	if ((dnp->dn_flags & DT_NF_REF) || (arg & DT_NF_REF)) {
+-		off = dt_rec_add(dtp, dt_cg_fill_gap, kind, size, 2, pfp, arg);
++		off = dt_rec_add(dtp, dt_cg_fill_gap, kind, size, align, pfp,
++				 arg);
+ 
+ 		TRACE_REGSET("store_val(): Begin ");
+ 		if (!not_null)
+diff --git a/libdtrace/dt_consume.c b/libdtrace/dt_consume.c
+index 74004c69..58a2ead9 100644
+--- a/libdtrace/dt_consume.c
++++ b/libdtrace/dt_consume.c
+@@ -1921,23 +1921,9 @@ dt_print_trace(dtrace_hdl_t *dtp, FILE *fp, dtrace_recdesc_t *rec,
+ 	if (dtp->dt_options[DTRACEOPT_RAWBYTES] != DTRACEOPT_UNSET)
+ 		return dt_print_rawbytes(dtp, fp, data, rec->dtrd_size);
+ 
+-	/*
+-	 * String data can be recognized as a non-scalar data item with
+-	 * alignment == 1.
+-	 * Any other non-scalar data items are printed as a byte stream.
+-	 */
+-	if (rec->dtrd_arg == DT_NF_REF) {
+-		char	*s = (char *)data;
+-
+-		if (rec->dtrd_alignment > 1)
+-			return dt_print_rawbytes(dtp, fp, data, rec->dtrd_size);
+-
+-		/* We have a string.  Print it. */
+-		if (quiet)
+-			return dt_printf(dtp, fp, "%s", s);
+-		else
+-			return dt_printf(dtp, fp, "  %-33s", s);
+-	}
++	/* Handle non-scalar data. */
++	if (rec->dtrd_arg == DT_NF_REF)
++		return dt_print_bytes(dtp, fp, data, rec->dtrd_size, 33, quiet);
+ 
+ 	/*
+ 	 * Differentiate between signed and unsigned numeric values.
+diff --git a/libdtrace/dt_parser.c b/libdtrace/dt_parser.c
+index 325ba881..eefe8341 100644
+--- a/libdtrace/dt_parser.c
++++ b/libdtrace/dt_parser.c
+@@ -4914,7 +4914,7 @@ dt_node_diftype(dtrace_hdl_t *dtp, const dt_node_t *dnp, dtrace_diftype_t *tp)
+ 	}
+ 
+ 	tp->dtdt_flags = (dnp->dn_flags & DT_NF_REF) ? DIF_TF_BYREF : 0;
+-	tp->dtdt_pad = 0;
++	tp->dtdt_align = ctf_type_align(dnp->dn_ctfp, dnp->dn_type);
+ 	tp->dtdt_size = ctf_type_size(dnp->dn_ctfp, dnp->dn_type);
+ }
+ 
+diff --git a/test/unittest/actions/trace/tst.array-char-multi-nul.d b/test/unittest/actions/trace/tst.array-char-multi-nul.d
+new file mode 100644
+index 00000000..187fb711
+--- /dev/null
++++ b/test/unittest/actions/trace/tst.array-char-multi-nul.d
+@@ -0,0 +1,30 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2022, 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: The trace() action prints a char-array of printable characters
++ *	      with multiple 0-bytes in its content.
++ *
++ * SECTION: Actions and Subroutines/trace()
++ */
++
++char n[9];
++
++BEGIN
++{
++	n[0] = 'a';
++	n[1] = 'A';
++	n[2] = 0;
++	n[3] = 'B';
++	n[4] = 0;
++	n[5] = 'C';
++	n[6] = 0;
++	n[7] = 'D';
++	n[8] = 'e';
++	trace(n);
++	exit(0);
++}
+diff --git a/test/unittest/actions/trace/tst.array-char-multi-nul.r b/test/unittest/actions/trace/tst.array-char-multi-nul.r
+new file mode 100644
+index 00000000..c1361e75
+--- /dev/null
++++ b/test/unittest/actions/trace/tst.array-char-multi-nul.r
+@@ -0,0 +1,8 @@
++                   FUNCTION:NAME
++                          :BEGIN 
++             0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f  0123456789abcdef
++         0: 61 41 00 42 00 43 00 44 65                       aA.B.C.De
++
++
++-- @@stderr --
++dtrace: script 'test/unittest/actions/trace/tst.array-char-multi-nul.d' matched 1 probe
+diff --git a/test/unittest/actions/trace/tst.array-char-str-multi-nul.d b/test/unittest/actions/trace/tst.array-char-str-multi-nul.d
+new file mode 100644
+index 00000000..75164cd3
+--- /dev/null
++++ b/test/unittest/actions/trace/tst.array-char-str-multi-nul.d
+@@ -0,0 +1,30 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2022, 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: The trace() action prints a char-array of printable characters
++ *	      followed y by multiple 0-bytes correctly.
++ *
++ * SECTION: Actions and Subroutines/trace()
++ */
++
++char n[9];
++
++BEGIN
++{
++	n[0] = 'a';
++	n[1] = 'A';
++	n[2] = 'b';
++	n[3] = 'B';
++	n[4] = 'c';
++	n[5] = 0;
++	n[6] = 0;
++	n[7] = 0;
++	n[8] = 0;
++	trace(n);
++	exit(0);
++}
+diff --git a/test/unittest/actions/trace/tst.array-char-str-multi-nul.r b/test/unittest/actions/trace/tst.array-char-str-multi-nul.r
+new file mode 100644
+index 00000000..1951ae69
+--- /dev/null
++++ b/test/unittest/actions/trace/tst.array-char-str-multi-nul.r
+@@ -0,0 +1,5 @@
++                   FUNCTION:NAME
++                          :BEGIN   aAbBc                            
++
++-- @@stderr --
++dtrace: script 'test/unittest/actions/trace/tst.array-char-str-multi-nul.d' matched 1 probe
+diff --git a/test/unittest/actions/trace/tst.array-char-str-no-nul.d b/test/unittest/actions/trace/tst.array-char-str-no-nul.d
+new file mode 100644
+index 00000000..532c3519
+--- /dev/null
++++ b/test/unittest/actions/trace/tst.array-char-str-no-nul.d
+@@ -0,0 +1,30 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2022, 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: The trace() action prints a char-aarray of printable characters
++ *	      (not terminated) correctly.
++ *
++ * SECTION: Actions and Subroutines/trace()
++ */
++
++char n[9];
++
++BEGIN
++{
++	n[0] = 'a';
++	n[1] = 'A';
++	n[2] = 'b';
++	n[3] = 'B';
++	n[4] = 'c';
++	n[5] = 'C';
++	n[6] = 'd';
++	n[7] = 'D';
++	n[8] = 'e';
++	trace(n);
++	exit(0);
++}
+diff --git a/test/unittest/actions/trace/tst.array-char-str-no-nul.r b/test/unittest/actions/trace/tst.array-char-str-no-nul.r
+new file mode 100644
+index 00000000..3d56e520
+--- /dev/null
++++ b/test/unittest/actions/trace/tst.array-char-str-no-nul.r
+@@ -0,0 +1,5 @@
++                   FUNCTION:NAME
++                          :BEGIN   aAbBcCdDe                        
++
++-- @@stderr --
++dtrace: script 'test/unittest/actions/trace/tst.array-char-str-no-nul.d' matched 1 probe
+diff --git a/test/unittest/actions/trace/tst.array-char-str.d b/test/unittest/actions/trace/tst.array-char-str.d
+new file mode 100644
+index 00000000..70f6371f
+--- /dev/null
++++ b/test/unittest/actions/trace/tst.array-char-str.d
+@@ -0,0 +1,30 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2022, 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: The trace() action prints a char-array of printable characters
++ *	      (terminated) correctly.
++ *
++ * SECTION: Actions and Subroutines/trace()
++ */
++
++char n[9];
++
++BEGIN
++{
++	n[0] = 'a';
++	n[1] = 'A';
++	n[2] = 'b';
++	n[3] = 'B';
++	n[4] = 'c';
++	n[5] = 'C';
++	n[6] = 'd';
++	n[7] = 'D';
++	n[8] = '\0';
++	trace(n);
++	exit(0);
++}
+diff --git a/test/unittest/actions/trace/tst.array-char-str.r b/test/unittest/actions/trace/tst.array-char-str.r
+new file mode 100644
+index 00000000..9778ddd2
+--- /dev/null
++++ b/test/unittest/actions/trace/tst.array-char-str.r
+@@ -0,0 +1,5 @@
++                   FUNCTION:NAME
++                          :BEGIN   aAbBcCdD                         
++
++-- @@stderr --
++dtrace: script 'test/unittest/actions/trace/tst.array-char-str.d' matched 1 probe
+diff --git a/test/unittest/actions/trace/tst.array-char-unprintable.d b/test/unittest/actions/trace/tst.array-char-unprintable.d
+new file mode 100644
+index 00000000..d88df369
+--- /dev/null
++++ b/test/unittest/actions/trace/tst.array-char-unprintable.d
+@@ -0,0 +1,30 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2022, 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: The trace() action prints a char-array with a non-printable
++ *	      character correctly.
++ *
++ * SECTION: Actions and Subroutines/trace()
++ */
++
++char n[9];
++
++BEGIN
++{
++	n[0] = 'a';
++	n[1] = 'A';
++	n[2] = 'b';
++	n[3] = 'B';
++	n[4] = 'c';
++	n[5] = 5;
++	n[6] = 'd';
++	n[7] = 'D';
++	n[8] = '\0';
++	trace(n);
++	exit(0);
++}
+diff --git a/test/unittest/actions/trace/tst.array-char-unprintable.r b/test/unittest/actions/trace/tst.array-char-unprintable.r
+new file mode 100644
+index 00000000..1f84fcfa
+--- /dev/null
++++ b/test/unittest/actions/trace/tst.array-char-unprintable.r
+@@ -0,0 +1,8 @@
++                   FUNCTION:NAME
++                          :BEGIN 
++             0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f  0123456789abcdef
++         0: 61 41 62 42 63 05 64 44 00                       aAbBc.dD.
++
++
++-- @@stderr --
++dtrace: script 'test/unittest/actions/trace/tst.array-char-unprintable.d' matched 1 probe
+diff --git a/test/unittest/actions/trace/tst.array.d b/test/unittest/actions/trace/tst.array.d
+index 104d42e1..0779d90f 100644
+--- a/test/unittest/actions/trace/tst.array.d
++++ b/test/unittest/actions/trace/tst.array.d
+@@ -1,6 +1,6 @@
+ /*
+  * Oracle Linux DTrace.
+- * Copyright (c) 2022, Oracle and/or its affiliates. All rights reserved.
++ * Copyright (c) 2022, 2025, Oracle and/or its affiliates. All rights reserved.
+  * Licensed under the Universal Permissive License v 1.0 as shown at
+  * http://oss.oracle.com/licenses/upl.
+  */
+@@ -11,8 +11,15 @@
+  * SECTION: Actions and Subroutines/trace()
+  */
+ 
++short n[5];
++
+ BEGIN
+ {
+-	trace(curthread->comm);
++	n[0] = 0x1234;
++	n[1] = 0x5678;
++	n[2] = 0x0000;
++	n[3] = 0x8765;
++	n[4] = 0x4321;
++	trace(n);
+ 	exit(0);
+ }
+diff --git a/test/unittest/actions/trace/tst.array.r b/test/unittest/actions/trace/tst.array.r
+index fbb674b6..52ff28ec 100644
+--- a/test/unittest/actions/trace/tst.array.r
++++ b/test/unittest/actions/trace/tst.array.r
+@@ -1,7 +1,7 @@
+                    FUNCTION:NAME
+                           :BEGIN 
+              0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f  0123456789abcdef
+-         0: 64 74 72 61 63 65 00 00 00 00 00 00 00 00 00 00  dtrace..........
++         0: 34 12 78 56 00 00 65 87 21 43                    4.xV..e.!C
+ 
+ 
+ -- @@stderr --
+diff --git a/test/unittest/actions/trace/tst.array.r.p b/test/unittest/actions/trace/tst.array.r.p
+deleted file mode 100755
+index b8cc8daf..00000000
+--- a/test/unittest/actions/trace/tst.array.r.p
++++ /dev/null
+@@ -1,6 +0,0 @@
+-#!/usr/bin/gawk -f
+-
+-# Some Linux kernel versions leave garbage at the end of the string.
+-{ sub(/( [0-9A-F]{2}){9}  /, " 00 00 00 00 00 00 00 00 00  "); }
+-{ sub(/  dtrace\..{9}/, "  dtrace.........."); }
+-{ print; }
+-- 
+2.45.2
+
