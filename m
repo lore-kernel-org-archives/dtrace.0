@@ -1,89 +1,77 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFD0271277
-	for <dtrace@lists.linux.dev>; Thu, 27 Feb 2025 21:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FDA19149F
+	for <dtrace@lists.linux.dev>; Fri, 28 Feb 2025 03:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740692661; cv=fail; b=gCVOLclVyS/icSzU4Weqx6fY17Zc6A2m1M9KDuYHs0TyHEcIwD3/Wp2Bye0SQANv5Y+2iVlHjSjPfB4OGvC4gXFw4rV/TcV7YfdAtpUuKECcV238iPuvLsYpLGsW7zQspAUq2wIbJ2aUTH02rJiy6tj4K2FLMXq13urCUEo+TUE=
+	t=1740712536; cv=fail; b=GGjmoM8Xd3Q7N+QiOj31QlKMi+7EHGPxncVhV7SDLm+P13WAZ+Uk74+QMRrkDZ9X/Wn7Fcv1tuF5dWyjB9KAGxrUIW2GRX5dEzXJK/GZqZhJgUI+Hq6Z8hlCpiZMu0emOQugCFmEaH4vMi/C+wMTCo4m630QnvLD/t3y0xQWY8w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740692661; c=relaxed/simple;
-	bh=6fDZVPMSry7YuhepWacv+aV8K9ovP9GxFGMf5h2LXpo=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=EFFlpZdMSiAX623qHEEA802SAMKJJK1PUxxTKcg5LKpmOODQtJLVCrI2sqnqE0Wo9VqG8TYe8ROMh5fyRhKKZKQ1iacSEcQTQ1jOc7opH/tpm7e0P8vIPEaehX1ZENme2CELO7eVIe8KQggso6pX50Jr4U3M/R4HRNPsr0GcVFE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=EdFm+Bv0; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=cB8y8OAE; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1740712536; c=relaxed/simple;
+	bh=MK2vMlSlnZ0Wt+tDJC2tMTuD9g2OZqxY0F+gqq0Gd0M=;
+	h=Message-ID:From:Date:To:Subject:Content-Type:MIME-Version; b=ncMw/dHKC5B2Rftk9jMT69XC4pF+pQKEW4628DVEVV+UjlvF72TaCcE3mdXi0KlHRWLviaMRw/LVmK5wImt+ggMmu/VtYK3zjkq7GgIkHQcg8xjdGrhGCJILJeVgWIGKmwtHT8S4GBU3iGFLkYxTPlebInvC4KUhN6cIhBzfAmA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=SFjq8XdD; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ej8B37wx; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="EdFm+Bv0";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="cB8y8OAE"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51RJiXg4016373
-	for <dtrace@lists.linux.dev>; Thu, 27 Feb 2025 21:44:18 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="SFjq8XdD";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ej8B37wx"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51S1BubT023182
+	for <dtrace@lists.linux.dev>; Fri, 28 Feb 2025 03:15:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=hcpSRyX1aeu/L8m1LIe2xHAmkqMlNqOK7Nyl63h9G1w=; b=
-	EdFm+Bv0Q0zRBJpNlFKpIWafbT21NKLuETbHEK5zqKqHMuHDw8ef6JOu7cmB+ZEJ
-	ILiVFAQw9MWBSdr/hEZNQmOicxZkRSlHAJ4NzU8icSfQJcrpYpJPh0CVAAkQ3njU
-	/e9aEA+KHLyFMoGnhcleDGTcojKs8cJ0L82buMRePypTtww3kiGczvuXE+ZolVqi
-	2Z8jw5NiTd7MCNMPThr2D5tQiHJmzoKcaX8l67zc36wFCPpHzeeQLf8FZvBnB0iT
-	hVTTfQBIiePl0G1BXOyoYTZEp/WzR/fHCgVyBbAKf7ocin+6KA9PP4I6yBvWppQq
-	Zw1/xsb8/7+lM3ZrWI+ylg==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 451psecetw-5
+	content-type:date:from:message-id:mime-version:subject:to; s=
+	corp-2023-11-20; bh=9d2+T4OLa5Hg/GW0HhEYci9USKg0kyjInTOUZMffeCY=; b=
+	SFjq8XdDifqFZs13BT8M1OBEtyly0dUBCo03y2VdDB5sk5lAkqZ50eHKEd5yMiCb
+	L+sGDBeSzy84DyuYnuEjmmmn1xPM0TP9raFdESvse8Hk+RucCNyh1c2fuz6b5AoC
+	LAt60x+sA9VndyDt8L3wigMl7d8DSy7lyh+VNYP8/8mMCFYMHlg6aSmZnnDqjDC+
+	Y1L+ZG05mbuu9CfiX9cwZw+6BSghMpnNBxmexk9v5pxFtskQVrMFNCWJNb8CYjZX
+	F3fGho0zGcxz2u74DlzpflMXoHmomObfrC3/z4fLtFMDkfwtecSwjJzZ/OMEfATg
+	gLMt9YhGR3rV99aOguF4Vg==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 451psdmqf2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 27 Feb 2025 21:44:18 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 51RLGFL9024543
-	for <dtrace@lists.linux.dev>; Thu, 27 Feb 2025 21:32:19 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2044.outbound.protection.outlook.com [104.47.55.44])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 44y51cshn4-2
+	for <dtrace@lists.linux.dev>; Fri, 28 Feb 2025 03:15:26 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 51S2eWJw012589
+	for <dtrace@lists.linux.dev>; Fri, 28 Feb 2025 03:15:25 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2042.outbound.protection.outlook.com [104.47.58.42])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 44y51ea1y2-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 27 Feb 2025 21:32:19 +0000
+	for <dtrace@lists.linux.dev>; Fri, 28 Feb 2025 03:15:25 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FwddNkJQyKfET/puTpUPL3z71UfdPnC7IAEnLsSGNf7WeojBTJ7J0VKAjWVFkjoZuKzgAB+xB0Pj5YTHtkAAyS97OdsxlsoF/FimLUbUOoVBPZ0kk3NJQKacIa6qpV5rqbhZ8yxoJPjPifxXBh7D76EAdrfKOLeZaSfyNjAujWtVjjjOn+3lB9R5tkKZr+HiMEk+yxWyVFm843CxPWg1iYWJ+ROuAzfnnjTDbFm5ehXGEUfzm9cHkhHbpCAKnvtlw2DfNw2GVfWq0FyuWlSYjBDFDM1qq/RMleknroyxfcCcNX9/D2XdQmuTPl30rIvTePdIHj/6pufQLSJkR4aZMw==
+ b=joXEIxAdn8AAOWaIDrTEdz5Zy4NRKvGzeBsVTu58Y0O70k6pdiHv2ZG7hg98tVzLL0OwNetpoJhTC4BY3z8BR+fl7Mkz1/Z+cvg2RMBbKCf0RmsT1bP9ItaD5U3mIPl4N9H0TBNzoed6jBRnVbGYq8Pho1NNEMrzhWJhaYhJrjdNQQX/+gSRq2UH424KdXiHZVDcEKRtLt2e187wVrQ0R1s+sxLIjtI9+BSm5sPeXrCvUIm68FYjh9X8tbCYQwwartBdQRs8l4ZWzxo8yx+hE70Gv3KEzRk27TsKnB5cVClmwvvMOMJ7L//58/g1swnEwWdPI8FN3d5Hk/qKRPRLgQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hcpSRyX1aeu/L8m1LIe2xHAmkqMlNqOK7Nyl63h9G1w=;
- b=x0S2ypHsc8inO2blPJ3cOOC1yHqkt9KHbgFy5xzmQDoobbKTMw6xzKXfxUiQLzQixpbNCge6NoY9VpB9UbyDf0a7vOfwW/ah1ZIyg8Wy/KOLTD6RkBUB/cJnZRUugJvdIvuiN7ED/ilbw90WAjxY7JY5DYMZeZVWZ4tmbsJZhrk3fmfBnlUiiBISo70Sm4D8KcshMrZnyPIUYMEAlLdNnE2vxfUoE32toGmT8j8LmKcyj7uqgwjj89OgronS40pm1N8FJYRRSnglscdrfIQSYwBElbAp+lbDvDRGD9K5qi242E7G2ITyLHF8KWJmOVyH9T51jAuAxc74LK4RZxK9kg==
+ bh=9d2+T4OLa5Hg/GW0HhEYci9USKg0kyjInTOUZMffeCY=;
+ b=E2latXJqA9RcZ2oTKusNSeUw2+g1YcFHLHSFx+6U+ZI3KDemFUM3e0WScBKSzXCU7yrJYZL53wNBL5QIgt5dofh66353/brR+PUGBregIOyVH0hOJ7/NBfoqTVY0T87ZcjSRBHShel5hK/o8KYkClOOFZ31slaqhIq043DeYY+QQVntMPBWvJhzKEDnO4U3axdh8GtxcCbjr1jIC61u65cTjNljkQfEOh6sKj2W1F6/q8sa+lXPwhAjkCnv0JCqldoRdGl0CcLhNOzJjjt/Vz2ODmjHg54gqYfrzpknv0ks7LGviw8+Eh/sa/FWlJhhZXCuB5sVhPcoiAY1MRlKqRw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hcpSRyX1aeu/L8m1LIe2xHAmkqMlNqOK7Nyl63h9G1w=;
- b=cB8y8OAE36BUyR2dfe0V2ijNv4Jbei1dlog7QFQI/fKdRgU1ng0QkfWFutGPzux31QUNXiK8xiVIKcwkc3uDjyOcPOTMSlTq2J/1Z6VKnsUkt4VqB2Aa/gwBUXLA3rJ1rxHZ+Bzc08uHHrpZ8FeoOoSjWdFqjaymgqH1tLNyX2w=
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by PH7PR10MB5674.namprd10.prod.outlook.com (2603:10b6:510:126::20) with
+ bh=9d2+T4OLa5Hg/GW0HhEYci9USKg0kyjInTOUZMffeCY=;
+ b=ej8B37wxrXKW7Mq7tsVGzHT9TM9/LMt9r8LfRDQOADqgITxWYtwlGRaaoEE8rqfHa6Uqwc/bSdQp5E/Eb0hFv9XrnDafpj8AGMecTwS9phE1e690I6yE5dlfRs9Vd9sfnYJmCeoAGEFWVJVY/IeDYyz7kf5N0IK+TrmAoX+QTUg=
+Received: from PH8PR10MB6337.namprd10.prod.outlook.com (2603:10b6:510:1cc::10)
+ by SN7PR10MB6617.namprd10.prod.outlook.com (2603:10b6:806:2ac::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.23; Thu, 27 Feb
- 2025 21:32:15 +0000
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::8b24:5536:3259:5a69%5]) with mapi id 15.20.8466.016; Thu, 27 Feb 2025
- 21:32:15 +0000
-Message-ID: <a3f5e5ef-1b3d-304d-4a0c-fa0802d96864@oracle.com>
-Date: Thu, 27 Feb 2025 16:32:13 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] test: Allow duplicate usym/umod/uaddr if for different
- pids
-Content-Language: en-US
-To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
-        dtrace-devel@oss.oracle.com
-References: <20241205191318.18587-1-eugene.loh@oracle.com>
- <Z3xFWS+WEviQKMtl@oracle.com> <Z3xq5aJR/HQjQn5d@oracle.com>
- <Z74xoR9U_q749CDF@kvh-deb-bpf.us.oracle.com>
-From: Eugene Loh <eugene.loh@oracle.com>
-In-Reply-To: <Z74xoR9U_q749CDF@kvh-deb-bpf.us.oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BY3PR05CA0027.namprd05.prod.outlook.com
- (2603:10b6:a03:254::32) To CO6PR10MB5636.namprd10.prod.outlook.com
- (2603:10b6:303:14b::20)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.19; Fri, 28 Feb
+ 2025 03:15:23 +0000
+Received: from PH8PR10MB6337.namprd10.prod.outlook.com
+ ([fe80::5aad:120e:fe7c:ea88]) by PH8PR10MB6337.namprd10.prod.outlook.com
+ ([fe80::5aad:120e:fe7c:ea88%6]) with mapi id 15.20.8466.020; Fri, 28 Feb 2025
+ 03:15:22 +0000
+Message-ID: <ee42d8054faf64340974d1bb9535c8c3.kris.van.hees@oracle.com>
+From: Kris Van Hees <kris.van.hees@oracle.com>
+Date: Thu, 27 Feb 2025 22:09:59 -0500
+To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: [PATCH] Refactor the versioning handling system
+Content-Type: text/plain
+X-ClientProxiedBy: BN1PR12CA0020.namprd12.prod.outlook.com
+ (2603:10b6:408:e1::25) To PH8PR10MB6337.namprd10.prod.outlook.com
+ (2603:10b6:510:1cc::10)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -91,299 +79,565 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|PH7PR10MB5674:EE_
-X-MS-Office365-Filtering-Correlation-Id: 928d212d-13bf-4147-1c7c-08dd5776343f
+X-MS-TrafficTypeDiagnostic: PH8PR10MB6337:EE_|SN7PR10MB6617:EE_
+X-MS-Office365-Filtering-Correlation-Id: f68bcb26-8a50-4648-2a42-08dd57a622e6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|10070799003|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?a0xMUGNjUExhQWZJQVRjTUVBM3h1cHhGcFVzaEpDNzQ2QThvbTNEMXk0RDRl?=
- =?utf-8?B?ZVJoVEMzYUI1MDRrWU5IRnQxZHdwV1gvU3lmSFRSQ3h3c21zT3B1NkJtd2Jn?=
- =?utf-8?B?ekdXZ0JpcEt1VzB0ZncrR0RubVdtVXkxVW5ZZnNGNzBKTStDWjV0WXRNVk9s?=
- =?utf-8?B?WElXMUw1eDNodktVUER6TGlpdTd6c3RYaERRSWQ3M21CNkxoV1hJTTlmaVNi?=
- =?utf-8?B?Rk1KVXF4N296bTNUMThpNEdldS9xOTljKzdRTnpPaHYvcWVDOVNiZ1RBc1dV?=
- =?utf-8?B?TmpYWWEveUxZOXJCUVJvd1dnWXN6dHhkWFB3cDVJaWNIQWR3UWxYZ0xKQzJ5?=
- =?utf-8?B?Z2JLeXVFak4rVkJvQ0pWT05nakxka3RSa3ZrNW5JRWhqTjRGT2p3SHowMWk4?=
- =?utf-8?B?NE1oOHFLcGdKdTRFczVtZWkvWkVENmtlTkIzVjdCQzFQd0g0VFhBcE42UjUx?=
- =?utf-8?B?MUxDSmM2dGErenFWZDM5WUlXSTJhQlFXeXRPN0kzR0pucy92b2RzTXJHR3BF?=
- =?utf-8?B?Mm9UbFFYaDlZV0kvMy9LQTZJbFgxTlBwUEQxNUhzR2RNWERheWFqaXh6a3Br?=
- =?utf-8?B?ZklBelRZQkNLcTNETW5ZYlg0YnhxbXVOK3FjckhTT0lWenRoT2ZnMlZhWVE0?=
- =?utf-8?B?elBUVEJSK2lhdEdDZEtneVZVQS9tamtDai9OMWxsSk14UWNnRTNCd0RRcmxG?=
- =?utf-8?B?Qm5lVGs5WnpaZjUwNU56VTlXMVlsT1MzQmFQOHNxZkhPU1hXWDJQbFdxb3lh?=
- =?utf-8?B?cFFKSStsZXlmR1ZMVFZUdDkzaVpndHJRQnJ6NFZJeW9pb21vMVEyWkkrSzdZ?=
- =?utf-8?B?bFFmZWt3ZWNNUnVQRmRlemtvUUphNmdveG9oVGxtV25SWmZ5VlNFakNIQ080?=
- =?utf-8?B?SEs0S3BKZVNUWkE3dVpjYkJ2SDhiZTVla1pZbXYxUGFxd2RPZmZCRSs2akpq?=
- =?utf-8?B?OFliWlNhaDZkWDQrOEJ6bDRicFp4WGltRUhSZy9tOE5vcklFOGVLcjFHcnlI?=
- =?utf-8?B?dThuMGN4dVBrL1A2ZmFYOENTRHJXVEs2OGU3cFVNdHFGMlg2Mk5GcU9CRmVB?=
- =?utf-8?B?cHNaMEl1LzFIbVFUankzbWRya0ZnVGdjbEZ0YXlJMkNrQ1FWVEdsbXhwTWFN?=
- =?utf-8?B?ak5XTkNJQ1BqcXFoa2x0WXltb1NCN2hZMFI5d0Vwd2pjVVhpQU1LMDB4QVJ6?=
- =?utf-8?B?WUdFcG51NW03T1lpUER5M1A4cThQVXJubGlPN2ZmUGVIa001dXAxOXNONXlk?=
- =?utf-8?B?SkZETlFtVUEyVTByNUtvMmtTc0xUcGpiaUFYUTUveHk2b2ZWTFFUMHVkMW1V?=
- =?utf-8?B?WHRsWGRrR0ZPM29UMVdTVzZ0bW0yTXNlb3dEdVgrQXMxcFN2WUZVeTdubmdv?=
- =?utf-8?B?eHRlQlRYQk5wZUJrNGR5SWFTVlA5SDNEZUMxV3VLT0JVRS9zdFk4YUs4Ni9j?=
- =?utf-8?B?Y1FWYlhFS0o0WElEVUNIbElsaHpyaFJPdnRHTlo3OFJwZU92UzI5OFQ4bXFk?=
- =?utf-8?B?SG1xd3NMcExEZFQ4NW9RK2ZzWjV5ckh5RDlkSVJubUtCVTRRblUwZXpnSGpy?=
- =?utf-8?B?YUVLeFhWaDQyZTVwS1FkWXFhWHZ5dnlQeG5XMkJSTjJkRTl2WDgzM1NQV1Nt?=
- =?utf-8?B?SW54Ty9jbDN3WWU4MWZuRTBUbHNlMTBMdkVQQUMzdHoySmk5UmpRbFdaZXNj?=
- =?utf-8?B?UXpnd0RSRWJvTjU2dTRucWJrdWVZNVlKNDJhQzhFdFZpZCtsKzBET2xScHBM?=
- =?utf-8?B?NlFpamc4YmgxaWFzM2tNRmRzSG8vL2huWnUvTWRQWkhvTE9jYk1qWTJmTkdH?=
- =?utf-8?B?ZENZR0tLUDk0ZTlOWjFESGtoeTBweUlITXQvbGkrVnFSVmgvWXJRWllYcmhN?=
- =?utf-8?Q?4k4oIbJ2+64l6?=
+	=?us-ascii?Q?gPz0oj1PJ/FBsByz1tpngaVvxhdfuyvmjZjIpGtVIx3t2QKYXUSgMZPmThE1?=
+ =?us-ascii?Q?B6GhLCLAFX80/9+NJD1YcfHTUDIxjIYnyfLbnmE56wxoM03eELtaueqvcjv2?=
+ =?us-ascii?Q?gNwKvIGrqo6wtZYTnCnRmEu3/jvmCzm6Of5ZGewTJfpFsmyQJcS3yYxEXi6a?=
+ =?us-ascii?Q?APuMAB8+TdJLpaXVVq/cRTcjpqm5PUHUPFwrYNXg85hIEWIh9duHkea+Yp6Y?=
+ =?us-ascii?Q?0RdSPlQ57HrbriZHG5M1J5bAqH1Z2JA1EqJ0XhDCB6Rqa27d/j1Z3Oge8v/J?=
+ =?us-ascii?Q?OQltxhyfIGyHoXAmmcO3vAvDqcHqOqz0ltoW1bKqbykXouhtM/0CLouPOe2E?=
+ =?us-ascii?Q?EFUeiXRO+FAqOFK68Wuixg6u/6s4nFcyxg0vrnw/8QtNUhXrfttaHEC2YCiI?=
+ =?us-ascii?Q?v5rQ6+zCICptwTDCVFjFtL4p4eQpu00mSAqq13WUQNex7zH9a9UI0PQYUkei?=
+ =?us-ascii?Q?zPhoyWw8tZwYgBtO58XnU1rbSpAx38ybuEcaZJPV4B0uT12F+og5QZJnAgFB?=
+ =?us-ascii?Q?W9rB1LeuXwqPdpEyY0uCf+ZReqReIk34xhbOzyJILSeo9etxznvksjcTR7Ly?=
+ =?us-ascii?Q?EL6OjJ65hcVOBdawipjC1AvxWwy4mW5tqVH0zrRL1DcDBK9bVnAq9g2TQACH?=
+ =?us-ascii?Q?ZzrnFQXfqrWP6D8MfcpyE6dYECct73qGQPFq81JHpNixFJycy2pKpmanapxT?=
+ =?us-ascii?Q?GovqKz7rMq4r6/e4p4l67wfgQY4hlElLOqr7kJ36JBJnxYoMcIJQ1IFWFKsD?=
+ =?us-ascii?Q?ifJ3xO1BSpxje1rrT91UPdERRIvaI4d8zOowVE8DzGMNb0mFtdfrV/EQo+e9?=
+ =?us-ascii?Q?c2CnCUdavMrKVonxvZqGC0lJCAkupk7pWfrDdhPsRMx1h1Egnug3vazEiwm7?=
+ =?us-ascii?Q?e5o9p59uUuk6s68X9b/ae49W4P94e3Pl30BwNq5j3TCpxZhxTVaugkK7it0i?=
+ =?us-ascii?Q?Nwc2dR1XVuGkPNPHgstpr3hHIR3Ffa/nEMaaG+HtZCoD9uqHLQ9OhhpA/dxo?=
+ =?us-ascii?Q?aDivS4u75p/VlIqxGwMn1WXNEvRJl8MKfSeBDLBtkCwchpo/aIy1CycB9d6B?=
+ =?us-ascii?Q?byGCUP0PB8ZTKIXJCMmV+o1YIebZomBlNis+sFFHUXExg752ovTXEmS9/E7m?=
+ =?us-ascii?Q?g2Pe99NBnYeyLbAEWduhJaOunwmbYGP9VUyBcWsUlAsRwGv8UIzLp7ETZFzy?=
+ =?us-ascii?Q?j1H5lRbm0DVbOn7HqM5LyGFVeLk9YDxmuk6iHsEbueVQuEa9HB5LzfX4CF/G?=
+ =?us-ascii?Q?0V/LUGKZvYRI+99cH8DNX5KKuCy8LdEuEJQXm/JCXyJ5tc3Uy1kTL5kjB/um?=
+ =?us-ascii?Q?zHGp7Pfc2oZzFVtj3N1qNIG6VLbCrsLIMlzNytPyIbHVxA=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR10MB6337.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(10070799003)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Ulk3ck5TaWlONWtqWFZPcTIxVjJBbnlhVHFDWkppTVFrcTNmZjBaNjRacHNV?=
- =?utf-8?B?cWJ2NlArTyt3K1QvUzNGUmdETis3SXQ1QktteEVGTE8yYjZ4WjFpVFZ3ZXh5?=
- =?utf-8?B?b2ErQndNYWQ4VXUzMitHMDgvTFNFOFdHbi9kbmQ3K2NhZmhDM3A2blVLUm5j?=
- =?utf-8?B?dFhqTHo2ekU2OFZXRnI4citPR3luenBoVUxaRnM3SlEyWGNRM1RYWkNGalZp?=
- =?utf-8?B?NGFybjVUeTN6MzRiMUZxNFYwUWtkNXNGT01iZ1dQTzFRK0VDTXlUVjRGc2Vh?=
- =?utf-8?B?by9IV1A2MzgzRThaQzlVTkxYT0lCTnl6bzNLRWZuQmw1UkhSODlQcXV5bUU0?=
- =?utf-8?B?ZFlpRzFEYWhPSDRiVVQ5SmZuN3ZOZHdnZm5aZVI3VUNIMEZqWFJWSVB3c1Nu?=
- =?utf-8?B?TXZRalJIeXkzNUh5bnVhNTN0YXRheVZHWG01emlWL0pWZHlLdllDME02NXpT?=
- =?utf-8?B?c3RiRGhUMUxtdmkxR0Via25RSjBaa2hvUHlHcFpwZHlTcnhuTElXY2dWMXhW?=
- =?utf-8?B?SlJ2cEVySzRqUUMwc2lLcytXeTR6L0VmeXVDT0xZVUlTek9yVmZiNEpHQkg2?=
- =?utf-8?B?b1NyZit3dmZLajI0L0pibFZqN2duUW96dWZJSFpmeDU1QTZBeFJud1I2MkV2?=
- =?utf-8?B?TUtDWWxWMVZYOXRiYWJUazdtckxlR0tMS2ljRzUwQzRySE9tbU9tNG9sRHVZ?=
- =?utf-8?B?QUp2NUVJeWp1a3Jmd0Y2YndHNjd6K3lWdWROQ3BQcW44SEtBVFM4WWxrVmw1?=
- =?utf-8?B?WHJVQkFPMklFMUptUDgvL1V0UEt0ZjdrcEFvZU1PYUtqSUJLVUppSmgzZEpp?=
- =?utf-8?B?SWVxZDNSa0ZUMFBPUlhZOXM5c3FDUkluYWFReTJFamNvbU1TQTdoU3gzNWxV?=
- =?utf-8?B?eXJvZmtwWE1rTVpGSi9SeGJPQ2lWcUt5eUI0dGxFR2NLRmNNRjZTSEp4VVpV?=
- =?utf-8?B?RHprNHkwSzZzQm1lSnR2bnNpMldNd2FacUtRQ3R6aWMzNW1TNkFQLzR2VVpt?=
- =?utf-8?B?NFlZV2ZVWjhoL2JXZ0pibnB1RTRXVFF2bnMyU1g2Nm1hOFE0ZnVuN1VLdHVN?=
- =?utf-8?B?MGdSMTZCQ2wvbE8reGdqVHVCNHUvUlFJYk84RGs1a1lIRjZkNjlRaXNGdXFN?=
- =?utf-8?B?ZTljK0JSVlZUaWdyb2ZQUGxrUGNIYXN2Uzl0cWN4OVhOWDRybStITmxsbk9P?=
- =?utf-8?B?RnFaeGd0RC9PbDY0bzcwdmdqVjRkN1hsZlFFbEs0R09JbVJYZklmNU41SS81?=
- =?utf-8?B?RXBGWHlENlhRWlFhRmQwT0dmazdZcHZsdUh2NUQ5ZkMrNi9xdGZIdm42Qjk1?=
- =?utf-8?B?KzlvSVlzQy9xdXJPNU9hM2szYTA3aHUzNWM5OWd1TTJ0d3B6RHBEdG1PNWo5?=
- =?utf-8?B?ek1xRWhvQzNjdnhkT1RhTm8ySUlGSldYZUxLZWZPTEpQYnZSZFFKNXdTdkp1?=
- =?utf-8?B?MlJKeG9DdGR0akxIQW9PbmJUUld2R1IrVFNxbmVtUXNpV0x5R3NoTi9XdWFM?=
- =?utf-8?B?dGk3UWFhNUZnclRjTlU3azVTKzNVbHhpbFR4Rnk2K0psalFaVTlVVHR0QkVU?=
- =?utf-8?B?Q2orTTgzcStVM01wVTA4TmFYRlM1K0xBSEFFNkt0ZEs1U3FvWGswWmhlVlFS?=
- =?utf-8?B?ZVNzdk54U3VnYmNuMTMzY255RmdDM1ZTTFdaYk83QVBOdlVSN2VBNHh3Rmxi?=
- =?utf-8?B?Vm1CTjZPU3NXOFZuQzYvNUNidXlCbENNMkQxcmQ0U1p2a3cwOWlIaW5ybFA1?=
- =?utf-8?B?NGZTVW0rb0lSeE40MXIyN2FUbjhIb0ZIa1F5cHFCaHpUSTVaTkErdVdlcjZN?=
- =?utf-8?B?d1R0MTQ4Nkd6alQ3OXhBa3NpRGtlMVFta3p6cWV6WVk1RlIyOG0xNURKNFN2?=
- =?utf-8?B?Sy9VbUpBWXVhSVlHTU5xQWNuT2lkNVYrQVlmb1NQQzc4ZTl6eGdUQktDWkND?=
- =?utf-8?B?eWpDUUY4aHcxbWNuUlg1a3UrZ1laYkpGaCtvSDByQU9FK1loR1RXYkxxRjdO?=
- =?utf-8?B?Z2gzbHV2Y0Y0bHpSR3R3ZXFyLzE5VmRRcXhEZzNNSnVYa252Q0g3d2wvK1Qr?=
- =?utf-8?B?dUR2V1dZVGJURCtWRFBKbVB6MTRSOVUrV3ZiaHc1T29Ed21CUHRTbVBGRmFR?=
- =?utf-8?Q?82FpSX3nusYxpoJJJ3bd2iSuR?=
+	=?us-ascii?Q?YA5ifUKzNxwiJrzsVHEt6hfeKRVt3t8LQVrn/YVrMOuNM3IsADeIL6UFN9NE?=
+ =?us-ascii?Q?Ya61d/T5SM3PjtkjA+UntH4oUFCpLp9MEuY8vAbeNbZpR8AftaU9yP6UHzaq?=
+ =?us-ascii?Q?6MK9mw1rADYBjl8lifaQ5GiyzSrIp9PYN1rjNXhVLHn+SRNbQxZeqOPf3Aal?=
+ =?us-ascii?Q?vg9CRBs/FH/mijo7cZgjXbs+b/J8MVSBPy3s5nkyywcwHrK32uiqEIiBZECB?=
+ =?us-ascii?Q?RyAjAD7Nyr00/VRcXmH6Qx1TUWJzidGNF57TmfOFav/JvfoyG13HgMGZ7hek?=
+ =?us-ascii?Q?TPeyYFEQ5d6PCHGx7n1bNUGF8/KLXZDK/eP+5b6UFt1WW7NO9kxa3vel1seN?=
+ =?us-ascii?Q?ZAosK8168kIsDZXWs55TDpLeYNY3ZTBt9CI6qlIy2kSCD6Scv9ZZmxhUDs0T?=
+ =?us-ascii?Q?TkDwlMkruDXBxsYgpaF7dppx1HRNvXTRmkPMi2jOrNHjP4maxKJ/1w6XDgus?=
+ =?us-ascii?Q?SsSQViguV2beNas5bGRXWnlvl+scK6xmfizC0Dc8jBWgSlbYV/+glNvhV5Os?=
+ =?us-ascii?Q?BdDLTIubJTLtkvaTYpsO11FdW1WlG1YbW57vJKNR0vmYnykIXON+tcJyOJ8l?=
+ =?us-ascii?Q?jtf0OtFvezxvQxnqqobgBmeGIOeoeNXQfUHyli987MMC8Wm3uce8vioi6ZAW?=
+ =?us-ascii?Q?l+SDg17IHDqr/vO0auhuyPZHefHHRx2PcqNQOIiawjAbJFS7UKGIM/O+PQ6b?=
+ =?us-ascii?Q?wAGWcCjrSEYoMQUixzave6Mr1Q1R5JFdnxbLYS5D3Y9PtFyaJz5X3sgnn3cJ?=
+ =?us-ascii?Q?W/asnqdIuxF/Dsyp1xaaP7emal2HbFJbZSE2HAhZtTy9g9Jel2cLjVHHB7Dm?=
+ =?us-ascii?Q?2MCx17Os4jJj/2vGOzUfJtCOSqzbgj+/ljMntoh0qRq1yIDOHLf6BUZlZ32s?=
+ =?us-ascii?Q?+uisr6ctWSd9McHhkwjTGjIhFO3LZYU8olqqRWa5p0MKhed0zSEYT/CkgmWb?=
+ =?us-ascii?Q?zQ3MxP3w3q6/f8fpLgMI3j+Cg/Lpi03cHg/gfOaYLb5H1GxlAX3I5lWAZEyf?=
+ =?us-ascii?Q?ce8qoKojZjoTBrIufywyysLx+z8DAVNORv3rqONTgzzM3aa7lswYzbWm0+fe?=
+ =?us-ascii?Q?DmRR4j7fuxvu0nQVX17T7CFlivS1Q/EnWXc+2oPeBNZRnoWYg6gYfIw4mAa6?=
+ =?us-ascii?Q?IuEWntwiZnk3bpvPPhgiDKGw3Wy4+29Sv4NJ+r8GTsyQ0RC+CzGv1w4mNTgH?=
+ =?us-ascii?Q?3vxVzSR7oUXeUEKoA8BnrL9wu8cLn1hEOBM6FFcLmBn4EXur5QSvIr/D9k1J?=
+ =?us-ascii?Q?46RJDhGzY9Q3isZztbBW6stKEYe1mPZ6g3AkPuCh6uztL8/DGRQ0yT5p6HoB?=
+ =?us-ascii?Q?gd0p3J6Tzq7EPcSt26A8GHgDJvfaRvvqrFjQUZME9A7VkfOTeZDz9Y8hjz1e?=
+ =?us-ascii?Q?BbdXZgyRLXW6DHsUK1NFngWOeRQvAD260ss7cYWVE7jjYXzuLiZtJIWOcfu+?=
+ =?us-ascii?Q?OvKd8dFvR6PEWtgXniu7w21mmmh3QMDyjoGG+C9UTF7iTdutqroUZGvDiVg4?=
+ =?us-ascii?Q?3idIeoGlLkMpVeM7Ir8T1+Fh2gy9gN/0GpET6efQ2zBsKqIgPan4CMScz0m6?=
+ =?us-ascii?Q?UKvKUGdC2SikwbwjflNf/vWqLe61hqd9VRXVexPDXSA/+L+sd000k3zLlzl9?=
+ =?us-ascii?Q?EBgw6ZWZnjLFyCM7l+9WiXA=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	d5kDo1pptTWvQjapfp5cLXTZUroe/NqZVQZuRF31fPko9SbhLKNZW4dRWy+5ncRRlkR0xEbj3NjUc4Xzo3sR1T9MbYM3b0MxAQxFxt8iKpBH/POD75ea2zXBQW+z2i8BGPlUtH2fFOVfvHeGE7Rfb8AF7EATJ0XmGcBJatYhnkpydGde9LnWSIdAP3C8kOs9EZw7EGaej+hXfR74y4T9epXRvzyutqZ0Ztzkh3kr/7LH0xfXjjremfBLrSmHxvtECCHGW616icLte90r69tfFR7sJ5Xrp4CIjxIXkDIoiiHT7mm8PfnPMh3SJX3BCrr2gO6a6F2liu96tS+sxMzH9/jdBytuwuLTu3ba7hnqVESMiAOLL8Akfv7GunmQSHk0UeYrMnHfUAXaAcr44aFuKiXWjFISuRCUdID8vRyOFB9/YgJa7lzwuVuoij65AkAnmkSAZzPw5ZohFCsxv5L6P/pBve9W5+zxG7gdBmGTzxcFnzRrYnecMsxe8T5MABHnuNkBjvBa6DrDO4HE8DzEBLyMInspOdLhSZV1KhBH+ioee6km54iLkNikPLcRHC6o+LuGhYEAWI6aQLkHY0DlWP0ZW1H4AW7jcC9GWjhPgRM=
+	t3WlrXCxKtHXamdF/zcHDVhWnVI7Rz0iQeBOB5YfbSF9Yqxt1LGALVRjHZsZNeYZhYSIv8qDGlUee3H/ZQXvuPPGHvB9sl4LXFaEabBYJbsfSVuKy3FdaC5Fv6LKnxSIYvatO2ojlsZRS2pKDjuoo/mw6dXVWKa3jmxcaBiHEn076IRYuBesysKO2V6+GXUw5rzTJhfcKFFpFw4v76UVn7uPe6DVMXH5WXVAFLRAP49ZK1y1OZ6tePloin48uKjKkVGqYsiZgprXFz0muut2c/Ndff0VE/UgY1VMXH+RJq/SnGk3AWC432ve1Z5VvRUAs7yEjeNq4F4BUdn0AhGA4fB9AO24+5Lyk37WIzgm2Nuw34EVRh4p7xuUMNGWpgkIwwBImUWJOH76WB6+VyMsd24q9NKFScbmXzR6KjyB0/4dmr0b93Py6NyMdyMkUy/kmL/AxuFHWlsyeM2z/cWpuA5EjS5rb7YxUM29bH6ZnI8b3gX1o22LHs4kpBpA5+5MmIZwRMsQm3GNsGuzs5nt53ZTBlD5gKZR91IN7GidEmwm5TKgYTsjXXSLmhw07wUGamPWipY9KUPOYdhglJUHnV7JYhJnpShePpi6QLm2098=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 928d212d-13bf-4147-1c7c-08dd5776343f
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f68bcb26-8a50-4648-2a42-08dd57a622e6
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR10MB6337.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2025 21:32:15.1927
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2025 03:15:22.0900
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZtnQSw6ITOVsJwfhAEZYGQbkLbaDpVldUqub+l0CsUOLSIMdH+viBogXsgdGGK/tBxBBxpc3V1RkFEK3MAzleg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB5674
+X-MS-Exchange-CrossTenant-UserPrincipalName: HhI193x5+xdHcXp9SrKin77qZ8gnG1sUwSG0zYRwHtZ/Pjndd1CTUqEPS6HrrH7kVnjnxroIHsaDEibyg8t39x3o5oDQi4qj9kcUfl4yVZE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB6617
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-27_08,2025-02-27_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 adultscore=0 mlxlogscore=999 bulkscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2502100000 definitions=main-2502270159
-X-Proofpoint-GUID: J8x-org_BZgLFLqqNCwm72I_a0brHotM
-X-Proofpoint-ORIG-GUID: J8x-org_BZgLFLqqNCwm72I_a0brHotM
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0 mlxscore=0
+ adultscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502100000
+ definitions=main-2502280021
+X-Proofpoint-GUID: -brL_m85viuGE_yaNmQ8uKJz3-yevVzi
+X-Proofpoint-ORIG-GUID: -brL_m85viuGE_yaNmQ8uKJz3-yevVzi
 
-On 2/25/25 16:09, Kris Van Hees wrote:
+DTrace was handlings versioning data in multiple locations, causing
+common mistakes in not consistently updating versions in allplaces.
+By consolidating all versioning data in dt_version.h a single file
+need to be updated (as far as the source tree is concerned) when a
+new version is introduced.
 
-> Eugene,
->
-> Can you re-check this against the current dev and ensure the changes are
-> correct?
+For building, the GNUmakefile and dtrace.spec files will also need
+to be updated with the new version number.
 
-This is interesting.
+Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+---
+ libdtrace/Build        |   1 +
+ libdtrace/dt_impl.h    |  48 ++++++++-----------
+ libdtrace/dt_open.c    |  19 --------
+ libdtrace/dt_subr.c    |  80 --------------------------------
+ libdtrace/dt_version.c |  93 +++++++++++++++++++++++++++++++++++++
+ libdtrace/dt_version.h | 102 ++++++++++++++++++++++++++++-------------
+ 6 files changed, 181 insertions(+), 162 deletions(-)
+ create mode 100644 libdtrace/dt_version.c
 
-I guess what happens is that if we hit something like usym(addr), the 
-kernel only knows the addr;  it's the consumer's job to do the usym() 
-translation.  E.g., when the usym(addr) is in an aggregation key, the 
-kernel's copy of the aggregation is potentially very large (many 
-distinct addr values) while the consumer's copy of that aggregation is 
-much more compact (many addr values mapping to the same sym).
+diff --git a/libdtrace/Build b/libdtrace/Build
+index 51e0f078..57804f55 100644
+--- a/libdtrace/Build
++++ b/libdtrace/Build
+@@ -70,6 +70,7 @@ libdtrace-build_SOURCES = dt_aggregate.c \
+ 			  dt_strtab.c \
+ 			  dt_subr.c \
+ 			  dt_symtab.c \
++			  dt_version.c \
+ 			  dt_work.c \
+ 			  dt_xlator.c
+ 
+diff --git a/libdtrace/dt_impl.h b/libdtrace/dt_impl.h
+index 68fb8ec5..60e9b0c9 100644
+--- a/libdtrace/dt_impl.h
++++ b/libdtrace/dt_impl.h
+@@ -256,8 +256,6 @@ typedef struct dt_percpu_drops {
+  */
+ #define DT_MAX_NSPECS 16		/* sanity upper bound on speculations */
+ 
+-typedef uint32_t dt_version_t;		/* encoded version (see below) */
+-
+ struct dtrace_hdl {
+ 	const dtrace_vector_t *dt_vector; /* library vector, if vectored open */
+ 	void *dt_varg;	/* vector argument, if vectored open */
+@@ -645,6 +643,24 @@ enum {
+ 	EDT_PRINT,		/* missing or corrupt print() record */
+ };
+ 
++/*
++ * Stability definitions
++ *
++ * These #defines are used in the tables of identifiers below to fill in the
++ * attribute fields associated with each identifier.  The DT_ATTR_* macros are
++ * a convenience to permit more concise declarations of common attributes such
++ * as Stable/Stable/Common.
++ *
++ * Refer to the Solaris Dynamic Tracing Guide Stability chapter respectively
++ * for an explanation of these DTrace features and their values.
++ */
++#define DT_ATTR_STABCMN { DTRACE_STABILITY_STABLE, \
++	DTRACE_STABILITY_STABLE, DTRACE_CLASS_COMMON }
++
++#define DT_ATTR_EVOLCMN { DTRACE_STABILITY_EVOLVING, \
++	DTRACE_STABILITY_EVOLVING, DTRACE_CLASS_COMMON \
++}
++
+ /*
+  * Interfaces for parsing and comparing DTrace attribute tuples, which describe
+  * stability and architectural binding information.
+@@ -654,31 +670,6 @@ extern dtrace_attribute_t dt_attr_max(dtrace_attribute_t, dtrace_attribute_t);
+ extern char *dt_attr_str(dtrace_attribute_t, char *, size_t);
+ extern int dt_attr_cmp(dtrace_attribute_t, dtrace_attribute_t);
+ 
+-/*
+- * Interfaces for parsing and handling DTrace version strings.  Version binding
+- * is a feature of the D compiler that is handled completely independently of
+- * the DTrace kernel infrastructure, so the definitions are here in libdtrace.
+- * Version strings are compiled into an encoded uint32_t which can be compared
+- * using C comparison operators.  Version definitions are found in dt_open.c.
+- */
+-#define	DT_VERSION_STRMAX	16	/* enough for "255.4095.4095\0" */
+-#define	DT_VERSION_MAJMAX	0xFF	/* maximum major version number */
+-#define	DT_VERSION_MINMAX	0xFFF	/* maximum minor version number */
+-#define	DT_VERSION_MICMAX	0xFFF	/* maximum micro version number */
+-
+-#define	DT_VERSION_NUMBER(M, m, u) \
+-	((((M) & 0xFF) << 24) | (((m) & 0xFFF) << 12) | ((u) & 0xFFF))
+-
+-#define	DT_VERSION_MAJOR(v)	(((v) & 0xFF000000) >> 24)
+-#define	DT_VERSION_MINOR(v)	(((v) & 0x00FFF000) >> 12)
+-#define	DT_VERSION_MICRO(v)	((v) & 0x00000FFF)
+-
+-extern char *dt_version_num2str(dt_version_t, char *, size_t);
+-extern int dt_version_str2num(const char *, dt_version_t *);
+-extern int dt_version_defined(dt_version_t);
+-
+-extern int dt_str2kver(const char *, dt_version_t *);
+-
+ extern uint32_t dt_gen_hval(const char *, uint32_t, size_t);
+ 
+ /*
+@@ -816,9 +807,6 @@ extern const dtrace_attribute_t _dtrace_typattr; /* type ref attributes */
+ extern const dtrace_attribute_t _dtrace_prvattr; /* provider attributes */
+ extern const dtrace_pattr_t _dtrace_prvdesc;	 /* provider attribute bundle */
+ 
+-extern const dt_version_t _dtrace_versions[];	 /* array of valid versions */
+-extern const char *const _dtrace_version;	 /* current version string */
+-
+ extern int _dtrace_strbuckets;		/* number of hash buckets for strings */
+ extern uint_t _dtrace_stkindent;	/* default indent for stack/ustack */
+ extern uint_t _dtrace_pidbuckets;	/* number of hash buckets for pids */
+diff --git a/libdtrace/dt_open.c b/libdtrace/dt_open.c
+index 51c056b2..72c138ce 100644
+--- a/libdtrace/dt_open.c
++++ b/libdtrace/dt_open.c
+@@ -42,25 +42,6 @@
+ #include <dt_peb.h>
+ #include <dt_pid.h>
+ 
+-const dt_version_t _dtrace_versions[] = {
+-	DT_VERS_1_0,	/* D API 1.0.0 (PSARC 2001/466) Solaris 10 FCS */
+-	DT_VERS_1_1,	/* D API 1.1.0 Solaris Express 6/05 */
+-	DT_VERS_1_2,	/* D API 1.2.0 Solaris 10 Update 1 */
+-	DT_VERS_1_2_1,	/* D API 1.2.1 Solaris Express 4/06 */
+-	DT_VERS_1_2_2,	/* D API 1.2.2 Solaris Express 6/06 */
+-	DT_VERS_1_3,	/* D API 1.3 Solaris Express 10/06 */
+-	DT_VERS_1_4,	/* D API 1.4 Solaris Express 2/07 */
+-	DT_VERS_1_4_1,	/* D API 1.4.1 Solaris Express 4/07 */
+-	DT_VERS_1_5,	/* D API 1.5 Solaris Express 7/07 */
+-	DT_VERS_1_6,	/* D API 1.6 */
+-	DT_VERS_1_6_1,	/* D API 1.6.1 */
+-	DT_VERS_1_6_2,	/* D API 1.6.2 */
+-	DT_VERS_1_6_3,	/* D API 1.6.3 */
+-	DT_VERS_1_6_4,	/* D API 1.6.4 */
+-	DT_VERS_2_0,	/* D API 2.0 */
+-	0
+-};
+-
+ /*
+  * Table of global identifiers.  This is used to populate the global identifier
+  * hash when a new dtrace client open occurs.  For more info see dt_ident.h.
+diff --git a/libdtrace/dt_subr.c b/libdtrace/dt_subr.c
+index d5dca164..40b66c7d 100644
+--- a/libdtrace/dt_subr.c
++++ b/libdtrace/dt_subr.c
+@@ -369,58 +369,6 @@ dt_attr_str(dtrace_attribute_t a, char *buf, size_t len)
+ 	return buf;
+ }
+ 
+-char *
+-dt_version_num2str(dt_version_t v, char *buf, size_t len)
+-{
+-	uint_t M = DT_VERSION_MAJOR(v);
+-	uint_t m = DT_VERSION_MINOR(v);
+-	uint_t u = DT_VERSION_MICRO(v);
+-
+-	if (u == 0)
+-		snprintf(buf, len, "%u.%u", M, m);
+-	else
+-		snprintf(buf, len, "%u.%u.%u", M, m, u);
+-
+-	return buf;
+-}
+-
+-int
+-dt_version_str2num(const char *s, dt_version_t *vp)
+-{
+-	int i = 0, n[3] = { 0, 0, 0 };
+-	char c;
+-
+-	while ((c = *s++) != '\0') {
+-		if (isdigit(c))
+-			n[i] = n[i] * 10 + c - '0';
+-		else if (c != '.' || i++ >= sizeof(n) / sizeof(n[0]) - 1)
+-			return -1;
+-	}
+-
+-	if (n[0] > DT_VERSION_MAJMAX ||
+-	    n[1] > DT_VERSION_MINMAX ||
+-	    n[2] > DT_VERSION_MICMAX)
+-		return -1;
+-
+-	if (vp != NULL)
+-		*vp = DT_VERSION_NUMBER(n[0], n[1], n[2]);
+-
+-	return 0;
+-}
+-
+-int
+-dt_version_defined(dt_version_t v)
+-{
+-	int i;
+-
+-	for (i = 0; _dtrace_versions[i] != 0; i++) {
+-		if (_dtrace_versions[i] == v)
+-			return 1;
+-	}
+-
+-	return 0;
+-}
+-
+ char *
+ dt_cpp_add_arg(dtrace_hdl_t *dtp, const char *str)
+ {
+@@ -949,34 +897,6 @@ dtrace_uaddr2str(dtrace_hdl_t *dtp, pid_t pid, uint64_t addr, char *str,
+ 	return dt_string2str(c, str, nbytes);
+ }
+ 
+-/*
+- * The function converts string representation of kernel version
+- * into the dt_version_t type.
+- */
+-int
+-dt_str2kver(const char *kverstr, dt_version_t *vp)
+-{
+-	int		kv1, kv2, kv3;
+-	int		rval;
+-
+-	rval = sscanf(kverstr, "%d.%d.%d", &kv1, &kv2, &kv3);
+-
+-	switch (rval) {
+-	case 2:
+-		kv3 = 0;
+-		break;
+-	case 3:
+-		break;
+-	default:
+-		return -1;
+-	}
+-
+-	if (vp)
+-		*vp = DT_VERSION_NUMBER(kv1, kv2, kv3);
+-
+-	return 0;
+-}
+-
+ /*
+  * Compute a 32-bit hash value for a memory block of given size.
+  */
+diff --git a/libdtrace/dt_version.c b/libdtrace/dt_version.c
+new file mode 100644
+index 00000000..e9ac88be
+--- /dev/null
++++ b/libdtrace/dt_version.c
+@@ -0,0 +1,93 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#include <stdio.h>
++#include <ctype.h>
++
++#include <dt_impl.h>
++
++const dt_version_t _dtrace_versions[] = DTRACE_VERSIONS;
++
++char *
++dt_version_num2str(dt_version_t v, char *buf, size_t len)
++{
++	uint_t	M = DT_VERSION_MAJOR(v);
++	uint_t	m = DT_VERSION_MINOR(v);
++	uint_t	u = DT_VERSION_MICRO(v);
++
++	if (u == 0)
++		snprintf(buf, len, "%u.%u", M, m);
++	else
++		snprintf(buf, len, "%u.%u.%u", M, m, u);
++
++	return buf;
++}
++
++int
++dt_version_str2num(const char *s, dt_version_t *vp)
++{
++	int	i = 0, n[3] = { 0, 0, 0 };
++	char	c;
++
++	while ((c = *s++) != '\0') {
++		if (isdigit(c))
++			n[i] = n[i] * 10 + c - '0';
++		else if (c != '.' || i++ >= ARRAY_SIZE(n) - 1)
++			return -1;
++	}
++
++	if (n[0] > DT_VERSION_MAJMAX ||
++	    n[1] > DT_VERSION_MINMAX ||
++	    n[2] > DT_VERSION_MICMAX)
++		return -1;
++
++	if (vp != NULL)
++		*vp = DT_VERSION_NUMBER(n[0], n[1], n[2]);
++
++	return 0;
++}
++
++int
++dt_version_defined(dt_version_t v)
++{
++	int	i;
++
++	for (i = 0; i < ARRAY_SIZE(_dtrace_versions); i++) {
++		if (_dtrace_versions[i] == v)
++			return 1;
++	}
++
++	return 0;
++}
++
++/*
++ * Convert a string representation of a kernel version string into the
++ * a dt_version_t value.
++ */
++int
++dt_str2kver(const char *kverstr, dt_version_t *vp)
++{
++	int	kv1, kv2, kv3;
++	int	rval;
++
++	rval = sscanf(kverstr, "%d.%d.%d", &kv1, &kv2, &kv3);
++
++	switch (rval) {
++	case 2:
++		kv3 = 0;
++		break;
++	case 3:
++		break;
++	default:
++		return -1;
++	}
++
++	if (vp)
++		*vp = DT_VERSION_NUMBER(kv1, kv2, kv3);
++
++	return 0;
++}
+diff --git a/libdtrace/dt_version.h b/libdtrace/dt_version.h
+index 3fd1b3d1..967e22cc 100644
+--- a/libdtrace/dt_version.h
++++ b/libdtrace/dt_version.h
+@@ -15,24 +15,6 @@ extern "C" {
+ #include <dt_ident.h>
+ #include <dt_git_version.h>
+ 
+-/*
+- * Stability definitions
+- *
+- * These #defines are used in the tables of identifiers below to fill in the
+- * attribute fields associated with each identifier.  The DT_ATTR_* macros are
+- * a convenience to permit more concise declarations of common attributes such
+- * as Stable/Stable/Common.
+- *
+- * Refer to the Solaris Dynamic Tracing Guide Stability chapter respectively
+- * for an explanation of these DTrace features and their values.
+- */
+-#define DT_ATTR_STABCMN { DTRACE_STABILITY_STABLE, \
+-	DTRACE_STABILITY_STABLE, DTRACE_CLASS_COMMON }
+-
+-#define DT_ATTR_EVOLCMN { DTRACE_STABILITY_EVOLVING, \
+-	DTRACE_STABILITY_EVOLVING, DTRACE_CLASS_COMMON \
+-}
+-
+ /*
+  * Versioning definitions
+  *
+@@ -46,9 +28,11 @@ extern "C" {
+  * Refer to the Solaris Dynamic Tracing Guide Versioning chapter for an
+  * explanation of these DTrace features and their values.
+  *
+- * You must update DT_VERS_LATEST and DT_VERS_STRING when adding a new version,
+- * and then add the new version to the _dtrace_versions[] array declared in
+- * dt_open.c..
++ * When adding a new version:
++ *  - Add a new DT_VERS_* macro
++ *  - Add the new DT_VERS_* macro at the end of the DTRACE_VERSIONS macro
++ *  - Set DT_VERS_LATEST to the new DT_VERS_*
++ *  - Update DT_VERS_STRING to reflect the new version
+  *
+  * NOTE: Although the DTrace versioning scheme supports the labeling and
+  *       introduction of incompatible changes (e.g. dropping an interface in a
+@@ -57,16 +41,18 @@ extern "C" {
+  *       we ever need to provide divergent interfaces, this will need work.
+  *
+  * The version number should be increased for every customer visible release
+- * of Solaris. The major number should be incremented when a fundamental
+- * change has been made that would affect all consumers, and would reflect
+- * sweeping changes to DTrace or the D language. The minor number should be
+- * incremented when a change is introduced that could break scripts that had
+- * previously worked; for example, adding a new built-in variable could break
+- * a script which was already using that identifier. The micro number should
+- * be changed when introducing functionality changes or major bug fixes that
+- * do not affect backward compatibility -- this is merely to make capabilities
+- * easily determined from the version number. Minor bugs do not require any
+- * modification to the version number.
++ * of Linux.
++ *  - The major number should be incremented when a fundamental change has been
++ *    made that would affect all consumers, and would reflect sweeping changes
++ *    to DTrace or the D language.
++ *  - The minor number should be incremented when a change is introduced that
++ *    could break scripts that had previously worked; for example, adding a new
++ *    built-in variable could break a script which was already using that
++ *    identifier.
++ *  - The micro number should be changed when introducing functionality changes
++ *    or major bug fixes that do not affect backward compatibility -- this is
++ *    merely to make capabilities easily determined from the version number.
++ *    Minor bugs do not require any modification to the version number.
+  */
+ #define	DT_VERS_1_0	DT_VERSION_NUMBER(1, 0, 0)
+ #define	DT_VERS_1_1	DT_VERSION_NUMBER(1, 1, 0)
+@@ -84,9 +70,59 @@ extern "C" {
+ #define	DT_VERS_1_6_4	DT_VERSION_NUMBER(1, 6, 4)
+ #define	DT_VERS_2_0	DT_VERSION_NUMBER(2, 0, 0)
+ #define	DT_VERS_2_0_1	DT_VERSION_NUMBER(2, 0, 1)
++#define	DT_VERS_2_0_2	DT_VERSION_NUMBER(2, 0, 2)
++
++#define DTRACE_VERSIONS	{ \
++	DT_VERS_1_1,	/* D API 1.1.0 Solaris Express 6/05 */ \
++	DT_VERS_1_2,	/* D API 1.2.0 Solaris 10 Update 1 */ \
++	DT_VERS_1_2_1,	/* D API 1.2.1 Solaris Express 4/06 */ \
++	DT_VERS_1_2_2,	/* D API 1.2.2 Solaris Express 6/06 */ \
++	DT_VERS_1_3,	/* D API 1.3 Solaris Express 10/06 */ \
++	DT_VERS_1_4,	/* D API 1.4 Solaris Express 2/07 */ \
++	DT_VERS_1_4_1,	/* D API 1.4.1 Solaris Express 4/07 */ \
++	DT_VERS_1_5,	/* D API 1.5 Solaris Express 7/07 */ \
++	DT_VERS_1_6,	/* D API 1.6 */ \
++	DT_VERS_1_6_1,	/* D API 1.6.1 */ \
++	DT_VERS_1_6_2,	/* D API 1.6.2 */ \
++	DT_VERS_1_6_3,	/* D API 1.6.3 */ \
++	DT_VERS_1_6_4,	/* D API 1.6.4 */ \
++	DT_VERS_2_0,	/* D API 2.0 */ \
++	DT_VERS_2_0_1,	/* D API 2.0.1 */ \
++	DT_VERS_2_0_2,	/* D API 2.0.2 */ \
++}
++
++#define	DT_VERS_LATEST	DT_VERS_2_0_2
++#define	DT_VERS_STRING	"Oracle D 2.0.2"
++
++/*
++ * Interfaces for parsing and handling DTrace version strings.  Version binding
++ * is a feature of the D compiler that is handled completely independently of
++ * the DTrace kernel infrastructure, so the definitions are here in libdtrace.
++ * Version strings are compiled into an encoded uint32_t which can be compared
++ * using C comparison operators.
++ */
++#define	DT_VERSION_STRMAX	16	/* enough for "255.4095.4095\0" */
++#define	DT_VERSION_MAJMAX	0xFF	/* maximum major version number */
++#define	DT_VERSION_MINMAX	0xFFF	/* maximum minor version number */
++#define	DT_VERSION_MICMAX	0xFFF	/* maximum micro version number */
++
++#define	DT_VERSION_NUMBER(M, m, u) \
++	((((M) & 0xFF) << 24) | (((m) & 0xFFF) << 12) | ((u) & 0xFFF))
++
++#define	DT_VERSION_MAJOR(v)	(((v) & 0xFF000000) >> 24)
++#define	DT_VERSION_MINOR(v)	(((v) & 0x00FFF000) >> 12)
++#define	DT_VERSION_MICRO(v)	((v) & 0x00000FFF)
++
++typedef uint32_t dt_version_t;
++
++extern const dt_version_t _dtrace_versions[];
++extern const char *const _dtrace_version;
++
++extern char *dt_version_num2str(dt_version_t, char *, size_t);
++extern int dt_version_str2num(const char *, dt_version_t *);
++extern int dt_version_defined(dt_version_t);
+ 
+-#define	DT_VERS_LATEST	DT_VERS_2_0_1
+-#define	DT_VERS_STRING	"Oracle D 2.0"
++extern int dt_str2kver(const char *, dt_version_t *);
+ 
+ #ifdef  __cplusplus
+ }
+-- 
+2.45.2
 
-Anyhow, dtrace loops over dtrace_work(), which calls dt_consume(), which 
-calls dtrace_aggregate_snap().  When we "snapshot" the aggregation, we 
-first call dtrace_aggregate_clear() and then walk the aggregations in 
-the BPF map.
-
-The problem appears to be that the usym() mapping changes.  Why? First 
-of all, we could imagine that the mapping might change.  E.g., a library 
-is loaded and unloaded and then a different library is loaded.  But it's 
-also possible (I don't know why) for the mapping to fail once (but not 
-on subsequent attempts).  Incidentally, the rule is if the translation 
-fails, we just keep the addr value (rather than replacing this addr with 
-the addr of the associated symbol).
-
-So what happens is we snapshot the aggregation, and a couple of usym() 
-translations fail.  They produce aggregation records (in the consumer's 
-copy of the aggregation) with the raw addr values.  A later snapshot 
-will clear the consumer's aggregation (zeroing out the values but 
-preserving the keys).  If the translation is now successful, the "raw" 
-address will be orphaned.  It will be reported with a count of 0.  The 
-tests in question might (likely) fail.
-
-I'm thinking about some fixes, but don't mind some feedback.
-
-*)  One possibility is that if the usym() translation fails, we omit the 
-data from the aggregation.
-
-*)  Another option is that, when we loop routinely over 
-dtrace_work()=>dt_consume()=>dtrace_aggregate_snap() and snapshot the 
-aggregations, instead of calling dtrace_aggregate_clear() each time we 
-"truncate" the consumer's copy of the aggregations... that is, throw 
-away old keys altogether. We're reading them back in anyhow.
-
-*)  Come to think of it, why are we snapshotting aggregations so often 
-anyhow?  It's not as though we are unloading data from the kernel.  Why 
-not snapshot lazily...  if needed for a printa() or END?
-
-There remain other problems -- like, what if a library is loaded, used, 
-usym(addr) shows up in an aggregation, a different library is loaded in 
-its place, and the aggregation is not printed until after the 
-translation information has become stale?  But maybe we can settle for 
-getting these tests passing for now.
-
-> On Mon, Jan 06, 2025 at 06:44:37PM -0500, Kris Van Hees wrote:
->> Withdrawing R-b for now after seeing these tests fail after this patch was
->> merged.  Needs further investigation.
->>
->> On Mon, Jan 06, 2025 at 04:04:25PM -0500, Kris Van Hees wrote:
->>> On Thu, Dec 05, 2024 at 02:13:18PM -0500, eugene.loh@oracle.com wrote:
->>>> From: Eugene Loh <eugene.loh@oracle.com>
->>>>
->>>> In 83da884cbdc5 ("Preface usym/umod/uaddr with pid"), a bug was fixed
->>>> in which addresses in the same module (or function) might be mapped to
->>>> multiple agg entries.  This fix helped the associated tests run much
->>>> more successfully.  Nonetheless, tests would sometimes still fail.
->>>>
->>>> Another problem is that the tests themselves were overly narrow.  It
->>>> is fine for a module (or function) to appear multiple times in the
->>>> aggregation output... if those entries correspond to different pids.
->>>>
->>>> Further, odd behaviors can result for some of the processes running on
->>>> a system.
->>>>
->>>> Change the tests to add a "pid" agg key.  Filter on only a few, select
->>>> pids.  Distinguish agg entries by pid.
->>>>
->>>> There are still occasional time outs observed with these tests,
->>>> presumably because the tick-2s probe is not firing (when profile-1234hz
->>>> is running).
->>>>
->>>> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
->>> Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
->>>
->>>> ---
->>>>   test/unittest/profile-n/tst.ufunc.sh | 12 ++++++++----
->>>>   test/unittest/profile-n/tst.umod.sh  | 11 ++++++++---
->>>>   test/unittest/profile-n/tst.usym.sh  | 11 ++++++++---
->>>>   3 files changed, 24 insertions(+), 10 deletions(-)
->>>>
->>>> diff --git a/test/unittest/profile-n/tst.ufunc.sh b/test/unittest/profile-n/tst.ufunc.sh
->>>> index 243822407..f5174a1e2 100755
->>>> --- a/test/unittest/profile-n/tst.ufunc.sh
->>>> +++ b/test/unittest/profile-n/tst.ufunc.sh
->>>> @@ -11,10 +11,14 @@ tmpfile=$tmpdir/tst.profile_ufunc.$$
->>>>   script()
->>>>   {
->>>>   	$dtrace $dt_flags -qs /dev/stdin <<EOF
->>>> +	BEGIN
->>>> +	{
->>>> +		printf("dtrace is %d\n", \$pid);
->>>> +	}
->>>>   	profile-1234hz
->>>>   	/arg1 != 0/
->>>>   	{
->>>> -		@[ufunc(arg1)] = count();
->>>> +		@[ufunc(arg1), pid] = count();
->>>>   	}
->>>>   
->>>>   	tick-2s
->>>> @@ -52,9 +56,9 @@ if ! grep -q 'bash`[a-zA-Z_]' $tmpfile; then
->>>>   	status=1
->>>>   fi
->>>>   
->>>> -# Check that functions are unique.  (Exclude shared libraries and unresolved addresses.)
->>>> -if gawk '!/^ *(ld-linux-|lib|([^`]*`)?0x)/ {print $1}' $tmpfile | \
->>>> -     sort | uniq -c | grep -qv " 1 "; then
->>>> +# Check that functions are unique for each pid that interests us.
->>>> +dtpid=`awk '/^dtrace is [0-9]*$/ { print $3 }' $tmpfile`
->>>> +if gawk '$2 == '$child' || $2 == '$dtpid' {print $1, $2}' $tmpfile | sort | uniq -c | grep -qv " 1 "; then
->>>>   	echo ERROR: duplicate ufunc
->>>>   	status=1
->>>>   fi
->>>> diff --git a/test/unittest/profile-n/tst.umod.sh b/test/unittest/profile-n/tst.umod.sh
->>>> index 45d2b1e9b..7cfe2a073 100755
->>>> --- a/test/unittest/profile-n/tst.umod.sh
->>>> +++ b/test/unittest/profile-n/tst.umod.sh
->>>> @@ -11,10 +11,14 @@ tmpfile=$tmpdir/tst.profile_umod.$$
->>>>   script()
->>>>   {
->>>>   	$dtrace $dt_flags -qs /dev/stdin <<EOF
->>>> +	BEGIN
->>>> +	{
->>>> +		printf("dtrace is %d\n", \$pid);
->>>> +	}
->>>>   	profile-1234hz
->>>>   	/arg1 != 0/
->>>>   	{
->>>> -		@[umod(arg1)] = count();
->>>> +		@[umod(arg1), pid] = count();
->>>>   	}
->>>>   
->>>>   	tick-2s
->>>> @@ -52,8 +56,9 @@ if ! grep -wq 'bash' $tmpfile; then
->>>>   	status=1
->>>>   fi
->>>>   
->>>> -# Check that modules are unique.  (Exclude shared libraries and unresolved addresses.)
->>>> -if gawk '!/^ *lib/ && !/^ *ld-.*\.so / && !/^ *0x/ {print $1}' $tmpfile | sort | uniq -c | grep -qv " 1 "; then
->>>> +# Check that modules are unique for each pid that interests us.
->>>> +dtpid=`awk '/^dtrace is [0-9]*$/ { print $3 }' $tmpfile`
->>>> +if gawk '$2 == '$child' || $2 == '$dtpid' {print $1, $2}' $tmpfile | sort | uniq -c | grep -qv " 1 "; then
->>>>   	echo ERROR: duplicate umod
->>>>   	status=1
->>>>   fi
->>>> diff --git a/test/unittest/profile-n/tst.usym.sh b/test/unittest/profile-n/tst.usym.sh
->>>> index 634e633b3..8e373b976 100755
->>>> --- a/test/unittest/profile-n/tst.usym.sh
->>>> +++ b/test/unittest/profile-n/tst.usym.sh
->>>> @@ -11,10 +11,14 @@ tmpfile=$tmpdir/tst.profile_usym.$$
->>>>   script()
->>>>   {
->>>>   	$dtrace $dt_flags -qs /dev/stdin <<EOF
->>>> +	BEGIN
->>>> +	{
->>>> +		printf("dtrace is %d\n", \$pid);
->>>> +	}
->>>>   	profile-1234hz
->>>>   	/arg1 != 0/
->>>>   	{
->>>> -		@[usym(arg1)] = count();
->>>> +		@[usym(arg1), pid] = count();
->>>>   	}
->>>>   
->>>>   	tick-2s
->>>> @@ -52,8 +56,9 @@ if ! grep -q 'bash`[a-zA-Z_]' $tmpfile; then
->>>>   	status=1
->>>>   fi
->>>>   
->>>> -# Check that symbols are unique.  (Exclude shared libraries and unresolved addresses.)
->>>> -if gawk '!/^ *lib/ && !/^ *0x/ {print $1}' $tmpfile | sort | uniq -c | grep -qv " 1 "; then
->>>> +# Check that symbols are unique for each pid that interests us.
->>>> +dtpid=`awk '/^dtrace is [0-9]*$/ { print $3 }' $tmpfile`
->>>> +if gawk '$2 == '$child' || $2 == '$dtpid' {print $1, $2}' $tmpfile | sort | uniq -c | grep -qv " 1 "; then
->>>>   	echo ERROR: duplicate usym
->>>>   	status=1
->>>>   fi
->>>> -- 
->>>> 2.43.5
->>>>
