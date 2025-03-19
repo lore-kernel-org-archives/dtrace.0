@@ -1,87 +1,77 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA07170A11
-	for <dtrace@lists.linux.dev>; Wed, 19 Mar 2025 16:30:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF361B4138
+	for <dtrace@lists.linux.dev>; Wed, 19 Mar 2025 17:15:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742401819; cv=fail; b=MpWN2fTGaztY0Cwon3a1Tx3a3p3rhAHY51nwjkCExY6iwqrYRkAeIubTvinJNvlI4qE0NptUiDZRVLI0jbkzd9ZNpRQFdtHiilNwnYg5vJHPawk5hoTLEb3egbq1XlTW0DoMr21YTrS/lJOK2prPt7koa0EVGEUVLsFCfQXDbtM=
+	t=1742404533; cv=fail; b=a4+MJm+JrpKm90O7s4g+jJoAiIJTgAtVP58DmW8DkP2JJGMz4H/rC7YLZdFSYybEtoEG18FuTnC6gV2I00a4qZwJEuDe10IvD8t6FU0X967PxHQ7OoipXDZrHborSR5GldFJvhpfNdKVZlwSVvHEVMOBu9dveBYtI68sNTReJ9o=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742401819; c=relaxed/simple;
-	bh=enavQI/mPA57R2zIW4tMMztIbeKl/pmw9Esd59E5zLI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=TfBb8QjvKgXCZYYaIjuzgxvSKYAa0dvyrLx9ivAf/zX0k3mWISb1+6HxE7BpWYw4yP6Gm3EFxR2vthrdO48/48waIOj7yzch8mrn2EKBDQ94Gsb4ekwT6YaeEQwz60n5ALZSpT2oMhJiXyxm8l+fzzpsuLTN/e7sxD2JkG/8Hqw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=lylec7Bz; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=yleNf3ju; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1742404533; c=relaxed/simple;
+	bh=6bxvaXj4S0HJI89nGws2KyLgD7eWTw1EngJIQENNb+o=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=nFJ/R+Z59hTEkJtnCYeH9P8NM0Adh95W8WwEgbH2RsqOoKlO25Dkr8ns9CHU3IKwbmfEGSOu3rE2mQ1IHo3g7r2cMB09VdyfQeAC4QpjBI12EnrKsL0G8qFz36UIV4bR94JZ1P1BxZ6T/JTSU2PWHflgqOmLpHgPmrTON4BAcm4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=F+nTP7w2; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=gpz4y5fG; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="lylec7Bz";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="yleNf3ju"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52JGBdj0002307
-	for <dtrace@lists.linux.dev>; Wed, 19 Mar 2025 16:30:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=0eA/IGWOazgzfDUJaBRjdi2KdmFdhCDIT1inI9c96JY=; b=
-	lylec7BzVBTRCSyGVwfueAHToh1lLAAJ+QvzJ2DcDdLHTrKdPNNEjZvduG88rmpd
-	CpIw0+5h65/TCbCOBbixaRXh2L82T+iV99JNp/UAHjXfQeALfUseL336QKx5yaJI
-	pUeOiT+8VerZjR0vDZG6dzhoAFZIUIGsntKLPWDpbGBglxF8NsQnpg62pchBjldK
-	wDBYb3MAIidnFPqom22DIdb2AY89hIIAgOFiWy38T/i+OjiU+blF0Jl+uUL+aFVX
-	gsEAdoLybebpwEEP84l+mQXPhOGAvwFRsPGbsWL5QhGXiQJYPPh5jhqfalU22PfA
-	mk7si4B+JPQzlwV890TqVw==
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="F+nTP7w2";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="gpz4y5fG"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52JH0r82017364
+	for <dtrace@lists.linux.dev>; Wed, 19 Mar 2025 17:15:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	content-type:date:from:message-id:mime-version:subject:to; s=
+	corp-2023-11-20; bh=AYHeF3NUNKoIEKRXhS4hppEU/qvsUVr7YzrdgxYI9KA=; b=
+	F+nTP7w2r27Jz0mxP46BRq+lHSgT9It5rKRw2spXqWI9KOkyjO5376RWhEwD/LtF
+	h6lb9ng1nchpXYPzKxyjxoLiLDLENgJ4ofIcSD8kBIsolw9pL6zRgR7OEbXs0ust
+	GSAaxUlEMctP8QDu+KCB/bA4hgp25yiH8PUWJzoSUA4vduDtyRDcFwxZPN4nWzR1
+	xp3UFDpx7ispuOy7MoQntJnAL8TWYwoQBAJoB/+zw0qEcRlZFDr40JHsSoU2/WZB
+	zw6YGeMYGYmZKWwq0KSPvmVa4lLHd6U5ji/vZFZ1BC+v0P0KDNCItA1/Vzz6zaOG
+	jlnn4Xl38z6su2SME9aOCw==
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 45d1hg3qs5-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 45d1m3uj60-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 19 Mar 2025 16:30:14 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Wed, 19 Mar 2025 17:15:30 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 52JGAPw0025067
-	for <dtrace@lists.linux.dev>; Wed, 19 Mar 2025 16:30:13 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2043.outbound.protection.outlook.com [104.47.70.43])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 45dxbk5m6a-2
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 52JGqeOi024449
+	for <dtrace@lists.linux.dev>; Wed, 19 Mar 2025 17:15:29 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2177.outbound.protection.outlook.com [104.47.59.177])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 45dxbk7dpa-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 19 Mar 2025 16:30:13 +0000
+	for <dtrace@lists.linux.dev>; Wed, 19 Mar 2025 17:15:29 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jmCjN9VX0ffNqqVLmd8l6BfIAiogmukbJsKNi37lHkjKWiep8tDnmAAKwYq6aSTXxxNOSJ6oj/KV1To5IuYWfhWEYAH9Tb1+s2saqmV4ySOVhTaIAsCFMuKULyUa/N3/JYqfASWhD/57O8KGXnXuZurTTwwXB861Kb98zcjfMo5Fa8DrKkYAf9Z1VLivbEVYcSeWx2v5SClDsma7yk6RUR51FXcKfq809QhrhLBDu8L8fdzX5Sj4D7igq5s1yOFwg7R55ciUUCmkA24929uQjbfbKsMU7HoZvyT6aRCM8Pdk6RtIXJ8xqymLJ+CFF9AwnF2AZU6PrJ88yQrw6ha+MQ==
+ b=l2wF3ay0vo//1FaJ+W/V4yYFU8tPgn1slZdstDCRcClWj7YLv6mWxkcBXb9Ins/uqrHghbjF+hp8+maiiCocYc57i8fxV80CY0PiCVa6+mZHP1K4L3Yc4z98Lo0uIaLxuxX1sF/DIionzhOkU7ws9kS7YQ3pRrErOaEmJ2y8z7PcNgvad65gJmG91+5X0xIRo8kFUeoA45ozbR1OI300Y8wGDArpPF6LHMeZb+nUoWun3N/hyCMYaajCyjoPFis+r/ppBKkmJS6tdM6PpYk09tgkSDESnE4lfXmNC6vekOMZFda3qpza74cSmNsYF9Z8N2DoCqnxXBaKI2Y/dRHHAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0eA/IGWOazgzfDUJaBRjdi2KdmFdhCDIT1inI9c96JY=;
- b=YWKza5Xpnb0AqlWj3ruSkhPoEtIZXwjmE2W5gAYIr7HayRhiiCkDKKXq1kQQu1BUvDFMonITgbC3fMBbDzQIQk9xw+2YPZkFclq0Jw4l0WgHpAZVVaDVNsyJoLfGzxdf/ZqPYdwD03NplrETzGBO+MaHweYEMzKo4CeY1fggJ6Egh91LDZxW1Z8EW2UCLSKArL40mwn52Pz6RTBB2gPqrpoBxgPApzsoRLZoHQ/tYn/EPA0h4um+6F2V7uxJCjRh4RjD+tGDDmQmlDlvuTUVUkBqdo9d5hHQlHJb6ZoRwca4ieC6frKXJxnqjK4hTU5RDI/mCdOzoDgIK6XptT6mHA==
+ bh=AYHeF3NUNKoIEKRXhS4hppEU/qvsUVr7YzrdgxYI9KA=;
+ b=S8Iq3uzLjDmVHR5RzdoixbgVT58r8OXCh7nFQBC03jni2CDeLMFfjxfyw32N4IrngKrWW/QOoor6u0v6q96Z6ABVSjLyolHLhpNUCMlr9Zo0/huIkAxLzUOfdUZdxQwPLSehwk1Y2NsVl4ODceG1ZCzu7v+jJSuDtcwSfSLpekBEWv6n9l5oR5aGRk6gaODKNy+1OIlRhGV/V225I5OU6bnjz2nAbz7u/xDLDD8RCDKXPZZr0FYFx+GSJn+ASTIrQZBkJ7WUUCCkAAaj01AYRm6uuwXYcEAGphZ9tnfj+IsrqGx3z5+0yHCUI5rEYitQPS7ivX0u0q8brYxXq+TZbQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0eA/IGWOazgzfDUJaBRjdi2KdmFdhCDIT1inI9c96JY=;
- b=yleNf3juzbkhxTnuJY6Cmwii4gNpbWdmsnnGJfi4NDVI/qN8cGx8T5GCRyU7xF6tUffCw50Z6hL2IZbEnTZLqfabxObqOxqoqxySWPdlbSgZ4kz898rI3vQtOJA3ZrQD3HlFMOQlK7IspjcfIqAyojoTfAMABFdiNnGIXrUxPIA=
+ bh=AYHeF3NUNKoIEKRXhS4hppEU/qvsUVr7YzrdgxYI9KA=;
+ b=gpz4y5fGDGWL9AMgVED8JdzjWs7z+wtgm1Hlc/sXuBuTIRDDUxhG++CcEv9JgpRhRGg47/4vlj1wRQFEnDG5sbwpGuIxNdNYL9O9pE+1hOQM6Y052ojMx26ih7wY9tgz2I88+Uz1Ip8mKipl6QVmRo4eOZCetYWoz2OIwir4PKM=
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by CO1PR10MB4500.namprd10.prod.outlook.com (2603:10b6:303:98::18) with
+ by CY8PR10MB7242.namprd10.prod.outlook.com (2603:10b6:930:79::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.34; Wed, 19 Mar
- 2025 16:30:11 +0000
+ 2025 17:15:27 +0000
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69%5]) with mapi id 15.20.8534.034; Wed, 19 Mar 2025
- 16:30:11 +0000
-Message-ID: <94c60235-005e-ecc8-497d-3d388fa8819f@oracle.com>
-Date: Wed, 19 Mar 2025 12:30:06 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [DTrace-devel] [PATCH 1/2] Clarify how the usdt_prids key is
- stored on the BPF stack
-Content-Language: en-US
-To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev
-Cc: dtrace-devel@oss.oracle.com
-References: <20250220044350.14953-1-eugene.loh@oracle.com>
- <Z9rXYvNQxZqODC3o@kvh-deb-bpf.us.oracle.com> <Z9rgKzWMHSqLVQdK@oracle.com>
-From: Eugene Loh <eugene.loh@oracle.com>
-In-Reply-To: <Z9rgKzWMHSqLVQdK@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0270.namprd03.prod.outlook.com
- (2603:10b6:a03:3a0::35) To CO6PR10MB5636.namprd10.prod.outlook.com
+ 17:15:27 +0000
+From: eugene.loh@oracle.com
+To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: [PATCH v2] test: Make tests more resilient to different prid widths
+Date: Wed, 19 Mar 2025 13:15:25 -0400
+Message-Id: <20250319171525.1877-1-eugene.loh@oracle.com>
+X-Mailer: git-send-email 2.18.4
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR05CA0057.namprd05.prod.outlook.com
+ (2603:10b6:a03:74::34) To CO6PR10MB5636.namprd10.prod.outlook.com
  (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -90,185 +80,377 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|CO1PR10MB4500:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56e8c5e8-a67d-4a9f-cd90-08dd670351ec
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|CY8PR10MB7242:EE_
+X-MS-Office365-Filtering-Correlation-Id: 23fac8fc-aa27-4aad-60df-08dd6709a49b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cVNUYjY2Z1FZY2drYmk0WTBXSDhZYThxaktJVmVDSDR5YmZhTGp4MFh1MzJQ?=
- =?utf-8?B?TFNGbURMQU5Qb0Z3QjhadXVSTmk2cmZnb1pyL0x4ZVJFZDdIL3NodHZDWjBp?=
- =?utf-8?B?VE5ha3hESlI2ZmlRZy9tdldSczRyZTA3NkF1dnVxL2ZlUk92YTN3NWk3OEth?=
- =?utf-8?B?dDY1a0Ftamkyb3VzS3BlUXRXYi9aUDB3U1ZsZ0h5OHBKYVJxeU1WK3lMSFVu?=
- =?utf-8?B?K3QzUUNSRVlheGVxeHMzMTlxWnBEYWFxYUMyMDNKdW1XWklIcDRzQVpGa1F6?=
- =?utf-8?B?eUVhY3J3dGlsbG8xejJiK1E3ZThpUUx0Qm5KVEt2SHp0NDhMSVJNK2tDYlhN?=
- =?utf-8?B?UTN2UnIwRnNobzNXYU11dHR3enppVXIrWE90ZkRDTXY0bXlTbkYrM2xPR0VW?=
- =?utf-8?B?NmJPRUx1dE5ScllKR2YwNTJZZDd3SnoyMDRKdlZHbmh0UWJqS3FCbkl0R0tp?=
- =?utf-8?B?WFgrdGVLTy84Q3IwMVQzdVUvdWtQMFA5K1RRSWZSdXUycnBmQktnVC9VMHll?=
- =?utf-8?B?ajg2UDllRXIxdTFSK1lObGRxdjAyRmRESGE5Mkw3OFFza2x1M1dRSythYitj?=
- =?utf-8?B?QmpmbDhTV0NlaVV3djVLTHlKUXVxeHV4R1NJTmRBc2J0Z1lwQkFTRXVGSzVs?=
- =?utf-8?B?Z2ppMHgyV2dvMC9yYkdnV0taWEUrbDBlbWplY0ptQW1ZTW84VlhZNy85Szhh?=
- =?utf-8?B?eDV6T1hNeTFtMFQyRzZYWmxYRlVRMGRCT0oyYXAwRmtYOUtLSWtlUTVrUFYz?=
- =?utf-8?B?N3JzM2pPNGM5QkxVdm1yMXhTRUJaR0JwMWszNTA4aEk3SVpFaW1uM1hYQjRX?=
- =?utf-8?B?Ylk5U2E0MXFIMXVaZ2lCNXQyeHJwdjJOaS9NWkxTTllsZjB4dGRBU2NBdjJP?=
- =?utf-8?B?WmNHbWRibnpMZWsvcS9MS2t2S3dPKzlWeW03bEg0U01tYjJoRmpVMXlxL240?=
- =?utf-8?B?bkZjS2gvak5GR2JUT3llMXVEOGVEYnExWWNsOExtNEhwdXdYL1c0cXlPejMy?=
- =?utf-8?B?MVdiMlE0TEMzK3NmUkM4VVBlRmhzQmdDMmRUNG5TVWI0d2tsNGhIZzNTYTdt?=
- =?utf-8?B?K3poS2taY1M0YWhiTThEWHgvSFVQSG5JWnFOa0puMGRWZGxiQ3l1djZiZjBO?=
- =?utf-8?B?TEJZdVZ6OE5zRXFKWk41aW5JR2Z3TEM5QXE1WGM2WXJnalF6Z2lHNkxzMnhh?=
- =?utf-8?B?a1kxYnNzRUd3Zm52NU0vdEt1SkdvOWZ3VzFFMjFqdVJhdUljL2hReDNnTldu?=
- =?utf-8?B?SmptckhTb0Vtc2cybXlRRWZSbzFGRjJkYnVLSnM4cHVZbE5wdVdic2VSd1Nx?=
- =?utf-8?B?Y1JHUVhZQ3kvRnI3K1BRNWxsU3pZSG9xREl3ZHNJdk4ydC9vUW9jcjA2NXk5?=
- =?utf-8?B?bGtGZlREY0I4b2NtY3JISGgwcXV1S1hTNlp6QzRXSUtJMTI3TlVEa24vc3RY?=
- =?utf-8?B?TGt4TmpMYmI4QVk4eEE0MHR5dUZ6cGh1d0FLUStlLy9lN3VibjNvZndnLzQ2?=
- =?utf-8?B?WGpoTTdGQmgyVFVwcWFvVTlNN2JGdnhCczhIZ3I5bTN6Q0VIeUhpWmNHMXVz?=
- =?utf-8?B?SHRZdmRUV0xhWU0xWDIvN3dHTVBVTjJoQVZYRWQxREZuRk4wQ0c0NkVXWVd1?=
- =?utf-8?B?bnNGQkJKKzE1QmRtZEZxUjRSV0dPSTFIOHJyNlFRU2ZhYkpqaURtYlRza2xi?=
- =?utf-8?B?VEt1TTBrdnA5blpHL3RYWUlFL2thM3RGSi9odVRJSUh2a283am9YcTlzbVh0?=
- =?utf-8?B?VGNTSlVLYUFYVlBUdkV1VmRQMzlxcVhPM2xZTlYydUkvOXAwN0FnU2YwSXRI?=
- =?utf-8?B?T2NoaDdTRWt6NGdCNEU5cVV6NUdBbE9CbU1Tc2pHTVJ5azNGVlROOEZrMm8x?=
- =?utf-8?Q?o/ekk8aX8OvNg?=
+	=?us-ascii?Q?WuUc2eYjgXkScwmL2R+bH6oLYe9KPF6u8lblhnpJS0a30q/sTwCQS31/ZN1h?=
+ =?us-ascii?Q?E/VOm90rrRqfT1K17RmWlAl4gzfb2ph9Ht4gusR/cGgqvMiKmXhW9OkaH5uF?=
+ =?us-ascii?Q?4aga4TyRY8GYKDCNAzZsphflIeh0DbIw/caBQ5tit5ob/4bDmKgYu3d9YVDb?=
+ =?us-ascii?Q?ZmkA81ZCKAkqfvmNkkr9/JThnqHWUonb10jp8026mKIcP3ETjRNL4yn6pwDn?=
+ =?us-ascii?Q?Rz16vtyMhzadXnMkPJ7NbBY9mVvPMs0elkHRQX2fKaXK8u56BpzJ5F8lgMuu?=
+ =?us-ascii?Q?EtfuB4nQeZirsUKLZthXuz252ow2/lrwaSK+OHeExhMXZGhIT+gryzCEcvVP?=
+ =?us-ascii?Q?T4QW7NkhCoOBMhsdlghIWdwvz4aaGwsG1+ooqtHBexSRbqGS7BauzTiGIThW?=
+ =?us-ascii?Q?qg1I2Vg+I9h/VPNw+PBvgLEGq0FTOtbZOoS7xT9qZHl4YA6Qm5sA4a1yLNxf?=
+ =?us-ascii?Q?r4tkk/0MvRPtn5ZzG+8eLH/AOpQ5YZblaNOUOPLCfavMoyFICx8J58OPUGD8?=
+ =?us-ascii?Q?IJXkP+6Z8iz2ZbUZx0YGOnQGzToxCkkPyi2JzulDny4nnnget8HuT3HRMNea?=
+ =?us-ascii?Q?SItjCREoymEMc8fcfgXsRszLqi1J4L6EjGJzHvF27GnnrkjXvSBGAs7UTAZi?=
+ =?us-ascii?Q?ZsPeYsoqVn7iPUgkU/Nlzm+YNKzjvixX0j8E6mxg7pB1o1AcpsdoY5Ja1Xz4?=
+ =?us-ascii?Q?L8DgyYYdUB/csnvbVkCvlD3olr4bs1irN5OMh7u5jg/ItnyrK9thiiBIF8V4?=
+ =?us-ascii?Q?FybMSoMNo/+LBlza1S072d31KH1QnO0Y5w0oMx5q60Bdwawu6aQbkcVyWcNM?=
+ =?us-ascii?Q?84Bd73yG5VUWHjdY6ux4VRXM/FX79UEsp0HfbGOR5iEjzKBv/99F3YgDWF1s?=
+ =?us-ascii?Q?kWFQ85VGRFku3bFk0ZRtsD5MLyqA42sld9kgsheSWOxsqUIy3PD5TeRsuZUp?=
+ =?us-ascii?Q?5GL8G91o4vCY+T129SxQ4EAO159SAQtU8Muotnko76TtRVS3zY+8S5uJErr9?=
+ =?us-ascii?Q?M43aTJsXIvPGVfd50u/JWORtvbfxN0AfXQU1KQkzFzRa623LSFvRhXuzWs7f?=
+ =?us-ascii?Q?pO6a3yqx/cZYS0dpFthKGiNU/IVzIBFpyvWOg45Hjj4jC1ozz27huSQSHyPC?=
+ =?us-ascii?Q?bihULzv94m//TZZRKVaLsObcyJRGu+cUWx6jHAQ2JnTBuPwrXsvE3O87MGZg?=
+ =?us-ascii?Q?N/FQ42wMUy3kcPv/RMhZSAIH2UePz4dNkAUk8qR2LL9/ALwY8d9jUmlOfjuz?=
+ =?us-ascii?Q?IuafZIwztmQ1ehBsFGcEYIZ2wOo53aVMnaOpbuvVHGPQQAMSOboqY8C5TF6o?=
+ =?us-ascii?Q?41+htw2Dw57S4EvQ7m7YonP2DEkCvFGGytm6Rmjqe2q2ii5vO+XOb6W13Tpc?=
+ =?us-ascii?Q?3iQQh51pxfxkPTzMH8O/KblZa4iX?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Ymt1S1h5QjNENlNxUitOZlNibzBKWUNBU05OV3g1QXZMRThUcytYaGI0OXVj?=
- =?utf-8?B?ZzkxOXgwb2F0L1ZIWHBsNmN0M0crTFpCL1dLNXZuY3hTNXkvYkVxYjJFWDZ3?=
- =?utf-8?B?MTkxU242RDYwQlozclkxdUZ5MXlWQlA0RllwSTBpZXdFWDlzaUxCZEE0RGFt?=
- =?utf-8?B?Nm96U0sxK1FyRE9EMktSa0d5amtFRVNjN3FZOEN2RWVxdTI0ZTFTTFFaUW1q?=
- =?utf-8?B?MTFyU1BXUXV6dktzd2VTNjdWRWNBTFIzM1RPMTJET0s4OEJiN0YxNU1zUVNJ?=
- =?utf-8?B?L0Z0WkNoUU5Fd0c0djZBZ1dZejhEekZRWFBhS2pOek5ZdGdFZzYyWGpOMElV?=
- =?utf-8?B?UE0zbEpkTnhxajBudm02Snc1Sk53MU54bDJsQ1QvaUwyczNnMWtJb2pQMVQ3?=
- =?utf-8?B?anBqSVVBUU1haDhUZGtZOXhEbXQyei9URllGZW9YVXRFSVhmdmdoeDdZa3Iw?=
- =?utf-8?B?UFEyMFZGMXJiU3U3K2FmZm94Wm1aZC9oT01tb2FrOUJ2eTR4M0lDSkF4b3Z1?=
- =?utf-8?B?b3Nla2tkNGJjRmhvVE9SR2c1U0xhYlRFa1M3eXBhaEZ3TmRscDlpTjRsWlA2?=
- =?utf-8?B?S3I5bGFlb1BEMFYxWHZyZC9UWjN3OVNGOGdKZStYanA1eHpUM3BIREVVcGxP?=
- =?utf-8?B?Wk50Wk52RVZ4MGc0cG1kMzduUmIyOVY4aVBGR0dCM3d1WTcxRVluZlNHZnBm?=
- =?utf-8?B?VzVZY0t6SU1odFlZKzlsTC92VWl5aCs5dWRBTzJkZkR2VFhPNW13dXNLMzJH?=
- =?utf-8?B?dENUeW4vdHdsTjFHVGlPeVlpOGlsZnV1S09oNTV1M0ZvdW9oK1VXOFF4UHB4?=
- =?utf-8?B?OXVVMHFSVjREVU9EcXZLM1h3UHcxaUxhU3RYZU80TjRjb2tWcGtpWHEwVEVq?=
- =?utf-8?B?ckdNazJ4SzR0Z2FEdnhSVk1rbllXYW5nOGVrSnd3L0p1NTBOdWs4NTBPMk95?=
- =?utf-8?B?Mklqblp6ZzRMZWtVeWlzQ1VYY2szUStNN1MvY0ZJTFVXQ1NZNlNlRjh0Nk1V?=
- =?utf-8?B?WW9KeGo5dXVlRUtBN0V2NkVJQ1VUVVE0SDFOTVlVYlZYRXhqYXMvbHRoYWlR?=
- =?utf-8?B?akNGbFNrd2IwdXVtLzE5QWlYbEJGWlpmYWtJcUNDWWErVHZTK3J0TW85TUJP?=
- =?utf-8?B?NitmQUtrOTlxSEw1dkhHMk02TUhqK2hwWmNIM1RkVCtWbUtWVTdyN3dBWjZJ?=
- =?utf-8?B?QUdPWDhhd0Y2NzZmeElxNXNuaGozK1lyZDlxV1VRem1uVG5rRy90cGZmWGhz?=
- =?utf-8?B?MEkwUTRUcnVLY0ZLU0ZyKzNjMnNaNHZRNEFYSTl5bFFhYTM1OWFGaUpSVTl6?=
- =?utf-8?B?bU1zTzgvYmtrNElQZXg1cGFqTFNLdnV4blRSdk1jQ0xJUWZxYmNLby9LbWhM?=
- =?utf-8?B?eVRuQ0FUbUJkSGdyV2h4cWtMbWVFb1QxNDdQa1JBaFNhMXdQWGJSSDJTSzFj?=
- =?utf-8?B?UGVUOXVuVTIzdUk5ZmZ4VWs5U3dhNlhFRllpK2lwRzIzWkVJdmMvcFd1YUtj?=
- =?utf-8?B?ZWJOelk2MjF2Z0tSTmdESm1yMW9kQnZPQTRhT1ZVMHVDb1dUQnZCcHdwVnZl?=
- =?utf-8?B?R0ppR21HZ3VPZW5yRHpMa2NucEtBYmd0UE9jREV2bkRpY2FnVTUrYmt1Uisx?=
- =?utf-8?B?RTdzNk9iNEpqSTJ4aURVUzcrQlBUMnVqRm16azdrSTVYSWxLeTg3d2h4QjFh?=
- =?utf-8?B?UVMwKzRya2ZpTHZBV2t1VzRaK0tjQlhDcEZXcjhXWUtoMjdGWXdIVFl0a1dR?=
- =?utf-8?B?clJwd043MXZCRkFieDJSVmU2YXRYZmttbWo4bVZkd29SZURBUEFvNDZsVExh?=
- =?utf-8?B?U2Q5OUJkSXdZc0VBM1l0aXBiaGxHM292OEptR2JwWkxEKzJLK0VlcGU4Z1px?=
- =?utf-8?B?VlVJdFdpd0JHYzg3L0FCV3lucGM2bVJvaDAzSnJ4UWtObTIvOHRLeWt6Wk1P?=
- =?utf-8?B?TmlBUjFNalpYRHgzSnZycUVSL21DbnJOZjVYMjBkZUJOK3g5ZGU4bWNJOHY5?=
- =?utf-8?B?aGJzT1kyVFJuRXBTSnFKZ0dReUg4dXZ3bGhSbnk4bG9nU0VWbll2T2RtNE9o?=
- =?utf-8?B?Q2p6WXMyamRHUjc0elMramJuRG1xNCtVV0dOWXBHLy9iM0FuZ0xBQ2wzTEh6?=
- =?utf-8?Q?Q4O1Iy25YzZYGbF0fhULG7DhQ?=
+	=?us-ascii?Q?2CTy+3xPgFnzqr6KGeoo5ES5Kd5bPbCp0YJrFuYIPVROPRRIrTUw4qN86sEV?=
+ =?us-ascii?Q?zZyN0tDL+joWVbV83QOF5+c6rsTDAqLIyWyX4kIpRqyDIDzMrnKXB1PbFfuJ?=
+ =?us-ascii?Q?coz5z7sGeLUvhioMoKu/oCeSWvZF3XhfYdom3GSpOecB1lL90Ti114ih75/w?=
+ =?us-ascii?Q?gOARoeok9vkW1+r1cQ+5+azd5Zx3dyq6Y42Mp8peIDbMX0U4kQqZgk6SpfX6?=
+ =?us-ascii?Q?xqm+evl2obtiA6Pyr5znI7W3yUUz8PRv26spbI5Wj5TxMxdk9J5dz4AzpGdJ?=
+ =?us-ascii?Q?TKgKHGVrMSH64DL00ETI2Ezr2EBCyyKu8duyK8hajQ9Jx5JoMxSO0i8gF3mJ?=
+ =?us-ascii?Q?ORyWsjzl8bUKIY/Ewlc4JFv26VuLrrdY2bduAjKjYk/M5rmXuq0YraAVyfe1?=
+ =?us-ascii?Q?2YJWpWtiy7cjnuZg8FKR1Vh8gMIj7rjeOYoPyShoRReOvUfYlNE2iNjbc1Wj?=
+ =?us-ascii?Q?c167ar8y0N81uHIn9cteI8sAmS8Ik464usdPyQvQRMsR9zmimZ61GInDEgrq?=
+ =?us-ascii?Q?jtN6quqwrvRiT4hwaFnvNcSEeuCxce+AGUV0De4Bcy5Iw5aGoZ+XoPRO71Vg?=
+ =?us-ascii?Q?I93MZ9MG+DYBdJNUz/X4PQ4nBnIlhueFhuBs1PsCDJAR81GicWbtKux7QK1c?=
+ =?us-ascii?Q?EVlFul/8erV6qmZLEGqgsu3Qcp/6h+qN7yPiGi4U38/JibS3LV6coqXPcqxl?=
+ =?us-ascii?Q?QI+lFlTdnzLv6FZrSFSLPxDLC5CN1PfRdY/eETC5AAZhmq5OzF7eX3m1a7Az?=
+ =?us-ascii?Q?ugglNrbQPvrPPy4mhGj17MhY/YQyn54KE1Cw+wiCvNxESP7d2zZCtezfrteP?=
+ =?us-ascii?Q?aRaTtQAZl8EOjvGnIxn/RihMj43MaqdcHUlqMwBA0U6EtLrbkHxI2qpr/uFA?=
+ =?us-ascii?Q?b7taYr0GEfT5nGE9tdfz1llBs7CGMmz1e/VXWrrL31Xn6UcTSLsXcVIe+YYY?=
+ =?us-ascii?Q?4F+V7bzU0zngalyIQViGBWQZdlWCxOM0Eh3LhS4Of7TEZsIfc6pqrM7Lpewj?=
+ =?us-ascii?Q?1fug6X36kdbDGZ+5C8s8J6M3AzBUMtBZHA6QxtqB+F401uJVNHD7PmfKXX/K?=
+ =?us-ascii?Q?dte+iFelv/UA80xElR9JT1waeB/p6FfWPCYu3VGhNiZgnJ5cNaBUUdybBFKT?=
+ =?us-ascii?Q?allsJdC1+g8jgKZ/LceJLfvddeXahQaSJh3hnQI10brRAwTm4LtDlnefdyT8?=
+ =?us-ascii?Q?X67Jc4c2UuNPT/GUH4mbroZ9UkAzwn5yvWo7G8GgRjRNY8FtbPalremyVNVD?=
+ =?us-ascii?Q?5CFq4kw+zk0WzUv6ohfRi76IC3KsYR9mQ4QIvmiWoTJ4pyo5D4wg7qmoquT6?=
+ =?us-ascii?Q?EdLM736K3IOpsz8m8/HYqGXcd5uy+jIP2haJHyc3ipmNVCNPsqffJTTQHG14?=
+ =?us-ascii?Q?yVbNCjr4Q/tP2dJWTxIhXojDr2YmgiYCY4S+/eBKRhy1IqFP6j7N8gTOEQzd?=
+ =?us-ascii?Q?APhKRbikhqvaeWOHiV1NHYAs+j96t+tZXTXUKKNBz5CdZ34oCp/MKZNpMvIL?=
+ =?us-ascii?Q?eSplHZDiMPDmDiDshagB2zdJqQjtbjBsIt5kIPzyJPKy0RzNtZniIiVdbv1K?=
+ =?us-ascii?Q?6r3vlSm3VUNzJrDIxCARWNrogzaVBO6c+6jhffmY?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	UPLV83nUYukbSxuqcejQiJM4mWFQts3d8FWJo5pAbttOY9sTdYQl2XYBa5oKUVrs9FmGCUdDH3Fys53l+4kV02ZVfoD4vjXMmDDw45eByD02hkju0E1S5wSQ4mMeJ3Kr2XlHBOleZwZ69FWVlneLNugDpDz1Xzi7KOJ3N1LTCGarbMHO774x/LH6wqNhPB56jPmbkL3KT16NgouJ+n3ZUJLe1rbySN7r1ZqzQoZ4CsDgBw2EI05aTMg0P3HopRtDQLpWeFXskWoGQ/htINv9Ke6Wh5Z6urJiCxHrB0SC8y+/8qeZUoFmdkdQVZhtDY2HYGumVeiWzyliq50/+9U64jwZN7jitNL5Wl2uSn8dAMWjRcRgwflUgF7SOvZcSyJxBsxUtQg/97wcNAykw3yTVuvm+Sk+a8ZAN5bixbNdWvD3U9LqeEzqWW4eMcru26EW1a9kIsvBS//HqrhOPmvla0DrvEOv7iPaoLz0NsrG8EE02R/BzjebT3NRapRKzPr3sWnYZnsQokDYJaX2iDhoFag1uBjx5R5oxGFKcyOwUUU15vNbbxzrxlDYazb1PCWOXBbCD30uEnNCNAM2anNW6Y+IkF+E4D42QWR5XVF1XcU=
+	VaqFGoquFhSLYsMaFKt1dP6u178DX5xKz2X1GbuC/CSJH96ru1TW32HSfCF8p/0fHVXf9Z5VAQ+bjy2Hrg6LjHgruwXNHmktMf8XzhH5k9BOzcMPK9U6bRCAFcmr/ojTLA67XsTXEZqhPJAEs771YIK9voBaZUfIbLuG650onWYhGnmqkJz8W5mnz+vB6TzThbeYhOejVRbwelIQnL3abrzy08aKvzEes4MIgDCMP40EB0CQHFmJcB2qc56ZUVfbvJ3w3fUIbIPG0jsJp6rafEehKqEIgHaL0XFREnyzW1mJAfouGatoVdoIkhVE0UXKraJhx0Opf+fOqr2xStVhiMLSKxw5ldt7lv0O2FE6oRDyw6VgYARPt6hjsmWBX2KZahFZt2TPJ4HXKevPkR0knZzrUTjR6Db3x9Zx5n98Ivk6EpudCDY7Ua0ywFTsrO69pXczqlO1tQdqdsCM2DSTSCKhKlk09AupdqA+ek3zCTye2Em3mizSLN6Pccp4tZPPvyGKhyp2lM7lqMvh0YeVXiTB8YRxnrAJ1cdmkmPInSyhuQgj2DBfQiSddi6BDzMdKhmRbrC9XDO2sxuvhpn3u4c5fEUw5mys2VmxX/w+biE=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56e8c5e8-a67d-4a9f-cd90-08dd670351ec
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23fac8fc-aa27-4aad-60df-08dd6709a49b
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2025 16:30:11.4991
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2025 17:15:27.2205
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8SvIwywbKeOleOrQMRZDQNd1R+/NKQzsiQKZKFHftBDqnuOmm0l7mLX24ZpsxljolWo+7BScbfSoCWWNAtKMmQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4500
+X-MS-Exchange-CrossTenant-UserPrincipalName: DyNa8GzYXD+/miJS6QiDdenfy9G1qdlw6mkLA13+zK8tHoDzuhtcr6rn35wii8m5YcXmOn23fI2NJ+d0pFMANw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB7242
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-19_06,2025-03-19_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 mlxscore=0
  adultscore=0 mlxlogscore=999 malwarescore=0 spamscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502280000
- definitions=main-2503190111
-X-Proofpoint-GUID: WZkw61PVj6wEO1q282a2CBmBW6EFqBlG
-X-Proofpoint-ORIG-GUID: WZkw61PVj6wEO1q282a2CBmBW6EFqBlG
+ definitions=main-2503190116
+X-Proofpoint-ORIG-GUID: AcgBQXzxdGE3cUjug7O8R-J3-VwzU5Tw
+X-Proofpoint-GUID: AcgBQXzxdGE3cUjug7O8R-J3-VwzU5Tw
 
-On 3/19/25 11:18, Kris Van Hees wrote:
+From: Eugene Loh <eugene.loh@oracle.com>
 
-> On Wed, Mar 19, 2025 at 10:40:34AM -0400, Kris Van Hees via DTrace-devel wrote:
->> On Wed, Feb 19, 2025 at 11:43:49PM -0500, eugene.loh@oracle.com wrote:
->>> While one can access the BPF stack relative to %r9, the whole
->>> point of DT_TRAMP_SP_SLOT(0) is to make trampoline code more
->>> readable.  So use it.
->>>
->>> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
->> Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
-> Still applies but see below...
->
->>> ---
->>>   libdtrace/dt_prov_uprobe.c | 21 +++++++--------------
->>>   1 file changed, 7 insertions(+), 14 deletions(-)
->>>
->>> diff --git a/libdtrace/dt_prov_uprobe.c b/libdtrace/dt_prov_uprobe.c
->>> index 5d9f74244..f1323cc31 100644
->>> --- a/libdtrace/dt_prov_uprobe.c
->>> +++ b/libdtrace/dt_prov_uprobe.c
->>> @@ -1015,22 +1015,15 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
->>>   	emit(dlp,  BPF_ALU64_IMM(BPF_RSH, BPF_REG_0, 32));
->>>   
->>>   	/*
->>> -	 * Look up in the BPF 'usdt_prids' map.  Space for the look-up key
->>> -	 * will be used on the BPF stack:
->>> -	 *
->>> -	 *     offset                                       value
->>> -	 *
->>> -	 *     -sizeof(usdt_prids_map_key_t)                pid (in %r0)
->>> -	 *
->>> -	 *     -sizeof(usdt_prids_map_key_t) + sizeof(pid_t)
->>> -	 *     ==
->>> -	 *     -sizeof(dtrace_id_t)                         underlying-probe prid
->>> +	 * Look up in the BPF 'usdt_prids' map.  The key should fit into
->>> +	 * trampoline stack slot 0.
->>>   	 */
->>> -	emit(dlp,  BPF_STORE(BPF_W, BPF_REG_9, (int)(-sizeof(usdt_prids_map_key_t)), BPF_REG_0));
->>> -	emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_9, (int)(-sizeof(dtrace_id_t)), uprp->desc->id));
->>> +	assert(sizeof(usdt_prids_map_key_t) <= DT_STK_SLOT_SZ);
->>> +	emit(dlp,  BPF_STORE(BPF_W, BPF_REG_FP, DT_TRAMP_SP_SLOT(0), BPF_REG_0));
->>> +	emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_FP, DT_TRAMP_SP_SLOT(0) + sizeof(pid_t), uprp->desc->id));
-> I get a compiler warning here:
->
-> libdtrace/dt_prov_uprobe.c: In function â?~trampolineâ?T:
-> include/bpf_asm.h:119:24: warning: overflow in conversion from â?~long unsigned intâ?T to â?~short intâ?T changes value from â?~18446744073709551524â?T to â?~-92â?T [-Woverflo]
->    119 |                 .off = (ofs),                                           \
->        |                        ^
-> libdtrace/dt_as.h:42:69: note: in definition of macro â?~emitleâ?T
->     42 |                  dt_irnode_t *dip = dt_cg_node_alloc((lbl), (instr)); \
->        |                                                              ^~~~~
->
-> libdtrace/dt_prov_uprobe.c:1013:9: note: in expansion of macro â?~emitâ?T
->   1013 |         emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_FP, DT_TRAMP_SP_SLOT(0) + sizeof(pid_t), uprp->desc->id));
->        |         ^~~~
-> libdtrace/dt_prov_uprobe.c:1013:20: note: in expansion of macro â?~BPF_STORE_IMMâ?T
->   1013 |         emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_FP, DT_TRAMP_SP_SLOT(0) + sizeof(pid_t), uprp->desc->id));
->
-> You need a (int) cast for sizeof(pid_t) similar to the casts that were in
-> the code before.  I'll add it in as I merge.
+Various tests convert run-dependent values -- like PIDs and probe IDs
+-- to run-independent strings before checking against their .r results
+files.  But the conversions could be remarkably sensitive to the width
+of probe IDs.  E.g., some conversions assumed probe IDs were flush with
+the beginning of the line, but if they were narrower they were preceded
+by white space and were not detected.  E.g., this happened in recent fbt
+work, where probe IDs for fbt probes became much smaller in value.
 
-Thanks.  Might this correction already be in the 2/2 patch?  (Not that 
-that's the right place for it, but...)
+Also, these conversions were being carried out by a hodgepodge of scripts
+-- sed, awk, and grep;  some using run-independent strings like "NNN" or
+"XXXX" instead of more informative "PID" and "PRID" strings;  some
+incorrectly using "PID" for PRIDs, etc.
 
->>>   	dt_cg_xsetx(dlp, usdt_prids, DT_LBL_NONE, BPF_REG_1, usdt_prids->di_id);
->>> -	emit(dlp,  BPF_MOV_REG(BPF_REG_2, BPF_REG_9));
->>> -	emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, (int)(-sizeof(usdt_prids_map_key_t))));
->>> +	emit(dlp,  BPF_MOV_REG(BPF_REG_2, BPF_REG_FP));
->>> +	emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, DT_TRAMP_SP_SLOT(0)));
->>>   	emit(dlp,  BPF_CALL_HELPER(BPF_FUNC_map_lookup_elem));
->>>   	emit(dlp,  BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_0, 0, lbl_exit));
->>>   
->>> -- 
->>> 2.43.5
->>>
->>>
->> _______________________________________________
->> DTrace-devel mailing list
->> DTrace-devel@oss.oracle.com
->> https://oss.oracle.com/mailman/listinfo/dtrace-devel
+Replace these .r.p postprocessing scripts with a single script that is
+more resilient to PRID widths and is commented.
+
+Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+---
+ test/unittest/usdt/convert_PID_and_PRID.awk   | 20 +++++++++++++++++
+ test/unittest/usdt/err.argmap-null.r          |  2 +-
+ test/unittest/usdt/err.argmap-null.r.p        |  3 +--
+ test/unittest/usdt/tst.dlclose1.r             |  8 +++----
+ test/unittest/usdt/tst.dlclose1.r.p           | 13 +----------
+ test/unittest/usdt/tst.enable_pid.r           | 22 +++++++++----------
+ test/unittest/usdt/tst.enable_pid.r.p         |  8 +------
+ test/unittest/usdt/tst.exec-dof-replacement.r |  2 +-
+ .../usdt/tst.exec-dof-replacement.r.p         |  3 +--
+ .../usdt/tst.multiprov-dupprobe-fire.r.p      |  3 +--
+ test/unittest/usdt/tst.multiprov-dupprobe.r.p |  6 +----
+ test/unittest/usdt/tst.multiprovider-fire.r.p |  3 +--
+ test/unittest/usdt/tst.multiprovider.r.p      |  6 +----
+ 13 files changed, 44 insertions(+), 55 deletions(-)
+ create mode 100755 test/unittest/usdt/convert_PID_and_PRID.awk
+ mode change 100755 => 120000 test/unittest/usdt/err.argmap-null.r.p
+ mode change 100755 => 120000 test/unittest/usdt/tst.dlclose1.r.p
+ mode change 100755 => 120000 test/unittest/usdt/tst.enable_pid.r.p
+ mode change 100755 => 120000 test/unittest/usdt/tst.exec-dof-replacement.r.p
+ mode change 100755 => 120000 test/unittest/usdt/tst.multiprov-dupprobe-fire.r.p
+ mode change 100755 => 120000 test/unittest/usdt/tst.multiprov-dupprobe.r.p
+ mode change 100755 => 120000 test/unittest/usdt/tst.multiprovider-fire.r.p
+ mode change 100755 => 120000 test/unittest/usdt/tst.multiprovider.r.p
+
+diff --git a/test/unittest/usdt/convert_PID_and_PRID.awk b/test/unittest/usdt/convert_PID_and_PRID.awk
+new file mode 100755
+index 000000000..1dbb31301
+--- /dev/null
++++ b/test/unittest/usdt/convert_PID_and_PRID.awk
+@@ -0,0 +1,20 @@
++#!/usr/bin/gawk -f
++
++# ignore the banner
++/^ *ID *PROVIDER *MODULE *FUNCTION *NAME *$/ { next; }
++
++# process other lines
++{
++	# convert run-dependent PID values to "PID"
++	$0 = gensub("prov([abc]?)[0-9]+", "prov\\1PID", "g");
++	sub("pid [0-9]+", "pid PID");
++
++	# convert run-dependent probe ID values to "PRID"
++	sub("^ *[0-9]+", "PRID");
++
++	# squash blanks
++	gsub(" +", " ");
++
++	# print
++	print;
++}
+diff --git a/test/unittest/usdt/err.argmap-null.r b/test/unittest/usdt/err.argmap-null.r
+index 215475e39..97b1850de 100644
+--- a/test/unittest/usdt/err.argmap-null.r
++++ b/test/unittest/usdt/err.argmap-null.r
+@@ -1,2 +1,2 @@
+ -- @@stderr --
+-dtrace: failed to compile script test/unittest/usdt/err.argmap-null.d: line 24: index 0 is out of range for test_provXXXX:::place4 args[ ]
++dtrace: failed to compile script test/unittest/usdt/err.argmap-null.d: line 24: index 0 is out of range for test_provPID:::place4 args[ ]
+diff --git a/test/unittest/usdt/err.argmap-null.r.p b/test/unittest/usdt/err.argmap-null.r.p
+deleted file mode 100755
+index c575983ad..000000000
+--- a/test/unittest/usdt/err.argmap-null.r.p
++++ /dev/null
+@@ -1,2 +0,0 @@
+-#!/bin/sed -rf
+-s,test_prov[0-9]*,test_provXXXX,g; s,^ *[0-9]+, XX,g;
+diff --git a/test/unittest/usdt/err.argmap-null.r.p b/test/unittest/usdt/err.argmap-null.r.p
+new file mode 120000
+index 000000000..11a06e058
+--- /dev/null
++++ b/test/unittest/usdt/err.argmap-null.r.p
+@@ -0,0 +1 @@
++convert_PID_and_PRID.awk
+\ No newline at end of file
+diff --git a/test/unittest/usdt/tst.dlclose1.r b/test/unittest/usdt/tst.dlclose1.r
+index 7873cb51f..70bb50d76 100644
+--- a/test/unittest/usdt/tst.dlclose1.r
++++ b/test/unittest/usdt/tst.dlclose1.r
+@@ -1,6 +1,4 @@
+-started pid NNN
+- ID PROVIDER MODULE FUNCTION NAME
+-NNN test_provNNN livelib.so go go
+- ID PROVIDER MODULE FUNCTION NAME
++started pid PID
++PRID test_provPID livelib.so go go
+ -- @@stderr --
+-dtrace: failed to match test_provNNN:::: No probe matches description
++dtrace: failed to match test_provPID:::: No probe matches description
+diff --git a/test/unittest/usdt/tst.dlclose1.r.p b/test/unittest/usdt/tst.dlclose1.r.p
+deleted file mode 100755
+index 85725f3bb..000000000
+--- a/test/unittest/usdt/tst.dlclose1.r.p
++++ /dev/null
+@@ -1,12 +0,0 @@
+-#!/usr/bin/gawk -f
+-{
+-	# ignore the specific probe ID or process ID
+-	# (the script ensures the process ID is consistent)
+-	gsub(/[0-9]+/, "NNN");
+-
+-	# ignore the numbers of spaces for alignment
+-	# (they depend on the ID widths)
+-	gsub(/ +/, " ");
+-
+-	print;
+-}
+diff --git a/test/unittest/usdt/tst.dlclose1.r.p b/test/unittest/usdt/tst.dlclose1.r.p
+new file mode 120000
+index 000000000..11a06e058
+--- /dev/null
++++ b/test/unittest/usdt/tst.dlclose1.r.p
+@@ -0,0 +1 @@
++convert_PID_and_PRID.awk
+\ No newline at end of file
+diff --git a/test/unittest/usdt/tst.enable_pid.r b/test/unittest/usdt/tst.enable_pid.r
+index 675fcdd6f..9241202d7 100644
+--- a/test/unittest/usdt/tst.enable_pid.r
++++ b/test/unittest/usdt/tst.enable_pid.r
+@@ -1,14 +1,14 @@
+-                   FUNCTION:NAME
+-                        :tick-1s 
++ FUNCTION:NAME
++ :tick-1s 
+ 
+-                   FUNCTION:NAME
+-                        :tick-1s 
++ FUNCTION:NAME
++ :tick-1s 
+ 
+-                   FUNCTION:NAME
+-                        :tick-1s 
++ FUNCTION:NAME
++ :tick-1s 
+ 
+-                   FUNCTION:NAME
+-                        :tick-1s 
++ FUNCTION:NAME
++ :tick-1s 
+ 
+ done
+ ========== out 1
+@@ -39,7 +39,7 @@ is not enabled
+ === epoch ===
+ success
+ -- @@stderr --
+-dtrace: description 'test_provNNN:::go ' matched 1 probe
+-dtrace: description 'test_provNNN:::go ' matched 2 probes
+-dtrace: description 'test_provNNN:::go ' matched 2 probes
++dtrace: description 'test_provPID:::go ' matched 1 probe
++dtrace: description 'test_provPID:::go ' matched 2 probes
++dtrace: description 'test_provPID:::go ' matched 2 probes
+ dtrace: description 'test_prov*:::go ' matched 3 probes
+diff --git a/test/unittest/usdt/tst.enable_pid.r.p b/test/unittest/usdt/tst.enable_pid.r.p
+deleted file mode 100755
+index baf9d2a90..000000000
+--- a/test/unittest/usdt/tst.enable_pid.r.p
++++ /dev/null
+@@ -1,7 +0,0 @@
+-#!/usr/bin/awk -f
+-{
+-	# ignore the specific process ID
+-	gsub(/test_prov[0-9]+/, "test_provNNN");
+-
+-	print;
+-}
+diff --git a/test/unittest/usdt/tst.enable_pid.r.p b/test/unittest/usdt/tst.enable_pid.r.p
+new file mode 120000
+index 000000000..11a06e058
+--- /dev/null
++++ b/test/unittest/usdt/tst.enable_pid.r.p
+@@ -0,0 +1 @@
++convert_PID_and_PRID.awk
+\ No newline at end of file
+diff --git a/test/unittest/usdt/tst.exec-dof-replacement.r b/test/unittest/usdt/tst.exec-dof-replacement.r
+index 7547f85e5..226ab7c8a 100644
+--- a/test/unittest/usdt/tst.exec-dof-replacement.r
++++ b/test/unittest/usdt/tst.exec-dof-replacement.r
+@@ -1 +1 @@
+-PID test_prov test2 main succeeded
++PRID test_provPID test2 main succeeded
+diff --git a/test/unittest/usdt/tst.exec-dof-replacement.r.p b/test/unittest/usdt/tst.exec-dof-replacement.r.p
+deleted file mode 100755
+index 1a5871f73..000000000
+--- a/test/unittest/usdt/tst.exec-dof-replacement.r.p
++++ /dev/null
+@@ -1,2 +0,0 @@
+-#!/bin/sh
+-grep -v '^ *ID' | sed 's,^[0-9]*,PID,; s,prov[0-9]*,prov,g; s,  *, ,g'
+diff --git a/test/unittest/usdt/tst.exec-dof-replacement.r.p b/test/unittest/usdt/tst.exec-dof-replacement.r.p
+new file mode 120000
+index 000000000..11a06e058
+--- /dev/null
++++ b/test/unittest/usdt/tst.exec-dof-replacement.r.p
+@@ -0,0 +1 @@
++convert_PID_and_PRID.awk
+\ No newline at end of file
+diff --git a/test/unittest/usdt/tst.multiprov-dupprobe-fire.r.p b/test/unittest/usdt/tst.multiprov-dupprobe-fire.r.p
+deleted file mode 100755
+index bdbce0189..000000000
+--- a/test/unittest/usdt/tst.multiprov-dupprobe-fire.r.p
++++ /dev/null
+@@ -1,2 +0,0 @@
+-#!/bin/sh
+-sed 's,prov\(.\)[0-9]*,prov\1PID,; s,  *, ,g'
+diff --git a/test/unittest/usdt/tst.multiprov-dupprobe-fire.r.p b/test/unittest/usdt/tst.multiprov-dupprobe-fire.r.p
+new file mode 120000
+index 000000000..11a06e058
+--- /dev/null
++++ b/test/unittest/usdt/tst.multiprov-dupprobe-fire.r.p
+@@ -0,0 +1 @@
++convert_PID_and_PRID.awk
+\ No newline at end of file
+diff --git a/test/unittest/usdt/tst.multiprov-dupprobe.r.p b/test/unittest/usdt/tst.multiprov-dupprobe.r.p
+deleted file mode 100755
+index 5d11db2d4..000000000
+--- a/test/unittest/usdt/tst.multiprov-dupprobe.r.p
++++ /dev/null
+@@ -1,5 +0,0 @@
+-#!/bin/sh
+-
+-# Remove banner.
+-# Replace numerical values with generic PRID and PID labels.
+-grep -v '^ *ID' | sed 's,^[0-9][0-9]*,PRID,; s,prov\(.\)[0-9]*,prov\1PID,; s,  *, ,g'
+diff --git a/test/unittest/usdt/tst.multiprov-dupprobe.r.p b/test/unittest/usdt/tst.multiprov-dupprobe.r.p
+new file mode 120000
+index 000000000..11a06e058
+--- /dev/null
++++ b/test/unittest/usdt/tst.multiprov-dupprobe.r.p
+@@ -0,0 +1 @@
++convert_PID_and_PRID.awk
+\ No newline at end of file
+diff --git a/test/unittest/usdt/tst.multiprovider-fire.r.p b/test/unittest/usdt/tst.multiprovider-fire.r.p
+deleted file mode 100755
+index bdbce0189..000000000
+--- a/test/unittest/usdt/tst.multiprovider-fire.r.p
++++ /dev/null
+@@ -1,2 +0,0 @@
+-#!/bin/sh
+-sed 's,prov\(.\)[0-9]*,prov\1PID,; s,  *, ,g'
+diff --git a/test/unittest/usdt/tst.multiprovider-fire.r.p b/test/unittest/usdt/tst.multiprovider-fire.r.p
+new file mode 120000
+index 000000000..11a06e058
+--- /dev/null
++++ b/test/unittest/usdt/tst.multiprovider-fire.r.p
+@@ -0,0 +1 @@
++convert_PID_and_PRID.awk
+\ No newline at end of file
+diff --git a/test/unittest/usdt/tst.multiprovider.r.p b/test/unittest/usdt/tst.multiprovider.r.p
+deleted file mode 100755
+index 5d11db2d4..000000000
+--- a/test/unittest/usdt/tst.multiprovider.r.p
++++ /dev/null
+@@ -1,5 +0,0 @@
+-#!/bin/sh
+-
+-# Remove banner.
+-# Replace numerical values with generic PRID and PID labels.
+-grep -v '^ *ID' | sed 's,^[0-9][0-9]*,PRID,; s,prov\(.\)[0-9]*,prov\1PID,; s,  *, ,g'
+diff --git a/test/unittest/usdt/tst.multiprovider.r.p b/test/unittest/usdt/tst.multiprovider.r.p
+new file mode 120000
+index 000000000..11a06e058
+--- /dev/null
++++ b/test/unittest/usdt/tst.multiprovider.r.p
+@@ -0,0 +1 @@
++convert_PID_and_PRID.awk
+\ No newline at end of file
+-- 
+2.43.5
+
