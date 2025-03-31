@@ -1,77 +1,80 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B871C84B6
-	for <dtrace@lists.linux.dev>; Mon, 31 Mar 2025 21:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B252921B9FC
+	for <dtrace@lists.linux.dev>; Mon, 31 Mar 2025 21:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743457508; cv=fail; b=LqV/ejJUalhoMqhfQJZ7nHBLW2hp8MrhszZe2u5TR1d4g0yLPwjql/qQLDbH3n9jQjHDErvKPpY7BapAwf0rS6n8yBf/PpNvOv2lusx1MXo3ALszcLuU2T43oa+fsH8SzrhJQ3PHkV3Xf9otEzhx8fpl6V1ByjdR+YHNC86ybrU=
+	t=1743457510; cv=fail; b=Mx4nrFIxYXSZ+HT7f+k3H45wyyNEgrZQiNjxeKFnMmflmBxdpj6Do6zqY68CizmS0vO3I0ugO6SALIBLXwQ2rn+zQhczBnf3PflzQyfg5c2byZEvGz2E3xfff4Lv5okSpb66llW15jncXx+BQk+78ZVD8jbxee7Ofd8RBepO+RY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743457508; c=relaxed/simple;
-	bh=hc4NfxUCQzv6xn+4BJ4Sv2/AhbUdEChDRos63Cwuwzs=;
-	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=kcuUDcWTbhmBgd8w1wgIeKmeBXTda0Zot1gbWE4lqWeHpsw9YRSPQ8vM5VGb7ZGkLdKFuo4ZgVcBdLV8JtR/eK81vd2ihDSA/9VwkMSUq8EFCA+bq09/d/p2A8gamNBDzX1gXs8hhjanriAlFBCai4UdbtTQgSWKYCZ9bhFl9zY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=cH/ig++o; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=gTNQNM8Q; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1743457510; c=relaxed/simple;
+	bh=6yfyGSqAYCC11LuGp64mK1jE7BchF6C938BerRpfbI8=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gDB4ee39IwtQWvSIcTBO9TfeMsivHVPZWKglQbazQdmEf/q4WZ8e4zhgmJcs+sot3KUdzzi2t7Yife9Vgi+pRyfuebLhZVonBjgP5JjTRiXSeO0S/7OynH/Va26cntU4xILE7YR1t2o5dSnPI8/jfedj5DahzdGeJ48ZsZFpJvc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=iqlyLxOp; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=zOoWPBv0; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="cH/ig++o";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="gTNQNM8Q"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52VLBuM8025014
-	for <dtrace@lists.linux.dev>; Mon, 31 Mar 2025 21:45:06 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="iqlyLxOp";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="zOoWPBv0"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52VLBtJc005591
+	for <dtrace@lists.linux.dev>; Mon, 31 Mar 2025 21:45:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-type:date:from:message-id:mime-version:subject:to; s=
-	corp-2023-11-20; bh=zJYb8NX8P6IQRxsFvO9Bg0uP6ajRO5ZCi0fpPgUH0GE=; b=
-	cH/ig++oGqnKeZkVtLkAikcsS6gnlG/cszl6JwXjRCpV0neNgOWHMcYhSghV90mN
-	WEJm6mw9KAeng/NQfJtH/bdDAEdnyE1/faS6ir5JkicBZzBlw25RdA1FIWxqgqUa
-	N8HxJ1Mc4sBatHsSM+SlgpxH5gGBJ5xHHUsijaSxpbW2vqVpQp1SOfIAKdOJeFy9
-	RpXhNDOPvrOlzGoq2gkRHArNrZwtLfqI6EH8ILR9/a7MXJ8ZiqnrrJ5zU2eCRnPj
-	y8LX/2WcmsCZzyzHGLZCVHEX1CvoMdQ6VY9EirgTkH0mAN5lyzA+ph6PsYm8nHmn
-	jTf7gxZCtBm+6AMm8FZ0pA==
+	content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2023-11-20; bh=Hl2PiwBADvjOt729Wf
+	+Er8vIM+ib/XzgbgBIXn0rM/I=; b=iqlyLxOpZ/hcW5pHnajPJfPc4rqztHCVpf
+	zDulDe+7zGBpwJSzE1wpsFuPPcYz4g7vkD29RYBfwjsThI+RKDgDg8rL0yZ1O69R
+	XGz7lsoEfHu0IWb5M/X3Li2TAzcQOcID1yul4ozcx8P2O14slFxsvnLlv6oiHeL8
+	Z2mw+GmK8q2neAk7b6nvfs85Ja7/W7UyysQS+SX0oXOkpB0aGSAEFf8HiWCSN7EH
+	rBC8IJ/Ilh/ZHVhLH7e+FEgia0K/M0ulthOyAq8E5GsLx2eIJ8z6NvI1Ijqh3oQ1
+	IY2HPSVnjDUUkBR9Suj47mVwWXFVBSICRHYLrdH6xPWV97pN3A9Q==
 Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 45p7f0c6m5-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 45p7n247xe-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 31 Mar 2025 21:45:05 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Mon, 31 Mar 2025 21:45:07 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 52VKARcW003379
-	for <dtrace@lists.linux.dev>; Mon, 31 Mar 2025 21:45:05 GMT
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 52VKARcY003379
+	for <dtrace@lists.linux.dev>; Mon, 31 Mar 2025 21:45:06 GMT
 Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2171.outbound.protection.outlook.com [104.47.57.171])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 45p7a86r65-2
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 45p7a86r65-4
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 31 Mar 2025 21:45:05 +0000
+	for <dtrace@lists.linux.dev>; Mon, 31 Mar 2025 21:45:06 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hSCCIoKSQF8j2Orc+w57VnTYG71smhoI2RS2XbIqSpwKFxoIvXG+6pfZyZx7/yLoNfFX20cTFwsSGVpBeyRfXYIW64+Dh+CL2q7zKagOAT97Ima8BJxK+bCLo1ipIEyuXO+3166+Tt5TvftLDDI8qozyXl21YSw+XUl1lEIDhygwza3wSYieHVPV1Cr71X4QDGb1hK+bgqPDwnTmEDGlqQDmoHKfdvrANBSwRtg6a04P+VzO3CQnEFn+YSk7hZ1FDawDL3vQAtr/HpQdmnNlzOpCiZ4OqVVgqhmY0CAsXN1QNOaUcSx1hQx/llR+bfaCifzWMEa+hTXfV+VuBZRs8Q==
+ b=Rwo3hCI+2blr35i5xZeIwdLY8tJK6j22pNKnbDjXvRRP32d0PQIOrwOpnOVkh4Z3VXA/kYglajhZDezB6E/uVF7A/X4TTbTmpvIzomyxeoFxB/eMzcGgHstGQLjRQlMO3dAq8/cc/gTneipB+CitiIPC+LtLrn7onDuGlxO6XnAfSte7mQdQBIgo+gnovvASTfBH2waFiNAZyDmh8aE4pXJ8BMu/UqPTlji9kR8ffQe9mwH6r8FTh1cad5chlhDstIy1LpDJaAK+71qJ7WIaiCwt41cT5gE1uFNVLT/6G4Yzdw5yZowQO+J4YjL4ABwCW8hrizGX4h3cNXzMs1odRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zJYb8NX8P6IQRxsFvO9Bg0uP6ajRO5ZCi0fpPgUH0GE=;
- b=SE7QwwnUyrWZfrPikgvCDT01gF82kHQ7wDGWV9ZnQ6sXLiUY3YFHpo9o+nSHqRBs7bbkjNJy7IRTpfpSylopcUE9WOGeuihnZAmWv2A5392jUm2x6trTPpkiVxgOVWBaK7mZ6XUsTitlsmS0Q9O09UKxr3pyrpj6QbCmQON3YQ0ZOj4KbZliWQ/o1BoKfBvmKv6tYcngjp6Il2iR+ufaE9N9v66UCPHlU0P2NC5msk49L3gcit1Jb+bXeb5D4QIuAk7BGODA/TAaTMdrVzOmuwRGjMj4bENADGOC70x2mAZTIFjGnR/LXZB9pPg/gooNSiCuREJJIQzU0EO9bkw6rQ==
+ bh=Hl2PiwBADvjOt729Wf+Er8vIM+ib/XzgbgBIXn0rM/I=;
+ b=qKOD75KwlVAo25RjaKon6r0CDUMgsJJ70VM4zw+ELg/wfhSYBCv91gZ4llp1dFU/8MF0hY4vBauZUknRg4QQKyOY9wxMgrMDz5GFH5QGWzd4v/Am99fRhSnyNpWEshAw2qZ7MhVO1wdlKyRwLuanapX6SkNuy79Y70mlVLDctyN2zun7oXVNqepzV53m89aS6X+mtH+SDklpA5viBHRWQ7Uhfblqssqk6gX3pD5g5B2faMQd1KH95Z6sf85HPOdSWD7RVkUSQZMy8PffSwLX79ph93Fx90cCD4CTMuBboIYFCPBd03ATm0/BDasNJZrF1OXxvVhghUMqACPee8i17Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zJYb8NX8P6IQRxsFvO9Bg0uP6ajRO5ZCi0fpPgUH0GE=;
- b=gTNQNM8QCGjxypWwaMKe982qV2aCuPIvNlTAxq0GdWsTSFL3lGbBj4HyanqEAHVX9NxyUgWS3Lj95trAVq7Uc3SWOZgT07L1/ujZ5WMAuUnGhiy5U5604f8OUCLOK/UG//NzzBV1rlCHklRjn0uhz+agxmyxwQE9WD0cGKzqD0A=
+ bh=Hl2PiwBADvjOt729Wf+Er8vIM+ib/XzgbgBIXn0rM/I=;
+ b=zOoWPBv0nV2M/5bUZCQBAwJ5g5ZBJGMr62AGl18QqgJTtrvHEPM+6/RHcZ5u/1hL+mZb0gpmcuT+uZ31i2EJF1v76GdHsmsJlOJ17vgy89jTrNYTCTvXBWqcmNIrfxzbEZTmZeR6wN84u058zMEkI1hj7Nv4I6LKMFxihAiIj88=
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
  by CY8PR10MB6537.namprd10.prod.outlook.com (2603:10b6:930:5b::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8583.38; Mon, 31 Mar
- 2025 21:45:02 +0000
+ 2025 21:45:04 +0000
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69%5]) with mapi id 15.20.8534.043; Mon, 31 Mar 2025
- 21:45:02 +0000
+ 21:45:04 +0000
 From: eugene.loh@oracle.com
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH 1/2] Add a cpuinfos BPF map
-Date: Mon, 31 Mar 2025 17:45:00 -0400
-Message-Id: <20250331214501.24126-1-eugene.loh@oracle.com>
+Subject: [PATCH 2/2] Clean up sched provider trampoline FIXMEs
+Date: Mon, 31 Mar 2025 17:45:01 -0400
+Message-Id: <20250331214501.24126-2-eugene.loh@oracle.com>
 X-Mailer: git-send-email 2.18.4
+In-Reply-To: <20250331214501.24126-1-eugene.loh@oracle.com>
+References: <20250331214501.24126-1-eugene.loh@oracle.com>
 Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0027.namprd05.prod.outlook.com
- (2603:10b6:a03:33b::32) To CO6PR10MB5636.namprd10.prod.outlook.com
+X-ClientProxiedBy: SJ0PR13CA0199.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c3::24) To CO6PR10MB5636.namprd10.prod.outlook.com
  (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -81,79 +84,79 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|CY8PR10MB6537:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2952d429-0cef-4476-5d36-08dd709d4ad1
+X-MS-Office365-Filtering-Correlation-Id: 108559fd-5d6a-4e7b-9bdb-08dd709d4bc7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?AN486bZg8RFlXdfsRgtj5nS5DmPv6ey6EdJf6QrFNR9d2ipZuRHiyUm9pWIT?=
- =?us-ascii?Q?bfiZsHpq+PRTJZcubt+bDEBp3LnLTUZqTayytwSwPANtX5cS6ZyRXMkLNwAN?=
- =?us-ascii?Q?6azKXOp84DqfmWnMEueyqJbuklOeQyzkX6QeFzYa4RXsdsJJqtQ/fgIhXR9L?=
- =?us-ascii?Q?v9TFW88JzySfpR+aOUpoLRkntPriN9q3R05JcJuFDoec7agwgSF4HDx41DhI?=
- =?us-ascii?Q?heSEbpHKYEoWk+T2Av/zSUfvCxJIPkEJHV9nL1Z2nRmbhtE/XKNcySSA8NtU?=
- =?us-ascii?Q?3PuWDf8Un4Xqor7YPGYjDxBdnwKCSnaTN/i4yuc0qWXQLt/AAsYFFS+LE8Sv?=
- =?us-ascii?Q?gPXEz2YY3T2h/91ILA4H/cg/W/8WkoAz9NVi3kksmktwVfTlQlCC5poRMfwL?=
- =?us-ascii?Q?mYccpB8s1v7d1H4bF8pEiv2zBoX4cx39VSEUFPKzu3DCqrlyX0eZ4YS9wn/5?=
- =?us-ascii?Q?CIVM001wcF3ly4E673PMzwUKb4JXBFTbg3A+CF0n1Mp5SgUDEKWFIhlfR8c+?=
- =?us-ascii?Q?QLTwSZ9EtSTMMXpb4zsKhb+TIfF+nKpyD7IVqWodnVWhTr0UvG2Mc0XLzoHd?=
- =?us-ascii?Q?ncN0GBqyqEwWXx7gceKZg8aAc1B0piHUj4cERNhJlCknPbSBHNbougoovEn3?=
- =?us-ascii?Q?f/lEFl5aDjNKWXmKkeJ/RCF1ATebUPbLcG2KYewWuiC/a7ukSJa/XKkGR4Ut?=
- =?us-ascii?Q?KsSZssvPzdVCO0ULtmPXCmSzSU/kGPB8uAdMCLkY6pqcyplbjtTSQnZfZVz6?=
- =?us-ascii?Q?sWrRktGVR7fLs3MEnJs//iHzO0cc3ftCAopxxpr+T/Ke8c8P+tfW9LdgtwbL?=
- =?us-ascii?Q?sF73tdC2Y61jC0bMq+Uj23lZBfTnPVPSGn7JAPaPACnYRqdDUQx6dXZpIY57?=
- =?us-ascii?Q?9A2QuLoaAZsFWA4bEBEd/3pKkKqoNNZjhpk3vrnGFYjiiIHKLAAP2gQ5kMey?=
- =?us-ascii?Q?iECWYgMVqMXwfY3s4Z43gHPgT75U7MQuq89YoNJyvKVM24d3ZDqEeW6Gh+uK?=
- =?us-ascii?Q?hMV4j7lwI9s19ZRzRlgddwWxN656zhxccsrblvryPCyuGA41TDkoobjwYEc9?=
- =?us-ascii?Q?UQgYDWmIM7OfGCR+mLRLNS2ub0zHRpYFSmaK6aCh0r6uHzgoFgkE80Fi26R5?=
- =?us-ascii?Q?XHyTiZw20qN2H3UmC33eI2z+llyZP1nl5+Hab6COvRbvvxkwZ25mWevulUGO?=
- =?us-ascii?Q?tOFlOgjAg8BVUOVSS3H0e+QpMuChGnaZ9KaieEuyCh140mR4IAFZc8ccuPeg?=
- =?us-ascii?Q?qTyHXliA68RUMKjsJy23pKwtHJSz8i0Z6Nt+vZlvzt1RiP+mLWQnF649oQiM?=
- =?us-ascii?Q?mBk3lPF1KbWZ9OvxQKnuaa7tmAFMGBcFQzYnGZQZcVAtlC2jWkFTj9kuNk7w?=
- =?us-ascii?Q?woRkkjUNKqKWYNVwiA9fQi/qBHtm?=
+	=?us-ascii?Q?rFtBLrW+9ITRp6KB5TIvfziLcIlV5PI6FmACYeKGc1ccm5eF3c6nQU9ABmNn?=
+ =?us-ascii?Q?5BQbTcScWon5/BoWW42AS9c9OHBpqPRQusnxpno90gbLI1hg1ZnneF/gnKeH?=
+ =?us-ascii?Q?1fWAcLbM1s1+2nZXpTNHcsIkaqbKs7K2KhRmCh60CbjPl2kTGlilzJSi9eDN?=
+ =?us-ascii?Q?VUS5M/8IbPApaHFHofwvgTG/U9g7OZ9N+oC2GlilR6apFFRtlVxMsm/IAmQ5?=
+ =?us-ascii?Q?HpZdsyULNKCd4NlQZ7YRyUsP1dOrVMOioMCQgRxk/Q+3N7pER7xkR6P/EMzj?=
+ =?us-ascii?Q?WpPKn9p+9bDJD7Gb2MtdasLMsku4+qsdM/Caigwxb+KE6sZSrlxgR6CNXk9c?=
+ =?us-ascii?Q?rPfcmC3ufr4hnrGRZW8HDqmbnJKmX/e1AY9kJcslrJthjcAcjFsy3qaSlggC?=
+ =?us-ascii?Q?6URH9CtVnF5y5UhrFwDgQon4ueVjjwEapWM9G6JO8oAJ+7YufNUHbLpK3gay?=
+ =?us-ascii?Q?WhtU9IkpSp7Xp/qbHG/WtyZaRdnezqzMMapYQZFeQh9yirSD6fhIub3hupWn?=
+ =?us-ascii?Q?QANOtSBc1+bbq673w3yjLGgiTE7hWytacuhaNRjTwF8YaEBapIc0XuINQTlw?=
+ =?us-ascii?Q?rvtSVJtQX+mVgqJgYmJCSwmuprI483CShC9is+s8ZFwQvAh4S75GXuB1MNSw?=
+ =?us-ascii?Q?v04jJ2kVLKJS5Lp8xql/BDK095g4tmNbefLSNCAAN+rgjDtPKQ2T6fShQv9R?=
+ =?us-ascii?Q?oH7Rs5GFqy4LEPmIRoPJ/CoGToUGz/2s0MiVK+D+GbwGPDIM4mRtNm8+vgQg?=
+ =?us-ascii?Q?45/ssIay6rqonWASb0LTOxn7eB36BAxoZ3KNpRMjRdNfN1NdBaD0klyFSy7f?=
+ =?us-ascii?Q?/XMuaz1WgYoXc+Qbrh+/Mz+l3BLImLAV4c/bMzeiNDJMH+EyLr9os2JTbyUt?=
+ =?us-ascii?Q?HbvoH9/MkPf/cjX4b96Ji78E6ZezCzkbkZoRnkIiWa2NHFS0TlCMfPp4KQIj?=
+ =?us-ascii?Q?vxeeOzQHGFMVy5zsT04KblL1dgRh4L85UlWJg/IBa001IcuNZpiVVRZuofld?=
+ =?us-ascii?Q?Mhk2hRfDO/1ldzYcJ4Fw9L1HwQ75HLmWsNzgJeutXkPQNWaxl2ootVPYNzJb?=
+ =?us-ascii?Q?C6fNxdmVw7hyLE6zgs1I8qzEhKA3bO4tDqAoTVRFj+hPVh8twIawIitNuRzm?=
+ =?us-ascii?Q?hTJdPwV6c2bIdkzezMXtB/mheRlcdlMrb2lcXRcqyGNmt6LIkL8o0wy8OXzb?=
+ =?us-ascii?Q?MxkYFAbtVPbM5faa+b/IAFqj5ghV8vvcim/4RblMwq/kRqyKR9+alVKlgd2N?=
+ =?us-ascii?Q?hoDHvyMNe5QrMh0uArgr5Zyl4wPwe3Y8hE45fIQxgGtZ9LPd3hZBCkD+D7Fl?=
+ =?us-ascii?Q?lQlgWVOcJaFeV3Ncde+/8+a0hmOIFrcI4vjgxm/H+avtjkyl1TL3i0YWer1r?=
+ =?us-ascii?Q?8DY0pAFD1HAvg7utKIq8TxrPUcO8?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7Nxp8qPsCoXCE3VaVOBiGUX7I8a+Wj5iX1CSUJPVCi2HLGAmrdhr30MfxnDv?=
- =?us-ascii?Q?oFEb+oosvtuXavvYZ8VvHCZQEw9xTC1WEIAbBdSuSZB2OfREY2W2qXVjJ2on?=
- =?us-ascii?Q?GvkX11RRwac7ygNk41otmYFhTi81iURGZslmjn2inaApEbV/GT7QgV6IbysG?=
- =?us-ascii?Q?r9JIJ4hHBedtS5Ba+dD3bEAyIzGG2miKmfHoanUMdwL6kMiHSuV8mBQdBXi/?=
- =?us-ascii?Q?zYf57xKbZFaapMGHi38zvCJ/Vey9w83SE+AqTvmdKMMZ1F84dddKmLJhCPtn?=
- =?us-ascii?Q?nfJYPXlNzouAkaYraaYex8RauvfUTHeumefgpuJuCzOmSoMzDNjneO+tZyw5?=
- =?us-ascii?Q?XRH82UjX9mhoZgrjthxSV/HmiY+wptk7etsBj7RBkETMwiSm1MRjDGEh+rOW?=
- =?us-ascii?Q?Uzw4uvECff3efd23s50TXJs9/59Otk9Yc2NvakcMeIwr3K5BKffea4PnrY94?=
- =?us-ascii?Q?iNbb/YBxLK3+vAPUGuHMfrQPkxvkSvsWG8D5wFF5IHsucEalnOW/Ee3RDP37?=
- =?us-ascii?Q?Xei7jhCe9qGA7hOJVjg5qi4WMvhWSFtCN0NPDuxlrys68dJQIRJ1MKKaxM2q?=
- =?us-ascii?Q?na3X4vxA333ZKHX7vH+/B846k9Sw7txeZtOWlokQfcOFPme50e4K7cfozIsL?=
- =?us-ascii?Q?ObxtKhLzI6GuoVWht2UpX7RSElz5u5imMVcmRvhELZCGmUNgz7/lZPgZ+LvH?=
- =?us-ascii?Q?FWUNnBlw0XWPDSLPBY05TE/c/3k8p8wh0DzhECvwP/ynhHyPN9oF3+1uucWo?=
- =?us-ascii?Q?BLHNR5Q9TG3CAZAeeXXp8PVO+4SgZ+gVHixDhoiYsIAhUjSsq9OVpi0+Hqv/?=
- =?us-ascii?Q?y2tuYDVJw20d+EwKQN9+SnJz4F+Pll5shb1kPS9Af7RfTMiUTfIth2lwrpEj?=
- =?us-ascii?Q?zNi/T3g8RStK1W+pXq5utZN0rDPLEMvhDb4NE2cI+efWklFoIbZkSYP9ukLY?=
- =?us-ascii?Q?sN7dVOyFa48w2ByeNEmukR0pcvg525SXIhSUPo13FEX0VdtuCSgp6Yw2YfY6?=
- =?us-ascii?Q?UJP6VNK9n5i6VyOqR7JqX/QhwCMkYYf20JcctDuQjWoHUJNRvnBgLlF3w6+S?=
- =?us-ascii?Q?AUFXvHfhsP8nprFS+dQynKx6Wtwm0YUDPkpPc1CzAeY/IPV6P/+EFNmedp2y?=
- =?us-ascii?Q?iriDal6Wqekj8Umb475e3d/vI/gbfwrC7cNIVOWgNYEkRTl2XN7WYsO9Y6Ma?=
- =?us-ascii?Q?SFoH5kE8m5rncuYH3A7d0qKWlrHYn1OAXHCQ22CHa1iTAnuGwyIsEIaenio6?=
- =?us-ascii?Q?SEbJ16tnwHXDXFy49szI3iLKGVuH/3VkfaVuMt/MCj+sv1mqAymKNLwUMmw6?=
- =?us-ascii?Q?PVmWabF8nSPR3ihM4fcOozKcK/ffErSXzNIiXxOoEElMrPxB/yTv4WICQixp?=
- =?us-ascii?Q?dPoYh2GTJRdUv96a2pu98oO36Kmgssa9+VLjJvJbUPks12Vx8V/4XMnFyfUr?=
- =?us-ascii?Q?EIphu7lJ/kea5M+GogN3lTggvv1vUDRTOp0/DPW3USk97OlPxdJhAKCBfC5Z?=
- =?us-ascii?Q?Vpye7LybmPzz0mNCUbv6aNOMxzbDnFIwESqyS+2VDS3DYexXfzSj9IDCeHvG?=
- =?us-ascii?Q?OyQkStsZdJAUjJmOlpW5w4aUI6+6mz/FvvHDFSV0?=
+	=?us-ascii?Q?u+PEI26qiBFTGKOE6HC7MxlLqbOvbikL2fOBXtqkriR+1rAWjmQQE/ysyAo8?=
+ =?us-ascii?Q?xC2D4WYonrXiqIJTTji25IwrW1wBeb8843k9yTZcL7b+4rkWhDXf7XwLg5+6?=
+ =?us-ascii?Q?jXmq0akyqsndRRfuyNnRj0RM0zi7swDq5TC0csvNRSVgYu5URgBhpDBX9Sws?=
+ =?us-ascii?Q?4HcU1lYLSY0tCz1oSijEbWv3FuHkKMTrOwamkPUa+n7/zGYSoT+tYo67520f?=
+ =?us-ascii?Q?TjesaZFwuDyZeVDhk1QUYgSMCaL2brwNtcacpHi0Z70sy4f5ijHMpW3PoPDc?=
+ =?us-ascii?Q?o3eJzejzjwP1eAqjdaz/Tb6wPq9W5c3j3vCL/yVwT+qU53F9qztRbJY3nSa1?=
+ =?us-ascii?Q?vL71KoZGE85MhAEAZACn8rs2qWvpBYpx8aihbuAZx3sKZJE9NaUVWujT64rp?=
+ =?us-ascii?Q?Tc6Lr1W6tnJaDF/4i5MzmhNHUaZWH9yWTidthAhbBMwc4+00TR7z6C56MCCG?=
+ =?us-ascii?Q?mpU85hUM9ssvF9AfrAfr0UWD9XpaCJdem3zpaxWlT82OoaueaY7EekTMct5A?=
+ =?us-ascii?Q?Lt/IZVdcMRWnjAIVc6niucB5Pj8sJbr1l/ElDNbtaURQkiO/BDzS+nmguHRy?=
+ =?us-ascii?Q?vps44qCy3KRs/giCxDRfcqUeNVP7d/w76fJ255MEbBc7Ek06Gtwp9L1I0zfH?=
+ =?us-ascii?Q?6dEs8RFjU7i7fUg4k+XZxjfdCvLKt3npc4fW/v88CVP917pPKtrZ0frnptqT?=
+ =?us-ascii?Q?nDsBT2BRruD9IF4CK/c8JAUjZ4uddWgucd+WWsneIgkyxUQjtrZBdr7h5M0M?=
+ =?us-ascii?Q?X6YLZhq/UbcE0E4TNEdyzcxbQLUK0W6bRKWX7x3+JAVtihmJcz/wozXBQcte?=
+ =?us-ascii?Q?WcBAy2vJMaDiYIOCyXd2DQp1MISKE8J78udY62epkqikru1G4jXpWCH7kQIO?=
+ =?us-ascii?Q?L4h+l3AJG+uyUiaqwc/RicDo/rOynPFzSnWrhbNRIJGv+3Np0tiymbb6uY7k?=
+ =?us-ascii?Q?N4ETe8F08V1qujEglkfFqrWgKYE7Q0fIp5spqrOxlQiLgy7ucGQobd6tm2JT?=
+ =?us-ascii?Q?l339ItW/t2d4hZAjxDA6oIVrwPWX2MxPu4yylJlPMvJMAzSbxm7pOaY3Fw1h?=
+ =?us-ascii?Q?g+cZRfLRUa5IBvOjh432gjvp9A3tPTwDMW/HkMkLoZUeSUHecCODmY0r4STn?=
+ =?us-ascii?Q?LP1hKtDI9WgU2vMPmpe68yX2nXEpmqIml0mjf2xa9JLkSPyGqTpP40sGhuul?=
+ =?us-ascii?Q?dwQLE7bxDYfsnvfEdI9edUwpFsm0J5V648HKly9WBlSqaFBRn5DTCYqUNACw?=
+ =?us-ascii?Q?pjey6EGaN5fG7iNayeMx5AhDpYwC6YaC1pwZykGrfiATu0yePimUKbOud8xu?=
+ =?us-ascii?Q?SeQSGv0xxB0188bgVn5CJ19gW1tayZ932f49wlH2J9KjHlhmFDdZkM8sCJcV?=
+ =?us-ascii?Q?/NISDAjsj28GdSyJQtTVRwMKdwQVKdi3rwgZaMO4ccFxYpEpyns7eti5gGKf?=
+ =?us-ascii?Q?x4DP+9XR6JDe6xMYtAVwxfRPg8KcA8PcLYDQNhPDM8maiSdJSR1TcNKafT/m?=
+ =?us-ascii?Q?Mi3ARDZ50+/V/pHgZomB0AufJo1QmoIHQ0W/eKJ15MuCvW6+vs+t89B3lTOq?=
+ =?us-ascii?Q?XkC12ew6MVHofHS4yS+mgLN/nJrO7uzMC6ydZ2Fl?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	1lxGceZ9QMs9kaAVVATuCV9bifla6ynVeBYBc6WhiOj0qlTBs/7cZ/cGR9W2GGC0QQRStvp3rcCtkoR19q3O+kP13RpxaeRyMraEQ5E2GU71T+RexJBmn76FxSG0zEsFg5OpzTPvqeqy5OacOn3rTIN4FFGFI8iwLX3SRxhMTNVZXTvm7fBuM4LZ1n7qH9cao9UUlakti2vTBJVYlIwt1PQWFboJTb5wz+Ju4pQN3ZzjGEWLxih6QXgjO+jkSYTo2NDZF8QPpQxrsl/bthMKwBJtVLbYV73GpuiL5tZa2xlezQVstZx2HMHVqUhcTqyC0/5xHUhmw7WqDsgXONn5Hl4gTbELMeZerKVb9Z8u5bT4NnC/lwp5dMMJ2xUeKqArTPdMwQVxpxm3pBEQkr3V8oeZZjGypxEJHqzQUTWZ4d9zta6phRK7zQtxBlQ5Am7ggKwXiR00Rplc4hA/ildmNfEJHzkV6vM8pbleCcfKxadEbbNuYaQ/NPnq2RkGfZSctknfT1zlL02Ihhj920Yi0Gi0lCYlAf4fHaoKzs1vohOuRDiWuUJ6uUpSf3W0FkW6ZB4379aPpHbJUz6JEioCSvbKFyR2TPaV9QU4g+1T8Ro=
+	UQjcNGT1DEt6UKGthGJqkQoHGJ0cjXJTNPuTKKP/ek/maBWJUl2Gh8qr8i9VhM3/EVfrdbF7t9JocJcthYIyjT0RBYFhKww2WeWLd8NCX6zJU2s41cMSMOj57lQ7GQxKmC4G5UL0kYcLukHiTHV0tF4XOC6I0x0oyeGI30ow7f0XhPuqILDbV8p0ck5ACWoLp0s5l69J1w0vnrZGX4owdXWbdAvFy8K7fdkEdn/x5dSskEJGe/wwhfS4b8BjniYeMxuSUrqZ7PYX3iG/kKNONG/1CR4afCRk3V44vwEzzKDqmm82gswzP+IrB/31R1Z8bxN7mMf0LB+Iys9h61+48vyN+GyjTPNiw2QXRD2v3ZiZRViAjFYCjerd7VmCzxusXq37itmJF2LMG1B+01kbhsanp8vRuu55r001+adCl9NCpIyjPAvISs9Tk/XeyfKBuUpziIfsReaJPY1xvh4mhGn5V8D72hwr9Jxl519v3nvazcghLb6/LkgC3a7FX9h8Cj6lah8mfxKQSt7PXtK0Bfh6/M2TZQzlqhbMN4+CHZ8vPEH21EoC5JlHgp+VQy8kC0bxNqzCyZOZPvSlCjgViLZ4InkjiDb+8azM3LHLBEw=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2952d429-0cef-4476-5d36-08dd709d4ad1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 108559fd-5d6a-4e7b-9bdb-08dd709d4bc7
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2025 21:45:02.6079
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2025 21:45:04.1930
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7/8PNi7ozm9C6/4vBM9lSrnPo0yOU4nc9jHi3T0/tBZhMtdmoBpmjBcZWE6egv81K86JtXxmX0UWU0XHGuefVg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: za3WMcmbgc/BKuEJdWvAl/V5hgBouCPrJ0gONvoOLLPOoCqAcNz4enz3wZ0T8gkK3O8REyMkuaIMDrpsqZKtVA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB6537
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
@@ -162,91 +165,139 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adults
  suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502280000
  definitions=main-2503310149
-X-Proofpoint-ORIG-GUID: Tsorpo6t4WM2IfbpTfmIQhpsBsGBgBZT
-X-Proofpoint-GUID: Tsorpo6t4WM2IfbpTfmIQhpsBsGBgBZT
+X-Proofpoint-ORIG-GUID: z_wMPF44jG807QyQoieggS-RwOyJ8UPu
+X-Proofpoint-GUID: z_wMPF44jG807QyQoieggS-RwOyJ8UPu
 
 From: Eugene Loh <eugene.loh@oracle.com>
 
-The cpuinfo BPF map is a per-CPU map that has CPU information
-on each CPU for that CPU.
-
-Add a cpuinfos BPF map that allows any CPU to access information
-for any other CPU.
-
-For now, we retain the older per-CPU map.  If desired, a future
-patch can migrate existing uses of the per-CPU map to the new
-map, decommissioning the old one.  This would include map set up:
-
-*)  libdtrace/dt_dlibs.c:   DT_BPF_SYMBOL(cpuinfo, DT_IDENT_PTR),
-
-*)  libdtrace/dt_impl.h:    int dt_cpumap_fd;
-
-*)  libdtrace/dt_bpf.c:     dtp->dt_cpumap_fd = ...
-    libdtrace/dt_bpf.c:     CREATE_MAP(cpuinfo)
-
-and map use:
-
-*)  bpf/get_agg.c
-*)  bpf/get_bvar.c
-*)  libdtrace/dt_cg.c
-*)  libdtrace/dt_prov_lockstat.c
+The sched provider trampoline for enqueue and dequeue probes had
+pending FIXMEs for providing a cpuinfo_t* for the cpu associated
+with the run queue.  Implement the missing code.
 
 Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 ---
- libdtrace/dt_bpf.c   | 13 +++++++++++++
- libdtrace/dt_dlibs.c |  1 +
- libdtrace/dt_impl.h  |  1 +
- 3 files changed, 15 insertions(+)
+ libdtrace/dt_prov_sched.c         | 74 +++++++++++++++++++++++++------
+ test/unittest/sched/tst.enqueue.d |  1 -
+ 2 files changed, 60 insertions(+), 15 deletions(-)
 
-diff --git a/libdtrace/dt_bpf.c b/libdtrace/dt_bpf.c
-index 6d42a96c7..8da51d6b9 100644
---- a/libdtrace/dt_bpf.c
-+++ b/libdtrace/dt_bpf.c
-@@ -786,7 +786,20 @@ gmap_create_cpuinfo(dtrace_hdl_t *dtp)
- 	if (dtp->dt_cpumap_fd == -1)
- 		return -1;
+diff --git a/libdtrace/dt_prov_sched.c b/libdtrace/dt_prov_sched.c
+index 3a218f3cb..d626b27be 100644
+--- a/libdtrace/dt_prov_sched.c
++++ b/libdtrace/dt_prov_sched.c
+@@ -84,6 +84,40 @@ static int populate(dtrace_hdl_t *dtp)
+ 			       probe_args, probes);
+ }
  
-+	dtp->dt_cpusmap_fd = create_gmap(dtp, "cpuinfos",
-+					BPF_MAP_TYPE_HASH,
-+					sizeof(uint32_t),
-+					sizeof(dt_bpf_cpuinfo_t), ncpus);
-+	if (dtp->dt_cpusmap_fd == -1)
-+		return -1;
++/*
++ * Get a pointer to the cpuinfo_t structure for the CPU associated
++ * with the runqueue that is in arg0.
++ *
++ * Clobbers %r1 through %r5
++ * Stores pointer to cpuinfo_t struct in %r0
++ */
++static void get_cpuinfo(dtrace_hdl_t *dtp, dt_irlist_t *dlp, uint_t exitlbl)
++{
++	dt_ident_t	*idp = dt_dlib_get_map(dtp, "cpuinfos");
 +
- 	rc = dt_bpf_map_update(dtp->dt_cpumap_fd, &key, data);
++	assert(idp != NULL);
 +
-+	for (i = 0, ci = &conf->cpus[0]; i < ncpus && rc != -1; i++, ci++) {
-+		key = ci->cpu_id;
-+		rc = dt_bpf_map_update(dtp->dt_cpusmap_fd, &key, &data[ci->cpu_id]);
-+	}
++	/* Put the runqueue pointer from mst->arg0 into %r3. */
++	emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_3, BPF_REG_7, DMST_ARG(0)));
 +
- 	dt_free(dtp, data);
- 	if (rc == -1)
- 		return dt_bpf_error(dtp,
-diff --git a/libdtrace/dt_dlibs.c b/libdtrace/dt_dlibs.c
-index 21df22a8a..0f19f3566 100644
---- a/libdtrace/dt_dlibs.c
-+++ b/libdtrace/dt_dlibs.c
-@@ -61,6 +61,7 @@ static const dt_ident_t		dt_bpf_symbols[] = {
- 	DT_BPF_SYMBOL(agggen, DT_IDENT_PTR),
- 	DT_BPF_SYMBOL(buffers, DT_IDENT_PTR),
- 	DT_BPF_SYMBOL(cpuinfo, DT_IDENT_PTR),
-+	DT_BPF_SYMBOL(cpuinfos, DT_IDENT_PTR),
- 	DT_BPF_SYMBOL(dvars, DT_IDENT_PTR),
- 	DT_BPF_SYMBOL(gvars, DT_IDENT_PTR),
- 	DT_BPF_SYMBOL(lvars, DT_IDENT_PTR),
-diff --git a/libdtrace/dt_impl.h b/libdtrace/dt_impl.h
-index 68fb8ec53..a5e42801c 100644
---- a/libdtrace/dt_impl.h
-+++ b/libdtrace/dt_impl.h
-@@ -390,6 +390,7 @@ struct dtrace_hdl {
- 	int dt_aggmap_fd;	/* file descriptor for the 'aggs' BPF map */
- 	int dt_genmap_fd;	/* file descriptor for the 'agggen' BPF map */
- 	int dt_cpumap_fd;	/* file descriptor for the 'cpuinfo' BPF map */
-+	int dt_cpusmap_fd;	/* file descriptor for the 'cpuinfos' BPF map */
- 	int dt_usdt_pridsmap_fd; /* file descriptor for the 'usdt_prids' BPF map */
- 	int dt_usdt_namesmap_fd; /* file descriptor for the 'usdt_names' BPF map */
- 	dtrace_handle_err_f *dt_errhdlr; /* error handler, if any */
++	/* Turn it into a pointer to its cpu member. */
++	emit(dlp, BPF_ALU64_IMM(BPF_ADD, BPF_REG_3, dt_cg_ctf_offsetof("struct rq", "cpu", NULL, 1)));
++
++	/* Call bpf_probe_read_kernel(%fp + DT_TRAMP_SP_SLOT[0], sizeof(int), %r3) */
++	emit(dlp, BPF_MOV_IMM(BPF_REG_2, (int) sizeof(int)));
++	emit(dlp, BPF_MOV_REG(BPF_REG_1, BPF_REG_FP));
++	emit(dlp, BPF_ALU64_IMM(BPF_ADD, BPF_REG_1, DT_TRAMP_SP_SLOT(0)));
++	emit(dlp, BPF_CALL_HELPER(BPF_FUNC_probe_read_kernel));
++	emit(dlp, BPF_BRANCH_IMM(BPF_JNE, BPF_REG_0, 0, exitlbl));
++
++	/* Now look up the corresponding cpuinfo_t. */
++	dt_cg_xsetx(dlp, idp, DT_LBL_NONE, BPF_REG_1, idp->di_id);
++	emit(dlp, BPF_MOV_REG(BPF_REG_2, BPF_REG_FP));
++	emit(dlp, BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, DT_TRAMP_SP_SLOT(0)));
++	emit(dlp, BPF_CALL_HELPER(BPF_FUNC_map_lookup_elem));
++	emit(dlp, BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_0, 0, exitlbl));
++}
++
+ /*
+  * Generate a BPF trampoline for a SDT probe.
+  *
+@@ -98,18 +132,39 @@ static int populate(dtrace_hdl_t *dtp)
+  */
+ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+ {
++	dtrace_hdl_t	*dtp = pcb->pcb_hdl;
+ 	dt_irlist_t	*dlp = &pcb->pcb_ir;
+ 	dt_probe_t	*prp = pcb->pcb_probe;
+ 
+ 	if (strcmp(prp->desc->prb, "dequeue") == 0) {
+-		emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, BPF_REG_7, DMST_ARG(1)));
+-		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(0), BPF_REG_0));
+ 		/*
+-		 * FIXME: arg1 should be a pointer to cpuinfo_t for the CPU
+-		 *	  associated with the runqueue.
++		 * Get the runqueue from arg0 and place a cpuinfo_t* into %r0.
++		 */
++		get_cpuinfo(dtp, dlp, exitlbl);
++
++		/*
++		 * Copy arg1 into arg0.
+ 		 */
+-		emit(dlp, BPF_STORE_IMM(BPF_DW, BPF_REG_7, DMST_ARG(1), 0));
++		emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_3, BPF_REG_7, DMST_ARG(1)));
++		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(0), BPF_REG_3));
++
++		/* Store the cpuinfo_t* in %r0 into arg1. */
++		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(1), BPF_REG_0));
+ 	} else if (strcmp(prp->desc->prb, "enqueue") == 0) {
++		/*
++		 * Get the runqueue from arg0 and place a cpuinfo_t* into %r0.
++		 */
++		get_cpuinfo(dtp, dlp, exitlbl);
++
++		/*
++		 * Copy arg1 into arg0.
++		 */
++		emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_3, BPF_REG_7, DMST_ARG(1)));
++		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(0), BPF_REG_3));
++
++		/* Store the cpuinfo_t* in %r0 into arg1. */
++		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(1), BPF_REG_0));
++
+ /*
+  * This is ugly but necessary...  enqueue_task() takes a flags argument and the
+  * ENQUEUE_HEAD flag is used to indicate that the task is to be placed at the
+@@ -120,15 +175,6 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+  * outside the kernel source tree.
+  */
+ #define ENQUEUE_HEAD	0x10
+-
+-		emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, BPF_REG_7, DMST_ARG(1)));
+-		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(0), BPF_REG_0));
+-		/*
+-		 * FIXME: arg1 should be a pointer to cpuinfo_t for the CPU
+-		 *	  associated with the runqueue.
+-		 */
+-		emit(dlp, BPF_STORE_IMM(BPF_DW, BPF_REG_7, DMST_ARG(1), 0));
+-
+ 		emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, BPF_REG_7, DMST_ARG(2)));
+ 		emit(dlp, BPF_ALU64_IMM(BPF_AND, BPF_REG_0, ENQUEUE_HEAD));
+ 		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(2), BPF_REG_0));
+diff --git a/test/unittest/sched/tst.enqueue.d b/test/unittest/sched/tst.enqueue.d
+index f445ac843..28dcace8c 100644
+--- a/test/unittest/sched/tst.enqueue.d
++++ b/test/unittest/sched/tst.enqueue.d
+@@ -4,7 +4,6 @@
+  * Licensed under the Universal Permissive License v 1.0 as shown at
+  * http://oss.oracle.com/licenses/upl.
+  */
+-/* @@xfail: dtv2 */
+ 
+ #pragma D option switchrate=100hz
+ #pragma D option destructive
 -- 
 2.43.5
 
