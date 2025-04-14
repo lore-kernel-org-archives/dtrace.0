@@ -1,86 +1,78 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2218928EA63
-	for <dtrace@lists.linux.dev>; Fri, 11 Apr 2025 21:20:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBF11D86F6
+	for <dtrace@lists.linux.dev>; Mon, 14 Apr 2025 20:20:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744406409; cv=fail; b=siBsAADkHrizHmO9rD2h/J2+WeNJt1bJZSfxFcUNBAelpti7R33borJml5h7Ij/Vkmaeb/1Fn11NhO02pxZo0ig5+/w28lSEhND7QB7U1kUgREI5PJtfR0poeuLUWApm4E2SDLjZKjfY2oBgvnzjthMLeH3sT1QVXYpzfN7Uy7o=
+	t=1744662009; cv=fail; b=MSLfW3zkpOxqJKKk+CGb2F1hhaw1uB3xpfj4F30jrSZUIbPb1Ku0DApqIskgw+FghnbXEO2jB0A69sXfhzgXGQf/VQRjWqASAJSXn0ygJiXysjFmlIOAgr5TfQZM8+PxmEIRDxubo+t/K4pM5DeftUNzk8S+Y87lJm5wuSvC4Hc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744406409; c=relaxed/simple;
-	bh=+QmYi45jtvJdz3wTlnQ8xTVWQPhiYtRMPXQUgy7/o60=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=qmd6szgdrpjCDnr6Ue+1S3qbYXWo2erODsYQeE9+A3fJAdEkQPn+7GUJo56MoO72oL8lrog+1calz07pRQC3/Uxi/lQ3SrbGhWY4pWhyOdU0KotMaNMdFAsJpZzDubHaZVIlJiUq36pZWi7fbMDx8sdG1gID4ZFxCvs7vA3tWXk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Gs7NJmC6; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=l0BVESjq; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1744662009; c=relaxed/simple;
+	bh=ICmVATIyN9LaDJ0UPj0O3N9pmOjrSLP4wbgr5bVx+DY=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=j+OLGHEgebW4/DmbJZff2+Nou2jzCw+q2lCnKrQybyyODT1WeOoFbo17AVyUSIhBbmKrLjHz+BSyOa2FyLXWz8TEvznEBriGc2IeBrq4Ud4bujo2yPtgCMOzlM6SvGJRxUyPkv2ELwTF5L3lmykiIfFng/u6uXNZrRqIdg7RUok=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=VOdfnmwJ; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=fslHs7cz; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Gs7NJmC6";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="l0BVESjq"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53BLHkFR017616
-	for <dtrace@lists.linux.dev>; Fri, 11 Apr 2025 21:20:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=x+e+knQ6a3tDipI4ULqtr28wtSaMAw5EwK1dqqdpwsY=; b=
-	Gs7NJmC61PmpUGB5Ed1z/qK9We65i5IiXlrxzQ2qm+NBHWi1Co/M//5aRIFHBiIt
-	niPGG6bQ5dx1nilsiKHY7t89yEFQO90IycPjLJ/YRby7jkPY0ie8wNo6snxWi1iM
-	MFznDf9v7IhVFzOYxx7XWHdu+9vLqeR+I1xTEam2zGVb2RnwROOwupp9ft0eAd6L
-	T3VEoeUb2uWDxrqUkYhgsDkIx7CibVzcT1/FOhxAB3wjpKANVpHf3vAngM3bu2wH
-	yi/ffcVo9VrX5aBZfKsH5bD7AzCIc0G/3/lGBTyQa4tPb6QX6CQFuJeOjqpL7Oed
-	lgiNFCCWj+hvETdZeKXAZA==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 45yaskr11u-1
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="VOdfnmwJ";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="fslHs7cz"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53EIpwMq019789
+	for <dtrace@lists.linux.dev>; Mon, 14 Apr 2025 20:20:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	content-type:date:from:message-id:mime-version:subject:to; s=
+	corp-2023-11-20; bh=XwP9Ya/InKPLXmDAUCjKJSYhOvm2pZ8W/VOwR1tNzmQ=; b=
+	VOdfnmwJU6fcxP07N9jGYLOyM9p+/QD/RPi52QbEVX4elcDQvSvIelqYxe2hsCVJ
+	idpxy4UdNAB/qbrIK9HCfqaP8rhUATilwkeZ1RQcGM8kp86FyOrz6hzOmbzToSoI
+	KJ5Ci7krakJYB9nMb7ksXkcQfiE24Y7yo3SL3bGhGtb/EUyjZt7J67X/SleGw2m4
+	d5SIn154sChObymhgsAMcQQPA7JYRn5b2qWWJJMHlfTlj1PeCy4yTajKpYG9lbdA
+	wTY9p/z/tCsE+Ftr5bDQoEd3427BJG3qbaAuoVGp7DFchdQPzv4tZ2iQBGZDpqTY
+	Plm843I3HK9MgKw9isTxBQ==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46180w865f-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 11 Apr 2025 21:20:05 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 53BJAfSj016493
-	for <dtrace@lists.linux.dev>; Fri, 11 Apr 2025 21:20:04 GMT
-Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazlp17012032.outbound.protection.outlook.com [40.93.1.32])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 45ttye634h-2
+	for <dtrace@lists.linux.dev>; Mon, 14 Apr 2025 20:20:05 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 53EJNWds031033
+	for <dtrace@lists.linux.dev>; Mon, 14 Apr 2025 20:20:04 GMT
+Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazlp17012036.outbound.protection.outlook.com [40.93.6.36])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 460db9gycc-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 11 Apr 2025 21:20:04 +0000
+	for <dtrace@lists.linux.dev>; Mon, 14 Apr 2025 20:20:04 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L1SLVXwD5kS7fk9KY7YXiHKX8Y0RANnTqFYXMffwqeUDnbcYg4O7KEFKCy6vxtKLVUZp2fNWS0sapnFtMDbjcJvzLHhScmvAMsb+9DZ5w28jeLKGcXtFDDU6LxD8vZdLDiH7I3seqK7VeBUH+aRJNbToc+KrBBWGfknOPzYpGsyfyRQnG4RmJnnPiperMu1jeSsbiHJscPw76W4kxBlkTyQeBoMTweIADzNw6wr/bo3fxZmzgTGF6/JS0KjWuHPu75PmdzgAMU8EUEDdFf5Z9G6eluBdTMq2eVTsAWyBBHz0EQW/3BXYYeM0KkWczfFxE7LxZ02tSLx4oBiYhrM86Q==
+ b=feI3QRtMY0zHrerSDNKl1VDY+76E/mwwITp3xK65kfxizTZbYEd2fh8j8yaj9Y1BjIu74+dUkMPDNkkrYxBMndQ0vTTFlzTP3w2yFV9BJK1pqSt7lnTevYi9hAmhMCibash+vXfOnwJpTYiH3lQYXwCSU2uujNO6i59fBcF2VAAYfOypEf1qBt/GhM1r1gqqRHxlkKNwHlYpXH1iGkuC2SO9xXkoeQt0BC9iGIt1UI1etLfYy6sw78U40WYIu2gZEUnLjx3o6sbdpasFzDGiSkfjyG6FYdigiuvYtA2Mn7OabTt74PVoSmrD9R+m7xOkn8Qbkq92lxazgClcPW54/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x+e+knQ6a3tDipI4ULqtr28wtSaMAw5EwK1dqqdpwsY=;
- b=MYBR1uvkNR0T6hPPAy5hN8cDJ0O50ZSWzHv6coTAN7D7moif9QwTeHFcE671KMhCk7gn04C1hTcr76CVPGWTBCp6xd9BLKFFT6gr+SW9lOve0YVe0txUcBEMVvogzn+2NZodkV7SbNResQAxWS3AlQ1ph1AyhZVtoxn3y+riXYzmiruHU1M7FC3ekduNxaBAHsg94thpsX4VdSy9qFpaZtNhdhGepsTl+CAJ0cSRdVAsQ7LWFa+DjIAFbOG0PNgRFpBKPwQUSicvWPFdX/kKwDU9HQg4C779RsA9Nbj++fhpOtsWNjq5Zj8TiD1pwkSkUYj0bJG/SOYV2X2IiXJ4SA==
+ bh=XwP9Ya/InKPLXmDAUCjKJSYhOvm2pZ8W/VOwR1tNzmQ=;
+ b=EbecfjGaGvvYe8IYTm478iwuo1fuxQMBEOqQeCPyHu6/b6cD3eokrTR5rkZIz6PuOi4g2StuUT+lXHDnmWKAfNJkGOdKsOEDK2K4TkRewwp/6Ux49Rphtd1IfsgMmpVC1h/Bnjdu6LSq7p10qXnYgNj6mtQXFBS9T0zDd+yPdXBJfZvovhR0ASzMxtq9BxuumFcFtcAdltRNYVE9Uh+NZtaW9aSH4U5vE4O11oJUxHNrJfBnn7gQ/IaPbM2Fd1cfjNx3UMg7aLA32wK75tQh3YxlPz35P9iZD3imjk2zDgMZn7j02Cd0QkLBNgZLRP5YxYzF5g5BJga2P6xpSaWLtA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x+e+knQ6a3tDipI4ULqtr28wtSaMAw5EwK1dqqdpwsY=;
- b=l0BVESjq2fTRRheIwDM1PebDj2LK+cqPpmh/ZYbmaYyOPFC7VhyKLciMsg/BYdlepS06tCasHTkNdtG+U6A5yKY/07b3rkqVeovvZnSUqHrWkmFX8v1lY7Gqd2c5gfq5FIp02698gwZij+8yapzXMjqEeGRIvcOr5wCtOvARh4g=
+ bh=XwP9Ya/InKPLXmDAUCjKJSYhOvm2pZ8W/VOwR1tNzmQ=;
+ b=fslHs7czQ+YyEC4rPsnusfReQFZ9k9JPUJOHNZD7FT5JUnb4YAeFMuJnLfuEBiyDBwT7cDp8JcNviVTZK20/57T9FV5RDjCp3p/qW/Fs08OKRohk8d0jSsEw2LH7dN7H/e+STfz+MfBzaATvHTfB4m8qDwDiFrJiXHETVz2biBs=
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by CY8PR10MB6753.namprd10.prod.outlook.com (2603:10b6:930:94::19) with
+ by CH0PR10MB7535.namprd10.prod.outlook.com (2603:10b6:610:187::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.28; Fri, 11 Apr
- 2025 21:20:01 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.35; Mon, 14 Apr
+ 2025 20:20:01 +0000
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::8b24:5536:3259:5a69%5]) with mapi id 15.20.8606.029; Fri, 11 Apr 2025
- 21:20:01 +0000
-Message-ID: <f9f7221d-ee7c-b10c-b677-de3b38d86181@oracle.com>
-Date: Fri, 11 Apr 2025 17:20:00 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v3 2/2] Clean up sched provider trampoline FIXMEs
-Content-Language: en-US
-To: Kris Van Hees <kris.van.hees@oracle.com>
-Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-References: <20250403050252.15239-1-eugene.loh@oracle.com>
- <Z/mAC5DG2gl0W8Sn@oracle.com>
-From: Eugene Loh <eugene.loh@oracle.com>
-In-Reply-To: <Z/mAC5DG2gl0W8Sn@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BYAPR01CA0015.prod.exchangelabs.com (2603:10b6:a02:80::28)
- To CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
+ ([fe80::8b24:5536:3259:5a69%5]) with mapi id 15.20.8606.029; Mon, 14 Apr 2025
+ 20:20:01 +0000
+From: eugene.loh@oracle.com
+To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: [PATCH 1/2] test: Remove orphaned tst.lockstat.r
+Date: Mon, 14 Apr 2025 16:19:58 -0400
+Message-Id: <20250414201959.31327-1-eugene.loh@oracle.com>
+X-Mailer: git-send-email 2.18.4
+Content-Type: text/plain
+X-ClientProxiedBy: BY5PR17CA0045.namprd17.prod.outlook.com
+ (2603:10b6:a03:167::22) To CO6PR10MB5636.namprd10.prod.outlook.com
+ (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -88,439 +80,123 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|CY8PR10MB6753:EE_
-X-MS-Office365-Filtering-Correlation-Id: d03708c4-f814-4e5b-5d7e-08dd793e9e8f
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|CH0PR10MB7535:EE_
+X-MS-Office365-Filtering-Correlation-Id: aba12c09-f25e-45e1-4090-08dd7b91bbf3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cmVxWW1CNkhNN1pxQmU0M1cvZ2FSMytQRzQrRldiRGdTL1pQNlZqQ0x4STUz?=
- =?utf-8?B?VHUya0lwNmNrVWQ2TjZzRVh0M1VOSFR6NktrcXZ1d1dXZ1JsUDUzYUo5YWI5?=
- =?utf-8?B?UUtOc2dXSGQ4c3ZtRkVxbkszb0lDMjhETXo5T3V2L3F2UmFhVTk5cCtLcnRp?=
- =?utf-8?B?cDdNR0hKeVlvN3A5VXI5MFRqdDl4VlA1eGRXcGlIVDJlczJ1UXVkYkhsVmx3?=
- =?utf-8?B?ZExFeDVmcFFNR1pOTTEwZHk0TkdmOStVb0I2b0pJS1RyS3Y4STlvUzRqYWRR?=
- =?utf-8?B?QkRrZ2FVNWVaM3RTQ29TVFJuOGRpUkxMTUhCa2kyQisrV3B4d3pHUXdiTFNq?=
- =?utf-8?B?TFdOWHRTWmhxT010SFRzdDVJSWF0ZjUzY292dWs0WHZnZDJFZitiV2g0VjVS?=
- =?utf-8?B?NUxzKzRJcFlXdk1OcmNnOFB1a1UyZy9xVTVEcTlaN0FBMTFGZmdraGl6aElp?=
- =?utf-8?B?YXNXbFNwRWFCVnRHSDlzZ3RZaFpLektHTXlXcGtEOGp4dVh5eGpOVW1odWg1?=
- =?utf-8?B?dnBxOTQydCtMV214M0IreGdyeTArTlZHdktIUkVwREpRUktyVXpka1pNR2My?=
- =?utf-8?B?SDVjUUl0ckMvM2xwdHVPOFRHZG8xUWppNnhtMzJRZWpwL1dRY002bWIxbVJN?=
- =?utf-8?B?cGphZFU1QXpjcE0ybEtuTXRocnRHajRaZ0J0M2sydXdjeGJlVlZEdmpiR3h2?=
- =?utf-8?B?TkpKTEM4QUN0cUR6cE11aHhDakhCWjN1YzZhYlhVQmhNYWNzd29qS2Vwb1Ey?=
- =?utf-8?B?QmVWZ2NpS1lYSEVxTi9TMVRuSkhrOXljbWlzbnRON2NvaFAybXlTTE5FdWF4?=
- =?utf-8?B?eUhmOTRsc2c0bGo0OXB5V29aOUFVUnFvNGIyVk5BZWtKYlAybGxwV2FUTU8y?=
- =?utf-8?B?TW9ydmgrSnBMaTRPdnRjU3VyNG9vVUU3Z2toZUUyYUJEL3pRVkZQRDlnV09N?=
- =?utf-8?B?RUNzLzY5YlAwaHIyUXlOTDU1eFplek5YZFVyem5NaXkzaUNKM09zL3VPN01n?=
- =?utf-8?B?QXpwNFhkRUZvWEdZcmVJVUVlOWIzZDlVVHlnKzNFZDlCWmIxRFNrVzVKTkF2?=
- =?utf-8?B?eTRuTTZCSWpFeUMyUjlEZStRc3lOY05hVVhHWGtrWW50UTkxMzdVeFhZY2dM?=
- =?utf-8?B?M2VERDd1M3VnNHZscXg2cmpNZ2MrOWdDdEtISlhSa21WQ2U0L25lR3NiYkZ4?=
- =?utf-8?B?N05VWUxDMURHUnh0cUJLM1N2WkROSGxFcUNEdFFBSjg3TGczZlpScXY3MEo0?=
- =?utf-8?B?M0JUVi9jcExHM29iSmVNWkcyVlFSU1pXYWk2bWkvOFVGMGpCa1ZrU08wTFVR?=
- =?utf-8?B?RUk0Sjd6YTNBczB5VU5GZTNSTWJPNUh1d3gwalM0WmliK2tRQU1DdWw5RmUx?=
- =?utf-8?B?dkNVSys1MlQvZUpHZzk1bG90REpkWklPTEZNWDNlcnMyODFQcThHL3NleG5s?=
- =?utf-8?B?OEJvZHJLWVpvOVNIQzNSVmdjOEVoQ2ZGb3UzQTV4OHdlWXpzb1hZL0QvU2tY?=
- =?utf-8?B?TmIyZ09xVnVUNkFZb0c3TFdDbnd5OTh4VHl0bG9Scm9QR0V0K0J1Z1N3N0Ez?=
- =?utf-8?B?TDViVlBaL0JmSlZrZGg5RGJNR2ZVeXdKSlk0YTZzanRYckU5VHZ4OHFxYWlE?=
- =?utf-8?B?U2svZDRnRWJZVEZaNGZzODB6cWxqQzRmQTBIQmkzUmN1WXVGM2trWkcwZ2Jo?=
- =?utf-8?B?dWNZa0ZKWHJLOWNJOFNvY2FWdng5c3h3anBIYWIvaURNNkZjeHhka1NzU3Vy?=
- =?utf-8?B?M3FhNTZ4Qi9Hekh5eXVRZ294SkdKaUNyRGRlRUMybCt2VmpwRk1Db1kzazMr?=
- =?utf-8?B?Nm15dk1rWHBtQ1NoanFrL2RmSkhyaXRkSUNvVHdzbUUzSzdhTTV4eUpSWmw2?=
- =?utf-8?B?cWNTM0hzeTlEdzM1Ymw0eXpsRDRDRUdrRlc5VUVCbnVnMmF3emgwZEtSaW04?=
- =?utf-8?Q?8sAe+pnCqjo=3D?=
+	=?us-ascii?Q?VSdtOHHVBXDWZyuqikLOQC+AqEHagi4LLX2o5S46E+hAPAEphKMIoOpipoUK?=
+ =?us-ascii?Q?SuIowaEMiiawQrnd/lWGbVewBw0J20kw6eBC51uwqOd18yHX5xmwt3cRDpgg?=
+ =?us-ascii?Q?5hlP4LwxpSkqkGaOUNnvAyLTzgxJOG9JEMLRi+WUq4HhABW4KXD4xjuujnI3?=
+ =?us-ascii?Q?jNXpPb7Uza3vtWQ0SOPOeofSwqJS6PX5Q/VcbFmsh3ZHJX66CyFGTzr4crex?=
+ =?us-ascii?Q?s1SPP8P5GmCT8NLd61PSV5/0a7KTmEz1H8zT+5iKNeI0RpPQaPb280Q2ZbMj?=
+ =?us-ascii?Q?pB2HezLdb6Wz5m7xBKNP/8psxsLkR9szw7Ue7iGHXQyPR6ZzxaEckOdE4dfX?=
+ =?us-ascii?Q?b18Biw3zPuo3yvQmNPHtjGnrayiEiXAu1tTn3Sdl3BAoT0gHsoAsZCbc2bDM?=
+ =?us-ascii?Q?F6tK0i+pJs0G5YpisOVcHRqiMS6f5a1uzdWjrzKSav9icwDHKq/Ap27KbLQL?=
+ =?us-ascii?Q?otE1Yprpzh0w7yGbEH2iflz5H49YZk9eeD9ZOmmYghgqnS0VJkKI3PUlQtGB?=
+ =?us-ascii?Q?obr1QkyV/xuvjuUocemf3Ijc/6jlfYJzeLAGG2YJhGn3Ur1jlaISqRC5PkZ7?=
+ =?us-ascii?Q?evY9O6F17S4ppl2n/jgLqffJ1U/Ko198Yg9ibhK1pAhCFT3Y0WDlyVYhf1ZA?=
+ =?us-ascii?Q?mgWJdQMLdtnQ45Ik1EIbvLAw9BkAb1tCwfGR4dhuh15IQoTETzqM0r9G4Q7m?=
+ =?us-ascii?Q?lL9siNQK/zBzw4RKguKaLNAOk9J+Mv8VfNFS7LkYaXZvUAznD+i77KMEtJ9C?=
+ =?us-ascii?Q?mLZPpH75Bkt2HgCyg2CMw1TvHPWy/hdW/L/cOzOGbVUGpTMX6yu2QhsbbP4n?=
+ =?us-ascii?Q?IJQ7EhS2tZR981b2dmHnyrK/1D9t+tm/MOEErtij1DqbKqqmJ8Dh2f2ZCunV?=
+ =?us-ascii?Q?iVELMoM74ebhxDVdUenATi6PlapSRQ8rS/HqZfPPcunr9EPxxWVdfht1/s/B?=
+ =?us-ascii?Q?LZd2Sqptdpia+Rc/Ilu0BxFbEeDr4uX88hpXzrgz0rT1AtuK0Omb9lt5dLD4?=
+ =?us-ascii?Q?T1tcAel71PMxPoJHPg76bLMN+4uUI0KmEcuPTgbrLRWM+HlEhYAA3W3VActh?=
+ =?us-ascii?Q?kDRC88m67swLhjAXVwcliEVkw/xcDMAm/dHXyLym7ebm5zE5sN+jBiog/mVQ?=
+ =?us-ascii?Q?/QL6dOnh0agswgohHo0e6mi4UCgpwwDyspL5H7A1kfwErGPCAy0nzEL1vIKQ?=
+ =?us-ascii?Q?mjuxiyKOQFJL8U6z7OU80rZhk1C53VKfeZDREqZFhxLFxReK7stCuB3raIET?=
+ =?us-ascii?Q?wjAwyLcj9tF/pS16DDvBOc+vC6QixYG69T+PdOA+Ma09qQ8xEzLu+jdEPsVD?=
+ =?us-ascii?Q?/N0ytk2jKt7rGaUxNtKicFei2N1m/hbGuB+5W94ECAII1nXoBggOmeNpxXdx?=
+ =?us-ascii?Q?/2cKtZcKcftRM8G0rbyJGVMRg+XeEiMEFWsJmj0FsvyhASLHW8IuqtRsPHhj?=
+ =?us-ascii?Q?BRdQO65MwWk=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?T3VjY0ZJeENyY1Zjc1JHazYyQzljQk9DYnQyU204blhWUkZjaFFjeGRCMUEr?=
- =?utf-8?B?NnhJaHNTUEs1SUVJTDBEdlZEQkJYTmE5bllrUmpxbTRNVmNhVWtqRVV0SC9s?=
- =?utf-8?B?VHJQeWR4MEFHdVBRdlQ0MlRqUHFEUDEwdXhtMUlMaGIzc3Fjb3ZSaVkzZm5C?=
- =?utf-8?B?eHViSkNMT1RYSUxlbkoxMUpaRW5rU1lvNGwvWkVobEZZQmdEYVBBNklMWE1z?=
- =?utf-8?B?M2tCMWFBTjdWajNtallsQWRSS1JMc2l5VjJyOStzNElLR3Q3V2E2cXYrSGc4?=
- =?utf-8?B?NnZ6MUQyU2xOdWh2QkRMU2dmWXhmUVRCVWNDd05VdFJBazdPbElBYmhJazhN?=
- =?utf-8?B?dzlKUUlBU1E1WXBkVG9HZ0t6LzMvMnpRTzU1SVdrc21yVVlUWVFaZUI2a2hz?=
- =?utf-8?B?YXRPTWxkMXA2Y2ZIbVRBNXhXWjBPRHFmZ3o0ZnFCc1ZVZDBJSytVZXVsdXhN?=
- =?utf-8?B?cWxSdERBNXdVWVc5UDN2ck5INmdST1BuOTBycGxJMUxxZnYyTUNNZTYrWERM?=
- =?utf-8?B?MTVRcmUvWDlWNjhId0V2S1p6QkhBazhlbzY2Nm9Balg2Q1g4NUQwYmRFOGox?=
- =?utf-8?B?ZEJyUUZ5TmZ4QStEczhlVXFnbkx6cEtKcjJWNGVQL2ZLVjZiYW1zejQ5enRV?=
- =?utf-8?B?bitOOGhvK2d5WEZadmdOQ2dmL0t2UTd4WFdkbjh2Y25lREpLdTQ4QnVnbng3?=
- =?utf-8?B?amJlY3Awb0NQVE55Z3RDLzV2UUdMcVV4YnVzVWtKTWZjaXJXVTFqSWVpenNa?=
- =?utf-8?B?RGpPTHpLVGxVQmlYZC83anlHbllIVUYxaHdjS0E0cWpwcWFJSml1d1RWRTUy?=
- =?utf-8?B?MGJMV3lhajRrY0dPY1B2NHFnL3VWdzYyaWRHR0Z3TUJaOGZ6QUJmb0taZlYr?=
- =?utf-8?B?ZXA2RytmQkk1dnBxV2JIK0pxNUJCeXVvOXNLamVTWkFnK2RzVm5hRWF2a1JQ?=
- =?utf-8?B?aCs3NFVkTjdqZnpOTEJBb1ZUMG1YTDNXMFNuamcvRTdyeWd0UjZmSlBBWmFJ?=
- =?utf-8?B?Z1dlbkRpUEVKdzl2VTU5bkliWmlTY25OV2ZnanlRdjN0bE0xUEhBclg0V3c4?=
- =?utf-8?B?R2tta09KYlVwVW82M2p2V1ZoSWpSL1RIUzBkS0NHY29qZUV5eEZuTHVTY3Zj?=
- =?utf-8?B?K29MSk5sc3QyV2VqTXYrRW43SmVmM0k0NmFyYi9YQkthYXBya2c4TTVEaVpB?=
- =?utf-8?B?MXNJZHFhT09yWmhvVHk0eUN0bytTajkvckd0OTdNd0EzWG1POGJCMWF0S1Jn?=
- =?utf-8?B?L01pU1hHUUtaZEg5ZXc4dndLejNvSi9sNkxKc1ZUU1lJZHp4OUk0NEFiWnUz?=
- =?utf-8?B?RVFkbldaL1JObk1WWEsxUWtyTjBKMnl1WlFLWS9GYm1LdlpHWXVVSGxrd3FO?=
- =?utf-8?B?UUhiKzZuZ2EvL0ZyUWIrcnZVTjhHOUQ2OGxDMEdzQXZocWh4OFpab0U5WDh1?=
- =?utf-8?B?RkRSd3JxdGg0bEw5VU44QmJZNkJ5dVlMVTIvaWNkT2x6TUF6UEpHVW0vYmJi?=
- =?utf-8?B?R0RBQUdYV29FczMyRWhLWnpsZWM4dGgrcllaeldJdkl5em5VcFIySzBnL2ht?=
- =?utf-8?B?ODNWakpUNXUyblRUY2t5NmtzMVdJdjljUlFzVlFjdVhHakNveGNHUmhOeGNs?=
- =?utf-8?B?OVpJV3hGUzRhSVdIQzVsR3BhOGxFN0xkd2VKZTNrNHRJRlpBWHhTYjRtQ29i?=
- =?utf-8?B?V3BOc2JqK2hBb1NiK25Zc2tjN2xzdit6dTgwc3dtL0RXQU5ScHd5NGtKQXZD?=
- =?utf-8?B?S1hrNk1zWENnaExBV3gwKy9pWFE5akJIcWJTY2F0NHlpTVE2THVuSWxPZmhx?=
- =?utf-8?B?UldYSmJQcWU2b2N3S3NPR281VytRNUEwYjNJWlRPVFJQNDhteldDeGxwalRT?=
- =?utf-8?B?TFVoUEtJMzJmTk9xd0VRZ0lvdVhzMzFqajR0NGdxN3B0ZEhYTHpXUjFLOG1G?=
- =?utf-8?B?NzM1YjRyVjBLRjRDYUlRZkVBOWhqMm51TDFoUHNZUUkrVmZrR0RLNHVRVEJ3?=
- =?utf-8?B?dnNaSTFTQlNHMUd2UGdON2xpUzMrWldZelZRVnJ1UE50V1NBMnArMitPVlhF?=
- =?utf-8?B?TTV2RW4wbGFoaHR4cElxYmNTTElQcitZOU94VHJmNXpvYUlYOWw4NzZpeWJs?=
- =?utf-8?Q?CFD6Ay5uVGbeHO34h1pbmvBSf?=
+	=?us-ascii?Q?ctI5IEZLpEgHQ/vNthl2IKhRVabtf6pouTIbNbAPWBWHpeC6GpK5qrYwEUMF?=
+ =?us-ascii?Q?pk0AmuYZMCleRu7jq0teiACkBd1+GWWA08eZrgQMRGdwR3LPV9xALngL/Ldt?=
+ =?us-ascii?Q?JE5FqdLzhP7/754wegaGpSxaRvzQpfI+wA03zAuQZPC/G1R9RCaApKapx8Xk?=
+ =?us-ascii?Q?C/UVoGXnlAPCCDBM+TkF/0LJEaOK9b0J7eniaMcSpnhdxjunnTVU26ncB0lE?=
+ =?us-ascii?Q?J2QP6FISf+9AwoULFbGMkU/Z0jvgOSVC4lYJe8Xxj4go3FkSJUGVlb7CUJko?=
+ =?us-ascii?Q?yGvvFAPE/zR+OS1OFvP0ypVEHelVqa3V1LgEgq2h43YdyFkyCYXskcnbN7Vd?=
+ =?us-ascii?Q?giscfbMKF/p37OCBG7Bpjx+wHKegpVVy24nWvwdW7QiEqBohVVUQpNXUsyNE?=
+ =?us-ascii?Q?4zmqBpavXElKftRiB5Hh5y9/T/L4R45K/Z1v1Sxp8eALzJ0hZ7Qrx5utIpDj?=
+ =?us-ascii?Q?mpG1s+D3ZxiF5eoHuJoOx2ITK9tFh+7cscv/WshEefTzxdSDvnQ6nqPhGwYE?=
+ =?us-ascii?Q?J/D1UFUM9HRRHldI06pAI9GxNbNN8O5Qav+GDjN/nIK6eXnrD1iNUE9Gv3Lx?=
+ =?us-ascii?Q?HZJoLQiPQA3D9prYkNFyvCh/iiS38ROC/C51NHbyX3uWOSAXVeyhDp3wyENl?=
+ =?us-ascii?Q?orRg4YSzUJjg6PmmX4nFxA/7TqHVHAsUKI0AqLha1gNW5BbObS0SKqezmLA4?=
+ =?us-ascii?Q?2HdpN3XMNsLBms5PTikVU5BKSNZadW7rBho7KfQ2Bh9gtAI/TwjkoMVAqZ7k?=
+ =?us-ascii?Q?CGWhqKwP6ZwbDX7/Hz95xd3kkqGOs+K2vZxz68g45xUE5/LFOCna0H9It5HV?=
+ =?us-ascii?Q?m35NpswtY3KdB/4Cq+NNKgXG5oxysj5J6tSd2rwnTwdJyVBGI8FfYFZAby4M?=
+ =?us-ascii?Q?Eiv7sF7UtQ8LpTYeiXwYOVBA0mlPhNI1zl4dScHhQrzJtT6SBmP8sf5y1X23?=
+ =?us-ascii?Q?3aJev0pO4zRC0KX6+gHlPBdXbtTFJdsLQ4ZJdj9Kn/QckDM1nc2kFXbVCQX2?=
+ =?us-ascii?Q?NX8fKcs7mch+au5+NetBde30sNf30dZnUIHfRb6+NeKu8em38611rNK86HMo?=
+ =?us-ascii?Q?cMyZ+GEJRJ1qGF8n0+XZXEahpK4IhYxaTsvxBKtpgagIt8iZCahq1xUjBf0E?=
+ =?us-ascii?Q?ZEfqtTt23eAYvHe8PmyhOugL550mDNHHorzdHuqXlxMev3Vrg4VlMfiiONIo?=
+ =?us-ascii?Q?CajtBvP63HYMJLcsSyQ3blyA39/zy4oJYMloLit9D2pjXpzb2YKARVMIe/Aa?=
+ =?us-ascii?Q?GLixZyD5kfsLwL6h9Lq22BbtdR7B91rCpgfiWM/na7P5lHbgcOOdBsGyKNnV?=
+ =?us-ascii?Q?9lOZdYOaGNo1MaeExHZPLu7x6I/1lBd2B2//ddbr7FkhtXEpF95s88kupYkG?=
+ =?us-ascii?Q?S6PhEvKmiARd15VDdH9QrIlDN01LKdpy3otbaiAtE1BSHzn9rDez1mqq3Kcm?=
+ =?us-ascii?Q?I+J/4yTnzteSwidpwn2x8hydH3ninnFPU1PAs8kfzGKw4rwl3EHXCY7vd6BV?=
+ =?us-ascii?Q?1tlGxJnBNFW5u7rcGfNaJ/UkkH38yojE8IH9VN9U9j7OXIfSqMZRb74p2NNd?=
+ =?us-ascii?Q?Fh3iG4rmqsAfMNo+jW13T0Dc5uJW+Mlpg5bcfSYE?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	l/572tNtQnsRL4ncIH9KW7uJaMMtv7sS8jAbgIY9euSBpTyaVOU2eyfrAOInhSPcj20yJLHUOcFZE8zg6Rmnb6nzHRqoJ9+elBv4jwwvKEiCwdETIjVo4jrAcLT3VK8zYsZjTDksxrLwKuxhfqQuc+Wd+VIFfbQlzdCx6wlMYtuUnRxNF2Yfth68ejQIG386fencJAzckS/HzTIROTQIZi4pA+teZIgT+SrLw0ztNlfnP89u5iuzEoi49kIB+RVF5S17z9EUKmzUVbYhcdNN+PtasKZVABRWZMGHbb8vgMJeS+Nu0RlL64ZBgJXUSxMx7k4Ubqa0cowF1rzKcfX94uiGXRPazAyDdXk5GiMuO60OS3srnSWM+Zvqa+3XtcsUakrxMBrtP80zY6lPN3+IogNEmyCfcrTpRqr9SeIkpiGBVUUd1mhkA2iGfSfuZLczEi0UgGekKrgexSC2NzrIGmbpt+7LRqrzO9S8z9WdtDiZ7cg2L9i8vCw1gQyqE1QpnPv/Jto1opXUiShGD8zbv2UEQOOqHA0X+QkFuZc8ij6VMnIKaHuhJIw7XaT59Z9hQ13tZCfxbE/RF2YE0aN7/JqlO3MZx48wu3i29KFjE70=
+	Jx+YnivPTC2nneLiMhQT1lpqOZO9DsRjUmAwwnCqUGprgA+LVv3OQYdO0dijG2YSDf3kYg/88hGSW/A/ihBAIF0+jCRd8Gvt1mUl/if/YRXtbzYv2tCgXWbttVIcPXd03BXEiTug0HUTttkm/SaYGnV3pbCNrjlNrttJLTLb3+/9H1FHEHR1P562yLSYo/TkuLwhnOIPDRL9shKi2Byhps2ImVsaEy7TyF1WBkN40+CmGokkQbcHfIcJMl9YqPNiCmFF8gCgN7WQItBqbfYDINH6SEiZ3bBwGTnKCvttYRFL50Cw4afe0ZA70/TGjXmbmLdvvYws++oKIRVKe1SWFmLfVhu6KDtTAjaRp5u7zTTK+tDxfbZ0/jGbJTV9/wbhL9/g0L5LQ12ZnURPsVHcMaYn868b5iq/jH28h9v99hW7ydJzLiAjV++Tlz+xtuxekaWFp9waoq03jvNIIzUjlw9XuX8GmK0eOSbvWsnAeVHCiOPZ70vAcx53TH3DGs17d84bSIIyuTWBAF83YPbGYuT57jijs3ikf7l83fd8EKx4pXRcxKiA1shwLrxqBBXbyXWqsKTmVJQYKPFw3LMntvR6I9rBsld44ZBvD0/E3f0=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d03708c4-f814-4e5b-5d7e-08dd793e9e8f
+X-MS-Exchange-CrossTenant-Network-Message-Id: aba12c09-f25e-45e1-4090-08dd7b91bbf3
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2025 21:20:01.3118
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2025 20:20:01.2338
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JZXD4Seqn8ZptVQzxusJn6uy57ZkIo+aoYd0snib0bA1vBnHUFOY86Z1Qe0EfN/0hFKsu0pJo5dCXRkbu7/4+Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB6753
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7vwSZIngRcq1or07epYl3oRsHu0AAsBfln679knyX/YRSf1BZrdJAYDht5Af2WrcIRARffjJc5pAUEuuQc9ekQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB7535
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-11_08,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 suspectscore=0
- bulkscore=0 adultscore=0 malwarescore=0 phishscore=0 mlxlogscore=999
+ definitions=2025-04-14_07,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 phishscore=0
+ mlxscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502280000
- definitions=main-2504110137
-X-Proofpoint-ORIG-GUID: LVymWWltOLaglo4jop_Y9UTrRC8SXodf
-X-Proofpoint-GUID: LVymWWltOLaglo4jop_Y9UTrRC8SXodf
+ definitions=main-2504140148
+X-Proofpoint-ORIG-GUID: rHctDkf88gFZc3B1AvnV4QmKqT6T2ZSE
+X-Proofpoint-GUID: rHctDkf88gFZc3B1AvnV4QmKqT6T2ZSE
 
-On 4/11/25 16:48, Kris Van Hees wrote:
+From: Eugene Loh <eugene.loh@oracle.com>
 
-> Partial comments below (still looking at the provider changes)...
->
-> On Thu, Apr 03, 2025 at 01:02:52AM -0400, eugene.loh@oracle.com wrote:
->> From: Eugene Loh <eugene.loh@oracle.com>
->>
->> The sched provider trampoline for enqueue and dequeue probes had
->> pending FIXMEs for providing a cpuinfo_t* for the cpu associated
->> with the run queue.  Implement the missing code.
->>
->> Since the cpu associated with the run queue might be different from
->> the cpu where we are running, it becomes necessary to access the
->> cpuinfo for some random cpu.  With Linux 5.18, there is a BPF
->> helper function map_lookup_percpu_elem() that allows such lookups
->> on per-cpu arrays.  To support older kernels, however, we change
->> the cpuinfo BPF map from per-cpu to global.  Also, it is a hash
->> table rather than an array in case cpus are not numbered consecutively.
-> I agree with all the above.  Good solution.
->
->> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
->> ---
->>   bpf/get_agg.c                     |  2 +-
->>   bpf/get_bvar.c                    |  2 +-
->>   libdtrace/dt_bpf.c                | 34 ++++++--------
->>   libdtrace/dt_cg.c                 |  5 ++-
->>   libdtrace/dt_prov_lockstat.c      |  4 +-
->>   libdtrace/dt_prov_sched.c         | 74 +++++++++++++++++++++++++------
->>   libdtrace/dt_work.c               | 20 +++------
->>   test/unittest/sched/tst.enqueue.d |  1 -
->>   8 files changed, 89 insertions(+), 53 deletions(-)
->>
->> diff --git a/bpf/get_agg.c b/bpf/get_agg.c
->> index c0eb825f0..e70caa6ef 100644
->> --- a/bpf/get_agg.c
->> +++ b/bpf/get_agg.c
->> @@ -21,7 +21,7 @@ extern struct bpf_map_def cpuinfo;
->>    */
->>   noinline uint64_t *dt_no_agg(void)
->>   {
->> -	uint32_t		key = 0;
->> +	uint32_t		key = bpf_get_smp_processor_id();
->>   	dt_bpf_cpuinfo_t	*ci;
->>   
->>   	ci = bpf_map_lookup_elem(&cpuinfo, &key);
->> diff --git a/bpf/get_bvar.c b/bpf/get_bvar.c
->> index d372b3445..d81c3605f 100644
->> --- a/bpf/get_bvar.c
->> +++ b/bpf/get_bvar.c
->> @@ -67,7 +67,7 @@ noinline uint64_t dt_bvar_caller(const dt_dctx_t *dctx)
->>   
->>   noinline uint64_t dt_bvar_curcpu(const dt_dctx_t *dctx)
->>   {
->> -	uint32_t	key = 0;
->> +	uint32_t	key = bpf_get_smp_processor_id();
->>   	void		*val = bpf_map_lookup_elem(&cpuinfo, &key);
->>   
->>   	if (val == NULL) {
->> diff --git a/libdtrace/dt_bpf.c b/libdtrace/dt_bpf.c
->> index 6d42a96c7..d6722cbd1 100644
->> --- a/libdtrace/dt_bpf.c
->> +++ b/libdtrace/dt_bpf.c
->> @@ -761,37 +761,29 @@ gmap_create_buffers(dtrace_hdl_t *dtp)
->>   static int
->>   gmap_create_cpuinfo(dtrace_hdl_t *dtp)
->>   {
->> -	int			i, rc;
->> +	int			i;
->>   	uint32_t		key = 0;
->>   	dtrace_conf_t		*conf = &dtp->dt_conf;
->>   	size_t			ncpus = conf->num_online_cpus;
->> -	dt_bpf_cpuinfo_t	*data;
->> +	dt_bpf_cpuinfo_t	data;
-> Not sure about this, because (see below)...
->
->>   	cpuinfo_t		*ci;
->>   
->> -	/*
->> -	 * num_possible_cpus <= num_online_cpus: see dt_conf_init.
->> -	 */
->> -	data = dt_calloc(dtp, dtp->dt_conf.num_possible_cpus,
->> -			 sizeof(dt_bpf_cpuinfo_t));
->> -	if (data == NULL)
->> -		return dt_set_errno(dtp, EDT_NOMEM);
->> -
->> -	for (i = 0, ci = &conf->cpus[0]; i < ncpus; i++, ci++)
->> -		memcpy(&data[ci->cpu_id].ci, ci, sizeof(cpuinfo_t));
->> -
->>   	dtp->dt_cpumap_fd = create_gmap(dtp, "cpuinfo",
->> -					BPF_MAP_TYPE_PERCPU_ARRAY,
->> +					BPF_MAP_TYPE_HASH,
->>   					sizeof(uint32_t),
->> -					sizeof(dt_bpf_cpuinfo_t), 1);
->> +					sizeof(dt_bpf_cpuinfo_t), ncpus);
->>   	if (dtp->dt_cpumap_fd == -1)
->>   		return -1;
->>   
->> -	rc = dt_bpf_map_update(dtp->dt_cpumap_fd, &key, data);
->> -	dt_free(dtp, data);
->> -	if (rc == -1)
->> -		return dt_bpf_error(dtp,
->> -				    "cannot update BPF map 'cpuinfo': %s\n",
->> -				    strerror(errno));
->> +	memset(&data, 0, sizeof(data));
-> Do we need this, because (see below)....
->
->> +	for (i = 0, ci = &conf->cpus[0]; i < ncpus; i++, ci++) {
->> +		memcpy(&data.ci, ci, sizeof(cpuinfo_t));
-> Do we need this, because (see below)....
->
->> +		key = ci->cpu_id;
->> +		if (dt_bpf_map_update(dtp->dt_cpumap_fd, &key, &data) == -1)
-> Why can'you we simply do:
->
-> 		if (dt_bpf_map_update(dtp->dt_cpumap_fd, &key, ci) == -1)
+In commit ded09d05a ("test: rework main lockstat test"), a lockstat
+test was renamed.  Its .r results file was thereby orphaned.  Remove
+the orphaned copy.
 
-I think the problem is that the BPF map has elements with size 
-sizeof(dt_bpf_cpuinfo_t).  Meanwhile, ci has size sizeof(cpuinfo_t), 
-which is smaller.  So if we do an update like that, the map will have 
-stuff where we want it to be initialized to 0.
+Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+---
+ test/unittest/lockstat/tst.lockstat.r | 13 -------------
+ 1 file changed, 13 deletions(-)
+ delete mode 100644 test/unittest/lockstat/tst.lockstat.r
 
->> +			return dt_bpf_error(dtp,
->> +					    "cannot update BPF map 'cpuinfo': %s\n",
->> +					    strerror(errno));
->> +	}
->>   
->>   	return 0;
->>   }
->> diff --git a/libdtrace/dt_cg.c b/libdtrace/dt_cg.c
->> index 6dcf4cd3d..d83b1c2ce 100644
->> --- a/libdtrace/dt_cg.c
->> +++ b/libdtrace/dt_cg.c
->> @@ -1243,9 +1243,12 @@ dt_cg_epilogue(dt_pcb_t *pcb)
->>   		} else {
->>   			idp = dt_dlib_get_map(dtp, "cpuinfo");
->>   			assert(idp != NULL);
->> +
->> +			emit(dlp, BPF_CALL_HELPER(BPF_FUNC_get_smp_processor_id));
->> +
->>   			dt_cg_xsetx(dlp, idp, DT_LBL_NONE, BPF_REG_1, idp->di_id);
->>   			emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_2, BPF_REG_FP, DT_STK_SP));
->> -			emit(dlp, BPF_STORE_IMM(BPF_DW, BPF_REG_2, 0, 0));
->> +			emit(dlp, BPF_STORE(BPF_DW, BPF_REG_2, 0, BPF_REG_0));
->>   			emit(dlp, BPF_CALL_HELPER(BPF_FUNC_map_lookup_elem));
->>   			emit(dlp, BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_0, 0, pcb->pcb_exitlbl));
->>   			emit(dlp, BPF_MOV_IMM(BPF_REG_1, 1));
->> diff --git a/libdtrace/dt_prov_lockstat.c b/libdtrace/dt_prov_lockstat.c
->> index c73edf9be..8b2cf4da2 100644
->> --- a/libdtrace/dt_prov_lockstat.c
->> +++ b/libdtrace/dt_prov_lockstat.c
->> @@ -121,11 +121,13 @@ static void get_cpuinfo(dtrace_hdl_t *dtp, dt_irlist_t *dlp, uint_t exitlbl)
->>   {
->>   	dt_ident_t	*idp = dt_dlib_get_map(dtp, "cpuinfo");
->>   
->> +	emit(dlp,  BPF_CALL_HELPER(BPF_FUNC_get_smp_processor_id));
->> +
->>   	assert(idp != NULL);
->>   	dt_cg_xsetx(dlp, idp, DT_LBL_NONE, BPF_REG_1, idp->di_id);
->>   	emit(dlp, BPF_MOV_REG(BPF_REG_2, BPF_REG_FP));
->>   	emit(dlp, BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, DT_TRAMP_SP_BASE));
->> -	emit(dlp, BPF_STORE_IMM(BPF_DW, BPF_REG_2, 0, 0));
->> +	emit(dlp, BPF_STORE(BPF_DW, BPF_REG_2, 0, BPF_REG_0));
->>   	emit(dlp, BPF_CALL_HELPER(BPF_FUNC_map_lookup_elem));
->>   	emit(dlp, BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_0, 0, exitlbl));
->>   	emit(dlp, BPF_MOV_REG(BPF_REG_6, BPF_REG_0));
->> diff --git a/libdtrace/dt_prov_sched.c b/libdtrace/dt_prov_sched.c
->> index 3a218f3cb..a548e679f 100644
->> --- a/libdtrace/dt_prov_sched.c
->> +++ b/libdtrace/dt_prov_sched.c
->> @@ -84,6 +84,40 @@ static int populate(dtrace_hdl_t *dtp)
->>   			       probe_args, probes);
->>   }
->>   
->> +/*
->> + * Get a pointer to the cpuinfo_t structure for the CPU associated
->> + * with the runqueue that is in arg0.
->> + *
->> + * Clobbers %r1 through %r5
->> + * Stores pointer to cpuinfo_t struct in %r0
->> + */
->> +static void get_cpuinfo(dtrace_hdl_t *dtp, dt_irlist_t *dlp, uint_t exitlbl)
->> +{
->> +	dt_ident_t	*idp = dt_dlib_get_map(dtp, "cpuinfo");
->> +
->> +	assert(idp != NULL);
->> +
->> +	/* Put the runqueue pointer from mst->arg0 into %r3. */
->> +	emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_3, BPF_REG_7, DMST_ARG(0)));
->> +
->> +	/* Turn it into a pointer to its cpu member. */
->> +	emit(dlp, BPF_ALU64_IMM(BPF_ADD, BPF_REG_3, dt_cg_ctf_offsetof("struct rq", "cpu", NULL, 1)));
->> +
->> +	/* Call bpf_probe_read_kernel(%fp + DT_TRAMP_SP_SLOT[0], sizeof(int), %r3) */
->> +	emit(dlp, BPF_MOV_IMM(BPF_REG_2, (int) sizeof(int)));
->> +	emit(dlp, BPF_MOV_REG(BPF_REG_1, BPF_REG_FP));
->> +	emit(dlp, BPF_ALU64_IMM(BPF_ADD, BPF_REG_1, DT_TRAMP_SP_SLOT(0)));
->> +	emit(dlp, BPF_CALL_HELPER(BPF_FUNC_probe_read_kernel));
->> +	emit(dlp, BPF_BRANCH_IMM(BPF_JNE, BPF_REG_0, 0, exitlbl));
->> +
->> +	/* Now look up the corresponding cpuinfo_t. */
->> +	dt_cg_xsetx(dlp, idp, DT_LBL_NONE, BPF_REG_1, idp->di_id);
->> +	emit(dlp, BPF_MOV_REG(BPF_REG_2, BPF_REG_FP));
->> +	emit(dlp, BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, DT_TRAMP_SP_SLOT(0)));
->> +	emit(dlp, BPF_CALL_HELPER(BPF_FUNC_map_lookup_elem));
->> +	emit(dlp, BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_0, 0, exitlbl));
->> +}
->> +
->>   /*
->>    * Generate a BPF trampoline for a SDT probe.
->>    *
->> @@ -98,18 +132,39 @@ static int populate(dtrace_hdl_t *dtp)
->>    */
->>   static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
->>   {
->> +	dtrace_hdl_t	*dtp = pcb->pcb_hdl;
->>   	dt_irlist_t	*dlp = &pcb->pcb_ir;
->>   	dt_probe_t	*prp = pcb->pcb_probe;
->>   
->>   	if (strcmp(prp->desc->prb, "dequeue") == 0) {
->> -		emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, BPF_REG_7, DMST_ARG(1)));
->> -		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(0), BPF_REG_0));
->>   		/*
->> -		 * FIXME: arg1 should be a pointer to cpuinfo_t for the CPU
->> -		 *	  associated with the runqueue.
->> +		 * Get the runqueue from arg0 and place its cpuinfo_t* into %r0.
->> +		 */
->> +		get_cpuinfo(dtp, dlp, exitlbl);
->> +
->> +		/*
->> +		 * Copy arg1 into arg0.
->>   		 */
->> -		emit(dlp, BPF_STORE_IMM(BPF_DW, BPF_REG_7, DMST_ARG(1), 0));
->> +		emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_3, BPF_REG_7, DMST_ARG(1)));
->> +		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(0), BPF_REG_3));
->> +
->> +		/* Store the cpuinfo_t* in %r0 into arg1. */
->> +		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(1), BPF_REG_0));
->>   	} else if (strcmp(prp->desc->prb, "enqueue") == 0) {
->> +		/*
->> +		 * Get the runqueue from arg0 and place its cpuinfo_t* into %r0.
->> +		 */
->> +		get_cpuinfo(dtp, dlp, exitlbl);
->> +
->> +		/*
->> +		 * Copy arg1 into arg0.
->> +		 */
->> +		emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_3, BPF_REG_7, DMST_ARG(1)));
->> +		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(0), BPF_REG_3));
->> +
->> +		/* Store the cpuinfo_t* in %r0 into arg1. */
->> +		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(1), BPF_REG_0));
->> +
->>   /*
->>    * This is ugly but necessary...  enqueue_task() takes a flags argument and the
->>    * ENQUEUE_HEAD flag is used to indicate that the task is to be placed at the
->> @@ -120,15 +175,6 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
->>    * outside the kernel source tree.
->>    */
->>   #define ENQUEUE_HEAD	0x10
->> -
->> -		emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, BPF_REG_7, DMST_ARG(1)));
->> -		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(0), BPF_REG_0));
->> -		/*
->> -		 * FIXME: arg1 should be a pointer to cpuinfo_t for the CPU
->> -		 *	  associated with the runqueue.
->> -		 */
->> -		emit(dlp, BPF_STORE_IMM(BPF_DW, BPF_REG_7, DMST_ARG(1), 0));
->> -
->>   		emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, BPF_REG_7, DMST_ARG(2)));
->>   		emit(dlp, BPF_ALU64_IMM(BPF_AND, BPF_REG_0, ENQUEUE_HEAD));
->>   		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(2), BPF_REG_0));
->> diff --git a/libdtrace/dt_work.c b/libdtrace/dt_work.c
->> index 498d5332a..2167ed299 100644
->> --- a/libdtrace/dt_work.c
->> +++ b/libdtrace/dt_work.c
->> @@ -37,35 +37,29 @@ END_probe(void)
->>   int
->>   dt_check_cpudrops(dtrace_hdl_t *dtp, processorid_t cpu, dtrace_dropkind_t what)
->>   {
->> -	dt_bpf_cpuinfo_t	*ci;
->> -	uint32_t		cikey = 0;
->> +	dt_bpf_cpuinfo_t	ci;
->> +	uint32_t		cikey = cpu;
->>   	uint64_t		cnt;
->>   	int			rval = 0;
->>   
->>   	assert(what == DTRACEDROP_PRINCIPAL || what == DTRACEDROP_AGGREGATION);
->>   
->> -	ci = dt_calloc(dtp, dtp->dt_conf.num_possible_cpus,
->> -		       sizeof(dt_bpf_cpuinfo_t));
->> -	if (ci == NULL)
->> -		return dt_set_errno(dtp, EDT_NOMEM);
->> -
->> -	if (dt_bpf_map_lookup(dtp->dt_cpumap_fd, &cikey, ci) == -1) {
->> +	if (dt_bpf_map_lookup(dtp->dt_cpumap_fd, &cikey, &ci) == -1) {
->>   		rval = dt_set_errno(dtp, EDT_BPF);
->>   		goto fail;
->>   	}
->>   
->>   	if (what == DTRACEDROP_PRINCIPAL) {
->> -		cnt = ci[cpu].buf_drops - dtp->dt_drops[cpu].buf;
->> -		dtp->dt_drops[cpu].buf = ci[cpu].buf_drops;
->> +		cnt = ci.buf_drops - dtp->dt_drops[cpu].buf;
->> +		dtp->dt_drops[cpu].buf = ci.buf_drops;
->>   	} else {
->> -		cnt = ci[cpu].agg_drops - dtp->dt_drops[cpu].agg;
->> -		dtp->dt_drops[cpu].agg = ci[cpu].agg_drops;
->> +		cnt = ci.agg_drops - dtp->dt_drops[cpu].agg;
->> +		dtp->dt_drops[cpu].agg = ci.agg_drops;
->>   	}
->>   
->>   	rval = dt_handle_cpudrop(dtp, cpu, what, cnt);
->>   
->>   fail:
->> -	dt_free(dtp, ci);
->>   	return rval;
->>   }
->>   
->> diff --git a/test/unittest/sched/tst.enqueue.d b/test/unittest/sched/tst.enqueue.d
->> index f445ac843..28dcace8c 100644
->> --- a/test/unittest/sched/tst.enqueue.d
->> +++ b/test/unittest/sched/tst.enqueue.d
->> @@ -4,7 +4,6 @@
->>    * Licensed under the Universal Permissive License v 1.0 as shown at
->>    * http://oss.oracle.com/licenses/upl.
->>    */
->> -/* @@xfail: dtv2 */
->>   
->>   #pragma D option switchrate=100hz
->>   #pragma D option destructive
->> -- 
->> 2.43.5
->>
+diff --git a/test/unittest/lockstat/tst.lockstat.r b/test/unittest/lockstat/tst.lockstat.r
+deleted file mode 100644
+index 5bdc40c67..000000000
+--- a/test/unittest/lockstat/tst.lockstat.r
++++ /dev/null
+@@ -1,13 +0,0 @@
+-Minimum lockstat events seen
+-
+-lockstat:::adaptive-spin - yes
+-lockstat:::adaptive-block - yes
+-lockstat:::adaptive-acquire - yes
+-lockstat:::adaptive-release - yes
+-lockstat:::rw-spin - yes
+-lockstat:::rw-acquire - yes
+-lockstat:::rw-release - yes
+-lockstat:::spin-spin - yes
+-lockstat:::spin-acquire - yes
+-lockstat:::spin-release - yes
+-
+-- 
+2.43.5
+
