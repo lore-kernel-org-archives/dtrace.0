@@ -1,80 +1,77 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260031AAA11
-	for <dtrace@lists.linux.dev>; Thu, 22 May 2025 18:24:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1127117A2F8
+	for <dtrace@lists.linux.dev>; Tue, 27 May 2025 05:43:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747938249; cv=fail; b=gCOKdZ5C2Pw9s5k9c3zC81X19TJ0HV7FsJ0FzKn7TRBauvZ5QU4foZFwSyClbOYtWu83sW9rea8P1ft9VxDXUNlW6CunRGQN/KLONJ0pU6GfpamZ3EwS/+47SMtvOpu7XFJaSkk+Adkhiz08Q3OduDV/y0hNjSZsXHY/rUjBojc=
+	t=1748324604; cv=fail; b=ATv8Ww5mVJ2B86qhJc5CLFy1CAGm95FngiL7N2+g+LbsQOlqsrCQv696KphYV7Kh0rciW65iA8dQp9Do6mSrhLE6mdQRWJgHOqGMQKeKId3Vh7hL0E1oUWKa7zJ7pPcQFb+VXjahTpSChdfgtG2FyJjTHLERdZATDHPiUvLqo7c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747938249; c=relaxed/simple;
-	bh=2LA//jfzqfv2I5x2pOrJyLzMpQvlZNTRtGo+5P8VBx4=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YiV9l8fVyZV17n0ufIC7+AGNcd7wpTbGWUCYZ1QqWoC+RqqvkKEVCm+nbQBTzd8YhODeIH9vFNtB0mQWhvMF6KesPBMqSIGizGi+eZltqDGzpRn1ysuVwL78E29poV3bo8/8/P7tMK9pkyWnw7qmN6fgq/jrrb2JhjXqM9TdiFI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=YFLxKD3O; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=wUIKYeP4; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1748324604; c=relaxed/simple;
+	bh=ImjjZMY9140xDwvXt4G2tVkvLdVD7+eXzp2HzCxdUKM=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=f6zSqKnKPf5EW9l+AymSRNqdzrvdewSgzuBO7RPH0aIJuBRv/Px30rxKR0Q+bE56p2Hqj5aq2yqChlF474pI3dW67Y/MHgelIgUfWqqq20sXoRiJC63P38nue9WoD/fX63FyXubKS6/wHa/Nl4vVXPzZ0R8jzUgbd4pOZ/IhhSA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Ft7QXsCD; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=UztuKrza; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="YFLxKD3O";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="wUIKYeP4"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54MIM08N010372
-	for <dtrace@lists.linux.dev>; Thu, 22 May 2025 18:24:06 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Ft7QXsCD";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="UztuKrza"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54R1u1lD001487
+	for <dtrace@lists.linux.dev>; Tue, 27 May 2025 05:43:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=1TavxHpRYIGFl0NeoT
-	41pSgRqjc6apu4ISfeP8MDLqg=; b=YFLxKD3O2o89IjXYo7HIHVmPvouR0vTCUf
-	5aYL9s7V5/kf0xRdAUiRUL+xHVtT862m94VzU1wGsE34Dp7FFdUl4/wLLYxQB7ND
-	qLHtJxlK8T+dH3jzpM+S/9FQep1sV8W0tFkjWpuPEqH4/u6IGMoxB0cZ5WmWAFxx
-	v4XOgebZ5xh8YTzNZNu2HEwAWPpYLtPIo+RXCWVQdYFQHHB31lttFQg7Hdn3CpLP
-	qMqQdK7CEkkVJZ8T8rgkThMkK83tHQ+l72YHA10g+w+r9Sf2x7mpeT1wy/9Z+UAA
-	cpf8PBBxH072c3XxY2+vWdULMxs+TfzRa12u5glM1Nsu0Y+jofdg==
+	content-type:date:from:message-id:mime-version:subject:to; s=
+	corp-2025-04-25; bh=E5nIY7Vm/OuhzxzgAwFBhpMkuYcx5EFeYug1F1jEMUs=; b=
+	Ft7QXsCDEQmgCNHvNjOPocB4LoserLxnz/ruA82WP+rqFaMYVZgUElFYCeBcRaVy
+	VXiTUYIvaYF9Yv/DxP9YPgvY3rniebAsUAgGl0pGHFHwKIva5HyzJ0u7JFKISFeK
+	Q0KYYaSDLH0LV/l8knuxh1nJ2pTPve2HyjDH7W6Da+JoL8VUHFGdS6WpGFluxpTy
+	bNb4Tgvw5KDbhzpYO+dqOtSmRBYpSu8JkocIf1juXjXug6CirTicYw7IDM4In+Yp
+	9uQhRNXoWmsE1fNbn3Cj0ksxcNgf7jdh5itkiSC3Z4SUXZ3eVveG3IDBy1o/FUAM
+	ygPxY9dAdBxWXtKLgOxLYA==
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46t8x0012n-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46v3pd2993-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 22 May 2025 18:24:06 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Tue, 27 May 2025 05:43:21 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 54MGovp8011350
-	for <dtrace@lists.linux.dev>; Thu, 22 May 2025 18:01:42 GMT
-Received: from cy4pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11010054.outbound.protection.outlook.com [40.93.198.54])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 46rweprwm3-2
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 54R3Sdtd023137
+	for <dtrace@lists.linux.dev>; Tue, 27 May 2025 05:43:20 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10on2060.outbound.protection.outlook.com [40.107.92.60])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 46u4j8dgt2-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 22 May 2025 18:01:42 +0000
+	for <dtrace@lists.linux.dev>; Tue, 27 May 2025 05:43:20 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jzNhGMvC5EnCnJQwtp0qF84H1zAEJTFXwkn4DltTtvz/nvDemO2YmXK3ItUcaPPhnyM/sNLV3jGjopJyYDsH8ao0M1/EqbKxA1ihYYWHixh8a7aqvFPvKofUnGqo82uT2Nb9ONDflcyXPKX750quTdnr3ZUtushK1ojcwwFcGRSJeq7iZVIm6mJlPBwkq43r4+KD0ogcAXkSURcSMh59LGV0R1WaRPAO4qsHspXiHwhnExbz60cTpkidJAJAuZ6Lb1DG9pWm1Bfbcak7PR0RQWyvq63PWpATxgGoMyBIny9oARN1oWJB2H+aKrXDE2VNJpYt18oGr0io5PZOfrBwrg==
+ b=F4mzqm7omAT/KdMVz6kXEMg0KN/4fh/CV0r602VtXqBzi8cZJzWZVFD//35WxN/8nvvzXhMNFaIgir7DJh1TnD0faOk/bkmisv/osA5auvnN+25m2EM6V+oALxuJI/sJJYoal7a9P6+2d2xt6/FHEzulgqGuJBd0MVaTVmK9+zqn+g7brRII/1KzgVDB7IHFAALfpFdYcaEyF3QSjBgDxVu3LWRVOHvTLXQfOsFPn+WXQZHsR+7OvVc4/++RXKC5W12zVQieXJLReF1OsDd6XevXQm9AiL5FYg9vnIcwPxHsuD3SUf2HAsA3gz62xzSUkPsI8WBYTbl4Aq2qbRNoWg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1TavxHpRYIGFl0NeoT41pSgRqjc6apu4ISfeP8MDLqg=;
- b=D6A+1AJ4KN8w7Q/kImpTL6FeAJ+kqbfaFhaiESYj4nmsISTG58iohJnenwZWnnXj1FsmY9QYy+EsDo7vzIxPKEedtq4en9f0XsBZ3E5X+M1SqSGNJIDDpuGYjV6HL72cD1xMlj0n5IHbFBNvpfD3i7f84hrsWZtkII7ORddRhmq23UW0oHulghf3MHLVk0cTRIrBTAAUjtsmGsRgGoKbuXgnrmyJAhAkIyRhKfBJDlXm613UqNb5lTxXBlBC3wnvTyk7C7hH/H3BGNtoR01IuPKnihAsRfFti1rjCYGPc4Zj/4nDalsJaWigZHRzXU6X0ekDGbWCXyvGE+pJE0snqQ==
+ bh=E5nIY7Vm/OuhzxzgAwFBhpMkuYcx5EFeYug1F1jEMUs=;
+ b=pneFlPD18XrjmpsrbeSdhVpuN3xAUmSjeTT5xhvfGh5RnSSFxCxFwcdHHX9+vzbAhQYiu30lMUykz67TlZbA4oGTl+4hgPwsZRzqnc+unMYE6a8QI73DPYVjJHeTVk6IFWtgM7zhl6NNDG0fn/HiQ0E5pR0E/R4o6HdVaMpbsTHsGPEooYaLlwxg7hvH2eaZN700EenN4Tg/014nR4Lip5jWwoy+hXNGNI13exWUsw6IB95lernium7qjRHIj1k2jNVz/Mx9zZJnsuhgENZrE03Kn7573SFFegtSQF0ED/BXaKDaF60qim58LkbrD6oy9OSKGfOLaW/7q1+ksDm5xg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1TavxHpRYIGFl0NeoT41pSgRqjc6apu4ISfeP8MDLqg=;
- b=wUIKYeP4B2cf/neKO/y4UqEUsaJ9VRqukikLdVWiVD787VLgTCfrYArQYUKQe/iR8ZZ6i6zIVIW595i5H2ysMf9QtkJDzQAoA5Na4o3DJdXsNvP5EF83HHMCTOHC1e/QuvolFJFxiZUQ8bd6B9dXMqt+0WkRe4zv7LQTXm3adMk=
+ bh=E5nIY7Vm/OuhzxzgAwFBhpMkuYcx5EFeYug1F1jEMUs=;
+ b=UztuKrzaZmkYkeDYbsZdztlYWF3uF0hS5P7asrfZauY6FGtcPVcAqMVufqGgEW/+Y5VyJPFB7iIqAahclNghNn4Al9TOvYUbq3+CeXxpcwntgMDbOBi4yY2Fry/XNc3e72V6Dlwo3t+9rxx9g8WtETDgv2WKPGd77v/QiN8oy8A=
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by MW6PR10MB7590.namprd10.prod.outlook.com (2603:10b6:303:24c::11) with
+ by IA0PR10MB7275.namprd10.prod.outlook.com (2603:10b6:208:3de::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.32; Thu, 22 May
- 2025 18:01:32 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.40; Tue, 27 May
+ 2025 05:43:18 +0000
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::8b24:5536:3259:5a69%2]) with mapi id 15.20.8722.027; Thu, 22 May 2025
- 18:01:32 +0000
+ ([fe80::8b24:5536:3259:5a69%2]) with mapi id 15.20.8746.035; Tue, 27 May 2025
+ 05:43:17 +0000
 From: eugene.loh@oracle.com
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH 04/14] Test: caller and stackdepth tests for fbt provider
-Date: Thu, 22 May 2025 14:01:08 -0400
-Message-Id: <20250522180118.27343-4-eugene.loh@oracle.com>
+Subject: [PATCH 1/2] Omit an aggregation record if [u][sym|mod] translation fails
+Date: Tue, 27 May 2025 01:43:12 -0400
+Message-Id: <20250527054313.4849-1-eugene.loh@oracle.com>
 X-Mailer: git-send-email 2.18.4
-In-Reply-To: <20250522180118.27343-1-eugene.loh@oracle.com>
-References: <20250522180118.27343-1-eugene.loh@oracle.com>
 Content-Type: text/plain
-X-ClientProxiedBy: BL1PR13CA0153.namprd13.prod.outlook.com
- (2603:10b6:208:2bd::8) To CO6PR10MB5636.namprd10.prod.outlook.com
+X-ClientProxiedBy: BL6PEPF00013E07.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:22e:400:0:1001:0:8) To CO6PR10MB5636.namprd10.prod.outlook.com
  (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -83,408 +80,263 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|MW6PR10MB7590:EE_
-X-MS-Office365-Filtering-Correlation-Id: 23e1fdb4-9abd-45c4-71be-08dd995aaf54
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|IA0PR10MB7275:EE_
+X-MS-Office365-Filtering-Correlation-Id: 12627096-6cfe-4671-6d0e-08dd9ce161a5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|13003099007;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Cq4gzFOFW+KvOi46i7Xq0giHmgaawTJE6/I8Pm0U/mmvRA1cU0gK6prUnMjc?=
- =?us-ascii?Q?S3QKjPy8mrSkx+H8EvDPszcZ2VqssGsZtDIUy4WEYCG1L3Pq3E6ZtyR51BKC?=
- =?us-ascii?Q?Yanh+XNMnJhq3Zy95YXcBdvOGEdJkmCG7QTM4FjBXRt75I5+xXhH8ApZHyjV?=
- =?us-ascii?Q?uH3WyJviLbmmQwYzpjaMwj/rsx+b8CTNbGyCYm5XmruwcEhdS86l9cohhVbh?=
- =?us-ascii?Q?Pi7sGnvfKKq/VSNey3BmIdQDYJif3yMbXt+CMUSdZItgOFpajx8AL3j+axbT?=
- =?us-ascii?Q?ZdCX13VUnICmyZrQ2aLmM4z34CuHrnywua6xqEJUeXisAth46/BjRFZ3LGC+?=
- =?us-ascii?Q?eDUZNLUTBPCNA27xvFANH65fz0zjQbBjfcijt6Mc3wOKGGI8Xvooaq6md63j?=
- =?us-ascii?Q?fJ4thjQOBUwx8z8UV9sA91i7KlwP+eGeKPt262bjgozdU+HOJO/eObfdf+Q2?=
- =?us-ascii?Q?jW/y1P4ZSb9DqRkTvQWZFJ8t9zNcEEw8WKqWSn9bW95mZBxdR/IvASZTO4L9?=
- =?us-ascii?Q?FrcytYGpfWPGrUySHdShQAXiWJw2pjncSwYEOY4FfGWGV59hacjd5O7oIdMi?=
- =?us-ascii?Q?y74rqrGxUogVxLxtji48HvsQniqgQxkas6GKWR/9/HOT6W3CkIRtNqaxTSMG?=
- =?us-ascii?Q?0Pc+lM/10aZD9RjPTD8tsEn1CWPSGYpwIiEv0XfcelYc7S5Ryjnqmw5IOwMC?=
- =?us-ascii?Q?9ppkXwKVbHrXkPlV/Jgefsx0KEH5++n+BKx+WsyTaKXqumLaSV+5Jw1E+Aln?=
- =?us-ascii?Q?OK1UmE4lYsY1JMfUngntD5aJkXgvkBRr3VeOn047hu4+cZ2Vp57M14wQtAsc?=
- =?us-ascii?Q?cCHlTuvHk7Ilskn+Uxf2CL/gLDGKmLeGD1cx17a65v5pIyO4BqbQLUNfyroR?=
- =?us-ascii?Q?gOTItMVPOcraiqOq05idYwFVObKWQa+pGXEDveh3NRwpgQoIP9emq9HauIrD?=
- =?us-ascii?Q?FX8cXUjQfuD2Qq8tPQ81JvqfFkFzcKkQUtXpPlEOijevspvIm+wa7TOjDrwm?=
- =?us-ascii?Q?S4pd2sT5e7TjbbLyLh39CN3EL6LkXSbUZiLJEl2KbP1rpRQF7tYv8R+09DN9?=
- =?us-ascii?Q?9bWEI0cul2xDm+0O2XQZDnmV5dNJcS0QDbxRr+uozJLTi4Yr3Thkxlvwtkw3?=
- =?us-ascii?Q?1p+oGzCZxjXEgnOlamOH6qPSvgxYbGoxAAOgHvoekgY0IFOXR7OhWmIo9Zn8?=
- =?us-ascii?Q?TB3/eJ9GzV/H8l7A1xZEwcGr0/2vUqBpCQS9Ij/DYwNUL8d+ZhO1d34Nkh7F?=
- =?us-ascii?Q?IG7NlX7pIfR+izYPhLf8BiUy/NgtZGekB8KkRrUQw5Wzm8fVBdj9rB0ag3yW?=
- =?us-ascii?Q?PZvaxkBa1isc0ac1muH78Nl9HGMIVDYRCsV9v/nRiYruiDqNmppFqjqaREn1?=
- =?us-ascii?Q?Z/3dbGFud1spiooNwqooUImqY+u1?=
+	=?us-ascii?Q?NDUxE3d1M6gronFRVe6P4u1XOS7yFmUVq2E6nxJYDOrmzkiwDISiGyZsBj0t?=
+ =?us-ascii?Q?lmldC+eUduos+yJZZhtnhRSJdKYpCQmeQ91aJho36j9EFAAl1xp9wKEsilKT?=
+ =?us-ascii?Q?Tcolu8Y4U+fmh8cclARXMs4pz6rKeh3VLWqDOeqfE4o5mQq4fv1cJCwiTVPv?=
+ =?us-ascii?Q?4qG6uPl/JgAf8R/BPXVF7jGXNEZgP8FRjzxAWQU/zGlfc1IP/x0mO/yQcMfz?=
+ =?us-ascii?Q?qb/aV3Z2wSbWU9e4F8QkLOvlRMYHLGPJDpQz9dz2jk/iUVaPOuQBBqbJXdCj?=
+ =?us-ascii?Q?bojuo+193S+eWObj61K6SDrEOIoRMcmHej0Ztq+38nj8qGAXM7/pGwCGb/xp?=
+ =?us-ascii?Q?m7wwYl+GCeftAxixoH8gVHVNLRCiF8x52CxriiqyuA+WXZWL0u/F2jpmDVMu?=
+ =?us-ascii?Q?e3QS3rzdZOxEW/KxQOWzk7/u6kkyenP08T732IMrTuDNeMmhLMxRfcJiR/Qu?=
+ =?us-ascii?Q?nCHOEXldT6nQC3RYphFzhVwXDC3AyESEWXMbtTqxpMJaiEGboMB/6UghW9Jv?=
+ =?us-ascii?Q?v8LffhXBsmueE+KSTmVr8dTMohIQxmyn9yohB3xjCJ1NAPMYXQd8KpYGeHJ8?=
+ =?us-ascii?Q?8yWU+SVT6BpHNp7S1jV3l1NM7pmLgk9XSjNFmwndn4mBLkJVDpGNxlzyY7Oj?=
+ =?us-ascii?Q?oQtUw+rXAIpqpDm21LbJFpSsjz3+WT0D5Xr0nNmLkZqFstCCGdacgzrodPCk?=
+ =?us-ascii?Q?9ODb+7E4M8WuiQo3sfWiFxh/dcrJx1Y9C3rDDksO/qwrInNgRjmnHPwMF24b?=
+ =?us-ascii?Q?YDMxfQFoK/m8fWjaEqC4BwPdqaAzk5Zf7C0M4H1v9Qumic6LIxyZqsw53pqI?=
+ =?us-ascii?Q?lB/44BSTPF0qQ0DUixP6rVz9uuUVcpc5gCJGMDlf6OKRipqEsJTI8oD2rRLj?=
+ =?us-ascii?Q?F+VZy83zsaJinK46/1o9kbIvhupOT+zMqiOwWi2K8fDyygmx+NWXGK7cB3x6?=
+ =?us-ascii?Q?idCO/9gRZns8sUwBCm5q0jiaPyQjYkE+2OLyoKPnrd6GzoxcqbWa6aUgpmw7?=
+ =?us-ascii?Q?UBWllH+PNgjWFILzrdHQ30BY5sayAeZt2HoDNYOcw0GNpECPr10pHkEOEAKE?=
+ =?us-ascii?Q?+ayV6IB5VH42SYAviyoReVC60TrNpKFep+tSbzO2wKDUFJ5kJukEFPYVWTsa?=
+ =?us-ascii?Q?KGAHR+eYt8GvjFYDfQAQPHFyg/POkYdnMBxvmstH2WGLfRgQlUG8YnTXDrb5?=
+ =?us-ascii?Q?v4mVp7GIIh3dOChRBPTEluk+cj5Wf2HM34/5fc/GTIf/UsxcmGSEy+xYSusW?=
+ =?us-ascii?Q?B7uAi3M3vjS9StFAWPMzft6vZit3+iQiwQlC3pxyZ3JMUTj0off79/HqeQwH?=
+ =?us-ascii?Q?p+jrbC3jjXBW2YSErrT5UC07rPjXo2Mq77EkjHhLZXKnc/RwbGXaIPtm9Oad?=
+ =?us-ascii?Q?o6pZbWYOClI/ZTxNYDsga1xEqJN88+E4OleOFFOc7nml9rfJj2RMuRUolJO9?=
+ =?us-ascii?Q?ae69HDaPuDo=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?y06jknZV/517L4/8Ht0rc3Kwo4CFofI7azUk+BP82ePej0+PWmtFI+/qGPMt?=
- =?us-ascii?Q?UveC3OrgzHFrUFpz0QMVn4YXEH6MpMmsnOhicso4utXBNgCnn0Qd4TmZZfF1?=
- =?us-ascii?Q?n4dXiMfFaAtkjF3SQo2VSzne9+mp+X0lT8BrW3I31VKc0kvn7hV94s6VuzY6?=
- =?us-ascii?Q?Ox74IbocOy2xtMQSu8iOxTiEvchYDrvvc0lwaoAhkuizDuBprOp4K4GUFV/d?=
- =?us-ascii?Q?GCJlieP9EhiA57HIH0W5sEdN6HYEWb6BCHJJvI7aCxkQ0jH/ARTHLe0sBXj9?=
- =?us-ascii?Q?HjzPJtunl1jJtRpPrMiyrJhDT7pZQu6YZB1nv/OVzk7n5Z81jrzEyGs3gLtt?=
- =?us-ascii?Q?vM/6nkySq5lJFZ6MKiMtYascz5bBuysCEYRtB5ZaUo2jZbB/f8X5oKGuqS6T?=
- =?us-ascii?Q?vj6ir3VuNItXk8UInt40Em/sveeKMv3eHq1IYkAvaV3rAAFuzIwgjIk/eFPI?=
- =?us-ascii?Q?RBgHidBRYH0BzxklRbSguQXxJw7FMWBMDFMX3sqNiV4KBbr6lUk/r/714gVX?=
- =?us-ascii?Q?rUrTDgSjqmDmVHKGECmRCMKwqYJuRKjQoLRTpBgDuxjxsZpfWMGYw6PsB940?=
- =?us-ascii?Q?pbLkMnTmWca7d/3amqSmATHSn5CE0c/Xbc+jaF0ii4wLo6UZPNECNVsmnlw+?=
- =?us-ascii?Q?pX5kEcSYJbqUZgT/ekyZldmDBSsl+r1l02wvxoeIQL9eyG1Cx3WMh7wCL+eL?=
- =?us-ascii?Q?IGa551Y7NIuaS3FkGjm9sF/rSc2xdQNRybzZwa9xYoHhQVfpbYmSpjzJEl5i?=
- =?us-ascii?Q?bpvLNSxn0Klc0EzGE0FJMZ+ZGCj89UFU6977dvKKo61IHt7cIU2pixr03fBY?=
- =?us-ascii?Q?OnOZq+25LanSTCwvKXkO5ZyKLOFRsxrtBAwKZd+P52lh+4PvmNLxNDxa1ADG?=
- =?us-ascii?Q?MIhJx42fTQYHfqWemsKXoM8Bp0byUISkTPxHalog0PX+6BtJYL/OcVjdugpW?=
- =?us-ascii?Q?eFf2QRlK1U47KYHCTC+14bfMiYzcPiD93AqdtyoT5SbXP7/nGIVWMWL+YtzA?=
- =?us-ascii?Q?x0ch/30uzRI4LrmErKP9oXiHQLHY5HriTlzGdDOUE+IKZ0uXiC7RftqkOUN4?=
- =?us-ascii?Q?gVEI2KBzYVA6QCcMtzsla9uu68vaFgVQ1Nen9OPmAQhImFU1rRObYy6nrcH3?=
- =?us-ascii?Q?BFnxELFmGps5XJo70hFaHTXYG/fgXqNgdNdWsZMJ1fXRw3d/cQ5QMto/OuJQ?=
- =?us-ascii?Q?GinE0EZneaz73jI1aOimjUYB8N+867cv/lrSRm1xRayMhBU6+f/ASv1cITrP?=
- =?us-ascii?Q?nKuYbK5Ye0MwT/QPjG/A7Q7wM+E3arWORpsgobFHvMjH4G5LKQwQthBfLdZw?=
- =?us-ascii?Q?bSZtHJdlnrM2ekvZt/i42ZOcFmSxxUIDgPZOvRSh6CJBvI46koyaPKTdAEJu?=
- =?us-ascii?Q?UmpiWW9tEszaLllJy3iHo3Qcs8HyZSrgKw+CHFhxyD/RZSv8sGlQrU22bQ95?=
- =?us-ascii?Q?YDQqvJTHPq+vjVbOe23Cdu4N0V5+JeHpEt9OvwhA0R3rxEelnagbREstbrVX?=
- =?us-ascii?Q?4L3R9l9rg13g2fBBtfaZO6zMgh7DVu6DsybyK3oX0rovQcIkU3Np7icihJiN?=
- =?us-ascii?Q?rhah3Jb0izTdwG3F5kDWYjkTgE4ahbdeKkGoynVL?=
+	=?us-ascii?Q?owj0Od18sBYPen2bz9ihbqWdKsTrNokj8U2+4cPF63TKx9IJNt+8u0vOCAFP?=
+ =?us-ascii?Q?/nZhXZvQdJbaY7s7EVrTSDZpmFmM1hLCn6AQgEPhkx6Cg6v4d+09tkMqn3yu?=
+ =?us-ascii?Q?ewRws0PpJx19kB7pHlSV2tvMveN/RgKkc8hRke8nNmXRn/F0Eva72OuNISPM?=
+ =?us-ascii?Q?qzT0dhjUjPrHzmIkU8E11E81Pcz64xrpG1/GCXYAsuwFLPVLnsnCCCWCq/X1?=
+ =?us-ascii?Q?2IUGdYGfZKZvIs0w1CXw+b8OOQcY7GCL1KTj1cxpJA6f67nGqLCLmMUpH2dH?=
+ =?us-ascii?Q?BYtq7w6rDmIc3W848TCbdG7hDt9O7iPkoxgc4xQcHwdK30aneDveDa7ZBLIm?=
+ =?us-ascii?Q?sP4BkuMc5ugSKwsNuK5RBSiae5PGUPmyrj8SwMrn3YnVCjd48oS408/tO+s0?=
+ =?us-ascii?Q?hjb5OEdZlB02aoJdRfEhRuiEwjpCSRzv+Vlg4E3WN1yRHyf2rQ/SPPwoue5M?=
+ =?us-ascii?Q?u6qXC7SYG7dSIWY14jdS/eGuWIO5xZvwJqLuzBb+gtg+bDJ72xJdlK7neVyJ?=
+ =?us-ascii?Q?5h2+XD/ybr3+9/RGZEt4ZCMe6PfJFol3l1Gry9/BGR1/hSPwU2DE6oQwvONJ?=
+ =?us-ascii?Q?SBd62TjX+Y7W0bxgo9UDqOt8kgW7GPOfquJQmIQUQB/IinwHXKNEYqMapeU6?=
+ =?us-ascii?Q?fYzJk17975vpGxTSnj0m3OQRUtrO/EvLDtnSgHsKwpWppHproAJDZYbilsTN?=
+ =?us-ascii?Q?7n0G2ON/0H+dcHw+SPruWbAaC91ipO1OVVifRRZlj8umWXO7qO+yZb5hCR0v?=
+ =?us-ascii?Q?re7NRfw/CSfBjM82k/qbiwXH0Y5gO/0AUb3MH4xs6K5FNmV+RlMcrYgLYY+E?=
+ =?us-ascii?Q?vqBzjDyCgVe4Q+TkgTBM9r6gyNPwn0vLhXQgDXUcoUpRvcO2uftZQqH2b56I?=
+ =?us-ascii?Q?h/mU0FuYoO9gO2z4NJYa87h9jBbauAVyCug03YorSizgKoxM77+0Pot2B8tk?=
+ =?us-ascii?Q?VIkNDupz+/+h6YT/GV4K8vzMQxXDbK4w8VJbVKwh6gLqfC696SFPm7LEfYHo?=
+ =?us-ascii?Q?p2O6OsCVmU9B160iK3/phSfSu8bC8shhyJDkChOVLhwSI48iSagY7eKI3twA?=
+ =?us-ascii?Q?WKTmh82w5B7PGH9VkPmnkSdCWIjJO2dzxfJFwjbATaXs6kkTaGiJGZxAYALG?=
+ =?us-ascii?Q?BWQW7Fd+0rQ+4oY4w/O381lSXQqzUGMA5V7Tm3toVLdolqj0wXVDu/mm8QiI?=
+ =?us-ascii?Q?teEX4br8MakQ+k6RSgpN/irW3a7bPeHV4QAgpnrCCk48BZj3cxMT6FZRQHzS?=
+ =?us-ascii?Q?p0LvB/7VGlb3XyOF0cg4R3YSp+5XU3BW0tA2O++p/DHCdemiUwlBAWBf7uqO?=
+ =?us-ascii?Q?q8ntA1RLuutZW/n05nSqcaH886senSg5l/TiAEWifVfKCAJhDuicE6WgWWSV?=
+ =?us-ascii?Q?vLXS1Pv2PUcjMEkF7rUaKYu7v5SkJFJGgKt9J70YS15DTeHEXLx9y6o0XyNR?=
+ =?us-ascii?Q?CU+Rox6HyM0nS5SxBlqv07Fo2YXke+vSaamFp1p8ePBOsKuViX48txInom2q?=
+ =?us-ascii?Q?npIk9Y0HJO/Abws74bagQRhm3t7yade+uvbAzZ8l6toGd3c0iISwHwt3CD4D?=
+ =?us-ascii?Q?gDqQGWY64xBwLKaUB0i2TVFDjZr60RVVl224bCku?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	3RUcaH44a1cFilGcgc27knQgQMi3YUXXxQFac73ItrI4sulOcNOg+nGWl4SespGaxgTGX5sYEJEluMHf+d0RPoMZSbFk4XD+hpv8SVeC3P7BzeLlBvEcLawHvbifaMwQ6ht8Tpk6JYl0/VQOFYhjrm9voJi5uzoVF503dWNjboKyKlZYEAHPg7m48MzzcmyNmxEO69EKcn18jK13Lo4YpNAl6SFGZQrINsq9GT57aXnWegjBGr6HMYJ7KDOom578SuGycgvkLM2fHDO6NCMCNvbqr28sdP1J45t8rjf5TCcpoyLrVzGMeDMEsctxo8BUufcs4BSceMOJIFsR/mj2TxsqF5MEOHmQQqcV3v7lHPf3wdu7BZnB3bjV/Szo/yHk9T3qnPJtcJzWNGi9B/vnTOAiUIlRyiRFK3zBlThH2NfieaHHSERPM3ZmUznOghoYBGWr+4DyURJv+goeZC2W+coxQLPekiG13pJqVTyn9ehyyghC7/PmkwqA9ujtE0flIcBwwTbAqzMa/13T6C9NJ2LEYesBrPDFplM7RtsKgQL6YMbhZUW8Zq1Twivlk/JeDTbOgGiwuN5CUguIYexN3ukPNgtI1E2xsyMjIgol6e4=
+	LTxncael+CczK/dQWdJXzLBus4CS0VdecDPRdauvgg8Fjq4Zjqo6tzEqHsCb9u6kHZyZnqq6AI64KE4LKjoIWgZmy8RrtmB0MSfoOB5orivPvuh17XuLpnuhTtxgOBJOw9LlbYABJ5zRVYPdu66+Mwu+lRHp2WO7FzdDw5RKsZv8tNMEx1SP9c+RP7NAny524JxskbBOVZtiDVyBrwE2TedAmb2NNZRpjZl2aHR8l+lXjhWEFCt399iA5fE8klQu/58HRaBmOK01o4Haz71MgN27RF4zSsyOPojplWHTtvhWI7MB11H/CYXE5OHXKiJpErYKi8zxftiowZc13clO3INC46A4QpoPnXujziV1oC7X8VMwUFVQF8TJJ9QgSwfflGwz83E1jexCzgF+L1eq/tbu9Ms2ufkpGRcYU9d+zxchW3lZzaThbvBBBAgDoJcz9bSdnRwWAIoo8bfdst4wtDAFRDK0t6Dye5RfuC1GFtUV2aOVDYQ4ZP6oHQnV724zZ1QeYx3qU2FHtNPkJ1vDrDRmZ/ptAXjS/9F5zGdhJtjCrdhYWPR4Iablq+tIL6T1BLu+AcmRuz+nGEXYgM4xhd14qLRpXEUWqC5cHVx+Sjs=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23e1fdb4-9abd-45c4-71be-08dd995aaf54
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12627096-6cfe-4671-6d0e-08dd9ce161a5
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 18:01:32.6212
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2025 05:43:17.8756
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: idrgLhKStqcxbXwajSHoW4x/KILoIWJwBkHRK1phnnyjVADUY3uHs/dzNfaKWz0+wZ1vBGF+bz3m57yE0exNug==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR10MB7590
+X-MS-Exchange-CrossTenant-UserPrincipalName: BudH1/C79J8k+EdTrVUGr0tWNgGa3dZLIb7iigY2I7Hjh/h2d/Bf5kV+xHC5HVQ1pnfWKRbygsuP1f+3JLr3ew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB7275
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-22_08,2025-05-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 spamscore=0
- suspectscore=0 adultscore=0 phishscore=0 malwarescore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2505160000 definitions=main-2505220181
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDE4NSBTYWx0ZWRfXycUSIUEW4wXS OqFEmmGHhA6wFwgPczcT/JWuLpCzNofiXt1gZLyF+Q8K+lYpVQlrEYOaNqv0opnieGfHHyJyto0 9ySsJ5XyEOeANf9Z8UXi0Cq4HDrbZZUGAo9O4X7Ye11aIear2TZgO48cBHdyxn/nMxJlNj03+kF
- 8+G+t6Pr1Zp5L2AsLdnVnsWfY7wZabbOLrcoePQZGAOOKsQqYhlhy5NFRu8QDW9GwkJLAnqsYWR coscml4L0pSv3NPVfRkJ+ZqCamUOSLyAVZW91Dbz+e3cgnXJfIQ6qtcs6g+aj051/hfI5Wnt4Zu osYmImz6pL9iXMV0+jGN1MyZKVNYOyIEEDIsetNBlZsBPy7QrmJK81edA+yvoA/M3Cpho2CVhB/
- XlsSZSeMWUdK+7V9XN3x7wX7CIi4Dtr/NIykVsOC0nIAmdDvbsYC7gP9X8PMxKL7VO699Q6K
-X-Proofpoint-ORIG-GUID: Fu49zEmKJnPc0B_J7tFHUZdT_MP_Zgsr
-X-Proofpoint-GUID: Fu49zEmKJnPc0B_J7tFHUZdT_MP_Zgsr
-X-Authority-Analysis: v=2.4 cv=TZKWtQQh c=1 sm=1 tr=0 ts=682f6bc6 b=1 cx=c_pps a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=4xIc-4EMh5p-rtFnVp4A:9 cc=ntf awl=host:14714
+ definitions=2025-05-27_03,2025-05-26_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 suspectscore=0 malwarescore=0 spamscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
+ definitions=main-2505270043
+X-Proofpoint-ORIG-GUID: Aw832rvTjF9p9aKz5UiiEDtxu5VCXHIE
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI3MDA0MyBTYWx0ZWRfXx1tPtJzFab2f MZvjtbTtY1ns9IzNIlNgqbqmvAhYUORL4sWJPFWz8Wu2C8mS2XwG7bHLFCfwTyCELlHmdXzllhD cJ3Eo5PF7D/8Q9pydqjDOYbf3ky8eX0G8AJVBf79HFG70ANXlf5Q7fIKxvKqGsm9So5w9IsZ5RJ
+ RqswuG0WCi6uk45iIHI6+kCK0Au+DfXK096K32fmOpLKlF8lIBp+mIHKUb+nyAqYnaOlLheoL7z yQ6cTaqIhd9Jntq1CxCgg+6hIlP6/1lIp7ECUnSkYecZ2HFsNROWWN5/EvlpFj5NnChDdlmq3bk 2+imAzLX2KLc8W3lPws9E1KoT61Tr2dlFTjBqEz1/Gk5PdAxiuC+leQREiLuOAYbnne1x+hU6hH
+ CLRs/1gRqz/D3lRmw9wsLcYUnBCImTQ967PbC8ONpavRgrt9Vm7hTmOTI+54gLWSXZuKoB6B
+X-Authority-Analysis: v=2.4 cv=UZNRSLSN c=1 sm=1 tr=0 ts=683550f9 b=1 cx=c_pps a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=MZKL1Twp2Rlje-_qR6YA:9 cc=ntf awl=host:14714
+X-Proofpoint-GUID: Aw832rvTjF9p9aKz5UiiEDtxu5VCXHIE
 
 From: Eugene Loh <eugene.loh@oracle.com>
 
-We will introduce a set of tests for the caller and stackdepth
-built-in variables for a wide selection of providers.
+An aggregation key can be a sym(), mod(), usym(), or umod()
+translation of an address.  It is passed from producer to user
+space as an address, and the consumer must translate the address.
+It is possible for the translation to fail.
 
-For the caller test, we will essentially call
-        stack(2);
-        sym(caller);
-and then compare the caller to the second stack frame using
-the new script check_caller_to_stack2.awk.
-
-For the stackdepth test, we will essentially call
-        printf("%d\n", stackdepth);
-        stack();
-and then compare the stackdepth to the reported frames using
-the new script check_stackdepth_to_stack.awk.
-
-In this patch, introduce tests for the fbt provider, along with
-the support scripts they need.  Subsequent patches will handle
-other providers.
-
-The old tst.caller2.d and tst.stackdepth2.d, which tested fbt,
-become obsolete.  Remove them.
+Omit a record if the translation fails.  This addresses failures
+seen in
+test/unittest/profile-n/tst.ufunc.sh
+test/unittest/profile-n/tst.usym.sh
+The problem was that the kernel's aggregation buffers are snapshot
+multiple times.  If a translation ever fails, the raw address is
+used instead.  Later on, when the aggregation is printed, if the
+translation is successful, the raw key will report a count of 0.
 
 Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 ---
- .../variables/bvar/check_caller_to_stack2.awk | 32 +++++++++++++++++
- ...pth2.r.p => check_stackdepth_to_stack.awk} | 16 ++++++---
- test/unittest/variables/bvar/tst.caller-fbt.d | 25 +++++++++++++
- test/unittest/variables/bvar/tst.caller-fbt.r |  1 +
- .../variables/bvar/tst.caller-fbt.r.p         |  1 +
- test/unittest/variables/bvar/tst.caller2.d    | 31 ----------------
- test/unittest/variables/bvar/tst.caller2.r    |  1 -
- test/unittest/variables/bvar/tst.caller2.r.p  | 11 ------
- .../variables/bvar/tst.stackdepth-fbt.d       | 27 ++++++++++++++
- ...tst.stackdepth2.r => tst.stackdepth-fbt.r} |  0
- .../variables/bvar/tst.stackdepth-fbt.r.p     |  1 +
- .../unittest/variables/bvar/tst.stackdepth2.d | 36 -------------------
- 12 files changed, 99 insertions(+), 83 deletions(-)
- create mode 100755 test/unittest/variables/bvar/check_caller_to_stack2.awk
- rename test/unittest/variables/bvar/{tst.stackdepth2.r.p => check_stackdepth_to_stack.awk} (63%)
- create mode 100644 test/unittest/variables/bvar/tst.caller-fbt.d
- create mode 100644 test/unittest/variables/bvar/tst.caller-fbt.r
- create mode 120000 test/unittest/variables/bvar/tst.caller-fbt.r.p
- delete mode 100644 test/unittest/variables/bvar/tst.caller2.d
- delete mode 100644 test/unittest/variables/bvar/tst.caller2.r
- delete mode 100755 test/unittest/variables/bvar/tst.caller2.r.p
- create mode 100644 test/unittest/variables/bvar/tst.stackdepth-fbt.d
- rename test/unittest/variables/bvar/{tst.stackdepth2.r => tst.stackdepth-fbt.r} (100%)
- create mode 120000 test/unittest/variables/bvar/tst.stackdepth-fbt.r.p
- delete mode 100644 test/unittest/variables/bvar/tst.stackdepth2.d
+ libdtrace/dt_aggregate.c | 51 ++++++++++++++++++++++++++++------------
+ 1 file changed, 36 insertions(+), 15 deletions(-)
 
-diff --git a/test/unittest/variables/bvar/check_caller_to_stack2.awk b/test/unittest/variables/bvar/check_caller_to_stack2.awk
-new file mode 100755
-index 000000000..8499852a7
---- /dev/null
-+++ b/test/unittest/variables/bvar/check_caller_to_stack2.awk
-@@ -0,0 +1,32 @@
-+#!/usr/bin/gawk -f
-+
-+# Check output of tst.caller-$provider.d tests of the form
-+#
-+# {
-+#     stack(2);
-+#     sym(caller);
-+# }
-+#
-+# Confirm that the caller information matches the stack information.
-+
-+# Look for the first nonblank line.
-+NF != 0 {
-+	# It is the current frame.  Skip it.
-+	if (getline != 1) { print "ERROR: missing expected output"; exit(1); }
-+
-+	# Now we have the caller frame.  Strip off the offset.
-+	expect=$1
-+	sub("+0x[0-9a-f]*$", "", expect);
-+
-+	# Finally, get the sym(caller) output.
-+	if (getline != 1) { print "ERROR: missing expected output"; exit(1); }
-+
-+	# Compare.
-+	if (expect == $1) {
-+		print "success";
-+		exit(0);
-+	} else {
-+		print "ERROR: expect", expect, "but got", $1;
-+		exit(1);
-+	}
-+}
-diff --git a/test/unittest/variables/bvar/tst.stackdepth2.r.p b/test/unittest/variables/bvar/check_stackdepth_to_stack.awk
-similarity index 63%
-rename from test/unittest/variables/bvar/tst.stackdepth2.r.p
-rename to test/unittest/variables/bvar/check_stackdepth_to_stack.awk
-index 9b071181f..fba1f4242 100755
---- a/test/unittest/variables/bvar/tst.stackdepth2.r.p
-+++ b/test/unittest/variables/bvar/check_stackdepth_to_stack.awk
-@@ -1,8 +1,16 @@
- #!/usr/bin/gawk -f
--# Oracle Linux DTrace.
--# Copyright (c) 2016, 2021, Oracle and/or its affiliates. All rights reserved.
--# Licensed under the Universal Permissive License v 1.0 as shown at
--# http://oss.oracle.com/licenses/upl.
-+#
-+# Check output of tst.stackdepth-$provider.d tests of the form
-+#
-+# {
-+#     printf("DEPTH %d\n", stackdepth);
-+#     printf("TRACE BEGIN\n");
-+#     stack();
-+#     printf("TRACE END\n");
-+#     exit(0);
-+# }
-+#
-+# Confirm that the stackdepth information matches the stack information.
+diff --git a/libdtrace/dt_aggregate.c b/libdtrace/dt_aggregate.c
+index 86f9d4d5b..40c1ae44f 100644
+--- a/libdtrace/dt_aggregate.c
++++ b/libdtrace/dt_aggregate.c
+@@ -317,61 +317,76 @@ dt_aggregate_quantizedcmp(int64_t *lhs, int64_t *rhs)
+ 	return 0;
+ }
  
- /^DEPTH/ {
- 	depth = int($2);
-diff --git a/test/unittest/variables/bvar/tst.caller-fbt.d b/test/unittest/variables/bvar/tst.caller-fbt.d
-new file mode 100644
-index 000000000..695104134
---- /dev/null
-+++ b/test/unittest/variables/bvar/tst.caller-fbt.d
-@@ -0,0 +1,25 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+/*
-+ * @@trigger: periodic_output
-+ */
+-static void
++static int
+ dt_aggregate_usym(dtrace_hdl_t *dtp, uint64_t *data)
+ {
+ 	uint64_t tgid = data[0];
+ 	uint64_t *pc = &data[1];
+ 	pid_t pid;
+ 	GElf_Sym sym;
++	int rc = 0;
+ 
+ 	if (dtp->dt_vector != NULL)
+-		return;
++		return -1;
+ 
+ 	pid = dt_proc_grab_lock(dtp, tgid, DTRACE_PROC_WAITING |
+ 	    DTRACE_PROC_SHORTLIVED);
+ 	if (pid < 0)
+-		return;
++		return -1;
+ 
+ 	if (dt_Plookup_by_addr(dtp, pid, *pc, NULL, &sym) == 0)
+ 		*pc = sym.st_value;
++	else
++		rc = -1;
+ 
+ 	dt_proc_release_unlock(dtp, pid);
 +
-+#pragma D option quiet
++	return rc;
+ }
+ 
+-static void
++static int
+ dt_aggregate_umod(dtrace_hdl_t *dtp, uint64_t *data)
+ {
+ 	uint64_t tgid = data[0];
+ 	uint64_t *pc = &data[1];
+ 	pid_t pid;
+ 	const prmap_t *map;
++	int rc = 0;
+ 
+ 	if (dtp->dt_vector != NULL)
+-		return;
++		return -1;
+ 
+ 	pid = dt_proc_grab_lock(dtp, tgid, DTRACE_PROC_WAITING |
+ 	    DTRACE_PROC_SHORTLIVED);
+ 	if (pid < 0)
+-		return;
++		return -1;
+ 
+ 	if ((map = dt_Paddr_to_map(dtp, pid, *pc)) != NULL)
+ 		*pc = map->pr_vaddr;
++	else
++		rc = -1;
+ 
+ 	dt_proc_release_unlock(dtp, pid);
 +
-+fbt::ksys_write:entry
-+/pid == $target/
-+{
-+	stack(2);
-+	sym(caller);
-+	exit(0);
-+}
++	return rc;
+ }
+ 
+-static void
++static int
+ dt_aggregate_sym(dtrace_hdl_t *dtp, uint64_t *data)
+ {
+ 	GElf_Sym sym;
+ 	uint64_t *pc = data;
++	int rc = 0;
+ 
+ 	if (dtrace_lookup_by_addr(dtp, *pc, &sym, NULL) == 0)
+ 		*pc = sym.st_value;
++	else
++		rc = -1;
 +
-+ERROR
-+{
-+	printf("error encountered\n");
-+	exit(1);
-+}
-diff --git a/test/unittest/variables/bvar/tst.caller-fbt.r b/test/unittest/variables/bvar/tst.caller-fbt.r
-new file mode 100644
-index 000000000..2e9ba477f
---- /dev/null
-+++ b/test/unittest/variables/bvar/tst.caller-fbt.r
-@@ -0,0 +1 @@
-+success
-diff --git a/test/unittest/variables/bvar/tst.caller-fbt.r.p b/test/unittest/variables/bvar/tst.caller-fbt.r.p
-new file mode 120000
-index 000000000..954ca96aa
---- /dev/null
-+++ b/test/unittest/variables/bvar/tst.caller-fbt.r.p
-@@ -0,0 +1 @@
-+check_caller_to_stack2.awk
-\ No newline at end of file
-diff --git a/test/unittest/variables/bvar/tst.caller2.d b/test/unittest/variables/bvar/tst.caller2.d
-deleted file mode 100644
-index ca6dbfd22..000000000
---- a/test/unittest/variables/bvar/tst.caller2.d
-+++ /dev/null
-@@ -1,31 +0,0 @@
--/*
-- * Oracle Linux DTrace.
-- * Copyright (c) 2021, Oracle and/or its affiliates. All rights reserved.
-- * Licensed under the Universal Permissive License v 1.0 as shown at
-- * http://oss.oracle.com/licenses/upl.
-- */
--
--/*
-- * ASSERTION: The 'caller' should be consistent with stack().
-- *
-- * SECTION: Variables/Built-in Variables/caller
-- */
--
--#pragma D option quiet
--#pragma D option destructive
--
--BEGIN
--{
--        system("echo write something > /dev/null");
--}
--
--fbt::ksys_write:entry
--{
--	stack(2);
--	sym(caller);
--	exit(0);
--}
--
--ERROR {
--	exit(1);
--}
-diff --git a/test/unittest/variables/bvar/tst.caller2.r b/test/unittest/variables/bvar/tst.caller2.r
-deleted file mode 100644
-index 0cfbf0888..000000000
---- a/test/unittest/variables/bvar/tst.caller2.r
-+++ /dev/null
-@@ -1 +0,0 @@
--2
-diff --git a/test/unittest/variables/bvar/tst.caller2.r.p b/test/unittest/variables/bvar/tst.caller2.r.p
-deleted file mode 100755
-index 1a26a4df2..000000000
---- a/test/unittest/variables/bvar/tst.caller2.r.p
-+++ /dev/null
-@@ -1,11 +0,0 @@
--#!/bin/bash
--
--# sed:  remove +0x{ptr} offsets
--# awk:  look for the ksys_write frame, then write the next two lines
--# uniq:  count unique lines
--# awk:  report the counts
--
--sed 's/+0x.*$//' \
--| /usr/bin/gawk '/ksys_write/ {getline; print $1; getline; print $1; exit(0)}' \
--| uniq -c \
--| /usr/bin/gawk '{print $1}'
-diff --git a/test/unittest/variables/bvar/tst.stackdepth-fbt.d b/test/unittest/variables/bvar/tst.stackdepth-fbt.d
-new file mode 100644
-index 000000000..10b05399e
---- /dev/null
-+++ b/test/unittest/variables/bvar/tst.stackdepth-fbt.d
-@@ -0,0 +1,27 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+/*
-+ * @@trigger: periodic_output
-+ */
++	return rc;
+ }
+ 
+-static void
++static int
+ dt_aggregate_mod(dtrace_hdl_t *dtp, uint64_t *addr)
+ {
+ 	dt_module_t *dmp;
+@@ -385,7 +400,7 @@ dt_aggregate_mod(dtrace_hdl_t *dtp, uint64_t *addr)
+ 		 * appear more than once in aggregation output).  It seems
+ 		 * unlikely that anyone will ever notice or care...
+ 		 */
+-		return;
++		return -1;
+ 	}
+ 
+ 	for (dmp = dt_list_next(&dtp->dt_modlist); dmp != NULL;
+@@ -400,7 +415,7 @@ dt_aggregate_mod(dtrace_hdl_t *dtp, uint64_t *addr)
+ 			    dtrace_addr_range_cmp) != NULL) {
+ 
+ 			*addr = dmp->dm_text_addrs[0].dar_va;
+-			return;
++			return 0;
+ 		}
+ 
+ 		if (dmp->dm_data_addrs != NULL &&
+@@ -413,9 +428,11 @@ dt_aggregate_mod(dtrace_hdl_t *dtp, uint64_t *addr)
+ 			else
+ 				*addr = dmp->dm_data_addrs[0].dar_va;
+ 
+-			return;
++			return 0;
+ 		}
+ 	}
 +
-+#pragma D option quiet
-+
-+fbt::ksys_write:entry
-+/pid == $target/
-+{
-+	printf("DEPTH %d\n", stackdepth);
-+	printf("TRACE BEGIN\n");
-+	stack(100);
-+	printf("TRACE END\n");
-+	exit(0);
-+}
-+
-+ERROR
-+{
-+	printf("error encountered\n");
-+	exit(1);
-+}
-diff --git a/test/unittest/variables/bvar/tst.stackdepth2.r b/test/unittest/variables/bvar/tst.stackdepth-fbt.r
-similarity index 100%
-rename from test/unittest/variables/bvar/tst.stackdepth2.r
-rename to test/unittest/variables/bvar/tst.stackdepth-fbt.r
-diff --git a/test/unittest/variables/bvar/tst.stackdepth-fbt.r.p b/test/unittest/variables/bvar/tst.stackdepth-fbt.r.p
-new file mode 120000
-index 000000000..e50f12822
---- /dev/null
-+++ b/test/unittest/variables/bvar/tst.stackdepth-fbt.r.p
-@@ -0,0 +1 @@
-+check_stackdepth_to_stack.awk
-\ No newline at end of file
-diff --git a/test/unittest/variables/bvar/tst.stackdepth2.d b/test/unittest/variables/bvar/tst.stackdepth2.d
-deleted file mode 100644
-index 2b1c0866a..000000000
---- a/test/unittest/variables/bvar/tst.stackdepth2.d
-+++ /dev/null
-@@ -1,36 +0,0 @@
--/*
-- * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2021, Oracle and/or its affiliates. All rights reserved.
-- * Licensed under the Universal Permissive License v 1.0 as shown at
-- * http://oss.oracle.com/licenses/upl.
-- */
--
--#pragma D option destructive
--#pragma D option quiet
--
--/*
-- * ASSERTION:
-- *   Test the stackdepth variable.  Verify its value against the stack trace.
-- *
-- * SECTION: Variables/Built-in Variables
-- *
-- */
--
--BEGIN
--{
--	system("echo write something > /dev/null");
--}
--
--fbt::ksys_write:entry
--{
--	printf("DEPTH %d\n", stackdepth);
--	printf("TRACE BEGIN\n");
--	stack();
--	printf("TRACE END\n");
--	exit(0);
--}
--
--ERROR
--{
--	exit(1);
--}
++	return -1;
+ }
+ 
+ static dtrace_aggid_t
+@@ -606,16 +623,20 @@ dt_aggregate_snap_one(dtrace_hdl_t *dtp, int aggid, int cpu, const char *key,
+ 
+ 		switch(agg->dtagd_krecs[i].dtrd_action) {
+ 		case DTRACEACT_USYM:
+-			dt_aggregate_usym(dtp, p);
++			if (dt_aggregate_usym(dtp, p) == -1)
++				return 0;
+ 			break;
+ 		case DTRACEACT_UMOD:
+-			dt_aggregate_umod(dtp, p);
++			if (dt_aggregate_umod(dtp, p) == -1)
++				return 0;
+ 			break;
+ 		case DTRACEACT_SYM:
+-			dt_aggregate_sym(dtp, p);
++			if (dt_aggregate_sym(dtp, p) == -1)
++				return 0;
+ 			break;
+ 		case DTRACEACT_MOD:
+-			dt_aggregate_mod(dtp, p);
++			if (dt_aggregate_mod(dtp, p) == -1)
++				return 0;
+ 			break;
+ 		default:
+ 			break;
 -- 
 2.43.5
 
