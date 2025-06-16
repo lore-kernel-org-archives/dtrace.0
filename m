@@ -1,86 +1,87 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D6028937D
-	for <dtrace@lists.linux.dev>; Mon, 16 Jun 2025 19:21:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A6A1EDA0E
+	for <dtrace@lists.linux.dev>; Mon, 16 Jun 2025 19:43:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750101678; cv=fail; b=aUD1joLlkf/BDubCr0DeUa/TS2Z8GqraBuL+kY3iWn1aNnzAkJOQE94P6Riel96DGMYgceFqj8mV6KT8HAH9qQ1K8xmX6/KmKsdRCklTk3fTMLr/t6hM+bBtSBt4r0izy4/fLCCoxwbA2iByeA0DydHs8iqnP3sNVlkewkz0H0k=
+	t=1750103038; cv=fail; b=B1ZzjO/qFfaEdA12Al0HRxCwwHQo5YucZ/rwcdh+ZcTD+9zWTJJR+osKpGLw/smuR8cDPwCzbFoBUce5pwttlmg6l+foPwcT3WLPd9RLzjO23dNMydaAxDYe/tjbHAhenfh43xVs8dCYDwnRaOCKJoKgF7PvFiaHlMdFgk09WtU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750101678; c=relaxed/simple;
-	bh=zTZOb2qPr6NdRyn8mgLc5+bayTudE/p8BPNdv/QDDak=;
+	s=arc-20240116; t=1750103038; c=relaxed/simple;
+	bh=lx1tDPRqQX912LjIPEMJD71LoC9yr5iHMEJV0A6kfJU=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=eqZpCmhvQtN5oRg5mm/T9H+POaBoxPFDNcMlie1nA1pIaeTvckKT9SK601I1AKCmf6lseZzwqTjOiHIWWp6g2Urs/8RsRgDo61VveMrHwDgaf1mPGRwLisxcCD3+9d8+mZ16yxXUoOhfXg/AdYK1bP/cuOw3ekwp68/Pk/4Qnqo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Qn+GKWFw; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=PQBEbePA; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Type:MIME-Version; b=aPyFOVX4vV4Ed4V/6o/phoGdRnCdMTeI+LNwkgQmqXhFnnnR3YpcyyOhRXCdqt5+rCuVAomvWtyX9KNBE6axyeZyBLeSO2FEUGDUZUjnmLTMPX/rY7FIQazSWi0vFIVCTusI1ngB8k0IEjKiaKkrLnZQQ6XD0EgWJ3XXb5G5VTY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ZmXX3i7b; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=um7Ipa8m; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Qn+GKWFw";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="PQBEbePA"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55GHuTKh017880
-	for <dtrace@lists.linux.dev>; Mon, 16 Jun 2025 19:21:15 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZmXX3i7b";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="um7Ipa8m"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55GHuUxB017647
+	for <dtrace@lists.linux.dev>; Mon, 16 Jun 2025 19:43:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=rVDf6d6SU9XOgnWiKmBEDI8L9j+YvAUAZNln4CTr8yo=; b=
-	Qn+GKWFwFQfHDFYw982Farf1rrWWZrbAe7LN1x2EeE3BH3huClXv7GGQr+olgybI
-	DABUQJ4q21JPmrQDVOohNBdAnC0bLYwcVSW+/l8DOZm9yTUjqxD0ey6GwIBBh87Q
-	vAXTwnckT9GI8F81avMnTVqa4zz/E3yAOsYvesW+PFOzuzdEYsmXzxnx+I+4i2Fa
-	KY3AeslAx3TY7jCQsNLiEcA/ryV3+M3S3BHKc6Oju3ceNKZy+A3ve4F45Q8xvL87
-	RlRBw1Ft6K11T4J6o5gbuWniQ8beUlIklTAgXiXq4O0+YQHBOjBPbeB30J0sCQhL
-	erBXvHZajwYhkmRkwESctQ==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 479hvn31dt-1
+	corp-2025-04-25; bh=QFGQGYET7tjJfapTkz4Lz9qGMSrzCZKe97etqoTqlXE=; b=
+	ZmXX3i7bFCZ+qohVBIpVvqiucqTIdDfwNOprcEzm2wwQehCbdn+XXvWZxPjf1iV8
+	Aq6ig9HD+0V6miZMI12rSfgO072wsYVZ6o7iYy6dejOMbWejtTkTorUlEMajZ2LM
+	8jacv8+OBIQ2iqH5uXjOl0phCWRcrzSDQ4i0uF6e/EC0x/Rz7vjCVNgFsqvRwQsJ
+	pskL/2N3aIyUsHnby8lMEaFijsbz6QL2b0Ty7XHRslZJigZoiEDgVChQaZaXmMy6
+	DloDKn0+l1DpDO2w3h9nwq2r3CY0DADaQM0nfkgWB8i8oMKc3qYzmbG+RGUu1zqF
+	EZ7exOIezsl6fLncdGe7WA==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 478yp4kr1p-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 16 Jun 2025 19:21:14 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55GI0QAC034466
-	for <dtrace@lists.linux.dev>; Mon, 16 Jun 2025 19:21:14 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12on2045.outbound.protection.outlook.com [40.107.237.45])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 478yh83eg0-2
+	for <dtrace@lists.linux.dev>; Mon, 16 Jun 2025 19:43:56 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55GJAb4M000834
+	for <dtrace@lists.linux.dev>; Mon, 16 Jun 2025 19:43:54 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12on2080.outbound.protection.outlook.com [40.107.237.80])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 478yh8c1eh-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 16 Jun 2025 19:21:14 +0000
+	for <dtrace@lists.linux.dev>; Mon, 16 Jun 2025 19:43:54 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Z+TyOm8E+BOa5kZeqKsuvrGD0+6hPUfha1MGvLrnLcTMVdXkPfgy1/M1Qe3jOwgCdYyg14id8oldNPJ42nkujIjgmX4pVWyibpCGZw2vtsWAQivj4Lr2Y84Ms02n+4PeTqXBfJaV/p1t0zW0AaOxWeCHaR1s6kmYp5JktzJAJXUnLzFDYYFS3EObwYxceS+nntWJ/YenqFQdOnc4TJxQlggaT7PVDSZsLWLL+lNE7gBaMNutfCVi0+aKAzxWnr+fXVuPy/c1A2tLWxkANYOVxqcJG2Jg/3UoK3qbew4fChudibKvYT3NOrwBW9VHj3ZsfJPSXPKWpMGwdWOWSS1EIw==
+ b=PTKAMNsTOlvVNHD8gI6UAqwHj0kAtZtSwBFReEGbcnkCO8LVKjQVF5AHBAiy56CdzlW0rP//t90tMjmJs2IuS4GRQ2f5Iq69i3Z4JF41844Xim1lMD0XJ9qGf84v3CkZOYQvnw5cqkwMKB2IjTneOJp8BAEVqURmb8DEcnIu5WB+J/QK9Y0lmD1Q5JTJyX1XGx6rmtl3mT+OubD0K9om5jNo05YcXQoYp/UegE6Md+7/Aw6disY8Eo36trVFFsyGUocbocxy0Dn1Z/3m0ApjrSEfEsizb3yisS/tJ/MAREWy9Zrxz/zkOcM8E7fPGj9mMEtYD1/AQ44IECpFN0MxMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rVDf6d6SU9XOgnWiKmBEDI8L9j+YvAUAZNln4CTr8yo=;
- b=TZiE5rj5SkttUAriD+0d1DtvocRDMHLJjoWGSFpkOeL1CYAXMGYq7/+E0q5RFypkbrs1W/KJib6l9J1F/rQYJIhPtUYpYxiGwlcm6qny99SQFKJbvb+9m6yTnPQ+nqNyH5hwTuyW0GuBH2VlSbce8dwuhWfxfvEwJzYykDgW6ZZ5rQMeLXSACuE0ir9GVQppwybeKlzrEabZp6B2qx0UfdZGuGjgeyYax1nXEntehu+fxHXdWOxVBTVgN/wKgbYONlhz6szB5W/im/+qpUtnMrk37R9obp7VRi53XvVVhv2zctmaAWce78us7N6M4CWw+how8KLs7oywKeN3c52tJA==
+ bh=QFGQGYET7tjJfapTkz4Lz9qGMSrzCZKe97etqoTqlXE=;
+ b=asYonUHPrp+WIQKCqXmqXGWls04OwqSkVIJdnK222FyBlu0q6iGfE9Wx0v7gTN5QuHCgcBQhEdS3rY6LxDzLrHyIBG38JRHUZAL+OSxYW7JUvGkYxXmT4+pb1kp/Ky8vPx6gksn87k8CgD0GIeLCyrpl7y6y+1bIdjJIcL+RLwm+UayvdTMwCb4QuTQQePcLDHmVLwolrFRoMBI4bjNRbnPzCLLnbCMx96Mw5oiVm58Drs+7MVIALH3dBRvdMer+/gS3TtuWikliTzVy95jJ9xZp5woXJ9nYKt+qnHqD1D2/GNUAgjmIvB9Q2mm4gHEpENP2vwDUOSI8eQq79u8ETQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rVDf6d6SU9XOgnWiKmBEDI8L9j+YvAUAZNln4CTr8yo=;
- b=PQBEbePAn71S8vfvli6E70CslIHrz17NLY7DQG5Twi6eOjNxhaNq6I0MKSJHP5+f6RAaqdoN4Oo1L4Y5ciMIjxbiAvYN2OlvmQeOZEPoGqUfvL7FIQuJfXxCmySsyiLMjXO9O9ZVxyzJXAUWfViR1OgKYzPAmj/2iSZAPBN1mBM=
+ bh=QFGQGYET7tjJfapTkz4Lz9qGMSrzCZKe97etqoTqlXE=;
+ b=um7Ipa8mFEojpvSci6ADETglvaw6/19q7v4Q4OFAx+iTR25BFk9qa/Ip+0lX+QmT2Wc6MTBoGJKU2cRZtjHIx2oefNu0MZnRiFpGGz4mXieh5t5m3U8Kf+3U6CAK/KKSZFDfiH91wyzNV4XI0TbVW2vvnHf9dSXmolJZ4E8IBns=
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by SJ0PR10MB6376.namprd10.prod.outlook.com (2603:10b6:a03:485::21) with
+ by CH3PR10MB7713.namprd10.prod.outlook.com (2603:10b6:610:1bc::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Mon, 16 Jun
- 2025 19:21:11 +0000
+ 2025 19:43:53 +0000
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69%2]) with mapi id 15.20.8792.033; Mon, 16 Jun 2025
- 19:21:10 +0000
-Message-ID: <6cdb7118-e678-57e7-adff-a74a1ff39e19@oracle.com>
-Date: Mon, 16 Jun 2025 15:21:09 -0400
+ 19:43:53 +0000
+Message-ID: <28ab1e2c-d376-dcb4-bff8-4db5f1d12802@oracle.com>
+Date: Mon, 16 Jun 2025 15:43:50 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH 01/14] Fix stack-skip counts for caller and stackdepth
+Subject: Re: [DTrace-devel] [PATCH 04/14] Test: caller and stackdepth tests
+ for fbt provider
 Content-Language: en-US
 To: Nick Alcock <nick.alcock@oracle.com>
-Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Cc: dtrace@lists.linux.dev
 References: <20250522180118.27343-1-eugene.loh@oracle.com>
- <87sek3d83m.fsf@esperi.org.uk>
+ <20250522180118.27343-4-eugene.loh@oracle.com> <87cyb7d7rc.fsf@esperi.org.uk>
 From: Eugene Loh <eugene.loh@oracle.com>
-In-Reply-To: <87sek3d83m.fsf@esperi.org.uk>
+In-Reply-To: <87cyb7d7rc.fsf@esperi.org.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR05CA0028.namprd05.prod.outlook.com
- (2603:10b6:a03:33b::33) To CO6PR10MB5636.namprd10.prod.outlook.com
+X-ClientProxiedBy: MN0PR04CA0019.namprd04.prod.outlook.com
+ (2603:10b6:208:52d::33) To CO6PR10MB5636.namprd10.prod.outlook.com
  (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -89,271 +90,147 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|SJ0PR10MB6376:EE_
-X-MS-Office365-Filtering-Correlation-Id: 754ee1a9-ef79-40b0-3618-08ddad0af3a4
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|CH3PR10MB7713:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a10b885-6b8b-4dad-daca-08ddad0e1fab
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TWRQRVFlSmlXcFh0dGVMNTl3TzVUVkwxNGYxRGRuZ1R0emRjWnFleXYvSUdM?=
- =?utf-8?B?R0VmN0Z0R0xndG5icm02L1FXY0xsQ250REhUY0J3STJjcFpYQ0M4ZDBtSEcv?=
- =?utf-8?B?Z0xDaEZwYXA5YnZ3RWR0RTFkOXpZbVZEYVo2ZzRZN0hYTkJMaTNTYUxTQXUw?=
- =?utf-8?B?VzRJZ0NZdEFoSkpuOFRCSnRpSkJLWUhXUjl5L0RUN29iUHp5N0ZlQVJYb3pw?=
- =?utf-8?B?MTgrVllpVjJXdE9uT0JzYzA2Q2xJeGM5elVROW8rQS8vTmk3SVR1ckJjRUVl?=
- =?utf-8?B?SEYrNDhTSHc4U1A5ZmRCSm1Od1Q4WGNXZ1B0MVdZMDRHendGbEZnVHdCWlg3?=
- =?utf-8?B?ZWgxRVdlNjYvUEJJcGxnNnJZQUUzYTNZRkswZ0x5VWJralc0MFhMUXJlbER2?=
- =?utf-8?B?aWNXaXA5ZVI5TWtNMnZUWnFqa1BBcTVOTEJWYzdQQ0hScmltZXFMeW1kOGpT?=
- =?utf-8?B?ckxVTFZWQXhLZ2JtVmc3bGhyU09XbVBqa0JnM2ErbDdkd3dJdEFqOTB0ekVs?=
- =?utf-8?B?Q0o0RElTYmw0R1VQR2xDcFJTYURmWmdWQWRyamFqdEQ5SHd5Nk1yVjNkK2dk?=
- =?utf-8?B?V0JBcTN5b3cwVTZhZnNSRVpMSkR4MFFMSnBZNEk2cllrQXFsSThnWEVkUW1X?=
- =?utf-8?B?NTFZYnd3b2pFcE0wdmZCYkxNWXAwcUFKQ0RZMFpaQ0RHV1RLQlNwbDY3cU9p?=
- =?utf-8?B?K1FCU2xFR1dNbi9JWW9YTHdyWWxySkJFZ3Zoa0tsUnpRN2lxazhQRGFaZ0xJ?=
- =?utf-8?B?VnZNL0RGb2kvbkxkUEZ6WFNhVzBLRzV2MXlpM0NOUkdiRFRQWTRHYi9ybkZT?=
- =?utf-8?B?NFlhQnE5R3ZIOUtJQndHSzhhZnpLNjl0d3paTWhEdkVtdnpBS3VpL2lvcGRr?=
- =?utf-8?B?UHpLQnhlM3l3WkpJNkdyMStVaHZCVmxMVkRnekhtaStTM0xmTmZxWmM4b1A0?=
- =?utf-8?B?MVZ4UStUWGk4dmFJM2RYSE41V21ENDRERlZ5clFDUFFXOG40M1d0cXA3Y2l5?=
- =?utf-8?B?bnhobmN3YnJtUG8yelBvbmsyT2kybmJwWXhiZTBKZ3gyTEFHZk9reC9saDA5?=
- =?utf-8?B?MWJjdUp5WXdabWF0cnc3WVp6WXFwT0xKeTVkSGEwanRZYXFpTVFpbngzcHlN?=
- =?utf-8?B?bE9sZUVxVkF2MHZTeWIranBwN0JrVzl3M1Y2SVNDTndSZEN0UTFrbHVxNlVs?=
- =?utf-8?B?ZjdPZzFLaGxyQ0FaT1oranVkVHZSZXV5Uk9BSkl4UHFObGFnTElHd1dOdERa?=
- =?utf-8?B?Z0R4OGZlQnVvOXdHaFZQaHFvd3VGZnlRdWRQMjE1MHJmd2pvaVl2eEtBL1By?=
- =?utf-8?B?TzlCemp4UTBISjFZNFBUTlZBKy9hTWdscjFyUDdNdUUrNUNXMzdlU3YvS0d3?=
- =?utf-8?B?SnlVcmJvcXl5Nk5QWGJJcGZ5eWRJU2pxOGQ0UkpiUTA3Y2lOemlDUGppbnN1?=
- =?utf-8?B?U2FjQ3RMZjN0TjlQb25WcjJaOXd1ODRqenM2dXZxbmhEdGN0NlJMM1U2Ujdo?=
- =?utf-8?B?cDd6M2VKNGxQYTRvcnNzaTZiUmpKSjFzdnBpQzJYY2FlQ01WTm93OHI4MHk4?=
- =?utf-8?B?bHBOdHBSNEVpUEJNSGVPeHRRZ3VSTmh2azVaVWl2Qm1WeVh6eUQ4UjV6VElB?=
- =?utf-8?B?NjVJZDkvUGpjaTd2NDRtemp2ZXJEc1A2Wk5qdXkzWEZqUFlvMWVkZ2FqZUZp?=
- =?utf-8?B?ajdXL0FBSTBJRDBGbHk2Tjh0Y01ycTcwSHNETEhTdmNmeENMTEdjeUs2Z3gz?=
- =?utf-8?B?WE43dGNNMEhjVzNDSFVnRWVVeE1JeWZCWnVtMmJzbnJqelk3V3BjQW13a2NP?=
- =?utf-8?B?VmJOYkNLcmM2KzdMaXJvUXNkbXl4Mm9rcW9NNGxlMXpBbWJuZWFiNXUxbGsw?=
- =?utf-8?B?QWgwYTFNTXlEM1dIUGF3ZUJua2ZNR091a2ozdDdxUHlMYnZvYk45VXcrM0h5?=
- =?utf-8?Q?9Ir0JzFCUAU=3D?=
+	=?utf-8?B?Y0YxN0lQdkZiYnVVMEQ0enFvZ2tUQjJ1QmZ5Tk5OdDdxK0tMdXNRRGR1S2lL?=
+ =?utf-8?B?TlFpbytwSUw5b285S0ZNeFA0OENvdVhUSG5QWlhvY1dBUnBIU21QdEhZdHJy?=
+ =?utf-8?B?MFdnSnFYRW9ROTR6ZzFHM1ZEYW44RjYrNXVGVFFZSlpXY2Y2R3Z1RGhkTXRq?=
+ =?utf-8?B?RmxwckZIU00rWnYvOUtBYWowdVlGVk9rN1lyOHVkb25hQ1ErTk5ObzUrbmZv?=
+ =?utf-8?B?UnBBU2dSNm9XRHh4dmlhdkl1U1cwTFNTMExBNkczWXdXNWxpbTdYbURmZHhL?=
+ =?utf-8?B?SmM0VGFISUVJNlhVc0d4ekV0TktXUW05amU1T1FjRlpnWGNlakdBRysvOXE1?=
+ =?utf-8?B?Q3ZScGhXNWNDQ0xsVWwzMm4wMHVUZjlXTFlVcEE4NXZZYUFSR1FpcFZaNVVl?=
+ =?utf-8?B?VzJIeEhjSnZSU091enBRR3NLWkw3Mm05a2cxelBaZUNaVURFVDJCdVF4M0xC?=
+ =?utf-8?B?TXFVY3NxN29vWXo4Mkg3UStSTFhCdld2MGZqRmpHeUZnSlBDZHJCOG43NzlI?=
+ =?utf-8?B?NXYrblpaZi9XWWh1OVVKN3VnQjNsZ1labUh3em5xU0tXR3hycndMWm10ZitW?=
+ =?utf-8?B?QzZFQTNwWmNLYTdON0Y5aHEzMWR1YmN6Ni92MitWY2xQQkdYeXRrQmpGMk03?=
+ =?utf-8?B?RG9LZU50L05pZThlUjFwNGtnSDN6aDdsQUhRSElXUm9Cd1NxZllHT1M2WVFT?=
+ =?utf-8?B?SmZrVHAvUDRHZnc5U3U4U0ZWTDRRQXYyem9pUUprTmdBTUlGT1Y0eEt1dHpo?=
+ =?utf-8?B?RVdnZ1lHYmlFYzdlSVlMTlJLM1Z5Z3hGRnpQaVdhNnBwVWNOY2NnQ3ZLNVNK?=
+ =?utf-8?B?bElIMU5sWkQzOWl0NUdzdE8wRVh0RThndkFoOG9CbjJ3RWdTRHk4ZkVTSG5T?=
+ =?utf-8?B?ZnNwUk5aK0dwRHF2R1UzU3VLOW1ROFhQbzJXejdQNjdFVDU5VytScXV6eVI0?=
+ =?utf-8?B?ZURDWmNLcEFUaU41cG5nUy9YQ1JyNWhQU2w4azE5L0lIZzdpQmRwTVNmT3VS?=
+ =?utf-8?B?M3lPcmZvUk51d1hLVGt5Y1VESWduU09xZlh5bTh2dHd3YWxSekZBejI2RWlM?=
+ =?utf-8?B?c3NFeGxxWXd3NE1CZWpwc1B1eDd0RlRTT0ozekphWmR4cGE0aG5Sei8wZUMr?=
+ =?utf-8?B?VnZmSFE5MFlqVUhZemI0S2FVeTdUa2xTcGV5MGQ3NlkxR3NYdUNnRkM2RXY0?=
+ =?utf-8?B?ckNaNDJhS3p4RHJMK1JJU09Nb2V2SlgxOCtDOE1Nc1luaXBJQlRLZUZrWlFI?=
+ =?utf-8?B?eU5UTlNmTnRtaVdVbzdnOFZvb3dlRWMwMDVDYWwzYXhvaUJXcG1XOG1DTVIv?=
+ =?utf-8?B?bk8za09uS3hzN09GZmI0bTl6cS9TQjlsRmdoemJsQ29wQXlvSUV3SmFJd0pC?=
+ =?utf-8?B?WFBrQjVYTVZPNXJEekRxRFVZU0tGc0JybVlyL0VxajUyckVxTFlDY1M0anBi?=
+ =?utf-8?B?d0h6YWF5ZnNET1Q3R0ZHdGVXNGJLSWZKeDNJM0VOLzNNbDJPU21SMVY4aEp0?=
+ =?utf-8?B?TXJXN0ZLbkhldzRaakZjSlMwQks2azF4U2hIeG9EMWN6bC9oUGx0Mzc3TUV0?=
+ =?utf-8?B?YWQxSUJNNXl4TXBtajlUSnZDZUJxck1qNlora0RJbkxzQW1TaGZPQ3R6VjN6?=
+ =?utf-8?B?eWZ4TlNSUU1iSGJDY0wxWUdpSUIrY0NaZTArQkhhaDRYN09IT2UrT0hERFZ1?=
+ =?utf-8?B?WHVyYkg3SU1lMTI2TXBXbEpyVWsxMzlLaWcycDJFN3dPdHRBd1BVcjg0UjJn?=
+ =?utf-8?B?Z2cyejkyQ0RRZ09YK1RtMU42VGU4MjhETTdOYVNVWUFGTXNQY1VtZFRRSWJp?=
+ =?utf-8?B?anFiRUhCTytqUmhaVi9wUEo4bnJqRUhJcG51TzJ1UFRBdDlVVUNtc1pVaVpO?=
+ =?utf-8?B?Q2RTZW1oZStmSG1Ud055ajh4L0ZCNzdRcmk2OFY2bjlid1lpeWsyYkJ5UUlj?=
+ =?utf-8?Q?yGBGwaQ+q88=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bWloWkJCNXN5d29yNlhXeDZyYStERUtxZjY4RUVFQXZ3MEJNSmFEcmFrOERN?=
- =?utf-8?B?UjZjTUt3OUltWHVaSXhGR0Rwekl5WlZmU1h4WGgza1RNWjNDc0d5RWJteXN1?=
- =?utf-8?B?WnkxV2VMSVdJM0hBRnZWZkJQMitmeUVKWTY2eE5tM0txV05DbHdwSDgrREQ0?=
- =?utf-8?B?bmNGZUdLSUo5TnZkYmpqSzh1SHFRQ1UvcHNDSk9SREQva29RNk1nS0JHemxF?=
- =?utf-8?B?Y2g1VThWaDhzREJsSWZpVVJjQW5XUDN0NnFndC9ZOGJYYVdSWW8zcmlBU0lO?=
- =?utf-8?B?WDVaWnpUeS9kaHlFMWQxdzF6ckFXNXFWVGJnMjdQd0xib3FiTmdxcEkvanAy?=
- =?utf-8?B?VC8zVHRFNmxNN2FGd3g4clV3OXRsck4xZml4ZDFWclphZHpaL1dHUnpYbHUw?=
- =?utf-8?B?YTRyWUdGTEdtZFFoUWl0Z1A4SHdBd1A0cVFETmpzbFlCUjlMTEFpZVFWN2tI?=
- =?utf-8?B?Um9KcDJwS1A0MlUzb3ZFOWFwd05HbjZodGxqUG1lS3dlV09acHdBNDFBVDZ3?=
- =?utf-8?B?OVRKVXQrUS8wdGZoU0FoZkQrRnJnZWZ5SGxkRUNvS3BYVDk0VTBlL2RxUWc3?=
- =?utf-8?B?WUlHcW5zNzlaWnRhS0IzMWw5ZXBBME5CbXo4endQbmtYc0o0T3hYcEZnRzNl?=
- =?utf-8?B?NzJXeHhZTVlJRmJwRFoyditKenlHdVl6YlpndUo3TmlzU2J0d1RGeTBKZG5v?=
- =?utf-8?B?Z3N0dmtaNnJkV2tHOFluTXZCSzVYNWpXWG5NdnVrWVZSNCtvUDZZUXJQTUtj?=
- =?utf-8?B?SEFWcGYzWGlUUXlzQTcvNWQvWDRIcDRuT2swT2ZPcTdrK3JsaUlBMkw1UndF?=
- =?utf-8?B?bFRvTG42RHQ5VWZEQkhuTkxrYTlYQk40bGluTzlpMVVjbjlMelI0bFozazNx?=
- =?utf-8?B?ZWRTOHpPSHZldTlaNXM1QWl1Kzd3c05IUkp0T2hscE9qVnBwbjJxRnovbndX?=
- =?utf-8?B?Z1lYYjZ1QzYxWjdsUHRGQlZGRjQ4QkxNR1VjM3hwNlZnQk1NTHV5YTNSQ2dw?=
- =?utf-8?B?b1lNeHAwN2ZjT1Y1TXJkVytMUnJMeWtna3dBVEJRVlpWM0hhTG00V3dyc2FP?=
- =?utf-8?B?eDduWmpuUEgxMkNrK3VrWHVsNW8yNEFKRXZCMFpuMDEzWXFLNnZqTlJJSW84?=
- =?utf-8?B?QnluRU9TbzkraktqRCttb0VlbitxaVYrREpPdTZYTkxpV2hoTFpXck1yK1RV?=
- =?utf-8?B?MUZIWU5PdS9hdWxyZnZsUWRtUHZGOVcrd3BhRlF3ZWE1WUtJcWh1QlBrZURa?=
- =?utf-8?B?eW9yRElUVHAzU0tXMFJMQmNaMlZXcmEzVllrSTN0bWJWTHZkVVVIeEF3WU9W?=
- =?utf-8?B?ZUJUWncxd0RRN1BQSEY3VWlNOU14OElHbHM3N2ZXQThkVm9nbmwvWmRSSTNZ?=
- =?utf-8?B?c1hOcUJRcDd2MUVWY1dNaGVtcGhNN0NESWo1b3hyMlFJaGdCMGQ0UU94blJT?=
- =?utf-8?B?aHVpeXlOb2dINEQxWVl4V2l6K2syakNtMnZLTk9aTHNHcFJzNkt4YlZ5ZjNq?=
- =?utf-8?B?WllhSGozMG5wa1h3a2Z2dU9ranpNcmdJZGVuUGFFVTZZaTE0a2UrU0FUenpa?=
- =?utf-8?B?TCswN1dBeE80VEpkMlBQRWcrOEs3L2hhNnRSdWhUQmMrRVlXQ0pXSi92cUMy?=
- =?utf-8?B?U0JkY0REVHRJZ3pCWGszK2pLOXlacExzUlY5VGh2U1ExRGt6N0M3T3Rsa0dD?=
- =?utf-8?B?dVVuMjU5WHFVUmRNUVZnZnlKbU42Z3pScGpSUWtCN3BwNXI4Qjd2aVFJRjIy?=
- =?utf-8?B?R29YN3hhV2hYLzkyR1NMbm5OZzdweFlUdVArckhEUFFpUHVydVZBMEFtRWsw?=
- =?utf-8?B?MmNCOUx5Wk1FK0J2ZWd0TSs3OXRLeEN6a2wvTE1JSm5pWTBuaW1TSXlub3dj?=
- =?utf-8?B?MklNU3dKR1RCcjIvMmdZNk9JTjBJSHZCSUtiV2J3eVhiZkZxek9RV2NDMXox?=
- =?utf-8?B?eDRrZTVpTTg2bTY1SU42bmwvcXlZTGlRcmhHRFN0NXFmbjU2b21laDBDRk10?=
- =?utf-8?B?Vjc2OUFsQnBNM3g3azZJS2xxYzh4VU1ZVmpZelN0SFdxMlo2dDRGZVlYNHEx?=
- =?utf-8?B?RWRHNCsyVi9UWHRqWUg3WVRkV1A2UmY5VGltZDlaZERpR0czNkpNUnNvTUxI?=
- =?utf-8?Q?1dX7rrrBoRhx+o0LkQ92D+VnY?=
+	=?utf-8?B?NEI1czRGZ3IrTlU4K1UxbjU0a21FNUxscHZVYnlSYXk5TkVla3RLV0NrMSsy?=
+ =?utf-8?B?dE9QMDArQjRpNDlQc2ZvbnhhZWQ4N25xdng1b1gvejJ5T3AwMVk4Q1ZaWnR5?=
+ =?utf-8?B?T0tHS1JaUTZtUWtnNlpGbmJVVEU0a0VFZXBraWFSbHBZaG14ZnFJYysySlVx?=
+ =?utf-8?B?V3hscVVWL3ZwWUt4VXJmQlhlOHI2OGZyN1M5TURNbnY3MVNWcDlBcUNCck5a?=
+ =?utf-8?B?aG11R0gxVFNQcTY0b3NjY2VQdWpMYjJ0Qkp4VTRJeU5FWHB0cVpsTVlIZlZV?=
+ =?utf-8?B?OWVpZFljVCtZRzE4TTJqQUNQTTVJclVObklVQVVSbVVlQThmbEo0cTRGckxC?=
+ =?utf-8?B?MitXdGUvL2YzaTRQNTlSbCszTnArVE0vYkU4dTI0aFVLRnBZY3VuOFF5a0hR?=
+ =?utf-8?B?MkhpcituMzhsRUxwR1lxL1NTMC9DSFFGdy94T1FMT0pkL0I4eTE1dVBvc09G?=
+ =?utf-8?B?a2l3Tm5CWE42SEVHWHVnMGpSeWdlaEhxdkJ4T002aStGbzVYU1ovVkZpUlM0?=
+ =?utf-8?B?bDREZnFvWktlVTdtQ1dnVE1sRHJzTHRwUlJJTHd6YUt4VXc0Qk1kdHRiL0hh?=
+ =?utf-8?B?K21EVERndk9EcVYzb1Z6cVh1MDlyNlpPTWQ3T1FmYjhyNzllVjBDckExVlpq?=
+ =?utf-8?B?VmRQVjVhSGhBeHF2bXVMaWpFSjRnT1B3a3ptdFpzdnVrQ2tFM3RKMjNPbVZj?=
+ =?utf-8?B?TFM5TVREc1FIRm5KaUJpZUt0SFdic1ErVjRIT0hoay94eEhpTUJlNTF1dzhP?=
+ =?utf-8?B?QXNQN0s2YmhFODlFTy9QMWpkVGhRSUNObExWcEhuUHVMUzN5T3hpWCtweHFq?=
+ =?utf-8?B?WndTM2dybHdRa3orbHRnUXRmQTVFYWwvSktldWk2OFpPRzhiNXN4cldzTE5w?=
+ =?utf-8?B?YWV4YkJSa3JiTmZPZFdmQzNvRUkvT3poUjBwUUxQZFRCeTZpVXY3RjBhcVBB?=
+ =?utf-8?B?RmtTMkZjVDlwY05sMnBQc1MwOXpoZDdudzdiempKUnpOY3gvK2Nqa0FlWUtk?=
+ =?utf-8?B?ZDhhTUZvOHRCZllhdHNWVDE4N1VCS2FPSzFhRkIvODZQdVZ4VmdtYjR4V256?=
+ =?utf-8?B?a1VCdmVoOWcveTFIZUJEMW4yUCtoOHMwbEcwNFdCalRFeVRybFI0L0xmRUtF?=
+ =?utf-8?B?eTdaSlNLdnZrRlZYMWR3ZHQyeStia0YvNHppaENyNkN0YTFHaXdEUG5KbDE5?=
+ =?utf-8?B?QWVQeExwWjZNSGM0MmlyZ1p1YldBZGNwUGlubUdFV1o3MzdDZzV4djRFcktN?=
+ =?utf-8?B?djFtaUpOVzBGOWQ3SXZzK0FKRVZxalRoZkRKZVhwSXlha09tUXBzUmlkMkNw?=
+ =?utf-8?B?ZVJENWVYdEhnTm1FaFMxcENxcVIvU3g2c2haaC9lUUV0YTJ6OVNFRTBXUHRx?=
+ =?utf-8?B?NU80VkxBSy9Eb1AyU001eTlYdUJVME1TS254c1hZT0Fyd1RjdlY5Q1RDbHFw?=
+ =?utf-8?B?aEpVUjVtMFkva3NjSzlkWFVaOXN5SGJYbGtFL3VQRHFUOHg5c2p5Q1Rta3Zt?=
+ =?utf-8?B?ME5YNFI3TGl4cGtHcktIa2ZjSjhxUVl6d3VCcjYvSER2ZlptbkNFczdQM2tp?=
+ =?utf-8?B?MG1RWWNDUG13VUdKTXdqdHNDMlJjYWZzRkNtOVNPR2NHRUJpcDJPZGtOYzJq?=
+ =?utf-8?B?Y08zNGxGMnMwajRFaWdTcEVDWGJXUU0vQ0pxSHpDRldRWXhuU2VRbjNBQWxl?=
+ =?utf-8?B?OUh3YlJ3WGkyWGtIRHYrWWtjRkg2aTg5dTYzVS9GajV1aFQ2OFRoU0pCSWNQ?=
+ =?utf-8?B?SDdCTHhqZzBKOW8rS3RKdWlCT0xLYUc2N3lPN01IdWt4MjArYmlvNGl2NVhp?=
+ =?utf-8?B?bVNWRjkrbnFISkZ0cFZNSzcwMk1ZN2tWa1EySVRBYndpRndmc1pRUmRONDg1?=
+ =?utf-8?B?T0N5MmU1Qmt2RVg1ejQyYUl0M0haSGxDc3FNSkQ5Z2MyOC9jSm5OWU5QbzNh?=
+ =?utf-8?B?cm0wRjVPTFZOK1hpOE1GV28waFF0ZHE3UWpqaE9nbHozQXhHUGE0citsRU5v?=
+ =?utf-8?B?aWltd2d4SDNCSEFsalI3NUh6MHhHaU1mb2pKbjZ3OWx5RGFucXJrNmpOZjcr?=
+ =?utf-8?B?azJ5QklyZThNbmpZMk1yQ3JOUGhiZktJTlFVYjV1L2JuS3YyTThhZU9KcVY1?=
+ =?utf-8?Q?AB15J7B660/cfjh+tL8+Si7r5?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	GsExw+u9ClKSvp9xsrc78yfjItZ+wwAavFhQQe2VakDsCjiK2r9OOkjLgsAPcM+HcWJzQRCGm8QhSieYKLt9v5GmqnItKAi6MXnMym75AEkbWRa1i+U1rJy3XBCxktwweJPFFuYUg1mda7SoRR7h8WY5vKNJGLvtccrfZA/tVeZaYdUvBHui4nEk+fL8aDh/aKBAdhn+FyBfYjCi8nAcQb+nKnQfvOZ1sMmEA9byEi9OTb7brbaRozDvC2unQWZ5JX5HoNIUnNvUrw6nCB+a1KSurzSkz+F4pTLLAPI58Mhfys3We2FuRd8XcPnyFfmPrqLaugiZyKkV0adX/MdPo3GwrXaRkOopK5ELcpjvYKE/v6aTTkXC0AVLxVYAMe/MfiJpuDFm3v2N3wqSDapYkfWjIh8tHCxgeuNVQH5QjA/cN+XBpYvdzTEDrpyLehJFUwGWJsbl7NQpgEximvyt+vYZk4ikv0imbfjRccLl2c8fYPO8jSYuKlsmv2Vkls6YPMlZlgLo3+8sKYQygF6EtChtRfuhMaTPx5Zc7X7Yok+NdyVkX/02GG2vAwHkh4GLj7igJpg5FeqKxtw+CGso1Fp6USmYorS0VM4M3tRQthk=
+	cppgXtYmUinjrZxsz4yZiMlz4Xl3IkHidAs0gwpbgjb2sv7eL79/RPgkbKWfKdtWYlfx0jYJf9fGXhRpXAxtrvXgJa7ESgE4Dqk1UM1KWykNFyfGWO3O8BhJ7gqGEeesPhOzTMiEyomI95C5oPeuZPLT7AtO6IeAba6TyjhlQqS/uHirWI63HXu/vEGI3hlpd7ClLzR4c+dawx8Lyd1jv+4jyTcoN3Q0/FaVlz/QSAxEbDJiF9byzoS1KKfQTHWPaZBt5DFu2g5hnOfbTD1LSI2Q+t8689a6bSSp9s3ekkmBg8xvieFkYZXN+A0rdp2supgqhk+sPjkIioyRauOWSwKGgJRQdLenL3P+MMGo6/WVhes+L2HRLC7PUcWbMUIagKBBQyJTxe8Inp4YLf+4Ei+XNHgnsMv2JFV8k3j2kj1Dj82vP4p/N0zDbRQY25zU/hRRP2DBMm/XEh84oY6Hmzvz5kKNTldFrpECY5sF5Z/kCJ2TdkBZrlGYieTWQA5NHgcYrJodhJWrXvvK9DBkwbaVNNKZKBfEYh2dsuHJuZqxukW3y1UrzfHo3XZk95Z3Ji9qIhL/4rGw3swPZ9ow4gFo1fvt1ZmVf3nXnTKVUXQ=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 754ee1a9-ef79-40b0-3618-08ddad0af3a4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a10b885-6b8b-4dad-daca-08ddad0e1fab
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2025 19:21:10.8782
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2025 19:43:53.1720
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7EAtr6YuNuT3PRSY+AavM8HpUU0A05kf2XJuvU24NUA3ChAoGdbWAzNoSCyTRE7gp3NiCUHCH59KRfIG6JyTkg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB6376
+X-MS-Exchange-CrossTenant-UserPrincipalName: WH3hHU7sCMl6DOrKARFaDljGFduvmDTtt2xNAJc7Ct8orWJyPJd/RtipPXAw+lvht6MF7iytVhloYI4qLOakRQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7713
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-06-16_09,2025-06-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 spamscore=0
- malwarescore=0 adultscore=0 phishscore=0 suspectscore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2505160000 definitions=main-2506160131
-X-Authority-Analysis: v=2.4 cv=XeSJzJ55 c=1 sm=1 tr=0 ts=68506eab cx=c_pps a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=PLCKI5x_utcCeNUqL3gA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: 5SXScnBr4Ue0QVtrKMbM7Ef7Fa8h9pv7
-X-Proofpoint-GUID: 5SXScnBr4Ue0QVtrKMbM7Ef7Fa8h9pv7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE2MDEzMiBTYWx0ZWRfX533uSlL9IEb9 RZ4yjqFIPd3VSAWE3UTUJTfbWyqHhAs66dQ7g5XX9DMA+f6LPEN3qrYxpZtbo7wDFKk1WxCkzx6 EW4vHjY2GHd2UTQgPo/4hgXkz7NHi+UDBBysEqajF11tcMahJ0BlSpVRP+TzjD69viuCXmixmoy
- eG6cpp9i7yPhy6iOaY94DhY4NGch0qXz5RpnZ75eFKzYOGiCqoGhdNMhbaMmRUyuNe5VmOlnspD G4Oxb5lluy7GPm+JKu2MZE+ZPlilsaKb2KrJQYp0sxrp9+HaqDr+BvxnnSycgny//NSGievj5fu xm/5AAhAeaPI0vNBzr4GXyVnRO0bBrGEbx3WZ9pvEDcELgZF6k+LlSaVWyzdfFLnwaEBNxo4EFx
- F0nO9qEyjJWo2Yoezfp2UtUkwblz2GosHbmk+LX57Dn/0guRxGm2QyxMJABE0l5/hY5bMHV5
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0
+ mlxlogscore=999 mlxscore=0 bulkscore=0 spamscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2505160000 definitions=main-2506160135
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE2MDEzNSBTYWx0ZWRfX8AIgT/efDJb8 T/UYWIMTwhdnYVkhbUEUFgIqehkucT2cJVLp5A5h3LtA1BclW52rnZLozHwVWw/YIg3MeIlUVw0 TwLoKNwmBTnmhUUkFOnVlJuoFrlL1t0D2sq+Z9W5/twpSihmoPBvGp7eVF6ejuiCmkrXWftDHcm
+ aiXf3jb1T4toGJ56MaT9/1P3NYVIncy1Ffn5kIngkmUbc28D12XEYI6cWY104mvFwWYL3CUmTTv ntYUZoAEHZkmnA1EOQUu9tLdandTF0351PnnTOuarpjVc0qd9hRLDJQbOrodDAC5lHVkHZ/pv3u wtHo8lkT4jwDN/T199OWLMvzatyqh6X+y3X6vvnSObuMDsAVh9qs2ICdDZQrMLxEd0lFpWAMJET
+ 3RBB1MP6gTzC9ePX6pC8j7W9BNbzaPCufaTr2mg42l+yMlJJ6/H+X4e4JzIaa3iVm9lZ2OX1
+X-Authority-Analysis: v=2.4 cv=K5EiHzWI c=1 sm=1 tr=0 ts=685073fc b=1 cx=c_pps a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=KRCkBcikugj3vKI2eNsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 cc=ntf awl=host:13206
+X-Proofpoint-GUID: MVurI5z5i68aIRW4Zw0pAQFCIG_TpEWH
+X-Proofpoint-ORIG-GUID: MVurI5z5i68aIRW4Zw0pAQFCIG_TpEWH
 
-On 6/13/25 10:33, Nick Alcock wrote:
+On 6/13/25 10:40, Nick Alcock wrote:
 
-> On 22 May 2025, eugene loh told this:
+> On 22 May 2025, eugene loh uttered the following:
 >
 >> From: Eugene Loh <eugene.loh@oracle.com>
 >>
->> Apparently, when we call the BPF get_stack() helper function,
->> it generally knows how many frames to skip to get the real kernel
->> stack.  For fentry/fexit, however, this is apparently not the case,
->> and commit bc65cb44d
->> ("cg: allow providers to specify a skip count for stack retrieval")
->> added the ability to skip frames for fentry/fexit probes.
+>> We will introduce a set of tests for the caller and stackdepth
+>> built-in variables for a wide selection of providers.
 >>
->> When this "skip" is needed, however, it must must be even deeper
->> when we descend further frames, such as when we call dt_bpf_*()
->> precompiled functions.
-> Ack.
->
->> Add this support for dt_bpf_caller() and dt_bpf_stackdepth().
->> That is, if there are stack-skip frames, skip yet one more frame
->> when inside a bpf/get_bvar.c function.
-> The general approach here seems sound, but this confuses me. Is the
-> assumption that if the skip is not needed, get_stack() will itself know
-> how many frames to skip, and will skip dt_dt_bvar_caller() for you?
+>> For the caller test, we will essentially call
+>>          stack(2);
+>>          sym(caller);
+>> and then compare the caller to the second stack frame using
+>> the new script check_caller_to_stack2.awk.
+>>
+>> For the stackdepth test, we will essentially call
+>>          printf("%d\n", stackdepth);
+>>          stack();
+>> and then compare the stackdepth to the reported frames using
+>> the new script check_stackdepth_to_stack.awk.
+>>
+>> In this patch, introduce tests for the fbt provider, along with
+>> the support scripts they need.  Subsequent patches will handle
+>> other providers.
+>>
+>> The old tst.caller2.d and tst.stackdepth2.d, which tested fbt,
+>> become obsolete.  Remove them.
+> Nice! My only caveat (easily fixed) is that the old tests had header
+> comments saying what they were testing, while the new ones don't.
+> (Yes, the awk scripts do make it clearer, but still...)
 
-Yes.  I confirmed this with tests.
-
-> (So a zero skip is actually a "the system knows", and a nonzero skip
-> causes the system to not skip anything, so you have to do all the
-> skipping yourself?
-
-Yes.
-
-> This behaviour is not documented in bpf_get_stack()'s documentation,
-> which absolutely does not mean it doesn't do it...)
-
-Yup:  I did not learn this from documentation!
-
->> Note that we declare the skip count volatile.  The compiler might
->> optimize code that uses the STACK_SKIP value, but we will subsequently
->> perform relocations that adjust this value.
-> ... why doesn't this apply to every other extern global variable in
-> get_bvar()? They're all similarly relocated...
-
-Right.  There is potentially a broader problem.  But we simply do not 
-have evidence of misbehavior in other cases.  Ruggedizing other cases 
-could be the subject of a different patch.
-
-The problem in this case is that the compiler seems to assume 
-&symbol!=0, which is reasonable except that we violate that behavior for 
-our relocation tricks.
-
-Consider the C code:
-
-     uint64_t dt_bvar_stackdepth(const dt_dctx_t *dctx)
-     {
-         uint32_t          bufsiz = (uint32_t) (uint64_t) (&STKSIZ);
-         char              *buf = dctx->mem + (uint64_t)(&STACK_OFF);
-         uint64_t          retv;
-         volatile uint64_t skip = (uint64_t)(&STACK_SKIP);
-
-         retv = bpf_get_stack(dctx->ctx,
-                              buf,
-                              bufsiz,
-                              skip & BPF_F_SKIP_FIELD_MASK);
-
-         if (skip)
-                 return retv / sizeof(uint64_t) - 1;      // branch "A"
-         return retv / sizeof(uint64_t);                  // branch "B"
-     }
-
-If you omit "volatile", the compiler assumes &STACK_SKIP!=0. The emitted 
-code has:
-
-     *)  no run-time "if (skip)" check
-
-     *)  no code for branch "B"
-
-     *)  only code for branch "A"
-
-If you include "volatile", however, the compiler caches &STACK_SKIP on 
-the BPF stack and later performs a run-time check on its value to 
-correctly execute either branch "A" or branch "B".
-
-Incidentally, I looked at this using the function like this:
-
-     profile:::tick-1s,
-     fbt:vmlinux:ksys_write:entry
-     {
-        trace(stackdepth);
-     }
-
-Notice that the profile probe has STACK_SKIP==0 while the fbt probe has 
-STACK_SKIP==4.
-
-I looked at the disassembly in three ways:
-
-     *)  as emitted by the compiler:  objdump -d build/bpf--get_bvar.o
-        (not too interesting but establishes a baseline;  e.g., that a 
-branch is missing)
-
-     *)  after relocation for tick-1s (-xdisasm=8 -S)
-
-     *)  after relocation for fbt::ksys_write:entry (-xdisasm=8 -S)
-
-The latter two confirm the relocations are correct.
+Got it.  I'll add a brief comment.
 
 >> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
->> ---
->>   bpf/get_bvar.c | 17 ++++++++++++++---
->>   1 file changed, 14 insertions(+), 3 deletions(-)
->>
->> diff --git a/bpf/get_bvar.c b/bpf/get_bvar.c
->> index 9625e764e..99a6503d5 100644
->> --- a/bpf/get_bvar.c
->> +++ b/bpf/get_bvar.c
->> @@ -53,12 +53,17 @@ noinline uint64_t dt_bvar_args(const dt_dctx_t *dctx, uint32_t idx)
->>   
->>   noinline uint64_t dt_bvar_caller(const dt_dctx_t *dctx)
->>   {
->> -	uint64_t	buf[2] = { 0, };
->> +	uint64_t	buf[3] = { 0, };
->> +	volatile uint64_t
->> +			skip = (uint64_t)(&STACK_SKIP);
->>   
->>   	if (bpf_get_stack(dctx->ctx, buf, sizeof(buf),
->> -			  (uint64_t)(&STACK_SKIP) & BPF_F_SKIP_FIELD_MASK) < 0)
->> +			  skip & BPF_F_SKIP_FIELD_MASK) < 0)
->>   		return 0;
->>   
->> +	/* If we had to skip any frames, account for the dt_bvar_caller() frame. */
->> +	if (skip)
->> +		return buf[2];
->>   	return buf[1];
->>   }
->>   
->> @@ -203,9 +208,11 @@ noinline uint64_t dt_bvar_stackdepth(const dt_dctx_t *dctx)
->>   	uint32_t	bufsiz = (uint32_t) (uint64_t) (&STKSIZ);
->>   	char		*buf = dctx->mem + (uint64_t)(&STACK_OFF);
->>   	uint64_t	retv;
->> +	volatile uint64_t
->> +			skip = (uint64_t)(&STACK_SKIP);
->>   
->>   	retv = bpf_get_stack(dctx->ctx, buf, bufsiz,
->> -			     (uint64_t)(&STACK_SKIP) & BPF_F_SKIP_FIELD_MASK);
->> +			     skip & BPF_F_SKIP_FIELD_MASK);
->>   	if (retv < 0)
->>   		return error(dctx, DTRACEFLT_BADSTACK, 0 /* FIXME */);
->>   
->> @@ -217,7 +224,11 @@ noinline uint64_t dt_bvar_stackdepth(const dt_dctx_t *dctx)
->>   	 * If retv==bufsiz, presumably the stack is larger than what we
->>   	 * can retrieve.  But it's also possible that the buffer was exactly
->>   	 * large enough.  So, leave it to the user to interpret the result.
->> +	 *
->> +	 * If we had to skip any frames, account for the dt_bvar_stackdepth() frame.
->>   	 */
->> +	if (skip)
->> +		return retv / sizeof(uint64_t) - 1;
->>   	return retv / sizeof(uint64_t);
->>   }
+> Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
+>
