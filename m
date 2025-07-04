@@ -1,257 +1,748 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A87286D5B
-	for <dtrace@lists.linux.dev>; Thu,  3 Jul 2025 22:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751582200; cv=fail; b=ksgHThmuvERlWIbmvk+tu23pScrynM1sg9qStSmi3OENMJ7+vLZCmvCOx06g3NuZ/yZRHpOeSmLcs/pcSurNEzCyOt6HYfuVYALAGkPkh7KjrAQ72RWBotCA5g8p6bTuGwtNa7RLrw+ZWzPRQiTqUkgSss0FGbBi+J7OCgHlNhA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751582200; c=relaxed/simple;
-	bh=OnP3qk9/0yhulrMN7fcI/Zgl2lWSzQ0bG8aui1T2YGo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=H/sX9m7IrMra2Agfpc9A6bDvpaOD77YfXkNFK+m5HlMJ75xLPbB3AYSBokCv0Lw5SpVjJy3Vtg7u8WS7vEVeGQJRpNYvtvVmDWeypOF962FDdQzsiiLS+zG8RIgmNpmuMYB42z+18bTsfb9U8syEM4ykbTQj/AutdYHOoaZKAm8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=aa9v3uRm; dkim=fail (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=eUS42Cn5 reason="signature verification failed"; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26912E3707
+	for <dtrace@lists.linux.dev>; Fri,  4 Jul 2025 17:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751649822; cv=none; b=TkybLpSPPKTDZI75YD8b3snfTeBcRXi7iWvi3v1+kq2eTmuh7rsqbVD/zBfhmwBQ3JWdQWDhx9hcAZ6Kg1wzNkDWJTuPcvVYpIyvlc7HcWWOIxxYpy0cYZYv2jIBwJwDSmpJttwTSWghFw8ywlN1KbooqhWA0UN86zDENVk/3l4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751649822; c=relaxed/simple;
+	bh=Qets+W5FSYVfP5ee8AC68tmsEEcPJ0+ddyXvblJke3I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cYRyLGFN+MQYZHwe/aUjODxAePa+neoX7+6A5wWVhZQ3a0J+d/TXkm01xDkYlUua1NaLI6+ZvnrHN5rZVDK7e0CylX+pt94qWYjCcf2qJpOv+VhF7yBolAFkUyGUfO1+V3uIz0sFk/n8rXoZ0Eapmv0/tlf6WLuvw094gYwW0Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=cHCoxSqg; arc=none smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="aa9v3uRm";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="eUS42Cn5"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 563LYp5V002272
-	for <dtrace@lists.linux.dev>; Thu, 3 Jul 2025 22:36:34 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="cHCoxSqg"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5649Yuj1018035
+	for <dtrace@lists.linux.dev>; Fri, 4 Jul 2025 17:23:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=od73JpnPCZ1y+TbjquzvWKVYiFHLDhMrbjPMF7+5FiQ=; b=
-	aa9v3uRmjbH0rsyZj5pBsk0mrIlXX9RMHjpvQE7QyAAviff+TmH7PpWT0D/HtFnh
-	KEFoCz/SRkKJ+bK8752QvO2qzygme6wQkn+TvRhM9picziLB5+uDdnzzqELTC9oD
-	9E6oCxvKFUGkktWCgX7g1SzS+8xIt0q0ZC0+cPRTw+Aawd7HBxRdRGdCbVwiYnbs
-	29uJWndWMGakB46Sbkvn0Gd4XQ+NOTbLogrllfwLqWuVsAlPNMhiMjhMSU1X1skG
-	fbmh0FPJJdCMy9RwxI82mvb6PC13JkwN7ny4z1Yte6784BWAxnSr5HZXd+UwaReN
-	mVgNyOyIjRIVEtfVFXr9PQ==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47j80w9u1u-1
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=79DvrQ7Fu0mFdy3WBunMwqouZgwND
+	h2bDxd4cY8tFMs=; b=cHCoxSqgBdLqw5OV+OuZzUCqCmvCBQvtyIgbe/P/eeqdg
+	aVnartxnjxwyVjtgg87r1fvbbPrTRwb67vVwU7ZgJTtQfr8aD8YTgqb8c8t9JoDm
+	uMwgHtWwEE+gO8YFVAFv6PtugzJLdtLYyqLQlH1eKLYXL+FDfamMO1sVAaVOXA0P
+	ZjQGydE6r/R9fxQLO2AFw8kJfURkGKtQQBWTZEbTbz9Uk+UEjvDOu3KDqnOYmTwz
+	7rP14ObV0j7Zo6OBnef88f5dRs98WdT1nZkTtLogeZwbsMdK9tMQD0bXNA2NnNcn
+	Z2M2nUiMRJ7jruDcS5yqodNtSr+kZhRrb09YL1Imw==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47j704k4p2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 03 Jul 2025 22:36:34 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 563LsKmP015189
-	for <dtrace@lists.linux.dev>; Thu, 3 Jul 2025 22:36:33 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10on2075.outbound.protection.outlook.com [40.107.92.75])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 47j6ucxtkv-2
+	for <dtrace@lists.linux.dev>; Fri, 04 Jul 2025 17:23:38 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 564ENWMK024753
+	for <dtrace@lists.linux.dev>; Fri, 4 Jul 2025 17:23:37 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 47j6ue2x7a-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 03 Jul 2025 22:36:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CXsNNYD4c6bvzd8sKhz+TSW9nFiuXt+ZYmPhAHqiYHNHigPkpPvjeP8OTS4xwCmFirM7Mlx2fHuULnQ0sFz5nRpQjMJRQ51/rGEy0/mKVfdM/SnCUKesd5bSuEn8824pQ40OgSHTeKCKoK85YOBFelVXP4vKyDae4Sofq2qwlObli8HcD22T4OY+CvaaMoM+2dx8ldZFavnwuxEgZb57BUGvWTALky4Jt1FR5S09QrCqN0PAUirYrSsqdVMUoM4nmWAKHofYH9jxQVKOcdgMJiFpvvlfOcCvELhJfhZYD78zP1KzmJZGYAsLGd1wQzchcGM/sDY7RH1YEvT7fz7BUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5zWqFx57aXD5YQ5qXPbeu3IaBb5o44YAIEXfmK7NPSo=;
- b=o1qhV3XJvhBRQoY/blYisO+325TNWETqgdoQEk2Xdd0aOHl5/jdcM3zEAM5ApMwpz2t4EcplXbuET3ao6el62wk7/o5b2cor2ilBE7SM815iGVFfccoeTaNc3u5gfdBqSnppdLXYuU7ebcEqH2YHektDPkBOfJLrsMkMSYH4SN+fT35k2+5N6aAS6kg5opX7NhgDk0VyVO4GLNci/UQCMiMI7TFaFt+4m3tZ3s3+nRwT9t75y8O2sO32R2CceXgU5pZFFyQ1cVarUynla5Xt3g2+jWybuE+5K3D8sBLjSUbuGP5OxVl2UbrciALBbwpSLdnu8nxCWppxOSc1laR0sw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5zWqFx57aXD5YQ5qXPbeu3IaBb5o44YAIEXfmK7NPSo=;
- b=eUS42Cn5oXD8mKzBUTLfJL/74sZJwAzVtYSdiEjvobA7LRhmF0wCWu5FR3Qz9xaHDD0WF7SvOFOQZgDQIuLMb1pSuH+nrlgeiqI16phdMjFrrEbwFCd9lvPONGtgx79gSE4LrMTN7Nb7L/Ga1vRXK/fY+OsRoUWK7leslHLAYvA=
-Received: from SJ0PR10MB5672.namprd10.prod.outlook.com (2603:10b6:a03:3ef::21)
- by BLAPR10MB4849.namprd10.prod.outlook.com (2603:10b6:208:321::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.23; Thu, 3 Jul
- 2025 22:36:30 +0000
-Received: from SJ0PR10MB5672.namprd10.prod.outlook.com
- ([fe80::8800:9203:9f66:174b]) by SJ0PR10MB5672.namprd10.prod.outlook.com
- ([fe80::8800:9203:9f66:174b%6]) with mapi id 15.20.8857.026; Thu, 3 Jul 2025
- 22:36:30 +0000
-Date: Thu, 3 Jul 2025 18:36:27 -0400
-From: Kris Van Hees <kris.van.hees@oracle.com>
-To: Kris Van Hees <kris.van.hees@oracle.com>
-Cc: Alan Maguire <alan.maguire@oracle.com>, Eugene Loh <eugene.loh@oracle.com>,
-        dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [DTrace-devel] [PATCH] test/utils: add more reliable "get remote
- address" approach
-Message-ID: <aGcF67vQ8M942gh0@oracle.com>
-References: <20250703113345.1273604-1-alan.maguire@oracle.com>
- <e660b225-4a3c-209f-fae4-8831f6c3229c@oracle.com>
- <08bae006-f438-4134-a811-609b3fda69d1@oracle.com>
- <afbb9858-e5a7-6d76-a6c2-23b46d8660df@oracle.com>
- <58cb8219-337e-42ed-ae17-1c4e77894a9c@oracle.com>
- <aGbLTOzqILN+3J93@oracle.com>
- <a2f593f6-38d6-4a8d-8d42-4bdb6b9ac14f@oracle.com>
- <aGbT+p0DjRTFl7Oc@oracle.com>
- <077a08c1-e999-4782-9269-62a269d76f65@oracle.com>
- <aGbvQAmqsLA5+LaH@oracle.com>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aGbvQAmqsLA5+LaH@oracle.com>
-X-ClientProxiedBy: BLAPR05CA0007.namprd05.prod.outlook.com
- (2603:10b6:208:36e::7) To SJ0PR10MB5672.namprd10.prod.outlook.com
- (2603:10b6:a03:3ef::21)
+	for <dtrace@lists.linux.dev>; Fri, 04 Jul 2025 17:23:37 +0000
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 564HNax2017354
+	for <dtrace@lists.linux.dev>; Fri, 4 Jul 2025 17:23:37 GMT
+Received: from bpf.uk.oracle.com (dhcp-10-154-62-126.vpn.oracle.com [10.154.62.126])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 47j6ue2x72-1;
+	Fri, 04 Jul 2025 17:23:36 +0000
+From: Alan Maguire <alan.maguire@oracle.com>
+To: dtrace@lists.linux.dev
+Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>,
+        Eugene Loh <eugene.loh@oracle.com>
+Subject: [PATCH v2] test/utils: add more reliable "get remote address" approach
+Date: Fri,  4 Jul 2025 18:23:35 +0100
+Message-ID: <20250704172335.98854-1-alan.maguire@oracle.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
 List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5672:EE_|BLAPR10MB4849:EE_
-X-MS-Office365-Filtering-Correlation-Id: a991caa2-cb68-4b30-60ac-08ddba820e51
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?iso-8859-1?Q?FvX3Nb6xBo+F9x4kDZqtvxB2zDZv21XHoHwAMrw9a+5WhHaF9JUVX0bDeU?=
- =?iso-8859-1?Q?9GPmhSIBdQtWLYVayVNZUetVGWunliWCGXiuFTuj+U/vu8AGHs58acCQC9?=
- =?iso-8859-1?Q?2nQVwnNFJz9wnfbhfp92VgDAXM5q3GwIrPI4euE27wY5IPFOXMDqWBjMbv?=
- =?iso-8859-1?Q?10fAU79DZa0db4xUNzKhnxT17QdyB4t8p3zqDJ+iLxbjv6WxRejyt2CkDf?=
- =?iso-8859-1?Q?bge4dYKvnW4IMc60RPHTJqDRER8IQ5Ll4+TtMyvsRqDMgogGWvgDe20APd?=
- =?iso-8859-1?Q?KP07SrwR6JcX99/MzYALN8MZWjZRdACd894dSC5udGTAlUMreq+7KhM0P0?=
- =?iso-8859-1?Q?nRLYnlS2zqZlFbvLnwnoqsBFI4RkwvmoolEbycNFsdVTuqschHHSgUZCDO?=
- =?iso-8859-1?Q?kKZpxZzshDfErDCEwolpoQo3Ix4ZhUscm7d+GeYYm/3GXPKNu2Dpr68fO3?=
- =?iso-8859-1?Q?owrhD9v+DPMFbezx2dxCn4TSL+UHMhBWcB8v5NE/Ona9oVqwad5DCygoWJ?=
- =?iso-8859-1?Q?S6RveQ+b9JG9bujxQbqSPi5KC1D0I4MpCtBPYqlOytmGY/OaXT+6LSeWKU?=
- =?iso-8859-1?Q?mSIwhGKHC6MapaxRu8g15tYbY/4PMBYXD6qd/yAcX6PS72A+BPraxpbMhk?=
- =?iso-8859-1?Q?jikKpMGvElNg2awQ/rUJi09zb5sUI9pDp4ufN8DfsizQni5AUsQxHE1DRZ?=
- =?iso-8859-1?Q?Z1i71pW12ypENNA2+NnjnoWSuOV5GROz/q4gek5xX35FqKYg0R8SuWXYhi?=
- =?iso-8859-1?Q?V2ydHsGr5wp6KV75wXxCghIzdN/62nSI/IUj8/m2yqtK5yYlTyZcf0h3Ay?=
- =?iso-8859-1?Q?DMVey9p1LNlnq80ofwc4tqSe6S5ucYfK+Z5WW5rKbHmQ2PEpLTWTr83cr/?=
- =?iso-8859-1?Q?+Pq0EyiSSrnSpwcldgEX8aJ8NChNEg8wDhbQH6sETlu7W1r8/Ef5f9LWSg?=
- =?iso-8859-1?Q?e062UiRIFxFly02ZCeyY+1gDAmKxWdY5Y2vRiY1jkk0UWKb/qARlBH1WOd?=
- =?iso-8859-1?Q?mig+tyV1HXI5Yi7/OpPuL7vOqVD5mQRL2QoIL64yGEShLC2PytYRyx6I6e?=
- =?iso-8859-1?Q?kj6XAjisvunczyaZrAfnsrcp9FjukaeHhUzDbKd9JDpraKGMcbovGKJFTX?=
- =?iso-8859-1?Q?yGRd6/kFsY1THQGEYCWhgMueKSMLUaTJlNeoRu/nJ2q698q3Cz0tqYKpQz?=
- =?iso-8859-1?Q?ckyHOHnWBfEhFMz7f4abw/hhwDW79CGyforzDlVU+D7jQtXakoiuVzDYIH?=
- =?iso-8859-1?Q?4czUJthue4H7AjkBqHPmcaCv42TBFpt7Y7lk/JKL2DBRhoNb/iy9smnngy?=
- =?iso-8859-1?Q?KpdRQnxeXP8+6rDLPSnMFu1cDy6H0rSQCBDaSXGpMCgBbJ4VGEEHEc68U5?=
- =?iso-8859-1?Q?5AxFCULQ/EcuWYf/RUR3Ir7QNa7V3JsakYGebQiYcEXHzju2wfH3UrArDW?=
- =?iso-8859-1?Q?C7b/C/FGtE5M6joFzmwTJFgS26ARJZFfHGJ0wnPU3zeUcyzVVASsV860iz?=
- =?iso-8859-1?Q?c=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5672.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?+UzJV0dvrs+FSQ/dr90Jm5cFgPUFjXHaPxRzZ0nmnJiX1r2aYU5BEOBjLc?=
- =?iso-8859-1?Q?Ek7naiyYNfYNXQFqO0f0w8he6+Sme7KCa1V0FhDNqOpCwulpYO0WtW1miX?=
- =?iso-8859-1?Q?PerwMdUyLJUPCxeXJT8ENcEr6mlMr827V8nWhbXUTbg8j+dS3Eaot3m4uJ?=
- =?iso-8859-1?Q?ab1zjhh7e3QcYGPFOe28QZClcqaJ5dnSCEUn/BkhJMO0/1pYEcgK+O9w6Y?=
- =?iso-8859-1?Q?+1W3fjfsoZJ8V6IO+S0tcAL4ExzVpcnrPUGGkb4e1izZC3nN5YMj7f8VYG?=
- =?iso-8859-1?Q?TOujKLxTrxFit0M920hKzqPIfErBZWm1MjAf39vMDUEuqhoNuYYzuuoOXk?=
- =?iso-8859-1?Q?DRqRKPx6QSg3wjs91A5Oef/V76i5IFUh+9XO5ufytVhycg8QSlu7AAFyKf?=
- =?iso-8859-1?Q?GyO+S3qAsICbiWgerddzv/Jmd5dmTbkiWgmuTqZERQYE2PcwwSLY87qgta?=
- =?iso-8859-1?Q?inMD5l8jWdHq3gRK0bo6BvB0RFMZDtLTyajLoRU6Ifb5ZDql97LUqdLvII?=
- =?iso-8859-1?Q?4qPtuKarR0VCc9UvyyV1+GZfdO3v546ZSGTlUEYs+4fAf0QCQpUawHC05B?=
- =?iso-8859-1?Q?AFjyGv8Z1VyufUd3ynomAwQrtNWmKIYJPsFqvLaxIUJ5dXXApdeYF/nsoh?=
- =?iso-8859-1?Q?jHbfuNJPLoddZMifijT+6Tki/R9VDcb9hcXdRZa+kl0254Xdi15L0SEu3S?=
- =?iso-8859-1?Q?w3sc5S2zYv19luaDICNNEHLaOYaWf51kIxEHe8huKQ4c7N7lUlpjaUYyGj?=
- =?iso-8859-1?Q?Z8/V+wIZaY6wJqLiMRqq6AAsHhpxLGo9M92CHQySPWpStsEaKqsHsC0oNT?=
- =?iso-8859-1?Q?VP0EbLFyIHU1R/nPH79VIDGpu7++E6dqNWbpNSXPysMcwK32jqDaPORr62?=
- =?iso-8859-1?Q?VhsaAv6Hfw0YsmFs7I2RLyENQB4FA8EOBAIwFkwrtxNfX3vAqA3m+9R4Qe?=
- =?iso-8859-1?Q?Kkh6atY7SDSXAufJbF/SzBp/ozuhfsKQiJIUZdhoOZ9rK0pkdyyqF5UMfK?=
- =?iso-8859-1?Q?SE8+1Iri8jMB93S9aQifeQc2kOqP6SaXQBl0Gknc3cdQs1A8JcKXy5mXnD?=
- =?iso-8859-1?Q?6oG6Gsuv8FxYL+e87AUYmpYRzmGxs7Wf95mV5aEzsrOdZaNtZ0jzB4+g4V?=
- =?iso-8859-1?Q?BJmgw+/WxGmUVF/Kld/s+JCuMTueuA+HK6yXvCkV0kO5WFaQDglFfBr2Xz?=
- =?iso-8859-1?Q?iSR5U2UNFTjsNv/bOb3xeYahTShYaPPeq/J26IDg2bcZaLMDb+bGZbx7vV?=
- =?iso-8859-1?Q?1z0apID+U4/J/9L4lTUuAdw1Nj/WqroPwyB19v3tnGFJisv6DDtQgUN1cC?=
- =?iso-8859-1?Q?snjth+Qywd/BOETqlZ4HKk0xJdPRx3gSn1OQSS4I/L0A4CdeZot5nU1sCJ?=
- =?iso-8859-1?Q?x5dmg/TdeUJqBBWbzlbayyzc0VWZxLtBk7gbLJULL+aj4oT350yPLzwvgf?=
- =?iso-8859-1?Q?yRSoG+sGbOzguGWUehFwWrn6s6CW++xZGgSlNG5Y2/gaXbPdIqbbxUT7vX?=
- =?iso-8859-1?Q?DjnwnY2reMUl6rJVVkC7Ig7XUy/1G6irk3+vKuMeqhshzH7/c/FcX6sF9l?=
- =?iso-8859-1?Q?cMFr5XtrRQYTmwUIOMniCX7gpyfJ/hbFHSsk0awn6PYJO8OhwCDKgv59E5?=
- =?iso-8859-1?Q?dCr61dhojYNZKkZkFoDZuInQFiMwslK5BoUCHxOKvz1dc5H2LWqKvPbw?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	3ooKxdEObMtKaZW+kL+5UWsEf9Ab6+//iUg8qPExyCBOeggVwbSe0UA0Ftt6lcpW/wnjNhSF2ppRGXs68j3fgLfKFYTFq2ufp0Vnz/q8CMg38O0vIzyvxywg8XuK18w6l+aV7vqGl4VaEfm2tWoDfhRmngDAnuwGWTKraWTjS0XPRfO9YJ60fW+JO/tmloYwnDl6ZBzJmzrt2vmu4POBFPf39BFu6jNjlUAd4hnmhjf9K7Ee3NFr0dLM/UaCeDwmaFjtKOTLBICOBX82SMMNxCrYUqbPDbVzqqaBZJcOsSKLrZZaqBrpTbpAU5Z3c0X08Q/KbhiNTl8PwFAHGGeiD+6TZrRST/RyljXWdSZ5+mOF2cjaPYVJ7LzwEmrLuAQKF2WheUgf879pOid/cd8Dde8C6xM5uyKdw4NIL5SLrwaqxDdPC2V3UD/XcqJOdF4PmAPUMMRQpf5UK2OyeQADUbuFBcQ5mbOuBCElLitoL3hGjeRodp7LrlqNTFOh7SwqdMsJwDobta59XA1K8MCPyQRzkW7VAahgHNUOJRrJItW/X+icXZchmcHeW5vK1SMZZ0sWAMn2TsXuRP66L57UTKTxEGSxvjvLZGAmJZm5sFI=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a991caa2-cb68-4b30-60ac-08ddba820e51
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5672.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2025 22:36:30.5887
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /uMC1oLfPPht4/+WlyJ6LcvMbTjSERH7yg75jWxq3WXUm8LsNdlXbqiPLAR6kd24VqyZjDPOJ16yTHat2zrtGjd5QlGbpe6yKIX12WnAE0I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4849
+Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-03_06,2025-07-02_04,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 phishscore=0
- suspectscore=0 mlxscore=0 bulkscore=0 adultscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2505160000 definitions=main-2507030186
-X-Proofpoint-GUID: dDkr_rNkTW3VoJWJ_TZj_uQaco-jfO9q
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAzMDE4NiBTYWx0ZWRfX+2LlS8Q2Pg6x lNuwnDuQD+TJWaJfHA2QN7/5vuB4AdYy4ebBT8pVwn9IP+dMry1Z6wwM+OzjCvRQ2Ea2ojkZGsZ Idfgn7+PJCpTglV83SAkMe7mUVhLJb/gyPKAAs14AoiM3qXzZ3hFRjftYmJPamE5ZYAWOAAQfJl
- fqiwIdwqW8l2BbpaFhnjWKQ6z4sA4aZz5e0iUVES55Uu9+WcswC8vVInKWck8nvT7fCFyqVFUdt dhQccWSTUD/glmwLGdf8Z9hoSut6qz2pKL/s9yUeSMflLALgpXnd8YATAhnAEPjjwa3chCkSF0t 7ZhXXxstTmlTAAY9icgkvVof182klgZFGvnGvUZwet3H2Ffmn0EdMdl/MYM55mIlfvMMN6ZFMnl
- KDwlu5aawhr+Qqz07JUCJKSxrrz7CNuEB1waXUMIwlk9mIed4PWPYKhwNhZK85RSs3lXYQ31
-X-Authority-Analysis: v=2.4 cv=D6hHKuRj c=1 sm=1 tr=0 ts=686705f2 b=1 cx=c_pps a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10 a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10 a=rf9tdN3BMZsFTHtBa6AA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
-X-Proofpoint-ORIG-GUID: dDkr_rNkTW3VoJWJ_TZj_uQaco-jfO9q
+ definitions=2025-07-04_06,2025-07-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 suspectscore=0
+ phishscore=0 mlxlogscore=999 mlxscore=0 adultscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
+ definitions=main-2507040131
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA0MDEzMSBTYWx0ZWRfX0NqhkkUSUMXQ 7uejcokzafOElE6ol5DiRW7nbXYR7ZczIT118QuvTpBg2KU7yV79Xvo3sZpPMgRXGDyX2XybLYB 2CF2zDVYWAkZkEMkfSs+2o71RDeZy1Pz1+QG6bXOWF/WJDvrNyNlXITrO9SFwh1LC9FUSOjBYC5
+ hxiC15Dg5farkREStfgA8Mxp+C+2HVc6llMJYOwxjS1KfzFsAYPriNtTauc9fztrYua+RSrpG+K gdOyMS2FjUzYLOfIJtUN6Jfpb98KcdX2PPlz4cmAjut9SHRcA/V6HAYnTqLSy9mgYJdoorF423m 0/JyGSbDsN4IoWFH7hDU5vno/lC+V6N0/i59z6ksqxLMQt8WJ0+XcSuFfHn2lr6MGvBQBCpkMlq
+ TPlXSvDjPrC/g3P98awBUaxHPAk6VyP/o8BRqLKYI6E1ra6uwN8KQ8GMEiEwZAz0WRzeENx1
+X-Authority-Analysis: v=2.4 cv=LcU86ifi c=1 sm=1 tr=0 ts=68680e1a b=1 cx=c_pps a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17 a=Wb1JkmetP80A:10 a=yPCof4ZbAAAA:8 a=VQ587yf2DlxMrjmIvAgA:9 cc=ntf awl=host:13565
+X-Proofpoint-GUID: UFKgpe1ldYlmRb3JQQEnFxjVOeothrC_
+X-Proofpoint-ORIG-GUID: UFKgpe1ldYlmRb3JQQEnFxjVOeothrC_
 
-On Thu, Jul 03, 2025 at 04:59:44PM -0400, Kris Van Hees wrote:
-> On Thu, Jul 03, 2025 at 09:23:46PM +0100, Alan Maguire wrote:
-> > On 03/07/2025 20:03, Kris Van Hees wrote:
-> > > On Thu, Jul 03, 2025 at 07:41:41PM +0100, Alan Maguire wrote:
-> > >> On 03/07/2025 19:26, Kris Van Hees wrote:
-> > >>> On Thu, Jul 03, 2025 at 07:02:57PM +0100, Alan Maguire wrote:
-> > >>>> On 03/07/2025 18:06, Eugene Loh wrote:
-> > >>>>> On 7/3/25 12:59, Alan Maguire wrote:
-> > >>>>>
-> > >>>>>> On 03/07/2025 17:43, Eugene Loh wrote:
-> > >>>>>>
-> > >>>>>>> I tested and it looks good (modulo the OL8 UEK6 issue mentioned in the
-> > >>>>>>> patch 3/4 feedback).
-> > >>>>>>>
-> > >>>>>> Sorry I couldn't find that issue; is this the 5.15 problem with the ip
-> > >>>>>> send probes?
-> > >>>>>
-> > >>>>>     dtrace: failed to compile script /dev/stdin:
-> > >>>>>     ".../build/dlibs/5.2/tcp.d", line 177: failed to resolve type of
-> > >>>>> inet_ntoa arg#1 (ipaddr_t *):
-> > >>>>>     Unknown type name
-> > >>>>>
-> > >>>>
-> > >>>> Ah, sorry yep I have a fix for that one in the next round. Basically we
-> > >>>> need to add it to the core set of typedefs and add a type for a pointer
-> > >>>> to ipaddr_t; we can't rely on the #pragma to include net.d unfortunately.
-> > >>>
-> > >>> Why can't we rely on the pragma?  That is how e.g. the ip provider manages
-> > >>> this I believe?
-> > >>>
-> > >>
-> > >> Unfortunately the #pragma include doesn't do enough; it just defines a
-> > >> type for ipaddr_t , not a type for a _pointer_ to an ipaddr_t , which is
-> > >> what we need as a parameter to inet_ntoa(). I tried adding the ipaddr_t
-> > >> typedef to net.d and doing the pointer lookup/addition but that doesn't
-> > >> work either. Seems we need the core typedef + pointer addition or we hit
-> > >> this failure.
-> > > 
-> > > Actually, if you move 'typedef __be32          ipaddr_t;' from ip.d to net.d,
-> > > you should be set.  That is what I did in my priliminary tcp provider impl.
-> > > I do believe that works.  Either way, we use inet_ntoa() in the ip.d
-> > > translators and that works with that typedef in the file, so this really ought
-> > > to work.
-> 
-> > Yep, I tried that in the v2 patch series; Eugene hit the undefined error
-> > in one test and I now hit it consistently for all tcp/ip tests
-> > unfortunately with "typedef __be32 ipaddr_t;" in net.d.
-> > 
-> > My assumption (probably wrong) is that the include of the library does
-> > happen but nothing triggers the pointer type generation for "ipaddr *"
-> > in the CTF dict. If there was a way to force that type generation at the
-> > .d file level that would be great, not sure I see a way currently tho.
-> 
-> Well, like I said, it does work for ip.d so I don't see why this would be
-> any different.  I'll have a look and see if I can figure something out.
+The current approach of looking for remote addresses
+is brittle and fails in many environments; it checks the
+default route gateway and looks for open ports in the TCP
+case.
 
-Looking into this more, I think the problem is simply that you did not sync
-all the dlibs for the various kernel versions with the updated ip.d, net.d, and
-tcp.d files.  So, if the kernel on the OL8 instance you test on does not have
-your change, it will fail.
+We can however achieve the same goal reliably by creating
+a network namespace on the system and configuring either
+IPv4 or IPv6 addresses on the namespaced and local veth
+interfaces that support communication between namespaces.
+If a tcp port is required, start sshd to listen on that port.
 
-Also, I do not understand why you removed the pragma
-	#pragma D depends_on provider tcp	
-from tcp.d.
+Teardown of network namespaces is managed in the toplevel runtest.sh to
+ensure that network namespaces are removed after test completion for all
+cases: success, failure and timeout.
+
+Move the get_remote.sh script to test/utils also as it
+seems a more natural location.
+
+One issue - this cannot be run on a local system with
+a VPN running as the VPN connection is pretty aggressive
+in disconnecting/reconnecting when spotting a link-up event
+associated with the global netns side of the veth.  However
+in my experience the remote IP tests do not work reliably
+in that environment anyway.
+
+Reviewed-by: Eugene Loh <eugene.loh@oracle.com>
+Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+---
+ runtest.sh                                  |  2 +
+ test/unittest/ip/get.ipv4remote.pl          | 87 ---------------------
+ test/unittest/ip/get.ipv6remote.pl          | 70 -----------------
+ test/unittest/ip/tst.ipv4remoteicmp.sh      | 12 +--
+ test/unittest/ip/tst.ipv4remotetcp.sh       | 27 +++----
+ test/unittest/ip/tst.ipv4remoteudp.sh       | 10 +--
+ test/unittest/ip/tst.ipv6remoteicmp.sh      | 18 ++---
+ test/unittest/tcp/tst.ipv4remotetcp.sh      | 26 ++----
+ test/unittest/tcp/tst.ipv4remotetcpstate.sh | 31 +++-----
+ test/unittest/udp/tst.ipv4remoteudp.sh      |  6 +-
+ test/utils/get_remote.sh                    | 71 +++++++++++++++++
+ 11 files changed, 123 insertions(+), 237 deletions(-)
+ delete mode 100755 test/unittest/ip/get.ipv4remote.pl
+ delete mode 100755 test/unittest/ip/get.ipv6remote.pl
+ create mode 100755 test/utils/get_remote.sh
+
+diff --git a/runtest.sh b/runtest.sh
+index 156e7dec..9f06a499 100755
+--- a/runtest.sh
++++ b/runtest.sh
+@@ -1473,6 +1473,8 @@ for dt in $dtrace; do
+ 
+         log "\n"
+ 
++	test/utils/get_remote.sh cleanup
++
+         if [[ -n $regression ]]; then
+             # If regtesting, we run a second time, with intermediate results
+             # displayed, and output redirected to a per-test, per-dtrace
+diff --git a/test/unittest/ip/get.ipv4remote.pl b/test/unittest/ip/get.ipv4remote.pl
+deleted file mode 100755
+index 3cc47d01..00000000
+--- a/test/unittest/ip/get.ipv4remote.pl
++++ /dev/null
+@@ -1,87 +0,0 @@
+-#!/usr/bin/perl -w
+-#
+-# Oracle Linux DTrace.
+-# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
+-# Licensed under the Universal Permissive License v 1.0 as shown at
+-# http://oss.oracle.com/licenses/upl.
+-#
+-
+-#
+-# get.ipv4remote.pl [tcpport]
+-#
+-# Find an IPv4 reachable remote host using both ip(8) and ping(8).
+-# If a tcpport is specified, return a host that is also listening on this
+-# TCP port.  Print the local address and the remote address, or an
+-# error message if no suitable remote host was found.  Exit status is 0 if
+-# a host was found.  (Note: the only host we check is the gateway.  Nobody
+-# responds to broadcast pings these days, and portscanning the local net is
+-# unfriendly.)
+-#
+-
+-use strict;
+-use IO::Socket;
+-
+-my $TIMEOUT = 3;
+-my $tcpport = @ARGV == 1 ? $ARGV[0] : 0;
+-
+-#
+-# Determine gateway IP address
+-#
+-
+-my $local = "";
+-my $remote = "";
+-my $responsive = "";
+-my $up;
+-open IP, '/sbin/ip -o -4 route show |' or die "Couldn't run ip route show: $!\n";
+-while (<IP>) {
+-	next unless /^default /;
+-
+-	if (/via (\S+)/) {
+-		$remote = $1;
+-	}
+-}
+-close IP;
+-die "Could not determine gateway router IP address" if $remote eq "";
+-
+-open IP, "/sbin/ip -o route get to $remote |" or die "Couldn't run ip route get: $!\n";
+-while (<IP>) {
+-	next unless /^$remote /;
+-	if (/src (\S+)/) {
+-		$local = $1;
+-	}
+-}
+-close IP;
+-die "Could not determine local IP address" if $local eq "";
+-
+-#
+-# See if the rmote host responds to an icmp echo.
+-#
+-open PING, "/bin/ping -n -s 56 -w $TIMEOUT $remote |" or
+-    die "Couldn't run ping: $!\n";
+-while (<PING>) {
+-	if (/bytes from (.*): /) {
+-		my $addr = $1;
+-
+-		if ($tcpport != 0) {
+-			#
+-			# Test TCP
+-			#
+-			my $socket = IO::Socket::INET->new(
+-				Proto    => "tcp",
+-				PeerAddr => $addr,
+-				PeerPort => $tcpport,
+-				Timeout  => $TIMEOUT,
+-			);
+-			next unless $socket;
+-			close $socket;
+-		}
+-
+-		$responsive = $addr;
+-		last;
+-	}
+-}
+-close PING;
+-die "Can't find a remote host for testing: No suitable response from " .
+-    "$remote\n" if $responsive eq "";
+-
+-print "$local $responsive\n";
+diff --git a/test/unittest/ip/get.ipv6remote.pl b/test/unittest/ip/get.ipv6remote.pl
+deleted file mode 100755
+index b2136c5b..00000000
+--- a/test/unittest/ip/get.ipv6remote.pl
++++ /dev/null
+@@ -1,70 +0,0 @@
+-#!/usr/bin/perl -w
+-#
+-# Oracle Linux DTrace.
+-# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
+-# Licensed under the Universal Permissive License v 1.0 as shown at
+-# http://oss.oracle.com/licenses/upl.
+-#
+-
+-#
+-# get.ipv6remote.pl
+-#
+-# Find an IPv6 reachable remote host using both ip(8) and ping(8).
+-# Print the local address and the remote address, or print nothing if either
+-# no IPv6 interfaces or remote hosts were found.  (Remote IPv6 testing is
+-# considered optional, and so not finding another IPv6 host is not an error
+-# state we need to log.)  Exit status is 0 if a host was found.
+-#
+-
+-use strict;
+-use IO::Socket;
+-
+-my $TIMEOUT = 3;			# connection timeout
+-
+-# possible paths for ping6
+-$ENV{'PATH'} = "/bin:/usr/bin:/sbin:/usr/sbin:$ENV{'PATH'}";
+-
+-#
+-# Determine local IP address
+-#
+-my $local = "";
+-my $remote = "";
+-my $responsive = "";
+-my $up;
+-open IP, '/sbin/ip -o -6 route show |' or die "Couldn't run ip route show: $!\n";
+-while (<IP>) {
+-	next unless /^default /;
+-
+-	if (/via (\S+)/) {
+-		$remote = $1;
+-	}
+-}
+-close IP;
+-die "Could not determine gateway router IPv6 address" if $remote eq "";
+-
+-open IP, "/sbin/ip -o route get to $remote |" or die "Couldn't run ip route get: $!\n";
+-while (<IP>) {
+-	next unless /^$remote /;
+-	if (/src (\S+)/) {
+-		$local = $1;
+-	}
+-}
+-close IP;
+-die "Could not determine local IPv6 address" if $local eq "";
+-
+-#
+-# Find the first remote host that responds to an icmp echo,
+-# which isn't a local address.
+-#
+-open PING, "ping6 -n -s 56 -w $TIMEOUT $remote 2>/dev/null |" or
+-    die "Couldn't run ping: $!\n";
+-while (<PING>) {
+-	if (/bytes from (.*): /) {
+-		$responsive = $1;
+-		last;
+-	}
+-}
+-close PING;
+-exit 2 if $responsive eq "";
+-
+-print "$local $responsive\n";
+diff --git a/test/unittest/ip/tst.ipv4remoteicmp.sh b/test/unittest/ip/tst.ipv4remoteicmp.sh
+index c165cbdc..033dae16 100755
+--- a/test/unittest/ip/tst.ipv4remoteicmp.sh
++++ b/test/unittest/ip/tst.ipv4remoteicmp.sh
+@@ -1,7 +1,7 @@
+ #!/bin/bash
+ #
+ # Oracle Linux DTrace.
+-# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
++# Copyright (c) 2008, 2025, Oracle and/or its affiliates. All rights reserved.
+ # Licensed under the Universal Permissive License v 1.0 as shown at
+ # http://oss.oracle.com/licenses/upl.
+ #
+@@ -13,9 +13,7 @@
+ #
+ # 1. A change to the ip stack breaking expected probe behavior,
+ #    which is the reason we are testing.
+-# 2. No physical network interface is plumbed and up.
+-# 3. The subnet gateway is not reachable.
+-# 4. An unrelated ICMP between these hosts was traced by accident.
++# 2. An unrelated ICMP between these hosts was traced by accident.
+ #
+ 
+ if (( $# != 1 )); then
+@@ -25,18 +23,20 @@ fi
+ 
+ dtrace=$1
+ testdir="$(dirname $_test)"
+-getaddr=$testdir/get.ipv4remote.pl
++getaddr=$testdir/../../utils/get_remote.sh
+ 
+ if [[ ! -x $getaddr ]]; then
+ 	echo "could not find or execute sub program: $getaddr" >&2
+ 	exit 3
+ fi
+-set -- $($getaddr)
++
++set -- $($getaddr ipv4)
+ source="$1"
+ dest="$2"
+ if [[ $? -ne 0 ]] || [[ -z $dest ]]; then
+ 	exit 67
+ fi
++
+ $dtrace $dt_flags -c "$testdir/perlping.pl icmp $dest" -qs /dev/stdin <<EOF | \
+ 	sort -n
+ ip:::send
+diff --git a/test/unittest/ip/tst.ipv4remotetcp.sh b/test/unittest/ip/tst.ipv4remotetcp.sh
+index 577c5668..8a3fc7eb 100755
+--- a/test/unittest/ip/tst.ipv4remotetcp.sh
++++ b/test/unittest/ip/tst.ipv4remotetcp.sh
+@@ -1,7 +1,7 @@
+ #!/bin/bash
+ #
+ # Oracle Linux DTrace.
+-# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
++# Copyright (c) 2008, 2025, Oracle and/or its affiliates. All rights reserved.
+ # Licensed under the Universal Permissive License v 1.0 as shown at
+ # http://oss.oracle.com/licenses/upl.
+ #
+@@ -13,9 +13,7 @@
+ #
+ # 1. A change to the ip stack breaking expected probe behavior,
+ #    which is the reason we are testing.
+-# 2. No physical network interface is plumbed and up.
+-# 3. The subnet gateway is not reachable and listening on ssh.
+-# 4. An unlikely race causes the unlocked global send/receive
++# 2. An unlikely race causes the unlocked global send/receive
+ #    variables to be corrupted.
+ #
+ # This test performs a TCP connection and checks that at least the
+@@ -32,27 +30,20 @@ fi
+ 
+ dtrace=$1
+ testdir="$(dirname $_test)"
+-getaddr=$testdir/get.ipv4remote.pl
+-tcpports="22 80"
+-tcpport=""
++getaddr=$testdir/../../utils/get_remote.sh
++tcpport="22"
+ dest=""
+ 
+ if [[ ! -x $getaddr ]]; then
+ 	echo "could not find or execute sub program: $getaddr" >&2
+ 	exit 3
+ fi
+-for port in $tcpports ; do
+-	res=`$getaddr $port 2>/dev/null`
+-	if (( $? == 0 )); then
+-		read s d <<< $res
+-		tcpport=$port
+-		source=$s
+-		dest=$d
+-		break
+-        fi
+-done
+ 
+-if [ -z $tcpport ]; then
++set -- $($getaddr ipv4 $tcpport)
++source="$1"
++dest="$2"
++
++if [[ $? -ne 0 ]] || [[ -z $dest ]]; then
+ 	exit 67
+ fi
+ 
+diff --git a/test/unittest/ip/tst.ipv4remoteudp.sh b/test/unittest/ip/tst.ipv4remoteudp.sh
+index 3d25e1f5..08e32740 100755
+--- a/test/unittest/ip/tst.ipv4remoteudp.sh
++++ b/test/unittest/ip/tst.ipv4remoteudp.sh
+@@ -1,7 +1,7 @@
+ #!/bin/bash
+ #
+ # Oracle Linux DTrace.
+-# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
++# Copyright (c) 2008, 2025, Oracle and/or its affiliates. All rights reserved.
+ # Licensed under the Universal Permissive License v 1.0 as shown at
+ # http://oss.oracle.com/licenses/upl.
+ #
+@@ -13,9 +13,7 @@
+ #
+ # 1. A change to the ip stack breaking expected probe behavior,
+ #    which is the reason we are testing.
+-# 2. No physical network interface is plumbed and up.
+-# 3. The gateway is not reachable and listening on rpcbind.
+-# 4. An unlikely race causes the unlocked global send/receive
++# 2. An unlikely race causes the unlocked global send/receive
+ #    variables to be corrupted.
+ #
+ # This test sends a UDP message using ping and checks that at least the
+@@ -31,13 +29,13 @@ fi
+ 
+ dtrace=$1
+ testdir="$(dirname $_test)"
+-getaddr=$testdir/get.ipv4remote.pl
++getaddr=$testdir/../../utils/get_remote.sh
+ 
+ if [[ ! -x $getaddr ]]; then
+ 	echo "could not find or execute sub program: $getaddr" >&2
+ 	exit 3
+ fi
+-set -- $($getaddr)
++set -- $($getaddr ipv4)
+ source="$1"
+ dest="$2"
+ if [[ $? -ne 0 ]] || [[ -z $dest ]]; then
+diff --git a/test/unittest/ip/tst.ipv6remoteicmp.sh b/test/unittest/ip/tst.ipv6remoteicmp.sh
+index 90fd48b4..d0eef77f 100755
+--- a/test/unittest/ip/tst.ipv6remoteicmp.sh
++++ b/test/unittest/ip/tst.ipv6remoteicmp.sh
+@@ -1,7 +1,7 @@
+ #!/bin/bash
+ #
+ # Oracle Linux DTrace.
+-# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
++# Copyright (c) 2008, 2025, Oracle and/or its affiliates. All rights reserved.
+ # Licensed under the Universal Permissive License v 1.0 as shown at
+ # http://oss.oracle.com/licenses/upl.
+ #
+@@ -19,7 +19,7 @@
+ #
+ # @@tags: unstable
+ 
+-# possible paths for ping6
++# possible paths for ping
+ export PATH=/bin:/usr/bin:/sbin:/usr/sbin:$PATH
+ 
+ if (( $# != 1 )); then
+@@ -29,24 +29,24 @@ fi
+ 
+ dtrace=$1
+ testdir="$(dirname $_test)"
+-getaddr=$testdir/get.ipv6remote.pl
++getaddr=$testdir/../../utils/get_remote.sh
+ 
+ if [[ ! -x $getaddr ]]; then
+ 	echo "could not find or execute sub program: $getaddr" >&2
+ 	exit 3
+ fi
+-set -- $($getaddr)
++
++set -- $($getaddr ipv6)
+ source="$1"
+ dest="$2"
++
+ if [[ $? -ne 0 ]] || [[ -z $dest ]]; then
+ 	echo -n "Could not find a local IPv6 interface and a remote IPv6 " >&2
+ 	echo "host.  Aborting test." >&2
+ 	exit 67
+ fi
+ 
+-nolinkdest="$(printf "%s" "$dest" | sed 's,%.*,,')"
+-
+-$dtrace $dt_flags -c "ping6 -c 6 $dest" -qs /dev/stdin <<EOF | \
++$dtrace $dt_flags -c "ping -6 -c 10 $dest" -qs /dev/stdin <<EOF | \
+     gawk '/ip:::/ { print $0 }' | sort -n
+ /* 
+  * We use a size match to include only things that are big enough to
+@@ -54,7 +54,7 @@ $dtrace $dt_flags -c "ping6 -c 6 $dest" -qs /dev/stdin <<EOF | \
+  */
+ 
+ ip:::send
+-/args[2]->ip_saddr == "$source" && args[2]->ip_daddr == "$nolinkdest" &&
++/args[2]->ip_saddr == "$source" && args[2]->ip_daddr == "$dest" &&
+     args[5]->ipv6_nexthdr == IPPROTO_ICMPV6 && args[2]->ip_plength > 32/
+ {
+ 	printf("1 ip:::send    (");
+@@ -64,7 +64,7 @@ ip:::send
+ }
+ 
+ ip:::receive
+-/args[2]->ip_saddr == "$nolinkdest" && args[2]->ip_daddr == "$source" &&
++/args[2]->ip_saddr == "$dest" && args[2]->ip_daddr == "$source" &&
+     args[5]->ipv6_nexthdr == IPPROTO_ICMPV6 && args[2]->ip_plength > 32/
+ {
+ 	printf("2 ip:::receive (");
+diff --git a/test/unittest/tcp/tst.ipv4remotetcp.sh b/test/unittest/tcp/tst.ipv4remotetcp.sh
+index 333760a1..78ae369d 100755
+--- a/test/unittest/tcp/tst.ipv4remotetcp.sh
++++ b/test/unittest/tcp/tst.ipv4remotetcp.sh
+@@ -2,7 +2,7 @@
+ 
+ #
+ # Oracle Linux DTrace.
+-# Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
++# Copyright (c) 2017, 2025, Oracle and/or its affiliates. All rights reserved.
+ # Licensed under the Universal Permissive License v 1.0 as shown at
+ # http://oss.oracle.com/licenses/upl.
+ 
+@@ -13,9 +13,7 @@
+ #
+ # 1. A change to the tcp stack breaking expected probe behavior,
+ #    which is the reason we are testing.
+-# 2. No physical network interface is plumbed and up.
+-# 3. No other hosts on this subnet are reachable and listening on ssh.
+-# 4. An unlikely race causes the unlocked global send/receive
++# 2. An unlikely race causes the unlocked global send/receive
+ #    variables to be corrupted.
+ #
+ # This test performs a TCP connection and checks that at least the
+@@ -32,9 +30,8 @@ fi
+ 
+ dtrace=$1
+ testdir="$(dirname $_test)"
+-getaddr=$testdir/../ip/get.ipv4remote.pl
+-tcpports="22 80"
+-tcpport=""
++getaddr=$testdir/../../utils/get_remote.sh
++tcpport="22"
+ dest=""
+ 
+ if [[ ! -x $getaddr ]]; then
+@@ -42,18 +39,11 @@ if [[ ! -x $getaddr ]]; then
+         exit 3
+ fi
+ 
+-for port in $tcpports ; do
+-	res=`$getaddr $port 2>/dev/null`
+-	if (( $? == 0 )); then
+-		read s d <<< $res
+-		tcpport=$port
+-		source=$s
+-		dest=$d
+-		break
+-	fi
+-done
++set -- $($getaddr ipv4 $tcpport)
++source="$1"
++dest="$2"
+ 
+-if [[ -z $tcpport ]]; then
++if [[ $? -ne 0 ]] || [[ -z $dest ]]; then
+ 	exit 67
+ fi
+ 
+diff --git a/test/unittest/tcp/tst.ipv4remotetcpstate.sh b/test/unittest/tcp/tst.ipv4remotetcpstate.sh
+index 74fb4ce3..ea0eeec0 100755
+--- a/test/unittest/tcp/tst.ipv4remotetcpstate.sh
++++ b/test/unittest/tcp/tst.ipv4remotetcpstate.sh
+@@ -2,7 +2,7 @@
+ 
+ #
+ # Oracle Linux DTrace.
+-# Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
++# Copyright (c) 2017, 2025, Oracle and/or its affiliates. All rights reserved.
+ # Licensed under the Universal Permissive License v 1.0 as shown at
+ # http://oss.oracle.com/licenses/upl.
+ 
+@@ -17,8 +17,7 @@
+ #
+ # 1. A change to the ip stack breaking expected probe behavior,
+ #    which is the reason we are testing.
+-# 2. The remote ssh service is not online.
+-# 3. An unlikely race causes the unlocked global send/receive
++# 2. An unlikely race causes the unlocked global send/receive
+ #    variables to be corrupted.
+ #
+ # This test performs a TCP connection to the ssh service (port 22) and
+@@ -40,29 +39,21 @@ fi
+ 
+ dtrace=$1
+ testdir="$(dirname $_test)"
+-getaddr=$testdir/../ip/get.ipv4remote.pl
++getaddr=$testdir/../../utils/get_remote.sh
+ client=$testdir/../ip/client.ip.pl
+-tcpports="22 80"
+-tcpport=""
+-dest=""
++tcpport="22"
+ 
+ if [[ ! -x $getaddr ]]; then
+ 	echo "could not find or execute sub program: $getaddr" >&2
+ 	exit 3
+ fi
+-for port in $tcpports ; do
+-	res=`$getaddr $port 2>/dev/null`
+-	if (( $? == 0 )); then
+-		read s d <<< $res
+-		tcpport=$port
+-		source=$s
+-		dest=$d
+-		break
+-	fi
+-done
+-
+-if [ -z $tcpport ]; then
+-        exit 67
++
++set -- $($getaddr ipv4 $tcpport)
++source="$1"
++dest="$2"
++
++if [[ $? -ne 0 ]] || [[ -z $dest ]]; then
++	exit 67
+ fi
+ 
+ 
+diff --git a/test/unittest/udp/tst.ipv4remoteudp.sh b/test/unittest/udp/tst.ipv4remoteudp.sh
+index 1c5f2a9a..89309cfc 100755
+--- a/test/unittest/udp/tst.ipv4remoteudp.sh
++++ b/test/unittest/udp/tst.ipv4remoteudp.sh
+@@ -2,7 +2,7 @@
+ 
+ #
+ # Oracle Linux DTrace.
+-# Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
++# Copyright (c) 2017, 2025, Oracle and/or its affiliates. All rights reserved.
+ # Licensed under the Universal Permissive License v 1.0 as shown at
+ # http://oss.oracle.com/licenses/upl.
+ 
+@@ -34,14 +34,14 @@ fi
+ 
+ dtrace=$1
+ testdir="$(dirname $_test)"
+-getaddr=$testdir/../ip/get.ipv4remote.pl
++getaddr=$testdir/../../utils/get_remote.sh
+ port=31337
+ 
+ if [[ ! -x $getaddr ]]; then
+ 	echo "could not find or execute sub program: $getaddr" >&2
+ 	exit 3
+ fi
+-read source dest <<<`$getaddr 2>/dev/null`
++read source dest <<<`$getaddr ipv4 2>/dev/null`
+ if (( $? != 0 )) || [[ -z $dest ]]; then
+ 	exit 67
+ fi
+diff --git a/test/utils/get_remote.sh b/test/utils/get_remote.sh
+new file mode 100755
+index 00000000..d8a4d450
+--- /dev/null
++++ b/test/utils/get_remote.sh
+@@ -0,0 +1,71 @@
++#!/bin/bash
++#
++# Oracle Linux DTrace.
++# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++# Licensed under the Universal Permissive License v 1.0 as shown at
++# http://oss.oracle.com/licenses/upl.
++#
++
++#
++# get_remote.sh ipv4|ipv6|cleanup [tcpport]
++#
++# Create (or cleanup) a network namespace with either IPv4 or IPv6
++# address associated.
++#
++# Print the local address and the remote address, or an
++# error message if a failure occurred during setup.
++#
++# If tcpport is specified, start sshd on that port.
++#
++# Exit status is 0 if all succceeded.
++#
++
++cmd=$1
++tcpport=$2
++
++prefix=$(basename $tmpdir)
++netns=${prefix}ns
++veth1=${prefix}v1
++veth2=${prefix}v2
++mtu=1500
++
++set -e
++
++case $cmd in
++cleanup)	pids=$(ip netns pids ${netns} 2>/dev/null)
++		if [[ -n "$pids" ]]; then
++			kill -TERM $pids
++		fi
++		ip netns del ${netns} 2>/dev/null
++		exit 0
++		;;
++ ipv4)		veth1_addr=192.168.168.1
++		veth2_addr=192.168.168.2
++		prefixlen=24
++		family=
++		;;
++ ipv6)		veth1_addr=fd::1
++		veth2_addr=fd::2
++		prefixlen=64
++		family=-6
++		;;
++ *)		echo "Unexpected cmd $cmd" >2
++		exit 1
++		;;
++esac
++
++ip netns add $netns
++ip link add dev $veth1 mtu $mtu netns $netns type veth \
++   peer name $veth2 mtu $mtu
++ip netns exec $netns ip $family addr add ${veth1_addr}/$prefixlen dev $veth1
++ip netns exec $netns ip link set $veth1 up
++ip addr add ${veth2_addr}/${prefixlen} dev $veth2
++ip link set $veth2 up
++
++if [[ -n "$tcpport" ]]; then
++	sshd=$(which sshd)
++	ip netns exec $netns $sshd -p $tcpport &
++fi
++
++echo "$veth2_addr $veth1_addr"
++exit 0
+-- 
+2.39.3
+
