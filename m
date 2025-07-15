@@ -1,85 +1,87 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E312AE8E
-	for <dtrace@lists.linux.dev>; Tue, 15 Jul 2025 21:22:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0130F2BEFEA
+	for <dtrace@lists.linux.dev>; Tue, 15 Jul 2025 21:39:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752614572; cv=fail; b=AlXT+fPqPZTtsgXK3dQx20FUeAsNQMFqafYNOnP3YO69BYPJgu/lWjtU0Ci0aJUXZKbbEuAlYdxuSegtEJWuKkvEK41Ix7NjfeouM7o2Q6AQNQ5rgtpIrOxt5yPhLjgi5BrJTZMojfbLvv8phf9oF/FOmo3mGfaZEL0qcEC4QWk=
+	t=1752615572; cv=fail; b=B17xdYINIL8F6bwm8xl9CIjrhKrMShqmnUbUeCIkU56GFCSCyZF11gJJnMVNRVW9UrbVYLTyCCFyHzxGlCkU9VvfrwtJW6/9jbj01C8XBqBZBpm87Q5DCGNpI4vDekrHYLXCRY8O0KHd5IhoosTirt5mI4IfhcC/V+WvGRqfCns=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752614572; c=relaxed/simple;
-	bh=XoRhTkAGESIzFzgR9fq/afNslWYczF6VEuaK+XGulLo=;
-	h=Content-Type:Message-ID:Date:Subject:To:References:From:
-	 In-Reply-To:MIME-Version; b=tIij4WZMmSeRhZiUS624LJv8qF8rtYhIXpfUs8eNRElWEmnzIoteS7No6s4GHUtTS+/Ub6by81kqPdaqtRrWF3SHGZHJ/FLFSkNaIH3omPFbKCtdFuDiJPa4S9YBSiobTtsnZNp0Bs/W9HvFzSI8bofi5Oz5yaHYMkAvkAzgDpY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=OfnJiulq; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=qf8hEu39; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1752615572; c=relaxed/simple;
+	bh=HujIDgSXSvEzc0OEMKTvTIdBYT1Jk58TkP8uTosO45U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=oOj52fs+hPzlqYjjgKA5IUwZZMCYYnmHvK6/+Pg0MESTuA55ztAjYq7JVqxKiuzHcPWtJd1SuOiRBnVNUbkpZnIMFG/EgRDVGzH/8+tf5ToDGcgOvqy1XBg4t19UrVqzHG6bKUGJZdRMiguyQ0NndLdp6E16ig2W8zULp0dY9EM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=F4v4Md8G; dkim=fail (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=RLUMHLq0 reason="signature verification failed"; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="OfnJiulq";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="qf8hEu39"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56FKXp1U028812
-	for <dtrace@lists.linux.dev>; Tue, 15 Jul 2025 21:22:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=ezu+i5UrdLwZLPlZ47
-	E6zZgxIOSVLial6cC+C/CogJI=; b=OfnJiulqeLK1VzLEQiVBYgcebvzB6a9eD+
-	Pr+9fLHjegb6LvhS8Y5ZcXxgLauW3q4BbFGCCQMTLh/rhI566SRFC+TgpmDMYIJj
-	TJN4MsM4uZKfDNbYXx7IdWcLW+v96zYmF/KVK7tG//9Y5kyrE4M+PL44Cqw/Dvng
-	TtpJcT+4SnmcElbZbmeITYQNnbPKNH+vqupXqLGdwV2LijO/YfQEHcAMkPlPYVWP
-	9FtL6VuMW6ypfLqUoig0cPBYODh4sispF6Q54NC9hYLZIvm/skLxage2FzQnrhPm
-	7oRsBsBwv3VKVHWg+dyV6L295aDogCg7NoQNPX8E1+FZsWYQ/snQ==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47uk8fyqdv-1
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="F4v4Md8G";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="RLUMHLq0"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56FKXihB014653
+	for <dtrace@lists.linux.dev>; Tue, 15 Jul 2025 21:39:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=lnnRRvhBxoAi3RpRZApb4GVM0Y35elYQHComANSr8Zk=; b=
+	F4v4Md8GZ6ruPRQgW2ti21oM7an0xaSvgw60HTKnCWyangWydRiuLfF9P5gP12uR
+	4k0hae3kXPgjv4NkexTsgV2KGvdeR+hKudbpw3ACWDq5dIGLukTiaOZKhE+0IgW/
+	/1udHUCLf8C3OgsXGO2po+zPMvpjPrETZs5AJxuCA36hPYh981LdTz5/f5NoWWd3
+	3mCTifiScQ55yaxHksNWmBjuXgbMYIys9wz3y3kthzQrzkzKY8M0Tv5Kt0b5pxTN
+	4KVx0amHblwKAiTYvUShdRe4+sLGC+1wQZwgBcWFfODgK71FKgrBmnFCU/pDvV96
+	OplSanZ2N2/K+NAnLXp8hg==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47uk66yehr-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 15 Jul 2025 21:22:49 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56FJuffC029672
-	for <dtrace@lists.linux.dev>; Tue, 15 Jul 2025 21:22:48 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11on2073.outbound.protection.outlook.com [40.107.220.73])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 47ue5ah6fr-1
+	for <dtrace@lists.linux.dev>; Tue, 15 Jul 2025 21:39:28 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56FLd7h8040396
+	for <dtrace@lists.linux.dev>; Tue, 15 Jul 2025 21:39:27 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1nam02on2042.outbound.protection.outlook.com [40.107.96.42])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 47ue5ajxfc-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 15 Jul 2025 21:22:48 +0000
+	for <dtrace@lists.linux.dev>; Tue, 15 Jul 2025 21:39:27 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FK1vetRq9HT6J17oPJxuqUwDe+dElN8yKZhMmv5tyAL18/5JG5KwJ9g+xNNf1SCdAIGq7aTxG774OpH5/siC+M3IAuSuxctnuI9LDCmbz/H/0NF1VXrOpGkC4+Pf/qs2d7JRiqA6EzyVjjDwJy1+YlrjUtSf44LEf8B5kJjkwPg8Q8UPI4R3qO9IDB01/jzGA+437VKY+TCg0fBpyjgXdBuKa4jyXqu4gtwOutud8NZzqi/H6DXNbdRAWmYWbgLyxZnrLtG35zcjdsN4bR/uL4yo+Gtl7hwIgL/icLmQTMBwpi4dKTkh2ppqV+EHNhXm3UbuPP1FF2LDii5t93P8CA==
+ b=FuWhce02fu/vcom3NIooqUQ8DDipzVYLzv98spE9TjGtW1ONCzPd4yhlEoLYIOLSc9vzB/to8uok8RHxcGM9nVvAEfhQwyC06u3rz9+3qdAmUGKEZ2fpOfhwh+KNlqUZhs3TellFFpEQuIgmprGUcAGBjGkyMPH4AL/YVTL7hU4KnaBYEijvEohw0ZuLz60EFGKHiGOOuNz2sXvfspnpLeQSwY21sfoEURMObZqAJia4sE9cUGMxX4/sEjwQv+e3TE/Z/tHQFJCMJuLqOSC10pc4nzP2NKleBEBYSEeqXhhkzub5iQIklaz+FBoOX+fwip8YJptR6cDjzXO+NJXFpg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ezu+i5UrdLwZLPlZ47E6zZgxIOSVLial6cC+C/CogJI=;
- b=T2jni7nsPh6ZGrTI9fl6qLo2g9L4S58jqI5mcMyYPd1lcn9peS0G4Vc8WncUKq4wzzc0wFUiXUV/HAWSZNymrdC9tPNzK+T/aakBeFPdjYNGFwG3vlehyDVJToF0sWWMUAkgWAvl5f7Xrkr61aMpbJ4EirdHpJMPKa18CjzAzF/V82x/W8/21DrXxZfLs70YP8JLQbfUqbr/BbKJ96IPeimsHTANUO1xuYRbo5W7wcYaNWeaQBlmOOaNxo2W+HWwPBec14bUwX/1oYv9gV106YdwHMoBxsqcsqwjNSsWDWPztw/b4z5k/IFx4joMg/osxYo8nkK+bnasqir4TYtnzw==
+ bh=lVWt4B5Ho8UQ/Afb5XGx4eh0gZ3oIfOSoorjSIgvmFU=;
+ b=SywHke9iSf+6hAuj/1qpZ33psL+ht70kxCFllQifEsLWYIg1mqhdoj/IsX9t6vtw8PfbRKKuH8bV+kCSGNe1IZqtK7fVFVDu9/AJV7IdyUzAKSfcybND7fLt8RM5XqTR1BMVEA2yJApCsXB7z9sq8kr8Mr730PE5Rg+N340d+MJ+5MrHGzlGXLgcg73Kuihc3Gl2gsTaBNbyUvL3cg9vx5JuyeVs30AeeaSZsXQ93dgOuKaRCOHisj/+AtOeeoMPAGwdg8xPbBs7szX5IDhqXN9tpzXpWYaAzhDTtp+Xb1TTDtXOIgYSNIHdqruYpsGmNnnf/96NBMt4NinQ+9UZDw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ezu+i5UrdLwZLPlZ47E6zZgxIOSVLial6cC+C/CogJI=;
- b=qf8hEu39rOCnqKRMiYKUtcZ8kHV1cqtLi+KGqtRCzvglswPHghhYctXYfesVFYHIi3oq6aky6AWE/uw/lXdTt1+18Uyf0ctweinrL4wVnDpYqf5Uoe7YelNbIbG76XM7EpVHB1YlrtgG1CYTHvnJzyYhDHetsS2I8c8VuhVf8NI=
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by SJ0PR10MB6375.namprd10.prod.outlook.com (2603:10b6:a03:484::13) with
+ bh=lVWt4B5Ho8UQ/Afb5XGx4eh0gZ3oIfOSoorjSIgvmFU=;
+ b=RLUMHLq031dq0AfRTq4i/ZDUYIbJltJ3M5oW4B6tMBmJdeiCsGL/BttjhPrUHCmU22fBPh5wXLfawqMQqRZpmGsoIbzp0TUDh7v/DnbnR9YrYeEHXLZofMkU5CG+chfD3pZ59RCUEyglNJvOmS/w/xM1SzE7pyaHPWOqVBX0ohw=
+Received: from SJ0PR10MB5672.namprd10.prod.outlook.com (2603:10b6:a03:3ef::21)
+ by BLAPR10MB5074.namprd10.prod.outlook.com (2603:10b6:208:30d::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.35; Tue, 15 Jul
- 2025 21:22:44 +0000
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::8b24:5536:3259:5a69%6]) with mapi id 15.20.8922.028; Tue, 15 Jul 2025
- 21:22:44 +0000
-Content-Type: multipart/mixed; boundary="------------ysQQCX94b00lrM0YDKfcPMSG"
-Message-ID: <97ca9d19-12b9-a99e-4710-414d6dadbcbe@oracle.com>
-Date: Tue, 15 Jul 2025 17:22:42 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.33; Tue, 15 Jul
+ 2025 21:39:24 +0000
+Received: from SJ0PR10MB5672.namprd10.prod.outlook.com
+ ([fe80::8800:9203:9f66:174b]) by SJ0PR10MB5672.namprd10.prod.outlook.com
+ ([fe80::8800:9203:9f66:174b%6]) with mapi id 15.20.8922.028; Tue, 15 Jul 2025
+ 21:39:24 +0000
+Date: Tue, 15 Jul 2025 17:39:21 -0400
+From: Kris Van Hees <kris.van.hees@oracle.com>
+To: Eugene Loh <eugene.loh@oracle.com>
+Cc: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
+        dtrace-devel@oss.oracle.com
 Subject: Re: [DTrace-devel] [PATCH 4/4] rawfbt: selectively allow return() in
  clauses
-Content-Language: en-US
-To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
-        dtrace-devel@oss.oracle.com
+Message-ID: <aHbKiXh6TRGCRJbJ@oracle.com>
 References: <SJ0PR10MB5672917714933FF0262E814DC257A@SJ0PR10MB5672.namprd10.prod.outlook.com>
-From: Eugene Loh <eugene.loh@oracle.com>
-In-Reply-To: <SJ0PR10MB5672917714933FF0262E814DC257A@SJ0PR10MB5672.namprd10.prod.outlook.com>
-X-ClientProxiedBy: PH7P221CA0080.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:510:328::34) To CO6PR10MB5636.namprd10.prod.outlook.com
- (2603:10b6:303:14b::20)
+ <97ca9d19-12b9-a99e-4710-414d6dadbcbe@oracle.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <97ca9d19-12b9-a99e-4710-414d6dadbcbe@oracle.com>
+X-ClientProxiedBy: BLAPR05CA0002.namprd05.prod.outlook.com
+ (2603:10b6:208:36e::12) To SJ0PR10MB5672.namprd10.prod.outlook.com
+ (2603:10b6:a03:3ef::21)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -87,494 +89,542 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|SJ0PR10MB6375:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8487ee4f-af8b-430e-b42c-08ddc3e5bd19
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB5672:EE_|BLAPR10MB5074:EE_
+X-MS-Office365-Filtering-Correlation-Id: 54ac97e2-d8bc-4d15-97be-08ddc3e8113b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|4053099003|4013099003|13003099007;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?bU9pYi84YzNZU0tLd3p0S2cxK2pwcWtUR1p6UzNlWnpKODdDN3Q3MjlQaGd1?=
- =?utf-8?B?aEhpc25EWWFpQ3JJcnl5cmp5VTc4UWlLQlVnSElIVmJYTHkyM2xOdE11MHIx?=
- =?utf-8?B?cGxrVW5lUG5kdDJUZ0hEZHFseGUyZGtKNWlQSEsreE9tZ1FMci9CL1VJYk5L?=
- =?utf-8?B?elVqQkl0UHZMVFN0VGo5THVuOWVFZHVCKzJRUTR0M2NxeTVpcjcvb3VSSk9B?=
- =?utf-8?B?VGoweWU2aUdEVjhWM0lXWVFjcEczeXROTUU4SVlyMVR3d2xReUJJT0lYdm9M?=
- =?utf-8?B?YUY5NUVqVmhUTmxFZUhUU0FiL25uZGVZU2VuMStwemRhNUZZcSt6aUFiM3Y0?=
- =?utf-8?B?aXZnbGNlZmRDSnpzQWF6SUNNendRTzJqeGdHcUpUZ1RueDRVeUNzdTFzZGFn?=
- =?utf-8?B?dXd4ZjRRQ3pSQjFObHJpREVaMTBiKzhDQ040UWNGYllwZy9jTkV4NTJia05O?=
- =?utf-8?B?MG9JcWxXY3RFMDUyNnV1aW5aWFVYdVd3djRYTHVLaFpRQi96Z1NQcDdNaWRQ?=
- =?utf-8?B?TjBCanlORmUybkZTbzYxcERxUTVNWnovVng4L004N2FiM3lhR1dETENnUmU3?=
- =?utf-8?B?STZaN3J6b3BBcmt3S0dQOGx0TjArbFJIeGtDSFF2V1JveXROV2NLRUVsN2t3?=
- =?utf-8?B?enB2Y2RIc0cwQkEzZmk2SnlaMC8rVXhaYXIvTGZOTWlDUGF0Rlk2L2hqMTE2?=
- =?utf-8?B?NnZQL1ErRzRZb3VhOWhWWldtK2JyUG0vZHVsYlZDWkdmU2habjNyd2pmTXI3?=
- =?utf-8?B?dW16U1cvalNGNFpsajBFRGswVUxMTjZaMUVtRTFocEp3WFVkVjJJZW1jUmNs?=
- =?utf-8?B?RlJqYWNpbkl0YUdDY3ZENlIvV1hieWQzd0JGaEVoYlFsZEh0RDRML3hPMEps?=
- =?utf-8?B?bXdvbFRUWVpEYzVjSG5hMWxmZ2tYeE9lZUpzbzBpUy8yWjU3NFVtVUtmZFNL?=
- =?utf-8?B?aHhkRXl6cGlWc1FmUEJMUVM1T0VBdUNVMXRHalVUaUt2U0tJeEVROTZ6NkpB?=
- =?utf-8?B?ZlJTMFJwRlNFOEpoaU5wYVZ0YXVxRzBpTkxjWkNQQjdyS2NvbHdtYWp2ekVP?=
- =?utf-8?B?ZHRaU0NRRis3aHo4RlJUY2kvNlByYzNzdWhLT0ZKaUtpR2Vsd1pTL0dGSmwv?=
- =?utf-8?B?Y1liZGhlaDB0cm1UUEprL2tYdzk4Y2c4SXVUYzQzcVJxdXVTLzFGU0xLS1gy?=
- =?utf-8?B?U1gxMFRnWlVQVHhaZ0dzQncvM202aS8yQSs5bnJMb2s5NHBaNXVsa2hjOVlY?=
- =?utf-8?B?NzAvRDlFZC9WUHlzcUJDdFNnSGRORWg0NTB5eHo0ODY0cWRUdEhISU96MW1D?=
- =?utf-8?B?RnFNRmJtQTBYMlZiYTAzOG9Fb0g3WTZPMzVKNzZ0QXZuNWMzT1YrOCtQd1pP?=
- =?utf-8?B?aUhYdlVEOHRPazJRc2RkVENIWXIxa2lML2wwR1Zwb1pNenpNdDVWRHJnbzlN?=
- =?utf-8?B?RzBqa1Y2SHRwcWFYRUtkaUlOaTJDREE3NDFWVkRUSk5KTVFZYVEzaE1RcFpm?=
- =?utf-8?B?RDJrU3BTUjlVbEtJNitMaHoyc2pINVhVRXREcTl2YnFmcWRRdDdKcituSEVM?=
- =?utf-8?B?allFK2k4czFRSlVYVXVYTThWZmYwZmlYSHMzTFN5N3NtWGg2Mnk5OE0vM0Vl?=
- =?utf-8?B?WUtnb1dnT0NVWmxpL1lwaXhRRGQwTzhNVWlaOFpuRzg2U1A1R3JCUWx4VGto?=
- =?utf-8?B?bDQ3c0lRYWM2MTJHVUc1V25NdHo0YjY1bjgxdnFFYWJwT1Y3Mi9WSVdTOUJ1?=
- =?utf-8?B?bEp4MmhJK3pyRm5QbUUyNEVnV2ppNXpLQ3BLYVN4dFlTeUxoSGtLbStlUVJr?=
- =?utf-8?B?UzlPUmpoMmJpWW80YTR1WXhYVUpvYld1MkNkbEhRV0xSQ1kwcjNyL2VQYmNu?=
- =?utf-8?B?NUw5Zk9BYjFvV1pVVzcycE5jRDhrWUNLSDVDalREWXBYUmZqQ255NXdrNVZE?=
- =?utf-8?Q?qwHETnAjZRs=3D?=
+	=?iso-8859-1?Q?Z2getaryd8B0fKrjk57aA7EWGeGf2cwQOv0jLqzhcwmcowU/hq6fYlvnIU?=
+ =?iso-8859-1?Q?dz66mkxPOYaNVKwN+55J9GCZu74dhoPe+4L472PZ6T8QIngfdJUDuz8TPF?=
+ =?iso-8859-1?Q?JtgDxA4gKFaPmudraNX3WDI8J2xGo39rBV5KNmxmzBqJHDDwvlVufU1Kku?=
+ =?iso-8859-1?Q?dw0TfrTsqS90NH9w1j9e4NpWcFQamEI+EP3MqY54eMfWRykiO9OW/Sy74q?=
+ =?iso-8859-1?Q?vlIkDd/DYF9eHdoMPFsBrosoT6nIqomsO4bU3LL1sp+FkkJnpwEv7DRzcw?=
+ =?iso-8859-1?Q?ygqW81hS1bsvJvF+yWKKjHpdw2ovkq3GN6qR/KQWNM04OWW/NrgMU3m5Yz?=
+ =?iso-8859-1?Q?Oi0IMckaCZRzEj1GFyJGpJcP1KRBdWADfbAUbAEtmmnUMTeqm9reaKgvX3?=
+ =?iso-8859-1?Q?GcDTuP1931zY22Oc+PQba9mTsRmk2VMow6ssKxGw+iLHqzVdmB/md4QtGq?=
+ =?iso-8859-1?Q?Xao5/byszxRVrBB6ipJUC8O5bIuwcedJrlSNnlEoh9gR/BuijiMW7ojVB6?=
+ =?iso-8859-1?Q?R0RP+keYfj1DVL1kE+nTJFcKPZpaIAHzfkp6P+A1FmXy9xrLU/b17cltHn?=
+ =?iso-8859-1?Q?g2zehiTXWxOCDANa016bkbgZc2qVD5lB1pLMcANzuE6zMFP6Y4WqbbOgJc?=
+ =?iso-8859-1?Q?RWbDj6mYDjR42z4PTuBwyAFqqEMML58MDo3bKnp8V/ryywFBONpg09wNsY?=
+ =?iso-8859-1?Q?2EO2HSYsitVOIjmBr/yq15UCwIIwi+gwbNoGBr8wIsaws/GDx2RGAvBThM?=
+ =?iso-8859-1?Q?IuyEgAP0bFfc16aoDjBLrzMfggsmKfBInLH09iiy9RKPKLFn4rf+Fa53yC?=
+ =?iso-8859-1?Q?0kUnM9V3d6KAT+kWml0it9V9EUMTPGPLHvI+1hPo4k+KiJBSjjmUyKAHRV?=
+ =?iso-8859-1?Q?YXRoRLgMujoUBXpgN6dxPB6ohFzrp3UOVFXZfts4UZsi97RxtKa3xhOe/e?=
+ =?iso-8859-1?Q?8yuidCt1qhe9b3NHRSweKEU5NyvSApIo4qeE6P6tY5bczczjbiIOtbtGzb?=
+ =?iso-8859-1?Q?Dd4du2N1487tWWY49RqgrV6539jNQawK2UhegExMRBJCvierFr9LfBkjxZ?=
+ =?iso-8859-1?Q?ltoqkwewL+XnSkwBgLXLT3mC1oKDkk9eAlkb2tCRPjDwCz5SPqBawYE54y?=
+ =?iso-8859-1?Q?EOgw8j+WNuSi5bYcG0aABKoYW2Rh94DOE5ccwizCAcle1azLEnOgKM0mgu?=
+ =?iso-8859-1?Q?+ay0EkyuQG4cNSNDXuSQlJzFPJWl5YwgJaCheqzCQnoW+Byzs9jNsIsJXP?=
+ =?iso-8859-1?Q?rPKgrYAinhP6eKlUEIvQPTDNGhvan5TMJ55e7H63HFZwdSzUHsVkeVhaqt?=
+ =?iso-8859-1?Q?xm5qyKft6jvgmxp1zn9cSQz9wv89m5KMjzkWPWT8A0ic9zfXJbiW9oDx6i?=
+ =?iso-8859-1?Q?y1ciRKGmfrZKujgCBZqCx3CKhqXR9VZdiacKk6R4dHyLz/WrE1p+pfrBoa?=
+ =?iso-8859-1?Q?mIq9B2FCJ5nqd1V4QffalmV56+pwEWPs3HQ96SokXH1KdQqEfJCYqwhB8N?=
+ =?iso-8859-1?Q?w=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(4053099003)(4013099003)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5672.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WERINkJvR2RSSmhrNmdRUlJha2xlTGZ0cEh0c3o1OW4zc3N2RGxYdGJOTlhm?=
- =?utf-8?B?VmhPRTVCdlRsOEpVVEtTbWpIS0xnVlZjT1hjeXlUTEVpa3V1WGpPdzlPeFdG?=
- =?utf-8?B?eVJ4VlpBWEQ1RkpUTElGb0prTmVCYVVUcjVNMnhHa2NrK3BMUzFobHUraG9M?=
- =?utf-8?B?aXZFUmpuTUk1VnFibVhhd0tOaGtGK3p4cEh3Z1o1SWwzQitnNUtGZEtVKzRP?=
- =?utf-8?B?VHpEYW13Mmt3aE81WlovZnAvMkRuM1dDYVZENiszN0tPa3VwS2NENFFZYXQv?=
- =?utf-8?B?V29ySXMwb1ZrOE5RbFQwZzVLWXd6bzVBTDRTWEhtMFpCakI3eTQ4YlA1ZGdI?=
- =?utf-8?B?c2t3dFdQWmdCazUyby9IMFdHNmY4OW9nNDZDRlRQdS9hUGpyOTg4R0liLy9i?=
- =?utf-8?B?UzlsdzZuVXlnalJvYUJXck1nYjgzeHhTY3VoeHdmY1hBRUN3b3JRYVlpU1Ru?=
- =?utf-8?B?cStVT09LUnVNQVE3RmU2QWxRZWo5djRyMm84d213NFpOQXlNanc5a1NETlY0?=
- =?utf-8?B?WWZzVTNsZGduU1JjNW1ENGlKR2Y1SDAwYTVOVnNLT3E5ejJjUmROSlkzWjh1?=
- =?utf-8?B?OUJ5TXVoKzFYWks4MzUwWWVLbkE0NE5yM012WHZzVXdRS2RuZWx6M1hzN2Ru?=
- =?utf-8?B?bTlTU0tORkxRbWovOEdlZGFTSEdvcktDOW8vVFNvRmRrcEx5RGxDNzVxRDA0?=
- =?utf-8?B?WGdQN0JkVm8zTUhybWM5d0RLdDJXZlVlNmh2Z0dqQ2F2T2hoeldkdGRKOU1T?=
- =?utf-8?B?RmprR3Q0M3dvS3czSHRkS3hiWDRaenlRelhMa3MxMFpnRkdiTGJOSThVeTJ3?=
- =?utf-8?B?aXF6azgrbWtaMkM3My8rdjJVSk5abUp2cytoK1IxOHMyakhEY1AraW1vTFQ3?=
- =?utf-8?B?VExqbmVBcXVqUFRwbkVJcUpKOGhMVzdVUjNMQ3lta2c1eXAxem5sQVJMR2s5?=
- =?utf-8?B?eHZJUkNHdEtaNitJQXBXQ3VWTi9lT1hNSDBocDZYYkN4UEFNL1N1Y1lXZDJO?=
- =?utf-8?B?blBacTBqVWRnT3VCT3hBRTJNMnlVcHpKWGRIYzhFWXJrdXFHbGg1M3pWNVRL?=
- =?utf-8?B?VnlUU0hQSzFMR0U2aTlLVTlrSjZrN0tnWFFabnQva3lMd1VSSTM5WEJQeWMy?=
- =?utf-8?B?Q1N0MWtNbkp0VjJWNDA3SDcxVSsraFMwR3RhUVAzWDQzR21zU21LZ1VOMjk4?=
- =?utf-8?B?UmRmN1BZRVVDOTEvMjhwb3NaaG1JR2hEQnlsUWZXeHFNSGtEay9NdXFjaTM5?=
- =?utf-8?B?d2V6RTB6QUtneWt5bktBdE5VT0NZQXpmM1ZJalJJWHNzaFR3R3NLUXRBd1BQ?=
- =?utf-8?B?UDBDNFYrRHZlVUlVaE82c2pYeDhOQWJ5akF4RkxJS3FoNzBBdkdDZWNTOWJP?=
- =?utf-8?B?ZExPTHR3YXNxUHhuUXdwalN0Nk1xK0lHeTEwb3VuTytZdG1YYVpibzRkVGhr?=
- =?utf-8?B?UkQvSFJWOG8wblIwRVdZNEU5OXlrWHc1cGtGN29kVG1QSm1acjVLNGFsdUJU?=
- =?utf-8?B?MWhZWGNCWlNURTBGR0tvRGsxTFdkLzJ5SXBlZ3lwenNxQ0JaUzJCNkdVTXR2?=
- =?utf-8?B?TytiY2VlYjVhM0R3MzNNUG5uanpXNXVNb2pjMnBnZUYrSDlRUEprMFdvZDYz?=
- =?utf-8?B?NDFYUk5ZMFdSRU93MDB0QTZrb3ppcUNUelZtYXJPOXBhc09rR1ovLzhqZnpz?=
- =?utf-8?B?QUROQ2ZnUVR6dGxZN2JXUlFrVW03OUh5Wmk0ZEFmRDBHWDArMFROWnFEbDdV?=
- =?utf-8?B?WEFqcngrSWlWS25TaklmbG9PS295Nk84emdRV1R3a1F1MUFvRjcxZ0V2WFp2?=
- =?utf-8?B?YlQwSmViTGQ1dytidFBJNUFkMlZNaE41bHJPMFN4aitMMU1mMG4wUjhlS0gz?=
- =?utf-8?B?bDB1cnFXNkFINUdJd3RmRjJLU1IrSWllcjgzOEk0MUJySUpmeVR3cVB2cnE2?=
- =?utf-8?B?eVJzQXpJbW1JWGMzKzZMMjRodEl3TDlLK3U2M2xnSGJ1VVp5dmMvdTdpWEky?=
- =?utf-8?B?VGl3azF5aVMvckZiVk50UnBYeHFHdXdaTmF2Vmh0WUZTdjVrZ0VWcFNjNFU3?=
- =?utf-8?B?QmFadmVMTG55VS8wSW51N3lPN1lmL1QrVDlsbnpkbE01bXE0d21LR0tEU1VK?=
- =?utf-8?Q?Flz1SBzWFLJ23NNCyvGXu6Y7j?=
+	=?iso-8859-1?Q?F+ASJHLS7t8t8N0FjpKbroEwbTUI+SiH6uEi0geM/VjkQqaLqzVgMWRZUa?=
+ =?iso-8859-1?Q?1HuFnzLX0eA9MNLP+qxMGTXiucGXgEGtdevrOVZ3dy/7zut20nzBke/ody?=
+ =?iso-8859-1?Q?IPMOqF3hqxwalyd3lSHY19DCx37H7zGB5M84tby7u67McXn+R+Vs3mQ/Jv?=
+ =?iso-8859-1?Q?2BZA7wUh7yK3VLyhX2T4ytXNZHm4pLfzqGGO2TyJLc/WeTPOm9Aw37mdSt?=
+ =?iso-8859-1?Q?qdseOzmgPyPb7P/5Yt8olYMx2Bg3thnYTnpOVJUooFjAvahE1nl7wwlQsM?=
+ =?iso-8859-1?Q?YsoG+QvVilGePgM1iK9zA+R3GuYTfIo7FrGDgXq4wy7AmHj55MjlUc6oOf?=
+ =?iso-8859-1?Q?1rOcpidgkL5CEMPq978KJqitVBcgebZxR/V0y6cn3hUOZ8RSd2m1HvBtQx?=
+ =?iso-8859-1?Q?mzgIarrhk8aBR5S03JIcBYJ0RNFOpwHI1UkJ1TSTOcNJi10hdnsmiZro+G?=
+ =?iso-8859-1?Q?Qlf3v5w3+zJ48ebqdbqbVaCqbRz3hesiwwhzmQDuiRRKWX0q8OY2n8q4Ih?=
+ =?iso-8859-1?Q?PiacLCp3HYj5FSY+rn7OfbAyknSgWRRO5qqiv9YGDOMrk3CsMGKa7b+W0a?=
+ =?iso-8859-1?Q?rBz9PmgNBmQaSbNU13GmkX1RZLWEZMK4SZCkc2DCOihSM0jHRT+HllYAUY?=
+ =?iso-8859-1?Q?TQ4tbVh9T0/f0J7uWfjoS3CspretiHDbWgtINtecJqnFVyXtkNIQMQT65M?=
+ =?iso-8859-1?Q?L0uiV0YXUiWc2uiaEq7Usy9TWsrFPMbgLAvzywYlK5uDajp+qmI11xBAAI?=
+ =?iso-8859-1?Q?LqEAduvWHjeB/rMAIsuC9FMX3/tI4WOWkIhXh5+YMhxJjILRVvk03NCc38?=
+ =?iso-8859-1?Q?wlzm7GSzwYwW9BUKFU19RuMGzllfviVBhOGeSzHQ8s6mi/z6mA2dCpWfh9?=
+ =?iso-8859-1?Q?lVVWaiVE+OzDIAq5eX4pruX4dsWC20EzyKSMr0u1QUIW/QrdOlOirg/30F?=
+ =?iso-8859-1?Q?M3Lb2TonDV2WyxwXpszzew6Y8hMMuqGqsSE0+H9PTxGwPiDLJBs/M9CPuw?=
+ =?iso-8859-1?Q?IJg+5K7mcfBtlUcLoq3FQeUgV/dPnyV+g3hZD7+27sWOfBZmI+6nZAubtA?=
+ =?iso-8859-1?Q?CaW48okE2TKi8vgoqZxFjfG1b/s7aJpSi+R39UqkgFjJMK916vmpjboBVb?=
+ =?iso-8859-1?Q?dmXWypkWgJOMtPjCZZZPlRSyuKf0ab3aj+Odk9gNZUDdlV2aZSg0FKTXn1?=
+ =?iso-8859-1?Q?8THuO7c8wv6aIAez2ho23JE7UkzbritLxccp0jkolBvhmoqzebhay/OI0u?=
+ =?iso-8859-1?Q?6MTybth2AuaJmo6dNAyCD7xOFaAA/hOkdhhgZau7baaiDjZiEJRg9eCtOv?=
+ =?iso-8859-1?Q?E87vXbSc5j++ZZ9V2TR/rmVXW6Xh4V6v3pSfpA6fXyz6L52Dbv2OSyePcN?=
+ =?iso-8859-1?Q?9FIMlJxSi3/1dzpHRwOlZYM2g0+QAAbEVeL8nnhX4eHzzy30pBNAN3E6XN?=
+ =?iso-8859-1?Q?BQ2iVSMgvUeAgtOMrTcPhYfn0Mfl+WmBoGQJ8cyX2Z4SCrHvuQGA4vV2uZ?=
+ =?iso-8859-1?Q?YF3lcLpRPt3vdZAnNuk8vCp5cbs/TgkgVZHyVqhsHXCmTt9PMNLRdF54cT?=
+ =?iso-8859-1?Q?HDPJjhmNnpIWZca0G+AG223IZJGZQ05Bssg7ONgbaFLFbjLU9Dd9LAUjpP?=
+ =?iso-8859-1?Q?576KF4eKj+kCCKSxalD+7PAaiIfjoexZZstGFlZAoaGWRVb/Jq2HfKsw?=
+ =?iso-8859-1?Q?=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	Mrfz53DTnsS/sp7C/9AD2G+Wl4A1J9KgUj5qWiRRti9/IzM3CRd3HQ2be/lbxz1cW2oos7gNbcPZ40xyT4BagfoeLCwNhKsYDoXBCwBaznAX0EyL1yQV+vnncquoDGIl+rx6ReLJoMCp+QOI5xZ8JqHVCD8CdxnXCxeXNa9Qspbymoz4HU8vYx4JrmnCRBsNDuzT5LNmMaiXYkUTQ9aAyL6bbeqL7zXkpEYIHb/qIVdDtiEHjkpA+BBKOuV29cQcSTnHU1/+rYsEaExLBtlXbzVpXS9faUVD7MLl95QLab0U+bfFKwnuMjIYX93Ulo5aeFeEHacIgGfXa/x9U4M+2R1TBsqhqd4dHVT2LX+EP8QOlzywmvU/VaR3Vicpkr7WutF5O1iDwOP2yKocFinx1k56uEw7t/dUs8fOS9pzYK4ssatlAZCjgyzbKw4suyfUrzMy24ETrbdfjoRpF6ysCPJYiVpKhpO+4qHeDt8n2ha7qLb1BGHrt2Pr0yZwRN8xa4MIaT8kmNdxhXoNMmMiOfCp6Fn+g8z3v6dz/7JD2quWyNfkQmTUGiTo+Xggk7/VEuRzrQhDqnRFUa8oOr9KOxUuH8BMXFS1vc8ouTlUJE4=
+	NMEonBCrGeQf5u2YiYI2fBQIoaJwzKSGXLwLqWV+MROsDYXAknz7lPjnTNaAbvqzo0ngJCVFKCT038+siC7tBUyogKHbLo7P116D2zStcc6dwebXA6kMJmSMBZ+lVTaqg7WtB9jmOF+qtDDyYnwIdk83ei53/vo3dWn3AMSb8gc/MZ3yY8SoHoz7QfSd0OQHyOIhd9l28gUPxQvILqmoaKbxOn696AhODpPfNpa8AYszIAmDvPw3E0PDj0nfAiMlcDnEBEn9zWczNqfCjdvra9NSYKYxCznfkcfDfEhofi9iLyvnugGy/m2XinWgQeUojOkoJ2TnHKCOh8d8iH5TK7+kX3UVeed4rOlfSS6IwT0N4p6dy+j29wzA8kLukjXejsBLb1Wg9X/elQT1on6QEaKcwO4Q6nAtnk61cT7oE4zecDSIRGhTwqSRAhWjxAOHLsSQvQoufi8inLEJuRr6x1hbBQIA1NtwNi1G8LTLpNVrRZXAOPl2n5XNTdRmo1leTKIXRd9IS+lDR2BmOjQusJhIUQUvFkA+yTnke7ewGqjTdS5HuRt+jfjPp0qGKrDLrhUH23/XPuQehpRc/383NzXHYhPa9e/iADITVD2kx3c=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8487ee4f-af8b-430e-b42c-08ddc3e5bd19
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54ac97e2-d8bc-4d15-97be-08ddc3e8113b
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5672.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2025 21:22:44.5852
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2025 21:39:24.6242
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EINe24oVUV3UuD1e5GOolSRRvAx1Q9/R7+9HDHu1qZgpZzrkX9AbvhgaVYr1t1w7YGwoK1xTtfJCFTdEhLhnuQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB6375
+X-MS-Exchange-CrossTenant-UserPrincipalName: wcjd23bBN4pqt7QGHdAAc0f593s5plw/sazdvFedZkmC73w+4DCWz5VeDodyVt2m3e7KdybgI4xTH/o9XnujOE+UprJMMEi0+EVxoFMVjSw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5074
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-15_05,2025-07-15_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 suspectscore=0
- malwarescore=0 bulkscore=0 adultscore=0 spamscore=0 mlxlogscore=999
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2505160000 definitions=main-2507150197
-X-Proofpoint-ORIG-GUID: NsBoLd6HyvQMtq7XMImAxWf1V0U45qU2
-X-Authority-Analysis: v=2.4 cv=Of+YDgTY c=1 sm=1 tr=0 ts=6876c6a9 cx=c_pps a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=NfBHSBvp4Sp7peh5TiAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=GPMw4cJhzwd6I_2ouD4A:9 a=B2y7HmGcmWMA:10
-X-Proofpoint-GUID: NsBoLd6HyvQMtq7XMImAxWf1V0U45qU2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDE5NyBTYWx0ZWRfX+UJeVZsUXmUl 7xHExd38AfIhg6INszpCCj0jz0MefyfgHX+lXMYUxjKdg8zeL8D1NB7HPUHMLyBENIbd0vRJEKW X95dBzn7z/FN6p115JPrzRladoxM6+S7DcINMf9z6hVWkd5FS+mVjTWEyKAFoiYdDHtjjZe24E6
- iJRUoMi1imnq81nfnZPC7DBfpKTo6AkjHHoqAm5ZyV0glKP/LovMXDTKc1gZtWZCeHI3obieXM4 iGQ8qLIzstmV9cwR9Dn5VcN3FX9Y4LOxhfA63/XDr+oQppgBHZIVESe5HrJezFOrRFWNW3vwwqi qOrf68Llgw/5O+18KxkKI+BT1rxiEQZwzBXQi+BK/sqaPhKlIIC44DnJLRFXyHExe0Bt7BGH53l
- b2OfVh1lT8EOwPB1p88EqJrtgl4o7w3MLPb7I9ZQ80g39kagtWDTYccNdcBpJGlKa4JH40us
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 adultscore=0
+ spamscore=0 suspectscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
+ definitions=main-2507150200
+X-Proofpoint-ORIG-GUID: dW0bkRaSG5xCyAMMPe7v-xuZkp4bzT7O
+X-Authority-Analysis: v=2.4 cv=AZGxH2XG c=1 sm=1 tr=0 ts=6876ca91 b=1 cx=c_pps a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10 a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=UY3pk_gtXu1VnLzoPhcA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10 cc=ntf awl=host:13600
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDIwMCBTYWx0ZWRfX4tzSAf5U33TA HISyGgeO6vGbohf2FiHvvZ+p/XTYZmKYZLD2tfzO0rzacagLWAjz6A/uRYdI5/LHYddMv70aUf5 5EedSGxO75aTP1TIXhzGrsyhu2wYTm98xmnl9IrG3CBOtrDGRGfp0KB2klqtGMMLT1+kNYgPkY+
+ XkpT2b1f9/82Nn9WcO6IBRc0yX5WkV46/BAfGkeuvvzpYC7ntw2C0ndKicHFpkMijsFMYEoh/lc DIwSl0gRRUZ5GKeBziG2pRFfXXEfo/+umUNNEG0orhZJfixKKc6/JDZ8ULZcOxGJ65hsEYM0Xul X9yFil8G9h53SS+e6+fwmBgOI6oVDb7ThoDg5246MkN/QIHNgJ2qIlc3MlxQcAFXjfTYy7GjqrN
+ zWKSBvGd2tqyWvghoD7bDA793xd+1UIOQayVEzaTvxKK6tvImtKAea9gMtgbdw11Dd6JaAgw
+X-Proofpoint-GUID: dW0bkRaSG5xCyAMMPe7v-xuZkp4bzT7O
 
---------------ysQQCX94b00lrM0YDKfcPMSG
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Tue, Jul 15, 2025 at 05:22:42PM -0400, Eugene Loh wrote:
+> I'm late to the party, sorry.
+> 
+> For usability, could an error message point to
+> /sys/kernel/debug/error_injection/list?  Might as well provide useful
+> information at the time of encounter.
 
-I'm late to the party, sorry.
+Well, yes and no.  Compilation errors rarely print out documentation.  Pointing
+at that list is not really useful unless you also explain what it means etc.
+Which becomes too verbose.  Honestly, this is a feature that should not be
+used by someone who does not know already what they are playing with.
 
-For usability, could an error message point to 
-/sys/kernel/debug/error_injection/list?Â  Might as well provide useful 
-information at the time of encounter.
+> When you parse the list, you expect the function name to be terminated with
+> a space.  When I look at my list, only 7 (out of nearly 1000) are so
+> terminated.  Shouldn't you check for a space *OR* a tab?
 
-When you parse the list, you expect the function name to be terminated 
-with a space.Â  When I look at my list, only 7 (out of nearly 1000) are 
-so terminated.Â  Shouldn't you check for a space *OR* a tab?
+Ah yes, fixing.
 
-When I run the tests, I get an OL8 UEK6 failure on x86 for 
-test/unittest/actions/return/tst.destructive.d:
-dtrace: could not enable tracing: Failed to enable 
-rawfbt:btrfs:open_ctree:entry: No such file or directory
+> When I run the tests, I get an OL8 UEK6 failure on x86 for
+> test/unittest/actions/return/tst.destructive.d:
+> dtrace: could not enable tracing: Failed to enable
+> rawfbt:btrfs:open_ctree:entry: No such file or directory
 
-Also, there should be a test to check that return() actually does the 
-right thing.Â  I'm attaching a proposal.
+Hm, I'll have to look into taht - I expect that it was not available in UEK6
+(or the config wasn't enabled).
 
-Typos:Â  "injexction" in the commit msg and raa as Nick previously noted.
+> Also, there should be a test to check that return() actually does the right
+> thing.  I'm attaching a proposal.
 
-On 7/15/25 01:48, Kris Van Hees via DTrace-devel wrote:
+Let me look at that - Thanks for writing one!  I'll check it out and almost
+certainly include it.
 
-> The return() action is only allowed in clauses associated with a rawfbt
-> probe on a function listed in /sys/kernel/debug/error_injexction/list.
-> Use a reject_clause() callback in the rawfbt provider to enforce this.
->
-> The list of allowed function is only initialized the first time it is
-> needed, and its content will be stored in a hashtable for faster
-> lookup beyond the first.
->
-> Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+> Typos:  "injexction" in the commit msg and raa as Nick previously noted.
+
+Fixed.
+
+> On 7/15/25 01:48, Kris Van Hees via DTrace-devel wrote:
+> 
+> > The return() action is only allowed in clauses associated with a rawfbt
+> > probe on a function listed in /sys/kernel/debug/error_injexction/list.
+> > Use a reject_clause() callback in the rawfbt provider to enforce this.
+> > 
+> > The list of allowed function is only initialized the first time it is
+> > needed, and its content will be stored in a hashtable for faster
+> > lookup beyond the first.
+> > 
+> > Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+> > ---
+> >   libdtrace/dt_prov_fbt.c                       | 134 ++++++++++++++++++
+> >   .../actions/return/err.not_allowed-1.d        |  27 ++++
+> >   .../actions/return/err.not_allowed-1.r        |   2 +
+> >   .../actions/return/err.not_allowed-2.d        |  27 ++++
+> >   .../actions/return/err.not_allowed-2.r        |   2 +
+> >   .../actions/return/err.not_allowed-3.d        |  27 ++++
+> >   .../actions/return/err.not_allowed-3.r        |   2 +
+> >   7 files changed, 221 insertions(+)
+> >   create mode 100644 test/unittest/actions/return/err.not_allowed-1.d
+> >   create mode 100644 test/unittest/actions/return/err.not_allowed-1.r
+> >   create mode 100644 test/unittest/actions/return/err.not_allowed-2.d
+> >   create mode 100644 test/unittest/actions/return/err.not_allowed-2.r
+> >   create mode 100644 test/unittest/actions/return/err.not_allowed-3.d
+> >   create mode 100644 test/unittest/actions/return/err.not_allowed-3.r
+> > 
+> > diff --git a/libdtrace/dt_prov_fbt.c b/libdtrace/dt_prov_fbt.c
+> > index 50fa0d9d..b98d8d87 100644
+> > --- a/libdtrace/dt_prov_fbt.c
+> > +++ b/libdtrace/dt_prov_fbt.c
+> > @@ -591,6 +591,139 @@ static void kprobe_detach(dtrace_hdl_t *dtp, const dt_probe_t *prp)
+> >   		free(tpn);
+> >   }
+> > +/*
+> > + * raafbt only:
+> > + *
+> > + * Accept all clauses, except those that use the return() action in a function
+> > + * that does not allow error rejection.
+> > + */
+> > +#define FUNCS_ALLOW_RETURN	"/sys/kernel/debug/error_injection/list"
+> > +
+> > +typedef struct allowed_fn {
+> > +	const char	*mod;
+> > +	const char	*fun;
+> > +	dt_hentry_t	he;
+> > +} allowed_fun_t;
+> > +
+> > +static uint32_t
+> > +fun_hval(const allowed_fun_t *p)
+> > +{
+> > +	return str2hval(p->fun, p->mod ? str2hval(p->mod, 0) : 0);
+> > +}
+> > +
+> > +static int
+> > +fun_cmp(const allowed_fun_t *p, const allowed_fun_t *q) {
+> > +	int	rc;
+> > +
+> > +	if (p->mod != NULL) {
+> > +		if (q->mod == NULL)
+> > +			return 1;
+> > +		else {
+> > +			rc = strcmp(p->mod, q->mod);
+> > +			if (rc != 0)
+> > +				return rc;
+> > +		}
+> > +	} else if (q->mod != NULL)
+> > +		return -1;
+> > +
+> > +	return strcmp(p->fun, q->fun);
+> > +}
+> > +
+> > +DEFINE_HE_STD_LINK_FUNCS(fun, allowed_fun_t, he)
+> > +
+> > +static void *
+> > +fun_del_entry(allowed_fun_t *head, allowed_fun_t *p)
+> > +{
+> > +	head = fun_del(head, p);
+> > +
+> > +	free((char *)p->mod);
+> > +	free((char *)p->fun);
+> > +	free(p);
+> > +
+> > +	return head;
+> > +}
+> > +
+> > +static dt_htab_ops_t fun_htab_ops = {
+> > +	.hval = (htab_hval_fn)fun_hval,
+> > +	.cmp = (htab_cmp_fn)fun_cmp,
+> > +	.add = (htab_add_fn)fun_add,
+> > +	.del = (htab_del_fn)fun_del_entry,
+> > +	.next = (htab_next_fn)fun_next
+> > +};
+> > +
+> > +static void reject_clause(const dt_probe_t *prp, int clsflags)
+> > +{
+> > +	dt_htab_t	*atab = prp->prov->prv_data;
+> > +	allowed_fun_t	tmpl;
+> > +
+> > +	/* If the clause does not have a return() action, allow it. */
+> > +	if (!(clsflags & DT_CLSFLAG_RETURN))
+> > +		return;
+> > +
+> > +	/*
+> > +	 * If the htab of allowed functions for return() does not exist yet,
+> > +	 * create it.
+> > +	 */
+> > +	if (atab == NULL) {
+> > +		FILE		*f;
+> > +		char		*buf = NULL;
+> > +		size_t		len = 0;
+> > +		allowed_fun_t	*entry;
+> > +
+> > +		atab = dt_htab_create(&fun_htab_ops);
+> > +		if (atab == NULL)
+> > +			return;
+> > +
+> > +		prp->prov->prv_data = atab;
+> > +
+> > +		f = fopen(FUNCS_ALLOW_RETURN, "r");
+> > +		if (f == NULL)
+> > +			return;
+> > +
+> > +		while (getline(&buf, &len, f) >= 0) {
+> > +			char	*p;
+> > +
+> > +			entry = (allowed_fun_t *)malloc(sizeof(allowed_fun_t));
+> > +			if (entry == NULL)
+> > +				break;
+> > +
+> > +			p = strchr(buf, ' ');
+> > +			if (p) {
+> > +				*p++ = '\0';
+> > +				if (*p == '[') {
+> > +					char	*q;
+> > +
+> > +					p++;
+> > +					q = strchr(p, ']');
+> > +					if (q)
+> > +						*q = '\0';
+> > +				} else
+> > +					p = NULL;
+> > +			}
+> > +
+> > +			entry->fun = strdup(buf);
+> > +			entry->mod = p != NULL ? strdup(p) : NULL;
+> > +
+> > +			if (dt_htab_insert(atab, entry) < 0)
+> > +				return;
+> > +		}
+> > +
+> > +		fclose(f);
+> > +	}
+> > +
+> > +	tmpl.mod = prp->desc->mod;
+> > +	tmpl.fun = prp->desc->fun;
+> > +	if (dt_htab_lookup(atab, &tmpl) != NULL)
+> > +		return;
+> > +
+> > +	tmpl.mod = NULL;
+> > +	if (dt_htab_lookup(atab, &tmpl) != NULL)
+> > +		return;
+> > +
+> > +	xyerror(D_ACT_RETURN, "return() not allowed for %s:%s:%s:%s\n",
+> > +		prp->desc->prv, prp->desc->mod, prp->desc->fun, prp->desc->prb);
+> > +}
+> > +
+> >   dt_provimpl_t	dt_fbt_fprobe = {
+> >   	.name		= prvname,
+> >   	.prog_type	= BPF_PROG_TYPE_TRACING,
+> > @@ -628,6 +761,7 @@ dt_provimpl_t	dt_rawfbt = {
+> >   	.populate	= &populate,
+> >   	.provide	= &provide,
+> >   	.load_prog	= &dt_bpf_prog_load,
+> > +	.reject_clause	= &reject_clause,
+> >   	.trampoline	= &kprobe_trampoline,
+> >   	.attach		= &kprobe_attach,
+> >   	.detach		= &kprobe_detach,
+> > diff --git a/test/unittest/actions/return/err.not_allowed-1.d b/test/unittest/actions/return/err.not_allowed-1.d
+> > new file mode 100644
+> > index 00000000..246a68b1
+> > --- /dev/null
+> > +++ b/test/unittest/actions/return/err.not_allowed-1.d
+> > @@ -0,0 +1,27 @@
+> > +/*
+> > + * Oracle Linux DTrace.
+> > + * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
+> > + * Licensed under the Universal Permissive License v 1.0 as shown at
+> > + * http://oss.oracle.com/licenses/upl.
+> > + */
+> > +
+> > +/*
+> > + * ASSERTION: return() is not allowed for fbt probes
+> > + *
+> > + * SECTION: Actions and Subroutines/return()
+> > + */
+> > +
+> > +#pragma D option quiet
+> > +#pragma D option destructive
+> > +
+> > +BEGIN
+> > +{
+> > +	ok = 0;
+> > +	exit(0);
+> > +}
+> > +
+> > +fbt:btrfs:open_ctree:entry
+> > +/ok/
+> > +{
+> > +	return(0);
+> > +}
+> > diff --git a/test/unittest/actions/return/err.not_allowed-1.r b/test/unittest/actions/return/err.not_allowed-1.r
+> > new file mode 100644
+> > index 00000000..e3443c30
+> > --- /dev/null
+> > +++ b/test/unittest/actions/return/err.not_allowed-1.r
+> > @@ -0,0 +1,2 @@
+> > +-- @@stderr --
+> > +dtrace: could not enable tracing: return() not allowed for fbt:btrfs:open_ctree:entry
+> > diff --git a/test/unittest/actions/return/err.not_allowed-2.d b/test/unittest/actions/return/err.not_allowed-2.d
+> > new file mode 100644
+> > index 00000000..e0d303c7
+> > --- /dev/null
+> > +++ b/test/unittest/actions/return/err.not_allowed-2.d
+> > @@ -0,0 +1,27 @@
+> > +/*
+> > + * Oracle Linux DTrace.
+> > + * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
+> > + * Licensed under the Universal Permissive License v 1.0 as shown at
+> > + * http://oss.oracle.com/licenses/upl.
+> > + */
+> > +
+> > +/*
+> > + * ASSERTION: return() is only allowed for select functions
+> > + *
+> > + * SECTION: Actions and Subroutines/return()
+> > + */
+> > +
+> > +#pragma D option quiet
+> > +#pragma D option destructive
+> > +
+> > +BEGIN
+> > +{
+> > +	ok = 0;
+> > +	exit(0);
+> > +}
+> > +
+> > +rawfbt:btrfs:close_ctree:entry
+> > +/ok/
+> > +{
+> > +	return(0);
+> > +}
+> > diff --git a/test/unittest/actions/return/err.not_allowed-2.r b/test/unittest/actions/return/err.not_allowed-2.r
+> > new file mode 100644
+> > index 00000000..758d3477
+> > --- /dev/null
+> > +++ b/test/unittest/actions/return/err.not_allowed-2.r
+> > @@ -0,0 +1,2 @@
+> > +-- @@stderr --
+> > +dtrace: could not enable tracing: return() not allowed for rawfbt:btrfs:close_ctree:entry
+> > diff --git a/test/unittest/actions/return/err.not_allowed-3.d b/test/unittest/actions/return/err.not_allowed-3.d
+> > new file mode 100644
+> > index 00000000..770565c9
+> > --- /dev/null
+> > +++ b/test/unittest/actions/return/err.not_allowed-3.d
+> > @@ -0,0 +1,27 @@
+> > +/*
+> > + * Oracle Linux DTrace.
+> > + * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
+> > + * Licensed under the Universal Permissive License v 1.0 as shown at
+> > + * http://oss.oracle.com/licenses/upl.
+> > + */
+> > +
+> > +/*
+> > + * ASSERTION: return() is only allowed for select functions
+> > + *
+> > + * SECTION: Actions and Subroutines/return()
+> > + */
+> > +
+> > +#pragma D option quiet
+> > +#pragma D option destructive
+> > +
+> > +BEGIN
+> > +{
+> > +	ok = 0;
+> > +	exit(0);
+> > +}
+> > +
+> > +rawfbt:btrfs:*_ctree:entry
+> > +/ok/
+> > +{
+> > +	return(0);
+> > +}
+> > diff --git a/test/unittest/actions/return/err.not_allowed-3.r b/test/unittest/actions/return/err.not_allowed-3.r
+> > new file mode 100644
+> > index 00000000..758d3477
+> > --- /dev/null
+> > +++ b/test/unittest/actions/return/err.not_allowed-3.r
+> > @@ -0,0 +1,2 @@
+> > +-- @@stderr --
+> > +dtrace: could not enable tracing: return() not allowed for rawfbt:btrfs:close_ctree:entry
+
+> From a6a6ceb614fadd5c5d1116cc05fe71da2b2dbff7 Mon Sep 17 00:00:00 2001
+> From: Eugene Loh <eugene.loh@oracle.com>
+> Date: Tue, 15 Jul 2025 13:33:04 -0700
+> Subject: [PATCH] test
+> 
+> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 > ---
->   libdtrace/dt_prov_fbt.c                       | 134 ++++++++++++++++++
->   .../actions/return/err.not_allowed-1.d        |  27 ++++
->   .../actions/return/err.not_allowed-1.r        |   2 +
->   .../actions/return/err.not_allowed-2.d        |  27 ++++
->   .../actions/return/err.not_allowed-2.r        |   2 +
->   .../actions/return/err.not_allowed-3.d        |  27 ++++
->   .../actions/return/err.not_allowed-3.r        |   2 +
->   7 files changed, 221 insertions(+)
->   create mode 100644 test/unittest/actions/return/err.not_allowed-1.d
->   create mode 100644 test/unittest/actions/return/err.not_allowed-1.r
->   create mode 100644 test/unittest/actions/return/err.not_allowed-2.d
->   create mode 100644 test/unittest/actions/return/err.not_allowed-2.r
->   create mode 100644 test/unittest/actions/return/err.not_allowed-3.d
->   create mode 100644 test/unittest/actions/return/err.not_allowed-3.r
->
-> diff --git a/libdtrace/dt_prov_fbt.c b/libdtrace/dt_prov_fbt.c
-> index 50fa0d9d..b98d8d87 100644
-> --- a/libdtrace/dt_prov_fbt.c
-> +++ b/libdtrace/dt_prov_fbt.c
-> @@ -591,6 +591,139 @@ static void kprobe_detach(dtrace_hdl_t *dtp, const dt_probe_t *prp)
->   		free(tpn);
->   }
->   
-> +/*
-> + * raafbt only:
-> + *
-> + * Accept all clauses, except those that use the return() action in a function
-> + * that does not allow error rejection.
-> + */
-> +#define FUNCS_ALLOW_RETURN	"/sys/kernel/debug/error_injection/list"
-> +
-> +typedef struct allowed_fn {
-> +	const char	*mod;
-> +	const char	*fun;
-> +	dt_hentry_t	he;
-> +} allowed_fun_t;
-> +
-> +static uint32_t
-> +fun_hval(const allowed_fun_t *p)
-> +{
-> +	return str2hval(p->fun, p->mod ? str2hval(p->mod, 0) : 0);
-> +}
-> +
-> +static int
-> +fun_cmp(const allowed_fun_t *p, const allowed_fun_t *q) {
-> +	int	rc;
-> +
-> +	if (p->mod != NULL) {
-> +		if (q->mod == NULL)
-> +			return 1;
-> +		else {
-> +			rc = strcmp(p->mod, q->mod);
-> +			if (rc != 0)
-> +				return rc;
-> +		}
-> +	} else if (q->mod != NULL)
-> +		return -1;
-> +
-> +	return strcmp(p->fun, q->fun);
-> +}
-> +
-> +DEFINE_HE_STD_LINK_FUNCS(fun, allowed_fun_t, he)
-> +
-> +static void *
-> +fun_del_entry(allowed_fun_t *head, allowed_fun_t *p)
-> +{
-> +	head = fun_del(head, p);
-> +
-> +	free((char *)p->mod);
-> +	free((char *)p->fun);
-> +	free(p);
-> +
-> +	return head;
-> +}
-> +
-> +static dt_htab_ops_t fun_htab_ops = {
-> +	.hval = (htab_hval_fn)fun_hval,
-> +	.cmp = (htab_cmp_fn)fun_cmp,
-> +	.add = (htab_add_fn)fun_add,
-> +	.del = (htab_del_fn)fun_del_entry,
-> +	.next = (htab_next_fn)fun_next
-> +};
-> +
-> +static void reject_clause(const dt_probe_t *prp, int clsflags)
-> +{
-> +	dt_htab_t	*atab = prp->prov->prv_data;
-> +	allowed_fun_t	tmpl;
-> +
-> +	/* If the clause does not have a return() action, allow it. */
-> +	if (!(clsflags & DT_CLSFLAG_RETURN))
-> +		return;
-> +
-> +	/*
-> +	 * If the htab of allowed functions for return() does not exist yet,
-> +	 * create it.
-> +	 */
-> +	if (atab == NULL) {
-> +		FILE		*f;
-> +		char		*buf = NULL;
-> +		size_t		len = 0;
-> +		allowed_fun_t	*entry;
-> +
-> +		atab = dt_htab_create(&fun_htab_ops);
-> +		if (atab == NULL)
-> +			return;
-> +
-> +		prp->prov->prv_data = atab;
-> +
-> +		f = fopen(FUNCS_ALLOW_RETURN, "r");
-> +		if (f == NULL)
-> +			return;
-> +
-> +		while (getline(&buf, &len, f) >= 0) {
-> +			char	*p;
-> +
-> +			entry = (allowed_fun_t *)malloc(sizeof(allowed_fun_t));
-> +			if (entry == NULL)
-> +				break;
-> +
-> +			p = strchr(buf, ' ');
-> +			if (p) {
-> +				*p++ = '\0';
-> +				if (*p == '[') {
-> +					char	*q;
-> +
-> +					p++;
-> +					q = strchr(p, ']');
-> +					if (q)
-> +						*q = '\0';
-> +				} else
-> +					p = NULL;
-> +			}
-> +
-> +			entry->fun = strdup(buf);
-> +			entry->mod = p != NULL ? strdup(p) : NULL;
-> +
-> +			if (dt_htab_insert(atab, entry) < 0)
-> +				return;
-> +		}
-> +
-> +		fclose(f);
-> +	}
-> +
-> +	tmpl.mod = prp->desc->mod;
-> +	tmpl.fun = prp->desc->fun;
-> +	if (dt_htab_lookup(atab, &tmpl) != NULL)
-> +		return;
-> +
-> +	tmpl.mod = NULL;
-> +	if (dt_htab_lookup(atab, &tmpl) != NULL)
-> +		return;
-> +
-> +	xyerror(D_ACT_RETURN, "return() not allowed for %s:%s:%s:%s\n",
-> +		prp->desc->prv, prp->desc->mod, prp->desc->fun, prp->desc->prb);
-> +}
-> +
->   dt_provimpl_t	dt_fbt_fprobe = {
->   	.name		= prvname,
->   	.prog_type	= BPF_PROG_TYPE_TRACING,
-> @@ -628,6 +761,7 @@ dt_provimpl_t	dt_rawfbt = {
->   	.populate	= &populate,
->   	.provide	= &provide,
->   	.load_prog	= &dt_bpf_prog_load,
-> +	.reject_clause	= &reject_clause,
->   	.trampoline	= &kprobe_trampoline,
->   	.attach		= &kprobe_attach,
->   	.detach		= &kprobe_detach,
-> diff --git a/test/unittest/actions/return/err.not_allowed-1.d b/test/unittest/actions/return/err.not_allowed-1.d
+>  .../actions/return/tst.destructive-getpid.r   | 12 +++++
+>  .../actions/return/tst.destructive-getpid.r.p | 10 ++++
+>  .../actions/return/tst.destructive-getpid.sh  | 48 +++++++++++++++++++
+>  3 files changed, 70 insertions(+)
+>  create mode 100644 test/unittest/actions/return/tst.destructive-getpid.r
+>  create mode 100755 test/unittest/actions/return/tst.destructive-getpid.r.p
+>  create mode 100755 test/unittest/actions/return/tst.destructive-getpid.sh
+> 
+> diff --git a/test/unittest/actions/return/tst.destructive-getpid.r b/test/unittest/actions/return/tst.destructive-getpid.r
 > new file mode 100644
-> index 00000000..246a68b1
+> index 00000000..b6bdf211
 > --- /dev/null
-> +++ b/test/unittest/actions/return/err.not_allowed-1.d
-> @@ -0,0 +1,27 @@
-> +/*
-> + * Oracle Linux DTrace.
-> + * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-> + * Licensed under the Universal Permissive License v 1.0 as shown at
-> + * http://oss.oracle.com/licenses/upl.
-> + */
+> +++ b/test/unittest/actions/return/tst.destructive-getpid.r
+> @@ -0,0 +1,12 @@
+> +pid is mypid
+> +mypid
+> +22222
+> +mypid
+> +mypid
+> +55555
+> +mypid
+> +mypid
+> +mypid
+> +mypid
+> +mypid
 > +
-> +/*
-> + * ASSERTION: return() is not allowed for fbt probes
-> + *
-> + * SECTION: Actions and Subroutines/return()
-> + */
-> +
-> +#pragma D option quiet
-> +#pragma D option destructive
-> +
-> +BEGIN
-> +{
-> +	ok = 0;
-> +	exit(0);
-> +}
-> +
-> +fbt:btrfs:open_ctree:entry
-> +/ok/
-> +{
-> +	return(0);
-> +}
-> diff --git a/test/unittest/actions/return/err.not_allowed-1.r b/test/unittest/actions/return/err.not_allowed-1.r
-> new file mode 100644
-> index 00000000..e3443c30
+> diff --git a/test/unittest/actions/return/tst.destructive-getpid.r.p b/test/unittest/actions/return/tst.destructive-getpid.r.p
+> new file mode 100755
+> index 00000000..d6593c46
 > --- /dev/null
-> +++ b/test/unittest/actions/return/err.not_allowed-1.r
-> @@ -0,0 +1,2 @@
-> +-- @@stderr --
-> +dtrace: could not enable tracing: return() not allowed for fbt:btrfs:open_ctree:entry
-> diff --git a/test/unittest/actions/return/err.not_allowed-2.d b/test/unittest/actions/return/err.not_allowed-2.d
-> new file mode 100644
-> index 00000000..e0d303c7
-> --- /dev/null
-> +++ b/test/unittest/actions/return/err.not_allowed-2.d
-> @@ -0,0 +1,27 @@
-> +/*
-> + * Oracle Linux DTrace.
-> + * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-> + * Licensed under the Universal Permissive License v 1.0 as shown at
-> + * http://oss.oracle.com/licenses/upl.
-> + */
+> +++ b/test/unittest/actions/return/tst.destructive-getpid.r.p
+> @@ -0,0 +1,10 @@
+> +#!/usr/bin/gawk -f
 > +
-> +/*
-> + * ASSERTION: return() is only allowed for select functions
-> + *
-> + * SECTION: Actions and Subroutines/return()
-> + */
+> +BEGIN { mypid = -1 }
 > +
-> +#pragma D option quiet
-> +#pragma D option destructive
+> +/^pid is [1-9][0-9]*$/ { mypid = $3; }
 > +
-> +BEGIN
 > +{
-> +	ok = 0;
-> +	exit(0);
+> +        if ( $NF == mypid ) $NF = "mypid";
+> +        print;
 > +}
-> +
-> +rawfbt:btrfs:close_ctree:entry
-> +/ok/
-> +{
-> +	return(0);
-> +}
-> diff --git a/test/unittest/actions/return/err.not_allowed-2.r b/test/unittest/actions/return/err.not_allowed-2.r
-> new file mode 100644
-> index 00000000..758d3477
+> diff --git a/test/unittest/actions/return/tst.destructive-getpid.sh b/test/unittest/actions/return/tst.destructive-getpid.sh
+> new file mode 100755
+> index 00000000..7c44dde9
 > --- /dev/null
-> +++ b/test/unittest/actions/return/err.not_allowed-2.r
-> @@ -0,0 +1,2 @@
-> +-- @@stderr --
-> +dtrace: could not enable tracing: return() not allowed for rawfbt:btrfs:close_ctree:entry
-> diff --git a/test/unittest/actions/return/err.not_allowed-3.d b/test/unittest/actions/return/err.not_allowed-3.d
-> new file mode 100644
-> index 00000000..770565c9
-> --- /dev/null
-> +++ b/test/unittest/actions/return/err.not_allowed-3.d
-> @@ -0,0 +1,27 @@
-> +/*
-> + * Oracle Linux DTrace.
-> + * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-> + * Licensed under the Universal Permissive License v 1.0 as shown at
-> + * http://oss.oracle.com/licenses/upl.
-> + */
+> +++ b/test/unittest/actions/return/tst.destructive-getpid.sh
+> @@ -0,0 +1,48 @@
+> +#!/bin/bash
+> +#
+> +# Oracle Linux DTrace.
+> +# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
+> +# Licensed under the Universal Permissive License v 1.0 as shown at
+> +# http://oss.oracle.com/licenses/upl.
+> +#
 > +
-> +/*
-> + * ASSERTION: return() is only allowed for select functions
-> + *
-> + * SECTION: Actions and Subroutines/return()
-> + */
+> +dtrace=$1
 > +
-> +#pragma D option quiet
-> +#pragma D option destructive
+> +# Set up test directory.
 > +
-> +BEGIN
-> +{
-> +	ok = 0;
-> +	exit(0);
+> +DIRNAME=$tmpdir/destructive-getpid.$$.$RANDOM
+> +mkdir -p $DIRNAME
+> +cd $DIRNAME
+> +
+> +# Make the trigger.  It reports the pid 10 times.
+> +
+> +cat << EOF > main.c
+> +#include <stdio.h>
+> +#include <unistd.h>
+> +
+> +int main(int c, char **v) {
+> +	int i;
+> +
+> +	for (i = 0; i < 10; i++)
+> +		printf("%d\n", getpid());
+> +
+> +	return 0;
 > +}
+> +EOF
 > +
-> +rawfbt:btrfs:*_ctree:entry
-> +/ok/
-> +{
-> +	return(0);
-> +}
-> diff --git a/test/unittest/actions/return/err.not_allowed-3.r b/test/unittest/actions/return/err.not_allowed-3.r
-> new file mode 100644
-> index 00000000..758d3477
-> --- /dev/null
-> +++ b/test/unittest/actions/return/err.not_allowed-3.r
-> @@ -0,0 +1,2 @@
-> +-- @@stderr --
-> +dtrace: could not enable tracing: return() not allowed for rawfbt:btrfs:close_ctree:entry
---------------ysQQCX94b00lrM0YDKfcPMSG
-Content-Type: text/plain; charset=UTF-8; name="0001-test.patch"
-Content-Disposition: attachment; filename="0001-test.patch"
-Content-Transfer-Encoding: base64
+> +$CC main.c
+> +if [ $? -ne 0 ]; then
+> +	echo ERROR: compile
+> +	exit 1
+> +fi
+> +
+> +# Trace the trigger.  On the 2nd and 5th getpid() calls, modify the result.
+> +
+> +$dtrace -c ./a.out -w -q -n '
+> +BEGIN { printf("pid is %d\n", $target); n = 0; }
+> +rawfbt:vmlinux:__*_sys_getpid:entry /pid == $target/ { n++ }
+> +rawfbt:vmlinux:__*_sys_getpid:entry /pid == $target && n == 2/ { return(22222); }
+> +rawfbt:vmlinux:__*_sys_getpid:entry /pid == $target && n == 5/ { return(55555); }
+> +'
+> +
+> +exit $?
+> -- 
+> 2.18.4
+> 
 
-RnJvbSBhNmE2Y2ViNjE0ZmFkZDVjNWQxMTE2Y2MwNWZlNzFkYTJiMmRiZmY3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBFdWdlbmUgTG9oIDxldWdlbmUubG9oQG9yYWNsZS5jb20+CkRh
-dGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTM6MzM6MDQgLTA3MDAKU3ViamVjdDogW1BBVENIXSB0ZXN0
-CgpTaWduZWQtb2ZmLWJ5OiBFdWdlbmUgTG9oIDxldWdlbmUubG9oQG9yYWNsZS5jb20+Ci0tLQog
-Li4uL2FjdGlvbnMvcmV0dXJuL3RzdC5kZXN0cnVjdGl2ZS1nZXRwaWQuciAgIHwgMTIgKysrKysK
-IC4uLi9hY3Rpb25zL3JldHVybi90c3QuZGVzdHJ1Y3RpdmUtZ2V0cGlkLnIucCB8IDEwICsrKysK
-IC4uLi9hY3Rpb25zL3JldHVybi90c3QuZGVzdHJ1Y3RpdmUtZ2V0cGlkLnNoICB8IDQ4ICsrKysr
-KysrKysrKysrKysrKysKIDMgZmlsZXMgY2hhbmdlZCwgNzAgaW5zZXJ0aW9ucygrKQogY3JlYXRl
-IG1vZGUgMTAwNjQ0IHRlc3QvdW5pdHRlc3QvYWN0aW9ucy9yZXR1cm4vdHN0LmRlc3RydWN0aXZl
-LWdldHBpZC5yCiBjcmVhdGUgbW9kZSAxMDA3NTUgdGVzdC91bml0dGVzdC9hY3Rpb25zL3JldHVy
-bi90c3QuZGVzdHJ1Y3RpdmUtZ2V0cGlkLnIucAogY3JlYXRlIG1vZGUgMTAwNzU1IHRlc3QvdW5p
-dHRlc3QvYWN0aW9ucy9yZXR1cm4vdHN0LmRlc3RydWN0aXZlLWdldHBpZC5zaAoKZGlmZiAtLWdp
-dCBhL3Rlc3QvdW5pdHRlc3QvYWN0aW9ucy9yZXR1cm4vdHN0LmRlc3RydWN0aXZlLWdldHBpZC5y
-IGIvdGVzdC91bml0dGVzdC9hY3Rpb25zL3JldHVybi90c3QuZGVzdHJ1Y3RpdmUtZ2V0cGlkLnIK
-bmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAuLmI2YmRmMjExCi0tLSAvZGV2L251
-bGwKKysrIGIvdGVzdC91bml0dGVzdC9hY3Rpb25zL3JldHVybi90c3QuZGVzdHJ1Y3RpdmUtZ2V0
-cGlkLnIKQEAgLTAsMCArMSwxMiBAQAorcGlkIGlzIG15cGlkCitteXBpZAorMjIyMjIKK215cGlk
-CitteXBpZAorNTU1NTUKK215cGlkCitteXBpZAorbXlwaWQKK215cGlkCitteXBpZAorCmRpZmYg
-LS1naXQgYS90ZXN0L3VuaXR0ZXN0L2FjdGlvbnMvcmV0dXJuL3RzdC5kZXN0cnVjdGl2ZS1nZXRw
-aWQuci5wIGIvdGVzdC91bml0dGVzdC9hY3Rpb25zL3JldHVybi90c3QuZGVzdHJ1Y3RpdmUtZ2V0
-cGlkLnIucApuZXcgZmlsZSBtb2RlIDEwMDc1NQppbmRleCAwMDAwMDAwMC4uZDY1OTNjNDYKLS0t
-IC9kZXYvbnVsbAorKysgYi90ZXN0L3VuaXR0ZXN0L2FjdGlvbnMvcmV0dXJuL3RzdC5kZXN0cnVj
-dGl2ZS1nZXRwaWQuci5wCkBAIC0wLDAgKzEsMTAgQEAKKyMhL3Vzci9iaW4vZ2F3ayAtZgorCitC
-RUdJTiB7IG15cGlkID0gLTEgfQorCisvXnBpZCBpcyBbMS05XVswLTldKiQvIHsgbXlwaWQgPSAk
-MzsgfQorCit7CisgICAgICAgIGlmICggJE5GID09IG15cGlkICkgJE5GID0gIm15cGlkIjsKKyAg
-ICAgICAgcHJpbnQ7Cit9CmRpZmYgLS1naXQgYS90ZXN0L3VuaXR0ZXN0L2FjdGlvbnMvcmV0dXJu
-L3RzdC5kZXN0cnVjdGl2ZS1nZXRwaWQuc2ggYi90ZXN0L3VuaXR0ZXN0L2FjdGlvbnMvcmV0dXJu
-L3RzdC5kZXN0cnVjdGl2ZS1nZXRwaWQuc2gKbmV3IGZpbGUgbW9kZSAxMDA3NTUKaW5kZXggMDAw
-MDAwMDAuLjdjNDRkZGU5Ci0tLSAvZGV2L251bGwKKysrIGIvdGVzdC91bml0dGVzdC9hY3Rpb25z
-L3JldHVybi90c3QuZGVzdHJ1Y3RpdmUtZ2V0cGlkLnNoCkBAIC0wLDAgKzEsNDggQEAKKyMhL2Jp
-bi9iYXNoCisjCisjIE9yYWNsZSBMaW51eCBEVHJhY2UuCisjIENvcHlyaWdodCAoYykgMjAyNSwg
-T3JhY2xlIGFuZC9vciBpdHMgYWZmaWxpYXRlcy4gQWxsIHJpZ2h0cyByZXNlcnZlZC4KKyMgTGlj
-ZW5zZWQgdW5kZXIgdGhlIFVuaXZlcnNhbCBQZXJtaXNzaXZlIExpY2Vuc2UgdiAxLjAgYXMgc2hv
-d24gYXQKKyMgaHR0cDovL29zcy5vcmFjbGUuY29tL2xpY2Vuc2VzL3VwbC4KKyMKKworZHRyYWNl
-PSQxCisKKyMgU2V0IHVwIHRlc3QgZGlyZWN0b3J5LgorCitESVJOQU1FPSR0bXBkaXIvZGVzdHJ1
-Y3RpdmUtZ2V0cGlkLiQkLiRSQU5ET00KK21rZGlyIC1wICRESVJOQU1FCitjZCAkRElSTkFNRQor
-CisjIE1ha2UgdGhlIHRyaWdnZXIuICBJdCByZXBvcnRzIHRoZSBwaWQgMTAgdGltZXMuCisKK2Nh
-dCA8PCBFT0YgPiBtYWluLmMKKyNpbmNsdWRlIDxzdGRpby5oPgorI2luY2x1ZGUgPHVuaXN0ZC5o
-PgorCitpbnQgbWFpbihpbnQgYywgY2hhciAqKnYpIHsKKwlpbnQgaTsKKworCWZvciAoaSA9IDA7
-IGkgPCAxMDsgaSsrKQorCQlwcmludGYoIiVkXG4iLCBnZXRwaWQoKSk7CisKKwlyZXR1cm4gMDsK
-K30KK0VPRgorCiskQ0MgbWFpbi5jCitpZiBbICQ/IC1uZSAwIF07IHRoZW4KKwllY2hvIEVSUk9S
-OiBjb21waWxlCisJZXhpdCAxCitmaQorCisjIFRyYWNlIHRoZSB0cmlnZ2VyLiAgT24gdGhlIDJu
-ZCBhbmQgNXRoIGdldHBpZCgpIGNhbGxzLCBtb2RpZnkgdGhlIHJlc3VsdC4KKworJGR0cmFjZSAt
-YyAuL2Eub3V0IC13IC1xIC1uICcKK0JFR0lOIHsgcHJpbnRmKCJwaWQgaXMgJWRcbiIsICR0YXJn
-ZXQpOyBuID0gMDsgfQorcmF3ZmJ0OnZtbGludXg6X18qX3N5c19nZXRwaWQ6ZW50cnkgL3BpZCA9
-PSAkdGFyZ2V0LyB7IG4rKyB9CityYXdmYnQ6dm1saW51eDpfXypfc3lzX2dldHBpZDplbnRyeSAv
-cGlkID09ICR0YXJnZXQgJiYgbiA9PSAyLyB7IHJldHVybigyMjIyMik7IH0KK3Jhd2ZidDp2bWxp
-bnV4Ol9fKl9zeXNfZ2V0cGlkOmVudHJ5IC9waWQgPT0gJHRhcmdldCAmJiBuID09IDUvIHsgcmV0
-dXJuKDU1NTU1KTsgfQorJworCitleGl0ICQ/Ci0tIAoyLjE4LjQKCg==
-
---------------ysQQCX94b00lrM0YDKfcPMSG--
