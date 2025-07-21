@@ -1,85 +1,85 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937C52C15B2
-	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 16:54:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783B7AD5A
+	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 17:01:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753116889; cv=fail; b=H51Y/FLKRg21FjpIYtSSs8b6jneIiKnuyDL0q+9MZZOVONUlhp2Ir132GFHbFCu3NAy+N0iqCN1OijTgCE9kfRf/hkWfX343kWyWEKml1hHE5z09AXcxxCT7gJWTCQCNs5CdFkXaMSNKU7fHaYW9E0cM79+lWPW4senklB4czWw=
+	t=1753117276; cv=fail; b=izVBsfoDjDc6OjkPD8JDCfK86pATx/A7I7PFH/H8Q8sXYtrLs7pW+HDwXqAQmC6edvrhjXO/z2DD+KUI4KHpRMi7+roMvxq19nFvWxd5YMb3OYVRMDQbGqYxe+CEhVNrj72Mjd7AkiB9zPOokvvqikschqF1b/yQKyy12zvt/gs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753116889; c=relaxed/simple;
-	bh=Vqx+rM+dmmWXgthvdqDfEljc7sbw7vy370Mq1Y4mr20=;
+	s=arc-20240116; t=1753117276; c=relaxed/simple;
+	bh=W/RSXo0mRRvKV4ifcFH/XVs1jILtDnhSDt5Wbo9mJM0=;
 	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=BfvOR291VOd6vin9l4buzvJSiGYmCqwIp4mWRTCneKtG18Mgz4SFIx3JgvEYyFqc80ko1kvftQT8X7DthglXpMqHcEIRM5q4RTT8ZGsnr3/TYEVXSgqOqtl6KqSvQpZakV1U32CzrJAsEx8cUfqiz8QJZ6CnG5SWTgw3PZ5H7qg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=JYTalNbk; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ddgwJzRy; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Type:MIME-Version; b=GnzwkQrhNObZr8KNrvFMzVVv2VgFXMA5tTGvPTzYNMnzaGVId8uJ2yU6kdUibd8RqG+IZvsuQhfpwg6o1ddVma6cxY78SZ+bgpgao4/IUuSpbmwSXVM4FTCLZX/YyDrUNCRRs4KHBLaEPxqTu/wzIXw0iWbryBtCTucWYYeaWD8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=bHDUyzOX; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=BO/JQyg9; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JYTalNbk";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ddgwJzRy"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56LFQd6d027722
-	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 16:54:46 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="bHDUyzOX";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="BO/JQyg9"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56LFQft7001345
+	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 17:01:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=4f6yzjyYrbC5w1iqYMBMGwWrykH8Rgkqg9uKXSq7gqk=; b=
-	JYTalNbkT6WtHYLiIFp5kmJN7wtWoRg9tbqDJlXKyYzMEaeqfU6wzrfIkYAy6G9K
-	2FvIzQyBJk6gFC+XJaEAUusLwojLca/RGtYYtBwouphtynqp6JdXp94GQVyCvDAm
-	nZY7Pkb/ITTHsM6PhJxnUzr8U7I0+CgBMqmEDwvTYikJKPzAnFUu4fh2l9G2FOxv
-	svOSD5chWw6B/ipo1ICNlQQpTWhItVRP+kA5cf9CuYyjZyKR/6H9bBitvtdfEbJC
-	e7Ra8eGZccCzO3/IBFlLlZaQOF4rkrl5UIrHXBFWJdxiIHGOKJfKtgmAtqhR/+/x
-	MYoqEtLJgTiuNOn7ggNSXQ==
+	corp-2025-04-25; bh=Vos0C5kOwdm6TaepUn09EZ7u2fAm4Am+KW69CnMjOns=; b=
+	bHDUyzOXY7xzpiamM8P8Xl2+S1wAYahtCUDbYxrRpCPJf58cgmHi4gW5N/wHPjcN
+	R/CTQwQILsqkYi50UAZ3Dz1q4Xd7ehwk0VWYRzT8EU6dfGHWEgQUOeYqSz9qwZq/
+	cRWyViR6FrQ+m0hyvgb6EQHeCOPdEG7scX9kH3hd/tVySZSRKY3BbPDp0yMUT7lV
+	6A8abwqeVcYgjKd28UlJUnNbHkISA5PZloZN70z/oTqqyVMOZYvF4PtDUaP07Vpm
+	3PTLOSR4WyFaF/7lonIrI/wVgoTF5DV+kUIzKwmTSFqdyXZnPFuEaczvTRjZLxXB
+	nJ9NpJWiiPU5AREbXWBVXQ==
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4805hpb7us-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4805e2b72h-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 16:54:46 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 17:01:12 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56LG683k014403
-	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 16:54:45 GMT
-Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013060.outbound.protection.outlook.com [40.93.201.60])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4801tejj0f-2
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56LFw0Z9014405
+	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 17:01:12 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11on2077.outbound.protection.outlook.com [40.107.223.77])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4801tejsnh-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 16:54:45 +0000
+	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 17:01:12 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uqRYTHuycnQkf2PX3lUK45mUh4juh5Jf0ITC581ld4ZzrlX3m+h6ACZGmBYGgJySacEfjbx/zH94EYWG2Siz7a/M8717xz0eegiUf6uU5NAIIzDxciIpOVZwy9Kl2r6HzpHGJp5i0cIgIOx9fzT+BKTRRKWKJ28hc4QAvU/8U6ka/iJjBKIgQS/59cdTQTQ/Ns7euAMqkbbbVzG4KusVOREnxPBfuPr59Ch3ARrLgu6mPWhZ94o+Vml6Rq0dBmbYwL9HgytD+iFBE8llYRU1VZadtt0lBKevIj+dfA4zqQD+8Qhu5oquBAlrzlvUhIrTElZUO6mcfh/bRAxX3NZIUg==
+ b=nZF+IOeeDx7O/1CUCXZndTau3st/SjYMI2if6PsqAVL50jiPnIz1Y4mQb9qa9P0YouNwuoxudQLpSxnDcqJb6C7RbdnZSNvWpqPyhKOfwxTS7w1G3Scf6rhqRrswA2jzUagAeE+QwvJqNQpiRu458b/wyRzPvYKz/YLAcFc3MLyZp8AmjfvD36nQxNLsy/H4YWPYWCFKaL6DR4dfU6c9/+QAInhY3zVSceO4aOBFQPCFl8Kldi92IVB96sI+veBQDDg7I2JADhsxS8UU+cWKc7XwF4+NbeoFHZ1MSrEfd35NcKE4sfBD78kYRMQU7VHo43L4pDg137OF1vdEi94gng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4f6yzjyYrbC5w1iqYMBMGwWrykH8Rgkqg9uKXSq7gqk=;
- b=mBiZNkw0vDLr7D1v/ZnzXt4lAId0rmBAYezzG7sXRLv0xY67k8x/oAbLxRoS0uTniXIbRkNvaIpTZrlV3IzXxs+b0vYhbxnXhydQbcCKnDe0zr54OwsDt+q+1u8bTF3Ac8tQLueMC3VRId1/7aA5HX0nvCARZ6p7v7SXywy+3NrKugTg801UMzbz2PIXEeY7P+6y0pM4HP3pzIlUmqBM6zFxvbUhsn+5hCoyWERQnQSKzZvvcE5dfWeVeka6XjE+n9Ij41k8dd2IW4VQi8iZZQFlEWfQHso0PRAE4XaR+86pcaxZZM0EzjqThWv3usStxKNv8017/WFshGBFK7nprA==
+ bh=Vos0C5kOwdm6TaepUn09EZ7u2fAm4Am+KW69CnMjOns=;
+ b=Wrhj7tbP0mr2q2HxJskfzS5N3tdzAP0D8xGpIe1Xgsj5OSaouOkT1GD2UD8EFsmfH+B2u6DWEbWU4Uk2ZY9udwUHP6fcqgPiy6wzpn+gSBCSuw2rYFHu7acmzw8PuieOIa25C5ZiKOnYyZ4eeeP7bR1w3UoxiBaPghZoX6GAtZt2iMlv7xHEjvoACuMVmUAtt8SSapnyBIrJ2sHQEp7gqio7uENv7RG0i8f//eiemgTCaWtGIztymTbigbjbWfvHCSlQdtHB1MfkPT81qDgkjxokhEYMlUjIPt1SGTqhahFjXuK1lPtz9UeAisRfy/7aMKrQSSVYAYAZKjfXTGuY3w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4f6yzjyYrbC5w1iqYMBMGwWrykH8Rgkqg9uKXSq7gqk=;
- b=ddgwJzRy1p+ibwMgJqRd2NjohZLJebPD/1fCyMb+BbQaSvJ3si7OGM09RqULh+bPckDWEZQwFDDmX5hW3mrGbyQhso3D/SlFwgXCZkcg40/xlOAy+IEdj/vAuxskiG51Q+QwFRbifpQr3G3hz6t20Sg/sHgLn/T/0H9WeVu78Og=
+ bh=Vos0C5kOwdm6TaepUn09EZ7u2fAm4Am+KW69CnMjOns=;
+ b=BO/JQyg9DrwcOqAlk2IaXH0OLDSITiSlIl0SLGbASNi76sSML4t3Tc0W3NLk5RPapS+EKOBgSY/qJ5J9aVTYf2XgnFKGeUEOD+6n+wnHNvk6ZEvHErCBgjBAnYfbCAYaZ/JQYaYOFJJHO//c2RHzoZfZ0wtd3Uv6mIwTSuzhH+8=
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by MW6PR10MB7659.namprd10.prod.outlook.com (2603:10b6:303:246::6) with
+ by SA2PR10MB4506.namprd10.prod.outlook.com (2603:10b6:806:111::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.29; Mon, 21 Jul
- 2025 16:54:41 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Mon, 21 Jul
+ 2025 17:01:04 +0000
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::8b24:5536:3259:5a69%6]) with mapi id 15.20.8943.029; Mon, 21 Jul 2025
- 16:54:41 +0000
-Message-ID: <d3791d41-7749-e279-f558-3d9c52e60ea9@oracle.com>
-Date: Mon, 21 Jul 2025 12:54:38 -0400
+ 17:01:04 +0000
+Message-ID: <ddc2bce7-0907-509b-c32c-00430e49305a@oracle.com>
+Date: Mon, 21 Jul 2025 13:01:00 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH 1/3] dlibs: use explicit vmlinux`major_names
+Subject: Re: [PATCH 2/3] test: change .r.p files from /bin/sh to /bin/bash
 Content-Language: en-US
 To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
         dtrace-devel@oss.oracle.com
-References: <SJ0PR10MB5672DB80AEB02AF32E7B5A0DC25DA@SJ0PR10MB5672.namprd10.prod.outlook.com>
+References: <SJ0PR10MB5672FA7CA4991AE52AD88A9CC25DA@SJ0PR10MB5672.namprd10.prod.outlook.com>
 From: Eugene Loh <eugene.loh@oracle.com>
-In-Reply-To: <SJ0PR10MB5672DB80AEB02AF32E7B5A0DC25DA@SJ0PR10MB5672.namprd10.prod.outlook.com>
+In-Reply-To: <SJ0PR10MB5672FA7CA4991AE52AD88A9CC25DA@SJ0PR10MB5672.namprd10.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PH0PR07CA0045.namprd07.prod.outlook.com
- (2603:10b6:510:e::20) To CO6PR10MB5636.namprd10.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0167.namprd03.prod.outlook.com
+ (2603:10b6:a03:338::22) To CO6PR10MB5636.namprd10.prod.outlook.com
  (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -88,374 +88,201 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|MW6PR10MB7659:EE_
-X-MS-Office365-Filtering-Correlation-Id: f957d2af-58ca-40e6-7b6f-08ddc87748f7
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|SA2PR10MB4506:EE_
+X-MS-Office365-Filtering-Correlation-Id: ec52cc20-c180-4617-3e7b-08ddc8782d9c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
 X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?UzhRQURZQURBTVpGTzh4VHRyUzU0bkxJcE1TZmxvQW5Ha3VzTDRBUWZBL0ZR?=
- =?utf-8?B?Q2ZlYmZIcWFtSUlvUnFpVzNHdkQvcldQOFc1bUNtMlVNL3FURWVNWGhRb2RY?=
- =?utf-8?B?V2w1Q3REL2pJLzhTSW0xTU1SbGtFSEJxRkxRWWFHV1dkUVZ0dFdwbUNwL1RU?=
- =?utf-8?B?RkJZYStjTk9YQlJrSGkzQVVOZ0NnUU12Y0RRQ1RhSUtqelJ5aDRxSlUxV0xB?=
- =?utf-8?B?L1ZMRGcwODhKeHZENmRvclpUWWFiZXVNUERRZ0pKQitnQVdzdjBPbFZPT0Jj?=
- =?utf-8?B?NWlRb2NmQzg5OUh2cXdYRzMxQ1hnejR4UEdlZzZPQ3hkQ290QjBDaEYvYmdJ?=
- =?utf-8?B?NlhXNDlRZC9wdFNnNkdTTUgvN3NTMm1PcjBhcTZwWDh0emY4UldQWUhaOWl6?=
- =?utf-8?B?ZHFLZzVZSXo1K2NhckhmUGRFYXJmQklkZ2tiTEFVVGMwdUxXNVEyaFRnSURN?=
- =?utf-8?B?djJSOHhUdEVYKzE4R1V0a01zakhFOVRaWnBYd3hQWjcxZ0pYcnFkZmRQWVFa?=
- =?utf-8?B?bU5HTjJJSVlFNHBjRlY2Y2hKRGpJSDg1YjNzRk13ZmNqM1c2UTBYTUxFQ0J5?=
- =?utf-8?B?bXhDK1RxSm9nMW8wUHJKZmQrdDkwNWorS3pOdkRjcm1IZHhpY3RvMGp5U0Vy?=
- =?utf-8?B?M3pFTnlaaVh1NmpsQkU4dkRZYnFYa2lsVWE4NFdNOGtoWm9VMzl3bFhNMkFP?=
- =?utf-8?B?T1QzTno3QlJxayttK3JBMGlOY2VkSnJqdmFTWnlpcWdMR1lVVExwWW1KSXAy?=
- =?utf-8?B?ZVc5ZnNzWkpycFdHdHIwdnJOWFh2b2dTdjNoUDdqdVFlQ0t1a2U2K3pheEtU?=
- =?utf-8?B?UzFkMnBjbWZaNUN1NUl1clVtUzIrSitOd3I4eTRyVW5kUjE3NVhYY3ZycmRX?=
- =?utf-8?B?NHVZSnEvbjdmUDJmMVNBYUVnd29qTzlTL3YrcGtDbW8rS3hreEFPK2hseXd1?=
- =?utf-8?B?K1BodWRYS0RUWGZaWkp1SUg2S0ZNRzErL0d5Sm05bHVUNkRoQU1jZjRnS01a?=
- =?utf-8?B?OFZLTEZ0VU55N3F4bnNtTkI0TnVDcWNkV0ZQSjdMUGJkRjJ4RlJFK1RiUUFO?=
- =?utf-8?B?VldwbWovTEJxM1EwTGR3N1lCbGVtTHRqYnhWb21NVGl2dzFvRkp5QzJUWjA2?=
- =?utf-8?B?ZGxmNzY3QUxoc1FjZmppNlJEUi9TUm13cngva3NOb1h6RzBHZStKelFGYkps?=
- =?utf-8?B?NmtHQ3hndFFiaG1obmtHTG9pSVFrdjNna1N5bnpaVUJCZXNWT2g5Z0txaFp4?=
- =?utf-8?B?RWpwanBvendkdHpJQUY0OThLUGxIUGlnbkI1T2Fsc3VtM0FiYkF5ZVltNDdt?=
- =?utf-8?B?b1I5K1l6V1JWc3dnUHFqdk5Ha0YxNGlWTUE4cDNnQnR1REc2UjBUcGtYQW5L?=
- =?utf-8?B?d1pkeVlwbE0ycmVQSzVSaG5jVUVKWkxPVS9BeE5Dc0ZKeElER2FJSHdNeUtP?=
- =?utf-8?B?eUM2VDcvaHZZN1hzTXRCcjdSNVc3ckNNUEZqYWJXRlV1clVtcW5IMmlzMVBp?=
- =?utf-8?B?VU5xVWJVb3NGZkdQeDA1MG44dWhrYmsvazNvQVpMaWlXY2o2dTZYZXpYZUZE?=
- =?utf-8?B?aVJxc0RIWXVZcVF1cXNuZlRpektWZ3EzQlB1RHJKK2c4RG5RNjlvNTVwa0Nq?=
- =?utf-8?B?c1lkTFU1TGZZOE1JL3gxUkpWTXNKckNSRlJxUk8zeFlmdXVJOWlMeWpocUpx?=
- =?utf-8?B?aEtmQlhwUVZZRUpqbm5qbm9raVhKRzJlOEd1OUFSQnRtK1VBekF2N3MzTDJw?=
- =?utf-8?B?YU5hbThabEcyelYrcEpQa1hJenA2ajRkc0xhYmNldjJiZU5sdHJiTFJ6SzNG?=
- =?utf-8?B?NGZvMzl6bDUxWXd0NzBFZy9FaXBqTkRJa0pIclo2WVJBd3NUbXNiMHo4akFy?=
- =?utf-8?B?RHVmaEJEWXUzU04waDVPVFc0VDJSWTRFWDZHZXQrSUJVakI1UWRVcDRKQmZK?=
- =?utf-8?Q?N303brbVLKE=3D?=
+	=?utf-8?B?cS8zOGdVcHRCck5keC9DeWRSOXQ0TWNvL1FPY2JFU3pWTFN4eklIMjY4cmtq?=
+ =?utf-8?B?VE0xZVEzQWd2c3BxM1hxcXplU0FNQzBzRU05cllROU0xMGVRTGtRd2VrMW5y?=
+ =?utf-8?B?SHRvY01MM0dPNUxPN1lnWEwrbXBGT0NlRzdHSVRZOEQ5UzNKMXlnTHltaElx?=
+ =?utf-8?B?WHE1enBVNXlZSGtSTndiamMrTGxyNHRqNDQyRmFDbVl2bHBEak1BcW1iaGJx?=
+ =?utf-8?B?KzFFa3M2TUZSVzhXdC84eW5XbExQMnVweUlBRUJFZ3JZRDRnS3lBaG0veGti?=
+ =?utf-8?B?cUhWdEVIUFFoY3l1dG01WVRVSVpueFgrMitBYUpuSUs3d21Vc1ZUY0k2Yzk5?=
+ =?utf-8?B?ZXJod2x2ZVVYSXBmTHJGcFMxUXNxc2JsRVdFb2dGalMwd1FuVGRSVG9FbFRo?=
+ =?utf-8?B?NTJqUTF3eXdFTEZZZFJ3alY1YS9GUEFVWjdzVkkzZ0dOZzVYaDdtZU9SOHg5?=
+ =?utf-8?B?WUV4MU41dlloQmU2cVpNNCtKbnFOczBwaWVOWnptOVg0V2N6d25jcVdZTHVX?=
+ =?utf-8?B?K2lBb3hLNlNaTDJnYkRMWk4zVHplQiszTjNzV3dtSG1lcUdVT0pTcE1IYm9Z?=
+ =?utf-8?B?dytiV1BTdDdHVjA3QkdZdXd4RkdMMXpvN29GNE56Sng0WFYyUmZ0QXN5NnBz?=
+ =?utf-8?B?bGNFUkt3RWhGQXF4dDF1dmMzemdCRENhUmprQnd4aVRzWm5nQUdzT245ZlY4?=
+ =?utf-8?B?OU5KKzZDTjFPU1Y3dTc5eGRQVUhYUGxSdXpkY285TWZkenlqNkY3MmQyYUVp?=
+ =?utf-8?B?U2kzMlExNVUwUXJUa0pEYUFHd0xFZ1gwcUhWcC84allweVpxRmRlV1N1M09H?=
+ =?utf-8?B?OGI5VWJVbEVWOVdOcVo0YWNBa1FyM2RxZDNaRWd6ejVlV1JGT0xlUUNpTURw?=
+ =?utf-8?B?K3djT1drL1ZYYnhla25BVGZoUFZCSmxibGVjZFAyWjA4ZEFDZ1EzMWxkMnJr?=
+ =?utf-8?B?dUF3UE1qMGhHREE4cjY3TUJ0cFRpNWlOK3ZRMzMrbDhZQmxWZU01NUFEMW53?=
+ =?utf-8?B?WmlBNE4zNTJtMHA3TDdNTmt5RG5QYlB4a2RkMDlsY1d0RkxVOFM1WXFnVW5E?=
+ =?utf-8?B?U1RMV1R6YUlVL1hkdk5JMTRoTUdFSktDVXdHN3grTzM5K1YzcHRWVjdhSmlt?=
+ =?utf-8?B?c0FXZVovSnVZYlUwbVF0RjBJL0Evc0EvWndWY1UydENXSmlsbC9sT2hYR2lk?=
+ =?utf-8?B?QTk5ZlVUcTU4THFTN0lrRExCN0hLNGVHRi9wUjlxTUMwUE9qMkRHWDcrRWxl?=
+ =?utf-8?B?NnJNQ0x1YTRFODJUODFNVGR2SmxuZ0U5czFDd0h6MEdFQUpBSDRGVGJZeHJr?=
+ =?utf-8?B?MGRick8zbWJzVW1XT0hFOW9NZHdTV1U2WlorTENPQ05DRi9Xb21ESVZPRHlN?=
+ =?utf-8?B?NFZqTGJ5amJKbE1JQW4zcGViRGtGK1FQZXNDV3VHbndSOS8vR2wxblBJak5q?=
+ =?utf-8?B?R2NFUUU3Uml0ZlE4bE1KSnNGcWFRUS9VZFh2ZlZCeGhtTHN5ZWp4NDVEakV5?=
+ =?utf-8?B?RHFNWk1OK2Q5UVN6U1lyRWt5cE1kNitvaTZIUDliVWVXUHNhOFNyeGlFdHMz?=
+ =?utf-8?B?TUVRbko3MHNOM3I4b0ZNT0s0eVZyc0tjZ0VCMVlhMjBkZ0xKVXhTQVRjTDJR?=
+ =?utf-8?B?R0g3TFJkZWNBRWMrVXpPTDN4TDFjS2R1c0xBL09zbTB3SDYzRnZwcjNDUzZE?=
+ =?utf-8?B?OC9ReHVtWlRUaXBqUnczZ3B1bXJ3TE55K0lEWEtaU3NpZThuZCtHbHZGME9E?=
+ =?utf-8?B?THp1UFZtbU9GRjlnVG55V1NDbDE1RjR6T0hYc1FTNGh1Zm9YQTl6TUs0WGJX?=
+ =?utf-8?B?MGxrdEdSWXloOXBuMzFqRGRhTlVWU1VyRVdGZzVBVWNjbTViTERXeTVTK2Qz?=
+ =?utf-8?B?bUtENEo1eGNaSDBPRVhrTmNnOER5bkVJUy96TjM3dWZyQWo0ejVJZmNxYkVJ?=
+ =?utf-8?Q?jY+xNnkUO6M=3D?=
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?QUNUK0JrelkybHk4UHZBWEhxeHhUUW40UjRrczdnMHRhY0NueGhJUFkwTkt1?=
- =?utf-8?B?MFJ2bnp0YmpCVVVMM3dScUZ5aDBOQmdiZ3pSTGlNZEY5dDZSVnNJZDJxQ2Nv?=
- =?utf-8?B?cHY2OXdJRHV5WFc0U1JHU0lrMGV1bGg0WWlGUEdDMlNhZ21tTWVJOHgwU09x?=
- =?utf-8?B?VG1lUlFYVWVsOWVFcmwyV01FaG55dFdmNTQ4cDRGWWd2cVhrSE5ZOGlUcGtr?=
- =?utf-8?B?OU5LTkdQcTZIYWs0a0Y2cXlERW56bnFxN2ZwR0xUOHZrWVJ0d0xsQTlEMVAy?=
- =?utf-8?B?ZlQrRllUZ1V2aEEycERrOTM4ZG0xSEZ4bTQwdCt1N014c2VscUs2KzJnMjBT?=
- =?utf-8?B?Z09iMTgyb2tPWmd2c0N5RUpJT3RpaVkzK0hGQmo3UmdJcUlXcGV2VXIyemxr?=
- =?utf-8?B?OFE1elMyaVJMYVJYUUtjSXRMeVV3K0dXQnQzMStqL2NFcWEzOFZscXpaR3Fs?=
- =?utf-8?B?blhlSVRoM1dSNHhRVUNWM0VTVXVpcFAySTJrVUtzQzdKUHAxQnVsamNKaTBX?=
- =?utf-8?B?SjF0MUNyWVFaL3h2QVlaRUlVeUdhb0xxdGdnMzk0aUNHWG54aFVnZm9qUmNs?=
- =?utf-8?B?K0l0MGp3ckwzMXpDOXp4N2tOMDUrVXFDTTQrV2VBZytTSk94WThTUkNYeW4v?=
- =?utf-8?B?cElsTzBiSUFDOUNGRzJsZmQxY3dOVFJWaTI1T3ZzakdlTHZrU1M3VCs1cjZS?=
- =?utf-8?B?ZEw5TGM4NjM0ZW14WkRzS3B4QVp6NUducGVma2pUaG5PZDBiODRxb1diV1NH?=
- =?utf-8?B?L1VuR0ZQUlhRZ0NzL0MxNndmTzdNVFg5KzhyWE5heW5leWJockZwK3c2V2hH?=
- =?utf-8?B?RWpJZ1NObjJBSkQrZG1HQ0dCa2ozdjRHdmxKNHhsZUI3YzlkZVAraVBPdU1o?=
- =?utf-8?B?Z3lQMEcvci9NVEhuSzl4UktWY3RTZTFFQXhua0ZLTmQ4b2NtSkxSWFpsaFBK?=
- =?utf-8?B?SjU2VDR2bm1zYWRwU0YyWXZhUTZ6Qi84dmFJaTZPRlJ5c1o0Y2R6SzNUdFAw?=
- =?utf-8?B?NWJmRUdoM1U3M0NGamhoKzhsQ0ZSMkpoTEVTYUFhc0J2VWl3bTJIL2dwU3BM?=
- =?utf-8?B?RUNHdHQvbXluUzErVEMrdjBTV05CUUdBL3U4eE4yUCt1K1VOYWlFTGZWRXBu?=
- =?utf-8?B?bExQOFBOY1hvdHdvQ3c1K2lFckE1WlBYYUV4ZmQ0Z3ZSZ1AvTDl1Z3NQMWlk?=
- =?utf-8?B?a09HdjlOMGM0WEFjY2dwbVBWZmsreEUzeHVRK0JFdUxlaTJ1RWVyZnZ0QU16?=
- =?utf-8?B?SkFWYW81YnhXNEJkemovM3RvNG5RaWlTRUtOM0E1ZGVOT3orL045aGRqVFlt?=
- =?utf-8?B?aWVVMkw4Qm5weFhLa1VDS3JPUlJlRzF2ak1BRkhXazR3Zkg4eWlXTUxSZytj?=
- =?utf-8?B?TU9KclJDd0JTVWZBNGY3RVpUWjBGRkJ0bFVwWGh6VkFXWHluVUhHSGRXcHBm?=
- =?utf-8?B?b2Q3bWZYbGJ5NWVsYUJzek90b0dZYWt4Rk9McWtLTjBEZDBOOFJKc3FyU05U?=
- =?utf-8?B?YUs3VG8xSVk0TlJmNHU2ZmptblhxZS9wbVVKeW90RmRnbGFwVnZxVzFkbExa?=
- =?utf-8?B?WEZJWklaTXd3SEFKWWowM2NwQjNjcGc1SFdPWnJBTWN3VGt4S2Z3cndJejg2?=
- =?utf-8?B?QlRobVZRaEU0SXRVVk80WmJiMDZCV3NqYjA2TkxPZjNUU0c1aTVNNmpEZjJq?=
- =?utf-8?B?SGFTcnE2ZndzTkxLWVlad3AyR3RKOE1KSWx2ZjFva2pZK2g4bS9Tc3FkZHZH?=
- =?utf-8?B?U3B0YzJuQml5NW9yYmJ5SHZ5MHE2czNaQlN2Nm4rczlaajgxMG0vc2Q0bXVD?=
- =?utf-8?B?dXBmVi82UGpGWE5kYjkzSGYyc1NINkRHN0t2NFZTcTVPSndjYWo5WGErUnFE?=
- =?utf-8?B?YXFKNHlnU0ZVSGN3QjgrY1VqZzQ2Y0pzcjQ4WEZWRVAvUEE0bFplY2g1ajNa?=
- =?utf-8?B?SDlyRW9wUVYzTUlmWUpYYW5KbEtrQnpmaGNpZk9OZzQ2Y2pUUkxhbUNFbXQx?=
- =?utf-8?B?MXRNdUdVNFFobFhaNm0rMzB2c3BIcGxYWkZpSVlDUHhVbTRrTlVEK0dFUExS?=
- =?utf-8?B?K1A0YVd0aU1Xa0lneFVkMWduY1hqR1YyWU1RZHQwMGx0Z2FCWHdZTCtGbW1Y?=
- =?utf-8?Q?dDqF73I7URKMHvgC2LepNoeBz?=
+	=?utf-8?B?QlN2bEhybkxDMzdldDc3eDYwQkZlWG1rS1RvWlphSDdETDB4bFg5cEtzK0N1?=
+ =?utf-8?B?aGd0VWlxUWYvdEFTMUNSVmpNUjdxYTVWbUw3aERPam0yYWliV2pNekIxSEJs?=
+ =?utf-8?B?elk1T2hKUWhoSElZUi9QQXdQM096TW5qYmVjTlhxS1Y2clFlV2RWMkhmS0d2?=
+ =?utf-8?B?aXd2SDBpUGNWb2dSN21IditqT3NJcVZVVGhuQnNDbUYwQjF3OHVNQk5PbDhs?=
+ =?utf-8?B?RlFvMVdweTVXd2YwNXNoSFY2c1Vpb3pkTzlmekErQVl3aythT1g5Y3AzeGxt?=
+ =?utf-8?B?a1FRTGtSVlhQL2tOT1RGTjZoWlVKMW9LZzh4TUhYUllBTmg2MklWSFdLNEsy?=
+ =?utf-8?B?eWU5UFhTY050NDJPVGpTK1k5NHNVRFZpYlRqbUlPWjh6UVAwSkhKMGlJNnFJ?=
+ =?utf-8?B?aTJrTzU4bkxYc2FYQmllV2FvSW5KdTExUW00dHNnZVJvRjY4MG16emx3ZnpB?=
+ =?utf-8?B?L1JkbHJjaU5YVW8ranBlMVM3UFRVUnk1MitINGQ1Zkh3Nit4UTZPblp1K3g0?=
+ =?utf-8?B?K0N1K1RYSGJGT0VUQWFRR1hDQ1l2Slg3Z0ZGb2ZKTnNoSWhnazVpUlNDMGRG?=
+ =?utf-8?B?SytTTng0M09Tb0gzYitDeHJZcDducFdIVWxIMTR3eER3a1A4VzVpOXBjTmhh?=
+ =?utf-8?B?UFJnek1La3R0b3Z6Z0JOVWRFbVBQbkhqYS8xdWtrdk9lVnF6Wlp3OEpNSC9V?=
+ =?utf-8?B?bTVkM0pybVdaQmxHcCtkbm1KOG90Y1cvQ0dQbXdGZkc5L0ZCS3hwQ2JWOUxE?=
+ =?utf-8?B?SXVUSVBUdjlBdE8vSWlGZUVJdDdMVWFad0RTRk5UTWYyblBydEhFNHpqVGZK?=
+ =?utf-8?B?Tnh3U05ORzdZVi9Kc2ZmU0pPeFppSktOZVF0TTlhZVpkdHppU2VHaE1ON0x4?=
+ =?utf-8?B?UnZ1SkVNc2w1RXo0ZlNrb2h4d1VKR25ndVYweXFHS0tzbGl0cDVWc2MxaC9Z?=
+ =?utf-8?B?aEtOV3duOFhnQkcyZmRIcnJidUZEV01WcjdOZG5wMVBhdTNqVlFZR0dJZlA4?=
+ =?utf-8?B?bzRRRVBGQ2NCQXUzeDM3cnVSNW9QY1ZQYjU4OTdwUGhnajlNUHRiV29pSDVW?=
+ =?utf-8?B?VVhRQzd3azBPWWZqSGlpSXU1cHJsRzJxTW5nZHpEQzc4UjNuYTg5dlZoNVNC?=
+ =?utf-8?B?MnJIQkswRTl5QkJMMjUxYUNscnZhNTMySW5oOXppQVRxWjJYeGhQd2picGtr?=
+ =?utf-8?B?cVl1SFUwTW80RGQvRzIxdzdoOFBLeWxGT1VRNzU5YjVaWHNKdi9kanBaWG1l?=
+ =?utf-8?B?TGIva2pBZ0N0bE1BUWRUTloxeDRqSWtuOFg4cUdFM09pR2FzQVQySGdFSWZB?=
+ =?utf-8?B?cTFLMVJ3bFVTZDRhTnJ0d0hKY3pPejZOTWtnYThjVmVBTkpTYktLclBReG5X?=
+ =?utf-8?B?N28reG0vVytYTTRyZVNQOGd6NlRERjR0VUdGUHh6NnU5SDBHdlVsSkVUZkNF?=
+ =?utf-8?B?V0VWSkZCdDNzQTJLcnlRVmw0ZEpMbU5XWFpHck9yK3czZ25aYlNkVG5hUjhI?=
+ =?utf-8?B?RGV4Ry9VZFJvcGp1dVFpSzNvRm1paVBwMEkzb21CUFhJMmI2ZEI0RmtKTG1P?=
+ =?utf-8?B?NGJxQXZmT2lhSzhMc0JNSzd6Tmp4KzdERTFoT0k3UStUdFZGcitwTmlOTlgr?=
+ =?utf-8?B?R0p1a2tkOWd4ZWFjaE1PTXVncmN2RmFhalI4YnRqMm1SeXVodGpnTzVkSEpo?=
+ =?utf-8?B?b2YzdzZIaXRlc2YybnlGRHlMQ0RINjlyRUphRmMvb0xKeXBVTUMxZnRwdmE2?=
+ =?utf-8?B?ejlMT0JtRS9aaXh0TWlyRHlxbnVERmZOaXpqcVZlL0hWbGxIMkZKN1lEdnEr?=
+ =?utf-8?B?NzBtMHpjS2piRG9DQlhaeC9QWUw4SUo4cWgzRDJhSnBrOHdWb2R3bXVsWmV4?=
+ =?utf-8?B?OG9CS2w2eVdRTENpSFZ2SkVIQ0wreTJyMDNVcDBzT0E0MG5aZ25qY2hxSUdZ?=
+ =?utf-8?B?dzB2N3VnRE8rQjlPRGt3dkRLMkZxR0ZhV0tqZWVVNU96aW4waG8yRW9LY3B6?=
+ =?utf-8?B?SnMxeFdaTlhCeUt3Tm1CbUxOYnQ2bi9XRjZKa3I4SkVwOUI2NW5KdzQyWnE1?=
+ =?utf-8?B?ZHN1S0RTYU9rWjlKSElwcnVVZmFiNmpmRUZwSVZvYnJ6WHlHNHh1UTkyMVpK?=
+ =?utf-8?Q?yRK9uJmjuDVSasaxQOCwfv5CG?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
- D9Htya91KUV05+jEl0mfXZDQA3h9ouN92uwQDRoRYK4OSsOeHRV0RdeqhfZzCs/P8LQTmz662odmk+lkwzmYOaldnTn5eJ2jEDuKirTgX5wUkERhr2SlQa/ZX6kmymFPjloaGIqVu5zObfrY8q+KF1UtD23H7h8NmjcG1J55UlFHZw64mBwD/U9YeXvXvawwBemj6X8iT3R0xw2IhhyTsy4QRRUNWFeQliGl68NyOOketox1Y71fVYmocpFk/GbKk3Nkl3+aw8WUgDo4WnG1fNEslhshI0+Jtbt4//bSy/4WstDmUyo7q3hi7LXXlOqmb9nQoEimU8c1xJMRzRSiKP6FJ/sFv1knQlGo1eoYxnH7ZBe7boQMtfRgQ/2WBdhDchgH6he3v/ioZ0oVk8Ae5STBkbRjytSMVvn01Rpg/PpDcaNzLXmE9oG7XCct5igfaTVrcUBMxRDJK09sydw2s0Gqqyh6VRaJAXZDlf2VfMNnl+rDoLAt07nI5W0Ygebpdo2NA21AWrb45iuVESSmdOYHdezSfDRGcUMxdBAiNtIvSbIyWPAu1/hS6uLsM9HDOs6kEtMC/K0S1LW4QbM7UwrC1fZ5PkHnYwbyD8NJkrU=
+	qBh5BNLLg1LgmhN2vr4p9RGw/MeUVuG/dTEVLP12XV/xv7gANW5qH5NYLnh+thOsBxYZXt2f1xB+q2RhHbySA9B39dHp2E+iWorcYF1PpXLMfzoOor5eklce1//YzfV9xyOmulQsQAIWDyP6YidIH2bXBQ00kGSkv61Jo4wxxGSUwwxcvUJKkm5r2jMzDpnUfmoQ0ay6KphHaTDmMF+vhKwi0CTLuK2dFuxnkMKXSJ2Wnn5xYQahp1A/hO65QUabMWIpxW7Zmb9vguv03QAeiIJBGetXqWc0CZQoI5uFrrcbfi24GmaDB6thvzGzIVol9TsTcWJo5w0uMA8h3HVhJiG7tlAA0CoSZ/mjO0NyBv8UR+Bx8noGvrSweAOum4a4Ykx/oiYsLKZuuF6UCvXbNLqlzkVJL+HW3ZIfjRMPLmhNknh2E17SddCAWWCUHqafpFE3aKt1ZfCJsQwm95K2bUD1mepJKG/j6ZnJSIx9wQNqhoQBWD+tL4JtiIkHHt5Qo1RmtJRcRYW1dZyI5WkASFUmbUg+/eXpvBI9eNnspKjbZ+jh5HLEduMKqwr4mdC2U3A57fpVb2FktH2W5/MFu7KWD7CfFMNC2iwGynOjvlE=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f957d2af-58ca-40e6-7b6f-08ddc87748f7
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec52cc20-c180-4617-3e7b-08ddc8782d9c
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2025 16:54:41.3654
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2025 17:01:04.6019
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: D2hGYjQwsMEEWwT2bya1DKxy8C74sizI24H1UhAjl3ah1VPD8IFW2A1IgYfSS1/9Blyy59CQQdHc6iLalkIajQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR10MB7659
+X-MS-Exchange-CrossTenant-UserPrincipalName: vx1uAGTKln4Tgdprjn9N1XsDLmRDqgSzoloH8n5YRUyzCpPtPHdB+lVE/wiI4+HbkdNUwjqjo+p7YrZz5KHq0w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4506
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-21_04,2025-07-21_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 bulkscore=0
  suspectscore=0 mlxscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
- definitions=main-2507210150
-X-Proofpoint-ORIG-GUID: c4izlKRHnzQN1slICvBYvFg0XcQ2q2eH
-X-Authority-Analysis: v=2.4 cv=YY+95xRf c=1 sm=1 tr=0 ts=687e70d6 b=1 cx=c_pps
+ definitions=main-2507210151
+X-Authority-Analysis: v=2.4 cv=WaYMa1hX c=1 sm=1 tr=0 ts=687e7258 b=1 cx=c_pps
  a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
  a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10
- a=yPCof4ZbAAAA:8 a=DgTYiEJHsjON7zdl5z8A:9 a=QEXdDO2ut3YA:10 cc=ntf
- awl=host:12061
-X-Proofpoint-GUID: c4izlKRHnzQN1slICvBYvFg0XcQ2q2eH
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIxMDE1MCBTYWx0ZWRfXxaFEO+JsWpe9
- ow0eKT0UZBkkJ4mpmclG2BjDlErNo33DeQ0pgMcYld/P6tiwOrYCM9+bF/gfopN/FgWWZ7HeLV9
- NmSQNYRGq2FUUpVwI4uELur/EB87wXd7UwnmqYq4gLFjisVPuZ0w6R9INTZvLGYIGOt7LBi8Elt
- URF7KJg9HE6AVAihijkX6A3CbpO7+pcGJ96bMIz3hIJvC+SMMFsdBhqjXLNW/GF0dKlz1oYJQal
- us+atXOYrthM07kUZ//CehiBX3zRwnSfX9oWg3riKfgHv+widuY3Lwb3t6VPfjUkkFYetF+1+tc
- rEk1iXaR7wrfG2TrUrLbPoHGvSUkfpV9wy8QZ9m9kaFhhxgEGUW+HaKWYhkm4BvdpfYpB6mFHGn
- XHUjxD3gAdYDwRK1zKmOj6PCPAzCURQglcg39ieJUIWm2DQ+u2EEjAyBKaHKNmAn2QL739d2
+ a=yPCof4ZbAAAA:8 a=KkEFKC4U-qW1PrwOZeIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ cc=ntf awl=host:12061
+X-Proofpoint-GUID: QIRsK9B6tWWbhfn2_NxTF7ltSzw-BVpz
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIxMDE1MSBTYWx0ZWRfX86Ouz5QNP5Ad
+ KQyT/P6YkT1hfsBrF7Svl/PB2sbamtPeVtOpJwQoEyIdO9r43kSoB04pPemZasz5NUQ3f/dGCs5
+ 6/O1ZcptwAbHk1exLgRi5uSAqPJ/u2KiJy4lOLPyiZMbmqzv8GYMul7vWWdXJ9TMLtDgZbnOXXY
+ xj8yvmS1KvANT2WRfOxOsA9M9kib0Ql+ICKQkQJlrDG054ddQiifJ+rYzBFzMtNJzOZNt4B8pab
+ KivU3n5+0hB0iAM24LlJ1jT3+cKFjqBny2R54louM4sOYJ8UbgmFTyOvJFYLOGPV6RZxrZ6rQEv
+ khr1MrrHOpWaFNQvg9IlEd59Q54U4TWautAN5oTmCvIR9tCWqmG77jkzgMe0jP5UTiN17UFcxBG
+ xqCiBkKjbNAczdbSFJNdqLZDIR1xpLZVbakwuyBtlzKi/tkyLWbgwiqMSECYxwf1dogGC7nc
+X-Proofpoint-ORIG-GUID: QIRsK9B6tWWbhfn2_NxTF7ltSzw-BVpz
 
 Reviewed-by: Eugene Loh <eugene.loh@oracle.com>
+I guess what I mean is that I cannot think particularly of any 
+objection, but what's the rationale?  Certainly, there is still a lot of 
+/bin/sh left.
 
 On 7/21/25 09:34, Kris Van Hees wrote:
-> It is better to use explicit module`symbol references in dlibs so as
-> to avoid loading modules needlessly.
->
 > Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
 > ---
->   dlibs/aarch64/5.11/io.d | 2 +-
->   dlibs/aarch64/5.12/io.d | 2 +-
->   dlibs/aarch64/5.14/io.d | 2 +-
->   dlibs/aarch64/5.16/io.d | 2 +-
->   dlibs/aarch64/5.2/io.d  | 2 +-
->   dlibs/aarch64/5.6/io.d  | 2 +-
->   dlibs/aarch64/6.1/io.d  | 2 +-
->   dlibs/aarch64/6.10/io.d | 2 +-
->   dlibs/x86_64/5.11/io.d  | 2 +-
->   dlibs/x86_64/5.12/io.d  | 2 +-
->   dlibs/x86_64/5.14/io.d  | 2 +-
->   dlibs/x86_64/5.16/io.d  | 2 +-
->   dlibs/x86_64/5.2/io.d   | 2 +-
->   dlibs/x86_64/5.6/io.d   | 2 +-
->   dlibs/x86_64/6.1/io.d   | 2 +-
->   dlibs/x86_64/6.10/io.d  | 2 +-
->   libdtrace/io.d.in       | 8 ++++----
->   17 files changed, 20 insertions(+), 20 deletions(-)
+>   test/unittest/ip/tst.ipv6localicmp.r.p                  | 2 +-
+>   test/unittest/proc/tst.signals.r.p                      | 2 +-
+>   test/unittest/providers/rawfbt/tst.synthetic-entry.r.p  | 2 +-
+>   test/unittest/providers/rawfbt/tst.synthetic-return.r.p | 4 +---
+>   test/unittest/ustack/tst.ustack25_pid.r.p               | 2 +-
+>   test/unittest/vars/tst.ucaller.r.p                      | 2 +-
+>   6 files changed, 6 insertions(+), 8 deletions(-)
+>   mode change 100755 => 120000 test/unittest/providers/rawfbt/tst.synthetic-return.r.p
 >
-> diff --git a/dlibs/aarch64/5.11/io.d b/dlibs/aarch64/5.11/io.d
-> index c153d5a2..c968a7d3 100644
-> --- a/dlibs/aarch64/5.11/io.d
-> +++ b/dlibs/aarch64/5.11/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_disk == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->bd_dev) % 255
->   				   ]->name);
->   	dev_statname = B->bi_disk == NULL ? "nfs" :
-> diff --git a/dlibs/aarch64/5.12/io.d b/dlibs/aarch64/5.12/io.d
-> index 09968d5a..6f60ae05 100644
-> --- a/dlibs/aarch64/5.12/io.d
-> +++ b/dlibs/aarch64/5.12/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_bdev == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_bdev->bd_dev) % 255
->   				   ]->name);
->   	dev_statname = B->bi_bdev == NULL ? "nfs" :
-> diff --git a/dlibs/aarch64/5.14/io.d b/dlibs/aarch64/5.14/io.d
-> index 09968d5a..6f60ae05 100644
-> --- a/dlibs/aarch64/5.14/io.d
-> +++ b/dlibs/aarch64/5.14/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_bdev == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_bdev->bd_dev) % 255
->   				   ]->name);
->   	dev_statname = B->bi_bdev == NULL ? "nfs" :
-> diff --git a/dlibs/aarch64/5.16/io.d b/dlibs/aarch64/5.16/io.d
-> index 09968d5a..6f60ae05 100644
-> --- a/dlibs/aarch64/5.16/io.d
-> +++ b/dlibs/aarch64/5.16/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_bdev == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_bdev->bd_dev) % 255
->   				   ]->name);
->   	dev_statname = B->bi_bdev == NULL ? "nfs" :
-> diff --git a/dlibs/aarch64/5.2/io.d b/dlibs/aarch64/5.2/io.d
-> index 5111df28..10666806 100644
-> --- a/dlibs/aarch64/5.2/io.d
-> +++ b/dlibs/aarch64/5.2/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_disk == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->__dev.devt) % 255
->   				   ]->name);
->   	dev_statname = B->bi_disk == NULL ? "nfs" :
-> diff --git a/dlibs/aarch64/5.6/io.d b/dlibs/aarch64/5.6/io.d
-> index 5111df28..10666806 100644
-> --- a/dlibs/aarch64/5.6/io.d
-> +++ b/dlibs/aarch64/5.6/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_disk == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->__dev.devt) % 255
->   				   ]->name);
->   	dev_statname = B->bi_disk == NULL ? "nfs" :
-> diff --git a/dlibs/aarch64/6.1/io.d b/dlibs/aarch64/6.1/io.d
-> index 09968d5a..6f60ae05 100644
-> --- a/dlibs/aarch64/6.1/io.d
-> +++ b/dlibs/aarch64/6.1/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_bdev == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_bdev->bd_dev) % 255
->   				   ]->name);
->   	dev_statname = B->bi_bdev == NULL ? "nfs" :
-> diff --git a/dlibs/aarch64/6.10/io.d b/dlibs/aarch64/6.10/io.d
-> index a1458d6f..45e7aa63 100644
-> --- a/dlibs/aarch64/6.10/io.d
-> +++ b/dlibs/aarch64/6.10/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_bdev == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_bdev->bd_dev) % 255
->   				   ]->name);
->   	dev_statname = B->bi_bdev == NULL ? "nfs" :
-> diff --git a/dlibs/x86_64/5.11/io.d b/dlibs/x86_64/5.11/io.d
-> index ae4b62c3..b9f33433 100644
-> --- a/dlibs/x86_64/5.11/io.d
-> +++ b/dlibs/x86_64/5.11/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_disk == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->bd_dev) % 255
->   				   ]->name);
->   	dev_statname = B->bi_disk == NULL ? "nfs" :
-> diff --git a/dlibs/x86_64/5.12/io.d b/dlibs/x86_64/5.12/io.d
-> index 0432b02c..7ce005f9 100644
-> --- a/dlibs/x86_64/5.12/io.d
-> +++ b/dlibs/x86_64/5.12/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_bdev == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_bdev->bd_dev) % 255
->   				   ]->name);
->   	dev_statname = B->bi_bdev == NULL ? "nfs" :
-> diff --git a/dlibs/x86_64/5.14/io.d b/dlibs/x86_64/5.14/io.d
-> index 0432b02c..7ce005f9 100644
-> --- a/dlibs/x86_64/5.14/io.d
-> +++ b/dlibs/x86_64/5.14/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_bdev == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_bdev->bd_dev) % 255
->   				   ]->name);
->   	dev_statname = B->bi_bdev == NULL ? "nfs" :
-> diff --git a/dlibs/x86_64/5.16/io.d b/dlibs/x86_64/5.16/io.d
-> index 0432b02c..7ce005f9 100644
-> --- a/dlibs/x86_64/5.16/io.d
-> +++ b/dlibs/x86_64/5.16/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_bdev == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_bdev->bd_dev) % 255
->   				   ]->name);
->   	dev_statname = B->bi_bdev == NULL ? "nfs" :
-> diff --git a/dlibs/x86_64/5.2/io.d b/dlibs/x86_64/5.2/io.d
-> index 415bbb4c..d2af79c8 100644
-> --- a/dlibs/x86_64/5.2/io.d
-> +++ b/dlibs/x86_64/5.2/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_disk == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->__dev.devt) % 255
->   				   ]->name);
->   	dev_statname = B->bi_disk == NULL ? "nfs" :
-> diff --git a/dlibs/x86_64/5.6/io.d b/dlibs/x86_64/5.6/io.d
-> index 415bbb4c..d2af79c8 100644
-> --- a/dlibs/x86_64/5.6/io.d
-> +++ b/dlibs/x86_64/5.6/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_disk == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->__dev.devt) % 255
->   				   ]->name);
->   	dev_statname = B->bi_disk == NULL ? "nfs" :
-> diff --git a/dlibs/x86_64/6.1/io.d b/dlibs/x86_64/6.1/io.d
-> index 0432b02c..7ce005f9 100644
-> --- a/dlibs/x86_64/6.1/io.d
-> +++ b/dlibs/x86_64/6.1/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_bdev == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_bdev->bd_dev) % 255
->   				   ]->name);
->   	dev_statname = B->bi_bdev == NULL ? "nfs" :
-> diff --git a/dlibs/x86_64/6.10/io.d b/dlibs/x86_64/6.10/io.d
-> index 92704839..716727ce 100644
-> --- a/dlibs/x86_64/6.10/io.d
-> +++ b/dlibs/x86_64/6.10/io.d
-> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
->   	dev_instance = 0;
->   	dev_name = B->bi_bdev == NULL
->   			? "nfs"
-> -			: stringof(((struct blk_major_name **)&`major_names)[
-> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
->   					getmajor(B->bi_bdev->bd_dev) % 255
->   				   ]->name);
->   	dev_statname = B->bi_bdev == NULL ? "nfs" :
-> diff --git a/libdtrace/io.d.in b/libdtrace/io.d.in
-> index 6d43444a..a869ddae 100644
-> --- a/libdtrace/io.d.in
-> +++ b/libdtrace/io.d.in
-> @@ -130,10 +130,10 @@ translator devinfo_t < struct bio *B > {
->   	dev_minor = B->__disk_chk == NULL ? 0 : getminor(B->__bio_part_dev);
->   	dev_instance = 0;
->   	dev_name = B->__disk_chk == NULL
-> -			? "nfs"
-> -			: stringof(((struct blk_major_name **)`major_names)[
-> -					getmajor(B->__bio_part_dev) % 255
-> -				   ]->name);
-> +		? "nfs"
-> +		: stringof(((struct blk_major_name **)vmlinux`major_names)[
-> +				getmajor(B->__bio_part_dev) % 255
-> +			   ]->name);
->   	dev_statname = B->__disk_chk == NULL ? "nfs" :
->   	    (B->__bio_partno) == 0 ? stringof(B->__disk->disk_name) :
->   	    strjoin(stringof(B->__disk->disk_name), lltostr(B->__bio_partno));
+> diff --git a/test/unittest/ip/tst.ipv6localicmp.r.p b/test/unittest/ip/tst.ipv6localicmp.r.p
+> index 904102ac..fd1ef30e 100755
+> --- a/test/unittest/ip/tst.ipv6localicmp.r.p
+> +++ b/test/unittest/ip/tst.ipv6localicmp.r.p
+> @@ -1,2 +1,2 @@
+> -#!/bin/sh
+> +#!/bin/bash
+>   grep -vE '^$|data bytes|bytes from|ping statistics|packets transmitted|^rtt min'
+> diff --git a/test/unittest/proc/tst.signals.r.p b/test/unittest/proc/tst.signals.r.p
+> index 7798fa25..4044a64f 100755
+> --- a/test/unittest/proc/tst.signals.r.p
+> +++ b/test/unittest/proc/tst.signals.r.p
+> @@ -1,4 +1,4 @@
+> -#!/bin/sh
+> +#!/bin/bash
+>   #
+>   # Eliminate blank lines and the monitor messages emitted by bash.
+>   # (Turning off monitor mode should quash these, but it doesn't seem
+> diff --git a/test/unittest/providers/rawfbt/tst.synthetic-entry.r.p b/test/unittest/providers/rawfbt/tst.synthetic-entry.r.p
+> index 18171f04..59dc63b4 100755
+> --- a/test/unittest/providers/rawfbt/tst.synthetic-entry.r.p
+> +++ b/test/unittest/providers/rawfbt/tst.synthetic-entry.r.p
+> @@ -1,3 +1,3 @@
+> -#!/bin/sh
+> +#!/bin/bash
+>   
+>   uniq
+> diff --git a/test/unittest/providers/rawfbt/tst.synthetic-return.r.p b/test/unittest/providers/rawfbt/tst.synthetic-return.r.p
+> deleted file mode 100755
+> index 18171f04..00000000
+> --- a/test/unittest/providers/rawfbt/tst.synthetic-return.r.p
+> +++ /dev/null
+> @@ -1,3 +0,0 @@
+> -#!/bin/sh
+> -
+> -uniq
+> diff --git a/test/unittest/providers/rawfbt/tst.synthetic-return.r.p b/test/unittest/providers/rawfbt/tst.synthetic-return.r.p
+> new file mode 120000
+> index 00000000..7ba3ffbb
+> --- /dev/null
+> +++ b/test/unittest/providers/rawfbt/tst.synthetic-return.r.p
+> @@ -0,0 +1 @@
+> +tst.synthetic-entry.r.p
+> \ No newline at end of file
+> diff --git a/test/unittest/ustack/tst.ustack25_pid.r.p b/test/unittest/ustack/tst.ustack25_pid.r.p
+> index 6486f7ec..c0110e00 100755
+> --- a/test/unittest/ustack/tst.ustack25_pid.r.p
+> +++ b/test/unittest/ustack/tst.ustack25_pid.r.p
+> @@ -1,4 +1,4 @@
+> -#!/bin/sh
+> +#!/bin/bash
+>   
+>   # A pid entry probe places a uprobe on the first instruction of a function.
+>   # Unfortunately, this is so early in the function preamble that the function
+> diff --git a/test/unittest/vars/tst.ucaller.r.p b/test/unittest/vars/tst.ucaller.r.p
+> index 8e03f110..23255a14 100755
+> --- a/test/unittest/vars/tst.ucaller.r.p
+> +++ b/test/unittest/vars/tst.ucaller.r.p
+> @@ -1,4 +1,4 @@
+> -#!/bin/sh
+> +#!/bin/bash
+>   
+>   # A pid entry probe places a uprobe on the first instruction of a function.
+>   # Unfortunately, this is so early in the function preamble that the function
