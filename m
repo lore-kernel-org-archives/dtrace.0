@@ -1,79 +1,86 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16442DA765
-	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 14:23:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937C52C15B2
+	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 16:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753107792; cv=fail; b=CYIHzlg9b30vaaBW+nMoy1sfLp4o0BXKcrIpCnq4JxaqDxprrktU3Cf3DYmmW7AR2pysIHAaQAdaaTDH5fQHi63oPmjc4MdyFaueqqx7+y4LQn5ohhU8kyvJ/BjV78l3MlHO/GXXO989sVFvnIITh+JxCPFGUgIZ4jkJ/CidBA0=
+	t=1753116889; cv=fail; b=H51Y/FLKRg21FjpIYtSSs8b6jneIiKnuyDL0q+9MZZOVONUlhp2Ir132GFHbFCu3NAy+N0iqCN1OijTgCE9kfRf/hkWfX343kWyWEKml1hHE5z09AXcxxCT7gJWTCQCNs5CdFkXaMSNKU7fHaYW9E0cM79+lWPW4senklB4czWw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753107792; c=relaxed/simple;
-	bh=MJ/lsPtSsuey7/ZRXvxk8xfRf2spqu3mQuZ93jDhmg0=;
-	h=Date:From:To:Subject:Message-ID:Content-Type:Content-Disposition:
-	 MIME-Version; b=oxzMn29UfsinaNFlQq5+hpJYrIWr9u2a66xxTKBh5URdDyfUUuPTG2fSy8zSaD4YA6Ydl7Vw2fR7HxD6CtxwLI1HzAw0BfC2ZPE7HQN+zL2GfOaVCMuIj38khMUaOEBhNUTk5zaD3lc3GUchfKL0qF8sB2inkL4KVKYNMWyUCak=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=H+zBuM/W; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=v++xMtKZ; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1753116889; c=relaxed/simple;
+	bh=Vqx+rM+dmmWXgthvdqDfEljc7sbw7vy370Mq1Y4mr20=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=BfvOR291VOd6vin9l4buzvJSiGYmCqwIp4mWRTCneKtG18Mgz4SFIx3JgvEYyFqc80ko1kvftQT8X7DthglXpMqHcEIRM5q4RTT8ZGsnr3/TYEVXSgqOqtl6KqSvQpZakV1U32CzrJAsEx8cUfqiz8QJZ6CnG5SWTgw3PZ5H7qg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=JYTalNbk; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ddgwJzRy; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="H+zBuM/W";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="v++xMtKZ"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56LCMmHQ029331
-	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 14:23:09 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JYTalNbk";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ddgwJzRy"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56LFQd6d027722
+	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 16:54:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-type:date:from:message-id:mime-version:subject:to; s=
-	corp-2025-04-25; bh=8+exM1wiQzxsd+fJ6jmSW4WPVlOARu+a4N6nH9+yTGE=; b=
-	H+zBuM/WcTP1MIz3+rdknVnUgch0OOiTP0UTA7XOiwZTQbicMI/D+H3dhiAhUtLk
-	ceWyfhJZZGffllv5/GQ3wzk8ey8SgyeTqmKZtsJ+GblJgAesWZoRYZIt5220YmE9
-	7dPCJKNM5c2L8zsn0785We1T4dMFVuvJKkPukOJQYmBFc7BsUMfBEap48dIL85+W
-	+m0hr72DjYH5AENeCk/n+w9FScvdOat6IOm28OLnaIfQt1l7++OHyuAwCjG5HvDS
-	U7oiqelN7+jUYD6kBM3XpO90KPiPaXMQgYXHWcImsMh9sOepD4Kfhec4BTjCYSKF
-	I1mMSwGwkDXTKLyxfyTHKw==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4805e9ju5f-1
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=4f6yzjyYrbC5w1iqYMBMGwWrykH8Rgkqg9uKXSq7gqk=; b=
+	JYTalNbkT6WtHYLiIFp5kmJN7wtWoRg9tbqDJlXKyYzMEaeqfU6wzrfIkYAy6G9K
+	2FvIzQyBJk6gFC+XJaEAUusLwojLca/RGtYYtBwouphtynqp6JdXp94GQVyCvDAm
+	nZY7Pkb/ITTHsM6PhJxnUzr8U7I0+CgBMqmEDwvTYikJKPzAnFUu4fh2l9G2FOxv
+	svOSD5chWw6B/ipo1ICNlQQpTWhItVRP+kA5cf9CuYyjZyKR/6H9bBitvtdfEbJC
+	e7Ra8eGZccCzO3/IBFlLlZaQOF4rkrl5UIrHXBFWJdxiIHGOKJfKtgmAtqhR/+/x
+	MYoqEtLJgTiuNOn7ggNSXQ==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4805hpb7us-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 14:23:09 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56LCru3R010475
-	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 14:23:08 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam04on2068.outbound.protection.outlook.com [40.107.100.68])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4801t849c9-2
+	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 16:54:46 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56LG683k014403
+	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 16:54:45 GMT
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013060.outbound.protection.outlook.com [40.93.201.60])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4801tejj0f-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 14:23:08 +0000
+	for <dtrace@lists.linux.dev>; Mon, 21 Jul 2025 16:54:45 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mRDhuT2A1xiE75jZ5ONZIR1KjHkeWPujaZ2RQ8vGeA4N1PVW4CHoZWX68SflKc3pKw4HrHgh7e3tR156+aShf8qlU4wDS1Q2lKSWVcCdNzjeQup8FFW5EeZkhTv7Kf5iSg54Jf38DWCxdCeejjPwyyBUOm4Sl0dEErDDQlzKhn4gkbZEGYTuXpTX0yvswTO93vhCmRJMiqVSoLcXKxNXlsYP5nCyjXQ8m1K4+CVJVl7QrEK0k2I2ezXB8i1bdbhjF7ubpitWB68yZhgdPiYd0M61jSnwbyAza0f1HexHiKpq8oCQp2HcZyfAQSi11iMSQyjOI+h12Li8JZFviFAxgA==
+ b=uqRYTHuycnQkf2PX3lUK45mUh4juh5Jf0ITC581ld4ZzrlX3m+h6ACZGmBYGgJySacEfjbx/zH94EYWG2Siz7a/M8717xz0eegiUf6uU5NAIIzDxciIpOVZwy9Kl2r6HzpHGJp5i0cIgIOx9fzT+BKTRRKWKJ28hc4QAvU/8U6ka/iJjBKIgQS/59cdTQTQ/Ns7euAMqkbbbVzG4KusVOREnxPBfuPr59Ch3ARrLgu6mPWhZ94o+Vml6Rq0dBmbYwL9HgytD+iFBE8llYRU1VZadtt0lBKevIj+dfA4zqQD+8Qhu5oquBAlrzlvUhIrTElZUO6mcfh/bRAxX3NZIUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8+exM1wiQzxsd+fJ6jmSW4WPVlOARu+a4N6nH9+yTGE=;
- b=JG9H8+y0UEytqKhBIBp+y/UB0LhKF9WuWc9BbYdOwS1zqWH09+YR7WHsuXZiYEPWbqYpLDKOyPp9TlWR9N9M8GqhlqPiGbmn7zTo4/OFN4IdOEvXayjxS7n93bAKMI400I99oVcAQFHqZZkodc6yoh9Ljwjag9H1yMZaRSoFP4sUqd+Pq1UGzkRarmHD7COEFa26axfGBVXTRp+8bDs2hb+bXPxwSvB9huphOZqG3TSZCq61u/hxFIqStW+G/C7+XeZ6KG5qi86wPST92IBKtZA23E6m5yq41vuDdK1RLbMdWM12n3SVS96/ME4xcQK2mIhe/5bIj5mSyYSClAjYgg==
+ bh=4f6yzjyYrbC5w1iqYMBMGwWrykH8Rgkqg9uKXSq7gqk=;
+ b=mBiZNkw0vDLr7D1v/ZnzXt4lAId0rmBAYezzG7sXRLv0xY67k8x/oAbLxRoS0uTniXIbRkNvaIpTZrlV3IzXxs+b0vYhbxnXhydQbcCKnDe0zr54OwsDt+q+1u8bTF3Ac8tQLueMC3VRId1/7aA5HX0nvCARZ6p7v7SXywy+3NrKugTg801UMzbz2PIXEeY7P+6y0pM4HP3pzIlUmqBM6zFxvbUhsn+5hCoyWERQnQSKzZvvcE5dfWeVeka6XjE+n9Ij41k8dd2IW4VQi8iZZQFlEWfQHso0PRAE4XaR+86pcaxZZM0EzjqThWv3usStxKNv8017/WFshGBFK7nprA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8+exM1wiQzxsd+fJ6jmSW4WPVlOARu+a4N6nH9+yTGE=;
- b=v++xMtKZc9kChH4Z3feZiAValD2A/S/Dla/K9l4p6RNL9ac8t6DLl1fdKtiNKmNCVcA4uwrFQ4GChDih6o5++ucEjlfE7ctlodouPJPDnv5tMxsIpNNqTRTJ5gk1MBXu+bnasZnT29ENB/+cb3j3++z6DQ9hOxDEjIBSXjK0vJo=
-Received: from SJ0PR10MB5672.namprd10.prod.outlook.com (2603:10b6:a03:3ef::21)
- by SJ2PR10MB7084.namprd10.prod.outlook.com (2603:10b6:a03:4c4::20) with
+ bh=4f6yzjyYrbC5w1iqYMBMGwWrykH8Rgkqg9uKXSq7gqk=;
+ b=ddgwJzRy1p+ibwMgJqRd2NjohZLJebPD/1fCyMb+BbQaSvJ3si7OGM09RqULh+bPckDWEZQwFDDmX5hW3mrGbyQhso3D/SlFwgXCZkcg40/xlOAy+IEdj/vAuxskiG51Q+QwFRbifpQr3G3hz6t20Sg/sHgLn/T/0H9WeVu78Og=
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
+ by MW6PR10MB7659.namprd10.prod.outlook.com (2603:10b6:303:246::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Mon, 21 Jul
- 2025 14:23:05 +0000
-Received: from SJ0PR10MB5672.namprd10.prod.outlook.com
- ([fe80::8800:9203:9f66:174b]) by SJ0PR10MB5672.namprd10.prod.outlook.com
- ([fe80::8800:9203:9f66:174b%6]) with mapi id 15.20.8922.042; Mon, 21 Jul 2025
- 14:23:05 +0000
-Date: Mon, 21 Jul 2025 10:23:03 -0400
-From: Kris Van Hees <kris.van.hees@oracle.com>
-To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Outstanding patches
-Message-ID: <aH5NR05DDG9baQNF@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-ClientProxiedBy: BLAPR05CA0017.namprd05.prod.outlook.com
- (2603:10b6:208:36e::29) To SJ0PR10MB5672.namprd10.prod.outlook.com
- (2603:10b6:a03:3ef::21)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.29; Mon, 21 Jul
+ 2025 16:54:41 +0000
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::8b24:5536:3259:5a69%6]) with mapi id 15.20.8943.029; Mon, 21 Jul 2025
+ 16:54:41 +0000
+Message-ID: <d3791d41-7749-e279-f558-3d9c52e60ea9@oracle.com>
+Date: Mon, 21 Jul 2025 12:54:38 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 1/3] dlibs: use explicit vmlinux`major_names
+Content-Language: en-US
+To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
+        dtrace-devel@oss.oracle.com
+References: <SJ0PR10MB5672DB80AEB02AF32E7B5A0DC25DA@SJ0PR10MB5672.namprd10.prod.outlook.com>
+From: Eugene Loh <eugene.loh@oracle.com>
+In-Reply-To: <SJ0PR10MB5672DB80AEB02AF32E7B5A0DC25DA@SJ0PR10MB5672.namprd10.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PH0PR07CA0045.namprd07.prod.outlook.com
+ (2603:10b6:510:e::20) To CO6PR10MB5636.namprd10.prod.outlook.com
+ (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -81,158 +88,374 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5672:EE_|SJ2PR10MB7084:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5bba03f9-56c1-4613-16bf-08ddc8621bd8
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|MW6PR10MB7659:EE_
+X-MS-Office365-Filtering-Correlation-Id: f957d2af-58ca-40e6-7b6f-08ddc87748f7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0sOIMWDWr020dJh46m7sxAkcHYHYhoxVpTd013cmlGUSFnQ1yNquW1+wlHUB?=
- =?us-ascii?Q?WZ/VxICuY/V94X6N6xs8n7WS5mZDLFzHwh5te/DwQSW10DTdE5vNjfiXwmpA?=
- =?us-ascii?Q?JVW5tbixTyhMo5C4GC0lv4IlEeEulxJlM/5TSdHpFsU0uHsdfRhM/By4zvvW?=
- =?us-ascii?Q?Us/CRkJS1i5AVEC2X69NSwyqsQ0df3UqN2otR0sInaXYfcozpo1H0oZFQpK/?=
- =?us-ascii?Q?its8fWZjirtIlYvXs/FNH8cPKHj8gCULFpIO+HXHGKix4WqUoiynmrKnVqZi?=
- =?us-ascii?Q?JEMJ8AJnKuMjlODzbRJBgMC06h3oqFlDhmcwpbhIh1V80uG1dBrmZGQ03wUW?=
- =?us-ascii?Q?qxR6Z6Ug+nDMrYsQB/C2K7Vqk4kVM4KxbDCEmMuTbReWBzIbwuJZuwLkApHh?=
- =?us-ascii?Q?3rTo1ogrKQJebqwHqXhcmTLG1FFeDZ+CjoCMOHSm1Qsy8ZfHFpANG93nqZu+?=
- =?us-ascii?Q?YEMS2tL+dKPDeDDhC9x/Pqv+6VUjQQznAACSlBPbvVFQjtBlI7Ys4uryfuKL?=
- =?us-ascii?Q?nP23Z3FWctjvacK6trXyonScGRqvBPAi8OdxbitTlgiYsyyHzKIrfyEgzQk0?=
- =?us-ascii?Q?FmoRzYlaKDU2OznuNvAyMBPKY9AUG6wek7Rw8rcAbS7nC+envOTiVKqoLuBp?=
- =?us-ascii?Q?rpTxqPZOdpcgS4ULmJBgYE1tUl1K7e3fF4/Yz1/S+OvSufRLMkRS+yqJXQ9H?=
- =?us-ascii?Q?NkSrAr8FngGfaDIn1ma7MZ6q+Js4TIzgiUdq/glMQ7dRAsHNd4pjmUb3S7rv?=
- =?us-ascii?Q?yt3P2N2z5R6Fc3Pf9zyPsBhYJbCvtpEjjhYLjHClvInxixddyUu3i5YFclHU?=
- =?us-ascii?Q?p4uYkfPo7E4LHmXrrDoZbKLBCJ2vlGH5JPd8aT3p2MoXoi2FYPPm2exZvyRj?=
- =?us-ascii?Q?9gtd5ixbc6gyBKTS83OKdRjXSeSypQFpd52BfmBOZMBLi8n9dWsh+y7YYOKf?=
- =?us-ascii?Q?1UjLnX8ozcr7mf/EXiO4IZBDdjs+fA97KljNMabW0zsGuLInTUsngTc1onZ9?=
- =?us-ascii?Q?d5rxPHTeKITe09wZojlpWY13htPA8cYN4a0RxyA5sD2sSjQhuW/EvkN3CT0U?=
- =?us-ascii?Q?9GB03ces1ceRJ+p10b6KLGMvj9uPA2KoYDUterYKR7oWFYrcoLOdGy93q41Y?=
- =?us-ascii?Q?6NpSvgf3rBpa6znZzBxNMB1HW6pRDc+f5noe+whhUB6QEgF8VzVYxQp73fcr?=
- =?us-ascii?Q?4nX5szAnakZuU04jx8PQEnKFIpxIG5kuYsw1r5q5ESFPpCvy/NDUSUQHjsLI?=
- =?us-ascii?Q?wB7dzNGSN4T9KFvOjVcF00gDlWpwAlPhZ0DXIrv7obKnHNyc+s2BtVdFzw1a?=
- =?us-ascii?Q?m4l9ZSYPM/TrW4iLlXZtwJTodgH0a1QPifINBFal+eM1aoag0vvk2jUBFqdw?=
- =?us-ascii?Q?EDIN2ZA8/xt2jGPQHjWOH22h4JCTEe6A5DIRl831hGHIDQ9QBxlJF2+4Fr0w?=
- =?us-ascii?Q?DRNbtmJaaL8=3D?=
+ =?utf-8?B?UzhRQURZQURBTVpGTzh4VHRyUzU0bkxJcE1TZmxvQW5Ha3VzTDRBUWZBL0ZR?=
+ =?utf-8?B?Q2ZlYmZIcWFtSUlvUnFpVzNHdkQvcldQOFc1bUNtMlVNL3FURWVNWGhRb2RY?=
+ =?utf-8?B?V2w1Q3REL2pJLzhTSW0xTU1SbGtFSEJxRkxRWWFHV1dkUVZ0dFdwbUNwL1RU?=
+ =?utf-8?B?RkJZYStjTk9YQlJrSGkzQVVOZ0NnUU12Y0RRQ1RhSUtqelJ5aDRxSlUxV0xB?=
+ =?utf-8?B?L1ZMRGcwODhKeHZENmRvclpUWWFiZXVNUERRZ0pKQitnQVdzdjBPbFZPT0Jj?=
+ =?utf-8?B?NWlRb2NmQzg5OUh2cXdYRzMxQ1hnejR4UEdlZzZPQ3hkQ290QjBDaEYvYmdJ?=
+ =?utf-8?B?NlhXNDlRZC9wdFNnNkdTTUgvN3NTMm1PcjBhcTZwWDh0emY4UldQWUhaOWl6?=
+ =?utf-8?B?ZHFLZzVZSXo1K2NhckhmUGRFYXJmQklkZ2tiTEFVVGMwdUxXNVEyaFRnSURN?=
+ =?utf-8?B?djJSOHhUdEVYKzE4R1V0a01zakhFOVRaWnBYd3hQWjcxZ0pYcnFkZmRQWVFa?=
+ =?utf-8?B?bU5HTjJJSVlFNHBjRlY2Y2hKRGpJSDg1YjNzRk13ZmNqM1c2UTBYTUxFQ0J5?=
+ =?utf-8?B?bXhDK1RxSm9nMW8wUHJKZmQrdDkwNWorS3pOdkRjcm1IZHhpY3RvMGp5U0Vy?=
+ =?utf-8?B?M3pFTnlaaVh1NmpsQkU4dkRZYnFYa2lsVWE4NFdNOGtoWm9VMzl3bFhNMkFP?=
+ =?utf-8?B?T1QzTno3QlJxayttK3JBMGlOY2VkSnJqdmFTWnlpcWdMR1lVVExwWW1KSXAy?=
+ =?utf-8?B?ZVc5ZnNzWkpycFdHdHIwdnJOWFh2b2dTdjNoUDdqdVFlQ0t1a2U2K3pheEtU?=
+ =?utf-8?B?UzFkMnBjbWZaNUN1NUl1clVtUzIrSitOd3I4eTRyVW5kUjE3NVhYY3ZycmRX?=
+ =?utf-8?B?NHVZSnEvbjdmUDJmMVNBYUVnd29qTzlTL3YrcGtDbW8rS3hreEFPK2hseXd1?=
+ =?utf-8?B?K1BodWRYS0RUWGZaWkp1SUg2S0ZNRzErL0d5Sm05bHVUNkRoQU1jZjRnS01a?=
+ =?utf-8?B?OFZLTEZ0VU55N3F4bnNtTkI0TnVDcWNkV0ZQSjdMUGJkRjJ4RlJFK1RiUUFO?=
+ =?utf-8?B?VldwbWovTEJxM1EwTGR3N1lCbGVtTHRqYnhWb21NVGl2dzFvRkp5QzJUWjA2?=
+ =?utf-8?B?ZGxmNzY3QUxoc1FjZmppNlJEUi9TUm13cngva3NOb1h6RzBHZStKelFGYkps?=
+ =?utf-8?B?NmtHQ3hndFFiaG1obmtHTG9pSVFrdjNna1N5bnpaVUJCZXNWT2g5Z0txaFp4?=
+ =?utf-8?B?RWpwanBvendkdHpJQUY0OThLUGxIUGlnbkI1T2Fsc3VtM0FiYkF5ZVltNDdt?=
+ =?utf-8?B?b1I5K1l6V1JWc3dnUHFqdk5Ha0YxNGlWTUE4cDNnQnR1REc2UjBUcGtYQW5L?=
+ =?utf-8?B?d1pkeVlwbE0ycmVQSzVSaG5jVUVKWkxPVS9BeE5Dc0ZKeElER2FJSHdNeUtP?=
+ =?utf-8?B?eUM2VDcvaHZZN1hzTXRCcjdSNVc3ckNNUEZqYWJXRlV1clVtcW5IMmlzMVBp?=
+ =?utf-8?B?VU5xVWJVb3NGZkdQeDA1MG44dWhrYmsvazNvQVpMaWlXY2o2dTZYZXpYZUZE?=
+ =?utf-8?B?aVJxc0RIWXVZcVF1cXNuZlRpektWZ3EzQlB1RHJKK2c4RG5RNjlvNTVwa0Nq?=
+ =?utf-8?B?c1lkTFU1TGZZOE1JL3gxUkpWTXNKckNSRlJxUk8zeFlmdXVJOWlMeWpocUpx?=
+ =?utf-8?B?aEtmQlhwUVZZRUpqbm5qbm9raVhKRzJlOEd1OUFSQnRtK1VBekF2N3MzTDJw?=
+ =?utf-8?B?YU5hbThabEcyelYrcEpQa1hJenA2ajRkc0xhYmNldjJiZU5sdHJiTFJ6SzNG?=
+ =?utf-8?B?NGZvMzl6bDUxWXd0NzBFZy9FaXBqTkRJa0pIclo2WVJBd3NUbXNiMHo4akFy?=
+ =?utf-8?B?RHVmaEJEWXUzU04waDVPVFc0VDJSWTRFWDZHZXQrSUJVakI1UWRVcDRKQmZK?=
+ =?utf-8?Q?N303brbVLKE=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5672.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?XkxXWluFYYwf0jugIqsK9IP3jxKzXFKUL3ZOc5Mrp3tCldLSNHpo9o6rz37s?=
- =?us-ascii?Q?iLZwUlMvklEM9NHwcv3y9poKpWvjLseYXv2QmknrhaAnYgJA5wC6PiFAqdJO?=
- =?us-ascii?Q?Yw9NwHZ8D2ZabR0mVAGodCI/pDrSLtHIJWOxUXMtbItSGglkkGcflo5otjsI?=
- =?us-ascii?Q?lvjwyScBShb1UE6gPbm53W/yrGqV3ojjAHQ98pT11NO4RRSLXtGldCUvN4Oe?=
- =?us-ascii?Q?awIR0C+mD+KaUQLiSZPmxOSwwPL64fpoo9g+A/MC1ca0DzTa1rK85bJmbURT?=
- =?us-ascii?Q?j6B2FXgx0wbefFwJiEXGMBDpPqYuB7qYq1bO1bliUJEN8qY4FRd86W5SUq2d?=
- =?us-ascii?Q?9LODL8aSWLV53tDv5fG+xl27KN/mjNXM+j8yWPbfAShawWLrVBJTlCokAsBp?=
- =?us-ascii?Q?KFwqwg0y/aeDZUvlVp3AutXoTpBHdehwYZqSQGfpl2UTm6QRQ26kU+tZ8fAK?=
- =?us-ascii?Q?m/jTngMmEDtqn+gFQC/86s51gzcKOpnm3lfvvTtwprxLHNaqVdrY0/wZq+uC?=
- =?us-ascii?Q?JAVR45yfiyKH6t/SC+p0lgrDiBw5q5NlzE1UhefLbGZnhcKyWOn9XQ9Q6FII?=
- =?us-ascii?Q?/SyRGVxjc8UpEE4pLxB1MI2Kq8JBdV3NXHfCc2RqyyT980ysHYLemj9ws4+d?=
- =?us-ascii?Q?gxEgb3ea4D6JFoUvLEe1r+FfGJmc3otu9nblDcCa2yQR/zDa6IXzqG3UWPOP?=
- =?us-ascii?Q?v+5r6EXuxAFeJoRiQTONJqELqoMF8gGnUZB/oB3anKlbfxvcf4+Z1+9bOA/G?=
- =?us-ascii?Q?5vIl84824rkz31Mi6Z6SX7f5TBxE5a12iF3G8zc2BPhqFKMlKN2WeqFtcG6i?=
- =?us-ascii?Q?quEIR3GZvXX/MlwSeURlbxZLPgWCeN4k+4paWrp9W+Sv83KDptoojqJI27BL?=
- =?us-ascii?Q?PvT+EPJNoZzziTOqhESzXWjf+dhnxzq2nC6BPULLos3PqvBWk5bnA3qrzbM0?=
- =?us-ascii?Q?apuaIdo1Z9pQbkBkusX5yhd07JJab84upsPVm+usRdeXBzQn/KPnq9pwbrd7?=
- =?us-ascii?Q?rNcE1b9JwweZi/5lWCrcT30UX4rAMVQYzZ/Ig45sgOi252LVSG3r35Al7G+P?=
- =?us-ascii?Q?BSmFeGQtoWvbYQPJORtk2nM+zO1ZMaJ2SLbEoMl8QE+7reM1aOjHE78gIlu2?=
- =?us-ascii?Q?JvkgWstmjvwi7fTJIE/cGC5tflmcnkEUJmYAczSo7Xvq2WEJ8HJSsXYJfZhG?=
- =?us-ascii?Q?n+rUK3B0J2XNtlFzZE7E7YUjCIkfae4WZFWtZD1DX/inlttLsTGaa3owpJG9?=
- =?us-ascii?Q?YALknC6PsN5GxEXqafGsuG0VL40NckSRoLxhB8teGCSiRa6RuheIvjdSmSJD?=
- =?us-ascii?Q?KUBOLVWrAFRjNAPr9V34dnrW8R4O4zet0AygchflFCccQpXO2y1prlmdn5HF?=
- =?us-ascii?Q?9IrScFuLv6UWfSceRJSEA1zmDUl5QgQdlZE2hZqS4P3CP/YnR50RKa1E2jXf?=
- =?us-ascii?Q?/aYaBkW2NSZUxCalu431ZbY6qr9HxRXjwY/1WfEE473L+0ziKIfqZwCCc/0K?=
- =?us-ascii?Q?XiTxLzYQ3UDyak+Vza+GLJZ4P0nkvi7zBD6/SbTeRzJAe9om8uoUIb2/D7iR?=
- =?us-ascii?Q?qa4YgKxgos2Jt8KBF/cKlwL4XSBZRqIkBNsBoru2AANQa5j76qVJAhA6jBCI?=
- =?us-ascii?Q?tA=3D=3D?=
+ =?utf-8?B?QUNUK0JrelkybHk4UHZBWEhxeHhUUW40UjRrczdnMHRhY0NueGhJUFkwTkt1?=
+ =?utf-8?B?MFJ2bnp0YmpCVVVMM3dScUZ5aDBOQmdiZ3pSTGlNZEY5dDZSVnNJZDJxQ2Nv?=
+ =?utf-8?B?cHY2OXdJRHV5WFc0U1JHU0lrMGV1bGg0WWlGUEdDMlNhZ21tTWVJOHgwU09x?=
+ =?utf-8?B?VG1lUlFYVWVsOWVFcmwyV01FaG55dFdmNTQ4cDRGWWd2cVhrSE5ZOGlUcGtr?=
+ =?utf-8?B?OU5LTkdQcTZIYWs0a0Y2cXlERW56bnFxN2ZwR0xUOHZrWVJ0d0xsQTlEMVAy?=
+ =?utf-8?B?ZlQrRllUZ1V2aEEycERrOTM4ZG0xSEZ4bTQwdCt1N014c2VscUs2KzJnMjBT?=
+ =?utf-8?B?Z09iMTgyb2tPWmd2c0N5RUpJT3RpaVkzK0hGQmo3UmdJcUlXcGV2VXIyemxr?=
+ =?utf-8?B?OFE1elMyaVJMYVJYUUtjSXRMeVV3K0dXQnQzMStqL2NFcWEzOFZscXpaR3Fs?=
+ =?utf-8?B?blhlSVRoM1dSNHhRVUNWM0VTVXVpcFAySTJrVUtzQzdKUHAxQnVsamNKaTBX?=
+ =?utf-8?B?SjF0MUNyWVFaL3h2QVlaRUlVeUdhb0xxdGdnMzk0aUNHWG54aFVnZm9qUmNs?=
+ =?utf-8?B?K0l0MGp3ckwzMXpDOXp4N2tOMDUrVXFDTTQrV2VBZytTSk94WThTUkNYeW4v?=
+ =?utf-8?B?cElsTzBiSUFDOUNGRzJsZmQxY3dOVFJWaTI1T3ZzakdlTHZrU1M3VCs1cjZS?=
+ =?utf-8?B?ZEw5TGM4NjM0ZW14WkRzS3B4QVp6NUducGVma2pUaG5PZDBiODRxb1diV1NH?=
+ =?utf-8?B?L1VuR0ZQUlhRZ0NzL0MxNndmTzdNVFg5KzhyWE5heW5leWJockZwK3c2V2hH?=
+ =?utf-8?B?RWpJZ1NObjJBSkQrZG1HQ0dCa2ozdjRHdmxKNHhsZUI3YzlkZVAraVBPdU1o?=
+ =?utf-8?B?Z3lQMEcvci9NVEhuSzl4UktWY3RTZTFFQXhua0ZLTmQ4b2NtSkxSWFpsaFBK?=
+ =?utf-8?B?SjU2VDR2bm1zYWRwU0YyWXZhUTZ6Qi84dmFJaTZPRlJ5c1o0Y2R6SzNUdFAw?=
+ =?utf-8?B?NWJmRUdoM1U3M0NGamhoKzhsQ0ZSMkpoTEVTYUFhc0J2VWl3bTJIL2dwU3BM?=
+ =?utf-8?B?RUNHdHQvbXluUzErVEMrdjBTV05CUUdBL3U4eE4yUCt1K1VOYWlFTGZWRXBu?=
+ =?utf-8?B?bExQOFBOY1hvdHdvQ3c1K2lFckE1WlBYYUV4ZmQ0Z3ZSZ1AvTDl1Z3NQMWlk?=
+ =?utf-8?B?a09HdjlOMGM0WEFjY2dwbVBWZmsreEUzeHVRK0JFdUxlaTJ1RWVyZnZ0QU16?=
+ =?utf-8?B?SkFWYW81YnhXNEJkemovM3RvNG5RaWlTRUtOM0E1ZGVOT3orL045aGRqVFlt?=
+ =?utf-8?B?aWVVMkw4Qm5weFhLa1VDS3JPUlJlRzF2ak1BRkhXazR3Zkg4eWlXTUxSZytj?=
+ =?utf-8?B?TU9KclJDd0JTVWZBNGY3RVpUWjBGRkJ0bFVwWGh6VkFXWHluVUhHSGRXcHBm?=
+ =?utf-8?B?b2Q3bWZYbGJ5NWVsYUJzek90b0dZYWt4Rk9McWtLTjBEZDBOOFJKc3FyU05U?=
+ =?utf-8?B?YUs3VG8xSVk0TlJmNHU2ZmptblhxZS9wbVVKeW90RmRnbGFwVnZxVzFkbExa?=
+ =?utf-8?B?WEZJWklaTXd3SEFKWWowM2NwQjNjcGc1SFdPWnJBTWN3VGt4S2Z3cndJejg2?=
+ =?utf-8?B?QlRobVZRaEU0SXRVVk80WmJiMDZCV3NqYjA2TkxPZjNUU0c1aTVNNmpEZjJq?=
+ =?utf-8?B?SGFTcnE2ZndzTkxLWVlad3AyR3RKOE1KSWx2ZjFva2pZK2g4bS9Tc3FkZHZH?=
+ =?utf-8?B?U3B0YzJuQml5NW9yYmJ5SHZ5MHE2czNaQlN2Nm4rczlaajgxMG0vc2Q0bXVD?=
+ =?utf-8?B?dXBmVi82UGpGWE5kYjkzSGYyc1NINkRHN0t2NFZTcTVPSndjYWo5WGErUnFE?=
+ =?utf-8?B?YXFKNHlnU0ZVSGN3QjgrY1VqZzQ2Y0pzcjQ4WEZWRVAvUEE0bFplY2g1ajNa?=
+ =?utf-8?B?SDlyRW9wUVYzTUlmWUpYYW5KbEtrQnpmaGNpZk9OZzQ2Y2pUUkxhbUNFbXQx?=
+ =?utf-8?B?MXRNdUdVNFFobFhaNm0rMzB2c3BIcGxYWkZpSVlDUHhVbTRrTlVEK0dFUExS?=
+ =?utf-8?B?K1A0YVd0aU1Xa0lneFVkMWduY1hqR1YyWU1RZHQwMGx0Z2FCWHdZTCtGbW1Y?=
+ =?utf-8?Q?dDqF73I7URKMHvgC2LepNoeBz?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	+0TpDd7WSElFMsnz9KVhTNNsC8rjvZGe96bkk26NO82i/DBPjCCBaqqfhpHGfl+3+Ocmx/UG8n81nbsnfXbO8tgpclwVe4qNvUHfoJ6iC5JUGNVvgnumG5P3E13NYRjabObvwbF8jniqkMEMlGfrnguotZ83SscbjlfKtNhVvRUSFghZkTQ/82yGdjtShWvHAefaVbNsAnMCDW6yBjg9XjhPHyABugbBT6dTP8QBEV0nC0x/84ODDaU4gF1p/QnuA+eIUJaxr4euLCKhuwE2a8XoV9180P4y5m1rLW8u+AuV7xnaivnqGu9f4gYCpvCPWZOjYNcChYiSliFUKQ8gFPCfg7FIs3RtTfujmYoo3Kg1cPTRkpqBRJNaKNd8EXCjBSyF6Rqx0HrgdGiSU3vNgNqQ0EEm009SEwIPCOQhWdZZAWYZReMdGnP5CnvW7S5iSfDuH01296kBSXfZlR6rZ8oVvliVM8URubHDqMbBFGTXjCJO+gkHkFk9ZTIYXkPUiyNwGTj55KUpRKIzDe5vOJJuqmNyu3Ee0HBLw+9ELiEF6rlnLa2QC7zcTe605iVmabE+9/hvJREDT7COquicWDYpW+cYcdwCk7IBYq4HXVE=
+ D9Htya91KUV05+jEl0mfXZDQA3h9ouN92uwQDRoRYK4OSsOeHRV0RdeqhfZzCs/P8LQTmz662odmk+lkwzmYOaldnTn5eJ2jEDuKirTgX5wUkERhr2SlQa/ZX6kmymFPjloaGIqVu5zObfrY8q+KF1UtD23H7h8NmjcG1J55UlFHZw64mBwD/U9YeXvXvawwBemj6X8iT3R0xw2IhhyTsy4QRRUNWFeQliGl68NyOOketox1Y71fVYmocpFk/GbKk3Nkl3+aw8WUgDo4WnG1fNEslhshI0+Jtbt4//bSy/4WstDmUyo7q3hi7LXXlOqmb9nQoEimU8c1xJMRzRSiKP6FJ/sFv1knQlGo1eoYxnH7ZBe7boQMtfRgQ/2WBdhDchgH6he3v/ioZ0oVk8Ae5STBkbRjytSMVvn01Rpg/PpDcaNzLXmE9oG7XCct5igfaTVrcUBMxRDJK09sydw2s0Gqqyh6VRaJAXZDlf2VfMNnl+rDoLAt07nI5W0Ygebpdo2NA21AWrb45iuVESSmdOYHdezSfDRGcUMxdBAiNtIvSbIyWPAu1/hS6uLsM9HDOs6kEtMC/K0S1LW4QbM7UwrC1fZ5PkHnYwbyD8NJkrU=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5bba03f9-56c1-4613-16bf-08ddc8621bd8
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5672.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f957d2af-58ca-40e6-7b6f-08ddc87748f7
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2025 14:23:05.6978
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2025 16:54:41.3654
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zaF6pguamwbetBbBAJFBQtPdDb90ugYqQCh+y1vMDTxrmKcmSD253t7N50mZypSH8Sxvd6ANr+XlMSXyg3WyA3ut3lDGdUM1Zb05usXEw50=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR10MB7084
+X-MS-Exchange-CrossTenant-UserPrincipalName: D2hGYjQwsMEEWwT2bya1DKxy8C74sizI24H1UhAjl3ah1VPD8IFW2A1IgYfSS1/9Blyy59CQQdHc6iLalkIajQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR10MB7659
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-21_04,2025-07-21_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 phishscore=0
- mlxscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
+ definitions=2025-07-21_04,2025-07-21_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 bulkscore=0
+ suspectscore=0 mlxscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
- definitions=main-2507210127
-X-Authority-Analysis: v=2.4 cv=eqbfzppX c=1 sm=1 tr=0 ts=687e4d4d cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ definitions=main-2507210150
+X-Proofpoint-ORIG-GUID: c4izlKRHnzQN1slICvBYvFg0XcQ2q2eH
+X-Authority-Analysis: v=2.4 cv=YY+95xRf c=1 sm=1 tr=0 ts=687e70d6 b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10
- a=wo0wPpZf16EliCKx6ssA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: a18y85Kfg_Lls3SHGJ2D4XyUeQbE8v4O
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIxMDEyOCBTYWx0ZWRfX1YT1AR6qGBN6
- 7Hj8kEQ9XOcbwLfM5j4jNbmsCeQs1KGqyEjr5tib2qTzYRY2eGXNxPlYfr4av4X9Rpirg7JOvqZ
- NPai2KbHAvg3PJDJjifFyoV9wYKFXW8P9+viWvHsIoN+stykLL+TxRGgORKK5r7MpPXLpSDx06Q
- G1vRtwyKlzknvzZ9yPEn6McEXLB8poBx3HhTvMAFrb8hTpKuWi12rYhtj5WFJE7OKDz2Sgw41iM
- UE9oIOG6BzjvTSf/8G6oWrbvaP8otcxlIr3JwA/dRdFnRuA/C4dIl9pR838vsi8Ml1Fyw4+Dmvw
- XtKWf4XvQvDLqeu1ibzQGGFGqR/YQYBGRi3ZyNHJdEYPRwCQQkS2T2WMiTigsd7Z71OW+zcKRnj
- ZzNoh8P6GQEbfVt0EOIyzN26Pb1PrV41YC3aT2xMF0d/h/dCnTtuYZ8NdtsXL5SEq5t3YzgZ
-X-Proofpoint-ORIG-GUID: a18y85Kfg_Lls3SHGJ2D4XyUeQbE8v4O
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10
+ a=yPCof4ZbAAAA:8 a=DgTYiEJHsjON7zdl5z8A:9 a=QEXdDO2ut3YA:10 cc=ntf
+ awl=host:12061
+X-Proofpoint-GUID: c4izlKRHnzQN1slICvBYvFg0XcQ2q2eH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIxMDE1MCBTYWx0ZWRfXxaFEO+JsWpe9
+ ow0eKT0UZBkkJ4mpmclG2BjDlErNo33DeQ0pgMcYld/P6tiwOrYCM9+bF/gfopN/FgWWZ7HeLV9
+ NmSQNYRGq2FUUpVwI4uELur/EB87wXd7UwnmqYq4gLFjisVPuZ0w6R9INTZvLGYIGOt7LBi8Elt
+ URF7KJg9HE6AVAihijkX6A3CbpO7+pcGJ96bMIz3hIJvC+SMMFsdBhqjXLNW/GF0dKlz1oYJQal
+ us+atXOYrthM07kUZ//CehiBX3zRwnSfX9oWg3riKfgHv+widuY3Lwb3t6VPfjUkkFYetF+1+tc
+ rEk1iXaR7wrfG2TrUrLbPoHGvSUkfpV9wy8QZ9m9kaFhhxgEGUW+HaKWYhkm4BvdpfYpB6mFHGn
+ XHUjxD3gAdYDwRK1zKmOj6PCPAzCURQglcg39ieJUIWm2DQ+u2EEjAyBKaHKNmAn2QL739d2
 
-20240212 NA     tests, actions: fix tst.symmod.sh [2/2]
-20240604 EL     Reduce stack depth if kernel returns NULL frames [2/8]
-20241004 EL     test: Do not depend on ext4 [4/4]
-20241106 NA  [REVIEWED by EL] Allow arbitrary tracefs mount points
-20241107 EL     Optimize USDT discovery a little
-20250208 EL     Eliminate DT_VERS_LATEST [2/4]
-20250208 EL  [REVIEWED by KVH] test: Add test for predefined preprocessor definitions [4/4]
-20250208 EL     Sync up the version numbers [3/4]
-20250219 EL     Extend the USDT bit mask to multiple words [2/2]
-20250227 KVH    Refactor the versioning handling system
-20250325 EL     Pad strings in the output buffer with NUL bytes after terminating byte [4/4]
-20250325 EL     test: Skip trace() of a 1-byte struct [2/4]
-20250325 EL     test: Update some char-array results files [3/4]
-20250501 EL  [REVIEWED by NA] Cache per-CPU agg map IDs [1/3]
-20250501 EL  [REVIEWED by NA] Remove unused map-of-maps functions [5/3]
-20250501 EL  [REVIEWED by NA] test: Convert tick-* probes to ioctl:entry for tst.trunc.d [2/3]
-20250501 EL  [REVIEWED by NA] test: Mimic dtrace arithmetic more closely for avg/stddev [3/3]
-20250527 EL     Snapshot aggregations just in time [2/2]
-20250603 EL     Omit an aggregation record if translation fails [1/2]
-20250603 EL  [REVIEWED by NA] test: Make the USDT "only enabled" test more stringent
-20250608 EL     test: Wait for output to flush out in enable_pid
-20250609 EL     test: Suppress some white space
-20250610 AM     dt_impl: bump number of TSLOTS to 8 [2/4]
-20250610 AM     dtrace: add tcp provider [3/4]
-20250610 AM     dtrace: sync dlibs with tcp.d, ip.d and net.d changes [4/4]
-20250610 AM  [REVIEWED by EL] dtrace: move get_member() to dt_cg.c [1/4]
-20250610 EL     No uprobes on ARM autiasp instructions
-20250613 NA  [REVIEWED by EL] libproc: make Psystem_daemon() detect modern systemd properly
-20250625 EL     test: Extend timeout for many-pids test
-20250627 EL     Make sure all probes are listed in default case
-20250703 AM  [REVIEWED by EL] test/utils: add more reliable "get remote address" approach
-20250708 EL     test: Skip err.Z_no-w for now
-20250709 AM     cg: bump number of TSLOTS to 6 [2/7]
-20250709 AM     dlibs: sync ip.d, net.d and tcp.d [6/7]
-20250709 AM     providers: move network-generic definitions to net.d [4/7]
-20250709 AM  [REVIEWED by EL] cg: move get_member() to dt_cg.c [1/7]
-20250709 AM     tcp: new provider [5/7]
-20250709 AM     test/operators: extend ternary tests to cover inet_ntoa*()s [3/7]
-20250709 AM     unittest/tcp: update test.x [7/7]
-20250710 AM     selftests/usdt: add test covering different forms of stapsdt note args [5/6]
-20250710 AM     selftests/usdt: add test for stapsdt note-defined probe firing, args [3/6]
-20250710 AM     selftests/usdt: add test for stapsdt note-defined probe firing in -fPIE binary [6/6]
-20250710 AM     selftests/usdt: add test for stapsdt notes in shared library [4/6]
-20250710 AM     support stapsdt ELF-note-defined static probes [2/6]
-20250710 AM     usdt: have copy_args() count args while parsing them [1/6]
-20250711 EL  [REVIEWED by NA] Need -w for destructive actions, even if clause is not used
-20250715 EL     test
-20250715 KVH [REVIEWED by EL] cg: optimize ternary expressions for strings [3/3]
-20250715 KVH [REVIEWED by EL] cg: validate tstring alloc/free [2/3]
-20250715 KVH [REVIEWED by EL] parser: add dt_node_is_tstring() [1/3]
-20250715 KVH [REVIEWED by NA] provider, cg: add reject_clasue() callback [2/4]
-20250717 KVH [REVIEWED by EL] tstring: fix leaks
-20250721 KVH    dlibs: use explicit vmlinux`major_names [1/3]
-20250721 KVH    test: change .r.p files from /bin/sh to /bin/bash [2/3]
-20250721 KVH    test: sdt:task::task_rename takes only 4 args on newer kernels [3/3]
+Reviewed-by: Eugene Loh <eugene.loh@oracle.com>
+
+On 7/21/25 09:34, Kris Van Hees wrote:
+> It is better to use explicit module`symbol references in dlibs so as
+> to avoid loading modules needlessly.
+>
+> Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+> ---
+>   dlibs/aarch64/5.11/io.d | 2 +-
+>   dlibs/aarch64/5.12/io.d | 2 +-
+>   dlibs/aarch64/5.14/io.d | 2 +-
+>   dlibs/aarch64/5.16/io.d | 2 +-
+>   dlibs/aarch64/5.2/io.d  | 2 +-
+>   dlibs/aarch64/5.6/io.d  | 2 +-
+>   dlibs/aarch64/6.1/io.d  | 2 +-
+>   dlibs/aarch64/6.10/io.d | 2 +-
+>   dlibs/x86_64/5.11/io.d  | 2 +-
+>   dlibs/x86_64/5.12/io.d  | 2 +-
+>   dlibs/x86_64/5.14/io.d  | 2 +-
+>   dlibs/x86_64/5.16/io.d  | 2 +-
+>   dlibs/x86_64/5.2/io.d   | 2 +-
+>   dlibs/x86_64/5.6/io.d   | 2 +-
+>   dlibs/x86_64/6.1/io.d   | 2 +-
+>   dlibs/x86_64/6.10/io.d  | 2 +-
+>   libdtrace/io.d.in       | 8 ++++----
+>   17 files changed, 20 insertions(+), 20 deletions(-)
+>
+> diff --git a/dlibs/aarch64/5.11/io.d b/dlibs/aarch64/5.11/io.d
+> index c153d5a2..c968a7d3 100644
+> --- a/dlibs/aarch64/5.11/io.d
+> +++ b/dlibs/aarch64/5.11/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_disk == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->bd_dev) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_disk == NULL ? "nfs" :
+> diff --git a/dlibs/aarch64/5.12/io.d b/dlibs/aarch64/5.12/io.d
+> index 09968d5a..6f60ae05 100644
+> --- a/dlibs/aarch64/5.12/io.d
+> +++ b/dlibs/aarch64/5.12/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_bdev == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_bdev->bd_dev) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_bdev == NULL ? "nfs" :
+> diff --git a/dlibs/aarch64/5.14/io.d b/dlibs/aarch64/5.14/io.d
+> index 09968d5a..6f60ae05 100644
+> --- a/dlibs/aarch64/5.14/io.d
+> +++ b/dlibs/aarch64/5.14/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_bdev == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_bdev->bd_dev) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_bdev == NULL ? "nfs" :
+> diff --git a/dlibs/aarch64/5.16/io.d b/dlibs/aarch64/5.16/io.d
+> index 09968d5a..6f60ae05 100644
+> --- a/dlibs/aarch64/5.16/io.d
+> +++ b/dlibs/aarch64/5.16/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_bdev == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_bdev->bd_dev) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_bdev == NULL ? "nfs" :
+> diff --git a/dlibs/aarch64/5.2/io.d b/dlibs/aarch64/5.2/io.d
+> index 5111df28..10666806 100644
+> --- a/dlibs/aarch64/5.2/io.d
+> +++ b/dlibs/aarch64/5.2/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_disk == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->__dev.devt) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_disk == NULL ? "nfs" :
+> diff --git a/dlibs/aarch64/5.6/io.d b/dlibs/aarch64/5.6/io.d
+> index 5111df28..10666806 100644
+> --- a/dlibs/aarch64/5.6/io.d
+> +++ b/dlibs/aarch64/5.6/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_disk == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->__dev.devt) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_disk == NULL ? "nfs" :
+> diff --git a/dlibs/aarch64/6.1/io.d b/dlibs/aarch64/6.1/io.d
+> index 09968d5a..6f60ae05 100644
+> --- a/dlibs/aarch64/6.1/io.d
+> +++ b/dlibs/aarch64/6.1/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_bdev == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_bdev->bd_dev) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_bdev == NULL ? "nfs" :
+> diff --git a/dlibs/aarch64/6.10/io.d b/dlibs/aarch64/6.10/io.d
+> index a1458d6f..45e7aa63 100644
+> --- a/dlibs/aarch64/6.10/io.d
+> +++ b/dlibs/aarch64/6.10/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_bdev == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_bdev->bd_dev) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_bdev == NULL ? "nfs" :
+> diff --git a/dlibs/x86_64/5.11/io.d b/dlibs/x86_64/5.11/io.d
+> index ae4b62c3..b9f33433 100644
+> --- a/dlibs/x86_64/5.11/io.d
+> +++ b/dlibs/x86_64/5.11/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_disk == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->bd_dev) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_disk == NULL ? "nfs" :
+> diff --git a/dlibs/x86_64/5.12/io.d b/dlibs/x86_64/5.12/io.d
+> index 0432b02c..7ce005f9 100644
+> --- a/dlibs/x86_64/5.12/io.d
+> +++ b/dlibs/x86_64/5.12/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_bdev == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_bdev->bd_dev) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_bdev == NULL ? "nfs" :
+> diff --git a/dlibs/x86_64/5.14/io.d b/dlibs/x86_64/5.14/io.d
+> index 0432b02c..7ce005f9 100644
+> --- a/dlibs/x86_64/5.14/io.d
+> +++ b/dlibs/x86_64/5.14/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_bdev == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_bdev->bd_dev) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_bdev == NULL ? "nfs" :
+> diff --git a/dlibs/x86_64/5.16/io.d b/dlibs/x86_64/5.16/io.d
+> index 0432b02c..7ce005f9 100644
+> --- a/dlibs/x86_64/5.16/io.d
+> +++ b/dlibs/x86_64/5.16/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_bdev == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_bdev->bd_dev) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_bdev == NULL ? "nfs" :
+> diff --git a/dlibs/x86_64/5.2/io.d b/dlibs/x86_64/5.2/io.d
+> index 415bbb4c..d2af79c8 100644
+> --- a/dlibs/x86_64/5.2/io.d
+> +++ b/dlibs/x86_64/5.2/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_disk == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->__dev.devt) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_disk == NULL ? "nfs" :
+> diff --git a/dlibs/x86_64/5.6/io.d b/dlibs/x86_64/5.6/io.d
+> index 415bbb4c..d2af79c8 100644
+> --- a/dlibs/x86_64/5.6/io.d
+> +++ b/dlibs/x86_64/5.6/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_disk == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_disk->part_tbl->part[B->bi_partno]->__dev.devt) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_disk == NULL ? "nfs" :
+> diff --git a/dlibs/x86_64/6.1/io.d b/dlibs/x86_64/6.1/io.d
+> index 0432b02c..7ce005f9 100644
+> --- a/dlibs/x86_64/6.1/io.d
+> +++ b/dlibs/x86_64/6.1/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_bdev == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_bdev->bd_dev) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_bdev == NULL ? "nfs" :
+> diff --git a/dlibs/x86_64/6.10/io.d b/dlibs/x86_64/6.10/io.d
+> index 92704839..716727ce 100644
+> --- a/dlibs/x86_64/6.10/io.d
+> +++ b/dlibs/x86_64/6.10/io.d
+> @@ -131,7 +131,7 @@ translator devinfo_t < struct bio *B > {
+>   	dev_instance = 0;
+>   	dev_name = B->bi_bdev == NULL
+>   			? "nfs"
+> -			: stringof(((struct blk_major_name **)&`major_names)[
+> +			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
+>   					getmajor(B->bi_bdev->bd_dev) % 255
+>   				   ]->name);
+>   	dev_statname = B->bi_bdev == NULL ? "nfs" :
+> diff --git a/libdtrace/io.d.in b/libdtrace/io.d.in
+> index 6d43444a..a869ddae 100644
+> --- a/libdtrace/io.d.in
+> +++ b/libdtrace/io.d.in
+> @@ -130,10 +130,10 @@ translator devinfo_t < struct bio *B > {
+>   	dev_minor = B->__disk_chk == NULL ? 0 : getminor(B->__bio_part_dev);
+>   	dev_instance = 0;
+>   	dev_name = B->__disk_chk == NULL
+> -			? "nfs"
+> -			: stringof(((struct blk_major_name **)`major_names)[
+> -					getmajor(B->__bio_part_dev) % 255
+> -				   ]->name);
+> +		? "nfs"
+> +		: stringof(((struct blk_major_name **)vmlinux`major_names)[
+> +				getmajor(B->__bio_part_dev) % 255
+> +			   ]->name);
+>   	dev_statname = B->__disk_chk == NULL ? "nfs" :
+>   	    (B->__bio_partno) == 0 ? stringof(B->__disk->disk_name) :
+>   	    strjoin(stringof(B->__disk->disk_name), lltostr(B->__bio_partno));
