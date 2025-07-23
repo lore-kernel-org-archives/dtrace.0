@@ -1,78 +1,87 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090F02E371F
-	for <dtrace@lists.linux.dev>; Tue, 22 Jul 2025 22:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB572E36F8
+	for <dtrace@lists.linux.dev>; Wed, 23 Jul 2025 00:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753222375; cv=fail; b=Zw9rZXWjcoJC8DUz7jPaRJttlz9AozSuu89SfLngO5nuCWixr28KAKRaDNLqdVEHgmE5Aq4+XqS0r7nLUXAIcD0PGO/dnGLoHlaAcnTfW4caJnOOPBpg2wj3rwZnNsosxh2XJuxazE+xJbxZWWnU0xgeavRLOy3p6RY+/nvWLUM=
+	t=1753231667; cv=fail; b=Fpz7Tj8+cUsTvUMnQA3QzgteWu/FKXGUQtWC/ckzh8hDYZHax0Ps2WBfvoqUFskaVtgTSYTXpRFD8xyvqvpj6Kyd1syxqBr2wFGXNMAJFgYY/IOH0sFAhegL7umZFwv6bRx/ATxP/akLI9tRjdb7V4hZpszhCecC83hktSFr8Vo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753222375; c=relaxed/simple;
-	bh=MQQVfBPHJsO8ClXm8UgjSGglKU3uArhDlfmBJPxB7lo=;
-	h=Date:From:To:Subject:Content-Type:Message-ID:MIME-Version; b=UxX6Wm8J7bOCsK5msS1B1RQKDUenYOQVEjTsx4yrokow/ZdEGwZXJKop9s1+fSH0LHu2XXq9eVkKaoiOsrWS9tghm4/boW87KUXiXO2WYDHsa2kjjDkDqQh5ur2xaSmzAC29ZYUo4Cjr8UxTH+hvFe/7mW69Vh4WcHANObTXZXQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=LrbmLYie; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=lPce5q9u; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1753231667; c=relaxed/simple;
+	bh=F8f/5cjiL0F/kOUbMuzgdc8O0Q58gHy9TGo7wqMLoXA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=YeFDYlG8IdMETcTRDQmMDSk0Neq3lj45vxOXJ3nDJ6BrQq32FbR6AEJ45UqJ/55ybbHPeOtdA48HrM3CcZfZBCZgIgLF5iThdDtbNFHHw1W0VTL1GNbTFVDsJo91vF26jrK6VCl6jOwUU4d3RgFrlNqQr2ykfUNbCHeDbSvnO2g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=fFBz55NX; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=i3H67mH/; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="LrbmLYie";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="lPce5q9u"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56MLDesU024050
-	for <dtrace@lists.linux.dev>; Tue, 22 Jul 2025 22:12:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-type:date:from:message-id:mime-version:subject:to; s=
-	corp-2025-04-25; bh=xy3y3dtc0PLKjHpXiGxsFfW5D3U9QCv4S6HH2Mxv3aM=; b=
-	LrbmLYieZrcuA6SYU3oMX+dU6YaaBGiBzLZfzjyqIy0eZ2Gyk4Gt/8IAOqBMgqsx
-	mU0uPBppUImAEB/MS8P2WogfCX2NZhpCGsiTsBmoT+Vb8uSU03uPKmmJr8zfMNCM
-	u4UkrA2SEtseXs6V8wzd9+4tX0aq4j60lTFmELUp2V6L8EVdrd+Mtl0y3htDHu9h
-	KAnFSTybsSnFSjhZ66EwolO198h8AEZp4ziB5WSKiH9IDyf4pYXZ/9GYHTs5+SmJ
-	SlGINRR7cau9o/l/N6ve208n5RxZPJSevPb22XjMfNcs+FpxLEaz8oXMUOcJzUUN
-	RgJMfBbb8Jp4hBIgFSYOBA==
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fFBz55NX";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="i3H67mH/"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56MMQo1v001854
+	for <dtrace@lists.linux.dev>; Wed, 23 Jul 2025 00:47:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=tVe3S1l+TU9+RCleUG60Z1BkKDEdWFPaNFTTXxAE+kw=; b=
+	fFBz55NXQQLcRYaonoZHzg+wMRoRcDch9gg+bj1JqXUH79RVHYc36UhUqJL6CoOM
+	EUDsrLku//UvhpF4/bZ/6SE4DahzMBefj8zUr8KzowtcemqWyX+uCo7Es4Wmzd9U
+	lVfXFTRc3Md0BmgyYrNGpSR54zNJx8ndKETiW6RZ+DP5iP+EZs1ooITmrYKSvfjN
+	5JYLyrw62aW0yQQJPMOaXRMkRvWldaXsAVKxeH1B0Dlx8cQgykFM0JMtMlUZSgH2
+	gkPwZ6SuTZb90U4WkCGzt00d8D7yZ6CBX5sJ93hPIhxfyjXTL0Efogf0fdOlfC+C
+	J+ShpLNk30JfuAGwisa4tw==
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48056eebx3-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48057qxmq1-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 22 Jul 2025 22:12:51 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Wed, 23 Jul 2025 00:47:43 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56MKq6GQ005811
-	for <dtrace@lists.linux.dev>; Tue, 22 Jul 2025 22:12:51 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11on2049.outbound.protection.outlook.com [40.107.220.49])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4801t9vfx4-2
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56N00Foi005971
+	for <dtrace@lists.linux.dev>; Wed, 23 Jul 2025 00:47:42 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12on2067.outbound.protection.outlook.com [40.107.244.67])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4801t9yxa2-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 22 Jul 2025 22:12:51 +0000
+	for <dtrace@lists.linux.dev>; Wed, 23 Jul 2025 00:47:42 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Nzlgixe5Oeph9vGjJowwXGXUU2kVMArl5KHZsH23S+E+MY9QmFYlMcvVptunVplw2idGudifZWI2ndGN4NA0swTGgq0KdNPvonwYDxN2lEjUGIa6fZDOd7YRj6ooSwglpuLj9vRTMl7ReeFA61qJWp+JQllML4jd7HW5wbd0QMlIpRM9uYIsM3AGWW4ZRwK2XGNqc4TmSAJ0PbX1LsSE2ix9ImgvJusGNkejCT4ZSZ4n1cZDwCnQ5TZlpvfDMiwF6vOKVirqj4XE69jO9jI06dbbuhdTT1eLgpQBFTqD+XZS4MhtunnoWe2CqL8FvdPd0RWWIwSQLNisf7066dfKlw==
+ b=lzEcpljaSlHq9WhJEbLaDL2R6XwhNP8eW3w+EYAl2R1diWHdnccGK1bljlD5IuEe2mXONdkXOqwSF4oqRv/0DMtkHdrwPJ1vF8w+ggCcZIo0ySxbqInAQMPF0+OOW8e1pRGExHpcyd8qo0s1Ix05YPuMUqxQMQ19mbXwLp8IGSH9MhYcE0fexFYtF46Wpg18KZ27usmdfrHBbtOK1cfLOFDGA00abug063IMHpiJHE2iy17RSTc8WV4RzIJgsRXbGX/OJ05ajefXDnEKvJKJx4x7PA7Gp2LoslrfO+L1ZcXV72lRWWUMVR//aDKKyN6YV5VGt5JFrvmmrCJ/5btS/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xy3y3dtc0PLKjHpXiGxsFfW5D3U9QCv4S6HH2Mxv3aM=;
- b=NQ2fcdPKbqY1BgfINpHeY9ll2QLMDBGni3LJ72CAGJ9MMdKpuI8B4kpULDcishqL8RUQS8dUGO+u4sbVOzCAkSKthiiTDjUKk9VE9w0NOqS4WFXJ1Vlo16Ixu8CKSpeRePzxXiUn62KJpLOrIyjdFHo2ewnq/A4/2UyDjo4p2MJTG6vegP9lRsBSZpoPITXqSOgaxNXtMBVgGsDcuu4Yvqn5sl4vF02pa+mjDVKy4H7nzOnosyMsidSCBGxPkocZF/jwlYPOl/d82HcDWR+N5TJGSOI/qOvv2G7zNMu5kr5mJFKNtAazqhgfdw45hpg7hcNHw51Rkrnin8Dc3Si32g==
+ bh=tVe3S1l+TU9+RCleUG60Z1BkKDEdWFPaNFTTXxAE+kw=;
+ b=taw1PJ/cbOdInOA186aZrOdb1EdkDce5VeSHH94nb0OTuTzDXZ9C5kP1bPSttiQr5FvIuCmmcd6wG2Lcpy4SX9CHcxqHRPq5HLFue6LUYXMccUK1bdHlBWJXgO8mgznzrS8uAo/Qyzpc4NvzQgajchoemF1TKvt1miFxmZ64vjszGtfv+50mA87iz6hxfYQ1IoB3DsRkKWkkLiAkcG9RygypqNEQhrGQJFVCRkr+bD6gjeWWZDBE6z5nQ0TxBHdwMg7HvxYjhDm4pz0RcLVDDy1YiriLYJkPQLWc6rKpBElbP05jfBcoynyxZJRydXC2AgbCP58fFZhoS1NOkxypRg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xy3y3dtc0PLKjHpXiGxsFfW5D3U9QCv4S6HH2Mxv3aM=;
- b=lPce5q9u/MchVjbeuvDlpwSvugEjMvV1sXeQ8t82uInnaphmZNSDsUZ8mKO7GLO3ol35IRJSds3urgtbsZAMYXJmAGA334UBCiYC1tX47gsnM2MPtc4gFl9resZahFNMy+sSLiJdnB0u8pW6/lnHTr6jGNNpV/A737fEfZ/FBwM=
-Received: from SJ0PR10MB5672.namprd10.prod.outlook.com (2603:10b6:a03:3ef::21)
- by PH8PR10MB6528.namprd10.prod.outlook.com (2603:10b6:510:228::17) with
+ bh=tVe3S1l+TU9+RCleUG60Z1BkKDEdWFPaNFTTXxAE+kw=;
+ b=i3H67mH/5VwJcENolL3mCJSnIinfxpDrDBm5siuR7DlqfnXdP+zkaGMWZW953GwXgpzVdgPdJJNKVRMi57hvgvzYeU4JlP+P34jygAFv5dhJn2iUL64ahf75QyX4fMOvDvsO7yINUJLxFFWqTuPXIR5Feq8ee29z1yJ6qiar3FQ=
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
+ by DM6PR10MB4364.namprd10.prod.outlook.com (2603:10b6:5:223::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Tue, 22 Jul
- 2025 22:12:48 +0000
-Received: from SJ0PR10MB5672.namprd10.prod.outlook.com
- ([fe80::8800:9203:9f66:174b]) by SJ0PR10MB5672.namprd10.prod.outlook.com
- ([fe80::8800:9203:9f66:174b%6]) with mapi id 15.20.8922.042; Tue, 22 Jul 2025
- 22:12:48 +0000
-Date: Tue, 22 Jul 2025 18:12:47 -0400
-From: Kris Van Hees <kris.van.hees@oracle.com>
-To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH] lexer: support // comments
-Content-Type: text/plain
-X-ClientProxiedBy: BLAPR05CA0017.namprd05.prod.outlook.com
- (2603:10b6:208:36e::29) To SJ0PR10MB5672.namprd10.prod.outlook.com
- (2603:10b6:a03:3ef::21)
-Message-ID:
- <SJ0PR10MB56728D6097EC38EDA2B06306C25CA@SJ0PR10MB5672.namprd10.prod.outlook.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.39; Wed, 23 Jul
+ 2025 00:47:39 +0000
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::8b24:5536:3259:5a69%6]) with mapi id 15.20.8964.019; Wed, 23 Jul 2025
+ 00:47:39 +0000
+Message-ID: <95c36276-7cf5-68fa-6217-6ae65f9f9728@oracle.com>
+Date: Tue, 22 Jul 2025 20:47:36 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v2 2/2] Extend the USDT bit mask to multiple words
+Content-Language: en-US
+To: Nick Alcock <nick.alcock@oracle.com>
+Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+References: <20250625060305.15707-1-eugene.loh@oracle.com>
+ <20250625060305.15707-4-eugene.loh@oracle.com> <87ms8w5rqa.fsf@esperi.org.uk>
+From: Eugene Loh <eugene.loh@oracle.com>
+In-Reply-To: <87ms8w5rqa.fsf@esperi.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PH8PR20CA0023.namprd20.prod.outlook.com
+ (2603:10b6:510:23c::29) To CO6PR10MB5636.namprd10.prod.outlook.com
+ (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -80,333 +89,442 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5672:EE_|PH8PR10MB6528:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ea34e91-714d-47f4-5576-08ddc96ce484
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|DM6PR10MB4364:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4aa5bd24-c42b-4cfe-2864-08ddc9828654
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|13003099007;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?yCxbLgnALbgac+rZyNMOKgj8xE3ucW8i82AdvDsxKmafTbOLnV2c2AXO6qv/?=
- =?us-ascii?Q?anc8VKvaXQ/XCSv2mutT5fHWS0kB1YrGcvIo5SBH9Mctea18CQtLtLLCXfQb?=
- =?us-ascii?Q?W/+qZs402RgVeUUqizSN7LmMlV9mUVLYy1dYuK8oMJU+f2c4pOFF6V3yJAXg?=
- =?us-ascii?Q?2Pv3M5mEYGuhr0H3G/rXcfDtNooatCCe1yh2c/armBbMrCh/VvWyYnZdM0yZ?=
- =?us-ascii?Q?dTI+JskOw5w/9mTHWSm5FryaPEZ8WUYi6RvUrlQtaUB0Ph25h8I2GyB8cazq?=
- =?us-ascii?Q?nBA6Wf17WWSGK3l4Fb3/jJz/UHerJ1D4DbSlSjzduiPBqjogFbicKbwOrZw8?=
- =?us-ascii?Q?kLefzKoHny+1CHGRZktCWnYSXd0kKsGhXhoXhlrJ92Ca2tMRUEOSRVZtEFcj?=
- =?us-ascii?Q?QA3kQA3dUbvt+0hOm/NPMsx9Ntv2dfBFNXgq6DBaUwd6kckU0DzNHMkvKh7z?=
- =?us-ascii?Q?mZRhC3V2Q9G0kKbVb5Fn/fZiUS9tpO3bIsi4tzBdzaj+SP4ejji3aX4P/np7?=
- =?us-ascii?Q?16MJV7Bgv4jl9frrsthn92iLawAHYZVOYXp1OqK1TPe64NVw9IOgZwnmonX6?=
- =?us-ascii?Q?Iqow1K9566eh04y4wVMsBsZJdLqpY/IawyXYFlg5/hhFEIfW4/tmm4PzmnqU?=
- =?us-ascii?Q?kGbNXq0V9kbUcoJc+bhySik6+CWcQO5WA8xdkKD1NnWpLM+wJROGtQDm9l3M?=
- =?us-ascii?Q?uhe9tXv9/nczUuphiw+ecLEZq6yHX6XdvsEFwJpyheQ5QZyQ464V54LO5H9N?=
- =?us-ascii?Q?ftTdFzSOyZlukQd2jBaxIE0M7cYXQA5oue+xFoSe94i4VxVLYjb21TCmXrGd?=
- =?us-ascii?Q?ddBIC+M2tzgESi1dPnsh+0l4FdpqOXRXu6O+AqbBjf3abxwaEslaCACqbYJd?=
- =?us-ascii?Q?lKEGKBdnaX5q3JPPxWQ0PCzxLlZdc0vKFxpvjANasbE5+gcFa0BzROY+1/Vh?=
- =?us-ascii?Q?sr3jgMhXParh556hMDKNQGMAEaEfY3J20GIfKkrPBwuiscHSz3lNYZ2lN8MS?=
- =?us-ascii?Q?p6Kea0YJ9bKmMbckX5NL5f8292KSwa5G8NCmFNDA94ULUYToExxGW/gGjbBG?=
- =?us-ascii?Q?5//s6a3GUIFe9EPSLiVsWxkTiBaYBaNHlagRy/DPnNsDdxz8PcL+tQ741Rt4?=
- =?us-ascii?Q?Xm1f1nDYOvNzwunViPby5T13e0M1eWoQAUFtlJj31Niw5Y7gHFMtrzsQMicE?=
- =?us-ascii?Q?w1RqXhTuLQcOHI6CbNR7VJzT2x75xpe1N7E0bGqi4V8kZeAxCycq8Gsch9yN?=
- =?us-ascii?Q?87xR4GdJYB0nEnehI0I3QUqtX+OLu/Lb4HwzhUGIBTzl0Ei9mC+jzG4SKlO+?=
- =?us-ascii?Q?LKx5YFisoVTHo5dPfL6+Bp155uYVcJdENJuzdPjPOhnaVtdxUrA2+RiF8zos?=
- =?us-ascii?Q?WJ43Kya+HFX3RxduVdhkvIZo/m0KGy8f3DpoHvORIu4x/zFFcJQPmmG+dSJM?=
- =?us-ascii?Q?iTL/ZPN/FeM=3D?=
+	=?utf-8?B?SmVyekhRaGp1YTNKb3k5cCtYY09nemFVZlhTWHNnQ3NCRU9XZER4MGhOL3BB?=
+ =?utf-8?B?aUQ3UXZFUW8wbm1DUVI0UURSN3YyYTQyZGFqMGNRbHh5VXVhNFE2QnpjVDBM?=
+ =?utf-8?B?TUxLc2xMUzFsU3FIQktoUnRCUUFhaUNWL253MlpCRm5sNFFUR2NmNVByVjVS?=
+ =?utf-8?B?OE9lYXhEbE0yKzNpY0ZaT08rVnp0TTFTM1NuRWFHREc2OG1ON2oxSkYwS3lT?=
+ =?utf-8?B?RGl0Z0p6VFRtaUhuR2xMKzBHZEtiMjd5RkpMM1VMYUJaMGFpNlpDQnJrMzl2?=
+ =?utf-8?B?ZFNjc2diUUhOQWV4WnJTbWFNQ3Vld3YvRHVXeWhodTZWek1QNzNBZmkrZ1lI?=
+ =?utf-8?B?VWVQZ010Y1VDb0RsejBtZ0t5UEJSdGU4U2Fkd3k0KzZmMlh1citaQmwwL05y?=
+ =?utf-8?B?T3BtaTczcXBHSkFCcFZnalQ1eU9IODBIYlNIZ0NSVkw3KzZnVGp1TFVjMTRm?=
+ =?utf-8?B?RU0rWks0TjkwdGFObVMvN1I0K2NiUytBYmc3MHlZSklVS09TMTY1UTJxUXor?=
+ =?utf-8?B?amhXQnFOTUM0Yjl1NTNKUmZycmxSUHdBSnpvdFdadzdET2NCZjVtT2sxdzk3?=
+ =?utf-8?B?MCtMWXdRVXZ6N1F4ckR3TW50UEhPdTdGMmUyT2RERnFaSzhvS01uZ3FnYnF5?=
+ =?utf-8?B?ekpLNjlrZG1GT2g0aDFHcWdFZ1dySXd3NWJNMVJ4MVQ2aWNJaW1XbGRmbCtt?=
+ =?utf-8?B?aUlwRzAvL2YyblFxZ0k1bzFaMnlUWWFLdzhnMElrRGJTR21hN3ZmMnF0NWVo?=
+ =?utf-8?B?a1NZMFRuT3IzTlNaek04V2ZNaGNBd0daaGZYOXFvY3Y1NklrQlZUaGxCTTlu?=
+ =?utf-8?B?YmI2b0JVTDBxN293ekF5cGhzeWNXSEZsRUtLYlQrdHhUN0NIQWdjWVVHVTRx?=
+ =?utf-8?B?VVIxa3dJUVZZcjluTUJDMm5mRDFITHcwWnlGOWM2THp3WEZtV0duYm1SZzE2?=
+ =?utf-8?B?RC9jNERvSE1LeHJZUk9zR2FwUEtYdHlTRWdvN2pmWXBiY3JvNmg4WmxmMFRk?=
+ =?utf-8?B?K05MN2EzRHpiNFc5V0tBbjR0VGxRUlZjaWhxSy9wUWpXbW1qSDhaQ2xBRDNJ?=
+ =?utf-8?B?MUIzWDFONnI0aFEvbXpnalBWY1lISmgyaGg5cEZHUVlmWDQ0WHlCWEYvaExi?=
+ =?utf-8?B?VzUvQ2VsWEF1TktsUG9xd2V0RFlJY0FtcjJQVmpRa0RNY0FEZzI2enNGdkw5?=
+ =?utf-8?B?MEZ4eWpEdmY0NnNQczd5Z2docEZPdXI3RjJuWUdNa1A0eGdTMkpmNm5ZSE81?=
+ =?utf-8?B?QnF0elBLczFOUVRSNkxTQmNQUTREYjZtOUx3R1dBNkhyc3hiU01jZktoTjJU?=
+ =?utf-8?B?Y2VlUkJuY3ZPWXdPZVFLRktML2E4Z01kM0l5eGhndElubUtVMGJoK2FVdmVm?=
+ =?utf-8?B?N0pBOEttQWxCb0lOMmhiZ3M3ODV2Q2VNS0xYbHUrYUdDakFMb2ZxMkF5dVJn?=
+ =?utf-8?B?TEQxWjJpaDU1emlaRGdNNDZ6LzYxWWNyRTFNMGRLMHJzdWwyZUloRkhERmhH?=
+ =?utf-8?B?d1VuVDlxNVBIaGxDc3FRNHVJWFg5c29iTE9SZzdwUG9kOXdBSDlMWGFKbDVY?=
+ =?utf-8?B?SU1kSmM4eEg3MGx0ck9lT3N0czFBSGQ1d1huWStFL1dpbW9pSHZ3cVhGY1ZP?=
+ =?utf-8?B?Z0wrakJFVXVmcFJQY2ljcXFkRWNLREdFcVpMdXp1bVQzSU45YzZXWE9YaGN2?=
+ =?utf-8?B?WW9JaTBOdjdHc0JmNG9ZSzA1azRhNmVUTmZ6eEoySUxvUTRtV2t2eDRyckVM?=
+ =?utf-8?B?eDJmQTBRSnVPTUp2K2h3d0EwQUlmSVJQNDRDQU5xa3NMQ1kweUl4d0ozcklF?=
+ =?utf-8?B?WTFlNjdtZjlSN0lMMWVZL0pLNTZLY2pMM3c4UitiYS81cm5iUUxTWHhvbDcx?=
+ =?utf-8?B?VFY1eXVGbUlBdUhiKzNrdzdFTjFPT0JMcWdOZzRMa1JZem1iTWhpQ3MvM3gx?=
+ =?utf-8?Q?8SbjfHEqJ6s=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5672.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?R2mJtJcNOxdNoozLbmxE0k2c/j8QV1MRYJzbla7jX18elIvY9Gv8BV/I0NC+?=
- =?us-ascii?Q?YEq4LOzSsrBPA2Oxs/W8ZbflhfW/ivlcI31eB7ZqvIVZdQAKl+ALsEjm/ARG?=
- =?us-ascii?Q?qDsicOoccLG/mGAgvjqiGfK5vV4duKi2e7sZPGPjAvg7IT7gjCo68YS8O2wt?=
- =?us-ascii?Q?7GoWaVfuD2v1LjDZzwYGwN5OaKTnxXRaHRV/obGBykJoI3oNbZGl8DWZ1x7l?=
- =?us-ascii?Q?gFxpPOTLjBd6Ul5SyK8CCp78kAla6apAWfJ/Lnb9AjOLbiEmWO6EA6cSg65o?=
- =?us-ascii?Q?kocLh+M/EyNxkrNbDi2pbB0r0Dodgpt5STAFNK8H5AhGDOQXfXMwWsq13QZZ?=
- =?us-ascii?Q?/PrZBl0dddgMciOZol8RCapOK/boYFTj820Tl65kihiorIFUjczgyXVI65u1?=
- =?us-ascii?Q?q2aUiowiW3tLa1nfB4eVvmIMfweXI2axocsTaIoKCvdGhs1RxvowGST60VHf?=
- =?us-ascii?Q?yvrTxDgiRs1Rr24Ejc9ISG3ExjK2jgaWW4hZQhksYo5WYT9bhMuS3xs/a95M?=
- =?us-ascii?Q?UDUp5TBX0iKkWOoeVhRPuSI94eWg1ESpH0IdNcZ4JmkrXGxjZ2zqMFcXXGMC?=
- =?us-ascii?Q?gfeCZjLiOs9971gDaXMpk+f7V62jEe4LMvGU+Y7UbFhyw2b6GMS6630vPgjw?=
- =?us-ascii?Q?jZkuKbxNHTxFaXV7veR8JTZaZKRd1bWOpmmdZYywf4SlTF12Jxb9FG404jz9?=
- =?us-ascii?Q?TbGM84k1bOyIzAOljNA4iEFKjYPpkfkadhFHQR16r86lKM4hVHLRyQ6mWLwf?=
- =?us-ascii?Q?FU6zCfEJ72ZSM8VPG9FhRYjMqB9bJT+xdoYDRF5UKpCVUzZknxRji7EIGUGb?=
- =?us-ascii?Q?K7yqvnknZhO6U1VQE6RlGLFNaJbVVTGhB+TG7ixfbIlGq0Cc+DVqvSsD/ck8?=
- =?us-ascii?Q?viJSPV9CBEPghy02Yp9Kzm5u32dZP+GtuwRdU6dI/AYsPhgknlQEsJqxc2uA?=
- =?us-ascii?Q?5LGJ3xyEIrPXdmIAvlEVBo5y3/NBNLl2JasbzDKW0E5NAm5sSJhKRdbAw9GK?=
- =?us-ascii?Q?NsBvkW9sf1DDt0to0z3eQYFqijpcAOP/9NniI4vqZ2ClZ0X8OR+sBLKni80a?=
- =?us-ascii?Q?DsbI+GWxiB7SakNEeF7gzt1ZzUFBKF45MyzuMLD7/kM1rJIRZYaur8p9lwVz?=
- =?us-ascii?Q?wGesTm7QbpDYHlROksTewbQPNRqM8aMjv1oUDYVt9lbnkZICNrRHKnx8CuRQ?=
- =?us-ascii?Q?h5oxdrXSObEDheTUNgdcNyWQG57+QMk6FHwaTBpf5a83V4TxH+PHH3npndHb?=
- =?us-ascii?Q?n6bSiEoox/ejxDdUhHz/cznZOTvJ3yqYC1snW6zE1XehkkUwkb/s1cywpmJ1?=
- =?us-ascii?Q?py0z8Oub7Cn4M6AHnIgO7pNgJigimpZeq8x2QUy2NDmolW/50uXc6PCmTFhu?=
- =?us-ascii?Q?q/xKaH7LhbhxFJUluWUGUVrNDEQIOVLCZqZ1PJG9bl6EhhV2zXV0JRa2ueTc?=
- =?us-ascii?Q?27l1Qoih2lGFDc3TK5wAOhYkPgGoXvYGSClRpOTo23tuCRSFv8oxCXECAlro?=
- =?us-ascii?Q?P4xt3MASqAFiaC8XAnqKpP3nLfGxC3jW23j/QrdEeuKETedqcQTirEqiubyP?=
- =?us-ascii?Q?fYIKHIwYQM8eGYHRcuLK1KvroRxYcRFDASQqaXSGixuFi5hCkXUY/jwgogBz?=
- =?us-ascii?Q?DA=3D=3D?=
+	=?utf-8?B?TkZFdU1obVR5RGIwcktHUjZYdEJIL1grTThhNnlsYVBQYUUxdUtXdkNBWUhB?=
+ =?utf-8?B?YzVwaWVhQ3h5OVVKMk1RRVoyRm5RcUxMUEdlUnM2ZGlrRTlyVVR5cWw3WkYz?=
+ =?utf-8?B?Y1RaanNpcmhDWkVjOGRDcDhVRkZsZkFRYk1xWThkRWppdkN0SkwxQytMbndI?=
+ =?utf-8?B?aWtTNWtDVDk0Vm5UeEFwYndTSGtlbEt3R1ZNNnFucWlkN2sxRDJKeVhDN3lE?=
+ =?utf-8?B?bStGOXJrUG80b1dzRjdFaU83ckdJN2drczh0M21Rem1MUmM1TDcwZTR3cjQx?=
+ =?utf-8?B?STVUWGIvdGNkaE02S0ZVeldUUEVUdzhnV0FkTks0ZW9wcUFMalNmQVh1WmRQ?=
+ =?utf-8?B?bWc4c0d6bWJSQUorZTg3MjBwVnMyb3NwWElud1dKbEpzeUlST0FweWVIcGxO?=
+ =?utf-8?B?dG1rbUxraWZFSDMvVUFvWmFYT3dRNmN3MXpCakhOWlhvbmdPV2t0YWVzNjVv?=
+ =?utf-8?B?Tm1tT29jWUlLYm03RnFyaHNKbElxS2RVQUxseW1DbVlEalNmT3lJbkdWcnY4?=
+ =?utf-8?B?MFJ3N0JKajlzVFZsTCtWOXZTMTMvUVZlQkVyZ1RMK3NMZGs5SHBXdS9DTzBH?=
+ =?utf-8?B?NTZrQjVOOTRHRUR4SXNkWmxsZU56Rzc3S2F2TUl3OTlKYldwQU9LYW5LbUlv?=
+ =?utf-8?B?VzJORlBlLzJBTXpkbjJUNGpSNnpLWXlmMW5MUVVld3gzVGNUdmY3ZlVEcTMv?=
+ =?utf-8?B?dVlzMjJZRlZmQW84MDRhOERzUENrMlo4dGZPdk9NdThmeGt2eFpJSDZqTnBN?=
+ =?utf-8?B?TWZFYjlSbytqakhacmpOMXhoRU5kWldSTzZUd2toUVlzNmozcjFlSXFybUo4?=
+ =?utf-8?B?RVNnYllzSGJqdi9KekJBajNOZEJWcytreW1maVAvcGg0ZzdZeUhVbjlwWmUr?=
+ =?utf-8?B?c1BGVktYLzBoMFdRd0VWN3E4R3o1T2FUVWJPeFhLNGVWaUUyYy9qZ3loVnJT?=
+ =?utf-8?B?OG1tRjRFRWFqeEQ3THVkSk9wVndGOE9aOUtPMnM1Z2VOazR3aDErcDZ2M2tB?=
+ =?utf-8?B?UEh3R2JWWTJzcmJUa0FhcHM5RTAvWmxPOGFNbVNpOWpRSlNlQWx2d1NFclZD?=
+ =?utf-8?B?cFBwUTlWQTkwa0FNUmtxaXFIR1NmWG1aTk5LNXJrbU1ZUkJ4N1R0TW1kUW5O?=
+ =?utf-8?B?aFJZc3N2MElUSVVQUHQ5c0xpbDNUMUt6WVJYNkhKNVJxL2haeGhFUGhDK0Uz?=
+ =?utf-8?B?VmFlYlg4TnkwVmFtNlFnTllGYUpXallPNkhOa2p0TjVkb1NOZEQ2MGY2bnhh?=
+ =?utf-8?B?L1drUnFuQ25iaDd0N2QrRGJLOS9Gd3FjanR0MVVMN1J4SVRFTVEzenNzWFo5?=
+ =?utf-8?B?K3d3OXBvRlY5bVpPYkl3b09oRTJtcHBuR09SK202WkFyQzlZRlhvSFdXUmVP?=
+ =?utf-8?B?OE5iM3g4eml3dGxxQ3BPbmhhTHN0UC9IdzJyVnBoRmZkSVV4K3lFa3lMVDlQ?=
+ =?utf-8?B?Um93bDVpMTR6eU1SUk1DM0JLY29Jb1R3WmxlMklBNWQ0YzBpNzc2ZklLTTNs?=
+ =?utf-8?B?WStvQ3RBSEllVmJvb1VRUnYvZnpLbzRXRFMyQmhaWTg4ZG53SFluMkFzQmJu?=
+ =?utf-8?B?TC9rWE5Sci9KMURZNG5qbERxMlcwdEhudUVVeXJ1WU9SbWd0eUdPcjFOTE1W?=
+ =?utf-8?B?WU9LbXJpSkxuRjYxMGd2WGNrU2N3SDhjZ0lhMFNnQnBYQlFISXdOODg1MUFp?=
+ =?utf-8?B?b1ZYbk83aDBqVXEvd2hqRVhTWGt6bTBjbGZ0N0lJVC9lVXl1QXdQWkEyNFdl?=
+ =?utf-8?B?Y21BaG4ySExxbytRZFdYYldpNHBtcEpWcC85SE4zS2RTUFZnRnlQSkFBWEpt?=
+ =?utf-8?B?cHlwSkFuR1VROXpUVXVlS3lPYTFmem1leDViWUhKODJnVm1EbDJYTFIwV09w?=
+ =?utf-8?B?WWhTK01aVlpYU3FBaE94eVlMSU1MUjZZbmh2bUl3cUFJWnAzN1M1L0lBbkZC?=
+ =?utf-8?B?L1RESElyZGZ0aTVCc2I4WE9SdWhGaXpFNHMvV25GUmFtMTdIbnloV1luVnJo?=
+ =?utf-8?B?R2loM1FsMldzTWVxNHBWU1psY0xuUll6WFhhUjh4NjhRVWZjdGJtTmVHTnBs?=
+ =?utf-8?B?b0tSM1pGZG1VRzFIUWdyVVIzK2hGV2ZlU2ZQY0xacmdXZGFNdmUySzFDYXVD?=
+ =?utf-8?Q?ygQWH5quXDZ38mVc/Qpy8XohB?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	PalgWTUBgdx6QJKrGkKRbKDIxAJkt8qyOEMsiGBqq+R3Y2glYIYBesHMBJqb3qjwqkglSu3AKcF1rm/jupU2p+a0tXMnCJmPxMRzvDdvo5V1F0u7HtvhqjUgo9Gfr0NbHkUixe2CFVGmJDe0AF5atvZ45qBxFAJi8m5nEBC8ckkpcoul8ZpntZIDPgOrEaHXkcQ5TmxBjsW4hDYGa/qJfbHywA8iSTg9MQqDUXmD4t4NoU/jQFQ5vBceT2U3/XQ17Bsp+momO5oibxzscJEjmO22Oi0fCs2Udyp9eYU6RbAAdrI7KgFPjZm2MvB/FdzxMuV/UAp/jsi/2taSA6miOX7/XrZPMThnLqV8y9WkDY1DqYAbwpyuhtJla08g3UfTpUKBBHFQV7X6lvU1Hx0yDtt8lBVWzeOJOmeVJ4FfDoK964ZzAHNtVZZxgjzr+QWmNmjbwLH06rsYvTnmcKE7dzBs4AdTr8WahJBBpZZd58fNuoou3m0Gcy2LvsK324an0S4up4cNILhlr5Xaa6rWUkS/snVv0YefOiOay8kaiRhVZ2Rdfg1bYaBLo7LcRmdaqmACD13sD11mpkaw0n0tR8kLJ4H8xAl2TX36oPQ8VoQ=
+	kq6JkIktCq0OmVwyoLGaYqwRMxf1zyhYG8nNYhJvakop8dN/5rLp5T7OpYBqj0c1B3C/IuwpNN0YyCczYgaJgd21kUuvFW7FKcftvKz5xjemp3B5tvsIvdMZRXuBF9zHuElapH8cVM5+dc6aTwMqpjhuF+eM7wAfnhnbGbDR5wVfa3u5zmzD24WliDP1akrvx7pKqH/akyac8W/XOA0WwKxUVJ+G6fP2EtR1zCpwyp1s27CPQ87lo2RSa+54p+8bR/FiqshsNHWDMLnI2koqD8ZTWFXxGf29q3Q1vko0+ejc8AjLA+iBtiYPGElZENePZIVFDwo2PQFAUIwro+AXBJMYCZo7erIszrPSqbY9YX5jIcDoIzWN8dTATOyyYBpuGdO6OG1Bc4GkiH2TfZ28sTDZg8Df8bkcfosuSIqLJigPzMbgNdQmtZLWwGB5m4yY6sZGvwR162nLZpsVSRtgnPuoz2zKkTvR3+Y87UnXQhvAHt3VfPB/CioJ+ZuXSUSj3AqOmLFzkWwSLrfdPSCls05ukCrN7+8vEBYTjaHOG7vkYW56isXy3xjmHzxl6rJBYhbbCKhVYpA7MSHz/9EVuVhuRYANVBzq9uCm+yEcR14=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ea34e91-714d-47f4-5576-08ddc96ce484
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5672.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4aa5bd24-c42b-4cfe-2864-08ddc9828654
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 22:12:48.5375
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 00:47:39.5030
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TGhNKG8LY+JEbTuwnOfY4TXh2B2aW/0pLRqsUv90QpOcWC0sMH4Fn35sz4fiZn3NFgZkYkfKNUUWNG3giHkb69EHE6b/CcjaZ+S/XpBr55w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR10MB6528
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1W34Wa1xqJSlBbdU/gIImBB6RnTbw7/CXbdAjromwmVf4ZgMaFNziK7hTKvLjMKqMJMqN2eP5T2xyJQ62ChmsA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB4364
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-22_03,2025-07-22_01,2025-03-28_01
+ definitions=2025-07-22_04,2025-07-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
  bulkscore=0 phishscore=0 adultscore=0 suspectscore=0 spamscore=0
  mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2505160000 definitions=main-2507220192
-X-Proofpoint-ORIG-GUID: GORqoMYts6UZ93jdmybBPCvadzQfmb8f
-X-Proofpoint-GUID: GORqoMYts6UZ93jdmybBPCvadzQfmb8f
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDE5MiBTYWx0ZWRfXyNmlWukO0LWP
- l3Eh7QTN9PyAT3bwJNFVKlQzlFuQQEMFqFejxWDFS2EUMDfX8TjBsSP4bXuO1N3EETnDflJEF64
- GMO5NMWLPYmaUhEDFyUwMep6Mk/KYRzyCviBm+kcDSE1WLgcrDotT7abM5ETMdNS7vgh8n8vunX
- Rsn0Fr5Ckhla0B8bp82vEH7i44vct06o9oVOiM1SYEDM1LRtV/6TtNsvwcGXIpf+w/6d/ARBpQ9
- TCVGftEeOfKLkFw/8xD+t+IsM++gssGdnuSn9hJY0HPNQVO7ALGDAarY3aDwz61gxYPRSWwpvDh
- JyshX4fn0LvbN/02eSIpAF2+vEzFpNWhBCdCtdQR/AAot++NtKTFxygNStnqAlCrXG26wBujjU9
- vCQjFkHzRVInMS9JvkQYQbyMQO7szGU/n3pIETAQTxZpNwnY14p1Us1f7OjHrQRWEf/kEX2n
-X-Authority-Analysis: v=2.4 cv=Ef3IQOmC c=1 sm=1 tr=0 ts=68800ce4 cx=c_pps
+ engine=8.12.0-2505160000 definitions=main-2507230004
+X-Authority-Analysis: v=2.4 cv=MNRgmNZl c=1 sm=1 tr=0 ts=6880312f cx=c_pps
  a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8
- a=Ro_bmro_ZlDC7okrwUIA:9
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10
+ a=yPCof4ZbAAAA:8 a=M4DpOHmhD0fxWGg_iRcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: _4h4rZvBPdERiMqlIEIbPaZcZQMBLElr
+X-Proofpoint-GUID: _4h4rZvBPdERiMqlIEIbPaZcZQMBLElr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIzMDAwNCBTYWx0ZWRfXyTHG0c5sI6QJ
+ TQJ4sdzQwlE2NWXOP2+seSPO7/hvdNHSyI3bx/GDzCiA7xdDHOV8k4n07Mrg3dZkuycxiQwwhn6
+ UYsHVYWoZXRYiGvv6vmk01I78O1iRfuPRSHPG+DW77CBc3D6vpTRq24akvp2fOn/Ep7OFxsLMrw
+ bGmpzJUULlXRI3rzE0vqm+3nWhTseHEmTo7QrHFH+E2uc8ryaBQ8/OZ0gBUk/hOnZHr2D4F3igK
+ qpuYO7Bt/fwavVtSy035uU5evYWyjZnT3eH77JQv41zRqzSdYB0oe4PniLUxSTLNepsbd5l53dv
+ EeqNymGTqdB3MpG5SDP9yJ7488cUWOzIwLmh/Ch8MTUoq9BqTxarOXAYZH59XKvIFzkHSVNAhJR
+ YybiICTzp4lv04eSWY+EnaY847OqIt++xsHiur+QjnMbXw49grMNJS67v+yQIzREjCFuKrP0
 
-Suggested-by: Ruud van der Pas <ruud.vanderpas@oracle.com>
-Suggested-by: Alan Maguire <alan.maguire@oracle.com>
-Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
----
- libdtrace/dt_lex.l                               | 14 +++++++++++++-
- .../lexer/err.D_SYNTAX.boc-in-line-comment.d     | 16 ++++++++++++++++
- .../lexer/err.D_SYNTAX.boc-in-line-comment.r     |  2 ++
- .../lexer/err.D_SYNTAX.eoc-in-line-comment.d     | 16 ++++++++++++++++
- .../lexer/err.D_SYNTAX.eoc-in-line-comment.r     |  2 ++
- .../lexer/err.D_SYNTAX.eof-in-line-comment.d     | 16 ++++++++++++++++
- .../lexer/err.D_SYNTAX.eof-in-line-comment.r     |  2 ++
- .../lexer/err.D_SYNTAX.lc-in-line-comment.d      | 16 ++++++++++++++++
- .../lexer/err.D_SYNTAX.lc-in-line-comment.r      |  2 ++
- test/unittest/lexer/tst.line-comment.d           | 16 ++++++++++++++++
- test/unittest/lexer/tst.line-comment.r           |  5 +++++
- 11 files changed, 106 insertions(+), 1 deletion(-)
- create mode 100644 test/unittest/lexer/err.D_SYNTAX.boc-in-line-comment.d
- create mode 100644 test/unittest/lexer/err.D_SYNTAX.boc-in-line-comment.r
- create mode 100644 test/unittest/lexer/err.D_SYNTAX.eoc-in-line-comment.d
- create mode 100644 test/unittest/lexer/err.D_SYNTAX.eoc-in-line-comment.r
- create mode 100644 test/unittest/lexer/err.D_SYNTAX.eof-in-line-comment.d
- create mode 100644 test/unittest/lexer/err.D_SYNTAX.eof-in-line-comment.r
- create mode 100644 test/unittest/lexer/err.D_SYNTAX.lc-in-line-comment.d
- create mode 100644 test/unittest/lexer/err.D_SYNTAX.lc-in-line-comment.r
- create mode 100644 test/unittest/lexer/tst.line-comment.d
- create mode 100644 test/unittest/lexer/tst.line-comment.r
+On 7/22/25 08:34, Nick Alcock wrote:
 
-diff --git a/libdtrace/dt_lex.l b/libdtrace/dt_lex.l
-index 9d502912..a7234800 100644
---- a/libdtrace/dt_lex.l
-+++ b/libdtrace/dt_lex.l
-@@ -35,6 +35,7 @@ int yydebug;
-  * S2 - D program outer scope (probe specifiers and declarations)
-  * S3 - D control line parsing (i.e. after ^# is seen but before \n)
-  * S4 - D control line scan (locate control directives only and invoke S3)
-+ * S5 - D line comments (i.e. skip everything until end of line)
-  * SIDENT - identifiers and comments only (after -> and .).  (We switch to
-  *          SIDENT only from state S0: changing this would require new code
-  *          to track the state to switch back to.)
-@@ -46,7 +47,7 @@ int yydebug;
- %n 600		/* maximum states */
- %option yylineno
- 
--%s S0 S1 S2 S3 S4 SIDENT
-+%s S0 S1 S2 S3 S4 S5 SIDENT
- 
- RGX_AGG		"@"[a-zA-Z_][0-9a-zA-Z_]*
- RGX_PSPEC	[-$:a-zA-Z_.?*\\\[\]!][-$:0-9a-zA-Z_.`?*\\\[\]!]*
-@@ -408,6 +409,11 @@ if (yypcb->pcb_token != 0) {
- 			BEGIN(S1);
- 		}
- 
-+<S0,S2,SIDENT>"//"	{
-+			yypcb->pcb_cstate = (YYSTATE);
-+			BEGIN(S5);
-+		}
-+
- <S0>^{RGX_INTERP} |
- <S2>^{RGX_INTERP} ;	/* discard any #! lines */
- 
-@@ -548,6 +554,12 @@ if (yypcb->pcb_token != 0) {
- <S1>.|\n	; /* discard */
- <S1><<EOF>>	yyerror("end-of-file encountered before matching */\n");
- 
-+<S1>"/*"	yyerror("/* encountered inside a line comment\n");
-+<S1>"*/"	yyerror("*/ encountered inside a line comment\n");
-+<S1>"//"	yyerror("/*/encountered inside a line comment\n");
-+<S5>\n		BEGIN(yypcb->pcb_cstate);
-+<S5>.		; /* discard */
-+
- <S2>{RGX_PSPEC}	{
- 			/*
- 			 * S2 has an ambiguity because RGX_PSPEC includes '*'
-diff --git a/test/unittest/lexer/err.D_SYNTAX.boc-in-line-comment.d b/test/unittest/lexer/err.D_SYNTAX.boc-in-line-comment.d
-new file mode 100644
-index 00000000..61f5961f
---- /dev/null
-+++ b/test/unittest/lexer/err.D_SYNTAX.boc-in-line-comment.d
-@@ -0,0 +1,16 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/*
-+ * ASSERTION: Line comments cannot contain begin-of-comment markers.
-+ */
-+
-+// Comment /*
-+BEGIN
-+{
-+	exit(0);
-+}
-diff --git a/test/unittest/lexer/err.D_SYNTAX.boc-in-line-comment.r b/test/unittest/lexer/err.D_SYNTAX.boc-in-line-comment.r
-new file mode 100644
-index 00000000..74d1d0ef
---- /dev/null
-+++ b/test/unittest/lexer/err.D_SYNTAX.boc-in-line-comment.r
-@@ -0,0 +1,2 @@
-+-- @@stderr --
-+dtrace: failed to compile script test/unittest/lexer/err.D_SYNTAX.boc-in-line-comment.d: [D_SYNTAX] line 12: /* encountered inside a line comment
-diff --git a/test/unittest/lexer/err.D_SYNTAX.eoc-in-line-comment.d b/test/unittest/lexer/err.D_SYNTAX.eoc-in-line-comment.d
-new file mode 100644
-index 00000000..8fe2ff04
---- /dev/null
-+++ b/test/unittest/lexer/err.D_SYNTAX.eoc-in-line-comment.d
-@@ -0,0 +1,16 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/*
-+ * ASSERTION: Line comments cannot contain end-of-comment markers.
-+ */
-+
-+// Comment */
-+BEGIN
-+{
-+	exit(0);
-+}
-diff --git a/test/unittest/lexer/err.D_SYNTAX.eoc-in-line-comment.r b/test/unittest/lexer/err.D_SYNTAX.eoc-in-line-comment.r
-new file mode 100644
-index 00000000..64d5ae63
---- /dev/null
-+++ b/test/unittest/lexer/err.D_SYNTAX.eoc-in-line-comment.r
-@@ -0,0 +1,2 @@
-+-- @@stderr --
-+dtrace: failed to compile script test/unittest/lexer/err.D_SYNTAX.eoc-in-line-comment.d: [D_SYNTAX] line 12: */ encountered inside a line comment
-diff --git a/test/unittest/lexer/err.D_SYNTAX.eof-in-line-comment.d b/test/unittest/lexer/err.D_SYNTAX.eof-in-line-comment.d
-new file mode 100644
-index 00000000..a9207693
---- /dev/null
-+++ b/test/unittest/lexer/err.D_SYNTAX.eof-in-line-comment.d
-@@ -0,0 +1,16 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/*
-+ * ASSERTION: End-of-file in a line comment is an error.
-+ */
-+
-+BEGIN
-+{
-+	exit(0);
-+}
-+// Comment
-\ No newline at end of file
-diff --git a/test/unittest/lexer/err.D_SYNTAX.eof-in-line-comment.r b/test/unittest/lexer/err.D_SYNTAX.eof-in-line-comment.r
-new file mode 100644
-index 00000000..f46fce3e
---- /dev/null
-+++ b/test/unittest/lexer/err.D_SYNTAX.eof-in-line-comment.r
-@@ -0,0 +1,2 @@
-+-- @@stderr --
-+dtrace: failed to compile script test/unittest/lexer/err.D_SYNTAX.eof-in-line-comment.d: [D_SYNTAX] line 16: end-of-file encountered in line comment
-diff --git a/test/unittest/lexer/err.D_SYNTAX.lc-in-line-comment.d b/test/unittest/lexer/err.D_SYNTAX.lc-in-line-comment.d
-new file mode 100644
-index 00000000..0332e1ae
---- /dev/null
-+++ b/test/unittest/lexer/err.D_SYNTAX.lc-in-line-comment.d
-@@ -0,0 +1,16 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/*
-+ * ASSERTION: Line comments cannot contain a line commens marker.
-+ */
-+
-+// Comment //
-+BEGIN
-+{
-+	exit(0);
-+}
-diff --git a/test/unittest/lexer/err.D_SYNTAX.lc-in-line-comment.r b/test/unittest/lexer/err.D_SYNTAX.lc-in-line-comment.r
-new file mode 100644
-index 00000000..d1152afc
---- /dev/null
-+++ b/test/unittest/lexer/err.D_SYNTAX.lc-in-line-comment.r
-@@ -0,0 +1,2 @@
-+-- @@stderr --
-+dtrace: failed to compile script test/unittest/lexer/err.D_SYNTAX.lc-in-line-comment.d: [D_SYNTAX] line 12: // encountered inside a line comment
-diff --git a/test/unittest/lexer/tst.line-comment.d b/test/unittest/lexer/tst.line-comment.d
-new file mode 100644
-index 00000000..4deb66f4
---- /dev/null
-+++ b/test/unittest/lexer/tst.line-comment.d
-@@ -0,0 +1,16 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/*
-+ * ASSERTION: // comments are supported.
-+ */
-+
-+// exit(1);
-+BEGIN // exit(1);
-+{ // exit(1);
-+	exit(0); // exit(1);
-+} // exit(1);
-diff --git a/test/unittest/lexer/tst.line-comment.r b/test/unittest/lexer/tst.line-comment.r
-new file mode 100644
-index 00000000..d4e4c325
---- /dev/null
-+++ b/test/unittest/lexer/tst.line-comment.r
-@@ -0,0 +1,5 @@
-+                   FUNCTION:NAME
-+                          :BEGIN 
-+
-+-- @@stderr --
-+dtrace: script 'test/unittest/lexer/tst.line-comment.d' matched 1 probe
--- 
-2.45.2
+> On 25 Jun 2025, eugene loh outgrape:
+>> From: Eugene Loh <eugene.loh@oracle.com>
+>>
+>> Currently, USDT is limited to 64 probe descriptions since the
+>> underlying probe uses a 64-bit mask to decide which probes to execute.
+>>
+>> Change to a multi-word bit mask that can be extended to however many
+>> probe descriptions there are.
+> Oh yeah!!!!
+>
+> Not quite happy enough with this one to r-b it, but it's sooo close...
+> :)
+>
+>> Also, change the mask words to be 32-bit rather than 64-bit.  The reason
+>> is that, commonly, there will be fewer than 32 probe descriptions.  In
+>> this case, we shorten the value of the "USDT prids" BPF map from 16 bytes
+>>          uint32_t        prid;
+>>          long long       mask[1];
+>> down to 8 bytes
+>>          uint32_t        prid;
+>>          uint32_t        mask[1];
+>> (The second member is smaller and no longer costs extra padding.)
+> Nice!
+>
+>> We also add an
+>>          extern int usdt_prids_map_val_extra_bytes;
+>> to denote how many extra bytes will be needed for the extended mask.
+> Ugh. Is this really the best we can do? A global variable referenced via
+> extern? Can't we put it in the dtp or anything? This will fail as soon
+> as we have more than one dtrace handle... and yes I now that's not
+> exactly tested and probably doesn't work, but we shouldn't break it
+> worse when keeping it working as well as it is now is so simple.
 
+Okay, changed.
+
+>> @@ -48,8 +48,9 @@ typedef struct usdt_prids_map_key {
+>>   } usdt_prids_map_key_t;
+>>   typedef struct usdt_prids_map_val {
+>>   	uint32_t	prid;		/* should be dtrace_id_t, sys/dtrace_types.h */
+>> -	long long	mask;
+>> +	uint32_t	mask[1];
+>>   } usdt_prids_map_val_t;
+>> +extern int usdt_prids_map_val_extra_bytes;
+> Note that this is not how you're supposed to implement VLAs: [1] is
+> extremely obsolete (as in, pre-C99) and very deprecated at this point.
+> [] is the recommended approach, if you can live with its restrictions
+> (and I think we can here: all we need to do is remove the extra in
+> extra_bytes and *always* allocate at least one byte, which actually
+> simplifies the code in usdt_prids_map_val_extra_bytes(). [] does include
+> the size of necessary padding: mask will start at precisely
+> sizeof(usdt_prids_map_val_t).)
+
+Also changed.
+
+>> diff --git a/libdtrace/dt_prov_uprobe.c b/libdtrace/dt_prov_uprobe.c
+>> index 5ba50b678..65413cba6 100644
+>> --- a/libdtrace/dt_prov_uprobe.c
+>> +++ b/libdtrace/dt_prov_uprobe.c
+>> @@ -303,6 +303,8 @@ typedef struct list_key {
+>>   	usdt_prids_map_key_t	key;
+>>   } list_key_t;
+>>   
+>> +int usdt_prids_map_val_extra_bytes;
+> Ugh!
+
+Ditto.
+
+>>   static const dtrace_pattr_t	pattr = {
+>>   { DTRACE_STABILITY_EVOLVING, DTRACE_STABILITY_EVOLVING, DTRACE_CLASS_ISA },
+>>   { DTRACE_STABILITY_PRIVATE, DTRACE_STABILITY_PRIVATE, DTRACE_CLASS_UNKNOWN },
+>> @@ -403,7 +405,7 @@ clean_usdt_probes(dtrace_hdl_t *dtp)
+>>   	int			fdprids = dtp->dt_usdt_pridsmap_fd;
+>>   	int			fdnames = dtp->dt_usdt_namesmap_fd;
+>>   	usdt_prids_map_key_t	key, nxt;
+>> -	usdt_prids_map_val_t	val;
+>> +	usdt_prids_map_val_t	*val = alloca(sizeof(usdt_prids_map_val_t) + usdt_prids_map_val_extra_bytes);
+> (this bit will need changing slightly if you use [].)
+>
+>>   
+>> +void usdt_prids_map_val_extra_bytes_init(dtrace_hdl_t *dtp) {
+> Wrongly-placed {.
+
+Got it.
+
+>> +	int i, n = 0, w = sizeof(((usdt_prids_map_val_t *)0)->mask[0]);
+>> +
+>> +	/* Count how many statements cannot be ignored, regardless of uprp. */
+>> +	for (i = 0; i < dtp->dt_stmt_nextid; i++) {
+>> +		dtrace_stmtdesc_t *stp;
+>> +
+>> +		stp = dtp->dt_stmts[i];
+>> +		if (stp == NULL || ignore_clause(dtp, i, NULL))
+>> +			continue;
+> I was about to complain about the cost of all these ignore_clause()s,
+> but of course this is only invoked once per run...
+>
+>> +		n++;
+>> +	}
+>> +
+>> +	/* Determine how many bytes are needed for this many bits. */
+>> +	n = (n + CHAR_BIT - 1) / CHAR_BIT;
+>> +
+>> +	/* Determine how many words are needed for this many bytes. */
+>> +	n = (n + w - 1) / w;
+> Thank God you commented this -- it took me ages to realise how it works.
+> It feels like it should be a standard idiom, but I've never encountered
+> it before...
+>
+>> +	/* Determine how many extra bytes are needed. */
+>> +	if (n > 1)
+>> +		usdt_prids_map_val_extra_bytes = (n - 1) * w;
+>> +	else
+>> +		usdt_prids_map_val_extra_bytes = 0;
+> If you use a [] array, this can simply become
+>
+> usdt_prids_map_val_bytes = n * w;
+
+Earlier you wrote, "*always* allocate at least one byte, which actually 
+simplifies the code in usdt_prids_map_val_extra_bytes()." So I'm missing 
+what you mean in the case n=0.
+
+>> +}
+>> +
+>>   static int add_probe_uprobe(dtrace_hdl_t *dtp, dt_probe_t *prp)
+>>   {
+>>   	dtrace_difo_t   *dp;
+>> @@ -650,6 +679,7 @@ static int add_probe_usdt(dtrace_hdl_t *dtp, dt_probe_t *prp)
+>>   	int				fd = dtp->dt_usdt_namesmap_fd;
+>>   	pid_t				pid;
+>>   	list_probe_t			*pup;
+>> +	usdt_prids_map_val_t		*val;
+>>   
+>>   	/* Add probe name elements to usdt_names map. */
+>>   	p = probnam;
+>> @@ -685,11 +715,11 @@ static int add_probe_usdt(dtrace_hdl_t *dtp, dt_probe_t *prp)
+>>   	}
+>>   
+>>   	/* Add prid and bit mask to usdt_prids map. */
+>> +	val = alloca(sizeof(usdt_prids_map_val_t) + usdt_prids_map_val_extra_bytes);
+>>   	for (pup = prp->prv_data; pup != NULL; pup = dt_list_next(pup)) {
+>>   		dt_probe_t		*uprp = pup->probe;
+>> -		long long		mask = 0, bit = 1;
+>> +		uint32_t		iword = 0, mask = 0, bit = 1;
+>>   		usdt_prids_map_key_t	key;
+>> -		usdt_prids_map_val_t	val;
+>>   		dt_uprobe_t		*upp = uprp->prv_data;
+>>   
+>>   		/*
+>> @@ -707,11 +737,15 @@ static int add_probe_usdt(dtrace_hdl_t *dtp, dt_probe_t *prp)
+>>   				dtrace_stmtdesc_t *stp;
+>>   
+>>   				stp = dtp->dt_stmts[n];
+>> -				if (stp == NULL)
+>> +				if (stp == NULL || ignore_clause(dtp, n, uprp))
+>>   					continue;
+>>   
+>> -				if (ignore_clause(dtp, n, uprp))
+>> -					continue;
+>> +				if (bit == 0) {
+>> +					val->mask[iword] = mask;
+>> +					mask = 0;
+>> +					iword++;
+>> +					bit = 1;
+>> +				}
+>>   
+>>   				if (dt_gmatch(prp->desc->prv, stp->dtsd_ecbdesc->dted_probe.prv) &&
+>>   				    dt_gmatch(prp->desc->mod, stp->dtsd_ecbdesc->dted_probe.mod) &&
+>> @@ -726,11 +760,11 @@ static int add_probe_usdt(dtrace_hdl_t *dtp, dt_probe_t *prp)
+>>   		key.pid = pid;
+>>   		key.uprid = uprp->desc->id;
+>>   
+>> -		val.prid = prp->desc->id;
+>> -		val.mask = mask;
+>> +		val->prid = prp->desc->id;
+>> +		val->mask[iword] = mask;
+>>
+>>   		// FIXME Check return value, but how should errors be handled?
+>> -		dt_bpf_map_update(dtp->dt_usdt_pridsmap_fd, &key, &val);
+>> +		dt_bpf_map_update(dtp->dt_usdt_pridsmap_fd, &key, val);
+>>   	}
+> ... am I missing something, or do you never modify "mask" (the local
+> variable) anywhere in this function? So it ends up always zero...
+
+Perhaps you're missing something?  mask |= bit
+
+>> @@ -1451,7 +1485,7 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+>>   	const list_probe_t	*pop;
+>>   	uint_t			lbl_exit = pcb->pcb_exitlbl;
+>>   	dt_ident_t		*usdt_prids = dt_dlib_get_map(dtp, "usdt_prids");
+>> -	int			n;
+>> +	int			n, ibit, w = CHAR_BIT * sizeof(((usdt_prids_map_val_t *)0)->mask[0]);
+> We could really do with better variable names than "n" and "w". w seems
+> to be the bit-width of a single word: word_width? width?
+
+Hopefully, this is good enough:  "w" for "word width" or "width"? Mimic 
+other similar code closely.  Seemed like a reasonable choice to me.
+
+>> @@ -1538,7 +1572,8 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+>>   	 */
+>>   	assert(sizeof(usdt_prids_map_key_t) <= DT_STK_SLOT_SZ);
+>>   	emit(dlp,  BPF_STORE(BPF_W, BPF_REG_FP, DT_TRAMP_SP_SLOT(0), BPF_REG_0));
+>> -	emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_FP, DT_TRAMP_SP_SLOT(0) + (int)sizeof(pid_t), uprp->desc->id));
+>> +	emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_FP,
+>> +		   DT_TRAMP_SP_SLOT(0) + (int)sizeof(pid_t), uprp->desc->id));
+>>   	dt_cg_xsetx(dlp, usdt_prids, DT_LBL_NONE, BPF_REG_1, usdt_prids->di_id);
+>>   	emit(dlp,  BPF_MOV_REG(BPF_REG_2, BPF_REG_FP));
+>>   	emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, DT_TRAMP_SP_SLOT(0)));
+>> @@ -1572,8 +1607,8 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+>>   	emit(dlp,  BPF_LOAD(BPF_W, BPF_REG_1, BPF_REG_0, 0));
+>>   	emit(dlp,  BPF_STORE(BPF_W, BPF_REG_7, DMST_PRID, BPF_REG_1));
+>>   
+>> -	/* Read the bit mask from the table lookup in %r6. */    // FIXME someday, extend this past 64 bits
+>> -	emit(dlp,  BPF_LOAD(BPF_DW, BPF_REG_6, BPF_REG_0, offsetof(usdt_prids_map_val_t, mask)));
+>> +	/* Store the value key for reuse. */
+>> +	emit(dlp,  BPF_STORE(BPF_DW, BPF_REG_FP, DT_TRAMP_SP_SLOT(0), BPF_REG_0));
+> This all makes sense...
+>
+>> @@ -1587,21 +1622,24 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+>>   	/*
+>>   	 * Hold the bit mask in %r6 between clause calls.
+>>   	 */
+>> -	for (n = 0; n < dtp->dt_stmt_nextid; n++) {
+>> +	for (ibit = n = 0; n < dtp->dt_stmt_nextid; n++) {
+>>   		dtrace_stmtdesc_t *stp;
+>>   		dt_ident_t	*idp;
+>>   		uint_t		lbl_next;
+>>   
+>>   		stp = dtp->dt_stmts[n];
+>> -		if (stp == NULL)
+>> -			continue;
+>> -
+>> -		if (ignore_clause(dtp, n, uprp))
+>> +		if (stp == NULL || ignore_clause(dtp, n, uprp))
+>>   			continue;
+>>   
+>>   		idp = stp->dtsd_clause;
+>>   		lbl_next = dt_irlist_label(dlp);
+> ... as does this (although we are now calling ignore_clause() at least
+> twice for every clause, I think three times)...
+>
+>> +		/* Load the next word of the bit mask into %r6. */
+>> +		if (ibit % w == 0) {
+>> +			emit(dlp,  BPF_LOAD(BPF_DW, BPF_REG_0, BPF_REG_FP, DT_TRAMP_SP_SLOT(0)));
+>> +			emit(dlp,  BPF_LOAD(BPF_W, BPF_REG_6, BPF_REG_0, offsetof(usdt_prids_map_val_t, mask[ibit / w])));
+> ok, so this uses the 'w' thing to get an array offset out of a bit
+> count, and then you can just use the existing repated-shift code. Should
+> work.
+>
+>> +		}
+>> +
+>>   		/* If the lowest %r6 bit is 0, skip over this clause. */
+>>   		emit(dlp,  BPF_MOV_REG(BPF_REG_1, BPF_REG_6));
+>>   		emit(dlp,  BPF_ALU64_IMM(BPF_AND, BPF_REG_1, 1));
+>> @@ -1629,6 +1667,7 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+>>   
+>>   		/* Right-shift %r6. */
+>>   		emit(dlp,  BPF_ALU64_IMM(BPF_RSH, BPF_REG_6, 1));
+>> +		ibit++;
+> ... so, this isn't in the loop conditionl because the values are only
+> filled for non-ignored, non-NULL statements. This assumption is
+> duplicated in two places (here and in usdt_prids_map_val_extra_bytes())
+> and if it ever drifts we get uninitialized rubbish or buffer overruns.
+> Should it be centralized somewhere, somehow? At least it needs a
+> comment.
+
+The loop bodies differ.  Okay, though, I added comments.
+
+>> +# We stick 80 probe descriptions in each of 3 scripts to test
+>> +# USDT's ability to handle hundreds of probe descriptions.
+>> +++ b/test/unittest/usdt/tst.manyprobedescriptions2.sh
+> ... maybe manyprobedescriptions-bytesize.sh :)
+
+What is "byte size"?  Anyhow, the point is that there are many probe 
+descriptions.
+
+>> @@ -0,0 +1,127 @@
+>> +#!/bin/bash
+>> +#
+>> +# Oracle Linux DTrace.
+>> +# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
+>> +# Licensed under the Universal Permissive License v 1.0 as shown at
+>> +# http://oss.oracle.com/licenses/upl.
+>> +
+>> +# This test uses many probes and probe descriptions.  Therefore, the
+>> +# number of BPF programs to load into the kernel -- dt_bpf_load_prog()
+>> +# calling prp->prov->impl->load_prog(), which is dt_bpf_prog_load() --
+>> +# and the duration of each load are both increasing.
+>> +# @@timeout: 400
+>> +
+>> +dtrace=$1
+>> +
+>> +DIRNAME="$tmpdir/usdt-many_probe_descriptions2.$$.$RANDOM"
+>> +mkdir -p $DIRNAME
+>> +cd $DIRNAME
+>> +
+>> +# Set the lists.
+>> +# - The probes will be foo$x$y.
+>> +# - The probe descriptions will be foo$x* and foo*$y, for each $d.
+>> +# So if there are nx items in xlist, ny in ylist, and nd in dlist,
+>> +# - there will be roughly nx*ny probes
+>> +# - there will be roughly (nx+ny)*nd probe descriptions
+>> +
+>> +xlist="a b c d e f g h i j k l m"
+>> +ylist="n o p q r s t u v w x y z"
+>> +dlist="0 1 2 3 4 5 6 7 8"
+> ... and with 8... maybe we should also test 0, 1, 7 and 9, checking all
+> the boundary conditions (and refactor things so we don't need to copy
+> all of this every time).
+
+But this is not a case of filling some byte up to 8 bits.  The test has 
+nested loops over these lists, appending more probes or probe 
+descriptions, as appropriate.  There are 13x13 probes, one after 
+another.  There are (13+13)*9 probe descriptions, one after another.  
+There are 13x13x9 probe firings, one after another.  It just so happens 
+that none of those numbers is a multiple of 8;  the only point is that 
+each of those numbers is "big."
+
+Thanks for the review.  Next version momentarily.
+
+> (You'll only really see things go wrong under valgrind, but that's fine,
+> valgrinding should be routine before releases anyway.)
