@@ -1,56 +1,60 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889333C38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF11C267B12
 	for <dtrace@lists.linux.dev>; Wed, 30 Jul 2025 09:01:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753866119; cv=none; b=DKtLXI/zR4z3pxEtXDWcP4f0mh4S6ZQbAUhG9EhYFiYW/hl9+X6H/ZFKkpPVBbcGlWKgeXf/f0l9Y9oYeUWUywc+qx2hZFjsiHpgFu4tIqSpE8PSR4Ivi+WB+GMFlYvRdLM+NouLroFnDMZL3sUN331LMcwl4F3YmYgaHkqqSgA=
+	t=1753866120; cv=none; b=WYjVtJcLJIAnnCJsJ6QnirokhHfX9aQHMDa1gyws1AGGQktxu+gvJb7pNEH/UDS5gK4kpHdEj4DFy9cIt7tow47+0sYpxB/U8aLVUA/fR9kPBfEcAqDyWqkmIGzIp7Qbh5P4mgUxB1jW+OHgUT+nMrLHvtFOfx2Ue5J5+vvs5NM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753866119; c=relaxed/simple;
-	bh=F7itzaSfszm/BQbmcXmJK/6vU6hREI/JuBu0V0J7RaM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Sf+ykD/3M+QwURfuf/p5lDftXFJcKkNbPA/M82WvMDtWt/VlGyvPuR1K65K8chhCRGM8RNl4Jg3CCYt9AKF41h9+LyQcWIm8WFgIEU3y6+O8T0fFjh0hkppWLoFFTxj3BXgbJO81jWNtgt0KNYAwzXJtTiu1NKmuZVIQKzAQXEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=CUXelA10; arc=none smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1753866120; c=relaxed/simple;
+	bh=ljAgV4JxcO9kagYYGwMr34svIc9Hcj9Q8jod5ml0YKo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HOxi2pjqj7YTGFVS3xgYk1SC6OkWNoCPhV8mk+mXQhBLZySOobrXVoUCGdynjWvBOfQy2k4HMoQXwug0Ks1CPJawO2kA3jfdLXgy6YfvrFr+pD9Di3hbJ2RLVYO6ePVIgngsHU8fHMsR5rmP/E22zWQVQ+wdRCMVx8kHz10WqZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ClPwfYzl; arc=none smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="CUXelA10"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ClPwfYzl"
 Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56U7g9lv012434
-	for <dtrace@lists.linux.dev>; Wed, 30 Jul 2025 09:01:51 GMT
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56U7gBvB012459
+	for <dtrace@lists.linux.dev>; Wed, 30 Jul 2025 09:01:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=corp-2025-04-25; bh=R3ghxGuJGMExeUzt2F+WnNVEUB1y2
-	sCYrjeNOZ0+aFM=; b=CUXelA10joNS+tl0dl/nxbfWyemHVnh6HEEU2NZRd5iXC
-	wtrbc9LY2mmRx69WHkuMXTcv16pS1PZPv4J628oGzKE3x5NsvFThmnEZBna+iJZz
-	PrsP8+otFeEs7yy3kvEYu6RJC/Zk7RMkjsx/knS49jqK8TYVI709c8aUhXjU3Iu/
-	2UVFCCrvz/HNCAskclSY2kuEzefzcm2EtWW2tBT3PIA5oUTksAQwp/8vxOx+DHmI
-	R3Bkf68kN/MIUZj3g3M4zNtbtVJcoONdAbTqbOd5/smArIu/uz0dD8vDqlkduWbG
-	C2eqjZt628S1m8/sM8TaecZFQRV3C4L1iw/xhk8cA==
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=corp-2025-04-25; bh=RXgw+
+	yNi2KSp4koZGJ6O3abKDcR5SXeiNnVF1PbL3D8=; b=ClPwfYzlViArWiie65z7x
+	pbccC7jBrDCU9PA+T2G18TgG3OnAC8hCdxn52YGsTk+wln0LZriR5X2Zgb+AXLsg
+	xVhvwTntu5IFxPxfi9WHJrP3t8zMn+EPMOZmJUNtge60x1fUYUVPoTUCOs9fTqyu
+	+Q9fidb3Tu5TIlJduGajME6wAJ0Wfs1NJV8GeOZuyl7cnuEpQNCo5h58zJULhbtd
+	YC/pgchxI9HvtSvrUfBxnOZZa++wahlIbcchMfOUW01aVSyePyyrLr8vddHMVu6N
+	2XhbqlS2v7tVRScN+rUHhZLPcur4jEXMepwzAWWpfEc7GjSqJJV8jeW/V9KrS2q3
+	g==
 Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 484qjwsfxa-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 484qjwsfxh-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 30 Jul 2025 09:01:50 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Wed, 30 Jul 2025 09:01:56 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56U8BDbi038712
-	for <dtrace@lists.linux.dev>; Wed, 30 Jul 2025 09:01:50 GMT
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56U8pm3W037819
+	for <dtrace@lists.linux.dev>; Wed, 30 Jul 2025 09:01:56 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 484nfapvby-1
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 484nfapvfy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 30 Jul 2025 09:01:50 +0000
+	for <dtrace@lists.linux.dev>; Wed, 30 Jul 2025 09:01:56 +0000
 Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 56U91nId033990
-	for <dtrace@lists.linux.dev>; Wed, 30 Jul 2025 09:01:50 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 56U91nIp033990
+	for <dtrace@lists.linux.dev>; Wed, 30 Jul 2025 09:01:55 GMT
 Received: from bpf.uk.oracle.com (dhcp-10-154-51-28.vpn.oracle.com [10.154.51.28])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 484nfapvax-1;
-	Wed, 30 Jul 2025 09:01:49 +0000
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 484nfapvax-5;
+	Wed, 30 Jul 2025 09:01:55 +0000
 From: Alan Maguire <alan.maguire@oracle.com>
 To: dtrace@lists.linux.dev
 Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
-Subject: [PATCH v7 0/7] add support for stapsdt probes
-Date: Wed, 30 Jul 2025 10:01:41 +0100
-Message-ID: <20250730090148.2141954-1-alan.maguire@oracle.com>
+Subject: [PATCH v7 4/7] selftests/usdt: add test for stapsdt notes in shared library
+Date: Wed, 30 Jul 2025 10:01:45 +0100
+Message-ID: <20250730090148.2141954-5-alan.maguire@oracle.com>
 X-Mailer: git-send-email 2.43.5
+In-Reply-To: <20250730090148.2141954-1-alan.maguire@oracle.com>
+References: <20250730090148.2141954-1-alan.maguire@oracle.com>
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -65,102 +69,204 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 su
  spamscore=0 mlxlogscore=999 phishscore=0 bulkscore=0 mlxscore=0
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2505160000 definitions=main-2507300062
-X-Authority-Analysis: v=2.4 cv=OvdPyz/t c=1 sm=1 tr=0 ts=6889df7f cx=c_pps
+X-Authority-Analysis: v=2.4 cv=OvdPyz/t c=1 sm=1 tr=0 ts=6889df84 cx=c_pps
  a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=Wb1JkmetP80A:10 a=06CfEAHARNktU8VKROQA:9
-X-Proofpoint-GUID: W_arNxnALhZk-UbP5I9B8vC5kn2Xf2yC
-X-Proofpoint-ORIG-GUID: W_arNxnALhZk-UbP5I9B8vC5kn2Xf2yC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzMwMDA2MyBTYWx0ZWRfXy3R9D8BZH+1n
- ujn4SzsNNppyC4mLqMm+PkTOE3nKMtA2D6mzujmv87mAa8AG8XNGa4/HsT1+BoCWAizad+WdzVg
- Iu8N9Gj8+FD+ZPiKB6X4bxWzOBcAptPN9cDj38Mov0ZlPKsMP57vpHzgNkivSLI8SHceAt7yj4W
- VKZmEkuGQqlMEnsCOhF6mZZqNH5aQVrsLs3DXgmzj3i8u54caG+3TcWI5pB/9Zp8vt27QKZnkh7
- es2vV1a3RY3bGf/pgHnoprixrwtt1DWrPRzBh9O8xUT/sqb2JJM4b1FFPoceKtisv2bvawdbmah
- 0NmhQIjDtvO6Gb59r8FNvX8eMF6gDfsjQDAlxVVzrrUzaGDXaaW7DZw0VECFc6MO4cqqGn1sMeg
- eJZl7khQVleIW1IEWb7RjdfjK1Ok4QzwbVgorIrQCokoXDwyDtLukEuEHEHfoY9+TQeKGGpY
+ a=Wb1JkmetP80A:10 a=yPCof4ZbAAAA:8 a=H-sOoKR7IU3-zD7f7cAA:9
+X-Proofpoint-GUID: fbC6F2qp3ZZ5eS4893UCHQyy9QkaOvpn
+X-Proofpoint-ORIG-GUID: fbC6F2qp3ZZ5eS4893UCHQyy9QkaOvpn
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzMwMDA2MyBTYWx0ZWRfX4apWc9NB7yRk
+ aKedeY7jL7p7wdEddvbe+xf3aWm3QHD6Hq0XkTcah6/uzxg+Y/a24+zYwQdsnr+YIvnOJ2VHF3c
+ NgXbafIK7+NlAmsZSK/3xa9ge2D5HxZdXM7THfzB+ZIlfxySadApXP+lqZz8B8ey8XjZZc/WQu5
+ viFPdL2A8sE0UtUu0YcWN82G/YnhdbQWLxaxNdyLEs7xpjaOXLPSD/yJH3GTWAFSuVei4ChyWVd
+ 5JIt9eMLu88vZCzmDlbAEyf28QSCw9TjU50x/MU00YbLfL683TQiaorumoft9WOCc81VORolccg
+ mDTQTdbTzPO0Z/RSZC0U/q6qT5vf0eh4eu4Y+FKgPIwcVjMqhCDkt74wvuhu/SupZMCd6T++5hw
+ EXBv5ZmvpP34sCkBnbmw2xILQCNhIiRKEf0zZ6Ume1/+k06tYwFX3vtgMTIYCnM6W+v3GGJs
 
-As well as using dtrace -G to generate USDT probes, programs and
-libraries may have added static probes via stapsdt ELF notes.
-This series adds support for such probes.  Patch 1 prepares for
-this support by adding counting to parsing of stapsdt probe args
-(since they do not include an explicit arg count); Patch 2 adds
-the support, while patches 3-7 add tests covering that support.
+To ensure stapsdt notes are found/fire for shared libraries, create
+a shared library and trace the stapsdt probes in it.  To ensure the
+library is loaded when DTrace has started, call it early in the
+program lifetime and sleep until DTrace starts; at that point
+trace the probes with the pid and ensure they fire with expected args.
 
-Changes since v6:
-
-- merge with latest devel branch
-- support conversion from double-underscore to dash in provider
-  and probe names and test this (patches 2, 7)
-- enhance is-enabled test to cover disabled probes, ensuring
-  semaphore-guarded codepath for disabled probe is not executed
-  (Kris, patch 7)
-
-Changes since v5:
-
-- update copy_args() to remove strlen() check on every iteration
-  (Kris, patch 1)
-- restrict to specific pid probing, removing wildcard support for
-  now (Kris, patch 2)
-- add support for semaphores for is-enabled like stapsdt probes
-  (Kris, patch 2)
-- add test for semaphore support (patch 7)
-
-Changes since v4:
-
-- fix up address computation to work for libraries and -fPIE
-  binaries; add a test for the latter (Kris, patches 2,6)
-- do mapfile, Paddr_to_map() lookups once for stapsdt probes
-  (Kris, patch 2)
-
-Changes since v3:
-
-- merged with USDT ELF note changes; since these use the same
-argument-parsing/access code, no need to add code for this now (patch 2)
-- updated said ELF note parsing to count as well as parse arguments
-since stapsdt probes do not provide an arg count (patch 1)
-- added explicit stapsdt provider to reflect that stapsdt probes
-are fundamentally different and do not auto-register for discovery
-via ioctl (patch 2, Kris)
-- added simple pid wildcarding support for /proc map parsing.
-
-Changes since v2:
-
-- updated terminology to distinguish stapsdt from USDT probes
-
-Alan Maguire (7):
-  usdt: have copy_args() count args while parsing them
-  support stapsdt ELF-note-defined static probes
-  selftests/usdt: add test for stapsdt note-defined probe firing, args
-  selftests/usdt: add test for stapsdt notes in shared library
-  selftests/usdt: add test covering different forms of stapsdt note args
-  selftests/usdt: add test for stapsdt note-defined probe firing in
-    -fPIE binary
-  selftests/usdt: add is-enabled stapsdt tests using semaphores
-
- include/dtrace/pid.h                          |   2 +
- libdtrace/dt_pid.c                            | 291 ++++++++++
- libdtrace/dt_prov_uprobe.c                    |  74 ++-
- test/unittest/usdt/sdt_notes.h                | 504 ++++++++++++++++++
- test/unittest/usdt/tst.stapsdt-notes-args.r   |   2 +
- test/unittest/usdt/tst.stapsdt-notes-args.sh  |  50 ++
- .../usdt/tst.stapsdt-notes-isenabled.r        |  13 +
- .../usdt/tst.stapsdt-notes-isenabled.sh       | 152 ++++++
- test/unittest/usdt/tst.stapsdt-notes-lib.r    |  14 +
- test/unittest/usdt/tst.stapsdt-notes-lib.sh   | 145 +++++
- test/unittest/usdt/tst.stapsdt-notes-pie.sh   | 121 +++++
- test/unittest/usdt/tst.stapsdt-notes.r        |  14 +
- test/unittest/usdt/tst.stapsdt-notes.sh       | 121 +++++
- 13 files changed, 1488 insertions(+), 15 deletions(-)
- create mode 100644 test/unittest/usdt/sdt_notes.h
- create mode 100644 test/unittest/usdt/tst.stapsdt-notes-args.r
- create mode 100755 test/unittest/usdt/tst.stapsdt-notes-args.sh
- create mode 100644 test/unittest/usdt/tst.stapsdt-notes-isenabled.r
- create mode 100755 test/unittest/usdt/tst.stapsdt-notes-isenabled.sh
+Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+---
+ test/unittest/usdt/tst.stapsdt-notes-lib.r  |  14 ++
+ test/unittest/usdt/tst.stapsdt-notes-lib.sh | 145 ++++++++++++++++++++
+ 2 files changed, 159 insertions(+)
  create mode 100644 test/unittest/usdt/tst.stapsdt-notes-lib.r
  create mode 100755 test/unittest/usdt/tst.stapsdt-notes-lib.sh
- create mode 100755 test/unittest/usdt/tst.stapsdt-notes-pie.sh
- create mode 100644 test/unittest/usdt/tst.stapsdt-notes.r
- create mode 100755 test/unittest/usdt/tst.stapsdt-notes.sh
 
+diff --git a/test/unittest/usdt/tst.stapsdt-notes-lib.r b/test/unittest/usdt/tst.stapsdt-notes-lib.r
+new file mode 100644
+index 00000000..7c667a4d
+--- /dev/null
++++ b/test/unittest/usdt/tst.stapsdt-notes-lib.r
+@@ -0,0 +1,14 @@
++libstapsdttest.so:libfn:zero
++libstapsdttest.so:libfn:one:1
++libstapsdttest.so:libfn:two:2:3
++libstapsdttest.so:libfn:three:4:5:7
++libstapsdttest.so:libfn:four:7:8:9:10
++libstapsdttest.so:libfn:five:11:12:13:14:15
++libstapsdttest.so:libfn:six:16:17:18:19:20:21
++libstapsdttest.so:libfn:seven:22:23:24:25:26:27:28
++libstapsdttest.so:libfn:eight:29:30:31:32:33:34:35:36
++libstapsdttest.so:libfn:nine:37:38:39:40:41:42:43:44:45
++libstapsdttest.so:libfn:ten:46:47:48:49:50:51:52:53:54:55
++libstapsdttest.so:libfn:eleven:56:57:58:59:60:61:62:63:64:65
++libstapsdttest.so:libfn:twelve:67:68:69:70:71:72:73:74:75:76
++
+diff --git a/test/unittest/usdt/tst.stapsdt-notes-lib.sh b/test/unittest/usdt/tst.stapsdt-notes-lib.sh
+new file mode 100755
+index 00000000..6fd5808e
+--- /dev/null
++++ b/test/unittest/usdt/tst.stapsdt-notes-lib.sh
+@@ -0,0 +1,145 @@
++#!/bin/bash
++#
++# Oracle Linux DTrace.
++# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++# Licensed under the Universal Permissive License v 1.0 as shown at
++# http://oss.oracle.com/licenses/upl.
++
++# This test covers all stapsdt probes fired by the STAP_PROBEn macros.
++# Arguments values are checked only for first 10 arguments because
++# there is support for arg0 ... arg9 only at this moment.
++
++if [ $# != 1 ]; then
++	echo expected one argument: '<'dtrace-path'>'
++	exit 2
++fi
++
++dtrace=$1
++CC=/usr/bin/gcc
++CFLAGS="-I${PWD}/test/unittest/usdt"
++
++DIRNAME="$tmpdir/usdt-notes.$$.$RANDOM"
++mkdir -p $DIRNAME
++cd $DIRNAME
++
++cat > libstapsdttest.c <<EOF
++#include <sdt_notes.h>
++
++void
++libfn(int argc, char **argv)
++{
++	if (argc == 0 && argv == 0)
++		return;
++	STAP_PROBE(test_prov, zero);
++	STAP_PROBE1(test_prov, one, argc);
++	STAP_PROBE2(test_prov, two, 2, 3);
++	STAP_PROBE3(test_prov, three, 4, 5, 7);
++	STAP_PROBE4(test_prov, four, 7, 8, 9, 10);
++	STAP_PROBE5(test_prov, five, 11, 12, 13, 14, 15);
++	STAP_PROBE6(test_prov, six, 16, 17, 18, 19, 20, 21);
++	STAP_PROBE7(test_prov, seven, 22, 23, 24, 25, 26, 27, 28);
++	STAP_PROBE8(test_prov, eight, 29, 30, 31, 32, 33, 34, 35, 36);
++	STAP_PROBE9(test_prov, nine, 37, 38, 39, 40, 41, 42, 43, 44, 45);
++	STAP_PROBE10(test_prov, ten, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55);
++	STAP_PROBE11(test_prov, eleven, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66);
++	STAP_PROBE12(test_prov, twelve, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78);
++}
++EOF
++
++cat > test.c <<EOF
++
++#include <unistd.h>
++
++extern void libfn(int argc, char **argv);
++
++int
++main(int argc, char **argv)
++{
++	libfn(0, 0);
++	sleep(10);
++	libfn(argc, argv);
++	return 0;
++}
++EOF
++
++${CC} ${CFLAGS} -c -fpic libstapsdttest.c
++${CC} -shared -o libstapsdttest.so libstapsdttest.o
++${CC} -L. ${CFLAGS} -o test test.c -lstapsdttest
++if [ $? -ne 0 ]; then
++	echo "failed to compile test.c" >& 2
++	exit 1
++fi
++
++export LD_LIBRARY_PATH=.:${LD_LIBRARY_PATH}
++LD_LIBRARY_PATH=.:${LD_LIBRARY_PATH} ./test &
++PID=$!
++sleep 5
++$dtrace -p $PID -qs /dev/stdin <<EOF
++test_prov\$target:::zero
++{
++	printf("%s:%s:%s\n", probemod, probefunc, probename);
++}
++
++test_prov\$target:::one
++{
++	printf("%s:%s:%s:%li\n", probemod, probefunc, probename, arg0);
++}
++
++test_prov\$target:::two
++{
++	printf("%s:%s:%s:%li:%li\n", probemod, probefunc, probename, arg0, arg1);
++}
++
++test_prov\$target:::three
++{
++	printf("%s:%s:%s:%li:%li:%li\n", probemod, probefunc, probename, arg0, arg1,
++	       arg2);
++}
++
++test_prov\$target:::four
++{
++	printf("%s:%s:%s:%li:%li:%li:%li\n", probemod, probefunc, probename, arg0, arg1,
++	       arg2, arg3);
++}
++
++test_prov\$target:::five
++{
++	printf("%s:%s:%s:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
++	       arg0, arg1, arg2, arg3, arg4);
++}
++
++test_prov\$target:::six
++{
++	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
++	       arg0, arg1, arg2, arg3, arg4, arg5);
++}
++
++test_prov\$target:::seven
++{
++	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
++	       arg0, arg1, arg2, arg3, arg4, arg5, arg6);
++}
++
++test_prov\$target:::eight
++{
++	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
++	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
++}
++
++test_prov\$target:::nine
++{
++	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
++	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
++}
++
++test_prov\$target:::ten,
++test_prov\$target:::eleven,
++test_prov\$target:::twelve
++{
++	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
++	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
++}
++EOF
++status=$?
++
++exit $status
 -- 
 2.43.5
 
