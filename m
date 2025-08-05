@@ -1,86 +1,78 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A44729B776
-	for <dtrace@lists.linux.dev>; Tue,  5 Aug 2025 19:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E1A29B8F8
+	for <dtrace@lists.linux.dev>; Tue,  5 Aug 2025 19:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754420737; cv=fail; b=P/yEKWPB7OrpStKnMQLeGqVmzJ4YZka1QrhIigdTEMtgLDxCf9DJWw4MnSPl/UZjk0EGfL0iSFPrdvtS5FujZohNgIsZfjRkDR0+1aBC3bGDNGuodo0vD+joGpvHHACHKNvxEKUTUpF31QK/n6UnYjH54dI1KPI2/HwBRXP2dtI=
+	t=1754420931; cv=fail; b=bIUBtcKmLsyShMnpN+9piyitPskLHpl72euQ6S3HMrZSpe2Gp8zo6NWA0EkaZOZtDKNanHG1qJqR67HaDcfdUYDydNUWfsBniHjt9xcrosgqMp3c09T3VKnHEvnx/+W54GVr9ppJ20C2HpuH5ulvgOJSaRIY/kscYavH1ksV6Yk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754420737; c=relaxed/simple;
-	bh=+Q2uZeUeuarCpNc8qrvqlkZO65vvICLrZuJV+2izcf0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=rtz/i0GEG+Z/kvtEVjtpeLnNcOL0y9NvRlpEPrpAU0atkagOmeBsfG+DdXdWYYZYDbqjUXuoGf/2fJCf2ok3ILxLktHzdt8ojs3nKVlG/RdL8S6jY37+qAgcU4HyoLvay51AUAdpMo3kOViMm6WGcE5ZTBusbUULEEaahElFIi4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=HDr0q7uT; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=x/9bk/eh; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1754420931; c=relaxed/simple;
+	bh=xgog/vYapB/4JRBt/J1gS0tS4NzqQfIywlD2wwfqY3U=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=jG/z9ci+bu0Y9ZvYaB1OTekfwXCs4la0JfZQ+ST5pxbw8tCe4ue/f25U+9FHVuUl6oAluLDEsLSPU2WDgOD2a0vI8hM9kahs8/ZcfTW1ju6O95OY1a6BMFTAIDat19btc8oDuC4wsV22trYup/MepXQdor+Zzufs69jMgdR6gp8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Rkx+FhJm; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=cGyys/HO; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="HDr0q7uT";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="x/9bk/eh"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 575IuGmA027075
-	for <dtrace@lists.linux.dev>; Tue, 5 Aug 2025 19:05:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=VLPFDWAZaQvA/z35y5
-	vTXmBoUBTwBcQ5aJfV6ktL/ts=; b=HDr0q7uTVeC4q0sZP8Ep3bVHYGIdeSfOYx
-	DDN94dNl2+0Isym15pZMg/fccTxRA8OmYA4pryAPT9zF82BqRID0UyrBYtMCjaQC
-	EJcaCY+rb4FmdbJFkE61vK3tvdsEmsPeEMxkJbyG5ArCfhzYPBb1C9CPBTsL3cAD
-	Iuzfgy2aS7qvvEnWijAquZu5UhDkFse41AwHnhBQuvr5i5q9mKw+SNkT3HUEdh99
-	y47UrN+KXc460/VBk4H+o3yMJjn17bhpOsDHSOQsrkeu2Lgt3ga8LMG38Ulm1JWe
-	lQGEBpJdyuYUe2jqjQ8SnVNQjvWlfCtfUzEL2dsF0Gx2/qjKouLg==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48bpvg040w-1
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Rkx+FhJm";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="cGyys/HO"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 575IuDjK014417
+	for <dtrace@lists.linux.dev>; Tue, 5 Aug 2025 19:08:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	content-type:date:from:message-id:mime-version:subject:to; s=
+	corp-2025-04-25; bh=hArQO1YDsqLLAEZakoZ0Q4A27/9AwXHsXVSbHuL3TAM=; b=
+	Rkx+FhJmMTO+zrPUtqppeqmnGrTqS6j/AQ8CIWE3nvjMfHN1EteiiSa5aqzW8IjT
+	bsX1xKt7RLfsJbmkwrGqBUhmOooAMF65aRgU18xXz0YnUJ116v6FbkjlbDLfKxpV
+	mZjErd2L1H7YqwpEtCoQTAzsr2TC5pXWLyaJM5q+YmAHp+Vu1PiOOtea5uubEoE1
+	JIgX3dQBfFp3Kvy1ikIVcgyinbob5L/w9+fspelZnv4djFR68xumzmQ0LTW4kRvc
+	sFcMGeEbsx+YAYzi0ys0ajym3mrabjLZXLWg6xKrFdX6SgJw71k0yAXPwTzf5BX8
+	yq8LMn4J5WTz3dM6JDFBDA==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48bpvf03q5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 05 Aug 2025 19:05:35 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 575I4DE0019899
-	for <dtrace@lists.linux.dev>; Tue, 5 Aug 2025 19:05:33 GMT
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02on2048.outbound.protection.outlook.com [40.107.95.48])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 48bpwq2a4f-2
+	for <dtrace@lists.linux.dev>; Tue, 05 Aug 2025 19:08:48 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 575I48Li028978
+	for <dtrace@lists.linux.dev>; Tue, 5 Aug 2025 19:08:46 GMT
+Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010003.outbound.protection.outlook.com [52.101.56.3])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 48bpwk2cdj-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 05 Aug 2025 19:05:33 +0000
+	for <dtrace@lists.linux.dev>; Tue, 05 Aug 2025 19:08:46 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S78nKPfvqDbiREcCdaTiUwBYCNj/0cQNqZrTnRi0rPABTOIp198c5xq3/qBIM1184OlgPJjQvVYIcB2Q0cmC26A80Ha+tRWiBcKrMgRfg23s7YAP/EETVOFFU9cqQqP6YLAU5Pl70NqbCTkm5idCd9OeUK6Lo+fJ3t9KXJuiz2PctL2nHILhIj7oKWh8V+lkrkSHkQXJPouilcfi/WqZHmfnFIo91fYc8zu/09gXAMXGfm3aI+D6DJCNyUXGCwxSGauiVUg6EjsDZ74PeZxaRSwgTuPJFe9nzw9IoeOqqCtJzUbqMHm9cngqWzoyFxqFfdBrcQhUWHdJG/ozceRKWQ==
+ b=FZOdJ+8dzDfs2HgIDAWFEuk/Kd6NaV9N2Cut5HaBzEnoBEfdpbhiU8plI+QSOarnAozWcBt4eTBRMOhNb9oBP82Ma24z/sjCGJgSALaMcBByoVWqgGU0tbkR9esnL30ctS3TRcbu65oLc43eDpDQ2SuMFjjUqvsGRPd8x+l9bySzwO0LXrXKaAMJ6oCnSm1yJth2xJGJ8sBcQKc86qo6bF77KGcKGBGJC+f+yvwoheh+feT5bS+zVTFAhYh05vE2TUfYqGGd0nTecyGzGcfOt203c8sDkaGRqY6lfPF7W+u+7KFp/4DtT5ASsx91yNTeXCTA7m1srMh7tJFa4RVo8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VLPFDWAZaQvA/z35y5vTXmBoUBTwBcQ5aJfV6ktL/ts=;
- b=fpvNqnzapvAXjtat5AeKDQDBLXjrUfbMksxTxSNmqYgdSSG3DzWA2tj716lOr53eWvyuYXCNwwIEzmj/K7Cmp+6mTAg4byHvwoRB9dt+loINxBAf9TikMhrXR3jHbMTqsOf3J2yoXqDC7GNwc6LV8YRcz5fepX4U8fU2ubpk/oyWMBWEaIAFbwsG6oCO5IQSUBEF6RfN/63WRNts+hHGasf2Nibh2ryn4CyR9UF3HZ0vF7gBBnAvrdD0hZ8H1jIPZObwJqHJgUFjaapd8IqC2O3kQ+iSHwLwwfrMTmwSBTYUbqrMqAjPSMDoo9IFCdaEg8EGsDcgL/MqgOKqYcMzww==
+ bh=hArQO1YDsqLLAEZakoZ0Q4A27/9AwXHsXVSbHuL3TAM=;
+ b=fcCvUJICaPaQWFyX/vEa2t4aaqSL88IRbzkXB4io+chttkPKI5YmfyzuJSAPoEmhdi8Tatcgkc720loVKdsnraO6B6nn9XKjDNPJO37CTTARiOWE2k8ZUoDyB7Z81Uf4p/gIOjsRSraYqQe4FWcmZOxVmQ+m0YxJuTj7XzqJnf9JIXzaSTds6NZQVCWt4aJKt2B3Fn36xZdHdA0wUEzMHTQbEKZjlfTgRdokUXWkP5lgX1Gmx86FjBUIFt8ouZIeC9pDZTDR94tbgI2dxMSq2Aldgw2Luq5tdrzcwiefN3S3hOu18BcDw91q38nYSgMIVyH57AzmV1mMyOk5pnFfWQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VLPFDWAZaQvA/z35y5vTXmBoUBTwBcQ5aJfV6ktL/ts=;
- b=x/9bk/ehIXBhRAQJhRnmNJfdX7V69FZ65VXotWkqag6XhTC3dznF7pvP3TdXld4CSoxXoAqRthR/jgDnVbIRswxZGBBt5vz+azFlc5uDJA8xV1gu/vJXX1LzlfZo4cVHoYaNcdj/xJF3ZrFZ+8VtajjisIRjb7KVcD/MUD7hZbA=
-Received: from SJ0PR10MB5672.namprd10.prod.outlook.com (2603:10b6:a03:3ef::21)
- by SN7PR10MB6407.namprd10.prod.outlook.com (2603:10b6:806:269::5) with
+ bh=hArQO1YDsqLLAEZakoZ0Q4A27/9AwXHsXVSbHuL3TAM=;
+ b=cGyys/HOAwTC7RixnZQw4UXM23j/ektLSakKyfh1h47rJWwMK+6jK3S2J3V7sJoDbNf62GV1gWDxFpvhXL5uQSGDPuF69uwP7WM5rQk8xRwCPnYoRzornEU2Po5BjH/tjgNd/nMAXKo9zD5pJyDEqKptC3wtnOr4soxp7qyq3hQ=
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
+ by BY5PR10MB4321.namprd10.prod.outlook.com (2603:10b6:a03:202::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.20; Tue, 5 Aug
- 2025 19:05:31 +0000
-Received: from SJ0PR10MB5672.namprd10.prod.outlook.com
- ([fe80::8800:9203:9f66:174b]) by SJ0PR10MB5672.namprd10.prod.outlook.com
- ([fe80::8800:9203:9f66:174b%6]) with mapi id 15.20.8989.018; Tue, 5 Aug 2025
- 19:05:31 +0000
-Date: Tue, 5 Aug 2025 15:05:28 -0400
-From: Kris Van Hees <kris.van.hees@oracle.com>
-To: Kris Van Hees <kris.van.hees@oracle.com>
-Cc: Alan Maguire <alan.maguire@oracle.com>, dtrace@lists.linux.dev,
-        dtrace-devel@oss.oracle.com
-Subject: Re: [DTrace-devel] [PATCH v7 2/7] support stapsdt ELF-note-defined
- static probes
-Message-ID: <aJJV+HZNnqOprcOK@oracle.com>
-References: <20250730090148.2141954-1-alan.maguire@oracle.com>
- <20250730090148.2141954-3-alan.maguire@oracle.com>
- <aJJSUEWU0eLuHKEd@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aJJSUEWU0eLuHKEd@oracle.com>
-X-ClientProxiedBy: BLAPR05CA0021.namprd05.prod.outlook.com
- (2603:10b6:208:36e::17) To SJ0PR10MB5672.namprd10.prod.outlook.com
- (2603:10b6:a03:3ef::21)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.13; Tue, 5 Aug
+ 2025 19:08:43 +0000
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::8b24:5536:3259:5a69%6]) with mapi id 15.20.8989.015; Tue, 5 Aug 2025
+ 19:08:43 +0000
+From: eugene.loh@oracle.com
+To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: [PATCH v2] Make sure all probes are listed in default case
+Date: Tue,  5 Aug 2025 15:08:36 -0400
+Message-Id: <20250805190836.18761-1-eugene.loh@oracle.com>
+X-Mailer: git-send-email 2.18.4
+Content-Type: text/plain
+X-ClientProxiedBy: LO2P265CA0487.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:13a::12) To CO6PR10MB5636.namprd10.prod.outlook.com
+ (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -88,171 +80,262 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5672:EE_|SN7PR10MB6407:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9b108d23-0b19-42bc-c926-08ddd4530c5b
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|BY5PR10MB4321:EE_
+X-MS-Office365-Filtering-Correlation-Id: 07833f7d-a4ae-4f59-3ae0-08ddd4537ef9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?c+YEP/OvgK9yD0uoRt8rjH6NDzjZ7fFyq7ChO+zBSb50XuhkuqGMPHP9HO+9?=
- =?us-ascii?Q?bKTe+rXVGebqEa9ZsBBPSqTpPT+LT1nxxDDjpAagBzhTsUQfwHR1yStb/KhN?=
- =?us-ascii?Q?iRIERiGNtg3PR0D2KAGzr04szAMirk45bhJfzJFMH1ujYsmwb9SorTCtJygA?=
- =?us-ascii?Q?/taMAXqshub/EOYxpVKrnhJ+XnXt+V9ATeeq7o+gPP9INyOTIPdBvh0bjZ8B?=
- =?us-ascii?Q?gHiCC+m0wdYkHQO9CGDgvIQokB8qQ+MBM96J42BCnfdFXdwQHIYMVyNFDKqI?=
- =?us-ascii?Q?134Sc78Ab2HL2DqeFWXSR3QUaObIbl/+OuEhA0/buSj1D4YhpId9D/jh4GDM?=
- =?us-ascii?Q?oKxoIRBoCBFJfqAQ6aFUSlJT8REYURFefn0ly3DIGYlDiJDAscJpJfhsg4vG?=
- =?us-ascii?Q?HVIVyRiBWaxWHkkcAxaDNWKqq35nCJskVfju5ueG6aIzUAWYsoeAck26WPC4?=
- =?us-ascii?Q?VrVIVSy7G3pCJaIrRC4Hu3Y5REEFA1czwSc4t7opyKTMoMwsIdaFXFzf40Ju?=
- =?us-ascii?Q?me7hjKcYOTPTRjSo5XG6HMTojQby8LHb/xBCscXSPV0boSxp3Fp06X9HPEhM?=
- =?us-ascii?Q?kOHSKDCzaiN0WRe4ZYZz8yyyh3V5iwRlHegLGY7p/amWNYjOrfV4cYfaprRo?=
- =?us-ascii?Q?PkZjwP68Mfv3frmIq+UZhDrYRJ0gnEKnJ8fbzEqRW2BswM7d4n6y4jtZRT82?=
- =?us-ascii?Q?JwMn/yeADRhD0cp0z/sjKBSi2ntEVx+HjF35ZxJmca59yQJaCfJ5JtIJLKEv?=
- =?us-ascii?Q?/AMcbgfRc1cFxRH1mRsIW1UQVxGpDE7R2UiTv+dBhrvArcn0JjyT4fDcV38p?=
- =?us-ascii?Q?eKJcMaKOp8aTDmNpo73a6yKMMF/Qq+XTPBhPFUM9JDTOS41TEsjKypPBmy/B?=
- =?us-ascii?Q?bjzkqnSJiChwokBhlOTE/C7gSkdx22ywxSu5QYuwJ2tqKohUdTqDkq00//96?=
- =?us-ascii?Q?TUmxKx9/5AuB/i9JxWTSf9fgo/QHHzPJUHiHihG0pFnx3f/BidoHdbMBtCP1?=
- =?us-ascii?Q?sR5IVAxe/gCOnGUtrkRFPfNx1cNPsIcByqOdrhH8ZQjyYngkdDvTbIPMVmjQ?=
- =?us-ascii?Q?coGo1kWPxt15oVnJjEmdyMHZwU/dRGqaUy2NjsfPGMNv2HOEpLw2zVEQdrBi?=
- =?us-ascii?Q?X8Y1mnxgfiDrvHVBdPM/maEzjl6ZcAUpgrlUaCgYD8OTHpjDddRrGxTHuxJY?=
- =?us-ascii?Q?oXCgUk/m3Vftn/a8b950UtjmdE7IsMj70VRgXABsFHIja0Pxz/5c/6Q/ZRGe?=
- =?us-ascii?Q?F2VQRdwuQxYaCn76rpBIf7OmyskeFKxYkycnzYo2GwN5dvO8fSv3VBV1kAY/?=
- =?us-ascii?Q?857E0FVweG3I0kSq39Z9k2aqglgLfXuAyJGQ9txgP0v0SJarOMR1w7fv0j/D?=
- =?us-ascii?Q?iXzKpeYS4KirxCwRbExRQsZvQiriR8vzm6JvvyJUnWxsITKMrwAZRHHSGIvf?=
- =?us-ascii?Q?zFVtRjrSVHM=3D?=
+	=?us-ascii?Q?QAVBTmVzMq+FDTH7zAQkO1IZf+hXqR49F3QTkw8+j7JdrAe4hir+Y+6cEHv1?=
+ =?us-ascii?Q?fhCZ5FjXoB3+Qwlkafhnq8U8oeZQZ/He2d3QJ+4Q8DDmnt4duCBUjDPT5sSX?=
+ =?us-ascii?Q?DlhzdBYrpki1zesFdo3iwzvjc0i87cHv+5ayxag9gBwx+LUwFKAGAgW/sj8N?=
+ =?us-ascii?Q?iyuF4FZ7esKu/emDdNrJRhT7/07KBxLON2zEUF2NHwzqyAh2RnuwR5new4Af?=
+ =?us-ascii?Q?EhX/J8zOBUTUI+mAAffMdgRKVDmZ26FE/36MVUxn3rvOMR2qK4evYbCZy5Va?=
+ =?us-ascii?Q?yvM2PLUGnaHvqeM5aIdB1+6XM2X67358J9wbJFp8w7ub3XvXSwSY8ZgLEkmq?=
+ =?us-ascii?Q?rMbICbURZiOH69uUhZkYSrHavpgmsoECx+kWUNX5IXkrYu1ZfIFWFftHV2D3?=
+ =?us-ascii?Q?hW05aYhlJxgVLeT2qJ2h9zRcoqcXq9LAbs/jkrH41hHDFZ5YUVi8kvL0TIW2?=
+ =?us-ascii?Q?Y9OhkuV/SZH1PeU04upmjvPEV1xntfD+LA5YWfRfvl1mn/mBuJAy16AmQamO?=
+ =?us-ascii?Q?X6hGjc4VehOpVYRZyVQm7Zr8vAXRRY5rPNd3apCfe3f5WO+9d2zlFi615YLd?=
+ =?us-ascii?Q?9IuVB3p7apLHWDguyAS8fv6f9nk/+sRy8tZQh3DD7APPtwDRs1FZE+vYQ8dI?=
+ =?us-ascii?Q?6WQj9RSlr6mLtgndWPCdfeE4s8/8WmICHk8zr7PkR/oUh0PFFfyEtR3Vu75w?=
+ =?us-ascii?Q?se/Cuv8eKhmFfrZaiFAfluKLHkckhZAZ1yK4UkOKhN5UUBsnM2BARynbp3+x?=
+ =?us-ascii?Q?Z6+e18DM1jkQHPWkye/oEmBGpg1lKuNjA+Tb2mTpAnIRtGBxic9EUJH73W6n?=
+ =?us-ascii?Q?XuRtxSocUTHFWQi1HYxGOWxKfmk2qaDkQCxoVuJuKyKRRfzrS6juthX/pm6V?=
+ =?us-ascii?Q?QwdBZu16Hm0XdvqO2eVBhKptSFkFKrU7Cm1Q8pEzkTTo+0s4DPE0Jy8UY3fa?=
+ =?us-ascii?Q?w+Hu5/22oj0L7IcrbvrfzWSYSJc46Nd/RarrAphuwmIyN3J0sYPhiveG9kpE?=
+ =?us-ascii?Q?sCBQb26yD9nbiJkVrwenwfJGnVWYVnanSqNHNaLPxTWQ7C1ouHHTxdikcw+Y?=
+ =?us-ascii?Q?Q25/k0G6J2R33ej+b/4G681xs07QVphqvyO+84lQj005bsrBxAxmwuJzq3ZF?=
+ =?us-ascii?Q?bSXXTyXsC1bO3AnUGCWPaPAVmmsHlrgwoukPoerzRkN6e/xNKoidF9ObmyeP?=
+ =?us-ascii?Q?blrTZgQZxH0oFYobFlv9IDDvyWGatJ5Dj5SjTF9Umpg27HJmBYkoRy86KzIr?=
+ =?us-ascii?Q?ATpj5OS4QWZ0pebEVcCGkpfEx21yklWrAW9DGCMgAI+jANU8LWXZlw6yYJOg?=
+ =?us-ascii?Q?Tsz8HmN3kXiQVcWnzXp8FYJMl8UtwaCI2EQHRY24a1VWXzzzDQLE7BomF5mD?=
+ =?us-ascii?Q?qD5yKs6H0kc2iAs5Y8WPyq0q3bULgX5h8fmwrturlB+X0qSjzZco9geMs7HB?=
+ =?us-ascii?Q?4UkaRmpO/VY=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5672.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?LYvRJV9ePyJo+1aA1Aq6k0hBEJfx1xYS3UKv77rXYLuZ23yHsD14Z3Gcm7sy?=
- =?us-ascii?Q?qibFxkUgHmoPQqo5SY2/TLRLk48QEEuA5ERNOCu/yUAr1jSk4w13M/R/hP7E?=
- =?us-ascii?Q?Cn7OiOtgoKwm6zwDDE3WYouqkiQH297IjxLWCnaUC0K/ByCmbDnVrOGDexmL?=
- =?us-ascii?Q?VXR+O5YoqF4057ZHmbzAM0IEzkIE7BE1QsHbBhr/h49GKxmabYUucZEmtuVs?=
- =?us-ascii?Q?PXHaIsvBxFei2WON6jxIMpDPkiCp+oqn6tQr/hSA/AugJRKUKDE4Syu1N3mW?=
- =?us-ascii?Q?B3FulQ/21lon4CD3d3+w2zPQL8TL/J/Yw+LBMqag3PxGk0ze54a1h3GvkyFh?=
- =?us-ascii?Q?MsuQ3ZHXWOSNRGSe+uSg4afJkbKs21xBgyunlSnjiulJJIVZc4VCky3WKEsy?=
- =?us-ascii?Q?zA7ME5CNNRQnDmS1pVJuyuCimQTkUusM3H8hCm4EiVWBByvUbm501olA8gYC?=
- =?us-ascii?Q?vzreLJcOyiwfjyiTwP3O6sEKAPBtY/TNf3Swf7OkQeoI1R8fdw/k++UUOgt3?=
- =?us-ascii?Q?7v3n8r8IixUu656Anfw4dlrXi6lIbT0IS3dfHHh0F1i7HocbICIpSdW50Y68?=
- =?us-ascii?Q?cSaH7TC+v3CqSJgr6nzYnBZRMqHVNsPP4UHgGOXjVenwklkdPJ1gBD/glaw4?=
- =?us-ascii?Q?MkrkoVPtny3Wf7f13EDyRBvwifHPOGW9c8yzzJVqntNZg/5mM2OeX5nDUQzX?=
- =?us-ascii?Q?+nYz3m2JGJbcIQeFEA3VPBhbZ3QfJp7hDw9aiJMMHil3YTUZZYC4m4QK/7YQ?=
- =?us-ascii?Q?yuKuOvf9KbUXGWAJ5CAqc7dyuszsN8r+zg4Di73yTeaHc8W06QOQ+i6cf/9r?=
- =?us-ascii?Q?tGte+x869eCd+iRYdtYbLFMErVQhkD2jAwOXvGuxyOUGHscbSnaH5TpVoLEA?=
- =?us-ascii?Q?7JEAOfC//LDNs1ZaQjPGAbdYDheNhqm9mXtQHsLGd19z0YYFBvgLr0uHubwq?=
- =?us-ascii?Q?E5uDg4AIQD5SskD9gkiXYgMPH1Rg97bku+YZHF0TecybqeKKIztMWdybWdO/?=
- =?us-ascii?Q?nvYOo0J0UOGTDzA3wloKlxfQZ0Ey4RIO/nkgb+WnuBeC2hYmNOYI6FCXiAna?=
- =?us-ascii?Q?Z0dNUUc9/mAnHqP82lff2SpPJM7qD4HIn0dhbORLOeeopn/eJoHrE4Y07VIh?=
- =?us-ascii?Q?6mA8WBLq+qFQoYRdFkfEnZ1DoLeG5rWQR+Ce3HETcdszjWMEFnE7pYU3CsZG?=
- =?us-ascii?Q?iNJCrunCgNgpP+kknxYYP1v9ZK/uxl/AlAvGKS5SWz3l1f8dXr7760RNJvnf?=
- =?us-ascii?Q?+mT71hFkP+dCxDjV+rtU1gTWlc5djIj8/UJNg1dhp/aXf02sB9aadf7QSDju?=
- =?us-ascii?Q?2142ZV/q6wwYQIwCiN3zt/kPWVWpj6zpJGpVYguivwU3PrspNPYKaDgE3jEV?=
- =?us-ascii?Q?WBPGkyzp7QSgYsx7/FOB+16iWjJixfo4ygh+aHcxVAR2vSV7yHyhQ/Vhpcke?=
- =?us-ascii?Q?Haj9kTUprldwilRUrBzqfUCiUjZWzECAW5DW//ixJ0BVGUcCKFENT0SGSvVm?=
- =?us-ascii?Q?iBxcKg+vy/9BCe+MuB54HKUZkndIQo4YcUDIc/17CtoVkNLTqqPhtermVqfM?=
- =?us-ascii?Q?rvBBPocuwplqG76vsdiaZrwjRYI34svWblE9K6X+9A56gW4HQbt9yssxHeO1?=
- =?us-ascii?Q?6g=3D=3D?=
+	=?us-ascii?Q?foW94n5+mMgPKCLqD9fyiBD2vJYKLevQVVLklU9u/p8OK53L2/PeIzNj3J+c?=
+ =?us-ascii?Q?cotW4st3JuoTe7HFv0TNXo6SxoQHb9kSLpGzCHLhkuoDz2FjrIyMPdBMfTvX?=
+ =?us-ascii?Q?fv1dL/11VLZLmHhBj7oxgDvgy5/qkAU49kpjRINHeeBkhlxtHWD5IxZQ/n8E?=
+ =?us-ascii?Q?Gso2NuJfVc9rWCUZZLNXYucbjwvF/V6FI0e504h3BJKf6LwC7zfB00+/Dp+A?=
+ =?us-ascii?Q?0Kk5iPzXKETG4vYFsAyf08gfB8Z4wSiqShMcCxCPNL0ySkNC/txhScFomp6T?=
+ =?us-ascii?Q?bH4K/LraBYOM83NHrFS8dg8609kiRMv++6Rw8JbuPc9jiUuQ24guT4uED2MI?=
+ =?us-ascii?Q?pJJAgLVLFmJplufukYAB40V+gXbdWpqDUIqdy3Z+6CQMDta4L5vlIMquIORr?=
+ =?us-ascii?Q?ib27LeEQ/MoECzZeNl1Nc0QE9eYbbdl/jK1J/UFOnKVogIR4ASPK9bDKiVLX?=
+ =?us-ascii?Q?29IvJUsE4qiEST61XyQISip6kMFOrgosrPTKB6N13Mg9nTNl6Ylx0Lh/Qi9a?=
+ =?us-ascii?Q?h6BkUHXZXvrz8wfEFjvZOXJ7olN2P2LVZAkby7b5wiLB7yA9rHf7rQ0aREs2?=
+ =?us-ascii?Q?nunxtEEbhErQQHtQ6WHh75dKA/sKYbZGwh9TAMZlKl2iWi9jIX7Z2MJWOdiK?=
+ =?us-ascii?Q?X92Y6MsLe28HRM/+e71JtLNf/mD9VaRualLR2Dp4oMr9KmIzTCWuR9JAD3qr?=
+ =?us-ascii?Q?x1hLycEABuuqM9T6mke7r8BpKXDCzU2VhM6b4jN7QNN75MykL5lcJnDl8njD?=
+ =?us-ascii?Q?aOS0h3J+P1SSHDm5iDr9UFfIioFujjs+EeP5PGhErbkVSpACy1+MhJ2mAejm?=
+ =?us-ascii?Q?H5U4iTPytzRPi7MduIuxZf39KgNDqX7Y6SPsckchv0ooHQqHKfwFZOUcKxwT?=
+ =?us-ascii?Q?XLbNUm3o0XeyLFLYUzfqyuhW88Qe6FX6IlZ9JWkfzVXdES+2WR5/E7tmG7WZ?=
+ =?us-ascii?Q?jOxRYui5tUePj3ee78CYT8UEpohwVzR2s1+Z8YW5YDvDCY6K0Zi3VYcyRuwU?=
+ =?us-ascii?Q?i5lvWQxKoWf2jPiJED6VgBhMBHf3H/58cO4gt9s7nqeV8NOL2wnRMErc1NiW?=
+ =?us-ascii?Q?ZAqK4FOyeB1QS7HJJAEDKtS6njd4MQMkxLEs2n6x6i7OynhsVoT8LuwhiKs6?=
+ =?us-ascii?Q?bw23XEGO6zOGObqmsUd2hgUDg/vfNsdQy46LVJdYi2SiPxuHrusKUQXpxg6a?=
+ =?us-ascii?Q?oOPcrVLoKA31BLYjclJlnLSR3tPXKLZlG2BMMbeIIcmB0mDAs4g+LKwTZpP+?=
+ =?us-ascii?Q?q5FKMCy+f6dw8uj9QIOhggcaUpxrlQthJHhq2MzUeG83RcJa29kjke5YCxIp?=
+ =?us-ascii?Q?vfCqLrVo40z46yhPpj1Ow0qwzZNSmzFp6QMgxi7ljWm+vU9NcLLCnHbPmx5c?=
+ =?us-ascii?Q?b2rAtBI97Yq0L9xrtr/upk1JOc4RKDAiz9UUQJ+iKTAC9/LGOyyFHDE6vnXD?=
+ =?us-ascii?Q?ZoQcElnM/WWtIQkEHPkcu7VCiNOXK/fWtJAeBS0GOYeMBUV8oWs9qNJK/wBO?=
+ =?us-ascii?Q?H+hfPFT5daIq5xEE5n42rSuORfNftFUTQv3laS2PzFDhCMEN1eawojIEWSq3?=
+ =?us-ascii?Q?mSi1YEkbKr8jEzMt4h3U/g8/iWDCDSZ6UKIOKNWK?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	PLPuZ0jczeX5Z+pp+q04sK82N3rKXyZtiDJ5nZLLcMqQyGYC1s9c5QsITpsZs2S6Hw6O+ReaiiVDkhuTbfLRsft36oj72vBXaFu+IVBFJOAP/7iP3kSYGfrjZe8bwhNZk8YPag4IhlWkqzeIOsJhl+64isVDtGP1fJK9NeeZ83Cb9ZyrDNULrW2JRA2ml+asN5851HzsmZDrlh8MruNIcufKiyLpiEbG1fiXZ6thp/7E+Fo25Z86A0p3/6zaG0dC6iQcLfTsu9xbGri/7Irjfq27yAYPrZaVDh6i+D5/+872ARXn4QFO8Lx67OITdtDUAIUuQE1ziuHO8qAkb3wHj0F4lHsBhqSEb93DWFIY/2NosHF7xJiXYw6FRlA61IfIxZLtX5iUm9SLa0l5M7L8tNgk9ge7V7ImqZJ1/wSXu7oDE5SgEJ//EfWsAmET6mr3M/2SOsu/gBTQ9R6X2aRu8R2oJh8Lb5h8oCzlbp72mkq6zjFNdN3f/PF5gUK39O12raL6irRb9UPl1jV32tRe++8VEfhLl0ZQ8i8EWvmfVFJxAbaAVjdNTVDwMlT8oeKdpjPFoUcj60VpBA7eAVMKa7d+nlMm5e/GNUEIPXKkM5E=
+	BXR8QPKhmoHIkyj6hSIZ9Dyjs+egMFu6e4AavnreYVaxuz/B4ZQFTBgz1z3NZxz6IFAMeBOC3l7R+D1KiXI3fhPQBaXw0KMAyuvDmdWdmFrgbSSUHgRXGij3C+Z4XcHGXuUMAkRhvSxE7IxYsclBnjWOM449B+7pZ7KbKrqDdH/QFG51+sM6I6itDOhspiKlj69VXX0zvcV6GncaMDvXYxkMgyPUXufdgTkV23gZjoxc8q47+AAokVDyHv5ga/7GijfNBMhy7zV/J8lJUGVeiMyepc+thsJARKYNOiCmxunqBtW93nDyCeJKQAhPm5zxklfNwZZ826VHvcyasmiursDY/OphxfmQvAQUxNkDZeX6rF9na/eFmwiM9ZqyqPSoxZ9pCNZxI+lSyl9S74phcCDC9YsrPuEH+PzR1jG8LAnOzweZUU6nhooZ3pXKPs0QVEf1keIu36loi3Z8J01WCdkd4hakRo0w7QuMKaoYRUqj2fPvBFlzF1eaHKdG9E/UD0AybzXg3MZPux8oPqtzKrJWmFr+x0umrOzBT1ajkfnTvzMkmqX/eu8VcnQi/Tk9yEssF43djZsN3EybOZjdS0HUzSIjCZesFguvL+0j6kA=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b108d23-0b19-42bc-c926-08ddd4530c5b
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5672.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07833f7d-a4ae-4f59-3ae0-08ddd4537ef9
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2025 19:05:31.2862
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2025 19:08:43.6967
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GQO8ltgujoBLqqvHD2Jo1qSSHZgWIX7MO92v3lHlaAKlt+oi80FTCsH7UqQ6Pbzf2JTeERXVLiBjK/psxRr3LQJbC0NOFz0QGqAWtDjStNw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB6407
+X-MS-Exchange-CrossTenant-UserPrincipalName: TFcNRzKBDb3gL2iQ1M5unY5JRPRQR4hrMxGyKLlb8Qqp1cUPSlVF1Ik+GuxCTuxKJ+FtvFLpdv5VBcuv5NioWQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4321
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-05_04,2025-08-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0 phishscore=0
- mlxlogscore=999 adultscore=0 spamscore=0 suspectscore=0 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 mlxscore=0
+ phishscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2507300000
- definitions=main-2508050134
-X-Proofpoint-ORIG-GUID: QlwVjJraEZ7YJVzWT9zs7KEseP43Jz11
-X-Proofpoint-GUID: QlwVjJraEZ7YJVzWT9zs7KEseP43Jz11
-X-Authority-Analysis: v=2.4 cv=QORoRhLL c=1 sm=1 tr=0 ts=689255ff b=1 cx=c_pps
- a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
+ definitions=main-2508050135
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA1MDEzMyBTYWx0ZWRfXzlRUqAfPAhos
+ 8Qs+pPEJ+Kf0Vk9WpV42JPws3Wg0divmpsZn/S6ckDp+INnOfUarLBF1MdAFZ6f7DlsNdAjcJt1
+ 9UekXqPcOhYpU/yuQGcb9IhkavUy1K+sNT2fvxSuQ3GGHKOc1Kbfj1ZJItk/z9uHYSckQIvKNh1
+ 0gSGRsSs1izjdkuFSx8H4jSTU6JbQgnrmLltq2khN4vVeF9M+yNQXJOPD6o37SxS4KuKP2xEwAE
+ EIX4upZtcLL02g2SbtUhMIH5qPA//gUtbLDEUCJCHFhgRIi2z7PPR5d9olBB+ND2SAOxWKBLc2n
+ LKB3n2sPlgnreAJWrTEAN84A8pvi+cjvNobeOPX+ZABonUd9fceQu1irEvXkpd8tnzPm5hENFR/
+ qSf5Zs5Wn37PdwU3n9qtr9HgaM2Du9X09w2tN3LyMmDzQBbL3B5g/YRHHNa7Cx9p+XOxFhfW
+X-Authority-Analysis: v=2.4 cv=RtTFLDmK c=1 sm=1 tr=0 ts=689256c0 cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=ewIvUW9WX-wB3hmmzzMA:9
- a=CjuIK1q_8ugA:10 cc=ntf awl=host:12066
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA1MDEzNCBTYWx0ZWRfX5WmQrynKpHPM
- byLFwI4d/etUAVqR6WgP6X7QKSKJvft47vVk8NnJ6SxeWuipxGmD33+b4lhzYmekMNYOm2mF9Ua
- TujvGX9AQ3FzVtPVUXPcTObriUIc6BGfTTxh2BfuG2xPxXcxwlN8b5KzZFzrPk+4G6UQ1CaLfmn
- GexYrTitYBenKIRdTR20s3wvzLL1doP2P6eZopFI7lDzbMa1V/UqMU482gnlncFcDTzvGFBn04X
- lMm/WXmOp6zP0xmEdOD6HvKQsKB2W3btdhZZPVNYU9+NYkoNBWz6YyaKY14//XxnirunVTZIV0m
- 4aZsv6vJjcXknNNADZjNmzt606Qk1fRhOVqzpoUTz0C0qZIYi0EeMHbE2BxF6hl8rncAWyYVFK2
- BDaAu5l7bMvakMb6kZsTQL3cIyoDhG1XfKepx+Vejy6MAKqJeGIRFVsv0Ie5sGLbFwEPwPs1
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=2OwXVqhp2XgA:10
+ a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=V3SoATIoaGlUVTrDMlIA:9
+X-Proofpoint-ORIG-GUID: 0icn-iJrff5pbi5IJ3FARHOX93BUo6Bp
+X-Proofpoint-GUID: 0icn-iJrff5pbi5IJ3FARHOX93BUo6Bp
 
-On Tue, Aug 05, 2025 at 02:49:52PM -0400, Kris Van Hees wrote:
-> Comments below.
+From: Eugene Loh <eugene.loh@oracle.com>
 
-I wrote too hastily... see below...
-> 
-> On Wed, Jul 30, 2025 at 10:01:43AM +0100, Alan Maguire via DTrace-devel wrote:
-<< skip >>
-> > +static int
-> > +dt_pid_create_stapsdt_probes(dtrace_probedesc_t *pdp, dtrace_hdl_t *dtp, dt_pcb_t *pcb)
-> > +{
-> > +	const dt_provider_t *pvp;
-> > +	dt_proc_t *dpr = NULL;
-> > +	const char *pidstr;
-> > +	char *path = NULL;
-> > +	pid_t pid;
-> > +
-> > +	assert(pcb != NULL);
-> > +
-> > +	pidstr = &pdp->prv[strlen(pdp->prv)];
-> > +
-> > +	while (isdigit(*(pidstr - 1)))
-> > +		pidstr--;
-> > +	if (strlen(pidstr) == 0)
-> > +		return 0;
-> > +
-> > +	asprintf(&path, "/proc/%s/maps", pidstr);
-> 
-> If this fails, asprintf() returns -1, and path is undefined.  So there should
-> be a check to deal with that.
+Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
+---
+ INCOMPATIBILITIES                           |  2 +-
+ cmd/dtrace.c                                | 11 +++
+ test/unittest/dtrace-util/tst.ListProbes.r  | 14 ++++
+ test/unittest/dtrace-util/tst.ListProbes.sh | 83 +++++++++++++++++++++
+ 4 files changed, 109 insertions(+), 1 deletion(-)
+ create mode 100644 test/unittest/dtrace-util/tst.ListProbes.r
+ create mode 100755 test/unittest/dtrace-util/tst.ListProbes.sh
 
-Actually, since path is only used in the code block near the end of the funtion
-there is no point initializing path here, because that creates multiple places
-where you would need to free it.  Just move the declaration of path and the
-asprintf into the code block.
-> 
-> > +
-> > +	pvp = dt_provider_lookup(dtp, "stapsdt");
-> > +	assert(pvp != NULL);
-> > +
-> > +	pid = atoll(pidstr);
-> > +	if (pid <= 0)
-> > +		return 0;
-> > +	if (dt_proc_grab_lock(dtp, pid, DTRACE_PROC_WAITING |
-> > +			      DTRACE_PROC_SHORTLIVED) < 0) {
-> > +		dt_pid_error(dtp, pcb, NULL, D_PROC_GRAB,
-> > +			     "failed to grab process %d",
-> > +			     (int)pid);
-> > +		return 1;
-> > +	}
-> > +	dpr = dt_proc_lookup(dtp, pid);
-> > +	if (dpr) {
+diff --git a/INCOMPATIBILITIES b/INCOMPATIBILITIES
+index 035c3675b..bf55019ec 100644
+--- a/INCOMPATIBILITIES
++++ b/INCOMPATIBILITIES
+@@ -8,7 +8,7 @@ Missing providers
+ Difficulty: Medium
+ Likelihood: High
+ 
+-A number of providers are missing, including pid, fbt, and net.
++Some providers are missing.
+ 
+ 
+ 
+diff --git a/cmd/dtrace.c b/cmd/dtrace.c
+index e0e778db0..ed517abff 100644
+--- a/cmd/dtrace.c
++++ b/cmd/dtrace.c
+@@ -1443,6 +1443,17 @@ main(int argc, char *argv[])
+ 			list_prog(&g_cmdv[i]);
+ 
+ 		if (g_cmdc == 0) {
++			dtrace_cmd_t pseudo_cmd;
++
++			/*
++			 * If we are listing the default case "dtrace -l",
++			 * compile the string ":::" to give providers an
++			 * attempt to provide probes.
++			 */
++			pseudo_cmd.dc_spec = DTRACE_PROBESPEC_NAME;
++			pseudo_cmd.dc_arg = ":::";
++			compile_str(&pseudo_cmd);
++
+ 			if (dtrace_probe_iter(g_dtp, NULL, list_probe, NULL) < 0)
+ 				dfatal(NULL); /* dtrace_errmsg() only */
+ 		}
+diff --git a/test/unittest/dtrace-util/tst.ListProbes.r b/test/unittest/dtrace-util/tst.ListProbes.r
+new file mode 100644
+index 000000000..ad557253f
+--- /dev/null
++++ b/test/unittest/dtrace-util/tst.ListProbes.r
+@@ -0,0 +1,14 @@
++cpc
++dtrace
++fbt
++io
++ip
++lockstat
++proc
++profile
++rawfbt
++rawtp
++sched
++sdt
++syscall
++tcp
+diff --git a/test/unittest/dtrace-util/tst.ListProbes.sh b/test/unittest/dtrace-util/tst.ListProbes.sh
+new file mode 100755
+index 000000000..a747a0458
+--- /dev/null
++++ b/test/unittest/dtrace-util/tst.ListProbes.sh
+@@ -0,0 +1,83 @@
++#!/bin/bash
++#
++# Oracle Linux DTrace.
++# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++# Licensed under the Universal Permissive License v 1.0 as shown at
++# http://oss.oracle.com/licenses/upl.
++#
++
++##
++# ASSERTION:
++# Testing -l option gives reasonable numbers of probes for each provider.
++#
++# SECTION: dtrace Utility/-ln Option
++##
++
++dtrace=$1
++
++# Decide whether to expect lockstat (disabled prior to 5.10).
++read MAJOR MINOR <<< `uname -r | grep -Eo '^[0-9]+\.[0-9]+' | tr '.' ' '`
++if [ $MAJOR -gt 5 ]; then
++        expect_lockstat=1
++elif [ $MAJOR -eq 5 -a $MINOR -ge 10 ]; then
++        expect_lockstat=1
++else
++        expect_lockstat=0
++fi
++
++# Run "dtrace -l", print the providers, aggregate by provider, then confirm counts.
++$dtrace $dt_flags -l \
++| gawk '{ print $2 }' \
++| sort | uniq -c \
++| gawk -v LCKSTT=$expect_lockstat '
++
++    BEGIN {
++        nerr = 0;
++
++        # Fake lockstat if not expected.
++        if (LCKSTT == 0) print "lockstat";
++    }
++
++    function mycheck(lbl, val, valmin, valmax) {
++        print lbl;
++        if (val < valmin) { print "ERROR:", lbl, val, "< MIN =", valmin; nerr++ }
++        if (val > valmax) { print "ERROR:", lbl, val, "> MAX =", valmax; nerr++ }
++    }
++
++    # Skip the banner.
++    /^ +1 PROVIDER$/ { next }
++
++    # Wrong number of fields.
++    NF != 2 {
++        print "ERROR: wrong number of fields", $0;
++        nerr++;
++        next;
++    }
++
++    # Recognize some providers; apply sanity check on number of probes.
++    $2 == "cpc"      { mycheck($2, $1,     5,    500); next }
++    $2 == "dtrace"   { mycheck($2, $1,     3,      3); next }
++    $2 == "fbt"      { mycheck($2, $1, 30000, 300000); next }
++    $2 == "io"       { mycheck($2, $1,     2,     20); next }
++    $2 == "ip"       { mycheck($2, $1,     2,     20); next }
++    $2 == "lockstat" { mycheck($2, $1,     4,     40); next }
++    # nothing for pid
++    $2 == "proc"     { mycheck($2, $1,     6,     30); next }
++    $2 == "profile"  { mycheck($2, $1,     6,     30); next }
++    $2 == "rawfbt"   { mycheck($2, $1, 30000, 300000); next }
++    $2 == "rawtp"    { mycheck($2, $1,   600,   6000); next }
++    $2 == "sched"    { mycheck($2, $1,     3,     30); next }
++    $2 == "sdt"      { mycheck($2, $1,   600,   6000); next }
++    $2 == "syscall"  { mycheck($2, $1,   300,   3000); next }
++    $2 == "tcp"      { mycheck($2, $1,     8,      8); next }
++    # nothing for usdt
++
++    # Unrecognized line.
++    {
++        print "ERROR: unrecognized line", $0;
++        nerr++;
++    }
++
++    END { exit(nerr == 0 ? 0 : 1) }'
++
++exit $?
+-- 
+2.43.5
 
-char *path = NULL;
-
-if (asprintf(...) == -1)
-  longjmp(pcb->pcb_jumpbuf, EDT_NOMEM);
-
-> > +		dt_pid_create_stapsdt_probes_proc(pdp, dtp, pcb,
-> > +						  pvp, dpr, path);
-
-free(path)
-
-> > +		dt_proc_release_unlock(dtp, pid);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
