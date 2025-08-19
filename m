@@ -1,82 +1,86 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951362222C8
-	for <dtrace@lists.linux.dev>; Tue, 19 Aug 2025 21:07:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2AD017A316
+	for <dtrace@lists.linux.dev>; Tue, 19 Aug 2025 21:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755637644; cv=fail; b=HcpECwdnEh4xB9DSwDHE+/hJFU1bVoBFuNE3CBd6cMZkX7tvOZQxo35n2Ec2oj9l9FIQXFzdFbHpifJoYDithGM8AUP/SK508K9XLYDPq2aA+K3nhuBhQheOkmfJx1uj8tZ3BDsQzBYNnxzgUTM+QXxsuYSfUSwd2ROqzfsu/IM=
+	t=1755640720; cv=fail; b=tdbCq6rxMqOZCEHAHDEqSVpyUWgzAFT9PZwk2SX87gxA1S4EEMo/IZBmniZrVVDmnrHNA9UabR/wp99Llo5nNnknNvFuVt0F87dxCDY2yAE0QSpwX30budr/H2mXHEVIa+sY+Cg1FSrnmM/Yas1vDi/2qgnfoWAnU02/mjKwH2I=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755637644; c=relaxed/simple;
-	bh=HqgJoTsxaShDFOV6Cr57VsawB9ZKCsvEflF8Shzml/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=UZzN9ARsrg4mIIs4GJNSJwO7EOsC/eGxfCusg3bpZYWwqKZwgcU7otBR/JMSsJkm4xoCSCJUGlP94/HRdf5gaOsdHSmXQqp5QcNRWJjlyvws6EIu9MLb33qE9ZZmAvMX9+tKv/ZPbXmyoHcOzp+p+0YOv8lFK6Nmx8ICjWP2Uo4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=mByE+lbw; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=G5dtfpag; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1755640720; c=relaxed/simple;
+	bh=C6R/pU//5DGX/AsMkmF2xwt5tf+/NAh6fL1VfS9AWk4=;
+	h=Message-ID:Date:Subject:From:To:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=mzaPVqyPHH7U6QMYEpVefRh3SJ5AlAjTwxHSWEliI3idXT1XI4x+2mZEZ7I9mfiXgUP7FAQOqN83hz4RYuxi0+61XeHQ5vCmYd3d1eyk+b4Mi6TKOrajSPsV5HaHygNCUn2GG2eq/M75fHh94r+RNkbHXEFqZDP+m/IWt7u9PYE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=CMEpIRTk; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=D0faBHUt; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="mByE+lbw";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="G5dtfpag"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57JL2HvV023172
-	for <dtrace@lists.linux.dev>; Tue, 19 Aug 2025 21:07:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=x3JkH5PabR7akOlVs0
-	sc01BmI+WxIRMCicHI1P2Et4A=; b=mByE+lbwbCa3PrLNXatW3+2UO6PEc6V1cR
-	YWhocPCK0BlVmYYB4etKL0woV+UbuMMHFfXIHyL0unx+ADUIMBwVqITf6usu0Tz1
-	HsnX+6Y0ZEGMb/DB6luAfpYE4+MHSdtx8opNWbK1SZ7WJxSNWF/U0gTL/aBgcD1l
-	OnRtu2aVVTuxMhxe9b4RB+Jy+UAP+MZKWBf3/PEW2VGj+yszVMQ1sXj5S7mg+UBM
-	QXpt8Xu6YQpOOZa2FJl5Zs9a6okCVxQT3656SdqRiqPJQPGqpuHVa99bex6u7BPZ
-	wS6qRQoUYcuIiN47CWHD256jLqYXdet1B1XfGJ6MO1XXZEul7VmQ==
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="CMEpIRTk";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="D0faBHUt"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57JLCOEq028404
+	for <dtrace@lists.linux.dev>; Tue, 19 Aug 2025 21:58:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=6dejV+0Roy6Mo0ucuSbTO2scI0in+cDcsGPSLP7xstc=; b=
+	CMEpIRTkvTaTdvVK/k72b0z62AcVuHKNUBOJQEGa+c+asGhxrev5V1IhuPJobFt8
+	LD8DQ/sxDwtBK/XBIRiEZO/ZUiV8LWhAd9NPHHuRUT6+X5BwYZVU9pJ16/KThBr2
+	KRo+aGOPLpLfnLZYIlJeOyCLfWqxxxTPquygAW8Eg9Sh6EF2PH8vtmSFCyAJw3B5
+	/W2codBXR7/fX0rmOWNsqQ1o6u+A5nB2MXyQ8LY90NuuP61N/YswS8vgA6uRQ/Lv
+	ZLFeqMiPIeeDEClrHW7tS7kk6hNvHVPzprVyabKHBovjdKPkamfvIItVK2XjaWbr
+	QTpgJ3eZVuwfJ22EQESMKw==
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48n0tqr070-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48n0tt02dq-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 19 Aug 2025 21:07:21 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Tue, 19 Aug 2025 21:58:36 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57JJ4Ggw030286
-	for <dtrace@lists.linux.dev>; Tue, 19 Aug 2025 21:07:20 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10on2080.outbound.protection.outlook.com [40.107.93.80])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 48my3t433f-2
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57JKl7Nt030214
+	for <dtrace@lists.linux.dev>; Tue, 19 Aug 2025 21:58:35 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10on2076.outbound.protection.outlook.com [40.107.92.76])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 48my3t5mkk-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 19 Aug 2025 21:07:20 +0000
+	for <dtrace@lists.linux.dev>; Tue, 19 Aug 2025 21:58:35 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ryPGYutIsMeTQvR+nPpX+X+cz3bcvg2ieEII+YBdY52izd5WWPpRP0J3dvzvK5y8vP2cc7izrBD7nynJIRmSyAvMQP6ktZ6K5Eme1TT1QvCsaPFYSgutxRoXywvl3fnUwR0PLtxRYtVOn/ASlLoQvI0yJfNc+RIpkzPSjB1xrfdvcIB6bsVAZDIwvoPP6Icnc3CqHE3/9SeEmtAnbwoaoxUMupMbVAxAHoVM895iLtWJXxkT26a5mybkWjo/R2ZPOLgH2A/2foio2XM6mlrDb+VJTeCjFpRHq9uDCrCrWjxqEPyBQle3P5U0FwnYLsRt2Jk8+5gIc3AbGPXBE967qQ==
+ b=pBXPAUbnIpD4Pjv5CuLCtvBN8SXU0XaFfmal0Sl8GEScCjewPdcEdwIqGWEp+xh4ZGH3uO5ksRNBC1qnL2Q7eEkFlHXIfYcwU+nHOEmDU4sR0kMWAeJVC6NTEtfJOnP+abqlgT2AhdIzPGBDqRAZtpyV2wweNQwKKK5t1nBL1DOSHnxBOHZEx+qG131mbuhLThlNaNXGBg72HTE9x4cL/qNCEJ6PHutr8poCM6Gh4NLNOgy2jw+yoGt7tmbzMP5SdfVslIhYm0ZtS/O8si8YY4BAaPKJomx3elZuVvxAFBuAHaAVkkAhORlg2F2HKKzoOad1LkdPOERpEmLJnQKUJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x3JkH5PabR7akOlVs0sc01BmI+WxIRMCicHI1P2Et4A=;
- b=fulvB/45hmzluJ1QH9JnQ/JkclnABHlc/8gfR1/L4ISjTMDTv/CzTtBW17olADT1Obv2YADenj8ihPOEZnNwLLf5jkWFGeI6MDQr+VlzFPHUJMl0P6nDT/eULdl59bMXXBCr7HYMnPDAd9KUohRe/UdjaOg91PC+74vz1B6YAyCdcuRHogIcIhF6yw9wxCdf5G0G/5o7rxa6tDUOgXDYdhKEz35JLZF2ZbEE6l1/zZRGpBrdVIFiWlS14j9BL5QhlWQ594MUt58Ka9nQHifl+ydyzERbb52RDCjHlPL3rP4HvHZpvylV1OZt4bDHKgwRi48VqvzofmquPD4PD/d8yQ==
+ bh=6dejV+0Roy6Mo0ucuSbTO2scI0in+cDcsGPSLP7xstc=;
+ b=tcd1A/Jzp3cRgfM4j+lYKRwVymtEyTpgkKu1ybKD0Ax21XlGl3RXRXw/gicA6SJnye0yE8QxGhMe90bYkRcUOj9ZpUcwyribThoRyCFXsG+qH5R+4uAolJMcLDVhpoaz97Y3e3FrNiebwAlGTBqDrzWwmEp4M3ybuVuYgEv76bksIa7l+CVACPFVATDTRfabtBeSwnWIHSPscmAfQm1BkLVfE9Tb7RdSd/Q1apGMEHuq+HgP8wIVaLtnB86S+bt15BQVZwbfx7Q9GDjiq1gA+tOY4vAasQpiQ9LcpgUvkychKeU7mqgJm0H4QwfK9SGEBoRH/dr2b9V1hLK/M9VWPw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x3JkH5PabR7akOlVs0sc01BmI+WxIRMCicHI1P2Et4A=;
- b=G5dtfpagmjNLj0CEFbyBH6IJtXdPOlpyzsFjEeC7+5ehiOhvFuVpc/ien6L/moPcailT4/w766eNU0i2PpqCLtAeuRzxdhRLkXkQmnGwwiWm1T18bJ//BQKnts0MSIWHfvYmxC7TurL1kBKThnspg+NbFKHubnnDB4vdDyRWVK0=
-Received: from SJ0PR10MB5672.namprd10.prod.outlook.com (2603:10b6:a03:3ef::21)
- by CO1PR10MB4529.namprd10.prod.outlook.com (2603:10b6:303:96::6) with
+ bh=6dejV+0Roy6Mo0ucuSbTO2scI0in+cDcsGPSLP7xstc=;
+ b=D0faBHUtiyiBDu6qdWpQIbEOLBDN9Im9ZSbtZ452iLVHf27EWUjxWAcP+99i5ZwLO91EU0pJ3cchfYRC7YkMJHfeBDx6s9mO/sN2op8/vZsIRexztAPX1geBlMIWUt8TxDBzWB9oQNH8+0MCzAmTkyz8RuQ2wdm4GDKyBqrBmfo=
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
+ by IA1PR10MB6099.namprd10.prod.outlook.com (2603:10b6:208:3ac::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Tue, 19 Aug
- 2025 21:07:17 +0000
-Received: from SJ0PR10MB5672.namprd10.prod.outlook.com
- ([fe80::8800:9203:9f66:174b]) by SJ0PR10MB5672.namprd10.prod.outlook.com
- ([fe80::8800:9203:9f66:174b%4]) with mapi id 15.20.9031.014; Tue, 19 Aug 2025
- 21:07:17 +0000
-Date: Tue, 19 Aug 2025 17:07:15 -0400
-From: Kris Van Hees <kris.van.hees@oracle.com>
-To: eugene.loh@oracle.com
-Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH v3 2/2] Extend the USDT bit mask to multiple words
-Message-ID: <aKTng7/MOecCH5u2@oracle.com>
-References: <20250723005304.8407-1-eugene.loh@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250723005304.8407-1-eugene.loh@oracle.com>
-X-ClientProxiedBy: BLAPR05CA0002.namprd05.prod.outlook.com
- (2603:10b6:208:36e::12) To SJ0PR10MB5672.namprd10.prod.outlook.com
- (2603:10b6:a03:3ef::21)
+ 2025 21:58:32 +0000
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::8b24:5536:3259:5a69]) by CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::8b24:5536:3259:5a69%6]) with mapi id 15.20.9031.024; Tue, 19 Aug 2025
+ 21:58:32 +0000
+Message-ID: <f2793e7a-3b13-d24b-22d7-45646a54e3dd@oracle.com>
+Date: Tue, 19 Aug 2025 17:58:28 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 2/2] examples: add more scripts, and a README file
+Content-Language: en-US
+From: Eugene Loh <eugene.loh@oracle.com>
+To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+References: <20250814222249.13445-1-eugene.loh@oracle.com>
+ <20250814222249.13445-2-eugene.loh@oracle.com>
+In-Reply-To: <20250814222249.13445-2-eugene.loh@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1P223CA0030.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c4::35) To CO6PR10MB5636.namprd10.prod.outlook.com
+ (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -84,650 +88,1326 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5672:EE_|CO1PR10MB4529:EE_
-X-MS-Office365-Filtering-Correlation-Id: 16c68ae6-666a-4d53-18b9-08dddf64612b
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|IA1PR10MB6099:EE_
+X-MS-Office365-Filtering-Correlation-Id: 76cef10b-0643-4c2c-92e2-08dddf6b89ad
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|13003099007;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ocadOwGpSZ8lRjUd7iTY2+vXHxNSWoYhlvdzSa+uq5QO7ZyyvemMU0pzHrBn?=
- =?us-ascii?Q?Arp233ggcu685rtDflktlUgWys8czV8etKqs5iJZtUC5TUspHhh3y69ua6UP?=
- =?us-ascii?Q?cADVHTaodlG4X5rbBZ1MVyuSMi6umVuKwvC32/vnSMlGZDnibuoKX2CWIc5j?=
- =?us-ascii?Q?Fpu1W0cR4ujh7NG5NP4oMJZ3RBX5fFlry2uosXImPYVbFWdmePzVwSyj1QQA?=
- =?us-ascii?Q?GRo/x549/CAPcAN3sgWAqch5vbSjQp4q/B8XK+VHp106lb7fOW+SzZNqrAWO?=
- =?us-ascii?Q?uCDLjRGfRNQU+ndYg6MIz3SVW+P5ejFmrzL3Tmypz6q7+N19hMMiv1o8ljmk?=
- =?us-ascii?Q?cpblQe7NdsC+tPcS1+pdCWX4pK/XsiSTIDU+5y3a4X6c/zKrhg8ButHRHEVR?=
- =?us-ascii?Q?JLyj0ld8BcFmGqRMKN7upPyYJz7Ozzar/rxFhF0DL7rmq2ude61cRD7lqUwn?=
- =?us-ascii?Q?u5xbCXbSLG7Ph75+qFBorG1hMEXHglFKIvo75DDNB6Dg2Z9DPNxVkXX90Kjj?=
- =?us-ascii?Q?jWcFTBAT/P7Ms/ApMjJYZxOTwiH+mIAXLy31m/3MxX7W/2lVZ4WBcYJfjeaH?=
- =?us-ascii?Q?JQyqnK0h2gBsu3/OwIAL0c3qIM/f/p0XLQr89oKyuAnSkRBi6xuPP9aN7Ro5?=
- =?us-ascii?Q?Po4vsMUBOI8/gmdBH8ccYatPH1vgiltfV3hf8YfzrLhDQ41qAUwmFLBYW+zA?=
- =?us-ascii?Q?zkhgUjkOxE3I8Zi2QADpZFz6PAKfvCTe85uHkXXoLJSvnqb6Plq9+fnW2duG?=
- =?us-ascii?Q?1k6QlK5xmljQEqvhH7hBdCr4VfdvhjS8G1b+CcLUDK9w2CVzuE0jiVocPTl6?=
- =?us-ascii?Q?PqcbQ/Qv/ZtZCKKwN2RaVjpATAPwu/l+Lm2wnbcCjwx+oU1V7sf94ZHu1xE0?=
- =?us-ascii?Q?8Xyzz47IYE/cPaBsU/b1kYuLUAkpdsn/GNOq3e4fdPSvkN2EG/rhTxxr1Vgw?=
- =?us-ascii?Q?eBpImI0bg/rT+VM7scW1B0gRD9yjRKSDgiCNLRacpEyAKGVRnDIFhm+lVCdF?=
- =?us-ascii?Q?0qAMxdRByMxmWecozYaCWlIiQtC9oief/Dn+ciomayNz2XHDxzO94q5x10vn?=
- =?us-ascii?Q?qFdul7Z0erM6qQhLJMi5Z5dUaxokv7KRBig1YdW9H0a0RxLLr8z0WrmEoMQo?=
- =?us-ascii?Q?aDNkFDazYacS/AlSy4x29AkXQMIS7fsv3LYr1AaPxRTLXeX8Jjeffc9Q7xCD?=
- =?us-ascii?Q?Y+0wEOl1PwLb11/fqam25eprhVj8n+RK4nOl3d4PBoFH4T0GuDFcH9nDIceL?=
- =?us-ascii?Q?MSE0bZekvOAOQp7q+9ydxaMou3tfG6J17aQxfp5bKdEgbIBBeGFDMxFQ9WLH?=
- =?us-ascii?Q?tk3vmBkB3GgrxNjO9E3ScYyPDza2UciPqqpkH3O8z9L9Wn0X/qiCoCz8tDK5?=
- =?us-ascii?Q?SMMmFeWoDYMqMQbXFoGe1MvRWxJl?=
+	=?utf-8?B?MHpORFVLbnhlWHlGS1RBdnQzMFMvT3IvZXVEUXV3NU04MFRJdmNyZjZ2NEFW?=
+ =?utf-8?B?SXNSOFhBaCtzbnBzdGl3NkZTVW1mSjhPRGlLYXJXZFZTeFhjZmtuajRhNTVp?=
+ =?utf-8?B?WjI1VVV5SkFJTlltUnhZdllLOE5kN0Zpc0tDZWlITjA3Vm9zQWNJR3BEeFo4?=
+ =?utf-8?B?TFdPZzRJbnY0clI0cTcwbWZFQjBUZW5Iako3dFRZSi9lQmNENDFQZTZqd3BV?=
+ =?utf-8?B?Nmw5MkdudmF6QWpsTVBsWnQvS3BraVZaWFN6Qk41azBxeTNYRTQwdTl1bkcr?=
+ =?utf-8?B?ZE0yaWpjQ3V4QzUyVUduM2RQVzlQMXRpNkZDa25POVlsZlROSGVoSHpPTHZ5?=
+ =?utf-8?B?TWltaDNxbkxGOWt5NTNtUDRTSXF5Y3RsSm54b0NHQjVEclBUTU00bThqeEpo?=
+ =?utf-8?B?ZDRPMVMyWk12dWg1QWtUTCt5cHhWaXhVc240dEQ1UksxdTRiQURYM3BBRkt6?=
+ =?utf-8?B?WHljVjNkenFYZTRLTmdyTkNGSTJsdlIzU29jM3lOTno0Qnk3OTNsM0hxNnJR?=
+ =?utf-8?B?SzVxTldOMDNwRkdjSFNWS1pTQmZXQmFYSlAwS3B6RmZvb2xKekhwZkYyazhw?=
+ =?utf-8?B?Um9YRmprQlBtOHZHYXFEODdNQjNhL0phd0s4T1RCbitHamdEOGRJbURFR01H?=
+ =?utf-8?B?RGlPZEpNbTRvZnRPUTZUY3FFU1pYTm1JQWw3bUhyajJHWWZCaGhtaUpYUVkw?=
+ =?utf-8?B?enVuNEN5UGFtakJqbkVHcU5vb3FQVERGQmVWZHNvV3F0ZzBZRjcybmptTGtY?=
+ =?utf-8?B?Z2VPVDE4U0J2TUNRRTRCVDNzenZLVy9PeSt4WE9vS3dmVFJYSE5EZmxnZU96?=
+ =?utf-8?B?WG1sY2dzNXU2OFdNU0l0ZU45eVhCeVA4a2IxYVgzT29adXM1NXZqcHczNG9y?=
+ =?utf-8?B?VlZVaTJaS2dmZGYrQlFsUmFULzRTa1pmNW5Sdi83eE1BQUxtV2Z6ZFNnWlZV?=
+ =?utf-8?B?VnhnRjV4eE1xck1vVDl2bnpKeXg5dURjRkY4MmFRb2x6bWtseEFuWkw2YkUr?=
+ =?utf-8?B?L0VyUXlOOUpITGs4YVZVdEkrRVVnajBuOFJTTzM1QnlLTXErenBUVWE2dnZM?=
+ =?utf-8?B?UmlNNzQ1elNQMi81ZGYxdWhlZkg3OVFQeHMyOGFIbmhaOUlkZTVaNWZNbWVP?=
+ =?utf-8?B?M0hhbzByM05Vb0srSXdEZWdHVHpKcHM1ZlhSdGdRRU9IN1k5dHU4QUlaWlhD?=
+ =?utf-8?B?WTFZeTczZXc1UjcxdUFndEZBVTdTOXJoRi9XbGs4OTZiZ01Sa0hnYWNCRnE5?=
+ =?utf-8?B?TmVwd2c5UmovUWQyRkpValNhVkJOaDIrM1VMZmFoczZ4aS93RWhpNkhMSndW?=
+ =?utf-8?B?N0lKaWJEdVA3R1ByU2EycTRzaFoxaG52QXJGNDd1T2RBNFZCZmNyNXlkTTFD?=
+ =?utf-8?B?ZkFac3kzSm5SZlBDTVJwWmN2WGhkcXJCYklZcnFYdnR4WWdIc1AyT0JuYndT?=
+ =?utf-8?B?b29zdG93TXhkWjMxaXlxYzRIQ0I4R1JxZWNmekYxRXBBRkpMZWZFWkJ2ZUFY?=
+ =?utf-8?B?eXR6ODlxS0daMW80N3FqVnB2OHRIUUhHYWZSZ1d4SnNNRVdPNEFsRWFLMnZH?=
+ =?utf-8?B?d2lVeUtLdTBOM0hSWFFGelBPbUhKNkF1czJ3Sy93OS80OHhDMEFXOW9PK3l5?=
+ =?utf-8?B?UjNLMk5sbXFYTHhkYnpFcWIxcnZkTUlwY0FXWGlQZmJxQzlBOFhkeUlpbzIy?=
+ =?utf-8?B?aExIRU1XY3JFd2UvSHVQM3VqbmYvYVFPT3MzWHVvWm1Ec1BuUCtqS3h2dEg0?=
+ =?utf-8?B?Vmg0M0l2N01hR0NHNHR4d2ZXa2ljdERPbExMaVpWOUhLT1RjbkQrV1VGU1ps?=
+ =?utf-8?B?WWZqYjByQkhxVW9adklkUG90bnhLOTRzWkNrK1FuTnNIZ3A3K3BadC9XUi9N?=
+ =?utf-8?B?Y3A1MXl4ZXlwVURrQ21LcDlFY0YydVpmdlhKcjZDaEtsRTRSbFY4dTZ1bWNj?=
+ =?utf-8?Q?nLMOyG2BxiU=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5672.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?eU9r3e6JEURqbhyztiTHwoyaylvwf6kAqL6gTyupqBuNcI1yVU5r1LGrvgAZ?=
- =?us-ascii?Q?G9w0Fe+Ye9GD7X5D9ynzrCFlC+NOLOU04efpxlHHPUmrcD2jG3rGfijBw6VA?=
- =?us-ascii?Q?d69bgnT2ER3wjZFvHXVyeYNI2sow4GZVXrhHx765SE3M7GJvhRwH458NxYue?=
- =?us-ascii?Q?D4m2/yc7qmveyJjs7VYl7iky/dWjG6898PWlSP83nXjHgf45Hbm7yqz1Vlyu?=
- =?us-ascii?Q?2TmSoFvZjKDb/a45iIqFuTlQ2VA+YxBPVtpTMst3bLytutmb1wLyq4uL6Csv?=
- =?us-ascii?Q?WsqpV4CWHZwwxvO+3d7l2KpkbKAk/aHapcMyM/HfCT+rDrQVX3lvhByzN98w?=
- =?us-ascii?Q?j+e+N81OXjGPJsRDwbXfMpeyQrIBMat26QGttd9X449RFqB/OSf8H4LDc1or?=
- =?us-ascii?Q?v7pokmopVqDoVeutrOyqJNrfJN+00kyK2nPpDk8edyYNS/+pZ4lSMl0CHQLl?=
- =?us-ascii?Q?YbTQrUMwJSNbvWz/aNixM4qgf1MLrBwOsdIm/dgbCaddKIkrlGc84CHy0Qen?=
- =?us-ascii?Q?m+zmReDhbT7zNXTW/nJr9nsfOjfoQ03Bsuc/KNCc8CEFBI8kJ6vH53W9yH5j?=
- =?us-ascii?Q?WlcoHI4EwhpW9haTo38dxjOgfh7MuQ+UsADvGT73M4Yuciv78aXPO/CwZdzR?=
- =?us-ascii?Q?WXimJwdQPsIr8gFSWIjKoKPFnym6WSIn5MhCmku78Qlb4pgWUDFrw2UNmxzg?=
- =?us-ascii?Q?apw4kO7TR36dx1BBOca/M4L41JdpND9WydAqgDuX+32npJUIGyST646na2YV?=
- =?us-ascii?Q?PoO5l8vLUIZjvGmvfM7i4HkeamDUSSJViKFGA2Yp8AUkZG1Z1e0o7YdRGboF?=
- =?us-ascii?Q?3XKPxNx3siubHR2NA3jI6N4QbLbOec1GtOmZge5hsJyPty9BZ3i/Hkxr7zGb?=
- =?us-ascii?Q?fb1t9Hkywo1G0oe9Pum+J/p0RAz7u29aOEnfcH0ehz3XuWICgXUTws8bDVkw?=
- =?us-ascii?Q?V0irNBLlEqbdxAp7DwPisYt7fWFzlbqoRQy6P9X06yeneILjCyarRXMceth8?=
- =?us-ascii?Q?PUgGCL92J/HX3ETQ/x1LamA7Ea9A3HlDqFdr/bNGbCyyEJ8M+GeEcpi6aqSW?=
- =?us-ascii?Q?NRjhoWp8AndwT9dpnBewIoa6ozR+NbeGG0JBoivo3S+QCioVXQiyfpMQLErB?=
- =?us-ascii?Q?4I6HUaF/aCdf9KsaH7QHJsnqSqOkIPwBOzy8Hdc1pJogVy3ytUEDCz059beh?=
- =?us-ascii?Q?ugHqzS9LeJtX7dUwCfqwH7yqkSFamPwn5Bn+2dI0D4jWWdMKzIcdBwsAssQG?=
- =?us-ascii?Q?kqwvdtYrTx+1tDYXGbPNXOWSiNhs1z/6fX6ulFM4U1Efug7k7sW6E4M4Fr6Q?=
- =?us-ascii?Q?rCi3xaX+hyo7Wee54gxDbFNaaPrHUGNuU9alveMaI4EzJ9LVzOYfc9UvmkRv?=
- =?us-ascii?Q?YQr+Ab53lXa/F+qQYqzkhFVVRuVvGRS7sBSZvd+R7zqyyNv9JddhhBl6YIrb?=
- =?us-ascii?Q?zT+FT0kB5JuSZhxSbd4u1/TXaGJ/3YkooZWX1t9MHR6hyvfVrutmnumpuGrL?=
- =?us-ascii?Q?+huLun26v1ZMhVMZOH5Imo84LDpToLRFSX0T0KBoLHd+gtRop/2WyCQRcDCd?=
- =?us-ascii?Q?BYdUmaQvi9DA0/Q3xvlrzVoxfmnznFAj7BP3BV8MK8utt0hfI3B0gi+kTKUa?=
- =?us-ascii?Q?ow=3D=3D?=
+	=?utf-8?B?ZDR4OHlKYnpxV3VXOFhtb1I0UGZ4akpncHVTb1hNK3ZWSE1rVERqOURLSjRn?=
+ =?utf-8?B?MDg4S2hjcERyZUw4dC9xL2VUSnArUld4c3J1VjI5ckxYbEtYUGpoR0RrckFu?=
+ =?utf-8?B?Mm9Sa3krK0pvOHhYaGc2c0pzbWsyOEFBWDhkWGVaU2YzSWlYdy91S1lzTlZC?=
+ =?utf-8?B?S05EMlNldm1rM3V1N2doTUFVVW5CSmNEYjMwZUZUTWlTQkxHYXp5eDRBeWxK?=
+ =?utf-8?B?ZThTOUk3M1QzWVNRdXdxOXpVSC9oejVxejJFT3ZtSW15aTFVN3c3TjFpWlFR?=
+ =?utf-8?B?aEozT0Z3S25ncUxjeEJBSVVWYWtrQXhqQzFSbURyRFk4ZTlxYjdqMUxrZ1Zo?=
+ =?utf-8?B?MG1ySi9rMTNNZ3l6c1d4R1VNR3BaelY4UVRJRHJuWGYrc283Q0ZKd3ZkOUZJ?=
+ =?utf-8?B?Ty9lNStZVGg0WmVUT1poYnVuMU96UVpYUXRBUXFyOHdJTmJNZlJPbEJyUXRO?=
+ =?utf-8?B?YkFJOFFJVHNNVHlMT2cxSlBvVFlXaWs2Ymh0M0tObmVKWTlCV3dWUFVqQXdw?=
+ =?utf-8?B?b2hlSDVJWU5FMjN4NEJZRXFtRjIwNFFvd1IyY01GYnVmK0c2MDg5WHdkeVhx?=
+ =?utf-8?B?Yi96NU96TGFRQ0VhYy9MUmFkbTJYMUpkKzdpZnhwVStJTGJoeWR3MVdpQyts?=
+ =?utf-8?B?ZVpNL2pucThhaFNidGdkNHRiOHNwRUhSZUpBaDlvWGNqeHIyM2pqL2xrZ3JI?=
+ =?utf-8?B?UGF5bGpNWWN2NDBLaWFQYjV2N0YycVhla0syaTJtZzhFOTl4RmlCR1l1SVhS?=
+ =?utf-8?B?U3dyelNFL0NGeWVCemtmOExoOFpZU0ZaUzBGb1pxQ2hiU2Y5VG8zd25GTytN?=
+ =?utf-8?B?b09MdU56aVhlN3ptY3JUYUI4TmJoL2dmKzRVbXpQV3l1c2ZENzhHSm5kVVRx?=
+ =?utf-8?B?dXJ5SGhYUUtjQ0VpMG5rUVRSMUNZd3ZTYW1rNXBsNWo1d2g3K2Y0dE96QzUz?=
+ =?utf-8?B?dmtXQTcrRURKZEdMVEErUW1HRDFaTXEzeHlvQStYOGdDcitaRG0zenI2UlFT?=
+ =?utf-8?B?YUk2QTJZTk40SVB3YWZzckhRcmV4b0puTkg5WHV3RGxDS1JqVXc0VVM0WlRy?=
+ =?utf-8?B?Rkt0SjZKV0JIcVRZN1RJUGU4eHBqTnNwaUk2TXp2M01XcktNNndiWHMzTlo0?=
+ =?utf-8?B?YTlOTU44eW5tSHVqMGNJbUh5UDZ6NmQ1ZXRKVnpxZjQxU2xyZFd2WHdMNzJL?=
+ =?utf-8?B?Zm0wUGQ4L2xidlkyNkREdUhBTUdVRVVlYktmeTJFcDNQSzA2Q1RQbmxET1BT?=
+ =?utf-8?B?NjExelprZzZJdVJUSU1kQnZnT0dnM3YxNjdUSklLN0JNTmUydWU4QlBma1di?=
+ =?utf-8?B?aXZHNnNscmdJbmhlRWRVd2ZxZlZxaGw0RUVNUlpPYWxwbzlXc2ZSYitRV3Bk?=
+ =?utf-8?B?V1NtLzF4YXVlSjZnU2o5M0c5bUE5S2pWYThUNzZQVVNvamI5M3RrNUs2NXZV?=
+ =?utf-8?B?MlJRWTZlTEczSFRRanc4V1FQTmNGM09GbjJVYTQycm85NjlSWDJGdzFSZ25m?=
+ =?utf-8?B?OUg1ZjFLNnoxa2huTXZORVREWkV0SU5ENVIrNGFEdWo3SUZVekZQK25PUCtv?=
+ =?utf-8?B?WHpMc3laWmZCQlcvZEY3VUhCTVBBbCtBTXFzblIrOWlQTGhGSitXMEpXTDJW?=
+ =?utf-8?B?VlhybnBETERrS2N5MHBmZXZ5TVhHa20wN0dKYWJzR1JtR21rS1Z3VVJOdWZ4?=
+ =?utf-8?B?YWU5ZjVpYmM2QjRDRlo3aCtNRkVYMmhaaENhVHBWWHJ5SFhvdnNIS3hoenV1?=
+ =?utf-8?B?SDN1cjhzZmFVM01Mbm0vdElQd3NsdXJRRnVxZlpHSHNXL0t3eiswYmwyU1E2?=
+ =?utf-8?B?aTUzNm9wUGxjc0dBR2ZYOEJZdVl3eEtWL21JRnhzajl2RFZ6TUJ5allyTXZW?=
+ =?utf-8?B?ZVZzU2dOOUxFVnJzWFRaV29CclJydXV0N00vV1FTbUUwQkNndk9sZTF1dXVE?=
+ =?utf-8?B?cnZoVVlYUlhSVG9CQmZLL0RIcENxTWdUcDhEdlNNSUc1dUNhdGkyN21Md21L?=
+ =?utf-8?B?NXovUmdlZUxkU3R4MGtqTU9TSTA4NFN4TEkvRExWZExDdHBuU0phWkJSSmFM?=
+ =?utf-8?B?OStxTU9rWUJCbnBGZ0daaHR3eVAxeUttWHl1MFNibmNZUzUzYmZBOU9lSGdV?=
+ =?utf-8?Q?XGqaYsrmqxTGsMgQ7SP6f3Ou+?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	pSQFgtmoS3WCPGzrX0RuhBZK1uixW4TP4VH/Pub41dFgfVZk4hDMI8OQ2nOtNEUeYvnKv7f2vxA8+W8m8GcfykfzvrKXq7mb+SONqmG9ZotvAM+KZXais2R9shQU0N/9qMceifjj0Lmdg9GKZfyAvU5H9RswShVZv1eh0LjmZtcERw2+l0uR5HdkxqcZm24ib8f90XzcTbfkx3iE2UUMBqbxKNV0HfpC5OKxAdnyY+F7cAP3MTwdOimwqN5hjzoCSKgLMCE+6SXndfLg1R2FHtDlEMc8dFCaZS9VY+95Y0JgsV3wyRLPuRS6vT77UTLd1Pfc/pX3pOFUHQBzKs2Qp4xiG39m44h3dgQKA4VmJh6PFMpIDr6s/U2Z4EicSoGTj7bULeFKpP4JvE65Cifu1yXOiZ/xk5kMZBwOkMhU/4qIjKOuHVrxcZnuSQEwyS5SftngvwO8naOh7ZxuiVbKnLgzErSEHhMjueQDkNGzsvchS26vJjG84XjdiBUq9k1M53Et5jxsdxcGS9QfucEPngRDfo/kKfFHeHRTWsN+wAjKDVHIMbPIwcwiKgFI8zjlhd8KqQIppe4fMmt2I//95RIoI14hRlI0yz7TTZPhO0o=
+	a0FUU8QpqadWKXr0MMspMz2wuBThtwdAc1xXvzwCF+bynbFoaM4Q9N1yiPQAZqG2wNxnCs2qPHEvgqVtxB7sjO1kaj7bC77e2LyuFHVdrIULiIKZBRloXJPhmPsQ6MwutlEQf/kYDc58mITUwTfHZs4yJxsOXvODUM614bttesoFhGOY8/lkbSuULlSS3JgejKA88IxO71SDobQOGg/Hz11sjy71PZUN+nPHdA5zvjv5zq6uRjSj4OUA2Oz7RziHE3P5kpS2Uf2WsiEheWy/Qz9p+cHy3UkoNdgg6AA/60m1av9t+d3lPCk6iWRnekGaUa4cYXUPCNzzpCILdDAIO6xyppmDV370RwtsPtWDpCsMv+MpfZspc8VOfOUfjhPY0V/wUkO6B0JHgSMesQ3fc1zaUc1rRZe9jI/GMOAl7WiuVI6C8RZKHbI+dmxKyNoUokQhmW/q+IIXPER0qKufGQGaP35ZY19kWY1cpxu+N0C29CdIMHGNLdpf5OYTwkbFzxPHLMnWzCjtOGfPH/w1DLUJ/fH+bI9zn+Mc8g2VdiZSTzdcSfqoTRKkSAiyoApMGA+3hGWwFXHwQuvIS2gqDYUflQVDubBP15Gn1W+sfW8=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16c68ae6-666a-4d53-18b9-08dddf64612b
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5672.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76cef10b-0643-4c2c-92e2-08dddf6b89ad
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2025 21:07:17.8303
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2025 21:58:32.2841
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: to4p7N6FoGBMxe3R/bAz5s8LLhk0S0SJvi9c4IQAtzAxH815pzOf7CvpMNmNu+J6C3zQJWonPeHtyWQoJqpAF/mouIjjqh0AkdvoymzvLbY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4529
+X-MS-Exchange-CrossTenant-UserPrincipalName: KVUXseDqZXKwIRvS4UnfPyfriuSCo/+HXWsYtzKZquozCRXKOiUhcrZdZQr4RakqjO6yDJngnk33KNnlpGUrWA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB6099
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-19_03,2025-08-14_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0 phishscore=0
  mlxscore=0 adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
- definitions=main-2508190196
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE5MDE5NiBTYWx0ZWRfXyb3+vy7gLU1v
- J8MGItBpXrJG/QZ4THCEGW92EJs2T9tKKr3HRARGdxxJ8WNfPElFGR6nyKnpDBJSc59rxqKx3id
- qWKDzj7yrAjcXrBi/zkumsUuR20eGy9YlpSgmBA8Htdc7t0V7zVQFDq1eMm64dqH0DldDtWEHKU
- TZPd/KVn1eSfO8j1in4q6TqBf6GtB2G5laOeSIBkIdpPDp7xZZkw92SxhsD58KYsLFJEppI6x3Z
- JTp4QgFPunZLj135YoQrvLZTBFFMFUkSgLoxx1BTCcRxiIvtYBPouqvZFg3yDkMK0cwe4yJz/zF
- ergA+nA3OBDrb3ljhC+6d4lKsM0ZN84EYMhY5vYps6zBSgvOCYPTvO+DoVZEJKgqDuhaBwWV9Zj
- 5TCiiqE2q9cfLiP8JwNIr9geWPf4aLTf2S6oMIzWYoHXyzdXnRRBun9/ztbN6CtaekSYR1P6
-X-Proofpoint-ORIG-GUID: kuvSTMepPvLM5KormNb9WdXI33Tmzqlj
-X-Proofpoint-GUID: kuvSTMepPvLM5KormNb9WdXI33Tmzqlj
-X-Authority-Analysis: v=2.4 cv=K/p73yWI c=1 sm=1 tr=0 ts=68a4e789 b=1 cx=c_pps
+ definitions=main-2508190205
+X-Authority-Analysis: v=2.4 cv=YvRWh4YX c=1 sm=1 tr=0 ts=68a4f38c b=1 cx=c_pps
  a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=25z-RVXd-M3rJRpQfwoA:9
- a=CjuIK1q_8ugA:10 cc=ntf awl=host:13600
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=O5o192NJAoO6kLCrIEsA:9
+ a=t-i2GgN2tH9isGgi:21 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 cc=ntf
+ awl=host:13600
+X-Proofpoint-GUID: pPu6uSxAG_ZRsdYprbo_uAaGfd2SnnaX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE5MDE5NiBTYWx0ZWRfXyv2lbs4hqxIC
+ 8/sO+YpRaxqJFyiUw56bgx9fxjRnDiVNe9NtKi5njCY2aoCVnC+xfO6QOwx2eOt7AjEsRcSc58Q
+ QAHNxrG6A5bpuGFFoojo64xP7ZxzxvcBN+XTXv0EXXwtuPOrXT4TMDIxRp73hviKA7IoILAwIdL
+ r6QX5T3hch8+crK5tS3i8Tov1XQaS6zjlDLe3w/bnP2VeGmG6+h2fNptMCAKa6MyoInbg3mHF46
+ D4H6dFQKlW/xwCVNdxk11d/yVuCUypfM30WUN4guTJCeqBPNzREuv7skikwskSMjFOghMjvfk8r
+ 5Pl9mH/Tk/Dl9fw7e/SFYu3TpnAc7p4/cqKZIzqZ2rjmwigbN5i1tcNmSM6LMoZkTIjqh2p3weL
+ 42zP53xVe71ZYdZpjO6ovvyvVsVJR+IcFL5T1j0FjHjSHW7S7Ac=
+X-Proofpoint-ORIG-GUID: pPu6uSxAG_ZRsdYprbo_uAaGfd2SnnaX
 
-I would like to hold off on this patch a bit longer.  I don't think it is too
-likely people are running into toruble due to too many clauses, and it would
-be nice to avoid adding more provider-specific logic in the core of DTrace.
+It's all very wordy, but maybe that's appropriate for this sort of 
+material.  I don't know.
 
-My suggestion is that we move the creation of the USDT-specific maps to the
-uprobe provider.  Since those maps are only ever used by the trampolines
-created by this provider, the fds and other data can be stored in the
-provider specific private data.  Upon first call to generate a trampoline we
-can check whether it has been initialized, and if not, create the maps and
-populate them.
+Anyhow, the patch looks fine.  I have a lot of picky comments below.  
+Incorporate whatever feedback you like.  I expect to R-b the next 
+version:  none of the things I mention is major, but look them over and 
+see if there are any comments you like.
 
-This way all the USDT-specific handling remains within the uprobe provider,
-and we actually fix the earlier inclusion of creation of USDT maps by the
-generic code.
+On 8/14/25 18:22, eugene.loh@oracle.com wrote:
 
-On Tue, Jul 22, 2025 at 08:53:04PM -0400, eugene.loh@oracle.com wrote:
-> From: Eugene Loh <eugene.loh@oracle.com>
-> 
-> Currently, USDT is limited to 64 probe descriptions since the
-> underlying probe uses a 64-bit mask to decide which probes to execute.
-> 
-> Change to a multi-word bit mask that can be extended to however many
-> probe descriptions there are.
-> 
-> Also, change the mask words to be 32-bit rather than 64-bit.  The reason
-> is that, commonly, there will be fewer than 32 probe descriptions.  In
-> this case, we shorten the value of the "USDT prids" BPF map from 16 bytes
->         uint32_t        prid;
->         long long       mask[1];
-> down to 8 bytes
->         uint32_t        prid;
->         uint32_t        mask[1];
-> (The second member is smaller and no longer costs extra padding.)
-> 
-> We also add an
->         int dt_usdt_mask_bytes;
-> to denote how many bytes will be needed for the mask.  This value is
-> computed by usdt_mask_bytes_init().  Currently, this function is
-> awkwardly called in gmap_create_usdt(), just before the value is needed.
-> Such a call to a provider-specific function is clumsy, but there are no
-> other calls to the provider between compilation (where the number of
-> statements is determined) and this map creation.
-> 
-> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+> From: Ruud van der Pas <ruud.vanderpas@oracle.com>
+>
+> Add six 6 more examples plus a README file with a description
+> of each example.  The new scripts provide a variety in
+> functionality and target various levels of experience.
+>
+> dtrace/ChangeLog
+> 2025-08-14  Ruud van der Pas  <ruud.vanderpas@oracle.com>
+>
+> 	* examples/io-cast-net.d: Show how to use wildcards.
+> 	* examples/io-stats.d: Display I/O characteristics.
+> 	* examples/sched-simple.d: Count on/off the CPU.
+> 	* examples/sched-stats.d: Extensive scheduler statistics.
+> 	* examples/thread-ids.d: Mapping of thread IDs.
+> 	* examples/var-scope.d: Demonstrate scoping rules.
+> 	* examples/README.md: Brief description of all examples.
+>
+> Signed-off-by: Ruud van der Pas <ruud.vanderpas@oracle.com>
 > ---
->  libdtrace/dt_bpf.c                            |   6 +-
->  libdtrace/dt_bpf_maps.h                       |   4 +-
->  libdtrace/dt_impl.h                           |   1 +
->  libdtrace/dt_prov_uprobe.c                    |  87 +++++++++---
->  .../unittest/usdt/tst.manyprobedescriptions.r |   1 +
->  .../usdt/tst.manyprobedescriptions.sh         |  64 +++++++++
->  .../usdt/tst.manyprobedescriptions2.r         |   1 +
->  .../usdt/tst.manyprobedescriptions2.sh        | 127 ++++++++++++++++++
->  8 files changed, 267 insertions(+), 24 deletions(-)
->  create mode 100644 test/unittest/usdt/tst.manyprobedescriptions.r
->  create mode 100755 test/unittest/usdt/tst.manyprobedescriptions.sh
->  create mode 100644 test/unittest/usdt/tst.manyprobedescriptions2.r
->  create mode 100755 test/unittest/usdt/tst.manyprobedescriptions2.sh
-> 
-> diff --git a/libdtrace/dt_bpf.c b/libdtrace/dt_bpf.c
-> index ddd849d0b..fcb53f044 100644
-> --- a/libdtrace/dt_bpf.c
-> +++ b/libdtrace/dt_bpf.c
-> @@ -967,6 +967,7 @@ gmap_create_probes(dtrace_hdl_t *dtp)
->  	return 0;
->  }
->  
-> +void usdt_mask_bytes_init(dtrace_hdl_t *dtp);
->  /*
->   * Create the 'usdt_names' and 'usdt_prids' BPF maps.
->   *
-> @@ -992,8 +993,11 @@ gmap_create_usdt(dtrace_hdl_t *dtp)
->  	if (dtp->dt_usdt_namesmap_fd == -1)
->  		return -1;
->  
-> +	usdt_mask_bytes_init(dtp);
+>   examples/README.md      |  71 +++++++++++
+>   examples/io-cast-net.d  |  70 +++++++++++
+>   examples/io-stats.d     | 268 ++++++++++++++++++++++++++++++++++++++++
+>   examples/sched-simple.d |  76 ++++++++++++
+>   examples/sched-stats.d  | 182 +++++++++++++++++++++++++++
+>   examples/thread-ids.d   | 159 ++++++++++++++++++++++++
+>   examples/var-scope.d    | 117 ++++++++++++++++++
+>   7 files changed, 943 insertions(+)
+>   create mode 100644 examples/README.md
+>   create mode 100755 examples/io-cast-net.d
+>   create mode 100755 examples/io-stats.d
+>   create mode 100755 examples/sched-simple.d
+>   create mode 100755 examples/sched-stats.d
+>   create mode 100755 examples/thread-ids.d
+>   create mode 100755 examples/var-scope.d
+>
+> diff --git a/examples/README.md b/examples/README.md
+> new file mode 100644
+> index 000000000..19c693e92
+> --- /dev/null
+> +++ b/examples/README.md
+> @@ -0,0 +1,71 @@
+> +## Synopsis
 > +
->  	dtp->dt_usdt_pridsmap_fd = create_gmap(dtp, "usdt_prids", BPF_MAP_TYPE_HASH,
-> -	    sizeof(usdt_prids_map_key_t), sizeof(usdt_prids_map_val_t), nusdtprobes);
-> +	    sizeof(usdt_prids_map_key_t),
-> +	    sizeof(usdt_prids_map_val_t) + dtp->dt_usdt_mask_bytes, nusdtprobes);
->  	if (dtp->dt_usdt_pridsmap_fd == -1)
->  		return -1;
->  
-> diff --git a/libdtrace/dt_bpf_maps.h b/libdtrace/dt_bpf_maps.h
-> index 884dc3983..ec5d4d7b1 100644
-> --- a/libdtrace/dt_bpf_maps.h
-> +++ b/libdtrace/dt_bpf_maps.h
-> @@ -1,6 +1,6 @@
->  /*
->   * Oracle Linux DTrace.
-> - * Copyright (c) 2019, 2024, Oracle and/or its affiliates. All rights reserved.
-> + * Copyright (c) 2019, 2025, Oracle and/or its affiliates. All rights reserved.
->   * Licensed under the Universal Permissive License v 1.0 as shown at
->   * http://oss.oracle.com/licenses/upl.
->   */
-> @@ -48,7 +48,7 @@ typedef struct usdt_prids_map_key {
->  } usdt_prids_map_key_t;
->  typedef struct usdt_prids_map_val {
->  	uint32_t	prid;		/* should be dtrace_id_t, sys/dtrace_types.h */
-> -	long long	mask;
-> +	uint32_t	mask[];
->  } usdt_prids_map_val_t;
->  
->  #ifdef  __cplusplus
-> diff --git a/libdtrace/dt_impl.h b/libdtrace/dt_impl.h
-> index 2adc1252b..8bbc4dc1f 100644
-> --- a/libdtrace/dt_impl.h
-> +++ b/libdtrace/dt_impl.h
-> @@ -397,6 +397,7 @@ struct dtrace_hdl {
->  	int dt_cpumap_fd;	/* file descriptor for the 'cpuinfo' BPF map */
->  	int dt_usdt_pridsmap_fd; /* file descriptor for the 'usdt_prids' BPF map */
->  	int dt_usdt_namesmap_fd; /* file descriptor for the 'usdt_names' BPF map */
-> +	int dt_usdt_mask_bytes;	/* size of USDT mask in bytes */
->  	dtrace_handle_err_f *dt_errhdlr; /* error handler, if any */
->  	void *dt_errarg;	/* error handler argument */
->  	dtrace_handle_drop_f *dt_drophdlr; /* drop handler, if any */
-> diff --git a/libdtrace/dt_prov_uprobe.c b/libdtrace/dt_prov_uprobe.c
-> index e8f9f8c98..8b55fe319 100644
-> --- a/libdtrace/dt_prov_uprobe.c
-> +++ b/libdtrace/dt_prov_uprobe.c
-> @@ -403,7 +403,7 @@ clean_usdt_probes(dtrace_hdl_t *dtp)
->  	int			fdprids = dtp->dt_usdt_pridsmap_fd;
->  	int			fdnames = dtp->dt_usdt_namesmap_fd;
->  	usdt_prids_map_key_t	key, nxt;
-> -	usdt_prids_map_val_t	val;
-> +	usdt_prids_map_val_t	*val = alloca(sizeof(usdt_prids_map_val_t) + dtp->dt_usdt_mask_bytes);
->  	list_key_t		keys_to_delete, *elem, *elem_next;
->  	dt_probe_t		*prp, *prp_next;
->  
-> @@ -418,7 +418,7 @@ clean_usdt_probes(dtrace_hdl_t *dtp)
->  	while (dt_bpf_map_next_key(fdprids, &key, &nxt) == 0) {
->  		memcpy(&key, &nxt, sizeof(usdt_prids_map_key_t));
->  
-> -		if (dt_bpf_map_lookup(fdprids, &key, &val) == -1)
-> +		if (dt_bpf_map_lookup(fdprids, &key, val) == -1)
->  			return dt_set_errno(dtp, EDT_BPF);
->  
->  		/* Check if the process is still running. */
-> @@ -431,7 +431,7 @@ clean_usdt_probes(dtrace_hdl_t *dtp)
->  			 * we might delete the same usdt_names entry
->  			 * multiple times.  That's okay.
->  			 */
-> -			dt_bpf_map_delete(fdnames, &val.prid);
-> +			dt_bpf_map_delete(fdnames, &val->prid);
->  
->  			/*
->  			 * Delete the usdt_prids entry.
-> @@ -452,7 +452,7 @@ clean_usdt_probes(dtrace_hdl_t *dtp)
->  		 * FIXME.  There might be another case, where the process
->  		 * is still running, but some of its USDT probes are gone?
->  		 * So maybe we have to check for the existence of one of
-> -		 *     dtrace_probedesc_t *pdp = dtp->dt_probes[val.prid]->desc;
-> +		 *     dtrace_probedesc_t *pdp = dtp->dt_probes[val->prid]->desc;
->  		 *     char *prv = ...pdp->prv minus the numerial part;
->  		 *
->  		 *     /run/dtrace/probes/$pid/$pdp->prv/$pdp->mod/$pdp->fun/$pdp->prb
-> @@ -590,6 +590,31 @@ static void usdt_error(dt_pcb_t *pcb, const char *fmt, ...)
->  	longjmp(pcb->pcb_jmpbuf, EDT_COMPILER);
->  }
->  
-> +void usdt_mask_bytes_init(dtrace_hdl_t *dtp)
+> +This is the README file for the examples directory that is included in the
+> +DTrace distribution directory.  These examples are meant to be learned
+> +from.  They can also be a starting point to explore changes and enhancements
+> +you'd like to make to these scripts.
+> +
+> +## Target audience
+> +
+> +The scripts target a wide range of users.  There are examples that are
+> +ideally suited for the beginners, but there also scripts that are
+> +probably easier to understand once you have some more practical experiences.
+> +To make it easier to select a script suitable for your level of experience,
+> +we have added a level indicator, but please do not let that withold you from
+> +looking at other examples.
+> +
+> +| Level | Description |
+> +| :---: | :----       |
+> +| B     | Beginner - Only some basic knowledge of DTrace is assumed. |
+> +| M	| Medium  - Some experience with DTrace will be helpful.     |
+> +| A     | Advanced - Practical experiences writing scripts is recommended. |
+
+I guess.  The BMA system is hard for me to get used to (I'm 
+simple-minded like that).  A 0/1/2 system might be easier for me, but no 
+big deal.
+
+> +
+> +## Installation
+> +
+> +There is no need for any additional installation instructions.  Just copy
+> +the script to your working directory and either use it as provided, or
+> +make changes as you see fit.
+
+I'm left reading between the lines and wondering if I *have* to copy, or 
+if I can use in-place.
+
+> +## Usage
+> +
+> +Each script has a usage line that you can find under SYNPOSIS in the
+
+SYNPOSIS =>
+SYNOPSIS
+
+> +top part of the script.  There are also extensive additional comments.
+> +
+> +In the comments, we often refer to a target application, or command,
+> +but most scripts can be used for both, or also on a running process.
+> +For the latter you need to change the option on the dtrace command
+> +though.  Please check the man page for the `dtrace` command for the
+> +details.
+
+What's the difference between application and command here?  Why should 
+a reader care?  How do I know which scripts cannot be used for both?  
+(Incidentally, s/both/either/?)  And how do I know whether I can use a 
+script on a running process?  Instead of referring vaguely to "the man 
+page", can you just say here briefly what's involved (change -c to -p?  
+hit Ctrl-C to terminate?)? Otherwise, people might not know what to look 
+for.
+
+> +## The examples
+> +
+> +These are the scripts included, plus a brief description.
+> +
+> +| Script          | Description                | Level |
+> +| --------------- | -------------------------- | :---: |
+> +| fcalls.d        | List the functions executed by the target application.  |B|
+> +|                 | In addition to this, the number of calls to each function |
+> +|                 | is printed.  This information is given on a per-thread    |
+> +|                 | basis, as well as aggregated over all threads.            |
+> +| io-cast-net.d   | For the target application, show a list of all the libc |B|
+> +|                 | functions that include one of the selected keywords       |
+> +|                 | (open,close,read,write) in their name.
+> +| io-stats.d      | Show statistics for the fopen(), fread(), fwrite(),     |A|
+> +|                 | pwrite() and read() functions.  There are several probes  |
+> +|                 | and you are encouraged to experiment with this script.    |
+> +| sched-simple.d  | Use the sched provider to count how often the target    |B|
+> +|                 | application, or command, was scheduled on and off the     |
+> +|                 | CPU.  The information is given for all individual threads,|
+> +|                 | as well as across all the threads.                        |
+> +| sched-stats.d   | Display various scheduler statistics for the target     |A|
+> +|                 | application, or command.  For each thread, a histogram of |
+> +|                 | the time on the CPU is shown.  Plus global statistics,    |
+> +|                 | like the total time on the CPU, and the minimum and       |
+> +|                 | maximum.  Those threads with an on-CPU time below a user  |
+> +|                 | controllable limit are listed.  Also the CPU IDs and the  |
+> +|                 | number of times a thread was on/off CPU are given.        |
+> +| thread-ids.d    | For a Pthreads application, show the mapping between the|M|
+> +|                 | thread IDs as created by the Pthreads system and the      |
+> +|                 | thread ID as returned in the DTrace tid variable.         |
+
+Okay, though you really use the return value of clone*, so we just have 
+to accept that the D tid is this value (and not, say, the pthr tid).
+
+> +| var-scope.d     | Demonstrate some of the scoping rules for global and    |B|
+> +|                 | clause-local variables.                                   |
+> diff --git a/examples/io-cast-net.d b/examples/io-cast-net.d
+> new file mode 100755
+> index 000000000..a8b336b3f
+> --- /dev/null
+> +++ b/examples/io-cast-net.d
+> @@ -0,0 +1,70 @@
+> +#!/usr/sbin/dtrace -s
+> +
+> +/*
+> + *  NAME
+> + *    io-cast-net.d - get an overview of read and write calls
+> + *
+> + *  SYNOPSIS
+> + *    sudo ./io-cast-net.d -c "<name-of-application> [app options]"
+> + *
+> + *  DESCRIPTION
+> + *    This script lists all the functions in libc that include
+> + *    one of the following keywords in their name:
+> + *      read, write, open, close
+> + *    This is a fairly wide net that is cast to find out which
+> + *    libc functions are used to open, or close a file, and which
+> + *    functions from libc are used to read from, or write to a
+> + *    file.
+> + *    The number of calls to each of these functions is counted,
+> + *    plus the total of all such calls.
+> + *
+> + *  NOTES
+> + *    - This is an example how you can find out more about a certain
+> + *    area of interest.  Wildcards and empty fields in the probe
+> + *    definition are ideally suited for this, but be aware not to
+> + *    overask and create a huge number of probes.
+> + *
+> + *    - This script could be the first step to analyze the I/O
+> + *    behaviour of an application, or command.  There is another
+> + *    much more elaborate example to demonstrate this.
+
+Be more specific:  which example?  How else is the curious reader going 
+to find it?
+
+> + *    - Wildcards are used and as a result, more functions may be
+> + *    listed than you might be interested in, but in this way
+> + *    you will see all of them and can make a selection which
+> + *    one(s) to focus on.
+> + *
+> + *    - There are no print statements in this example, because we
+> + *    would like to show the default output from DTrace.  In
+> + *    particular, the feature that, when the tracing has finished,
+> + *    all aggregations are printed by default.  Since this example
+> + *    only uses aggregations, it means that all results are printed
+> + *    upon completion.
+> + */
+> +
+> +/*
+> + *  These are the probes we use to query the system and see those
+> + *  function calls.  The first aggregation has a key that consists
+> + *  of 2 fields: the name of the function and the module name.
+> + *  Thanks to this key, the results are differentiated by the
+> + *  function name and the name of the module.
+
+To me, it's cleaner to keep the same order.  If probe descriptions, 
+which you are using, have module before name, then keep that order for 
+your aggregation keys and comments.
+
+> + *  The latter is always going to be libc.so, e.g. libc.so.6.  We
+> + *  have included it in the key for the aggregation to show how
+> + *  to make a script more flexible.  In case the module name is
+> + *  left out in the probe definition, or changed, the script will
+> + *  still work and print the module name(s) of the probe(s) that
+> + *  fired.
+> + *
+> + *  The second aggregation has no key.  That means that the count
+> + *  is incremented each time one of the probes fires.  That will
+> + *  give us the total count across all the probes that fired.
+> + */
+> +
+> +pid$target:libc.so:*read*:entry,
+> +pid$target:libc.so:*write*:entry,
+> +pid$target:libc.so:*open*:entry,
+> +pid$target:libc.so:*close*:entry
 > +{
-> +	int i, n = 0, w = sizeof(((usdt_prids_map_val_t *)0)->mask[0]);
+> +  @target_calls[probefunc,probemod] = count();
+> +  @total_count                      = count();
+> +}
+> diff --git a/examples/io-stats.d b/examples/io-stats.d
+> new file mode 100755
+> index 000000000..a9f25e405
+> --- /dev/null
+> +++ b/examples/io-stats.d
+> @@ -0,0 +1,268 @@
+> +#!/usr/sbin/dtrace -s
 > +
-> +	/* Count how many statements cannot be ignored, regardless of uprp. */
-> +	for (i = 0; i < dtp->dt_stmt_nextid; i++) {
-> +		dtrace_stmtdesc_t *stp;
+> +/*
+> + *  NAME
+> + *    io-stats.d - show several I/O related statistics
+> + *
+> + *  SYNOPSIS
+> + *    sudo ./io-stats.d -c "<name-of-application> [app options]"
+> + *
+> + *  DESCRIPTION
+> + *    This script shows several I/O statistics for the target
+> + *    application, or command.  Among others, the filename, the
+> + *    file descriptor, or stream it is connected to, the number
+> + *    of bytes read, written, or both, are printed.
+> + *
+> + *  NOTES
+> + *    - All the probes in this script are based upon the pid
+> + *    provider.
+
+fwiw, the END probe is not from the pid provider.
+
+> + *    - This script is quite elaborate and has several probes.
+> + *    More specifically, in alphabetical order, these are the
+> + *    functions from the libc library that are traced:
+> + *     close(),
+> + *     fclose(),
+> + *     fopen(),
+> + *     fread(),
+> + *     fwrite()
+> + *     open(),
+> + *     pwrite(),
+> + *     read(),
+> + *    In the probes, we rely on the information from the man pages
+> + *    for these functions to identify arguments of interest and
+> + *    the return values.
+> + *
+> + *    - Not all of the probes may be relevant to your case.  While
+> + *    no harm is done if a probe does not fire, the associated
+> + *    aggregation(s) will be empty, but still printed.  You can of
+
+Hmm, okay.  Normally, empty aggregations are not printed.  In this case, 
+however, you are explicitly using printa().  So, that's different.
+
+> + *    course always remove such probes and related print statements.
+> + *
+> + *    - It may also be that some functions that you're interested
+> + *    in are missing.  If so, probably an existing probe can be
+> + *    used as a basis to add one or more new probes.
+
+The last sentence confused me:  it felt like it was telling me that when 
+an existing probe fires some action can be taken to get to missing 
+probes.  Now I'm thinking what you meant is that the existing script can 
+be modified to add more probe descriptions.
+
+> + *    - A related script is io-cast-net.d.  You may want to run
+> + *    this first to cast a fairly wide net and explore which open,
+> + *    close, read and write functions are called when executing the
+> + *    target.
+> + *
+> + *    - All print statements are in the END probe.  On purpose
+> + *    several different format strings are used.  This is done to
+> + *    demonstrate the flexibility in presenting the results.
+
+Well, and END/printa() is not needed at all, since aggregation data will 
+be printed by default.
+
+> + */
 > +
-> +		stp = dtp->dt_stmts[i];
-> +		if (stp == NULL || ignore_clause(dtp, i, NULL))
-> +			continue;
+> +/*
+> + *  Suppress the default output from the dtrace command and
+> + *  have printa() print the data sorted by the first field.
+
+s/data/aggregation data/
+
+> + */
+> +#pragma D option quiet
+> +#pragma D option aggsortkey=1
+> +#pragma D option aggsortkeypos=0
 > +
-> +		n++;
-> +	}
-> +
-> +	/* Determine how many bytes are needed for this many bits. */
-> +	n = (n + CHAR_BIT - 1) / CHAR_BIT;
-> +
-> +	/* Determine how many words are needed for this many bytes. */
-> +	n = (n + w - 1) / w;
-> +
-> +	/* Determine how many bytes are needed. */
-> +	dtp->dt_usdt_mask_bytes = (n ? n : 1) * w;
+> +/*
+> + *  Capture the name of the file that needs to be opened in the call
+> + *  to any function that starts with fopen.  The first argument to
+> + *  this function contains the name of the file to be opened.
+> + *  As arg0 is of type integer, it is converted to a string and
+
+Yeah, it's also copying from user space.
+
+> + *  stored in the thread-local variable fname_fopen.
+> + */
+> +pid$target:libc.so:fopen*:entry
+> +{
+> +  self->fname_fopen = copyinstr(arg0);
+> +}
+> +/*
+> + *  This probe is nearly identical to the one above, but note that
+> + *  for this probe, the name of the thread-local variable is slightly
+> + *  different and called fname_open.
+> + */
+> +pid$target:libc.so:open:entry
+> +{
+> +  self->fname_open = copyinstr(arg0);
 > +}
 > +
->  static int add_probe_uprobe(dtrace_hdl_t *dtp, dt_probe_t *prp)
->  {
->  	dtrace_difo_t   *dp;
-> @@ -651,6 +676,7 @@ static int add_probe_usdt(dtrace_hdl_t *dtp, dt_probe_t *prp)
->  	int				fd = dtp->dt_usdt_namesmap_fd;
->  	pid_t				pid;
->  	list_probe_t			*pup;
-> +	usdt_prids_map_val_t		*val;
->  
->  	/* Add probe name elements to usdt_names map. */
->  	p = probnam;
-> @@ -686,11 +712,11 @@ static int add_probe_usdt(dtrace_hdl_t *dtp, dt_probe_t *prp)
->  	}
->  
->  	/* Add prid and bit mask to usdt_prids map. */
-> +	val = alloca(sizeof(usdt_prids_map_val_t) + dtp->dt_usdt_mask_bytes);
->  	for (pup = prp->prv_data; pup != NULL; pup = dt_list_next(pup)) {
->  		dt_probe_t		*uprp = pup->probe;
-> -		long long		mask = 0, bit = 1;
-> +		uint32_t		iword = 0, mask = 0, bit = 1;
->  		usdt_prids_map_key_t	key;
-> -		usdt_prids_map_val_t	val;
->  		dt_uprobe_t		*upp = uprp->prv_data;
->  
->  		/*
-> @@ -704,15 +730,24 @@ static int add_probe_usdt(dtrace_hdl_t *dtp, dt_probe_t *prp)
->  		if (uprp->prov->impl == &dt_uprobe && !(upp->flags & PP_IS_ENABLED)) {
->  			int n;
->  
-> +			/*
-> +			 * The loop over n to dtp->dt_stmt_nextid, skipping
-> +			 * ignore_clause(), should be the same here as in
-> +			 * the trampoline.
-> +			 */
->  			for (n = 0; n < dtp->dt_stmt_nextid; n++) {
->  				dtrace_stmtdesc_t *stp;
->  
->  				stp = dtp->dt_stmts[n];
-> -				if (stp == NULL)
-> +				if (stp == NULL || ignore_clause(dtp, n, uprp))
->  					continue;
->  
-> -				if (ignore_clause(dtp, n, uprp))
-> -					continue;
-> +				if (bit == 0) {
-> +					val->mask[iword] = mask;
-> +					mask = 0;
-> +					iword++;
-> +					bit = 1;
-> +				}
->  
->  				if (dt_gmatch(prp->desc->prv, stp->dtsd_ecbdesc->dted_probe.prv) &&
->  				    dt_gmatch(prp->desc->mod, stp->dtsd_ecbdesc->dted_probe.mod) &&
-> @@ -727,11 +762,11 @@ static int add_probe_usdt(dtrace_hdl_t *dtp, dt_probe_t *prp)
->  		key.pid = pid;
->  		key.uprid = uprp->desc->id;
->  
-> -		val.prid = prp->desc->id;
-> -		val.mask = mask;
-> +		val->prid = prp->desc->id;
-> +		val->mask[iword] = mask;
->  
->  		// FIXME Check return value, but how should errors be handled?
-> -		dt_bpf_map_update(dtp->dt_usdt_pridsmap_fd, &key, &val);
-> +		dt_bpf_map_update(dtp->dt_usdt_pridsmap_fd, &key, val);
->  	}
->  
->  	return 0;
-> @@ -1452,7 +1487,7 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
->  	const list_probe_t	*pop;
->  	uint_t			lbl_exit = pcb->pcb_exitlbl;
->  	dt_ident_t		*usdt_prids = dt_dlib_get_map(dtp, "usdt_prids");
-> -	int			n;
-> +	int			n, ibit, w = CHAR_BIT * sizeof(((usdt_prids_map_val_t *)0)->mask[0]);
->  
->  	assert(usdt_prids != NULL);
->  
-> @@ -1539,7 +1574,8 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
->  	 */
->  	assert(sizeof(usdt_prids_map_key_t) <= DT_STK_SLOT_SZ);
->  	emit(dlp,  BPF_STORE(BPF_W, BPF_REG_FP, DT_TRAMP_SP_SLOT(0), BPF_REG_0));
-> -	emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_FP, DT_TRAMP_SP_SLOT(0) + (int)sizeof(pid_t), uprp->desc->id));
-> +	emit(dlp,  BPF_STORE_IMM(BPF_W, BPF_REG_FP,
-> +		   DT_TRAMP_SP_SLOT(0) + (int)sizeof(pid_t), uprp->desc->id));
->  	dt_cg_xsetx(dlp, usdt_prids, DT_LBL_NONE, BPF_REG_1, usdt_prids->di_id);
->  	emit(dlp,  BPF_MOV_REG(BPF_REG_2, BPF_REG_FP));
->  	emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, DT_TRAMP_SP_SLOT(0)));
-> @@ -1573,8 +1609,8 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
->  	emit(dlp,  BPF_LOAD(BPF_W, BPF_REG_1, BPF_REG_0, 0));
->  	emit(dlp,  BPF_STORE(BPF_W, BPF_REG_7, DMST_PRID, BPF_REG_1));
->  
-> -	/* Read the bit mask from the table lookup in %r6. */    // FIXME someday, extend this past 64 bits
-> -	emit(dlp,  BPF_LOAD(BPF_DW, BPF_REG_6, BPF_REG_0, offsetof(usdt_prids_map_val_t, mask)));
-> +	/* Store the value key for reuse. */
-> +	emit(dlp,  BPF_STORE(BPF_DW, BPF_REG_FP, DT_TRAMP_SP_SLOT(0), BPF_REG_0));
->  
->  	/*
->  	 * Apply arg mappings, if needed.
-> @@ -1588,21 +1624,29 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
->  	/*
->  	 * Hold the bit mask in %r6 between clause calls.
->  	 */
-> -	for (n = 0; n < dtp->dt_stmt_nextid; n++) {
-> +	/*
-> +	 * The loop over n to dtp->dt_stmt_nextid, skipping
-> +	 * ignore_clause(), should be the same here as in
-> +	 * add_probe_usdt().
-> +	 */
-> +	for (ibit = n = 0; n < dtp->dt_stmt_nextid; n++) {
->  		dtrace_stmtdesc_t *stp;
->  		dt_ident_t	*idp;
->  		uint_t		lbl_next;
->  
->  		stp = dtp->dt_stmts[n];
-> -		if (stp == NULL)
-> -			continue;
-> -
-> -		if (ignore_clause(dtp, n, uprp))
-> +		if (stp == NULL || ignore_clause(dtp, n, uprp))
->  			continue;
->  
->  		idp = stp->dtsd_clause;
->  		lbl_next = dt_irlist_label(dlp);
->  
-> +		/* Load the next word of the bit mask into %r6. */
-> +		if (ibit % w == 0) {
-> +			emit(dlp,  BPF_LOAD(BPF_DW, BPF_REG_0, BPF_REG_FP, DT_TRAMP_SP_SLOT(0)));
-> +			emit(dlp,  BPF_LOAD(BPF_W, BPF_REG_6, BPF_REG_0, offsetof(usdt_prids_map_val_t, mask[ibit / w])));
-> +		}
+> +/*
+> + *  This is the return probe for any of the fopen calls.  The
+> + *  predicate ensures that fname_fopen has been set and if so,
+> + *  the probe updates the count and stores this in an aggregation
+> + *  with 3 fields: the name of the function, the name of the
+> + *  file and the return value of the function, which is stored
+> + *  in arg1.
+> + *  Note that we can indeed access this file name.  Although
+> + *  set in the corresponding entry probe, a thread-local
+> + *  variable is accessible in the data space of the thread
+> + *  and so can be read, or written, here.
+> + *  The third field in the aggregation is arg1.  This is
+> + *  the return value of the function and is the pointer to the
+> + *  stream.
+> + *  Since we no longer need variable fname_fopen it is released.
+> + */
+> +pid$target:libc.so:fopen*:return
+> +/ self->fname_fopen != 0/
+> +{
+> +  @file_pointer[probefunc,self->fname_fopen,arg1] = count();
+> +  self->fname_fopen = 0;
+> +}
 > +
->  		/* If the lowest %r6 bit is 0, skip over this clause. */
->  		emit(dlp,  BPF_MOV_REG(BPF_REG_1, BPF_REG_6));
->  		emit(dlp,  BPF_ALU64_IMM(BPF_AND, BPF_REG_1, 1));
-> @@ -1630,6 +1674,7 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
->  
->  		/* Right-shift %r6. */
->  		emit(dlp,  BPF_ALU64_IMM(BPF_RSH, BPF_REG_6, 1));
-> +		ibit++;
->  	}
->  
->  out:
-> diff --git a/test/unittest/usdt/tst.manyprobedescriptions.r b/test/unittest/usdt/tst.manyprobedescriptions.r
-> new file mode 100644
-> index 000000000..2e9ba477f
-> --- /dev/null
-> +++ b/test/unittest/usdt/tst.manyprobedescriptions.r
-> @@ -0,0 +1 @@
-> +success
-> diff --git a/test/unittest/usdt/tst.manyprobedescriptions.sh b/test/unittest/usdt/tst.manyprobedescriptions.sh
+> +/*
+> + *  This probe is nearly identical to the previous probe.
+> + *  Other than the name of the thread-local variable, the
+> + *  difference is in the name of the aggregation.  This is
+> + *  because the return value, which is the file descriptor, is of
+> + *  type integer.  This means that we need a different format
+> + *  string *  when printing this field.
+> + */
+> +pid$target:libc.so:open:return
+> +/ self->fname_open != 0/
+> +{
+> +  @file_descriptor[probefunc,self->fname_open,arg1] = count();
+> +  self->fname_open = 0;
+> +}
+> +
+> +/*
+> + *  This probe stores the name of the function, which is fclose,
+> + *  and the argument, the pointer to the stream.
+> + */
+> +pid$target:libc.so:fclose:entry
+> +{
+> +  @fclose_stream[probefunc,arg0] = count();
+> +}
+> +
+> +/*
+> + *  This probe is very similar to the one above.  Again, the
+> + *  difference is in the name of the aggregation, and the argument
+> + *  which is the file descriptor and of type integer.
+> + */
+> +pid$target:libc.so:close:entry
+> +{
+> +  @close_fd[probefunc,arg0] = count();
+> +}
+> +
+> +/*
+> + *  One of the functions traced, is pwrite().  The first
+> + *  argument, arg0, is the file descriptor.  The third
+> + *  argument is arg2.  This contains the number of bytes
+> + *  written.
+
+You don't know the number of bytes written until return.  Here, arg2 is 
+simply the max requested.
+
+> + *  The aggregation function sum() is used to sum up all
+> + *  those byte counts, and as a result, the aggregation contains
+> + *  the total number of bytes written to the file connected
+> + *  to the file descriptor.
+> + */
+> +pid$target:libc.so:pwrite:entry
+> +{
+> +  @pwrite_bytes[probefunc,arg0] = sum(arg2);
+> +}
+> +
+> +/*
+> + *  The pwrite() function returns the number of bytes written.
+> + *  This value is added to the existing contents of the
+> + *  aggregation.  The name of the function, pwrite, is the only
+> + *  field in the key, so this aggregation contains the total
+> + *  number of bytes written by pwrite().
+> + */
+
+Right.  So entry has the requested number and return has the actual number.
+
+> +pid$target:libc.so:pwrite:return
+> +{
+> +  @pwrite_total_bytes[probefunc] = sum(arg1);
+> +}
+> +
+> +/*
+> + *  This probe accumulates the number of bytes the read() function
+> + *  requests to be read.  The aggregation is differentiated by the
+> + *  file descriptor.  This means that we get the totals on a per
+> + *  file descriptor basis.
+> + *  We also store the file descriptor in a thread-local variable
+> + *  called fd, because we would like to use it in the return probe
+> + *  for this function.
+> + */
+> +pid$target:libc.so:read:entry
+> +{
+> +  self->fd = arg0;
+> +  @bytes_requested[probefunc,self->fd] = sum(arg2);
+> +}
+> +
+> +/*
+> + *  This is where things come together.  The read() function returns
+> + *  the actual number of bytes read.  These values are accumulated in
+> + *  an aggregation that includes the file descriptor in the key.  In
+> + *  this way we can print both the number of bytes requested and the
+> + *  actual number of bytes read.
+> + *  We also accumulate the total number of bytes actually read across
+> + *  all the file descriptors.
+> + *  Since thread-local variable fd is no longer needed, the storage is
+> + *  released.
+> + */
+> +pid$target:libc.so:read:return
+> +{
+> +  @bytes_actually_read[probefunc,self->fd] = sum(arg1);
+> +  @total_bytes_read                        = sum(arg1);
+> +  self->fd = 0;
+> +}
+> +
+> +/*
+> + *  This is a shared clause for the probes for the fread() and
+> + *  fwrite() functions.  We can share the clause, because the
+> + *  arguments and return value are the same for both functions.
+> + *  The clause-local variable comment is used to store a dynamically
+> + *  generated string.  This string is then concatenated with the
+> + *  name of the function, resulting in a string that depends on the
+> + *  function name in the probe.
+> + *  The aggregation has a key that consists of the pointer to the
+> + *  stream and the generated string.  This aggregation accumulates
+> + *  the product of the byte size and the number of elements, which
+> + *  is the total number of bytes read, or written.
+> + */
+> +pid$target:libc.so:fread:entry,
+> +pid$target:libc.so:fwrite:entry
+> +{
+> +  this->comment = (probefunc == "fread") ?
+> +                   "read by " : "written by ";
+> +  this->rw = strjoin(this->comment,probefunc);
+> +  @total_byte_count_frw[arg3,this->rw] = sum(arg1*arg2);
+> +}
+> +
+> +/*
+> + *  This probe accumulates the return value of the fread() function,
+> + *  which is the number of elements read.  This number is accumulated
+> + *  across all pointers to streams.
+> + */
+> +pid$target:libc.so:fread:return
+> +{
+> +  @fread_total_elements[probefunc] = sum(arg1);
+> +}
+> +
+> +/*
+> + *  The output section where all the results are printed.  Note that
+> + *  in one case, we use 2 aggregations in the call to printa().
+> + *  This is supported if the key is the same.
+> + */
+> +END
+> +{
+> +  printf("%8s %20s   %-15s %6s\n",
+> +               "Function","Filename","File pointer","Count");
+> +  printa("%8s %20s   0x%-13p %@6d\n",@file_pointer);
+> +
+> +  printf("\n%8s %20s   %-15s %6s\n",
+> +               "Function","Filename","File descriptor","Count");
+> +  printa("%8s %20s   %-15d %@6d\n",@file_descriptor);
+> +
+> +  printf("\n%8s   %-16s %7s\n","Function","Stream/FD","Count");
+> +  printa("%8s   0x%-14p %@7d\n",@fclose_stream);
+> +  printa("%8s   %-16d %@7d\n",@close_fd);
+> +
+> +  printf("\n");
+> +  printf("%8s %5s %14s\n","Function","FD","Bytes written");
+> +  printa("%8s %5d %@14d\n",@pwrite_bytes);
+> +  printa("Total bytes written by %s: %@ld\n",@pwrite_total_bytes);
+> +
+> +  printa("\nOn stream %p - Total bytes %s = %@ld\n",
+> +                                  @total_byte_count_frw);
+> +
+> +  printa("Total elements read by %s = %@ld\n",
+> +                                  @fread_total_elements);
+> +
+> +  printf("\n%33s\n","Bytes read");
+> +  printf("%8s %6s %10s %10s\n","Function","FD","Requested","Actual");
+> +  printa("%8s %6d %@10d %@10d\n",@bytes_requested,
+> +                                 @bytes_actually_read);
+> +  printa("\nTotal number of bytes read: %@d\n",@total_bytes_read);
+> +}
+> diff --git a/examples/sched-simple.d b/examples/sched-simple.d
 > new file mode 100755
-> index 000000000..92a61d5b7
+> index 000000000..6f93a5d50
 > --- /dev/null
-> +++ b/test/unittest/usdt/tst.manyprobedescriptions.sh
-> @@ -0,0 +1,64 @@
-> +#!/bin/bash
-> +#
-> +# Oracle Linux DTrace.
-> +# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-> +# Licensed under the Universal Permissive License v 1.0 as shown at
-> +# http://oss.oracle.com/licenses/upl.
+> +++ b/examples/sched-simple.d
+> @@ -0,0 +1,76 @@
+> +#!/usr/sbin/dtrace -s
+> +/*
+> + *  NAME
+> + *    sched-simple.d - count how often the target was on/off the CPU
+> + *
+> + *  SYNOPSIS
+> + *    sudo ./sched-simple.d -c <target>
+> + *
+> + *  DESCRIPTION
+> + *    This script uses the sched provider to count how often the
+> + *    target proces was scheduled on and off the CPU.  The target
+> + *    can be an application, or any command.
+> + *    The information is given for all individual threads used by
+> + *    the target, as well as across all the threads.
+> + *
+> + *  NOTES
+> + *    There are 2 aggregations.  The one with 2 fields in the
+> + *    key, thr_count_states, uses the thread ID as the first field.
+> + *    By configuring printa() through pragmas to print the data
+> + *    sorted by the first field, the results for this aggregation
+> + *    are shown on a per thread basis.
+> + */
 > +
-> +dtrace=$1
-> +TRIGGER=$PWD/test/triggers/usdt-tst-args
+> +/*
+> + *  Suppress the default output from the dtrace command and
+> + *  have printa() print the data sorted by the first field.
+
+s/data/aggregation data/.  Hopefully that will provide one more cue to 
+link text with pragma names.
+
+> + */
+> +#pragma D option quiet
+> +#pragma D option aggsortkey=1
+> +#pragma D option aggsortkeypos=0
 > +
-> +DIRNAME="$tmpdir/usdt-many_probe_descriptions.$$.$RANDOM"
-> +mkdir -p $DIRNAME
-> +cd $DIRNAME
+> +/*
+> + *  These are 2 probes from the sched provider that share a
+> + *  clause.  Without a predicate, these probes will fire as
+> + *  soon as any process goes on/off the CPU.  That will work
+> + *  fine, but in this case we use a predicate to restrict the
+> + *  probing to the target application, or command.
+> + *
+> + *  The clause-local variable state is thread safe.  It is used
+
+The clause-local variable is thread safe?  Uh, I guess, but the 
+implication is confusing.  If you want thread-safe, use self->.
+
+The variable state?  What is the state of the variable?  Confusing. 
+Maybe, to indicate that "state" is a name of a variable, it should be 
+set off in quote marks?  Or rename it to be tmpstr or something, which 
+looks more like a variable name and not like a generic English word.
+
+> + *  to demonstrate how to construct a string to be used as a field
+> + *  in an aggregation, or for any other purpose.
+
+A clause-local variable is used to demonstrate how to construct a string 
+for any purpose?
+
+> + *  We know that the probe name is either on-cpu or off-cpu.  This
+> + *  is used to assign a different string to variable state.
+> + *
+> + *  The 2 aggregations are used to count how often the probes fired.
+> + *  The difference is in the key.  The first aggregation,
+> + *  count_states, does not use the thread ID in the key.  It counts
+> + *  across all threads.  In contrast with this, the second
+> + *  aggregation, thr_count_states, differentiates the counts by the
+> + *  thread ID.
+> + */
+> +sched:::on-cpu,
+> +sched:::off-cpu
+> +/ pid == $target /
+> +{
+> +  this->state = (probename == "on-cpu") ?
+> +                  "scheduled on" : "taken off";
+> +  @count_states[this->state]         = count();
+> +  @thr_count_states[tid,this->state] = count();
+> +}
 > +
-> +# Construct the D scripts and output files.
-> +# We stick 80 probe descriptions in each of 3 scripts to test
-> +# USDT's ability to handle hundreds of probe descriptions.
-> +for d in 0 1 2; do
-> +for x in 00 01 02 03 04 05 06 07 08 09 \
-> +         10 11 12 13 14 15 16 17 18 19 \
-> +         20 21 22 23 24 25 26 27 28 29 \
-> +         30 31 32 33 34 35 36 37 38 39 \
-> +         40 41 42 43 44 45 46 47 48 49 \
-> +         50 51 52 53 54 55 56 57 58 59 \
-> +         60 61 62 63 64 65 66 67 68 69 \
-> +         70 71 72 73 74 75 76 77 78 79 \
-> +; do
-> +	echo 'test_prov$target:::place { printf("'$d$x'\n"); }' >> D$d.d
-> +	echo $d$x >> expect.txt
-> +done
-> +done
-> +echo 'test_prov$target:::place { exit(0); }' >> D$d.d
-> +echo >> expect.txt
-> +
-> +# Run DTrace.
-> +
-> +$dtrace $dt_flags -c $TRIGGER -q -s D0.d -s D1.d -s D2.d >& actual.txt
-> +if [ $? -eq 0 ]; then
-> +	if diff -q expect.txt actual.txt > /dev/null; then
-> +		echo success
-> +		exit 0
-> +	else
-> +		echo ERROR: did not get expected results
-> +		echo === expect.txt
-> +		cat      expect.txt
-> +		echo === actual.txt
-> +		cat      actual.txt
-> +		echo === diff
-> +		diff expect.txt actual.txt
-> +	fi
-> +else
-> +	echo ERROR: dtrace error
-> +	echo ==== output
-> +	cat actual.txt
-> +fi
-> +
-> +echo ==== script D0.d
-> +cat D0.d
-> +echo ==== script D1.d
-> +cat D1.d
-> +echo ==== script D2.d
-> +cat D2.d
-> +
-> +exit 1
-> diff --git a/test/unittest/usdt/tst.manyprobedescriptions2.r b/test/unittest/usdt/tst.manyprobedescriptions2.r
-> new file mode 100644
-> index 000000000..2e9ba477f
-> --- /dev/null
-> +++ b/test/unittest/usdt/tst.manyprobedescriptions2.r
-> @@ -0,0 +1 @@
-> +success
-> diff --git a/test/unittest/usdt/tst.manyprobedescriptions2.sh b/test/unittest/usdt/tst.manyprobedescriptions2.sh
+> +/*
+> + *  Print the results.  We use printf() to print a header.
+> + *  For both aggregations, a formatted printa() statement
+> + *  is used.  The printf() in between the 2 printa()
+> + *  statements is used to separate the 2 blocks with results.
+> + */
+
+Personally, I think it's great that DTrace prints aggregations by 
+default, and I would remind people here that the END clause is not 
+included because it's needed to print results but that it is used only 
+to illustrate how to control the output format.
+
+> +END
+> +{
+> +  printf("%8s %-20s %6s\n","TID","State","Count");
+> +  printf("====================================\n");
+> +  printa("%8d %-12s the CPU %@6d\n",@thr_count_states);
+> +  printf("\n");
+> +  printa("Total count %12s: %@d\n",@count_states);
+> +}
+> diff --git a/examples/sched-stats.d b/examples/sched-stats.d
 > new file mode 100755
-> index 000000000..8001cec0b
+> index 000000000..50b3b263a
 > --- /dev/null
-> +++ b/test/unittest/usdt/tst.manyprobedescriptions2.sh
-> @@ -0,0 +1,127 @@
-> +#!/bin/bash
-> +#
-> +# Oracle Linux DTrace.
-> +# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-> +# Licensed under the Universal Permissive License v 1.0 as shown at
-> +# http://oss.oracle.com/licenses/upl.
+> +++ b/examples/sched-stats.d
+> @@ -0,0 +1,182 @@
+> +#!/usr/sbin/dtrace -s
 > +
-> +# This test uses many probes and probe descriptions.  Therefore, the
-> +# number of BPF programs to load into the kernel -- dt_bpf_load_prog()
-> +# calling prp->prov->impl->load_prog(), which is dt_bpf_prog_load() --
-> +# and the duration of each load are both increasing.
-> +# @@timeout: 400
+> +/*
+> + *  NAME
+> + *    sched-stats.d - display various scheduler statistics
+> + *
+> + *  SYNOPSIS
+> + *    sudo ./sched-stats.d -c "<name-of-app [app options]" <threshold>
+
+"<name-of-app" is missing a closing ">"?
+
+> + *  DESCRIPTION
+> + *    This script shows several thread-scheduling statistics that
+> + *    were collected while the target application, or command, was
+> + *    running.
+> + *
+> + *    For good performance, a thread should run on the same CPU,
+> + *    or at least in the same NUMA node for as long as possible.
+> + *    In case it is taken off the CPU, it should be scheduled
+> + *    back on the same CPU, or at least in the same NUMA node.
+> + *
+> + *    The information printed shows the scheduling decisions
+> + *    for any (multithreaded) application:
+> + *
+> + *    - For each thread, a histogram of the on-cpu times is shown.
+> + *
+> + *    - This is followed by a table with the overall timing
+> + *    statistics.  For each thread, the total on-cpu time is
+> + *    given, plus the minimum and maximum on-cpu time.
+> + *
+> + *    - The script takes one parameter.  This is a threshold
+> + *    value.  It is a lower limit on the on-cpu times.  For each
+
+What are the units of the value?
+
+> + *    thread it is reported how often the on-cpu time was at, or
+> + *    below, this value.
+> + *    This table might point at threads that are falling behind
+> + *    on a (heavily loaded) system
+> + *
+> + *    - The last 2 tables give information on the thread affinity.
+> + *    The first table of these 2 is sorted by thread ID and
+> + *    shows the CPU(s) used by each thread, as well how often
+> + *    the thread was scheduled on the CPU, and taken off again.
+> + *    The second table of these 2 shows the same information,
+> + *    but now from a CPU centric view.
+> + *
+> + *  NOTES
+> + *    This script works with any target application or command.
+> + */
 > +
-> +dtrace=$1
+> +/*
+> + *  Suppress the default output from the dtrace command and
+> + *  have printa() print the data sorted by the first field.
+
+
+s/data/aggregation data/.  Hopefully that will provide one more cue to 
+link text with pragma names, printa() name, etc.
+
+> + */
 > +
-> +DIRNAME="$tmpdir/usdt-many_probe_descriptions2.$$.$RANDOM"
-> +mkdir -p $DIRNAME
-> +cd $DIRNAME
+> +#pragma D option quiet
+> +#pragma D option aggsortkey=1
+> +#pragma D option aggsortkeypos=0
 > +
-> +# Set the lists.
-> +# - The probes will be foo$x$y.
-> +# - The probe descriptions will be foo$x* and foo*$y, for each $d.
-> +# So if there are nx items in xlist, ny in ylist, and nd in dlist,
-> +# - there will be roughly nx*ny probes
-> +# - there will be roughly (nx+ny)*nd probe descriptions
+> +/*
+> + *  Read the threshold value from the command line and store it in
+> + *  a global variable.  By using a global variable, all probes can
+> + *  read/write it.  In this case it is used as a read-only variable.
+> + */
+
+How does one specify that it is a read-only variable?  Oh, we cannot do 
+that.  Oh, and all probes can access $1 anyhow.  How about just 
+replacing the whole comment with something like, "Place the argument 
+from the command line in a global variable for better readability." Or 
+something like that.
+
+> +BEGIN
+> +{
+> +  time_threshold = $1;
+> +}
 > +
-> +xlist="a b c d e f g h i j k l m"
-> +ylist="n o p q r s t u v w x y z"
-> +dlist="0 1 2 3 4 5 6 7 8"
+> +/*
+> + *  An on-cpu probe with a predicate to ensure that the probe only
+> + *  fires when the target is scheduled on the CPU.
+> + *
+> + *  Set the base value of the timer.  Since each thread needs
+
+Might as well refer to ts_start as the start time.  Besides, (at least 
+to me), "base" time is a little unclear.
+
+> + *  to have its own timer, we use a thread-local variable.
+> + *
+> + *  There are 2 aggregations.  Both increment their counter each
+> + *  time that this probe fires.  The thread ID (in tid) and CPU ID
+> + *  (in curcpu->cpu_id) are used to define the key.
+> + *
+> + *  The difference between the 2 aggregations is that the fields in
+> + *  the key have been swapped.  Given that printa() has been
+> + *  configured to sort the data by the first column, the first
+> + *  aggregation shows a thread centric view, while the second one
+> + *  has a CPU ID centric view.
+> + */
+> +sched:::on-cpu
+> +/ pid == $target /
+> +{
+> +  self->ts_start = timestamp;
 > +
-> +# Make the trigger:  Preambles.
+> +  @thr_cpu_id_on_cpu[tid,curcpu->cpu_id] = count();
+> +  @cpu_id_thr_on_cpu[curcpu->cpu_id,tid] = count();
+
+Okay, but instead of curcpu->cpu_id you could just say "cpu".  In 
+libdtrace/sched.d, we see "cpu = curcpu->cpu_id;".  Oddly, we used to 
+document "cpu" as a built-in variable, but we no longer do. Dunno.
+
+> +}
 > +
-> +echo "provider testprov {" > prov.d
+> +/*
+> + *  This is the first of 2 probes using off-cpu.  In this probe,
+> + *  again a predicate is used to restrict the data to the target
+> + *  command.
+> + *
+> + *  Since the process/thread is about to go off CPU, now is the time
+> + *  to record how long the thread has been running on the CPU.
+> + *  The value is converted to microseconds (us) and stored in a
+
+"converted to microseconds" =>
+"converted from nanoseconds to microseconds"
+
+> + *  clause-local variable.
+> + *
+> + *  This variable is then used to update 4 aggregations: the
+> + *  histogram of the on-CPU times, the total on CPU time, plus the
+> + *  minimum and maximum time on the CPU.
+> + *
+> + *  The next 2 aggregations are very similar to those used in the
+> + *  on-cpu probe.
+> + *
+> + *  Last, but not least, the storage for the thread-local variable
+> + *  is released, because it is no longer needed.
+> + */
+
+You have a monolithic comment block with a concatenated series of 
+comments, followed by a bunch of statements.  This means my eye has to 
+move back and forth between comments and statements, which I have to 
+search out.  I might even have to scroll.  How about breaking the 
+comments up so that each comment is by the statement it describes. You 
+could then drop some descriptive text like "The next 2 aggregations."
+
+> +sched:::off-cpu
+> +/ pid == $target /
+> +{
+> +  this->time_on_cpu = (timestamp - self->ts_start)/1000;
 > +
-> +echo '#include "prov.h"' > main.c
-> +echo 'int main(int argc, char **argv) {' >> main.c
+> +  @timings[tid]    = quantize(this->time_on_cpu);
+> +  @total_time[tid] = sum(this->time_on_cpu);
+> +  @min_time[tid]   = min(this->time_on_cpu);
+> +  @max_time[tid]   = max(this->time_on_cpu);
 > +
-> +# Make the trigger:  Loop over the probes.
+> +  @thr_cpu_id_off_cpu[tid,curcpu->cpu_id] = count();
+> +  @cpu_id_thr_off_cpu[curcpu->cpu_id,tid] = count();
 > +
-> +for x in $xlist; do
-> +for y in $ylist; do
-> +    echo "probe foo$x$y();" >> prov.d
-> +    echo "TESTPROV_FOO$x$y();" | awk '{ print(toupper($1)) }' >> main.c
-> +done
-> +done
+> +  self->ts_start = 0;
+> +}
 > +
-> +# Make the trigger:  Epilogues.
+> +/*
+> + *  This is the second off-cpu probe.  It has a different and
+> + *  somewhat more complicated predicate.
+> + *  This probe fires for the target command, but only in case the
+> + *  time on the CPU is below the user controllable threshold value.
+> + *  We basically record and count the event, but of course any
+> + *  other action can be taken here.
+> + *  An aggregation is used to store the data.  The thread ID (tid)
+> + *  is used as a key and we increment the counter.  This produces
+> + *  a count for each thread.
+> + */
+> +sched:::off-cpu
+> +/ pid == $target && this->time_on_cpu <= time_threshold /
+> +{
+> +  @thr_below[tid] = count();
+> +}
 > +
-> +echo "};" >> prov.d
-> +echo "return 0; }" >> main.c
+> +/*
+> + *  This is where all results are printed.  It is all quite
+> + *  straightforward, but note that in three cases, multiple
+> + *  aggregations are printed with a single printa().  As long as the
+> + *  keys are the same, this is supported and makes it possible to
+> + *  print multiple columns with values.
+> + */
+
+As I say in a different example, it'd be good to remind users that this 
+END probe is to pretty-print the format and illustrate printa() for 
+pedagogical purposes;  but DTrace by default will print aggregations.
+
+> +END
+> +{
+> +  printf("Thread times on the CPU (us)\n");
+> +  printa(@timings);
 > +
-> +# Build the trigger.
+> +  printf("\n=====================================\n");
+> +  printf("%10s %26s\n","TID", "Times on the CPU (us)");
+> +  printf("%21s %6s %8s\n","Total","Min","Max");
+> +  printf("=====================================\n");
+> +  printa("%10d %@10d %@6d %@8d\n",@total_time,@min_time,@max_time);
 > +
-> +$dtrace $dt_flags -h -s prov.d
-> +if [ $? -ne 0 ]; then
-> +	echo "failed to generate header file" >&2
-> +	cat prov.d
-> +	exit 1
-> +fi
-> +$CC $test_cppflags -c main.c
-> +if [ $? -ne 0 ]; then
-> +	echo "failed to compile test" >&2
-> +	cat main.c
-> +	exit 1
-> +fi
-> +$dtrace $dt_flags -G -64 -s prov.d main.o
-> +if [ $? -ne 0 ]; then
-> +	echo "failed to create DOF" >&2
-> +	exit 1
-> +fi
-> +$CC $test_ldflags -o main main.o prov.o
-> +if [ $? -ne 0 ]; then
-> +	echo "failed to link final executable" >&2
-> +	exit 1
-> +fi
+> +  printf("\n=====================================\n");
+> +  printf("Thread ON CPU time threshold: %d us\n",time_threshold);
+> +  printf("=====================================\n");
+> +  printf("%8s %26s\n","TID","Count below threshold");
+> +  printa("%8d %@14d\n",@thr_below);
 > +
-> +# Prepare the D script, generating the probe descriptions.
+> +  printf("\n=====================================\n");
+> +  printf("%10s  %8s %11s\n","TID","CPU ID","Count");
+> +  printf("%37s\n","On CPU  Off CPU");
+> +  printf("=====================================\n");
+> +  printa("%10d  %8d %@7d %@8d\n",@thr_cpu_id_on_cpu,
+> +                                 @thr_cpu_id_off_cpu);
 > +
-> +rm -f D.d
-> +for d in $dlist; do
-> +	for x in $xlist; do
-> +		echo 'testprov$target:::foo'$x'* { printf("'$d' '$x'* %s\n", probename) }' >> D.d
-> +	done
-> +	for y in $ylist; do
-> +		echo 'testprov$target:::foo*'$y' { printf("'$d' *'$y' %s\n", probename) }' >> D.d
-> +	done
-> +done
+> +  printf("\n=====================================\n");
+> +  printf("%8s  %10s %11s\n","CPU ID","TID","Count");
+> +  printf("%37s\n","On CPU  Off CPU");
+> +  printf("=====================================\n");
+> +  printa("%8d  %10d %@7d %@8d\n",@cpu_id_thr_on_cpu,
+> +                                 @cpu_id_thr_off_cpu);
+> +}
+> diff --git a/examples/thread-ids.d b/examples/thread-ids.d
+> new file mode 100755
+> index 000000000..38210c4d6
+> --- /dev/null
+> +++ b/examples/thread-ids.d
+> @@ -0,0 +1,159 @@
+> +#!/usr/sbin/dtrace -s
 > +
-> +# Prepare the expected output.
+> +/*
+> + *  NAME
+> + *    thread-ids.d - show the mapping between Pthread IDs and tid values
+> + *
+> + *  SYNOPSIS
+> + *    sudo ./thread-ids.d -c "<name-of-application> [app options]"
+> + *
+> + *  DESCRIPTION
+> + *    This script assumes that the target uses the Pthreads library
+> + *    to create one or more threads.  It shows the mapping of the
+> + *    Pthread thread IDs and the thread ID, as returned in the tid
+> + *    built-in variable.
+> + *
+> + *  NOTES
+> + *    - In addition to showing how to uncover this mapping, this
+> + *    script also shows a technique how to retrieve a value from
+> + *    a pointer argument in a function call.
+> + *
+> + *    In this case, this is the thread ID that pthread_create()
+> + *    returns in its first argument.
+> + *
+> + *    This is from the man page for pthread_create():
+> + *
+> + *    int pthread_create(pthread_t *restrict thread,
+> + *                        const pthread_attr_t *restrict attr,
+> + *                        void *(*start_routine)(void *),
+> + *                        void *restrict arg);
+> + *
+> + *    We need to capture the contents of *thread.
+> + *
+> + *    In this case, we cannot use the built-in tid variable
+> + *    within pthread_create(), because typically, this function
+> + *    is executed by one thread, the main thread.  This means
+> + *    that the value in tid is the thread ID of this main thread,
+> + *    but we need to have the value of the thread that is created
+> + *    as a result of calling pthread_create().  As shown below,
+> + *    this can be done by tracing clone3, which is called by
+> + *    pthread_create().
 > +
-> +for x in $xlist; do
-> +for y in $ylist; do
-> +for d in $dlist; do
-> +	echo $d $x'*' foo$x$y >> expect.txt
-> +	echo $d '*'$y foo$x$y >> expect.txt
-> +done
-> +done
-> +done
-> +echo >> expect.txt
+> + *    - It is assumed that a function called main is executed.
+> + *    If this is not the case, this is not a critical error.
+> + *    The first probe is used to capture the tid value for the main
+> + *    program.  This thread is however not created by function
+> + *    pthread_create() and therefore this part of the script is
+> + *    not essential.
+> + *    This is why this probe and printf statement in the END probe
+> + *    can safely be removed, or replaced by a suitable alternative.
+> + */
 > +
-> +# Run DTrace.
+> +/*
+> + *  Suppress the default output from the dtrace command.
+> + */
+> +#pragma D option quiet
+
+FWIW, you could add q to the -s in the shebang line instead.
+
 > +
-> +$dtrace $dt_flags -c ./main -qs D.d >& actual.txt
-> +if [ $? -ne 0 ]; then
-> +	echo ERROR: dtrace error
-> +	echo "==== D script"
-> +	cat D.d
-> +	echo "==== output"
-> +	cat actual.txt
-> +	exit 1
-> +fi
+> +/*
+> + *  Declare a global variable.  This is to ensure that the compiler
+
+self->clone_tid is not a global variable.
+
+> + *  sees it before it is referenced.
+> + */
+> +self int clone_tid;
 > +
-> +# Check results.
+> +/*
+> + *  Store the thread ID of the main thread.
+> + */
+> +pid$target:a.out:main:entry
+> +{
+> +  tid_main = tid;
+> +}
 > +
-> +if diff -q expect.txt actual.txt; then
-> +	echo success
-> +	exit 0
-> +else
-> +	echo ERROR: unexpected results
-> +	echo "==== expect"
-> +	cat expect.txt
-> +	echo "==== actual"
-> +	cat actual.txt
-> +	echo "==== diff"
-> +	diff expect.txt actual.txt
-> +	exit 1
-> +fi
-> -- 
-> 2.43.5
-> 
+> +/*
+> + *  Two thread-local variables are set here.  The first one is used
+> + *  in a predicate on the second probe to ensure that we are only
+> + *  tracing the clone* calls executed while within pthread_create().
+> + *
+> + *  We actually know that clone3 is called.  By using the wildcard
+> + *  here, the script still works should this number change in the
+> + *  future.
+> + *
+> + *  Variable pthr_id_p captures the first argument of the call to
+> + *  pthread_create().  This is a pointer, but we can't dereference
+> + *  it here, because the contents this pointer points to, is only
+
+contents is =>
+contents are
+
+> + *  available upon return.
+> + *  The way this is solved, is by storing the pointer in this probe.
+
+The way this is solved, is by =>
+This is solved by
+
+> + *  In the return probe for this function, we can then dereference
+> + *  the pointer.
+> + */
+> +pid$target:libc.so:pthread_create:entry
+> +{
+> +  self->in_pthr_create = 1;
+
+Why in_pthr_create?  Why not test for pthr_id_p (!=NULL) instead? Get 
+rid of an unnecessary variable.
+
+> +  self->pthr_id_p = (int64_t *) arg0;
+> +}
+> +
+> +/*
+> + *  We know that one of the clone functions is called from within
+> + *  pthread_create() and it returns the thread ID that DTrace stores
+> + *  in the tid variable.
+> + *  This is why the return value, which is stored in arg1, is copied
+> + *  into a thread-local variable called clone_tid.  This variable is
+> + *  then referenced in the return probe for pthread_create().
+> + */
+> +pid$target:libc.so:clone*:return
+> +/ self->in_pthr_create == 1 /
+> +{
+> +  self->clone_tid = arg1;
+> +}
+> +
+> +/*
+> + *  This is where things come together.
+> + *
+> + *  We already have the value for the thread ID as used by DTrace.
+> + *  It is stored in thread-local variable clone_tid.
+> + *
+> + *  Now we can capture the Pthreads thread ID.
+> + *
+> + *  We are about to return from pthread_create() and can dereference
+> + *  the pointer.
+> + *  Before we do so, the data needs to be copied from userland
+> + *  into the kernel.  Since this is an address, 8 bytes are copied.
+> + *  The value is what pthread_create() returns in its *thread
+> + *  first argument, which is the Pthreads thread ID.
+> + *  This gives us both thread IDs and they are used in the key
+> + *  for aggregation @thread_mapping.
+> + *
+> + *  There is one more thing to this though.  It is not strictly
+> + *  necessary to use an aggregation.  An associative array can
+> + *  be used, but that is going to be a problem when it comes
+> + *  to printing the results.  There is no printa() equivalent
+> + *  for associative arrays, but since we do not know the key(s)
+> + *  upfront, we don't know what to print.
+> + *  Instead, we use an aggregation, but do not print the result.
+> + *
+> + *  Last, but not least, at this point we can and should return
+
+s/return/free/
+
+> + *  the storage for the thread-local variables.
+> + */
+> +pid$target:libc.so:pthread_create:return
+> +{
+> +  this->pthr_id = *(int64_t *) copyin(*self->pthr_id_p,8);
+> +  @thread_mapping[this->pthr_id,self->clone_tid] = count();
+
+This is interesting -- and I, for one, have learned something from this 
+-- but it's pretty unnatural.  Count, when the number does not interest 
+you?  Instead of using an aggregation, how about simply printing here 
+and now the mapping between the two IDs?  Just printf(), no 
+aggregation.  No need for an associative array either.
+
+> +  self->pthr_id_p      = 0;
+> +  self->clone_tid      = 0;
+> +  self->in_pthr_create = 0;
+> +}
+> +
+> +/*
+> + *  The aggregation is printed in the END probe.  We use printf()
+> + *  statements to print the thread ID of the main program and the
+> + *  table header.
+> + *  Note that there is no format field for the value for the
+> + *  aggregation.  As explained above, the value is not relevant
+> + *  in this case.
+> + */
+> +END
+> +{
+> +  printf("Thread ID of main program: %d\n\n",tid_main);
+> +  printf("%16s <=> %-9s\n\n","Pthreads ID","Thread ID");
+> +  printa("%16d <=> %-9d\n",@thread_mapping);
+> +}
+> diff --git a/examples/var-scope.d b/examples/var-scope.d
+> new file mode 100755
+> index 000000000..b5317afd2
+> --- /dev/null
+> +++ b/examples/var-scope.d
+> @@ -0,0 +1,117 @@
+> +#!/usr/sbin/dtrace -s
+> +
+> +/*
+> + *  NAME
+> + *    var-scope.d - initialize, update and print variables
+> + *
+> + *  SYNOPSIS
+> + *    sudo ./var-scope.d -c <target>
+> + *
+> + *  DESCRIPTION
+> + *    This script demonstrates some of the scoping rules.  It
+> + *    shows the behaviour of global and clause-local variables.
+> + *
+> + *  NOTES
+> + *    Other than the BEGIN and END probe used here, there are
+> + *    2 more probes for the fopen() function, but you can use any
+> + *    probe you like, or no additional probes at all.  You are
+> + *    encouraged to experiment with this example and make changes.
+> + *
+> + *    In case this example is used with the date command, you will
+> + *    see something like this:
+> + *
+> + *    $ sudo ./var-scope.d -c date
+> + *    In BEGIN
+> + *        var_A = 10 var_B = 20
+
+Why var_A and var_B?  How about just A and B?  Alternatively, globalA 
+and globalB, but I think A and B would be better.  It emphasizes that 
+variables are "by default" global.
+
+> + *        this->C = 60
+> + *    In fopen - return
+> + *        var_A = 11 var_B = 21
+> + *    <output from the date command>
+> + *    In END
+> + *        var_A = 11 var_B = 21
+> + *    $
+> + *
+> + *    Below, the workings of each probe is explained.  Since the
+> + *    results depend on the command that is traced, we base the
+> + *    explanations on the output from the above example.
+> + */
+> +
+> +/*
+> + *  Suppress the default output from the dtrace command.
+> + */
+> +#pragma D option quiet
+> +
+> +/*
+> + *  This demonstrates how to declare a variable outside of a clause.
+> + *  Variable var_B is declared to be of type int64_t.  This is a
+> + *  global variable.  It is initialized to zero by default.
+> + */
+> +int64_t var_B;
+> +
+> +/*
+> + *  In this clause for the BEGIN probe, var_A is initialized to 10
+> + *  and var_B is given a value of 20.  Both are global variables.
+> + *  Variable C is a clause-local variable initialized to 30.
+> + */
+> +BEGIN
+> +{
+> +  var_A = 10;
+> +  var_B = 20;
+> +  this->C = 30;
+> +}
+> +
+> +/*
+> + *  In this clause for the BEGIN probe, clause-local variable C is
+> + *  updated to a value of 60.  This demonstrates that clause-local
+> + *  variables are local to the set of clauses executed for a
+> + *  particular probe firing.  This set is executed in lexical order.
+
+What is lexical order?  Isn't it the order in some lexicon... probably 
+alphabetical order?  Maybe you have to say "in the order they appear in 
+the program"?
+
+Demonstrating stuff about clause-local variables is tricky, since they 
+start with undefined values.  So, e.g., you could have one clause say 
+this->a=31415926 and have a different clause print this->a and see the 
+value 31415926.  That would seem to demonstrate that the clause-local 
+variable's value was persistent from one clause to an entirely unrelated 
+clause, when in fact it simply means that the second clause reused some 
+value without resetting it.  Bottom line:  "demonstrating" stuff with 
+clause-local variables is tricky.
+
+There are no thread-local variables.
+
+Mostly, what you are doing is demonstrating global variables, which 
+might feel rather underwhelming to many readers.  Personally, I am not a 
+fan of this example.
+
+> + *  Here, there are 2 sets for the BEGIN probe.
+> + *  The printed values in the example above confirm this update
+> + *  for C, as well as the initial values for var_A and var_B.
+> + */
+> +BEGIN
+> +{
+> +  this->C += 30;
+> +  printf("In %s\n",probename);
+> +  printf("\tvar_A = %d var_B = %d\n",var_A,var_B);
+> +  printf("\tthis->C = %d\n",this->C);
+> +}
+> +
+> +/*
+> + *  The clause in this probe updates var_A.  Since this is a global
+> + *  variable, this change is visible to all probes that fire after
+> + *  this probe has fired.
+> + */
+> +pid$target::fopen:entry
+> +{
+> +  var_A += 1;
+> +}
+> +
+> +/*
+> + *  The clause in this probe updates var_B and prints both var_A
+> + *  and var_B.  The probefunc (fopen) and probename (return) are
+> + *  printed first, followed by the values for var_A and var_B.
+> + *  We are in the return probe here, so we know that the entry
+> + *  probe has fired too.  This means that var_A has been updated
+> + *  as well.
+> + *  This is exactly what we see in the output above: var_A is 11
+> + *  and var_B is 21, as it has just been updated.
+> + *  Note that C is not visible here, because it is local to the
+> + *  BEGIN probe.
+> + */
+> +pid$target::fopen:return
+> +{
+> +  var_B += 1;
+> +  printf("In %s - %s\n",probefunc,probename);
+> +  printf("\tvar_A = %d var_B = %d\n",var_A,var_B);
+> +}
+> +
+> +/*
+> + *  Both var_A and var_B are global variables and are visible
+> + *  in the END probe.  The final values are printed here.
+> + */
+> +END
+> +{
+> +  printf("In %s\n",probename);
+> +  printf("\tvar_A = %d var_B = %d\n",var_A,var_B);
+> +}
