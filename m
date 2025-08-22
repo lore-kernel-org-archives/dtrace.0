@@ -1,57 +1,57 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6C729A326
-	for <dtrace@lists.linux.dev>; Fri, 22 Aug 2025 18:16:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA46226E17F
+	for <dtrace@lists.linux.dev>; Fri, 22 Aug 2025 18:16:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755886604; cv=none; b=tFxxvJmVN5h0PPtz7byo9iGi8QrD+MYeufer2stnlHpDnL+mwLOVlwT6pJC2uRF2OGQXqi3Bd1O8JX50264C3AsXHodWamt0DyFi5yzkxNkB4pev34jZ3cD6oQD39Rkkbla87y6IAfGyuI/dkAOlKpIgLyft0Tfhrnk8QyaxJWo=
+	t=1755886604; cv=none; b=pCexsfUpbDJhi/gUmJ36vOzC/Jl03PF1/DFdv0u/YsWkEThrxbpuqGKZnB9lcgO6hUViGorNxkxx9nLF0r6jsM3XApI+Jb5CaFnpH/0zaIjFSAfOaLTvh7BqPXQrTreTVL1OSZ62vyt28+rUP064kLiaZNla1RZQdvqt5kPlzAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755886604; c=relaxed/simple;
-	bh=NUq0c5aZEFvOCSoRuXgBOhwO1epU5plGcRKmaqq4pj0=;
+	bh=i9UF1idX0GlbaPkynfgT99uE0wLRRidIIeTBqgypXqA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tuyB5HcFdfjdvMFWhRJygPkkUYH++1U3iuIMdbWjgz+Xxd+wFuKkBasSmkbOeAia+hK6pQeJY3eW8VVCjTXnjYQBqfuU7HRoCte23phDPiVdu9RwLSaZX277ZGm+y+D8qp+KDUqJnanNzWF2uCn6yezScuy9EKhP7Mehl95dJWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ZuwhKyb4; arc=none smtp.client-ip=205.220.177.32
+	 MIME-Version; b=OCF/XwkUD2egXbrvqIaQ6fHSHNspFe6kpeaAGVC9pxTOIk6uoA/xjfJyz89UE3n/ixlovNzJEuaqu61dfnnd38MDz+hlKRa6AbJ3Nv1PNzDLfgnSnHWsCqzmrUPx5QMm38fxFwdlY+dbVhOvW2Hm6xIXNecwHLuSEfpe7+OkqS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=XNkvPWgw; arc=none smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZuwhKyb4"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57MHvsbp028377
-	for <dtrace@lists.linux.dev>; Fri, 22 Aug 2025 18:16:35 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XNkvPWgw"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57MHtrI8030187
+	for <dtrace@lists.linux.dev>; Fri, 22 Aug 2025 18:16:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=Cyk5l
-	iYoQfXuLxSx09/csMLzeceofaOhpxUNys/PlUM=; b=ZuwhKyb42nTz0NFqJXZci
-	/4BOxCNvlbmokF7jd3I6X3mesvoj2FyEfv6MPhuqMINz2Z+y8TneCTsg0yuzCJ/W
-	92HV57zGDaQsB8EW60pCblYmvAe2c6vR4UHfg6/SGLqzJisuO/0bDWu9gXWAj1B4
-	btEvFAJ94P7FIRVNeHJX3fQ+qIxFIUvjZzPSvUdPdIYDzk+meclTFjnOvEJHyCg9
-	ZUayxrrMxRe9P/dJYskL55qoDhjK5WjSxxJ0I0KshlXAH+tPDzfgwt3WivS3oSrC
-	NTng0+YF36aoFH2SgHJKAlEGPOl+hKlj1m1j4CXZc2GHkp5/pR5/BmxvKiqmdInT
-	A==
+	:mime-version:references:subject:to; s=corp-2025-04-25; bh=k9iyV
+	rigbSQCFZD7XWZr9cQn39cWblRQ6L4U8m+WXGM=; b=XNkvPWgwp0M/PuA1pZmFx
+	MkL4hG2vLfCRPmq7qeWJ2a0pV2EopLioGWR3ZgO+ZBmlsymXPGagispHDRFo/ORk
+	ucFMwSiypPy2QjRshmySRHYUV2sAFQoEDMYDxGYbxLqXrxeYspy3YdM3JjlDPqYP
+	fqn5ocP9z0eUvYtg1pGQebXoL4Barj0H7jK0NSTvKayEPloe9qOof6XgXVMfcKc0
+	zaG+ZgY7DFDpwlGjcp6eBzskt5G+8f9OJUGSvLn5iMvAOQEd8EDm5VwKvSlZgv8i
+	MjkmDW4b1m8GLzs9zUEd4ynuHvpuALYS/ncSeIgrE02PMf5vqQQXa56tTH/0AjYh
+	g==
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48pw1t8231-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48pw1dr2h4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 22 Aug 2025 18:16:35 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Fri, 22 Aug 2025 18:16:36 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57MHNYVx020789
-	for <dtrace@lists.linux.dev>; Fri, 22 Aug 2025 18:16:35 GMT
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57MHHa35020792
+	for <dtrace@lists.linux.dev>; Fri, 22 Aug 2025 18:16:36 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 48nj6hndjt-1
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 48nj6hndk5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <dtrace@lists.linux.dev>; Fri, 22 Aug 2025 18:16:35 +0000
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 57MIGU4L009458
-	for <dtrace@lists.linux.dev>; Fri, 22 Aug 2025 18:16:34 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 57MIGU4O009458
+	for <dtrace@lists.linux.dev>; Fri, 22 Aug 2025 18:16:35 GMT
 Received: from bpf.uk.oracle.com (dhcp-10-154-56-42.vpn.oracle.com [10.154.56.42])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 48nj6hndg2-5;
-	Fri, 22 Aug 2025 18:16:34 +0000
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 48nj6hndg2-6;
+	Fri, 22 Aug 2025 18:16:35 +0000
 From: Alan Maguire <alan.maguire@oracle.com>
 To: dtrace@lists.linux.dev
 Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
-Subject: [PATCH 4/5] test/unittest/udp: enable IPv4 remote udp test
-Date: Fri, 22 Aug 2025 19:16:28 +0100
-Message-ID: <20250822181629.30972-5-alan.maguire@oracle.com>
+Subject: [PATCH 5/5] test: Add udp to expecetd providers
+Date: Fri, 22 Aug 2025 19:16:29 +0100
+Message-ID: <20250822181629.30972-6-alan.maguire@oracle.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20250822181629.30972-1-alan.maguire@oracle.com>
 References: <20250822181629.30972-1-alan.maguire@oracle.com>
@@ -69,64 +69,47 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 ml
  suspectscore=0 bulkscore=0 spamscore=0 adultscore=0 phishscore=0
  mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2508110000 definitions=main-2508220167
-X-Proofpoint-GUID: j84jevyapydIylLBqGDGweV_Gj6m79Q0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIyMDE2MCBTYWx0ZWRfX5Za4GBT43/Kf
- i01loJGGBn7ehAzpAklHuzRulAkuAWdV552qWe99v+BgASO6S3Lftl+vf6oglCl9i/uSr5b/k0Y
- if8d6O8SzzDCinnuEyFbQSbWo+QAQuww1FiruVnE3jLD8xQZ/FRFkPzdksWI/u7LKf8WIBBWah4
- I8sFstxtD+dhFVcSmvS57CntLazHS/jOBoT786fX9haRaIvrhteiCYLWKdqW7KTjYAfQizJQ2gx
- a7Py4mzmXqBhHWyQ9yOgNWvEIt25jNwQx3ZYw46LwV3IawWwKJIAeLPtTTSqpuz8lk+31H3PaqS
- seghELmBHD6wLGbo/8VhSRYNNww6I1Ke9OAPlqIciyRcDAqb97T+q3Bo0/WW0+SRR5XXKAfPIVt
- 2d6AY0WhnZ4O2A9sLc7q7TmYzpjbmA==
-X-Authority-Analysis: v=2.4 cv=JYi8rVKV c=1 sm=1 tr=0 ts=68a8b403 b=1 cx=c_pps
+X-Authority-Analysis: v=2.4 cv=OIAn3TaB c=1 sm=1 tr=0 ts=68a8b404 b=1 cx=c_pps
  a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
- a=2OwXVqhp2XgA:10 a=yPCof4ZbAAAA:8 a=PSl-8CEfTEZFWXh7UYAA:9 cc=ntf
+ a=2OwXVqhp2XgA:10 a=yPCof4ZbAAAA:8 a=HejCxUBzJBncv5ocT6cA:9 cc=ntf
  awl=host:12069
-X-Proofpoint-ORIG-GUID: j84jevyapydIylLBqGDGweV_Gj6m79Q0
-
-It just tests send so we can send to remote address
-and verify probe firing.
+X-Proofpoint-ORIG-GUID: G3qd1cgA7NC_sHdTHqhO71Oo_W41ndTh
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIyMDE2MCBTYWx0ZWRfX3Zouq58m/PdO
+ XZB1bibrqTyj1oXarTRQhQMzjxjP3OnxsJixTijXEQD5z3c07tmULdf88YLSCBHmiiWyza81N24
+ FeYGXPS0sOFvd+g0jvuxTcIQVK3P8eFPOY01VxJMaIb7rnjSUZpRNPQyWZ0T/OReLCdVKMUzMPT
+ wcgMX9Z50pK0vrsb3q1tMccfLR5BuY3VY/3ARr9or9VFwIFH5FUnraiYPuvY9QM50gjyeZr2/3c
+ Pbbb7r7Urh35CGNocjq6IJywjXusEke5NukX9PtZhu+PCETyBfIGPi4vSR/u4zmdoQnloaibx7T
+ 7JHnXdqBytAWEcBfavXR8M+LkRI/O99pI/iVJzjUgy+MTLENf+NcgYB//0MyMaIUJDQjEOK0Ahr
+ ileQVfLt1U4kHnoHGMheCSwKFrPPpg==
+X-Proofpoint-GUID: G3qd1cgA7NC_sHdTHqhO71Oo_W41ndTh
 
 Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 ---
- test/unittest/udp/tst.ipv4remoteudp.sh | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ test/unittest/dtrace-util/tst.ListProbes.r  | 1 +
+ test/unittest/dtrace-util/tst.ListProbes.sh | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/test/unittest/udp/tst.ipv4remoteudp.sh b/test/unittest/udp/tst.ipv4remoteudp.sh
-index 89309cfc..62ed186a 100755
---- a/test/unittest/udp/tst.ipv4remoteudp.sh
-+++ b/test/unittest/udp/tst.ipv4remoteudp.sh
-@@ -13,9 +13,7 @@
- #
- # 1. A change to the ip stack breaking expected probe behavior,
- #    which is the reason we are testing.
--# 2. No physical network interface is plumbed and up.
--# 3. No other hosts on this subnet are reachable and listening on rpcbind.
--# 4. An unlikely race causes the unlocked global send/receive
-+# 2. An unlikely race causes the unlocked global send/receive
- #    variables to be corrupted.
- #
- # This test sends a UDP message using perl and checks that at least the
-@@ -25,8 +23,6 @@
- # 1 x udp:::send (UDP sent)
- #
+diff --git a/test/unittest/dtrace-util/tst.ListProbes.r b/test/unittest/dtrace-util/tst.ListProbes.r
+index ad557253..a1e185d4 100644
+--- a/test/unittest/dtrace-util/tst.ListProbes.r
++++ b/test/unittest/dtrace-util/tst.ListProbes.r
+@@ -12,3 +12,4 @@ sched
+ sdt
+ syscall
+ tcp
++udp
+diff --git a/test/unittest/dtrace-util/tst.ListProbes.sh b/test/unittest/dtrace-util/tst.ListProbes.sh
+index a747a045..744bb8ad 100755
+--- a/test/unittest/dtrace-util/tst.ListProbes.sh
++++ b/test/unittest/dtrace-util/tst.ListProbes.sh
+@@ -70,6 +70,7 @@ $dtrace $dt_flags -l \
+     $2 == "sdt"      { mycheck($2, $1,   600,   6000); next }
+     $2 == "syscall"  { mycheck($2, $1,   300,   3000); next }
+     $2 == "tcp"      { mycheck($2, $1,     8,      8); next }
++    $2 == "udp"      { mycheck($2, $1,     2,      2); next }	
+     # nothing for usdt
  
--# @@skip: not sure what port 31337 is supposed to be
--
- if (( $# != 1 )); then
- 	echo "expected one argument: <dtrace-path>" >&2
- 	exit 2
-@@ -41,7 +37,10 @@ if [[ ! -x $getaddr ]]; then
- 	echo "could not find or execute sub program: $getaddr" >&2
- 	exit 3
- fi
--read source dest <<<`$getaddr ipv4 2>/dev/null`
-+set -- $($getaddr ipv4)
-+source="$1"
-+dest="$2"
-+
- if (( $? != 0 )) || [[ -z $dest ]]; then
- 	exit 67
- fi
+     # Unrecognized line.
 -- 
 2.43.5
 
