@@ -1,1095 +1,218 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB57427CCE2
-	for <dtrace@lists.linux.dev>; Fri, 29 Aug 2025 08:24:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756455860; cv=none; b=bIKxKq4vCpUX3nL7CTqeoIA65B80qvv2UXCSO8ymvGy09Ho7at/zW/1PN9H57hTUyKeSM5HyRknuCQ9ywI1tzQbJ7Y5xA3vTCEtiOzhtD1HkHiULzctaA5nG8zAqn0BY70M/5j+bVYQBO4/gnfzyGRmtIa7tNf+BW/64/yJ9pEo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756455860; c=relaxed/simple;
-	bh=7rCus0vhvWk2jt+BNDPtbrryPONhhIlAP8vu8A/1aiQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KRruWtaQDevvhVYLmcmOIIikBDFmroK90DJ4mesjZjm9kU2jIY7rOlKKYOlgtC451EXGCHl193KWq2VM+0FB6krVOSsgqXFFqyPFpnqjBZSFte29nAztAVt/+HTBo/xdAqWi3JS1UeikYuduYW0WGaTES1IM5iSGD4Mks1Ft7m4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=OFK5smWQ; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324B033A02B
+	for <dtrace@lists.linux.dev>; Fri, 29 Aug 2025 17:57:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756490254; cv=fail; b=lsxaEnW7lpTYNnDNRUevF5EzRjiOy0T1hfwVcu4P6COUkh/zE2HEnAB6CRSoNKXcWRWdtOXdszOt7UY1rHlfaV//KtpyC5URiyPlmbqRrFOCsuTuNGEGdrXEI/tnnl/tPUXX7vas6XF4yxsi+0oTBpsZHNy8ZahVusK5JgQnqbE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756490254; c=relaxed/simple;
+	bh=E18x212JMMhzuUXpfnuwTBDBUMFBFpp8kDsEbLWmIPM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=l5EDtLnmSOtEDd31w+llq+30Z7p2e6kkABVuaqgD1fCFU5BeSl1wzJrldqT8jmG8ltYQnoTbjYQBFC12MbByB/N80AhFe07W6eYfUduQhRDeh1ZTWDcbn3qEkBClzLPRlXY9cMyTP0kzFB7KQY7c6NhCBnwYPR2qjFWdn9xd9fk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=VV4R5FA8; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=NGGVAgUq; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="OFK5smWQ"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57T844TT031869
-	for <dtrace@lists.linux.dev>; Fri, 29 Aug 2025 08:24:17 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="VV4R5FA8";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="NGGVAgUq"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57TGfqxq009114
+	for <dtrace@lists.linux.dev>; Fri, 29 Aug 2025 17:57:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=DBDBQ
-	hBVHKSon0WaOCAw+Ujq8F2RZXDgOoXgCcNcXhc=; b=OFK5smWQ7RLBrzT6vrAXo
-	wH7N2hFr1z4YfkD0hjLB56TyhdlS3+6lrsUFIhY9bQL40j0KmWtA7xRKXAfBl0zi
-	n0BPX1gSx/uLTjQIy1kRxNCak6ueW4pf51FRhQWp1ama9B0S5ZlPDqp+PNqFslxO
-	ezgCzqttztN8FW8RuGOVPO1KcQUorukIgCLzfdHzXMhy8hGTnqUFpoLNihNuStZw
-	4RInqBS/+xZPk37USemB7YbZns0RYhyyJj5RatpG+S6UpRVBiI5H/rhRE53SiamU
-	Alt/dDbEY81xBlWrADw6kDiMo2d8yejNmJGC4NVndAh9+FTN1YspFuFocP+Gop02
-	g==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48q48et4pr-1
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=E18x212JMMhzuUXpfnuwTBDBUMFBFpp8kDsEbLWmIPM=; b=
+	VV4R5FA8IOFlTkbCRgSVFZ6XSHK8Lot+Pqbjh17Vs258k+rIy9o0HSUrLe32obMy
+	wK9cxa5t1tePExSLlBy53JxDFsk9lO0JnR43ZkC/0lXf74oSD2xNq+bEVyQqw6Il
+	/Hq6u5uFPSPPKWD772xUxLD8OJSkUFEC13exV0DrU9FJ8AXhY0NgaltyKVxfa1JT
+	GxcKl+pNvbTMsn3/QFXC5zyI4PJEZfBtknq8bezSEBBzlwnGTRS0spGV2IGvXday
+	vXECSLggfc0tld7Gw2MKtRMjUGRDtWHPTJ0u1zW2eTekTMz5A9OdomnLeAtJ2I+r
+	rpELP4iBxAyxH+1r8v6RpA==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48r8twhncf-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 29 Aug 2025 08:24:16 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57T6gwL9019585
-	for <dtrace@lists.linux.dev>; Fri, 29 Aug 2025 08:24:16 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 48q43cyh9f-1
+	for <dtrace@lists.linux.dev>; Fri, 29 Aug 2025 17:57:31 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57TH5Lef005115
+	for <dtrace@lists.linux.dev>; Fri, 29 Aug 2025 17:57:29 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11on2064.outbound.protection.outlook.com [40.107.236.64])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 48qj8dp46g-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 29 Aug 2025 08:24:16 +0000
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 57T8OEWu038773
-	for <dtrace@lists.linux.dev>; Fri, 29 Aug 2025 08:24:15 GMT
-Received: from bpf.uk.oracle.com (dhcp-10-154-58-49.vpn.oracle.com [10.154.58.49])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 48q43cyh7v-2;
-	Fri, 29 Aug 2025 08:24:15 +0000
-From: Alan Maguire <alan.maguire@oracle.com>
-To: dtrace@lists.linux.dev
-Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
-Subject: [PATCH v2 1/2] udp: new provider
-Date: Fri, 29 Aug 2025 09:24:11 +0100
-Message-ID: <20250829082412.25687-2-alan.maguire@oracle.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250829082412.25687-1-alan.maguire@oracle.com>
+	for <dtrace@lists.linux.dev>; Fri, 29 Aug 2025 17:57:29 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=x1nCJyiaJvp5f5XsZ5gfJrYTtZbbSMQVOMu9EltbHf3rTFCqfgNvtJBasjIAeFQnPqD9WAOllaV0uY3tq+mBxl0nuYRpt9q5/g2zGOSOuwO0oJxntaymQLDCeEBykPncUO2t75YlTk/Xe1Jj7KTLqn5+V7BQIHLTziSiTf/D2lP8T1qUYyOZqWLZvLAfYV2RJ7EVxeoXy1PSqIlWyvyyPp159VSBUOoludFOLz8H75vPmg1jXMIyTb86/ZABZGWUiNccLCC6O/mFGvcf3pQXjduwR7F6A5gLkh5cDGgzZI+axAuOJhP3FnqUuXaPoVPDjCkshwNI0gEjR/IXXvU+zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E18x212JMMhzuUXpfnuwTBDBUMFBFpp8kDsEbLWmIPM=;
+ b=vlT0advXEeVRIMaLt1u25e51hOcFrwrWp0zo2pm5eHHoQaVhMX8Cx17jwhskBgmGz+9VLv3YIGScHI3BnN/QZVOhDXblzM82OMoc/wj1gKVigI5oZ8kFTWhmMe+C/buxMmefpgRQ7lFCNjaSZnJN2QQO7YIQb9MsJOamcim/mld6HMUJSIifP/v+EsV39+1dhjoHBnZCb5ywaIGpU2Le90F7WM7LGkYx54IzTay3TL0DRBhhR6+9W7u9peDYFPk3aB7pvTuaOgoq6atZgFlwyErNhvlOyE/2a2zMav56ve9JfjydLBPe1Q0wJUb8VLhjw6ucLg25FneKNQXXpsIc0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E18x212JMMhzuUXpfnuwTBDBUMFBFpp8kDsEbLWmIPM=;
+ b=NGGVAgUqvhAlTXx92Q7/wHjrAwKOOaGL1DP5L8pACZ9l+/zn4xbzUKH5T0nLrFswKpXFB3zGBz5Q2iydbloxrqEntpbYbDYWh/xDSTpOrD595RV/emGeBp2si6KU+/SaORhPrNpOruqoQOjNgA363f7hZU+IQ2AI37YcfBe+/K0=
+Received: from SJ0PR10MB5647.namprd10.prod.outlook.com (2603:10b6:a03:3da::17)
+ by CH4PR10MB8049.namprd10.prod.outlook.com (2603:10b6:610:240::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.21; Fri, 29 Aug
+ 2025 17:57:24 +0000
+Received: from SJ0PR10MB5647.namprd10.prod.outlook.com
+ ([fe80::8db4:df1d:6afd:e4a7]) by SJ0PR10MB5647.namprd10.prod.outlook.com
+ ([fe80::8db4:df1d:6afd:e4a7%6]) with mapi id 15.20.9073.014; Fri, 29 Aug 2025
+ 17:57:24 +0000
+Message-ID: <e4f256de-6239-56d0-275b-4e731ec1a086@oracle.com>
+Date: Fri, 29 Aug 2025 13:57:22 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v2 0/2] udp: new provider
+Content-Language: en-US
+To: Alan Maguire <alan.maguire@oracle.com>, dtrace@lists.linux.dev
+Cc: dtrace-devel@oss.oracle.com
 References: <20250829082412.25687-1-alan.maguire@oracle.com>
+From: Eugene Loh <eugene.loh@oracle.com>
+In-Reply-To: <20250829082412.25687-1-alan.maguire@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR05CA0079.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::24) To SJ0PR10MB5647.namprd10.prod.outlook.com
+ (2603:10b6:a03:3da::17)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
 List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB5647:EE_|CH4PR10MB8049:EE_
+X-MS-Office365-Filtering-Correlation-Id: 80bcc446-0752-4310-3318-08dde72581f9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?YkovYyt5TTRhbXRoOGpja3QxdkVGc0NTV3ZnMjVNcW10VGpZZnUvbjF4c2li?=
+ =?utf-8?B?aU0yeTBSUWJ1dklxM2dBWlJmSUNmZFpTSWNDQVUzOWFjaDBveXNvOTYvU3B3?=
+ =?utf-8?B?a0Y2MlNGWW5zcHF6MWZwNDBwSzV5Sm14YkxFY2REZCt1QjU5Qmg5QnJTZ2I2?=
+ =?utf-8?B?dWtHTjJCUGNreklUc2Rkei9DRnk5TTdxWkZUck8xbXdNS1lXTWFvcGszNGla?=
+ =?utf-8?B?RE9aMFVVZTl4T0s2MDJid1B4a1lZS3Y4V0l4b1AyTkx2ZDlpNldDak1FaTZh?=
+ =?utf-8?B?K3ZrWDhITFVIenFJb2tleTZ1a1lxM1dhOVRhc25wNG1GYndaYXV4dE16NVJX?=
+ =?utf-8?B?UEVWM1BQN1dVc1Z5ZU5JdnJGM0JpWUI0a2NwT2U5THlleC9PY2FuM214YWRN?=
+ =?utf-8?B?cmZzNGFxR0NxTkl4QUMxWlFhRzhNODNPL3FrTkx1ZVpXamprOWpXK1Y1ODJo?=
+ =?utf-8?B?S3dLZ2xreTRyY210d2JPTkc0SmRYMDJsd2RUVkhHVVFsenVZQ1FzYnJpdEJB?=
+ =?utf-8?B?c2s3dktPbmc3d1QwOVZodHhlZndGM2FGSkQ1Z3pKUEVhMjc1MkZHdTVJdDdv?=
+ =?utf-8?B?bzVhdDhENUljMXdUbG1BNUZsVVBOME9FY1NoS0RBMVhQeVdFbWdSZE5IK0xO?=
+ =?utf-8?B?NXpzNVhpM3ArWnI3NFNBRTdRTGN6b3NzRmlvVW9vU1VHbm8wZHRaeHVuNWhx?=
+ =?utf-8?B?ZlhhOUQvTk5ML01DazZ1dUF6QkRDWXNmbURDNmhDczhYWkJBV1RUVytySkFU?=
+ =?utf-8?B?cHcvQmtYMjFmVmJJeWR3ekdSMWIyaGt5QkYrZHR5b0p0M3NUNVBqZk1UeHNK?=
+ =?utf-8?B?S1pzREN6UEVRb29TOVRpU3lUM29SY0RDdzVaM0FxWUk2anVST1RaWUhzdlNm?=
+ =?utf-8?B?bXdRSHpDdFg4TXorL3FUQWtVQWcyR0xMMzBnektTa2RXWnl0OHR2bW14TE9x?=
+ =?utf-8?B?SDRYTHZpOXZGZytUajZVOHRqNEV3MWpxV3ZuMlJzaEt5bkw2c21iSHZuL0J6?=
+ =?utf-8?B?NUxteVQ5OHFJVG5DZ3ptQlJzTGdQSWJwekl5WEJ3YTdWTzcxOVRMclBtWjZU?=
+ =?utf-8?B?YjNWai9NSjVHcCtxM1FPdjI2eFVJWjlvMXNCc0ViRWJPMGhTMzBqSmNTK20y?=
+ =?utf-8?B?L3lJWForZjlqMm4xaXMvMXBKMWp4RXdUN3BHWmhlbmFjZTZ1UWMva2tmU1FP?=
+ =?utf-8?B?L3FCN0ovWi9ycFloc3lYSlU1UktVR01ETTVQb3RZTGQxenhKNkV4OWsvRUdR?=
+ =?utf-8?B?M1lmTlY3ZzVHZlBMSGYweGdGTklkNVNZekZBMVRmVFBpaEx6cGRKNCtLKzVm?=
+ =?utf-8?B?RVlFTHZsOWo2VHl0YUpmRXNGMUNYcjJKeEpTV2xDNVZtVUYzeHltMlJzb1Nh?=
+ =?utf-8?B?UnYyaHFLTVd5ZXhGUHdBcWlFYWl6VGRoYjhpT2pWZnZidzBhNWwrOEdpSUlF?=
+ =?utf-8?B?NTRyRkNKTnJ6VC9LRE9oejV5SUNucUp1SlpPQ1BYUEtVaHVieWJGV1hUd0NJ?=
+ =?utf-8?B?Y3lrV1YwTkVmWk00UDhoOWhnWVNPTW9TZzlialZpdkxpTytuRXVvRTBVNnZ2?=
+ =?utf-8?B?UFNpWGt3SWJzQjdweDVmZERnOUtNM3dqeGlQTnFIUUdNOUVTUUg1VDBKZW42?=
+ =?utf-8?B?UFlCaVo1cXJNZ1AwNm5xZFRaQXlPK1hlZnB0MzJKVXdEWTF1dlpCZkQ1cFNE?=
+ =?utf-8?B?QVdRTE1LUm8weE1KbGlRbjVFSUtvVWtjUTJ0NklqUWduRXVVVkRBUlJ6K1Ni?=
+ =?utf-8?B?ZjFIVHE5eXhmOUhMdWZlTjJmaUpMOHJldkk0RWIvYWV2Z2JMT0tjUmhSd0hj?=
+ =?utf-8?B?V2U5Z3lJbXkrZDRaVllRUFdjbUJWL0ZNNWFWVGYvaGVvOTdGQ1Q2NzNTb3pB?=
+ =?utf-8?B?ckczMmt2bDZvQTNmNXhPcisrZVFLa3l1cjZRWExMaEFQcXhEbmhraHl4NElK?=
+ =?utf-8?Q?kxBfIxmiAyg=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5647.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZUFBKzd3ZWVOVlNRMnIxZjJzYk9tZUlFcGFVSlhiZmVKVE5YY0MzRUVlN2xo?=
+ =?utf-8?B?RjRsZ3VFZklRTVNTdG93WVR6VWZ4Y2s1SE1jc2FhSHNxWS9MNGZsb3YxZXJF?=
+ =?utf-8?B?cjM1a25oeTQvWkFYVTNGMWw1YnFlNVZFOXVrZUkzODhkMlVGODdaU3Mwbk84?=
+ =?utf-8?B?NGl5eTQ3dVdTNVlvbG15SUtCeWVLQ0lmNU9menhQWG1RQUQ0dnI3WkNrdWJu?=
+ =?utf-8?B?RU00SHNDN2hvSDg1bThCKzF1cVJwZnRKYnYzdDl3U2pLT0pJT013ejJGbXV5?=
+ =?utf-8?B?WG9DMmVwdlNaSFdxSmZHS25Cb3JsYjByWXZhQmhQdVgxSFZaRzJYekEvMTdD?=
+ =?utf-8?B?MFkyeWcxWFpvOHlWUVNuU3BPaXJIbk14THMxVkM3SmxGTisydDJ4OENDUmhm?=
+ =?utf-8?B?S1pMUWJ3eW5lTlBoYXVNa21ubVhiWXZuRXVhSGRnK0I3dkRWY2M1aUZvYmFG?=
+ =?utf-8?B?M004Z0pxRFRkRHNpS3kzcjJxcVloc08xQjRCYlpsTmhCTzdLb1RoY0t6cTlU?=
+ =?utf-8?B?elFXOFdvMlVoVGV5SXFGQTRIRWxLK1VrYkwxOWw4clRaVnVOQ01XckJXUEV0?=
+ =?utf-8?B?TjNtZEJWZ3FlQjZTRnhzL1lDcGY0M3JxNVFZd1oyNlE4RXlwWnAvU1AxTGY1?=
+ =?utf-8?B?Z3czcHVEUXcrSFAxcXJ3V0ZjQkZiMXVFYVlYRE1YRWtYUkFZV21FUVdVeFlj?=
+ =?utf-8?B?TUtaSWRZYVlNTkdzL1V4L0pjVmYrRGxXR2FsSVNWb3MweWFkbmg2Vk1LUWFh?=
+ =?utf-8?B?VzJmM2hnNmJJbmFnbE5mbHp4M0lIY1J1MVF4Q2JHNEYrbHN4MzRqMkdXQTgz?=
+ =?utf-8?B?cjM2V2ZVWTR4UXJiblZPNlQ1T2xrcDZZUnFUeUFWdGlPZU12UmkzOHFOYnda?=
+ =?utf-8?B?VVhPamtiQW9tVzl6RFhRZmYxcG1PVDhrdmpjblkvWW5GQ1c3VDZlL2RkQXhp?=
+ =?utf-8?B?aVJpU2phY2NId3pnWC80bVBTcVdXK2NyWkRLN1J0eXJTM1JSWlp2ZEl0d3c5?=
+ =?utf-8?B?YkFsRm1PaGhLOGxzcWdYMmlNMXJmSEVsYzIxejk3U1oxMjR4MWNLZmRBYy9C?=
+ =?utf-8?B?eW9DWkhETUtNNkF5ckRhT2p0dmE0T3R6YS9QWmdhWWZNam1GNk5Xc0J3bGR2?=
+ =?utf-8?B?NWRHaHpGS294bDVhVFJlaDVuY1BNQjZLZGNMak5oRGo0UXBmM3daVjRSeExo?=
+ =?utf-8?B?dzRMUmo5SE5KL0tuNTVjTElHQ1VoY1gzYkJSdmM5WTZkVWZqbm9KbzIzUzIy?=
+ =?utf-8?B?eWNZMUtEMTViZVQyaW1DRHRySThLeWthZDlpK1JrKzhZM0JuQ2YzVGtDbGdt?=
+ =?utf-8?B?UUJWRGlBNDh2b3B4ZXFVanI4ZVRnRzlYNGFaSW1NVGRXMEF3NG4yNWZBSGUw?=
+ =?utf-8?B?TUxNbE40a3VJeUtOeHBtT2RrTllmbDRJNWVIWkNKaURDa0hiODZoQUppaFdn?=
+ =?utf-8?B?SmU1WDRQQzkyalBJVHVtVVNEM21vbVVDYktQWk9RVG1ITTZtczZLTm1IMkNJ?=
+ =?utf-8?B?Y2ROYXdEUlhmY1lrTWdiSkgrU29VMitxU3pLdXBTUGtERkw2ZlBqSHFqQkxK?=
+ =?utf-8?B?cTczWUMraUJpekdIanNFZ2xJQUVzNkJxbXBwUGhoeEpVMHJKUlZoVGpuZUIz?=
+ =?utf-8?B?cmlYQVh3ZGV6emlWQlR4OTQ0QWxlN09mUUkzZ0JUTklqNXZJNU1VUWExSG11?=
+ =?utf-8?B?MVowdGxTVWR6R3h1VUZVQXZRYmcvNEtzTGM5eXh2R2pybG9IY3BORWtlWkpl?=
+ =?utf-8?B?cXRqYXc4dGlUK3RSdnhrUVYrcGlQVGxjZUxhbkNmZ2JMVDFObm5BQU5yNGp0?=
+ =?utf-8?B?Sk1LMjkyWTVpTXdDK3BKQStxVjhpWTlHYXpHWElWTkw1VlBXU2d6b25RMm5Z?=
+ =?utf-8?B?cDdDVTZ1TTdpbVVIWEhXTStBU2RYQVFYdUxRYTFzc0QvWTNjcVNWeTRwWWxN?=
+ =?utf-8?B?UnZFTFhzNnM0clBwUDRIaG9MMis3VEFQTlpEcXkxN3VZZEU1NkdFaGsvemVR?=
+ =?utf-8?B?V3h0ZDlxL2FQYlRqaEorOTU0bnZjdkMzQ0t0aitrb2VQN0laUVJ5MHNwWGRh?=
+ =?utf-8?B?OWxxcFZYYzBORzJaVzhINXVPWFl6TTJ0QmdmeUJKQ1A3WHNJRVk2eHFqazM3?=
+ =?utf-8?Q?oormdcNmBdsxGKc67RHSR5JhR?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	CRJ/tcHdWVNGtns628PeM4ur+QoAA3kp6T+wqBaBY1p1OiC56wfum/VTX/NgbP/rlFEU6TTUl6a94YoK1alIzcmefGKjK/ksvakRGDvcQ1myjF7mQ22xX6fKJoVPUEVAwTlUzLoTufRdc9e8v6ALRj517PB+uSVe+z06WoxkmPmOTstnVrMcH5VolfqRghaL5u4LUDgRx5cBgZ7eweg/D4Aa4L8Xf/N5XB4RdL6Im4jhcxc1BRI+oFM0shZ3inIN8Js9IkqFGtd87czGo9CPdJOid70qtllJDCyT5AajE6agGwXdk88ffZihktOZxSD2enbTtXb2SQSAcdLhWELSeXs1DuZwf4ENI5mhyGOm74m/U87eUScboig/06tyPN9a/AH8Xdz6jovBmn8uQSGXmXOsvFRetP2SGh17IDZBvKkaBb/U0ZPzzS7YhWm0QvtLR4K7nAk6rLzo49QsHa8I8lGCtyEVMFuILQpbgaFK+zprZTvu5esMPDaqGl89WgDoO7vfDuaykkfmvXeja7d/Kq5d9mAI7YIZGilDPMcwddzp7UfvLoc6k13WBi8wTzCdXG3fVejg7d5fqv4bBJh8EsX8cAzYbf/j2/CpAwuwvjs=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80bcc446-0752-4310-3318-08dde72581f9
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5647.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 17:57:23.8675
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fZHpNIoF/hhWQ6FRVwkPt1I2MIqHTYezIt16+JzTPvTjpwnKGqr8SnQGtZHsPMzbn+De51H0I1x3dY8gAXNApA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH4PR10MB8049
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-29_02,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- mlxscore=0 phishscore=0 bulkscore=0 malwarescore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2508110000 definitions=main-2508290070
-X-Proofpoint-GUID: XAzF5x2cWKpDLRBy8gzVWSpwu1sSjnSg
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAxNCBTYWx0ZWRfX+aNOK1X7zqSu
- V9yYTMejpPdD3KWGVucaeaz1oq8AXOoAYGhF/XKFFsxUn0rh83vFMkkf8LBpi+k2FreLLjNwA8M
- RwKkK0j6AJZQhsqsWWFN7MZlX4lTxWljxjRPm2gizUP9WfExbBfv9LeK8Ut6honjOekw5gyKXJs
- VrdPsCfyTAeHcivAP9sR8IZs6poZKa9050wublFL9W16ftdNnbLIugiMkuUxKF38hGukgIC3EKQ
- uQJWpf/lgBlRNejd4FOKbrR0H9VZHUc8l7H++rQWw+V/vovuFo9RiO4MiGclQqpM2yoFZYFtxUM
- cvxuE//DQelHiqfz2iZQdasNByLV+BoxMhbL2JMpy1VcaDUf6rTWNdpxQt0aGt/O28ywK4N1Uow
- /5YOqXLW
-X-Authority-Analysis: v=2.4 cv=FtgF/3rq c=1 sm=1 tr=0 ts=68b163b1 cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=2OwXVqhp2XgA:10 a=yPCof4ZbAAAA:8 a=oknAwnuRSb_eTYsUZQcA:9
-X-Proofpoint-ORIG-GUID: XAzF5x2cWKpDLRBy8gzVWSpwu1sSjnSg
+ definitions=2025-08-29_06,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0 spamscore=0
+ phishscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
+ definitions=main-2508290157
+X-Proofpoint-ORIG-GUID: KPnJUjQfJP8gAUp6-JyW_E-QMowlCLgy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI0MDE4NCBTYWx0ZWRfX/MZZXyctBPVD
+ 5Kwo8OuqYMgQzcoyAwEMJOqtn2zBpjHYC8aOtEgRsv/Z/sVxPfZSNcTLgKgoD782PHSRH+QXf2r
+ DXSHGF9Ht3KjI1pqVnXeQYheqT9rjU4pInXa1l52P9wuuDaFDaCcCqdl8njU8wiMJ/DC18eVGkn
+ O5030ND7XOIlLQ98+1IltFcfXCysSK9Pv7/38XQ47UBx9QnwGlgxkvkY1qwvEK1t8tkmmckkgV3
+ pWyH9dp1yxUA3mSGnvzbWW96T0axxI5QO9yekNw/h4l/R3WQ0FbNqtf1agcMwVDZSULsYNlYdzh
+ LKdVYc4uZTmTXtgzTeKU5XiAwdZ1nZ4+VWvGiOH0aE1MQstcw0NDVAQb6RgHqup/wTn0yMnF0a/
+ lJNrlxWZ5sSya7XMXpI9NoM+Rhu5ZQ==
+X-Proofpoint-GUID: KPnJUjQfJP8gAUp6-JyW_E-QMowlCLgy
+X-Authority-Analysis: v=2.4 cv=IciHWXqa c=1 sm=1 tr=0 ts=68b1ea0b b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=Ej3uMknbXuVyhm_9PtYA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 cc=ntf awl=host:12068
 
-Support UDP send and receive, using raw fbt probes; since
-udp.d changes sync dlibs also.  Update test.x provider check
-for udp, and add udp to expected providers.
+On 8/29/25 04:24, Alan Maguire wrote:
 
-Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
----
- dlibs/aarch64/5.11/udp.d                    |  11 +-
- dlibs/aarch64/5.12/udp.d                    |  11 +-
- dlibs/aarch64/5.14/udp.d                    |  11 +-
- dlibs/aarch64/5.16/udp.d                    |  11 +-
- dlibs/aarch64/5.2/udp.d                     |  11 +-
- dlibs/aarch64/5.6/udp.d                     |  11 +-
- dlibs/aarch64/6.1/udp.d                     |  11 +-
- dlibs/aarch64/6.10/udp.d                    |  11 +-
- dlibs/x86_64/5.11/udp.d                     |  11 +-
- dlibs/x86_64/5.12/udp.d                     |  11 +-
- dlibs/x86_64/5.14/udp.d                     |  11 +-
- dlibs/x86_64/5.16/udp.d                     |  11 +-
- dlibs/x86_64/5.2/udp.d                      |  11 +-
- dlibs/x86_64/5.6/udp.d                      |  11 +-
- dlibs/x86_64/6.1/udp.d                      |  11 +-
- dlibs/x86_64/6.10/udp.d                     |  11 +-
- libdtrace/Build                             |   2 +
- libdtrace/dt_prov_udp.c                     | 170 ++++++++++++++++++++
- libdtrace/dt_provider.c                     |   1 +
- libdtrace/dt_provider.h                     |   1 +
- libdtrace/udp.d                             |  11 +-
- test/unittest/dtrace-util/tst.ListProbes.r  |   1 +
- test/unittest/dtrace-util/tst.ListProbes.sh |   1 +
- test/unittest/udp/test.x                    |   6 +-
- 24 files changed, 279 insertions(+), 90 deletions(-)
- create mode 100644 libdtrace/dt_prov_udp.c
+> This series adds UDP provider support, where the probes are
+> implemented via underlying raw fbt probes.
+>
+> To work on UEK6, the following not-yet-landed patches are required
+>
+> cg: fix offset for > 8 bit bitfields in dt_cg_ctf_offsetof()
+> Convert ip6_finish_output to rawfbt
 
-diff --git a/dlibs/aarch64/5.11/udp.d b/dlibs/aarch64/5.11/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/aarch64/5.11/udp.d
-+++ b/dlibs/aarch64/5.11/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/aarch64/5.12/udp.d b/dlibs/aarch64/5.12/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/aarch64/5.12/udp.d
-+++ b/dlibs/aarch64/5.12/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/aarch64/5.14/udp.d b/dlibs/aarch64/5.14/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/aarch64/5.14/udp.d
-+++ b/dlibs/aarch64/5.14/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/aarch64/5.16/udp.d b/dlibs/aarch64/5.16/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/aarch64/5.16/udp.d
-+++ b/dlibs/aarch64/5.16/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/aarch64/5.2/udp.d b/dlibs/aarch64/5.2/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/aarch64/5.2/udp.d
-+++ b/dlibs/aarch64/5.2/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/aarch64/5.6/udp.d b/dlibs/aarch64/5.6/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/aarch64/5.6/udp.d
-+++ b/dlibs/aarch64/5.6/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/aarch64/6.1/udp.d b/dlibs/aarch64/6.1/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/aarch64/6.1/udp.d
-+++ b/dlibs/aarch64/6.1/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/aarch64/6.10/udp.d b/dlibs/aarch64/6.10/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/aarch64/6.10/udp.d
-+++ b/dlibs/aarch64/6.10/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/x86_64/5.11/udp.d b/dlibs/x86_64/5.11/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/x86_64/5.11/udp.d
-+++ b/dlibs/x86_64/5.11/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/x86_64/5.12/udp.d b/dlibs/x86_64/5.12/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/x86_64/5.12/udp.d
-+++ b/dlibs/x86_64/5.12/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/x86_64/5.14/udp.d b/dlibs/x86_64/5.14/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/x86_64/5.14/udp.d
-+++ b/dlibs/x86_64/5.14/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/x86_64/5.16/udp.d b/dlibs/x86_64/5.16/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/x86_64/5.16/udp.d
-+++ b/dlibs/x86_64/5.16/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/x86_64/5.2/udp.d b/dlibs/x86_64/5.2/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/x86_64/5.2/udp.d
-+++ b/dlibs/x86_64/5.2/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/x86_64/5.6/udp.d b/dlibs/x86_64/5.6/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/x86_64/5.6/udp.d
-+++ b/dlibs/x86_64/5.6/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/x86_64/6.1/udp.d b/dlibs/x86_64/6.1/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/x86_64/6.1/udp.d
-+++ b/dlibs/x86_64/6.1/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/dlibs/x86_64/6.10/udp.d b/dlibs/x86_64/6.10/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/dlibs/x86_64/6.10/udp.d
-+++ b/dlibs/x86_64/6.10/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/libdtrace/Build b/libdtrace/Build
-index 3540d1c1..722f787d 100644
---- a/libdtrace/Build
-+++ b/libdtrace/Build
-@@ -59,6 +59,7 @@ libdtrace-build_SOURCES = dt_aggregate.c \
- 			  dt_prov_sdt.c \
- 			  dt_prov_syscall.c \
- 			  dt_prov_tcp.c \
-+			  dt_prov_udp.c \
- 			  dt_prov_uprobe.c \
- 			  dt_provider.c \
- 			  dt_provider_sdt.c \
-@@ -120,6 +121,7 @@ dt_prov_sched.c_CFLAGS := -Wno-pedantic
- dt_prov_sdt.c_CFLAGS := -Wno-pedantic
- dt_prov_syscall.c_CFLAGS := -Wno-pedantic
- dt_prov_tcp.c_CFLAGS := -Wno-pedantic
-+dt_prov_udp.c_CFLAGS := -Wno-pedantic
- dt_prov_uprobe.c_CFLAGS := -Wno-pedantic
- dt_debug.c_CFLAGS := -Wno-prio-ctor-dtor
- 
-diff --git a/libdtrace/dt_prov_udp.c b/libdtrace/dt_prov_udp.c
-new file mode 100644
-index 00000000..33a975a5
---- /dev/null
-+++ b/libdtrace/dt_prov_udp.c
-@@ -0,0 +1,170 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ *
-+ * The 'udp' SDT provider for DTrace-specific probes.
-+ */
-+#include <assert.h>
-+#include <errno.h>
-+#include <netinet/in.h>
-+
-+#include "dt_dctx.h"
-+#include "dt_cg.h"
-+#include "dt_provider_sdt.h"
-+#include "dt_probe.h"
-+
-+static const char		prvname[] = "udp";
-+static const char		modname[] = "vmlinux";
-+
-+enum {
-+	NET_PROBE_OUTBOUND = 0,
-+	NET_PROBE_INBOUND,
-+};
-+
-+static probe_dep_t	probes[] = {
-+	{ "receive",
-+	  DTRACE_PROBESPEC_NAME,	"rawfbt::udp_queue_rcv_skb:entry" },
-+	{ "receive",
-+	  DTRACE_PROBESPEC_NAME,	"rawfbt::udpv6_queue_rcv_skb:entry" },
-+	{ "send",
-+	  DTRACE_PROBESPEC_NAME,	"rawfbt::ip_send_skb:entry" },
-+	{ "send",
-+	  DTRACE_PROBESPEC_NAME,	"rawfbt::ip6_send_skb:entry" },
-+	{ NULL, }
-+};
-+
-+static probe_arg_t probe_args[] = {
-+
-+	{ "receive", 0, { 0, 0, "struct sk_buff *", "pktinfo_t *" } },
-+	{ "receive", 1, { 1, 0, "struct sock *", "csinfo_t *" } },
-+	{ "receive", 2, { 2, 0, "void_ip_t *", "ipinfo_t *" } },
-+	{ "receive", 3, { 3, 0, "struct udp_sock *", "udpsinfo_t *" } },
-+	{ "receive", 4, { 4, 0, "struct udphdr *", "udpinfo_t *" } },
-+
-+	{ "send", 0, { 0, 0, "struct sk_buff *", "pktinfo_t *" } },
-+	{ "send", 1, { 1, 0, "struct sock *", "csinfo_t *" } },
-+	{ "send", 2, { 2, 0, "void_ip_t *", "ipinfo_t *" } },
-+	{ "send", 3, { 3, 0, "struct udp_sock *", "udpsinfo_t *" } },
-+	{ "send", 4, { 4, 0, "struct udphdr *", "udpinfo_t *" } },
-+
-+	{ NULL, }
-+};
-+
-+static const dtrace_pattr_t	pattr = {
-+{ DTRACE_STABILITY_EVOLVING, DTRACE_STABILITY_EVOLVING, DTRACE_CLASS_ISA },
-+{ DTRACE_STABILITY_PRIVATE, DTRACE_STABILITY_PRIVATE, DTRACE_CLASS_UNKNOWN },
-+{ DTRACE_STABILITY_PRIVATE, DTRACE_STABILITY_PRIVATE, DTRACE_CLASS_UNKNOWN },
-+{ DTRACE_STABILITY_EVOLVING, DTRACE_STABILITY_EVOLVING, DTRACE_CLASS_ISA },
-+{ DTRACE_STABILITY_EVOLVING, DTRACE_STABILITY_EVOLVING, DTRACE_CLASS_ISA },
-+};
-+
-+/*
-+ * Provide all the "udp" SDT probes.
-+ */
-+static int populate(dtrace_hdl_t *dtp)
-+{
-+	return dt_sdt_populate(dtp, prvname, modname, &dt_udp, &pattr,
-+			       probe_args, probes);
-+}
-+
-+/*
-+ * Generate a BPF trampoline for a SDT probe.
-+ *
-+ * The trampoline function is called when a SDT probe triggers, and it must
-+ * satisfy the following prototype:
-+ *
-+ *	int dt_udp(void *data)
-+ *
-+ * The trampoline will populate a dt_dctx_t struct and then call the function
-+ * that implements the compiled D clause.  It returns the value that it gets
-+ * back from that function.
-+ */
-+static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
-+{
-+	dt_irlist_t	*dlp = &pcb->pcb_ir;
-+	dt_probe_t	*prp = pcb->pcb_probe;
-+	dt_probe_t	*uprp = pcb->pcb_parent_probe;
-+	int		skbarg = 1;
-+	int		direction;
-+
-+	/*
-+	 * We construct the udp::: probe arguments as follows:
-+	 *      arg0 = skb
-+	 *      arg1 = sk
-+	 *      arg2 = ip_hdr(skb) [if available]
-+	 *      arg3 = sk [struct udp_sock *]
-+	 *      arg4 = udp_hdr(skb)
-+	 *      arg5 = NET_PROBE_INBOUND (0x1) | NET_PROBE_OUTBOUND (0x0)
-+	 * arg5 never makes it into supported args[], it is simply set to
-+	 * help inform translators about whether it is an inbound/outbound probe
-+	 */
-+
-+	if (strcmp(prp->desc->prb, "receive") == 0) {
-+		direction = NET_PROBE_INBOUND;
-+		/* get sk from arg0, store in arg3 */
-+		emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_6, BPF_REG_7, DMST_ARG(0)));
-+		emit(dlp, BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_6, 0, exitlbl));
-+		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(3), BPF_REG_6));
-+	} else {
-+		if (strcmp(uprp->desc->fun, "ip6_send_skb") == 0)
-+			skbarg = 0;
-+		direction = NET_PROBE_OUTBOUND;
-+		emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_6, BPF_REG_7, DMST_ARG(skbarg)));
-+		/* get sk from skb->sk, store in arg3 */
-+		dt_cg_tramp_get_member(pcb, "struct sk_buff", BPF_REG_6, "sk");
-+		emit(dlp, BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_0, 0, exitlbl));
-+		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(3), BPF_REG_0));
-+	}
-+
-+	emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_6, BPF_REG_7, DMST_ARG(skbarg)));
-+	emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(0), BPF_REG_6));
-+
-+	/* Now get sk from arg3, store it in arg1 and ensure it is UDP */
-+	emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_6, BPF_REG_7, DMST_ARG(3)));
-+	emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(1), BPF_REG_0));
-+	dt_cg_tramp_get_member(pcb, "struct sock", BPF_REG_6,
-+			       "sk_protocol");
-+	emit(dlp, BPF_BRANCH_IMM(BPF_JNE, BPF_REG_0, IPPROTO_UDP, exitlbl));
-+
-+	/*
-+	 * ip_hdr(skb) =
-+	 *	skb_network_header(skb)	=	(include/linux/ip.h)
-+	 *	skb->head + skb->network_header	(include/linux/skbuff.h)
-+	 */
-+	emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_6, BPF_REG_7, DMST_ARG(0)));
-+	dt_cg_tramp_get_member(pcb, "struct sk_buff", BPF_REG_6, "head");
-+	emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(2), BPF_REG_0));
-+
-+	dt_cg_tramp_get_member(pcb, "struct sk_buff", BPF_REG_6,
-+			       "network_header");
-+	emit(dlp, BPF_XADD_REG(BPF_DW, BPF_REG_7, DMST_ARG(2), BPF_REG_0));
-+
-+	/*
-+	 * udp_hdr(skb) =
-+	 *	skb_transport_header(skb) =		(include/linux/ip.h)
-+	 *	skb->head + skb->transport_header	(include/linux/skbuff.h)
-+	 */
-+	emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_6, BPF_REG_7, DMST_ARG(0)));
-+	dt_cg_tramp_get_member(pcb, "struct sk_buff", BPF_REG_6, "head");
-+	emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(4), BPF_REG_0));
-+	dt_cg_tramp_get_member(pcb, "struct sk_buff", BPF_REG_6,
-+			       "transport_header");
-+	emit(dlp, BPF_XADD_REG(BPF_DW, BPF_REG_7, DMST_ARG(4), BPF_REG_0));
-+
-+	emit(dlp, BPF_STORE_IMM(BPF_DW, BPF_REG_7, DMST_ARG(5), direction));
-+
-+	return 0;
-+}
-+
-+dt_provimpl_t	dt_udp = {
-+	.name		= prvname,
-+	.prog_type	= BPF_PROG_TYPE_UNSPEC,
-+	.populate	= &populate,
-+	.enable		= &dt_sdt_enable,
-+	.load_prog	= &dt_bpf_prog_load,
-+	.trampoline	= &trampoline,
-+	.probe_info	= &dt_sdt_probe_info,
-+	.destroy	= &dt_sdt_destroy,
-+};
-diff --git a/libdtrace/dt_provider.c b/libdtrace/dt_provider.c
-index b9a7196b..848fdc13 100644
---- a/libdtrace/dt_provider.c
-+++ b/libdtrace/dt_provider.c
-@@ -41,6 +41,7 @@ const dt_provimpl_t *dt_providers[] = {
- 	&dt_sdt,
- 	&dt_syscall,
- 	&dt_tcp,
-+	&dt_udp,
- 	&dt_uprobe,
- 	&dt_usdt,
- 	NULL
-diff --git a/libdtrace/dt_provider.h b/libdtrace/dt_provider.h
-index 9d60e5ec..dc126671 100644
---- a/libdtrace/dt_provider.h
-+++ b/libdtrace/dt_provider.h
-@@ -89,6 +89,7 @@ extern dt_provimpl_t dt_sched;
- extern dt_provimpl_t dt_sdt;
- extern dt_provimpl_t dt_syscall;
- extern dt_provimpl_t dt_tcp;
-+extern dt_provimpl_t dt_udp;
- extern dt_provimpl_t dt_uprobe;
- extern dt_provimpl_t dt_usdt;
- 
-diff --git a/libdtrace/udp.d b/libdtrace/udp.d
-index 0e44ed64..e5a0fc9b 100644
---- a/libdtrace/udp.d
-+++ b/libdtrace/udp.d
-@@ -7,6 +7,7 @@
- 
- #pragma D depends_on module vmlinux
- #pragma D depends_on library net.d
-+#pragma D depends_on library ip.d
- #pragma D depends_on provider udp
- 
- /*
-@@ -48,24 +49,24 @@ translator udpsinfo_t < struct udp_sock *S > {
- 	 */
- 	udps_addr = (uintptr_t)S;
- 	udps_lport = arg4 ?
--	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->source) :
-+	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
- 	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
- 	udps_rport = arg4 ?
- 	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
- 	    ntohs(((struct udphdr *)arg4)->source)) : 0;
- 	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->saddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
- 	    &((struct iphdr *)arg2)->daddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->saddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
- 	    &((struct ipv6hdr *)arg2)->daddr) :
- 	    "<unknown>";
- 	udps_raddr =
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
--            inet_ntoa(probename == "send" ? &((struct iphdr *)arg2)->daddr :
-+            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
- 	    &((struct iphdr *)arg2)->saddr) :
- 	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
--	    inet_ntoa6(probename == "send" ? &((struct ipv6hdr *)arg2)->daddr :
-+	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
- 	    &((struct ipv6hdr *)arg2)->saddr) :
- 	    "<unknown>";
- };
-diff --git a/test/unittest/dtrace-util/tst.ListProbes.r b/test/unittest/dtrace-util/tst.ListProbes.r
-index ad557253..a1e185d4 100644
---- a/test/unittest/dtrace-util/tst.ListProbes.r
-+++ b/test/unittest/dtrace-util/tst.ListProbes.r
-@@ -12,3 +12,4 @@ sched
- sdt
- syscall
- tcp
-+udp
-diff --git a/test/unittest/dtrace-util/tst.ListProbes.sh b/test/unittest/dtrace-util/tst.ListProbes.sh
-index a747a045..744bb8ad 100755
---- a/test/unittest/dtrace-util/tst.ListProbes.sh
-+++ b/test/unittest/dtrace-util/tst.ListProbes.sh
-@@ -70,6 +70,7 @@ $dtrace $dt_flags -l \
-     $2 == "sdt"      { mycheck($2, $1,   600,   6000); next }
-     $2 == "syscall"  { mycheck($2, $1,   300,   3000); next }
-     $2 == "tcp"      { mycheck($2, $1,     8,      8); next }
-+    $2 == "udp"      { mycheck($2, $1,     2,      2); next }	
-     # nothing for usdt
- 
-     # Unrecognized line.
-diff --git a/test/unittest/udp/test.x b/test/unittest/udp/test.x
-index d3d7a598..2ff8d675 100755
---- a/test/unittest/udp/test.x
-+++ b/test/unittest/udp/test.x
-@@ -1,14 +1,10 @@
- #!/bin/bash
- #
- # Oracle Linux DTrace.
--# Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
-+# Copyright (c) 2017, 2025 Oracle and/or its affiliates. All rights reserved.
- # Licensed under the Universal Permissive License v 1.0 as shown at
- # http://oss.oracle.com/licenses/upl.
- 
--if ! check_provider udp; then
--        echo "Could not load udp provider"
--        exit 1
--fi
- if ! perl -MIO::Socket::IP -e 'exit(0);' 2>/dev/null; then
- 	exit 1
- fi
--- 
-2.43.5
-
+Yeah.  I just thought I'd highlight those two dependencies.
