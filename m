@@ -1,80 +1,80 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F83221F2D
-	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC5C202F70
+	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758913572; cv=fail; b=J6BKCBiHhvjWZ9t91q7r9pVgFmxs/D/cXVTM4uaY1QQVgETaml21kWAMyzyIkhyj8GtJauuRgEyq/tG+/UHg4eSWbA2HTXBLbnEI7EXSEdmhdNFm5HKIwNK3EygGlIvzeEvUKDsEUW9PyUlHMJCkqm0MVdAjFsNWERkbe0sSDXA=
+	t=1758913573; cv=fail; b=ZOEdovuBkHq6Oqcy2tDICA/8cLQVl9+h6wvBXw8OK2pkqmrQ9EfV0QwXsYM/bqcdKluOzs9V2Os6Icj0/6ytrw1+6n7fAVL3p3jUUW7hHx68OC+i5wZ+FYbv462iKXudgJ75UhmwtPJYBRbmVjfAs25TfNkkEEPtHZYnAyYZ/Kw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758913572; c=relaxed/simple;
-	bh=P8k/j4drZueKVt5Wf8mpPNa4ecmI3dKzUz4h58v3OF8=;
+	s=arc-20240116; t=1758913573; c=relaxed/simple;
+	bh=oxIH2egnKjczgO9IpVyM87eGKEO543xez2/cHCasa5U=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sLCuILo/LHVmGsD62MDpyDcrCvbTrc7qsNuTfvGzRwJ4EJvzwzCljBt1ylVICt9IzJZxOhCKP+GMtBvxdiXk9fCly2TmxtvCRz0dsTcK41b/+4ppCBS8G1zbDYoUSNv3mV9FBDedQI5GjaNwIadDfiqzi6WkSOHzTJquaj8lcHc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=cENzqJvG; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=umR2ity0; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Type:MIME-Version; b=enWueIbZ11eWeeNl2lb1M3lvb3u4a4ZCxSwH8nDlJly7hObyhFoBzhktZ0ce2nUTaMS2vvVSoJ0irZvvQK9Jwz0qMgZQGLMtsJ4oNHw0WHYW2LkUKgBTaXgKCHx0OZwtih/TNXT6rw5r+/B9INXz+ioKnMfcyGKF46iNvZr8Hc8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=JDf1K4Sl; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=lAtBUJDv; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="cENzqJvG";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="umR2ity0"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58QINGYX006505
-	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:08 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JDf1K4Sl";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="lAtBUJDv"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58QIivlE014361
+	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=ZYozN5Q8cLkQGxWW8z
-	Vgz8JLIGe42eiim4xqepYhOkM=; b=cENzqJvG/D2F7W++5ZFDuE7QHAaNiv9F7d
-	vW9/aPWKeDrMCKeyIoDbSIK7D7pkVwDptGLnh3kEoH/2azQKysm/tL3xEBuQ7cl6
-	ftOou6WDlm3VwnhCkyhTjPhANu8RX+w7yd2izfqb5uH/oobjvG8o//k0Mlt9rcPQ
-	0ZahczsLsJ2w2qlLAFZM4PzbW0WOGlViUfHQdfZXWU4yN8kQwv1B2BAVyeY/ArSj
-	XIc/V3rKIMRVnWQJlnBRO8h6/nkNMjpTomRasR98TsqKND6gywkTgCthOb6aaOiv
-	FGl1lPzG8jX54ONLPu5vL7wjkpboxbkCsKZ+Px+u3oMppx0tC8ig==
+	:references:subject:to; s=corp-2025-04-25; bh=2lr0zbBY4W3VFv80hT
+	jJFZSs6kKNlaeS1+5dsTf8dAs=; b=JDf1K4Slw4Y9N3qky9N21i7c6qn7jlAmB8
+	hsGg83uD8G9qh96I50WW1tXW4XVKMvAsMqqFRbs2bTQKeVz1fPuaMDOgVjDwz0Tn
+	hAEWEiYMs02GGE2RAVNbvwy3vM1buvJ+q12N0RcLVaVesdzjqKJyLz0q4gwv+UdA
+	9H5ToUHBgyCd/bk+pC0f/HQI88IsUgwqG3f+VW/+Gn/8G8+dzxsYhtj2YspPVsri
+	mJDdiUtQtyjZQpu7zdr453iTWNKiXzEJ3LHeMn0PKqjQ0SOSOpTw8yIx34oBtJD7
+	OLCT5beqlpJJoaoJWNClB5cMByrzNAmUVGkZfAyLcrVIh7Og/YMg==
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49dw5a8eew-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49e0cfg0xt-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:08 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:10 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58QIVODV010043
-	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:07 GMT
-Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11013027.outbound.protection.outlook.com [40.107.201.27])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 49dawmc23a-2
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58QIKUKP010205
+	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:09 GMT
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11013071.outbound.protection.outlook.com [40.107.201.71])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 49dawmc23f-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:07 +0000
+	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:09 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=U4e0RwGf6zeRrrdETrsb8DR6gDdImAjFauwqIP1m6vTWYOquN8onjbkUfMhyW2F2DO9ogTkxcBVtl6B4FRkeAyY90BE9PDlyQuXxXIPd5NWqaTKKw8UU7FK/LgqhYu5JL6P1RtGMJh4C0T7V4uZLu6Bwlpbeitr377+j0ddw1TOS4Sb3i08O0yEhFVQky2HTBOb9r0zTzMaNgvT99U1MXm2aPRiYibxXidzKwbpUNNe3PesyYRBhCifDdAHpVrvnN6/qkGfNLEM0ETc6pupK3qdXwvW0emeLKpv8PBkScjMvWF/+dpPlVL5j/ZUTUtNyyZOI9bMjQryLHJAb4DUTyg==
+ b=HWSYJ0U5CrvJXVQt0vO5y+Iyc7clpb2kzEe9JBkBQ96gQEfkFPQ8Nxs+aWoc25vtKTdx3/X9Ph7Nu7Odg05pnrZnLI/yedHsOa7qtFCKGkbcpaqoxFya885K/2c60Z9SWVrok492cI2aPIjxQMKkVumpq992WxHtqDMHqo7s4tQkf6vskPOS0+3vOXDfXgMG6U2U60UciaawFHa+irwBBf72QB2NVkpv/96qEzygz9BNa6GQsES0+VN7LdGzeonEPIDPn1G/nOAsiVQIMT2aMwTGZu8EshXPXA7yNgwH15BwhdLzzLiRtFbvLlfzZWTkaWlLIrEjwQSefvWau+8TyQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZYozN5Q8cLkQGxWW8zVgz8JLIGe42eiim4xqepYhOkM=;
- b=oTaYjUWXgK/n+rEIcjFr05wLZ6wMWJf9aRgd/fWF+nJsUP7wRFfR+wyltD+W0FPebTvMUv2NaT6xIMwNH1Oh4i/Y1Dmged+R7sAirgoH6GBqt+GdhbAKT7msnMuW/lu1CAI1Q6yKw35to/TJLzBtTE1GOcI9/GzjRrefyHDbQ4EdaOV63Sm6OTH8TpCh9i+/TXRYpGL5GOJQUSrinQPvLQXoA1Oegv4nm9APO6i9cnetp9eB1PDiEz48sl85Bg+oEEf+qWUreyxZ3QU6n/60UeQmcpsg4eXYvnIbhJs/WpByKueyGA2PO5uyn7iB/mI6s8CXMgz9xx6pdN5LHrTBbw==
+ bh=2lr0zbBY4W3VFv80hTjJFZSs6kKNlaeS1+5dsTf8dAs=;
+ b=ph+Fafj4ICJiWxxQZstbsf4UTTx0G65liy3vbrXb+y/1aGj4k7lSkoYXS/6SZ9y5WU+dSVjPeMLdKEIJ/rxrR+N0XNfH8CQCCg+qe0mffU+i9wpGcAJFTd5tfVRWIFZPKbftBCvJ8547rHhB6eYSx5lV9zXZoemnhD0yF9XeguF9jZWxy/EOQvy8ZzuuKP0ShXEwqZJStoaUI9bV/qX2+ywlfojar4+Pjxfu+eXOhSgmn8HxUmFabzM3kNTkPNQFORESThDizyJi1UxT3t6Wuky1xl+kda1Uor0gKNrek5RVup2jnRUKyimJBgzn9tTCtwl5xSC1ZfMg20sLCIyYoQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZYozN5Q8cLkQGxWW8zVgz8JLIGe42eiim4xqepYhOkM=;
- b=umR2ity0IFSOugeL+DX2yyAjGTqYwqxKuD1Z9RrJILG573tdHoAtNO1siPM2ZSI8LZpYp2WsCQlXMh1v+sVRm5LtSRw+S/NbpC5LdPTnxIxuuYwhrYccZop9jKl19FFOQprL1g+rs1h0sdn660tmc2YYBh4vnZ6hdZ48A+zDI3s=
+ bh=2lr0zbBY4W3VFv80hTjJFZSs6kKNlaeS1+5dsTf8dAs=;
+ b=lAtBUJDvIIHBMaXri4e9jlX9CFXYUlBuvgcA3FC7BvpPwYlaVvmui29QXlDYsLaEX4VsZn5QGZTahiVvYoyIdQ7Bvh+xI/og4Pl34vFDuaZweloWRyTlKgICwmRG72Ehil8Rrv+gTwx1H2rmNrX/DV2iG9yPcTYHgXkXIhJvlNk=
 Received: from SJ0PR10MB5647.namprd10.prod.outlook.com (2603:10b6:a03:3da::17)
  by SJ5PPF0687F9010.namprd10.prod.outlook.com (2603:10b6:a0f:fc02::786) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Fri, 26 Sep
- 2025 19:06:04 +0000
+ 2025 19:06:05 +0000
 Received: from SJ0PR10MB5647.namprd10.prod.outlook.com
  ([fe80::8db4:df1d:6afd:e4a7]) by SJ0PR10MB5647.namprd10.prod.outlook.com
  ([fe80::8db4:df1d:6afd:e4a7%7]) with mapi id 15.20.9160.011; Fri, 26 Sep 2025
- 19:06:04 +0000
+ 19:06:05 +0000
 From: eugene.loh@oracle.com
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH 03/20] doc: Add separator lines to cpc Markdown tables
-Date: Fri, 26 Sep 2025 15:05:40 -0400
-Message-Id: <20250926190557.8485-3-eugene.loh@oracle.com>
+Subject: [PATCH 04/20] doc: Convert stability attribute tables to Markdown for readability
+Date: Fri, 26 Sep 2025 15:05:41 -0400
+Message-Id: <20250926190557.8485-4-eugene.loh@oracle.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20250926190557.8485-1-eugene.loh@oracle.com>
 References: <20250926190557.8485-1-eugene.loh@oracle.com>
 Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0183.namprd13.prod.outlook.com
- (2603:10b6:a03:2c3::8) To SJ0PR10MB5647.namprd10.prod.outlook.com
+X-ClientProxiedBy: SJ0PR13CA0054.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c2::29) To SJ0PR10MB5647.namprd10.prod.outlook.com
  (2603:10b6:a03:3da::17)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -84,80 +84,80 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ0PR10MB5647:EE_|SJ5PPF0687F9010:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0740a3a5-aaf9-4752-b638-08ddfd2fbd53
+X-MS-Office365-Filtering-Correlation-Id: 2b892559-7119-4078-eca2-08ddfd2fbe50
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?EVVOQiMbumlJlgZU1jH0B6KxDuZjWxFSoqxzl3zcWg3MGJ0BJk8tKYehy358?=
- =?us-ascii?Q?HsQu610BwcOckgZ3BX3aNG131SzepsTstdI/pTTVW6UI7SaMaFB2Sdv3QH9T?=
- =?us-ascii?Q?qUulBQQkaPLcRhmDS8EEewDuuzs5wV5jrZBmPkA7dZGnRxiSS6e9/dEdv+5J?=
- =?us-ascii?Q?lQtQjonFXLPO+x+/tc5dPIlve9x9vnE+DP5PppDU+bXDDkzho0sNuEwSXGFf?=
- =?us-ascii?Q?GlIUkhT5/s9+A5ynCWMzfsDtmD3Nsfh0tRfDndTQ163yppYpbre26733iGI8?=
- =?us-ascii?Q?c8YuibrZapr+FyjgvRBhqioYYGGyyIWlNiRiwXX3ucWZBRK5Oolxi0HGOKwd?=
- =?us-ascii?Q?JN8EY+skxf4Hcb47RlX5hwJ/uqBATOfAsaseAWej2D4No1r9ShuJgbAGK7KM?=
- =?us-ascii?Q?mUulpdRE0GSGaTPYzVcU0QysRYPhLQ4u+9+PvWZqpa+pW65CkMWvDIOTQrRE?=
- =?us-ascii?Q?4u4S+lOL+QO/CEYQnyu9inZOdUQ7YenuVb9Aru05uqffcdi9tcW9ZkJWTAgD?=
- =?us-ascii?Q?dM3swflqAhFXOcFd2Jr+yMBSX0+z6OuRCUbnhRLdFKE07RoGg8Dz2H9VsgK6?=
- =?us-ascii?Q?C/jvvuh+etC4ciZzDibAE1G+nELjgSW5pF29mfX0KHHUAlip3s9RbxY7hI3g?=
- =?us-ascii?Q?utbMWHgAW2JqsFiYEyElxqL574mE8hqyWRiEKMqeOyYWLJ4x3jj68QY+z+mU?=
- =?us-ascii?Q?CtOtZ9elcMIA+Ek4BSB7Y2liZ4xGCJojJ8YwkTVXUx/AbhifnfUCQ8i6ED+k?=
- =?us-ascii?Q?AyihsFXwUZECSvuzzMfMXntTzjYp2uMi2+ao5ySUzlmqGbaDT2zvImBMiv/x?=
- =?us-ascii?Q?hY1CNFcVolb6coNh09n6xBbbhApoWf5gJ9UPFH1c8R/f0gTGrLEwP5UU55TI?=
- =?us-ascii?Q?mwvzJHoeMWY4N6oywp2qwuUyWt7//BkTljyN3b2bpI9Gi8qxWLCHHJV9sWUk?=
- =?us-ascii?Q?sZ3ty+hfzCc+ewH/VM0/z2sW5lVcwu0kUkhgsX9MoO9IJbL7GHBH5bQGgit/?=
- =?us-ascii?Q?dyIbZlX9vglXa93nmzkteRKIHRdRidOQiDV2sySm59ZoAc54Oa77GpfVHAqR?=
- =?us-ascii?Q?9wwF/xGXs2PqbZ0Xqn7NRxwDACdTU8cJqUFeNJAdY0BP/6ewgNrrYs4aqvfd?=
- =?us-ascii?Q?Xw5LKNX9zPrnZ62p2f+rPsbJKzTriCS9DnuRw8v51EaxFrTIhdiwPUidWV2f?=
- =?us-ascii?Q?XmlYTaasBa4AAYsuXkrfRABG8GT+QI/vP2xROCNd+ZlCSsjXTgl87L6/v8Z2?=
- =?us-ascii?Q?wOlygrb9VBiik3tW9sQ43MiEZ9xnOA1PYxJW1UYasgX5+Z0FtpK9jZM7Br/R?=
- =?us-ascii?Q?T11TIREfWJZEdCVitGjNqMqyGXpgZSxCgEeInXAnS51yDe5CxXTYiroiT2CN?=
- =?us-ascii?Q?Dz+Wt884hOHPC3IoH7b4tdLq8gOIUTEhEo5883ZA1Z86wQXd3rDT1zRepq7R?=
- =?us-ascii?Q?9LdppDwbaRtWHbVx/fOjq2s7xVVYO3ko?=
+	=?us-ascii?Q?hat+2oGPrBwWD72oo9EB6bczcKsC4LffhSOR+98x0zpOHjEmEavyBIUjGZ6R?=
+ =?us-ascii?Q?nrgN61MeypWWT0db2ZptwS6Ecb7Octt078DiLH8AKXVJRrOTE02kFOGsgF9I?=
+ =?us-ascii?Q?5FaHNTaudAq0KhtHiE2UwuivQeQ+fKLpi0mJEllrXBNxU+1orJB36rDOLh2P?=
+ =?us-ascii?Q?ZNUS+qCqAbZnefvOfu03uVJe5h740OiFDRLrZ0vkkgN7I5wpNns4z/gXMTjI?=
+ =?us-ascii?Q?WkORBw0Q3s9nSBnDOf2i4Jx1hxEuRKc69BQgSjkeX6SN9z3oupUMF1NMYC9s?=
+ =?us-ascii?Q?yCmI2SW0R4kMRoCkJT/siQzRWHyUut/lFxvHG8uESpUMH1mZqroB/+PcYiGP?=
+ =?us-ascii?Q?KZdeFOHE41OTursCoa9JAkU4br+diqjIueajK2Wtrb+FdxBBMYNZ8JYmzMvb?=
+ =?us-ascii?Q?zFprDWjMMpa5+VvGO7u+U5Hj56SLxByOpiNDzd/RUtS7SPwwKPE4xL7lVR++?=
+ =?us-ascii?Q?kGYu1F5KEN4EU71XRiGVdomMOz1VaYGQgRvXrkGIDQzE2eZ2+3wG9wpY3I6E?=
+ =?us-ascii?Q?RXmRJv6n0JL47kA0sBO1nD7gN6aiNAp3QCvG/zOpKZthmrHnx55iwfWqIRwh?=
+ =?us-ascii?Q?EJkndV34kdAxtJoB+OPVeYc3ztlFk8K1J93l0+WrPYQ7LRvEo3tSLLFHp43i?=
+ =?us-ascii?Q?zzZyl6d5E0hfXlnQIWXhl64TfrEnsn/D7q262caVCa+b8tqmlNBJN99iK4V8?=
+ =?us-ascii?Q?JgahxWkEUnlOfxYFDR9jTkletZctc0AvBh85rtaS57rDYFMkwEG1wwwJq1Xl?=
+ =?us-ascii?Q?5hBiTAYa1shYgcfLC09gUjL3REozcoWvie53B3v+qNe9P+QacMNT5ghBnnJP?=
+ =?us-ascii?Q?6y5MzOH51anFKbUm8UhzFqrUKAD4+vDOO45ufEmyNmU5sDxvtHstkjcq7mfy?=
+ =?us-ascii?Q?+wSKgK0sNXEBoN8lNkRSEBEve0ZcD4Qe+4S6GCkoze4sJcU6UFBGdIL86Sro?=
+ =?us-ascii?Q?dBZ44BUu53SJWGhH2BtUDEKx8L31OT7mavuqjArH6WL3okSBBYi+yJ5lflUs?=
+ =?us-ascii?Q?T+w541b31PGrv/z2ey0E0X5xhdXdI4rAXIB4+i3k6+KgqgxShQnzEwdJW21P?=
+ =?us-ascii?Q?y1aGwq/82dNAyO49YrimzknPFwT6VP9E5uwYjhnkvql7fMZ3TvA0WI99hRdA?=
+ =?us-ascii?Q?Tumox6nh/A/nAK9iJXuPNxGB9lq0HF1D/2ezvFe/EqNMaHxHaTSAivXkEIPz?=
+ =?us-ascii?Q?FNBq+yKP0k44U9Xl8jA0gD3MBJMiXSOWKSyWyHfZl+P4Py3MpxG0tmXhrPXy?=
+ =?us-ascii?Q?2YC9bo3l7kbO0n2ppapORBh+Op6aa7cn0+LEFakzl7C2U+XxufUN1m5oopip?=
+ =?us-ascii?Q?q17OM6iw9H6P1CmOapt5lGfQfXphZHALfEWOtu/Oc2YjXr2z8ONrrRSmlyal?=
+ =?us-ascii?Q?CCFqbM/Pc+JzOqCJaSkSO/A6HBqwL0PBraYd8I5VW0DKAq5o306CMbxW3PHQ?=
+ =?us-ascii?Q?RIxWzYgqNZlKMXN4e2TulobArobZJin5?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5647.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?26lFYejGHOw/ko5b+WEWsX8VHfB/OTIDkKNOrLqm6nEiosaVDKqb2u878ZIO?=
- =?us-ascii?Q?xr9uuQoaQVbYkxmD/zNLyCH4sUjsIDadAKgDczY//I/1vqKZoqE8op+HG27b?=
- =?us-ascii?Q?z54nZBxxysU1FgSMep4gDTp7SEiYqX53l+K342ckIyli/oGjR2HEbOlxpx7R?=
- =?us-ascii?Q?f3bXUCG7a/MG/r082vNmoa7r3avq9LhYwl6S9iPRO88VyVeKjQYfkXru1dKs?=
- =?us-ascii?Q?4savj37VnX5cDx70dgS07+p74LPy63IvoE0RnT8OGsmqf1WRc8HxCyu8ZDjX?=
- =?us-ascii?Q?cO5GAoPURGHAalRjzFzr3XnuPgU0xmunKF11FiiXu7X8hhXapi7EV9ENxNYM?=
- =?us-ascii?Q?UhzQzdKDI21l52rVl44STi53MFfqKJJ/0Hi5PU21fYnihrEVs8RDdZQTjfRn?=
- =?us-ascii?Q?pjFLqPrFBzxGRp7Vi+bsPNJeh2CgEp2Mjy40V5kAjZJ3qGRVqtsdibbdTV+h?=
- =?us-ascii?Q?oj6cfk5j8AjYvM+h8fCAqxvn0Rvr+XBmFJbgfXowd6Kwo65spX8+QdbZuwxA?=
- =?us-ascii?Q?ivV0ni8vyYlPhKk8zUGy1UX2f6C1D0MkU1QK4V59aR0JrB7aauPderD9ebVW?=
- =?us-ascii?Q?1+2oBzG+oCbP8D2vpeQ5qw74sdMpaNHupo68BbEtYp7+vO5xHwJMenNz0Mes?=
- =?us-ascii?Q?MpiAUOvpcpaCaNqI8a+5DKHCs3gRHnx92EwyweJZDNshSYgK2f/3tWwtLDJ0?=
- =?us-ascii?Q?ZcQ9WIDG+ndJ5MkPUzoKAE8Gd62vQYhjfjBIIRIWkLogqhkjn7DuZQFGsNsJ?=
- =?us-ascii?Q?QbcU48eWzOYrPSqfTBoAv1QIGXCINA2Gb0ii4FXdujk3GMwmXHs6S42zW/l4?=
- =?us-ascii?Q?tXjJcnF9lgk+s+sODQ/lcAZByDXqYNenfawbZKnagWGVOnHCeItDMkNsnMIq?=
- =?us-ascii?Q?dkjZqEiWqiVHEzglEdLb43KfqGxppmDrTlh2pPCUPNkJakL2gx+rwHQtz9V9?=
- =?us-ascii?Q?j2e5zyzEuRlItINoM/XUi+IrmW5KStznTk7eq355blvr3joMfDItaewDwlez?=
- =?us-ascii?Q?niJWCHUTTJKkhExR+PyUwzGbuODESzsTLsienrCrWTKlJs0hpNmIsAlF103A?=
- =?us-ascii?Q?GK7otrZyOC9TKd9HyMV5FHDjQO98qeCLxhmTSl3nNpvviGmqn9U8gsH2UAwy?=
- =?us-ascii?Q?7oHOz1xnCgLqstGjv2mZALbnWnQwDotaN16kW2PhAeRsTW5GN2oiWdcexdI5?=
- =?us-ascii?Q?O2FgVxWV6ZJjDFb8mzIxEZlZROQ7d8eetC6PWUftZ5ruFtI6MvOTfAPsBcaE?=
- =?us-ascii?Q?X+CkDbg8fhXUWL0RpeZRRSQK7+S2AlsQ58qb3d/KrYt5fhhg63a7q9VS9nAS?=
- =?us-ascii?Q?GSfAffDDVhZaTCitVHHwsobdCP+tSH+LFwyXLCcXzqEWYliKu2LdvddShb18?=
- =?us-ascii?Q?DsXBA2QhKbb1zk5lj3WcN6M25j9Zvoo99EHH8TWQOUwg1C6lBhDtbpm/RDZP?=
- =?us-ascii?Q?s9lMhXK/6B/suU0Roc6y16g6hXTAGiPFXoWc95/8KLTSNQKxQqZXAEkp0Ncd?=
- =?us-ascii?Q?djRn6W7b4yQ1fYq1EYISJbPZZblUCp+UubGkiF4KWs2Q98k+OqWFBjTCECOi?=
- =?us-ascii?Q?B5RU2LsZkLrprm8c6wrQ0GzFn3tnBLefFo7QlyIv?=
+	=?us-ascii?Q?/nPRL6C53p+L8aExPebHveS4AxsemQHB9ZMGr8n62fNfG/bHGY8ZLf/VyoB9?=
+ =?us-ascii?Q?0Xfrlpgc4Yii6xqOiZHkE1FX9dIGM98vVpz05EXXdTqKB0OpaALQ2m3WOnER?=
+ =?us-ascii?Q?R1y3msu8arwVQzyhFnv8yKC32EAtvCo52yJR8zzn5YJEREP6O8Kim1HAp0Sa?=
+ =?us-ascii?Q?X+4SxzHkvkqP7aGbZHVKcDqz1yUFpqBBqRCufPwQsYiUzYI3PSdCqOUma2Cv?=
+ =?us-ascii?Q?88h19JPbyxhQUvwpaLDv70x4Qma+wV5ub4oJubgOhD2I6WeQ0sjtofVC15FT?=
+ =?us-ascii?Q?6P7dS7EpyjWCB91b6bmfyH9Cm67cTCtZ9Ubr6r3Bb+pZg9eyMPQNAx3Qwkf2?=
+ =?us-ascii?Q?T3lecsEUBhnUXofPlt1VSFxlQgN53AVMzlMm8j0Jidgglkq26+3qP59RF/Dl?=
+ =?us-ascii?Q?1pezRYA854tjDg9fYXODVkD16zFeQEBo6OZMsQl8puLnn3OUdJ8EbjoJb7Ra?=
+ =?us-ascii?Q?ZbaU90XLT0sCNifiniBNH3j5gvSizKrYPJSFrEqPZS3/r6Npza0eeOzHYuwh?=
+ =?us-ascii?Q?8dprb5ckFGbZe2qVpFz5pFV7D/+ydCuyF9FVUgNUTRtdeMVx3VTH8fq8PvRa?=
+ =?us-ascii?Q?tgvG9C+WW/hHo1D3XETORXoxToWQaRxWAWSpbAvnyo9RCXFot/a1q7nTsOBQ?=
+ =?us-ascii?Q?43+b0GwerehyrJFZ0JxKLoaVtKtx0QFPGzktwOnjtgF3DSH3dy/Axamvvkvt?=
+ =?us-ascii?Q?YwI4B9WTRkj3qhjCAo6UFzEYTE+8mghWketGCSYHvkd9JJsU1LwAKHZlHlX+?=
+ =?us-ascii?Q?gr2/pys2+V/sZMHRvbX/4F4S9JfcN46J6ATolqKA+YS3T5CP8f38g8wlwtyH?=
+ =?us-ascii?Q?BKEHeo6syPv39YWG6BINrkFXqdG2hgVNnkU68wU1jG2YoxXl611eF5Req94k?=
+ =?us-ascii?Q?RX73mQTN8tQbMaKiPkkXTj6wTY05XujXZ/c6EYUNtx5AZeMy1uv9Umus89qQ?=
+ =?us-ascii?Q?emjqKj5cFaArHTt5kfGMZgijl9pwLIXWxt+a19kT6xzzl/t3QLin2kYH1hNG?=
+ =?us-ascii?Q?pmfuv4JAI4U80MZ1VsQIW1EAYJvP08k52e+ezW8Yu/uh7/wHr0RUoAU6ayW7?=
+ =?us-ascii?Q?VySQ19LGv/YKtQXXaXGKfI/N7vndh7Cnjqaw5DS4nq6w04VI8sQH0+8MxGaK?=
+ =?us-ascii?Q?1gqLGcynuCE4RPQ5fM7H7dcq8M+1ItoLn6gGe7wpwRAMcFFrHsQ9DswpGddT?=
+ =?us-ascii?Q?C45BBSFbCLVb4Vi3iJ91FWVnFGcFbdvGvj75BOkdKYuHWm8B5qblH3RPaVce?=
+ =?us-ascii?Q?wefFHxMP+/dHoZ+02EA1u8WpzVp73mxBsW1GKp1NOMoHY2esOO3wi+0DxULn?=
+ =?us-ascii?Q?QcbswbLK0lq1mB4YbSI3O/48lcGci+dY8WZ+FEYhb6pp6B+nDkTtMly/YbDx?=
+ =?us-ascii?Q?pspe33ilZcReMwT1jAo0YpEohPc3hr8IYRIZa1CB/SWzYmqw0mIIBHO40Bzv?=
+ =?us-ascii?Q?0wX42+3OqYiC5h1R+UijjODtV+I5AVgtmRCf0NcnJOYwUvtxrku/qI0fR5l+?=
+ =?us-ascii?Q?jo1YTiS269eWqCytqCKbaF4QwZVQ19y9FqowvokiamhcV1glUfy1hSDUhZOH?=
+ =?us-ascii?Q?pJWcdzo/CMhNpj3cpUXkDHwXpA5Hnu8xQ1itD4sW?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	77TMxH5hPyNilAdKCaAg131yiMmLI5s89taEs9v77xblbj3OIQWmqhpNrdWJYY0eREl4FsiSL3jtDXe1ySw2MKpUBEmiiIyeWuUwktlcgSrSa8kLxiiWVE+CVonx1ygqIq9iOwapEZa/nzT6uVKRzXG4PAs8MaNbRsO1uONXTCBpMMtGBMNlhPpxeM00xzbJn4PWvHYZ7TZ1eiSp3NnBW1TDFUSsEeKgThbSoIOC/+9xh4zpT3HJYUc+gSJo+L8lL4JwJuDQaIFMW1vWjXSOjJRWvje/Nv4QZ+A9M7ZVENa6EJrEh7DSSKE4TxTimcyg+OVdtIncD7GAMqF8XaLZ5/rVjczOOyjGmka0WYO9EugMk32cmXpLN6v/epSmNQE7/h+xMLuN8vKDxqEoNtP89pigwFqHPheAUfOBObgmn+rthPZE3Y7WalHWQFW5C5AvOzPHjVTTc4YxI2R81uaCBBLCpSrlGfVZC1pwwDjm3F4z2xs1VM4c/+zM9q9uX5v9pYvw18aJH3uiMuGGzfe58L+HC3UC6AN285I9/3SQC4dxlYWxhjbSsbtSLso5fwpijz4u9x+rmEF1irqEnI+wKEsSXgwKr8NOlpWAfZieCN0=
+	kRf+TX/0MlaOlKkG5vl/JAwITV0tsaC8//hjVK++nP1PPf1Hnq9tIoojqzOVgQJVX2SkT9lcXFC6ZBYGMMIMXPIk43JtxU0cIRu9qmezZ9d3153QyiwZioRRR4AazOhKjlWBaXhbt8wo3ff0k2s9n9Dz50bFvKKWG6Fhx/8vldSalAowe7rFD+y2PCmx0zis0ZyTmItuvtAOkCP68D3CsIfoLI14RTH0FnzSP+FogNkOAfDyXR2tVXWRiZ49ljMA3d/v8BKWJ8FQMTxdvW7Xj0/rpAKDSaPE0ri2sFjEFiQPDf9WPpoDCAQXxAJg7dW5ydvCfXOi0f4q8/UJtRgrhOT+urrowDjvx0k2pHGHpwzyuu0IMQYp512PmaXIlh6gMlZ77TfjV1rXaorEpGm1Dk3dcCFuaw+nKk16V806/OnVxRS1oqnikjK0ByYrdM4PnlisiAuPS603kUCrXJe4jjY8kkgr+2K7MLTQ+B+YTvPV+j33A4Sya08FKuY2S4jFXPoSpvw5wj5OozJJcK3sPFCRwW5cwCRG693yI4WxZG4tB3736VIA/0LCk72jkE7yLei+fTruCJ0V4iMY0ExUHKKKjVhOC/lzvMaaeSKvFG4=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0740a3a5-aaf9-4752-b638-08ddfd2fbd53
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b892559-7119-4078-eca2-08ddfd2fbe50
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5647.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 19:06:03.9555
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 19:06:05.6800
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BlGRLzOC651Gm4lb1wgXudB1b8TDM6J0ca8HcnZDcl9vU5PXkEeZSUim30IOHMQpe7L8c01rs1PDc5VRjtFPIg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Is4oHxTMvym6tIjf1KuT5e55krHiTDCzpNPHsaUil9tS/dLyov/t2NkClyM4rNV4fCZcOzgR8wMJMZcJr42yBQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF0687F9010
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
@@ -166,54 +166,1385 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 suspec
  malwarescore=0 bulkscore=0 adultscore=0 mlxlogscore=999 phishscore=0
  spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2509150000 definitions=main-2509260172
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDEzOCBTYWx0ZWRfXwFlw2F9qJ4+r
- rOPqh6MMVoXj8LiFDvAjpjtse92unj2iLIeX57FsX/kciu0D6smQ+NS39zaJsc6VTNgzMpdgM9l
- Qnhu9SS0WQidVcQGhbcbSnnmY2sex3yu+8W6PozXnYeSX59iGw7k5EU8GRMtpS+UxEgWp08wzUd
- 9x58ltY1U++EXft61H+z+HjsLZBdaFJ2HNVIc4JzP7wdXaTrkHiglwgQN2OCgC1dLjIuGSkXjo0
- R2zKHPV/WXw4NkIkXaK1eyDLEp7af+qhf5MvO5cu6aw+MzdlAmGFeuB12/bEGECpFnNVfDAEXKA
- bdXFdNFiOXKFBuPxUxWq5a5YBwCSwWYY63p86+fCciJGiDnxkeOx9cLeCeCvsB8KNOSxwM3Se2b
- YdqHn85bMJHOzA0FiPn+cPmzULRHNbeaEntepn1sBmfY+HJ4xIk=
-X-Authority-Analysis: v=2.4 cv=P443RyAu c=1 sm=1 tr=0 ts=68d6e420 b=1 cx=c_pps
+X-Proofpoint-GUID: kCoyISNV5M7CfeCZnarYTHfMmPKsGmxS
+X-Proofpoint-ORIG-GUID: kCoyISNV5M7CfeCZnarYTHfMmPKsGmxS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDE3MCBTYWx0ZWRfX0Se6zt/t2eBy
+ yuu/BJ0944r88Xp6vwCTd+OuacpyruKEmPPEqkI74NlpFpR1cqsgU6dgNrW3iUahRRn1keHGyfB
+ JYgsvzwTbO/MV2L/CD2ojcMWpCjZqJXu1vcQeBYhsRFMItUpmPN1YAi96FzjvL2MLhqy4aTp6N/
+ 3D7/WY9N0PoxKMT1qi7ZhZNBdg3zETum8u1KigJVH2y++Tur8+IGpSywj9qF8OGqen5Owvbpclp
+ YYDmN57iqTixfYVvmPOPfQH7egosQBes1JKRXIKv0N6vM5V165Pg+fl+04c9iRgWZkSCu4e/6wk
+ x0qfbe12VE8WTAbBnwV0grpZppu+v6rHNCQAWJgyd6widWEbNi50IpXhrPHmnweDO9jFlANMLxA
+ fKxv/GImG/U53D9nXYFv1waFMF5EOhjo1Yn2PqwUaOesS6cVmuU=
+X-Authority-Analysis: v=2.4 cv=S/XUAYsP c=1 sm=1 tr=0 ts=68d6e422 b=1 cx=c_pps
  a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
  a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10
- a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=9l7YsGebT8sh33JRKo4A:9 cc=ntf
- awl=host:12090
-X-Proofpoint-GUID: i20NtWC60vpvR3Vs764479-NwjMhsX94
-X-Proofpoint-ORIG-GUID: i20NtWC60vpvR3Vs764479-NwjMhsX94
+ a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=ZPaTsSJx0e4PweTTZx0A:9
+ a=BQThsPIMUTkxSCMj:21 cc=ntf awl=host:12090
 
 From: Eugene Loh <eugene.loh@oracle.com>
 
-Separator lines are needed so that Markdown renderers recognize that the
-associated text should be rendered as a table.
-
 Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 ---
- doc/userguide/reference/dtrace_providers_cpc.md | 3 +++
- 1 file changed, 3 insertions(+)
+ .../reference/dtrace_providers_cpc.md         | 104 ++----------------
+ .../reference/dtrace_providers_dtrace.md      | 104 ++----------------
+ .../reference/dtrace_providers_fbt.md         | 104 ++----------------
+ .../reference/dtrace_providers_io.md          | 104 ++----------------
+ .../reference/dtrace_providers_lockstat.md    | 104 ++----------------
+ .../reference/dtrace_providers_pid.md         | 104 ++----------------
+ .../reference/dtrace_providers_proc.md        | 104 ++----------------
+ .../reference/dtrace_providers_profile.md     | 104 ++----------------
+ .../reference/dtrace_providers_rawtp.md       | 104 ++----------------
+ .../reference/dtrace_providers_sched.md       | 104 ++----------------
+ .../reference/dtrace_providers_sdt.md         | 104 ++----------------
+ .../reference/dtrace_providers_syscall.md     | 104 ++----------------
+ 12 files changed, 84 insertions(+), 1164 deletions(-)
 
 diff --git a/doc/userguide/reference/dtrace_providers_cpc.md b/doc/userguide/reference/dtrace_providers_cpc.md
-index fd08567c3..5128d8e8b 100644
+index 5128d8e8b..39b2ca6f5 100644
 --- a/doc/userguide/reference/dtrace_providers_cpc.md
 +++ b/doc/userguide/reference/dtrace_providers_cpc.md
-@@ -22,6 +22,7 @@ cpc:::<event name>-<mode>-<count>
- The definitions of the components of the probe name are listed in table.
+@@ -60,100 +60,10 @@ cpc:::cycles-all-50000000
  
- |Component|Meaning|
-+| :---    | :---  |
- |event name|The platform specific or generic event name.|
- |mode|The privilege mode in which to count events. Valid modes are *user* for user mode events, *kernel* for kernel mode events and *all* for both user mode and kernel mode events.|
- |count|The number of events that must occur on a CPU for a probe to be fired on that CPU. Note that the count is a configurable value. If the count value is too high, then the probe fires less often and the statistics are less reliable. If the count value is too low, the probe fires too often and the system is inundate with tracing activity. When selecting a count value, start with a higher value and then decrease it to get more accurate statistics.|
-@@ -32,6 +33,8 @@ Note that when you list CPC probes, example count values are provided in the pro
+ The `cpc` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
  
- The following table lists the argument types for the `cpc` probes.
+-<table><thead><tr><th>
+-
+-Element
+-
+-</th><th>
+-
+-Name Stability
+-
+-</th><th>
+-
+-Data Stability
+-
+-</th><th>
+-
+-Dependency Class
+-
+-</th></tr></thead><tbody><tr><td>
+-
+-Provider
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Common
+-
+-</td></tr><tr><td>
+-
+-Module
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Function
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Name
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-CPU
+-
+-</td></tr><tr><td>
+-
+-Arguments
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Common
+-
+-</td></tr><tbody></table>
++| Element   | Name Stability | Data Stability | Dependency Class |
++| :---      | :---           | :---           | :---             |
++| Provider  | Evolving       | Evolving       | Common           |
++| Module    | Private        | Private        | Unknown          |
++| Function  | Private        | Private        | Unknown          |
++| Name      | Evolving       | Evolving       | CPU              |
++| Arguments | Evolving       | Evolving       | Common           |
+diff --git a/doc/userguide/reference/dtrace_providers_dtrace.md b/doc/userguide/reference/dtrace_providers_dtrace.md
+index 1680c2a72..ef62c5040 100644
+--- a/doc/userguide/reference/dtrace_providers_dtrace.md
++++ b/doc/userguide/reference/dtrace_providers_dtrace.md
+@@ -315,100 +315,10 @@ If the actions that are taken in the `ERROR` probe cause an error, that error is
  
-+| args | Description |
-+| :--- | :--- |
- |`arg0`|The program counter \(PC\) in the kernel at the time that the probe fired, or 0 if the current process wasn't running in the kernel at the time that the probe fired|
- |`arg1`|The PC in the user-level process at the time that the probe fired, or 0 if the current process was running at the kernel at the time that the probe fired|
+ The `dtrace` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
  
+-<table><thead><tr><th>
+-
+-Element
+-
+-</th><th>
+-
+-Name Stability
+-
+-</th><th>
+-
+-Data Stability
+-
+-</th><th>
+-
+-Dependency Class
+-
+-</th></tr></thead><tbody><tr><td>
+-
+-Provider
+-
+-</td><td>
+-
+-Stable
+-
+-</td><td>
+-
+-Stable
+-
+-</td><td>
+-
+-Common
+-
+-</td></tr><tr><td>
+-
+-Module
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Function
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Name
+-
+-</td><td>
+-
+-Stable
+-
+-</td><td>
+-
+-Stable
+-
+-</td><td>
+-
+-Common
+-
+-</td></tr><tr><td>
+-
+-Arguments
+-
+-</td><td>
+-
+-Stable
+-
+-</td><td>
+-
+-Stable
+-
+-</td><td>
+-
+-Common
+-
+-</td></tr><tbody></table>
++| Element   | Name Stability | Data Stability | Dependency Class |
++| :---      | :---           | :---           | :---             |
++| Provider  | Stable         | Stable         | Common           |
++| Module    | Private        | Private        | Unknown          |
++| Function  | Private        | Private        | Unknown          |
++| Name      | Stable         | Stable         | Common           |
++| Arguments | Stable         | Stable         | Common           |
+diff --git a/doc/userguide/reference/dtrace_providers_fbt.md b/doc/userguide/reference/dtrace_providers_fbt.md
+index 727614434..885d59230 100644
+--- a/doc/userguide/reference/dtrace_providers_fbt.md
++++ b/doc/userguide/reference/dtrace_providers_fbt.md
+@@ -78,100 +78,10 @@ The output shows the internal kernel functions that are making calls to the `kme
+ 
+ The `fbt` provider uses DTrace's stability mechanism to describe its stabilities. These stability values are listed in the following table.
+ 
+-<table><thead><tr><th>
+-
+-Element
+-
+-</th><th>
+-
+-Name Stability
+-
+-</th><th>
+-
+-Data Stability
+-
+-</th><th>
+-
+-Dependency Class
+-
+-</th></tr></thead><tbody><tr><td>
+-
+-Provider
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Common
+-
+-</td></tr><tr><td>
+-
+-Module
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Function
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Name
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Common
+-
+-</td></tr><tr><td>
+-
+-Arguments
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tbody></table>
++| Element   | Name Stability | Data Stability | Dependency Class |
++| :---      | :---           | :---           | :---             |
++| Provider  | Evolving       | Evolving       | Common           |
++| Module    | Private        | Private        | Unknown          |
++| Function  | Private        | Private        | ISA              |
++| Name      | Evolving       | Evolving       | Common           |
++| Arguments | Private        | Private        | ISA              |
+diff --git a/doc/userguide/reference/dtrace_providers_io.md b/doc/userguide/reference/dtrace_providers_io.md
+index ff1d12887..a458ab284 100644
+--- a/doc/userguide/reference/dtrace_providers_io.md
++++ b/doc/userguide/reference/dtrace_providers_io.md
+@@ -521,100 +521,10 @@ The previous output shows that the USB drive \(`sdc1`\) is clearly the limiting
+ 
+ The `io` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
+ 
+-<table><thead><tr><th>
+-
+-Element
+-
+-</th><th>
+-
+-Name Stability
+-
+-</th><th>
+-
+-Data Stability
+-
+-</th><th>
+-
+-Dependency Class
+-
+-</th></tr></thead><tbody><tr><td>
+-
+-Provider
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Module
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Function
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Name
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Arguments
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tbody></table>
++| Element   | Name Stability | Data Stability | Dependency Class |
++| :---      | :---           | :---           | :---             |
++| Provider  | Evolving       | Evolving       | ISA              |
++| Module    | Private        | Private        | Unknown          |
++| Function  | Private        | Private        | Unknown          |
++| Name      | Evolving       | Evolving       | ISA              |
++| Arguments | Evolving       | Evolving       | ISA              |
+diff --git a/doc/userguide/reference/dtrace_providers_lockstat.md b/doc/userguide/reference/dtrace_providers_lockstat.md
+index 1cf06a5db..98affd838 100644
+--- a/doc/userguide/reference/dtrace_providers_lockstat.md
++++ b/doc/userguide/reference/dtrace_providers_lockstat.md
+@@ -275,100 +275,10 @@ It might be surprising that so many locks are acquired with the `date` command.
+ 
+ The `lockstat` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
+ 
+-<table><thead><tr><th>
+-
+-Element
+-
+-</th><th>
+-
+-Name Stability
+-
+-</th><th>
+-
+-Data Stability
+-
+-</th><th>
+-
+-Dependency Class
+-
+-</th></tr></thead><tbody><tr><td>
+-
+-Provider
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Module
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Function
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Name
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Arguments
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tbody></table>
++| Element   | Name Stability | Data Stability | Dependency Class |
++| :---      | :---           | :---           | :---             |
++| Provider  | Evolving       | Evolving       | ISA              |
++| Module    | Private        | Private        | Unknown          |
++| Function  | Private        | Private        | Unknown          |
++| Name      | Evolving       | Evolving       | ISA              |
++| Arguments | Evolving       | Evolving       | ISA              |
+diff --git a/doc/userguide/reference/dtrace_providers_pid.md b/doc/userguide/reference/dtrace_providers_pid.md
+index e403d6c94..c0c7bbb9a 100644
+--- a/doc/userguide/reference/dtrace_providers_pid.md
++++ b/doc/userguide/reference/dtrace_providers_pid.md
+@@ -177,100 +177,10 @@ We probe on the chosen instruction, using both a relative offset `foo:4`, and an
+ 
+ The `pid` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
+ 
+-<table><thead><tr><th>
+-
+-Element
+-
+-</th><th>
+-
+-Name Stability
+-
+-</th><th>
+-
+-Data Stability
+-
+-</th><th>
+-
+-Dependency Class
+-
+-</th></tr></thead><tbody><tr><td>
+-
+-Provider
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Module
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Function
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Name
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Arguments
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tbody></table>
++| Element   | Name Stability | Data Stability | Dependency Class |
++| :---      | :---           | :---           | :---             |
++| Provider  | Evolving       | Evolving       | ISA              |
++| Module    | Private        | Private        | Unknown          |
++| Function  | Private        | Private        | Unknown          |
++| Name      | Evolving       | Evolving       | ISA              |
++| Arguments | Private        | Private        | Unknown          |
+diff --git a/doc/userguide/reference/dtrace_providers_proc.md b/doc/userguide/reference/dtrace_providers_proc.md
+index 24b18fc78..40903775d 100644
+--- a/doc/userguide/reference/dtrace_providers_proc.md
++++ b/doc/userguide/reference/dtrace_providers_proc.md
+@@ -695,100 +695,10 @@ Running this script results in output similar to the following:
+ 
+ The `proc` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
+ 
+-<table><thead><tr><th>
+-
+-Element
+-
+-</th><th>
+-
+-Name Stability
+-
+-</th><th>
+-
+-Data Stability
+-
+-</th><th>
+-
+-Dependency Class
+-
+-</th></tr></thead><tbody><tr><td>
+-
+-Provider
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Module
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Function
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Name
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Arguments
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tbody></table>
++| Element   | Name Stability | Data Stability | Dependency Class |
++| :---      | :---           | :---           | :---             |
++| Provider  | Evolving       | Evolving       | ISA              |
++| Module    | Private        | Private        | Unknown          |
++| Function  | Private        | Private        | Unknown          |
++| Name      | Evolving       | Evolving       | ISA              |
++| Arguments | Evolving       | Evolving       | ISA              |
+diff --git a/doc/userguide/reference/dtrace_providers_profile.md b/doc/userguide/reference/dtrace_providers_profile.md
+index 2fcc13213..bcc8c64d2 100644
+--- a/doc/userguide/reference/dtrace_providers_profile.md
++++ b/doc/userguide/reference/dtrace_providers_profile.md
+@@ -156,100 +156,10 @@ A time interval that's too short causes the machine to continuously field time-b
+ 
+ The `profile` provider uses DTrace's stability mechanism to describe its stabilities. These stability values are listed in the following table.
+ 
+-<table><thead><tr><th>
+-
+-Element
+-
+-</th><th>
+-
+-Name Stability
+-
+-</th><th>
+-
+-Data Stability
+-
+-</th><th>
+-
+-Dependency Class
+-
+-</th></tr></thead><tbody><tr><td>
+-
+-Provider
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Common
+-
+-</td></tr><tr><td>
+-
+-Module
+-
+-</td><td>
+-
+-Unstable
+-
+-</td><td>
+-
+-Unstable
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Function
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Name
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Common
+-
+-</td></tr><tr><td>
+-
+-Arguments
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Common
+-
+-</td></tr><tbody></table>
++| Element   | Name Stability | Data Stability | Dependency Class |
++| :---      | :---           | :---           | :---             |
++| Provider  | Evolving       | Evolving       | Common           |
++| Module    | Unstable       | Unstable       | Unknown          |
++| Function  | Private        | Private        | Unknown          |
++| Name      | Evolving       | Evolving       | Common           |
++| Arguments | Evolving       | Evolving       | Common           |
+diff --git a/doc/userguide/reference/dtrace_providers_rawtp.md b/doc/userguide/reference/dtrace_providers_rawtp.md
+index 39f4f00f5..d85dd45a8 100644
+--- a/doc/userguide/reference/dtrace_providers_rawtp.md
++++ b/doc/userguide/reference/dtrace_providers_rawtp.md
+@@ -21,100 +21,10 @@ sudo dtrace -lvP rawtp
+ 
+ The `rawtp` provider uses DTrace's stability mechanism to describe its stabilities. These stability values are listed in the following table.
+ 
+-<table><thead><tr><th>
+-
+-Element
+-
+-</th><th>
+-
+-Name Stability
+-
+-</th><th>
+-
+-Data Stability
+-
+-</th><th>
+-
+-Dependency Class
+-
+-</th></tr></thead><tbody><tr><td>
+-
+-Provider
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Module
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Function
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Name
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Arguments
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tbody></table>
++| Element   | Name Stability | Data Stability | Dependency Class |
++| :---      | :---           | :---           | :---             |
++| Provider  | Evolving       | Evolving       | ISA              |
++| Module    | Private        | Private        | Unknown          |
++| Function  | Private        | Private        | Unknown          |
++| Name      | Private        | Private        | ISA              |
++| Arguments | Private        | Private        | ISA              |
+diff --git a/doc/userguide/reference/dtrace_providers_sched.md b/doc/userguide/reference/dtrace_providers_sched.md
+index d4cd546ce..68bcdf715 100644
+--- a/doc/userguide/reference/dtrace_providers_sched.md
++++ b/doc/userguide/reference/dtrace_providers_sched.md
+@@ -814,100 +814,10 @@ The output histogram named `tick` shows that the clock tick is firing at a 1 mil
+ 
+ The `sched` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
+ 
+-<table><thead><tr><th>
+-
+-Element
+-
+-</th><th>
+-
+-Name Stability
+-
+-</th><th>
+-
+-Data Stability
+-
+-</th><th>
+-
+-Dependency Class
+-
+-</th></tr></thead><tbody><tr><td>
+-
+-Provider
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Module
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Function
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Name
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Arguments
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tbody></table>
++| Element   | Name Stability | Data Stability | Dependency Class |
++| :---      | :---           | :---           | :---             |
++| Provider  | Evolving       | Evolving       | ISA              |
++| Module    | Private        | Private        | Unknown          |
++| Function  | Private        | Private        | Unknown          |
++| Name      | Evolving       | Evolving       | ISA              |
++| Arguments | Evolving       | Evolving       | ISA              |
+diff --git a/doc/userguide/reference/dtrace_providers_sdt.md b/doc/userguide/reference/dtrace_providers_sdt.md
+index 212d3f886..442911fc7 100644
+--- a/doc/userguide/reference/dtrace_providers_sdt.md
++++ b/doc/userguide/reference/dtrace_providers_sdt.md
+@@ -42,100 +42,10 @@ The arguments for each `sdt` probe are the arguments that are specified in the k
+ 
+ The `sdt` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
+ 
+-<table><thead><tr><th>
+-
+-Element
+-
+-</th><th>
+-
+-Name Stability
+-
+-</th><th>
+-
+-Data Stability
+-
+-</th><th>
+-
+-Dependency Class
+-
+-</th></tr></thead><tbody><tr><td>
+-
+-Provider
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Module
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Function
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Name
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tr><td>
+-
+-Arguments
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tbody></table>
++| Element   | Name Stability | Data Stability | Dependency Class |
++| :---      | :---           | :---           | :---             |
++| Provider  | Evolving       | Evolving       | ISA              |
++| Module    | Private        | Private        | Unknown          |
++| Function  | Private        | Private        | Unknown          |
++| Name      | Private        | Private        | ISA              |
++| Arguments | Private        | Private        | ISA              |
+diff --git a/doc/userguide/reference/dtrace_providers_syscall.md b/doc/userguide/reference/dtrace_providers_syscall.md
+index 3eaac4897..880b7de69 100644
+--- a/doc/userguide/reference/dtrace_providers_syscall.md
++++ b/doc/userguide/reference/dtrace_providers_syscall.md
+@@ -21,100 +21,10 @@ For `entry` probes, the arguments, `arg0` ... `arg*n*`, are arguments to the sys
+ 
+ The `syscall` provider uses DTrace's stability mechanism to describe its stabilities. These stability values are listed in the following table.
+ 
+-<table><thead><tr><th>
+-
+-Element
+-
+-</th><th>
+-
+-Name Stability
+-
+-</th><th>
+-
+-Data Stability
+-
+-</th><th>
+-
+-Dependency Class
+-
+-</th></tr></thead><tbody><tr><td>
+-
+-Provider
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Common
+-
+-</td></tr><tr><td>
+-
+-Module
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Unknown
+-
+-</td></tr><tr><td>
+-
+-Function
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Instruction set architecture \(ISA\)
+-
+-</td></tr><tr><td>
+-
+-Name
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Evolving
+-
+-</td><td>
+-
+-Common
+-
+-</td></tr><tr><td>
+-
+-Arguments
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-Private
+-
+-</td><td>
+-
+-ISA
+-
+-</td></tr><tbody></table>
++| Element   | Name Stability | Data Stability | Dependency Class |
++| :---      | :---           | :---           | :---             |
++| Provider  | Evolving       | Evolving       | Common           |
++| Module    | Private        | Private        | Unknown          |
++| Function  | Private        | Private        | ISA              |
++| Name      | Evolving       | Evolving       | Common           |
++| Arguments | Private        | Private        | ISA              |
 -- 
 2.47.3
 
