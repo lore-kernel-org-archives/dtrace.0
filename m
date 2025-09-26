@@ -1,77 +1,80 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BC81FDA8E
-	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D366923C50C
+	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758913569; cv=fail; b=aAiiqpZMwyVVr2HUNaTO5WZS6mj0BK6FsE4Iq6rYkU8YFsZ4YPU3Ifz3k1KCrn4/KtYr4v0H0PcYqtHIJvVJLbPSf8ArC+Z537xeJkmi5gUC6hLHnqpEBfwz19IR1dAcQJ8rAq5N88uLfxnWmlFQ+7CMBC+HpZJkVy1Me7NYy48=
+	t=1758913570; cv=fail; b=KR2xze5xAdVIs5B17RSgS3Ge/2IZSvMk6FDE956DFlpOU5dHXhaqQYnFdkYe+91QaUv0InRUPZCDNKm5BqPzS8FiNXj9HdtM2ZxBXA1obqCWjIHjFYoOQkFarKY6NpkVSdoY1/Xs9Xue8vDyFcCJPrhBE1m0kV+KR+NfshhZeyE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758913569; c=relaxed/simple;
-	bh=I4PEiovxThd6PdOfLB0YaaTpYs8dsQfGTRJ3qkvIAYI=;
-	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=gG5XgfM5J5d34cGWgSE9HkGBnQQ5QTVpwMBjSSd5rU80BFylIP4D8R7OKPErLUrW2qgkxrxtUL8Wv1uxY1kA4wh1dMjqEhxjkXwYUVX1lP1zOhGTj3e2KRUp+RZHYjcMSO7UAVMVP3b2n/Z8Yy0MQR2woSNolF2PXa14bEmzU3k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=gAgiUTZ0; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=CIDm4e0q; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1758913570; c=relaxed/simple;
+	bh=vCBdl9QZUxKqUKuBZwiRZ4UsFKNVApR1Q4u0E6g8zOU=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=cNEzJWF/xZ3G6x+baNRkGe6ei2kFEu6DLfzGVtGsNwdzy4ZjuUf7mJSV05QmEnLasDwUX0A/Qtb7J9edS6df3+cLmXcTNlJU1Y8XCQyKHUok+S9TavuJpmqL0gFzsQsdUNHj2Rvtqn/4UgWVnztkSa6vjcNNdw3o/20FqIlStWk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=fnuFITXS; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=MGuePdix; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="gAgiUTZ0";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="CIDm4e0q"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58QIieTs013579
-	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:06 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fnuFITXS";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="MGuePdix"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58QINNrj006581
+	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-type:date:from:message-id:mime-version:subject:to; s=
-	corp-2025-04-25; bh=prLpIkAqMhxa5dyCyI4UPKQVYR7ls92dKMwVZlQQFVk=; b=
-	gAgiUTZ0f1FI4KoBgkyIYx/IXTXo/D4F2mCNvlEq3e4uxniIJ7z5tZb7u26mptKq
-	QWUXXAb8GgXQiSBZ/XmNo8TitlHFx/CYriWe7KiAdowHsJsM6iBYr0Wf71dZ8/E5
-	1V692bs4NpS4C9EQwBUM1vQQPVpOPkui75UotKmaj3E1u/3+y+JCvF5cy3E0WPrT
-	u3gBQqe2H/CGAic9WJHW3+g7B7PCVVGSf0HZ8TQImlWRB8Q1Uemh5q4tTjQf185t
-	NLxW70U5Yrr3PgdBkXMbYG6zqIWq7QocvWUUw+uyx/tr2psITSrYJjbKr/8Ggl6F
-	uioSdKYaDOcwQw8lpnjNRg==
+	content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=cwzO5XfYnNCyoGejpo
+	Bo7gTCdzfyVi7f1jGBwgo3j1U=; b=fnuFITXS7xks72L6khD+m9yYvFjdg2xh09
+	MyxLGQE4mjQ6HZf768kl0bW+MnQmoNRtp4pkM/ukL6aThSy3OZcRWlTFa2GtuK7+
+	fi+vDOZsN8UPk10Kyff7+hRIlZPulyB7SMDEzH4XUYq6xMWTW+mVnMz9w3V3YHJp
+	tHsAbyWL9LytC6u+SJgTzqfxrDYq1rRYUeWww0CnS2A13u9LSRZmDkpo8qXcAYDM
+	BbyTuOUSr85EvH5CkbtNopsJBL4jy28FaRuAIk6HPghTTK/spNwrZPtgpUQknQkw
+	FIL/dH81s986M6dgH7xIL5izZnQYsiWkVBHkxY2oQZFLHCIycLgA==
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49e0cfg0xm-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49dw5a8eeu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:05 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:06 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58QIJb1W020812
-	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:04 GMT
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58QIJb1Y020812
+	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:05 GMT
 Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11013064.outbound.protection.outlook.com [40.107.201.64])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49dd82xntm-2
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49dd82xntm-4
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:04 +0000
+	for <dtrace@lists.linux.dev>; Fri, 26 Sep 2025 19:06:05 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KU7WwS4Wxqghua4abjpfaGvcQVX9pkBgxr0R8ufXOa48RtU4n7lRfL/7b3jRBRaTO0jK3rosKVRjyXvxpK6zwxXrvSBy2qE6/VSDjtfGkL9VlKC20qCTxiTnMIHVMcw1Dl6IimA6ujrTtuHvPnR+T+6Xz20+VRJdyGsNfsmNtqqQboQxHDoBOCVBFvlzWcCwDbPERmNKdheedzDClxqNS7BcrpkU2vI5EPgdEMcarJcCB0BlfwM9ylNX/MHMZNt3StB5naJwiKPzth44TmDWNcfGqXo0eCJgJMC17A+/HFu2Cn4F57jiuFCCzsdOG2PPowHlPayvQiuKGms/kDBVtg==
+ b=NQ1LunrbC98bayfrZER3Ka1HE+dtl1lqWHxdTxbYbnYZaByGOYmhuvgv2QYIRBAGeBOqdPGPpgiPzLUyOW8zuuBA9+CszKOKP9wWwBjWrYzk76QbdDjmJU6ROEzsibdktaxzNLVb0wjwcNm8+VtcSJ5b5sn5L73FVD3BSLLbavBe3oTueQMHiGSPXYCwRsR+9uycF/1CmIkUBJDQ5snZ1+fEHL7KE4PdZBTLsie5niEAM4WNFd8xjdAcERm7cJjJ6RjeWYQXFnR8ZbytRSsPtmcW+3RDIQ0YhQQz3L5/U9iXlRgFfaKvnlWSbgsa1tHrj3eeHx6vk2pfCbeGdzXEtQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=prLpIkAqMhxa5dyCyI4UPKQVYR7ls92dKMwVZlQQFVk=;
- b=SBYtMXLFfzWCMCWSFZDT3135HcbXb5mHqUrcovDvI2aKV6VI1+rH9/qsAs2uAZIfYXG/gIsnv/MmF8pEhJiQ3U4X6iXgiKWtr43Appr+5tAkwo1OBHefOKhWZ6cEuvG/3xBj2VxQGMvlbOwH+V2T7N/9tr5oxlgYW7TRmefcT6zykAz1MipIXe0SJEdwS35DEjGeY8rJm7oQbrbUMr06x0Mxutl/PCNnQ/SQ13lQprCUXpvuoN2BLaUlyXCPOkUBez1SKhtysD9GY46WMvYAI2V+5PR6pBgn83RB3bCcV/L9zUV78z2Hn4ERCBuP1bVbvk7gjk3EeaFNh2gtfq0VKA==
+ bh=cwzO5XfYnNCyoGejpoBo7gTCdzfyVi7f1jGBwgo3j1U=;
+ b=lEPi11UBZV1S359XdC721PTv2xDGIAULnhBHEZDQjAbYWRrptIkGVaUCRyPoIqaNxqCEdQPl0xUvB/2zintpmsb33hvTz95TBF3na80M1fNJ7xHEp0wbRFU5kbS3ZOv2dG7+nbhUpSS8YAG7yiwSOjia2RknVBbJtFK4hgzY3Zwt3PAnvGUQjBS/vSw82F+Xo9GRp/IPvf2qZ159ulQ8NzVJSnBwdxQU9GtmSbAoDBirNmrLBDjCW0JZ2V6bQPC3EVrwZDpGFrKBwMvn2Gj8hRDOISuI+bfnpxPmGeJ9kmF8AVLEKNVx6EK5iLa+4k2MopZtDA1/1H9Y1m/vyLv2HA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=prLpIkAqMhxa5dyCyI4UPKQVYR7ls92dKMwVZlQQFVk=;
- b=CIDm4e0qus5R2hJQDm7aUaIh4FjZ0hFWblg+weCtjA3T20ZKq2f++4qq8nVo8l7ROVTDSNGuSCcqaz6DMeLD8l+pOhoubQ/1saXrNuM/VkCFpBrL/96UH26QIltqs8od6/WS8oSGEcl1zMjh+NUCzKFAsgBG3RkkTCehSuFGiQQ=
+ bh=cwzO5XfYnNCyoGejpoBo7gTCdzfyVi7f1jGBwgo3j1U=;
+ b=MGuePdix4NqNDW6v76kg66pe4Ctb+SW5FwdMNugBOTLlhp3P8RhvGlHCVAuhQY4NrMeDS57UYPK6RyYnJbsdsrZtN3eLKKELf11yjq9LJJszmksG2AaCiiydqAgkGCTEBfwhcmv0+PxBPPnZZTRHxj0k0gwkvnGAkjbtx+Ikp6M=
 Received: from SJ0PR10MB5647.namprd10.prod.outlook.com (2603:10b6:a03:3da::17)
  by SJ5PPF0687F9010.namprd10.prod.outlook.com (2603:10b6:a0f:fc02::786) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Fri, 26 Sep
- 2025 19:06:00 +0000
+ 2025 19:06:02 +0000
 Received: from SJ0PR10MB5647.namprd10.prod.outlook.com
  ([fe80::8db4:df1d:6afd:e4a7]) by SJ0PR10MB5647.namprd10.prod.outlook.com
  ([fe80::8db4:df1d:6afd:e4a7%7]) with mapi id 15.20.9160.011; Fri, 26 Sep 2025
- 19:06:00 +0000
+ 19:06:02 +0000
 From: eugene.loh@oracle.com
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH 01/20] Fix comment since pkt_addr is not NULL
-Date: Fri, 26 Sep 2025 15:05:38 -0400
-Message-Id: <20250926190557.8485-1-eugene.loh@oracle.com>
+Subject: [PATCH 02/20] doc: Add a space
+Date: Fri, 26 Sep 2025 15:05:39 -0400
+Message-Id: <20250926190557.8485-2-eugene.loh@oracle.com>
 X-Mailer: git-send-email 2.18.4
+In-Reply-To: <20250926190557.8485-1-eugene.loh@oracle.com>
+References: <20250926190557.8485-1-eugene.loh@oracle.com>
 Content-Type: text/plain
-X-ClientProxiedBy: BN0PR02CA0056.namprd02.prod.outlook.com
- (2603:10b6:408:e5::31) To SJ0PR10MB5647.namprd10.prod.outlook.com
+X-ClientProxiedBy: SJ0PR05CA0169.namprd05.prod.outlook.com
+ (2603:10b6:a03:339::24) To SJ0PR10MB5647.namprd10.prod.outlook.com
  (2603:10b6:a03:3da::17)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -81,80 +84,80 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ0PR10MB5647:EE_|SJ5PPF0687F9010:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8070f22c-c1cf-4775-90ee-08ddfd2fbb17
+X-MS-Office365-Filtering-Correlation-Id: f13cbcec-60c2-4f83-0f01-08ddfd2fbc3d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?CcGskMuEoTrFqwboODoEeVT6LtgfCJ/X/O589A0gftmHAo2frYPAXG7ObUJk?=
- =?us-ascii?Q?FxiviQLkIAhKOUSZvun/ktcyoRb+ECY6GpNzNYQJCDiV/AAf52CgAl/T+K6c?=
- =?us-ascii?Q?rDLFK/6n2U3fqXeX+SH7LVHOYtjepvX2OukqNVYmUDLNTmEg08e+PcyaC8e5?=
- =?us-ascii?Q?AAv7lTDTsZ62GGF/hPzb4yBG3z7m7pRTmQQ/17AJ27ZKMO1IRFIZo0jJeHYt?=
- =?us-ascii?Q?ktaKUZiLk3kusMfsbVCHe9QJV3pPtwUc1naS9aMqwgtOH/9f0I8rZv0DvrK/?=
- =?us-ascii?Q?YLbI0XN18As3keRsBzwDBBGv2RAJW6FK10ElOTYlXnxGGkyWtggyp2lII1Z4?=
- =?us-ascii?Q?IcolebLoeAgcLBSTAQ2im0CEat4JO20ApltomIVCL+zs+GumA5wY+NLBC9c7?=
- =?us-ascii?Q?6Z7qZSkE69lMbtO7Z5V98Ya+SB7i9ItHxCyGBSgXrPn+03HBv8SB2C9ShS/H?=
- =?us-ascii?Q?e1z5G7YU13m0V7AHr5HCkBhzXlZOkBIM5xEayKra4AJ6iWm0rAWb6JjNXhXa?=
- =?us-ascii?Q?pvvX9NnXHsNmxaioL3vQszDU8sa4Lgw3P/BN0bOpfYlQDrFc4jY05JDPlDve?=
- =?us-ascii?Q?7RM6yDfr1vVLnI9elLh+rfkLQz0sjDpGsX2HglyWEB0mmUQpChzaaiuzlEEb?=
- =?us-ascii?Q?rLa/DaYjlxWRQ4O6jzgqtiR04Bm2kyTU4Q0lb/liCp5JPEtU17r66xtevlIA?=
- =?us-ascii?Q?6yc9FGM4uoaUHk0Nwlh5ukstcEZ5aokmX9jt6OYkM/AS4Ia7jTGcV6H6jP6T?=
- =?us-ascii?Q?X3SLxXCPjZlRlJtK+juQZtaBRJlcMHh6dlnM7Fa6ojc6AeJhnKBmnp8I2hH6?=
- =?us-ascii?Q?qNvXtYLJH6fDBjFZmFwrHhmWvlfv5SSs6MYLjklJAZbiddrRKrL+b3jw2ea5?=
- =?us-ascii?Q?2YBzqjzO5jYk4ZH+PMkENH7t10zkUtt8GoYSqEy8jO9ScOzzrQLnY7/In/Nl?=
- =?us-ascii?Q?ARp1BKeQTtqjyDQ1C0D3in5bz4GENfNkarmE5k3KVkLaaQZbb+dfqJmAbrHO?=
- =?us-ascii?Q?4K7BdbLueXOQ3DleV8xkth7bGPVO+u3TQfP4o6teiHWn70thLd5hxOVuD+Dr?=
- =?us-ascii?Q?ZVbusCBO8QlT/YZ3hiXcsVWpU1B66JEh+jdQfBOrebh8C6BcYKMNeLkwVmkD?=
- =?us-ascii?Q?4D2CShIWgwqjxAStRz4ADDs1twwM5EL/2UQoGnk2uQK0c48Fhzv3ZB1fhyTf?=
- =?us-ascii?Q?+2NpfFY8N+ZFOBDuBnmAyWKyaTxvY5DTQ9uDSrIAe+1CpDg01X4BCS/A8zYo?=
- =?us-ascii?Q?jhG39/UFaPZQaujPK5636WjaTb1LScWxd7MvCeHNj10Hf6wDllSmBaV5bAjl?=
- =?us-ascii?Q?Q1zDOSDOdIq5jgNSc7QfIQv6D30hEz4eqyLDpb0/ztB8OHdv1fdx4cQqZhS7?=
- =?us-ascii?Q?ZwaQGgyxc6Ijj/MyK438kfFuskcni62EzMnjO9SckJPfxZKNdaTqRTeRM1+G?=
- =?us-ascii?Q?V5rObzOMcRE+O3SqCdI8IJczXtyGvDQf?=
+	=?us-ascii?Q?OEJrCHwPgJgCcO40mzQ9UcZRY9RDh/Pbo+/apQljRPYp3oiQBW4lDova+NQS?=
+ =?us-ascii?Q?Zm+TqciPiNHlloPgIrPs5dgVMOC7a5kEMN+qyDw+NK9Bpawztyhin12kPuO+?=
+ =?us-ascii?Q?JQUJnunUbcxET6r9x/zq7zhsYgyMQKNfLcjz1uX7oM/B30+TkmAVevJblT+/?=
+ =?us-ascii?Q?JZJBuyap4COCOMRCzY5zKtDXbXaeQl4Tg226Lk1ZjM76kkGbLKSDPMWXv7H6?=
+ =?us-ascii?Q?sAz7FiyvZnZJSO+XZ9VqVCnfSd45OCW8FnR6iYBaCbqOWc4aoi078Jzr07Mx?=
+ =?us-ascii?Q?ApMBcHLUDk9075tvZgf2VuGW0LtOcHMP8f99nRu6BfCv1OkbWtIGSgexXaX9?=
+ =?us-ascii?Q?llLyYZemBlwugIdQuQ+RYP5PR2hdqzB+1kS+6wsubh/8FVK0iNcC/n40TWBN?=
+ =?us-ascii?Q?KpdHtKrhj5uDtpIDD3CEL8Jt+yyGks+OLEkoTGL28uhjhET4JFnr/doQ9+T9?=
+ =?us-ascii?Q?n2LhajOvZVgGHE9UmTnqGCGuj/TrIKhaslJ8j+xLAGD7ICW1v73cMvOdskum?=
+ =?us-ascii?Q?ETGOd3WcaVYTun9coE69Eg+w1tIR2tikPjjBLo8EURn+Oe5PCrdZZW334YRV?=
+ =?us-ascii?Q?79a4nXMYAUGCDgG9fBJXzTVm7dqE8J8th4chKvKdKj0l+lqOSRNUQvlhjvNq?=
+ =?us-ascii?Q?lnuOuRRYT2h31f5xlEM7gYI5W3RXaWPdn5bZjf0U2zGBUop7ejU6we3sYhWv?=
+ =?us-ascii?Q?vaKPU2LyyqBAHM04/jMUQ13/KqbptGbvZqX6g4DSwcdtb03c6oXMe9jn2Zhr?=
+ =?us-ascii?Q?9/E/9AjgfD/wR8FiFvqyZ5rfrAk+yjDcDfUELBWSb3Ant8P74znq2Lyvctuf?=
+ =?us-ascii?Q?LQbf93aZ/mcyj5+Vi42Bhda5ECj1l5Wx3/RIcItvZHWhZ0QkudKrE5uijRjv?=
+ =?us-ascii?Q?8u6w31nnsXOPjjuAsiMr8rME81eIZEemMjYvu5en9ijSdE/yx16yt68rDC1e?=
+ =?us-ascii?Q?+8rQj5lExnG35V11bl6ePrfc3ILfaIVRdroNr1NXqYuTSmBw0McpOdOX0TUH?=
+ =?us-ascii?Q?uPxkSMZ3ZL53EP9cW93VlwdRyrKXF7lOHMELYUL0+4QZoUxPPu1fuBXdKbKh?=
+ =?us-ascii?Q?hUBTe47LAtn09+G7lVB2i4gPxO31naDd6mHtcn90OtbxqsYnLQvKpNEuai+1?=
+ =?us-ascii?Q?FU65CQ3vNV1wTUSkc4SlxQptYKrw3aOMNFfCrEHi2g/gKEvGRrea9ZupD2zI?=
+ =?us-ascii?Q?UONMBQzpN9P1nKRmP8A4ovUX0iA4m3WNf8E73ArY49P++A79W93GFydl64So?=
+ =?us-ascii?Q?Jwsy6kxMMjk8UXgkBGI2dS0HWhxNDP5U8UJ9cbGVM9oHTDR61Sves1Mu5K4I?=
+ =?us-ascii?Q?UR4LjqotwdsctzH8p4ak4APhuEmKroEQGLHBnm7KVFoGMQ5ERX+MMU8hH40y?=
+ =?us-ascii?Q?E3d+3txeSGdQy8+OY3I2265W5yDTyKGFWCpbhJxEB4C+GKYt/hPE0BMqdb/E?=
+ =?us-ascii?Q?ODrCCde0f86o1t1ey/CsjVXDRftkvDOz?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5647.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?lyW3np26XzJp79Wk9Ndkkk2ZccVSoL9TMNhdcwMOd+hq681LlhQfn5HkLH3f?=
- =?us-ascii?Q?JLaBDeHB/hRzBFVM8Ma3PgAe1Mm7+jUwgxKJCilsRQNhEoMUvAylHkbWjnJI?=
- =?us-ascii?Q?HdRQztVIU//Ykc7CscXQI6GIDNWTBqaAI6zZXrtJ0H/WgLebmCrhzmCdLBwW?=
- =?us-ascii?Q?t8apu6hhI5FGbcN9YTRTTZCu4V+axcPj+NoRKofOaRcPO0d0ALnye0wIRQpv?=
- =?us-ascii?Q?ZbrUlpVC7xFCxF4khqt/xVLLJ9RFLdu04VAd1SPWLlDNVWmlSxLawsEDI81l?=
- =?us-ascii?Q?ip8dLYnJxjWVOW9jW6Z2igk9Ij0izZyrUHQ5NzG6kah7Jnl/exAiyV4lR33h?=
- =?us-ascii?Q?PifIZIwaqls3iRcVfva3JzJVBj3iLwyY7wxJFm90m06zvW0t7pl1mKcHZLg4?=
- =?us-ascii?Q?rVZ236ROeWfMwmJgZgngKaCvn0msoI6MvdWu0CKtYHu/m0qO/HOTsuK4yXiR?=
- =?us-ascii?Q?W7lM7+SuldqObokYvh7N0u06hH8u0vMZtdpHaOlVoGmKd3/+cK5RubgyP//L?=
- =?us-ascii?Q?lGCOHHLU4IP+7pkIfiBtTgLlKMBJi60POW5B2nCBAimZ8GRShbsE8IrB8D2D?=
- =?us-ascii?Q?rcdoLgjunW1JkjHaqpi9ba0T+Fu5+Knvb6nTFI6i7hOxiDKJwIxsotZOU5zU?=
- =?us-ascii?Q?y4Guqa8ho8pxfNWEn5Xm5TO+D97I/TfezVAx5hMTvXQhjtYlQKE4JJC3/kt3?=
- =?us-ascii?Q?W7KpIy85iDsy4cyk46K6JWFIZrBAMMpWlNPhA1JuDOARkg8Dn+Vd4n7Plszu?=
- =?us-ascii?Q?MCCaHq+sg471//kRvCdArQHRXGMI6cfMfDftr7lippo0WUpfWp7+bq04KkrO?=
- =?us-ascii?Q?uPWOXnNDJjc8yXxjwJDM8nTXZRQ2rUHzfFL0gCluAKmJESKtap8jVFm1uqi9?=
- =?us-ascii?Q?qghBqZN6ZUBPUWvQuxaOV70WpL3s1Dp0ahakYkq7wPN2PwEVKQ3YPjYkhbvz?=
- =?us-ascii?Q?rgsunMRolIpMH6u+dnMtLQkT8Ujft6ov5gIYjJEDPImwoAfrJBMOHvJHRCzR?=
- =?us-ascii?Q?wZsckcJuCkroq8g/dG3EM9IBsVPZ9V15d96NeDATWSjyKbEk51yVUc0pEEm3?=
- =?us-ascii?Q?FJR0Q50dVQwsr8Wqc4X8bGle+Tn8obQH8FCQlPZtoZcE96qSgnUzbcfZO2Lq?=
- =?us-ascii?Q?UCCcflcUVug+0NSM1vvaV2MNj87U7RSxRORiicyWpA5NxRvWuz3axdH5sC5g?=
- =?us-ascii?Q?xKh2yVftw6mMHrqaQeLgo1sU4qh1VLsByE9IxOLl1XVyldqK5/otoBFmP46a?=
- =?us-ascii?Q?wU3ZZ65PyPg1kJZJsbN0rlVmsZQOLcAs2p7/iu87qjzJil3ymGU73V/AWmFw?=
- =?us-ascii?Q?clDMKazdR7EgUgnKXvDdud4tzsuneUmrqnkW6a1p84uatxgsODQvK29ng3JN?=
- =?us-ascii?Q?KqcoV56QgGTwPB9xNOH5BXopss2pzUMYJO6Yh1RlGv6xLly18YVwV3OZ5TD+?=
- =?us-ascii?Q?/SHzPhBUTC/Na0pKXP0A9zCOW/dK9lPEoRjAB2LterI444AxJ27bI1fqM0GE?=
- =?us-ascii?Q?+KL4wEm8nCLm0Qr5VemsbkjoLYKgrs0MYZGH9MpJaim6FGAMHI/16tTdTBcV?=
- =?us-ascii?Q?qN/y/R7lkJI6NvgFNP/FuH93dihoLq8FxLCQ8zU/?=
+	=?us-ascii?Q?PlOd/RoeasSB/Z8XV+qDlccTZMIV3ozMI7Z/VGbS44sUxuyppwNoKqnmyCW6?=
+ =?us-ascii?Q?9EktH2+Vk0k9paEYAgjJY5MNhWlFs8+f48OpsjYVWjErvy5qgs17jeKwnnzv?=
+ =?us-ascii?Q?i2CA70CLH7pQnw/M1iuTLJ2y1hR+75Me39qZ3UrUT9rYL458squX+30soxao?=
+ =?us-ascii?Q?i+IFMfsnzQ70aG/2GlNm32IRCU0t9IfpEZ+KXDzQUFJbSYiUOe9f28o7lQhG?=
+ =?us-ascii?Q?gXEz+IhU8TvUo3JUkwHew/sz+lOsxyFeIkQQ+RtEqx14q08Q88STtgVkpID0?=
+ =?us-ascii?Q?HX0su/6Bb8Yl2eC3IpRtgDCEDX8OAlmS6KjMS6JhOjbN+B7LWhmAFG8yy+TM?=
+ =?us-ascii?Q?FpBtFrZOTqgHJzgB1qCtl1Fa73pOFTGUgrOVtizd46rP5J5Yt8sBywihAt9A?=
+ =?us-ascii?Q?T+uNIkXVo86M71HBuzYGSMy2CzeXiKOFRuq9Smb5yHgsTeCKPYLTGL2RqsXs?=
+ =?us-ascii?Q?kjmdGZk9tkZX3jJmP+RPA3UgjQ6ltFrKsbYz4bBmKHN6aeyoNvjWSiLqU2Hl?=
+ =?us-ascii?Q?PpCHqYeIbM4jbcLH8ZV52LJcD/5jjKRfwjMg5tf/MOV1+OD7GiquhUtM39A3?=
+ =?us-ascii?Q?N6/lsNyTTKcZIeICdDDeN7XPJJLehrEKLCy0ZA4pKI9VPJZevu8jIUoHo911?=
+ =?us-ascii?Q?r5XDHwcKvu8gzthbz3yEPWC6bshCj+TSfVs3nXs7nCmEMBlgT1aPHer1lDZo?=
+ =?us-ascii?Q?MP4BVQZp6XXmxm8i9URFVEXQ5jaaphmgf4Y5B79guuCtzqWqnDSUJDitVqRC?=
+ =?us-ascii?Q?CaDZseDY/V2aKGpiMrt2Y+c97Pv/Cy/kPGBXtxa8aYxYYnNP4W5fpnlPjiJr?=
+ =?us-ascii?Q?rNVrQ8qRxhp6w9D2WBb5ZPhTQxTjIgOuU3flyXXk0WlMM34YIwUJgN/SI1Bg?=
+ =?us-ascii?Q?mH3qql9jS9fLPh84yQCBX8g8TVd+K8gW5jmY2jTAQa4hsbv5dqHRuopY1xUI?=
+ =?us-ascii?Q?52vj8ZY3k3dnJyJ18TIcgctfdMiRMu2ztVXnknJGtZ+bkEQhRy2NeaI+djoc?=
+ =?us-ascii?Q?ou4jiKE2bGATnLmszJ4mY1CADEzTli/p6aNtjigY07NODrM0VkEOCeIGfb/B?=
+ =?us-ascii?Q?lxdYKb+IMNRvI5uLdj8Su/9ARHOCXFgbLg0PpV2acC18AZBeUXc/am6aqgxQ?=
+ =?us-ascii?Q?9+ZJkiQgiGREzwzXpDOdORhg3Wq0elLAIlxOfS7rMnGS777TEmIq/pNjQXse?=
+ =?us-ascii?Q?M9/udC3E652Q5d6+GR4O2EPp987jFS1LT5US5dkV5cBrA1chW6p6cxt78WlJ?=
+ =?us-ascii?Q?R2UyCOprkzbjUBUuV+LBdE8hFyu4k/RtlzYA3iskYFItEHLrPD3coV+T+vur?=
+ =?us-ascii?Q?03eCI6SdV3UFDjfSgNBy0065m1Wi2LDoteiO9TUf4lMcUKzyDuz3VyIn879A?=
+ =?us-ascii?Q?i+mjhV3d/Rv+i7rP+lGz2Z3CoYj9zT0MtjZH4Vc2/f+Nz2pbArTKrHP/9qnO?=
+ =?us-ascii?Q?NMhkO1Urp8TPX+xpRiBHuCQLN503/lkXhk2sv+5E5FYqlJYch/oDLV0tUXyk?=
+ =?us-ascii?Q?E8Pipcx3EiTDjysgZymlF7bj6CkQAthYme8YwU38RQTNrq4S7MQp4BcPjVcS?=
+ =?us-ascii?Q?l9MgB4Y72SrTOCzMQ4INKdPyXZ75EHtmsxCxkl3k?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	VfBBkWpy23d6rum4b3HqMKAjP5iFpJ9OxMTeE2KcB2C6NZlTL6wYviswhZ1uqAmaAtHf3uwjzmy/+p+yaKgpkPoo3apQq29gheHZbKEl51sv1+WZSr7tIFEmCkyy7B7WU9r4zr/YVo2oZS+a8A1Nf0NVr+aoAM8XLGsPZr+ZxKC6xXBGglLwKE5WEORqF6Crduo9UKYZBW5vwo8Jlf21wRcd30E32gYW/nKVtYzC3TysBoCa6jx5o5x8qe2TDfYdRAuyj3C+YQZbFZW1NrrVPCNdqKdEgfU2+ONeExyiBeHGA0TlmiNLWTGgvTgVf4LwCNn9cUegikIEI1B5J4juOX75LorYMcAmYNl/84dmpu1RHFx2qxbRoUzC4DpWwSR7Elis3zaja78AaRxYNzoX+FofP0jnqxM/i1mawtPr6U11lilh7jcAWtUBerC3rwCYSityrmxBe65GXWQPL5+Nhr2DLmzd/u0VPwvQbpj299t/hKUExyPqenR52dErWioq7Uj4pZcQtSwY3SCEmwJmtYGwdEuzVJ4BuQbUAZSwlyee+kn+4QqH/4XO2TUq84Y0kzt3jnJK4W/T7wDAU6bEQDWPynZdqAiaJ2d9bPqW738=
+	RLvNByKy+IXDh+rqXhwRp/HlJHTe7wzEixqmn11gxkt2OZKNLuz8p//A2tm/8h7mADKhelFP429zg2HiEHANqQnHjIIxE0VCbIEvpUvTmkzEzCJEjmJeMODiNisLd6EBac9vMwEHEKujP7Xd4u47RfbxcIItq+zbF9MoQmUUeORIC2nz9ccZn8pkdpYFKsm51pt5AFdN04wJLbQD9eM5ony0hjawGZmdDuCen6DYEESGiJfPB3o+M2CtRux5Yl3PjYRUWrbI+7opQkez2nNhxjD0kUzNULx6++/UW4Qyj/oPgAwOTxpcW91YomK6thHyX/3+gP+DJoYMdxZ2EfXWJXw2YpTQk9LLpSh3G4U9nzaSgOAUqpUE23wzvAnNQ9I78W9a9A7kSLLvH8/7K8tKo4GAx4HoF0rXbbdwMRFwOyv2CXQR3KvppGI/gDI6/tE0ZV72zXaoCMU3FTCQ7RcmOfX7WNHL8y6XAH4XIwkpsVrPmSd7R87z+j4fWGigKIbL0jxGGyn8PL/bZb/tD5Z8fsGJ51LUbhofaS5aptrFhmijuPVmw8WLpuc8Z3kzPdGz7+/nQ+A2kYCEdEBLPpNWaL3VLStMcTYF8dHVttAtc8Y=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8070f22c-c1cf-4775-90ee-08ddfd2fbb17
+X-MS-Exchange-CrossTenant-Network-Message-Id: f13cbcec-60c2-4f83-0f01-08ddfd2fbc3d
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5647.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 19:06:00.2895
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 19:06:02.1181
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bi5PdWhxjcLnora5DEzx7JDogpT3p/WAVbeHHoWLhJhEid6xyBD2T6L0EKB5bVOCuDoIIR9dBgnV5/68x70gPg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: mcghz67ZF7vApqpo5/qgeAwnPW2ChPTrwbW8FEbei3vgFjv15Pae4FuEsMIbplsoRkkiiIkgkUX4kzukbtYeIQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF0687F9010
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
@@ -163,249 +166,42 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 s
  malwarescore=0 adultscore=0 phishscore=0 bulkscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2509150000
  definitions=main-2509260172
-X-Proofpoint-GUID: WmkMvhUCpyCZxZjGrmMgIahHaUaNFbXc
-X-Proofpoint-ORIG-GUID: WmkMvhUCpyCZxZjGrmMgIahHaUaNFbXc
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDE3MCBTYWx0ZWRfXzIqFdfoexijQ
- NuXaG+0KEuP/C9JNmM7oxhOkn65uVtyRbvsN27OEfjBLm/ysmif0E9kXxTTM3LlyBgEnw26sQFR
- 0LM1pEhUWsUwf4+Ko82HxgA9VEyj/EhXtCpjUnzbiWsfeT/6ZvPfsF+k28kTCstyIAU5ryu/3UK
- OP9Z6TtjaE8c/UWIyqv3rdATE9ake/X5l2GViyUgddRUpNdtqLOrsnjMgPiV/jUlv0/QOQu2hNm
- 9Qp9MqGy24mh3F97kilZHvprwkdkZRQ8s3Xgxa+mhZUC+R3aEuUaSXbAhQlRPFgn9UkSZzdYdmv
- P9S/yeLES9//8TgSYAKqBFK6KPg4qxSywhvSq/npPw/aRj+0iIWajoQF00VH2dPQ10vVBGKNqoN
- VLjdrDKNHyh6WdzY2SDv2AmJiCL6hA==
-X-Authority-Analysis: v=2.4 cv=S/XUAYsP c=1 sm=1 tr=0 ts=68d6e41d cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDEzOCBTYWx0ZWRfX4ZAlNkhzvkLq
+ Ltksv8Svbp4LDZH19J9BOgVymCDafMEZXvH7foJHxsLzfhcyWw7jt++PQnvmZ0G+BtlLYZYfd7f
+ AqD/ZbWAKNGtgIqmljU+T8tOBAVCVp2iDjYh+vexrvSHwBYWrQlLnsqvqwL1lKW8hIKQpCCpyNx
+ sjESozc0Dqo3U67F6BFNai7TYAZjOGpoSLLPz68YGttmnAT5I0bAS9dmPWfC3+bRUIa1qCUmdRD
+ ljF+D+rvubK33+kABMktuUsNdwBQqAwK2fSY3HAwNwgaHl/0sYHKUnj6iRsPN3Vwjx+Mh/CsTIO
+ 90pm7Bxhu9lX1E251B4Nh5xZGZE0iR/GRcWEF8z4F9dLtp1aGzEsia0D8Ypx/vgJFYifp42Sr6B
+ vkmndUgrK/oLTHfhu8vQC64OcxgCFA==
+X-Authority-Analysis: v=2.4 cv=P443RyAu c=1 sm=1 tr=0 ts=68d6e41e cx=c_pps
  a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
  a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10
- a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=kR9g6DF9BpIpT0XDKKAA:9
+ a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=QCgb1ef_-NtiyYw8EiIA:9
+X-Proofpoint-GUID: sKfbD473DCZj-5ZEjq8Dw5U69U8fekcE
+X-Proofpoint-ORIG-GUID: sKfbD473DCZj-5ZEjq8Dw5U69U8fekcE
 
 From: Eugene Loh <eugene.loh@oracle.com>
 
 Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 ---
- dlibs/aarch64/5.11/net.d | 1 -
- dlibs/aarch64/5.12/net.d | 1 -
- dlibs/aarch64/5.14/net.d | 1 -
- dlibs/aarch64/5.16/net.d | 1 -
- dlibs/aarch64/5.2/net.d  | 1 -
- dlibs/aarch64/5.6/net.d  | 1 -
- dlibs/aarch64/6.1/net.d  | 1 -
- dlibs/aarch64/6.10/net.d | 1 -
- dlibs/x86_64/5.11/net.d  | 1 -
- dlibs/x86_64/5.12/net.d  | 1 -
- dlibs/x86_64/5.14/net.d  | 1 -
- dlibs/x86_64/5.16/net.d  | 1 -
- dlibs/x86_64/5.2/net.d   | 1 -
- dlibs/x86_64/5.6/net.d   | 1 -
- dlibs/x86_64/6.1/net.d   | 1 -
- dlibs/x86_64/6.10/net.d  | 1 -
- libdtrace/net.d          | 1 -
- 17 files changed, 17 deletions(-)
+ doc/userguide/reference/dtrace_providers_sched.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/dlibs/aarch64/5.11/net.d b/dlibs/aarch64/5.11/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/aarch64/5.11/net.d
-+++ b/dlibs/aarch64/5.11/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/aarch64/5.12/net.d b/dlibs/aarch64/5.12/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/aarch64/5.12/net.d
-+++ b/dlibs/aarch64/5.12/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/aarch64/5.14/net.d b/dlibs/aarch64/5.14/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/aarch64/5.14/net.d
-+++ b/dlibs/aarch64/5.14/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/aarch64/5.16/net.d b/dlibs/aarch64/5.16/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/aarch64/5.16/net.d
-+++ b/dlibs/aarch64/5.16/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/aarch64/5.2/net.d b/dlibs/aarch64/5.2/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/aarch64/5.2/net.d
-+++ b/dlibs/aarch64/5.2/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/aarch64/5.6/net.d b/dlibs/aarch64/5.6/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/aarch64/5.6/net.d
-+++ b/dlibs/aarch64/5.6/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/aarch64/6.1/net.d b/dlibs/aarch64/6.1/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/aarch64/6.1/net.d
-+++ b/dlibs/aarch64/6.1/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/aarch64/6.10/net.d b/dlibs/aarch64/6.10/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/aarch64/6.10/net.d
-+++ b/dlibs/aarch64/6.10/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/x86_64/5.11/net.d b/dlibs/x86_64/5.11/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/x86_64/5.11/net.d
-+++ b/dlibs/x86_64/5.11/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/x86_64/5.12/net.d b/dlibs/x86_64/5.12/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/x86_64/5.12/net.d
-+++ b/dlibs/x86_64/5.12/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/x86_64/5.14/net.d b/dlibs/x86_64/5.14/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/x86_64/5.14/net.d
-+++ b/dlibs/x86_64/5.14/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/x86_64/5.16/net.d b/dlibs/x86_64/5.16/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/x86_64/5.16/net.d
-+++ b/dlibs/x86_64/5.16/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/x86_64/5.2/net.d b/dlibs/x86_64/5.2/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/x86_64/5.2/net.d
-+++ b/dlibs/x86_64/5.2/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/x86_64/5.6/net.d b/dlibs/x86_64/5.6/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/x86_64/5.6/net.d
-+++ b/dlibs/x86_64/5.6/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/x86_64/6.1/net.d b/dlibs/x86_64/6.1/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/x86_64/6.1/net.d
-+++ b/dlibs/x86_64/6.1/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/dlibs/x86_64/6.10/net.d b/dlibs/x86_64/6.10/net.d
-index a81fdf087..f14013b9f 100644
---- a/dlibs/x86_64/6.10/net.d
-+++ b/dlibs/x86_64/6.10/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
-diff --git a/libdtrace/net.d b/libdtrace/net.d
-index a81fdf087..f14013b9f 100644
---- a/libdtrace/net.d
-+++ b/libdtrace/net.d
-@@ -36,7 +36,6 @@ typedef struct in6_addr	in6_addr_t;
- /*
-  * pktinfo is where packet ID info can be made available for deeper analysis if
-  * packet IDs become supported by the kernel in the future.
-- * The pkt_addr member is currently always NULL.
-  */
- typedef struct pktinfo {
- 	uintptr_t	pkt_addr;
+diff --git a/doc/userguide/reference/dtrace_providers_sched.md b/doc/userguide/reference/dtrace_providers_sched.md
+index 29f8ad8fd..d4cd546ce 100644
+--- a/doc/userguide/reference/dtrace_providers_sched.md
++++ b/doc/userguide/reference/dtrace_providers_sched.md
+@@ -245,7 +245,7 @@ Probe
+ </td></tr><tbody></table>
+ ### lwpsinfo\_t and psinfo\_t {#dt_ref_lwpsinfo_t_psinfo_t_sched_prov}
+ 
+-The`lwpsinfo_t` and `psinfo_t` structures are described in [Proc Provider](dtrace_providers_proc.md#).
++The `lwpsinfo_t` and `psinfo_t` structures are described in [Proc Provider](dtrace_providers_proc.md#).
+ 
+ ### cpuinfo\_t {#dt_ref_cpuinfo_sched_prov}
+ 
 -- 
 2.47.3
 
