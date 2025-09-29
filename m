@@ -1,86 +1,85 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F93237163
-	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 20:50:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B9B2BAF9
+	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 20:53:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759179034; cv=fail; b=rYL0cKe6bZ5C7Ep19oZ/UESv9dA8WltahraGOaJD8PTpGzRDg7ojx5Wr/X+gqnV1h2Xi3tRLMxPUJR11nELJmtbK+pdvQILEXZnobibBMLDpdeomUMxsoa/aJPpgb0xCxwvNYIJHdP5yjPI5F4yUUFZ784aUY0yKCeJZ+3MaBEA=
+	t=1759179207; cv=fail; b=Imq18at0l8i41g/Rk/QucLqrbdGSciycQ3omeP6PufJIt9S+af7+erGXmDdHLEvyZEGCl9zhBlQPaB3soCQODijVTIbdlcpJxbc1AuaFfz//2Lus+axirjXcCztnRN5Jcu0xLW+Yw85DmaovAOmScC4H7LYUiAM1DopT6LQ4QI4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759179034; c=relaxed/simple;
-	bh=vsCsNtLgIjx7vltA7+TTmhPrvrkIcGhBiaYyOTMvEoU=;
+	s=arc-20240116; t=1759179207; c=relaxed/simple;
+	bh=hSlDCIeGWKWHXISUJc8krSnFH7iwaimo4x4Gcqa5IMY=;
 	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=VNtIYC1qsYu8aHBTsDEe7XVWwWrySMQgvzuLsHivwBnPZ4IiHC8d2wSc9otqKHZBcUttrruAoACYarJ2loTy/ybD+wtuZDbx3RsBzLxURXJEWdCG1jbDZXREj7MIqDwTN8yZ6ap9NheWt3A3gDgdIvAWzAsc2efxDwBrYET784M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=knuHH/9t; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=pJfCzycB; arc=fail smtp.client-ip=205.220.165.32
+	 Content-Type:MIME-Version; b=IOx9ClTlbXWmqCT8ZLj7AzmzbK7W597cPMFKz24/N50izKHMfxtzRKLmzudaxxYnoRkg001FOYwbqec84MNmTCUMPK04OhB6Vs215IRf1T1Bl78+hS0n7ibyiSrjwqb698GfyQYS7ivsn2AKD54SACvseamWPsFAnIRAeAlGMUY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=R+G8bVqb; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=qp7DHCN/; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="knuHH/9t";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="pJfCzycB"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="R+G8bVqb";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="qp7DHCN/"
 Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58TI4bO1006170
-	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 20:50:31 GMT
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58TI4d7I006181
+	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 20:53:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=j1bl4psyMrbrUS5h0v8LGNlJtv5fUXfqSODcpzPgSV8=; b=
-	knuHH/9tNfDpFN7j4J1HeYRg53M3h32qAHZFgEAziHRGdxy7ENP0+xnk/PS81AuE
-	y0dY++JnobF80iTpMiMGtXrS6DujMU1VxCC6kV66sfQBNrRbWty677x9uZE+9a1E
-	7eDWx4YTrzzuyIU/aW+wt8SjJpbCdp9K+aGhKd5cz0Lva6xVxj6A6/4iJOkVw8Zy
-	yFbeowMOV4LH6q4EeNwzO3b9PMCDvzJj+iffHtiFMcwDkY/Hi7TXs5Njr72I9VWP
-	xwYMSeWEVfbj/+wOtsBMJlFXJmtc/jyGhw2k0Fx0LCBU7DUrLeVCZO2L4x+LfRiG
-	iKygnmGhCSmGQKPs+drJ/A==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49fy2p8ap3-1
+	corp-2025-04-25; bh=2wR1fFfH+k8Swr0Kvsi80x+PkCU+ez13HIEqsqPu0ok=; b=
+	R+G8bVqbcbZRIkcWtWn2nQfMGEBiklpVH91p2xWEoaU9yLS9k5s2AJlWa8kcvmWp
+	ke2bCqt2kKhOcfY4I6R6juRyfk12QDfSrS18fiMa2MXBlIbKgkVtMDsgKVeu2412
+	2jnXMI3CUANLKWx19Bw0a+fYA6f1B7AM4Rbjn5OyAmL84Jl3ZMfDQ8OZTvraXtYh
+	50s8bmTKvA51ncoE1FimSDSmDBkBaEIVga+ldCnQhUFJSp+f/xG90G1Mhgx8QlQC
+	J4pDsUtH9T1nGP3f8THjZQ6jKHS36gdtayrMZG3W9JhBklO0EexQ7SYCo6JO/4l5
+	geSbTFQAtKAoG+ObwqS4ag==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49fy2p8atc-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 20:50:31 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58TK7XEa002031
-	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 20:50:29 GMT
-Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012017.outbound.protection.outlook.com [52.101.43.17])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 49e6cdfg4w-2
+	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 20:53:23 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58TITRpQ007787
+	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 20:53:23 GMT
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011027.outbound.protection.outlook.com [52.101.52.27])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49e6c7xqcu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 20:50:29 +0000
+	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 20:53:23 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kXWaKg/MlBliGvsCcTnaoCx3cee7AGlZv/4yQymyVl5StNhmW25uV/trrZ5WMyTXOxZFp4H/WMOA8z0xqvDqOIy/0jccWFjHDTTwslBhrPqTt9k1De3oXM+OU+j+WAeXkx5eTKwEfnzl89tIUcRA1m8xQVU9tcHM5ggOXlkG/l34wEWHhMxTuZktD/nG6/hYgWlPYEuXaLESLzsK/d7cCtCAKm36IrU5bc2H6n9Vks8mJKJuSdxySMaxKsFWf72nLECCwJIOxKhj3XS2+aCK+ywBfEWuIdWeJzdS/1RNsf5bFbHkqeV8v8wqwfKd3dBQFdrmsUenxlEK6Jja4ny4Zw==
+ b=JvM53XZcZODZ7k7E5cqywpUWsF9Z0A0hX6QH+aqnx7fkdBR08PzOzXXkcZ20JZO7rKDrK32IIFs6Gh83j8IJlD+JUdGlF7daGIBID5iKGFCfNzShsCDeNBqdiBJy9CP8Pi5ihzgGmelZO4EOoQmOSdtLqzFuhtKBqCSdGF07C450SBWh1agZ1NLVLWDB2Y9YkdgaICq7vAmFKx/i3X3VUb8W1ipQGJZ36esF4pdh56+CxuG4et7Yp38Ln55egN/u68FsYsm2lpCB+9mw52HSh0gWjq9F+YvM31R0IzNJ57RA3cbItB6F2jfXhSbtoJPuZSaxJw4wQQyOp/j68+XrWg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j1bl4psyMrbrUS5h0v8LGNlJtv5fUXfqSODcpzPgSV8=;
- b=Iv5aOvcwl5w6CBBmx4dhlnz+Lh4kmyXMUGsEkW2W/qx3M3o35pbfVfF69v+I9PGCQnl/tJBQTyODDfRjVatZQEqF+x3mKb147N8GAP0j0ZZ5VXWx+HNw0iESpjjmdy0A+5sxYRKewrGal9f7KLWDlGZGObcUTcSM5Xc1o86HukLF8g/6MTRGEdfbK3VaGwTkkBficTeyfNlpPljo4rOKm5cI4OdgLC7xtVexuMsTjRDA2VnIogbg6fAOHK0zz6o9OJoYEZNkm+9NKjXaLqD35glHTFdCC+83vBCXFz3cG9vGF+IcfrUV418+JgZJoVBI/lafNDbpIRQH7p+QIZ6BUg==
+ bh=2wR1fFfH+k8Swr0Kvsi80x+PkCU+ez13HIEqsqPu0ok=;
+ b=d38fH9/6uHOr0wU5ysN9yBmH28VOycHQeEqRgyZ/MW/ZU4V7i/jxkiY2gxrdg1UNrsi7D/1EQw8sxQ1x/p+dPrH7ESA7N1a4zoIR93rYwoZ1cl8TXzfHuKWlFAHJWr+E58ZBI1Wch1petU9UMxAxnyekZheerCSyEt6QYlO1bgSxZeb/9A+PirnKTDLrKRZlll/66wwroAL49kwgQp4mbM7+a2wmYPSuJEZuK3YLmt50O6a7dkVJSuJSajoCiROuvQqKo+92fstVSBDZjDuqJDG4iwRoSYNSd1X3WvX8c0bgSE+gHityV3kKrvCGgnXHWogaibDmRyj219o/M2K8XQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j1bl4psyMrbrUS5h0v8LGNlJtv5fUXfqSODcpzPgSV8=;
- b=pJfCzycBrrXn9GED/j1dV49u/VctzyMdxSYJwCKJklthE8jYX/WdnaftQHsN5sk9pA59PdSwFMLtTpTzqyoz455VShvyfC/OBX6IGaxIWyebB/7lWXdsg9TyZmxtsJmRFUH8QL5N8g7KXPBeZt7oE1HRDRA+5HuwlccfsmG2Y6w=
+ bh=2wR1fFfH+k8Swr0Kvsi80x+PkCU+ez13HIEqsqPu0ok=;
+ b=qp7DHCN/y1ZJcEZmDAjNJcrqjgO9r7nJnBQZakZp6leS0wc/aGKS6GZv1Qq7QRoQnBKu5f6lLvQDjt32EfGEQRlykO65zf8M84eDa/9zo0oZ7QaX645tOqUt4c6QZfCEWMkUhVCk0kJFBuq2bqLf+H9pDF7I8Fi/sK5Y1VHRUJw=
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by CH3PR10MB7495.namprd10.prod.outlook.com (2603:10b6:610:15f::7) with
+ by DS4PPFF257CDCED.namprd10.prod.outlook.com (2603:10b6:f:fc00::d58) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.17; Mon, 29 Sep
- 2025 20:50:25 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Mon, 29 Sep
+ 2025 20:53:15 +0000
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::c47b:6cdc:87b1:aa6b]) by CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::c47b:6cdc:87b1:aa6b%6]) with mapi id 15.20.9160.015; Mon, 29 Sep 2025
- 20:50:25 +0000
-Message-ID: <2b22d027-e4aa-0228-9157-2ead047e1f99@oracle.com>
-Date: Mon, 29 Sep 2025 16:50:23 -0400
+ 20:53:15 +0000
+Message-ID: <2b5f708b-be82-6237-abdd-047e2634d0b8@oracle.com>
+Date: Mon, 29 Sep 2025 16:53:13 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH v2 2/2] cg: transition [u]stack() from action to
- subroutine
+Subject: Re: [PATCH v2 1/2] Unify the handling of stack traces in the consumer
 Content-Language: en-US
 To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
         dtrace-devel@oss.oracle.com
-References: <SJ0PR10MB5672351690BDFC2E13664F13C21BA@SJ0PR10MB5672.namprd10.prod.outlook.com>
+References: <SJ0PR10MB5672F069BAF1EFCA418B0A91C21BA@SJ0PR10MB5672.namprd10.prod.outlook.com>
 From: Eugene Loh <eugene.loh@oracle.com>
-In-Reply-To: <SJ0PR10MB5672351690BDFC2E13664F13C21BA@SJ0PR10MB5672.namprd10.prod.outlook.com>
+In-Reply-To: <SJ0PR10MB5672F069BAF1EFCA418B0A91C21BA@SJ0PR10MB5672.namprd10.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PH8P223CA0017.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:510:2db::9) To CO6PR10MB5636.namprd10.prod.outlook.com
+X-ClientProxiedBy: PH8PR21CA0004.namprd21.prod.outlook.com
+ (2603:10b6:510:2ce::11) To CO6PR10MB5636.namprd10.prod.outlook.com
  (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -89,888 +88,853 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|CH3PR10MB7495:EE_
-X-MS-Office365-Filtering-Correlation-Id: 394936b1-add7-4ab7-ad83-08ddff99d09e
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|DS4PPFF257CDCED:EE_
+X-MS-Office365-Filtering-Correlation-Id: f7f9956a-d801-4975-d2b9-08ddff9a35ff
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|13003099007;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QkRMNVlBUGhLcmRXeVFpclk4KzZUQXJnK3g5cElmdXJqQTVXS3piQjUwMGJF?=
- =?utf-8?B?UWlPS1hlOUNSbkNTSUhlVkpjOFVORHZVU0kwdkU5SGZSVnc2MEtOR0E2ZUZV?=
- =?utf-8?B?YkxxRDgyb0ZWdTZDNGQyS0Q1S0poYm0rMUV5MXVMcjJNYmlzYURKZzEwZU5r?=
- =?utf-8?B?MlRkUW1wbUN2Y21VQWlzNzJJSEZ6S2ZqVWwxb1k5d3BoV1NjVHhmdWQ1ZjBx?=
- =?utf-8?B?YlFxRFYraE14dm5iV3JvbmtDc1g4UW51c0dKU3dQRlRnbDhCRTNmRTNUb2po?=
- =?utf-8?B?VGJlTnRZQXVVYnBoZ2NWYVBFZnF6V29peW1wTHRDQlRwdXRZMFdNdmRoazQx?=
- =?utf-8?B?cmFGeXU4S2dBQ3JKY0ZBUkIrakZxY2xOeGVUYkRvL044cUxESlZ1KzV6czFz?=
- =?utf-8?B?U1VVTVd1N1ZVUFpack1vR3NPaWNINHUvb1M2ZnpaT2pYZmRBRjZsRlpWZUpV?=
- =?utf-8?B?SUtKalJJZjBtdHkrTnZONHU5MTBEMGRJeUV1ZTlBdTEvSVFrM1ZCREFqYVJJ?=
- =?utf-8?B?eTNsamhueWpMRjBQblg3YzJXakJyWTJPUUxaZk5UWnExakRwd3N0KzkwMjRV?=
- =?utf-8?B?cHlVSTZOS2F3emxOY0pNTGFTcEUyd0xJVkRLcExFR2dMZ3I3WUduSFhrUHJp?=
- =?utf-8?B?NnJzcTFrUkVMSVZsMnZ2NDBZRmQvaUJMdGJsRHlLbmFsVkp6Vmxyc0Jzakx4?=
- =?utf-8?B?NUI4QVgxRjh5VmZ6RGo4b2tZdkxVYkQzK2g5ZHNheHEvSVcxVENWZWlKSlBG?=
- =?utf-8?B?cUlrd2VuWWJUK2YrQmphNndTbVltSlVQQ2pUV2RMcy9IQTVFYzNnT2V6S2lL?=
- =?utf-8?B?L3BzRndsQmNMRUVCODA1d0pHRU4wV1MwYkNhUXlmekl3WjZ1ZGR0M0JxVEJr?=
- =?utf-8?B?L1E5TUFGL3BVeG95NVdRL2RSd1VSU0JqdU8va0VhNG16RUVLRkJlZDZMMnps?=
- =?utf-8?B?ZHZUaVF5N20xN2lrMUNkYUcrcGtiRGowRUhWV3I4NGFsOUlubFE1dUlvNmM4?=
- =?utf-8?B?bVFXMUJQbGNSMjlCYVVkd3REYXcxOTlMc3krbE5sZ3dSNTE4TG5hYjc3N2Ni?=
- =?utf-8?B?U2tWMjJTL2pZdG40ZzJES1Z3dElic0VMQ29NVnRiL3kxeS83ZmQyR0ZEUlRE?=
- =?utf-8?B?bUsyZTIyTm9rWVFxK2xQbUxldkMyS0tyYkVESXZ3Q1c0d1BPMXpSVzlzcENV?=
- =?utf-8?B?RE12UW80ai9TZ09CRDlLVngrREkrZzFVMGFNVWM0amlkaVBseGFNL0ljYUNF?=
- =?utf-8?B?WFU4Y3JOTk1iYVBUK3ZJeCtnWUlyNGpyc2xGVzlKenUvL21Tazh5T3RUQzJW?=
- =?utf-8?B?cGJFdjZPSTFpeElxcWt2NzM4dFVXTkpVTXNnSlR5WndzU0Yrb1piakN5RjFr?=
- =?utf-8?B?S0FFYWFOWTduZDZtRkg0UXUyY0gvK1llaFJ6OGFxaWJYK1lMeUZvZUZLaUZT?=
- =?utf-8?B?RDhEbVJwNzZCVnVtTElhRFFoTW9LY0UzR2RralE2SFZ5Q3NZU0lwWWRRbTZw?=
- =?utf-8?B?RDhGQnFxcE1OTWR3alBUU3hxYXVpcWxQV2U4UmxTTEk3VktxSm5EZVprOGFk?=
- =?utf-8?B?QmluWGJYdXJ6YzNGS0NKZTk1aG53MC9TL295dTF5cHo2OFIyRmdDZXZ5U2hT?=
- =?utf-8?B?WHBNd1k0Z1VyR1BwWXRwd0ZnZGx3NnJoRFg1ZzcvcXQxMld2VXJIbUZsNktn?=
- =?utf-8?B?ODNFRmxtVng5WHV4NHFXTEJSR3MyWWFDVmJhMVp6VHl2TFdQcHNFSksvSWxW?=
- =?utf-8?B?bU1aMW5KeWJ5UVZkenZCaVg3QkI2Uk1yVmprZnN6RUhGWHllbDZzbW5TYytW?=
- =?utf-8?B?T1h3L2dGeEtlSTFscHBDOE52SENhenFta3RPTGl0MkZOTjh1VGROd3R6N3dr?=
- =?utf-8?B?ZEhQTXFueURLc280UXlQUFZYUzR6bzJRWTdNMkx5bDhYZXc9PQ==?=
+	=?utf-8?B?L0k4Um5RY0ZiYkttbE5OeDNJbHVRYVZIdDZFQnN4N0N5NmVhTGliWStZMWgw?=
+ =?utf-8?B?dTFNczBaNitSa3hJNkNRNWRaUlp2YmwxRVYzcWp1R09oeEd1YmhTd0w1b09G?=
+ =?utf-8?B?WXE4TGs4QVVlTmQ2by9JRkR0N09EcWxVYmJYUUF4WkFZYUw5czYyaGw2enlj?=
+ =?utf-8?B?TlU1ZzNSc1ViUU9TVHJCTUNkUnRCWWQ4Yk9KRHFiYWlIbmpNUGFKYkF4bmcy?=
+ =?utf-8?B?THJ1aEUzYkpYVFRuQmNhMHFMdGJDd1AwU0ZYeHp4b0tVa1JWdG5jcTluelo1?=
+ =?utf-8?B?THJTbmRiSmx3ZzUvZDVCL0dueWIwdFlIQ3dnK2crZ1UxUlBLd0JLY3psclFn?=
+ =?utf-8?B?TDJZMmZqRFV0NW1tM3BrR2l4YlRxYXJ4SlJvSmI4WER6R1BmQ1hBUDNaWTJZ?=
+ =?utf-8?B?OUprcXc4OTJtdTRKSzNZT2lVbFFxTmtQVStPVmlFR0duWm4yLytEMTNVRkpr?=
+ =?utf-8?B?VnhpTnh2a1BFbVhPRjNtbVl6OXNwdEZSOU41UEVZaWc1WWdRN0g3cWExMExQ?=
+ =?utf-8?B?aGdWMkEwdmZVYTFsVUVkMy9nSEtkbG5yZmZuaG9HTFlWOTBsYzcyVC9qVmRp?=
+ =?utf-8?B?ekNBZGxQT0VmV0tZRk5BUlIzRHZKQmR0QnRXUjJySS93WjM3bGJ4LzVCMjNl?=
+ =?utf-8?B?MW91akRIWUZmM1R0eXF1d3RkdFcrWXFoVFRrVXlRTWFwc21aVldnQi8rdlZT?=
+ =?utf-8?B?aWFQU3NraTI2V1BZVmRWSGx1MGYyRElxUlJaSitMU0tPa3VPdDhPQURzT044?=
+ =?utf-8?B?UHlVL1dxUkQvVGg5MU5ueER3b1dHTVhvVElYd0ZmYlA1bEZUT3RwRGpBZFZn?=
+ =?utf-8?B?N2ZUMHFNVHVlenlFZFN5eldGL3I5Vk1zejkvSUNxUVE3YjlvdWxSRTJWbDgw?=
+ =?utf-8?B?RXJDbmNLMm5EdnRpV1MyNW5zZmM4RHJYVHlybVJHNER0ME5yUjBWWVRXVkx2?=
+ =?utf-8?B?UGp5NnJCY0tGN2puQUFTQkZUaDNGNlRYMDB4YzN3bW54RnNDMCtnOEUrSTMr?=
+ =?utf-8?B?OUF5dm42WG9yMk5qNmx2T2hyaGFrZkQwbEljRUN0NHdwQ2NheWFsY3haU1hU?=
+ =?utf-8?B?Z2dIempESHBGY29DazZ6R2J0YmVDNmVOZnNYOXVLWjB1QVBRakYwakc1UHdM?=
+ =?utf-8?B?ZUJNcXpDVXJxTktJRm1uWEdYb0dHOGdrd2V5MTc0OWY2N2hydm1ybE9wSkFp?=
+ =?utf-8?B?NUx3S3RYeUdNUkJBNWxRM2I1VklJMjFiSnlXcG51RC9OeUVTQW5PaG15K1dq?=
+ =?utf-8?B?YWwzTCtVWWtiKzY2TDNoUHpCeDV1emFRMWZqSUg5WUZNM3gzRHA2blpCR0o5?=
+ =?utf-8?B?dmliSE1YR2xhcm1LYUlFSHVQS21McEx0bTA5dlJFT2F6MHV1SHVNK21neUF2?=
+ =?utf-8?B?Vnl1Ym9FaU5MUTFCTi9EZHYxRVNJZElwbnhaVndBdWJ3dy9wcmdLMzY2d1pz?=
+ =?utf-8?B?bkhKZUU5SS9tRi90ckxkWU5IbG5QQ2d1bFBGN3k2dHFKZktaejIxOE1FbnhO?=
+ =?utf-8?B?QVRyT0phQnZsb3EzbkJPbU9CdUVnQzU0MFZpYjE3UVMwRzlTbi9RWFgyNit6?=
+ =?utf-8?B?cGxaSjZVM2VxZWpCTzd0cGUya25DdUVDbHRTd0FHb3lXU3RmTnI2VWFqbnJ1?=
+ =?utf-8?B?Z0I2YjlmaDF2WUFSNlJ2cVQzNHZ4d3lDRGEvM0pMNWtDWGZqQ1FJT3ZHWWwx?=
+ =?utf-8?B?VGJyUE4zYzJHaFF5S0hFMFhhVEpDVHVFdTRvY0E2RWEydHI2Q3cxWnNQT2Ex?=
+ =?utf-8?B?bGVhTGE3VU81dHJvRnQ5eFo3b3VPRjRVcUlkWUdWTkU4ZUZLQW44SVI1a0VS?=
+ =?utf-8?B?WTJHM3IxaTJlTDZuQ2ppN1pRcGZ3U2RvZW03N285YitJeUIycCtLQnZGVzZt?=
+ =?utf-8?B?dWNhQktrd3dDOTRwekV2MGJPY3pQdEovUit0RE12TytWdHc9PQ==?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Rm50azZIMGtSYXd6UGJTbGVmWmJVcXpydDV6ZjF4NVVUdER1dWRnTzQrMkp3?=
- =?utf-8?B?NzF1TS96YnJhTmdZeG1GUG9jNHVkeEJ5cEluc3JzWXNjTXRCVGd1Wmd4d2kx?=
- =?utf-8?B?c210ckZQUFZPb2F6dlpSR3VHMlltNVFoTWtsZGdlS1VsZHpjNGZ4ZE1kV3M2?=
- =?utf-8?B?Q0MydWJjNStzMzlNa0FXR2g2MmV4WUR4WHpvNnFSaFNzdlozQUVqM0R3TDdD?=
- =?utf-8?B?eXJKbjNCU0ZtakZrTy80WUJtcEdVT0hqYm53VXNYaVlad29lUFFOWFIyQU1W?=
- =?utf-8?B?bWIwS05rdzFuVFJFMUVLUW8rWFRxNGU1OFZCcFRUQndsVWlxSFArckp5aHZU?=
- =?utf-8?B?R2hySkdLd21oa0F5eDgrWndrYURIRFpDcm5weWI5ZWRxNUsrTVVNV3dQY05w?=
- =?utf-8?B?ZUg2dmJPR3VkM2JzTDlCTXVNb2lZNUdBZll2ZDJYNG54ZjJGZkMvTFNubDUx?=
- =?utf-8?B?OHMzaEMvaGlWWVZoRWhMOWFZc2Q1cTA1eU1BR0xkS1hkZXdWZTZiL3E2dWd3?=
- =?utf-8?B?aWR5VGJYZXZ4dzFtTmp2b05yYUFxTllRSUYzRW03NFhuQXNJa0lNYjFBMlFL?=
- =?utf-8?B?cEpQSEpJT0VzamxjQmo1M1MzSldCVm5Zb05xU3dldGxncitRa0lCZDlzZ05N?=
- =?utf-8?B?OW5hb2liaStkZ2F1SzhjaktoQnpYZkQzM2xsOW5ZOFJWWXAydXdWYVRpV3dj?=
- =?utf-8?B?ZmRQTTB2VjM2Mi9qRkNKRXkweWRtVmdUTU4ycHc2V1ZKak40UTJqY2VLMnFn?=
- =?utf-8?B?a2RLamg5YzZlMXd4cXdYTis1emFTOVpEVGFqVFExQWdObmwyUU1KcXBUSGZJ?=
- =?utf-8?B?bTNJRWRjM2psMjZzV0p0bXNhajY5RnJ1RzZ4YkdnTVNORFhJRVgzb1gxcGxD?=
- =?utf-8?B?Z29IZkt6QzZOWDBiQW5CdEUzVTJHMldpZytGT2dhWkNkZXJlQ2Vzd2U4SytN?=
- =?utf-8?B?V3JIQ2c0Z3FNUjhxZkdmSkZDWjk5UGpnbUpVWkw3anAvdzkvZlp0aUFVU0xy?=
- =?utf-8?B?NThKaUhNREVySGJEcjVEOXhkN0xzWGdVcFV4bHFMcnpTdXA0R2l0ektna2lN?=
- =?utf-8?B?NlQzUFNWWkNjaVJoOWg5aVk3R2M5RjZRQ1Q4c0Y3Zm9kbjJ0NHpXMEdJbWhG?=
- =?utf-8?B?UzhxU2Uwa0lnQUxzVTZ6cmVrSE5DcENCWTM2cFRmNEJWdUlMVGl5MzhqOVEx?=
- =?utf-8?B?U084cG56MnlYYXFUUVdpUGxOdjdRNVhNeGtPV3RNaytsN1YxWW5iOEU2TFlK?=
- =?utf-8?B?ZzhEbVFJTE1WUkt1RzhxUm55TE43V0loTU1XVFFqN1FHRVNKZ0JqMTFVd2Uy?=
- =?utf-8?B?cVJlWkIyNHh2RjlpVFovaklPL3p5cVlVWkpJcm9TR21WNitybjVqMzhEc2FO?=
- =?utf-8?B?WmZhU1d0NmpQZ1NZMkdFNno5bC96cEkzdHRKTEtlWllpNjJUNHV5bVBHRUhJ?=
- =?utf-8?B?SitOQjZJVDBlaUxjMmdWOW9WVkNmN2Z0ZkNvUFZKZGtCUnY5U0NnMFRUTUIr?=
- =?utf-8?B?TDlwVHU2MXNVMXprSVg5aTRmUlBUNXpSSElaSjdTb1lLTG4zSHJGU0h3Ritm?=
- =?utf-8?B?QW92d2tzYzZYLzZpb3h3aGRlK0JBUnh5ZENoc1phS1Fac3FqNDJpM2xMRE5o?=
- =?utf-8?B?OUFJRldZb3R4bnpKWTJOaElvWnY5b1lrcUZFS2lzeWJsVHlUSWxLWDIyOWd6?=
- =?utf-8?B?ZlhTSmM2Z3BGSDFLUHNyOEZ6OVp0K0w3NDhDS1puSDhvZUgvVzFJdWV6QnVO?=
- =?utf-8?B?c1V2VUNYQlRNWTF0b0x3S1NhOU8xVGx6SFpHUzFVZ2ZUMGluVi80cURPYjQx?=
- =?utf-8?B?YXJXcGhLNHBSekg0UW5FNUpEdll6ZnlGdDAySFFXZXVBNFdrVktlRjZjSHdn?=
- =?utf-8?B?YktPZVJTM3p4NzdqcnR2NmZ5MXNWL2h0NUxpQWdVRkN1eG54SkhXdlRLRk4z?=
- =?utf-8?B?dm5MTnplbzlveVN6WkdrVXBCbDhSUkNoMi9xVmdzL0ZQOUxQZ0J3aFBlN3NC?=
- =?utf-8?B?bHp3akkzM1JCTUs3VXIrOEVxaktjYmV2YzZFU3NIbHUwRi9pbkhldXAwVU80?=
- =?utf-8?B?b0ZpSmxJemd5TG9YclYxWXZkdENGVVh4RDFXc2w3OVBFeHJBRkVLNldaQUs4?=
- =?utf-8?Q?ut0vRX48mUJXVAj31ga7qH/jk?=
+	=?utf-8?B?elhlMXFkRmhScXlrVE5hV3hMSFRXRUlMVW5YTHhBNWdsdmRpY256V3NLOG92?=
+ =?utf-8?B?RGI0SGJnck92MXJSZTRySHhva0FYemRQa2toY3NHWE1LYXBTVEY5OVRTell0?=
+ =?utf-8?B?a2ZMbjNheU9xekVSenVycWx4SUVsQmlNdDB3RmFzbDlnNVNhMEx1K2FwUTdS?=
+ =?utf-8?B?SGc3K0p1VWJlY2ZEZmtQS01DNDVWM2lZYXZKWmFHV3BoUStFSzRpZDdFZ3JT?=
+ =?utf-8?B?NVVDRXJKeW95UXdkcGtZZnl3VGZMSTdFVFdwKzhIdTFsaGFpKzRXbk1yTDcy?=
+ =?utf-8?B?bmN3SE5qVHNvV29YbUVSWW1lSVVUcmIwY1QyT05IemNKR3RkeEIxeWRhSHJI?=
+ =?utf-8?B?L1RVd2ZJeDFWZDdkY1pLbHdyYmx4cWR6Z01lSWJJbUJSZ2wydmhKSDduSjVy?=
+ =?utf-8?B?a3QrMEQ3eldHZHREWWpaWTlSeTlEV2d3cm1FMzlScHRoVlVTUW5hVjBDcUFS?=
+ =?utf-8?B?MktVeTlxUmoybUJMSUlYaXNvWnRBbld0MEJHZ2RJR2lqWm43TmEwQUJkUDJB?=
+ =?utf-8?B?M0cvbnFhMnpnMnZJUXBCZTVsNEVoT2JpTzc0RlgrK09LTnJBS250Y0FKdEpm?=
+ =?utf-8?B?aXU3MUJOTzZNRk41djBRNWsrTkJHREw1TERtbkg3R0FqSExQU01Ja1hjNzZX?=
+ =?utf-8?B?Q01LbkZoYkQ2Q0hBTTIrWDMrOVFYVVZlaS8wMm9GWkVvSEYwRHpYbW9wZ1ZS?=
+ =?utf-8?B?b1hkQTNVbmJZNlltWm84Zjc3YmNWTEw2cFVmWWFseWIwOHUrQXJTM1RWRWNK?=
+ =?utf-8?B?S2lNVkVNVlg2N0xscTkvejU5azJ6eDlnRG44SlgxRldncGNFR09MM2dqVHI2?=
+ =?utf-8?B?SnBRWkx5bUlxT2tmZ0N4S3Vlbk90b1ZlY3lWajBjWi9DWEkyMWxLRHhlZWVK?=
+ =?utf-8?B?UWZ5TlRqdFlPYWFiWGxYTXJkMzE4QnN1QWJ0WTlkSmg1cjA5bnA3d3FWOXh2?=
+ =?utf-8?B?eXJhemRVWUZ3VGk5cUUyblRyREJnMVhDTWwxUVZYUStlaXI0amNzbTR5aEpU?=
+ =?utf-8?B?eW4rK2JqZm9WcnNJT2ErcjZkK2VrbmRIbVhpME0rMExKTjhGbDhyZUdlckdh?=
+ =?utf-8?B?M0NSNVdMWThMRjcxeVR5NElFUzh5WW1TY2Q4UUJkQVI5RFNFOHlnYmNhUlhl?=
+ =?utf-8?B?ZFhFaHFDNUFOdENnaDRqVkhGeUUvSmFyQmxtNTdkRUx1Yys4cDdtenp0K0JR?=
+ =?utf-8?B?bjFtRnNFZUxzUjdEYkhkdm4xR1NRdm16TmI2QTVHWTFIc3hNQ3MvMVZLcW01?=
+ =?utf-8?B?OXpobTQxd3dSMThvU1ZpaTdMVXJ3ZFgzeW5hdVNkZ25LLzdaUCtpQTVGeTh0?=
+ =?utf-8?B?QmlHOHV6OG52ODY0dmZrZ0dmWkZhZUJCRzkzS21IdXNBUC85YnViVDlGWFNR?=
+ =?utf-8?B?SXc4ZjlHTjlwSEdvQUJrSjNPeE14dEJHTHVGTVppL1hBais1YlVpekRZdW80?=
+ =?utf-8?B?UktLU1pHaVdZaGJISDc5Yzc0b3ZVTDZ3ekZQSVk1NTh1K05HZ1hxb3JDNUNU?=
+ =?utf-8?B?U2JxcVh4SllVNVZ5Uk5EcHdLa0xiTjYrNVR4bE5rd2puOTdOVWNpUzhQc2pk?=
+ =?utf-8?B?Q0k4dXRRKy9oU3NvWUtlZmRzbW55TWFQdVVHS1hmaGJXS3dkc25OMDBENFJW?=
+ =?utf-8?B?bDRKazcrTzVUY1RJVEszNHR6MW53QVlEVWNWTjVPZ1BoaEEybU41NlhpYVFi?=
+ =?utf-8?B?dkRJckt5aHFtQ1JLOXc0d2t2NlpZWTRqdDlWQmpGTlBZb29zVGhnZUFnTWIw?=
+ =?utf-8?B?RTJOSVBOZVVsYUZrc2NudE14WDNXd04yRFZQRGkzVlh4S3paZWt3WDZnZnoz?=
+ =?utf-8?B?Wm9LY2FBYVdjWnJMQTFmZmpBK1h4bXkyRVRSU2RGdmorUldDL2VoVTdpOEVB?=
+ =?utf-8?B?c1YzamNMMkxRMEpWVmU2ZG1WUkpCR25TeE9aOGxudGRKakVkTk5BV09ZSHVa?=
+ =?utf-8?B?MytCakQyK3lrcmFZbnBROFpmQWhrTTFXM3ViSFVrYjJidC9lWmNldUtnZHF5?=
+ =?utf-8?B?ejBGWXEvWFMvT3FtNllNdjJPU2NKNjVXSEtROVRWZlEvQjNOZ1NyR1diUmEw?=
+ =?utf-8?B?VGFmejFZRzh5YldmaUNrbUlBb1E3djIxRXEvSDNHTGxUWnpCY3k4QmNPN3NF?=
+ =?utf-8?Q?KT4PxBH5BqOfrxrXfsd9FlOCI?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	YGjeklvQdYPsMr4p3krqTfxCWMveKhSwlHj0UCH/VSvqS4cguzunLk3Pzm6CH5iRrJ3QF9UIKw79k3vuEo7J9eeal77mII0prWmIAhcAK2JnbNCmQZY8/7369O7UgD9eAx2ETHe7djzWc/Sx+YrDqeVV3IuTlQVo0dqbn4Zjt2T2jQXkcAP4TPVlK3MOJlArXL31tzJeGExICC2b4BvEO8ccWVjmorsbziHAjdgIrevoEmhz0inP+MvYi746+Lrsnc1Fpo3txLHz4dbFqukg6Q8yUPW3epcsQmM4DsIZdlbB/Rqz1qQss+gkKlFxELKWiCg3UwrRsgrgbfVASX8FO0UXjR1liEehsF1AsZ8C6ll46RV7siY0OQhsttn7t8V9CpfMSsQztp+wyodUJGR5M9Cw4Y2ZuzY5WljTmJe3gNvN2wY3ILXJq4xpWptQ6Y0a3bxSRs6iIR299RbXl6HXZNLQsiflz1SClUsndTP22cqLgxSE1zZ1UvePxZ8ke6lqafPBkgKz1HSpUO8wgEela3joNJqnxghUi6bws12hYb1d2BxUeHKHYQ6MycV1q6uh7rycOjzdDX/NF34HEjKsJPHWRwlQ9cc6obL511nBIV8=
+	KW5HBYl4B4Td3XLpYEagc+V/p3dZS8gDqj/YUWdruRq0g01b0yauQEEawtXgB8cHGRydi76BW42RkcZlH10zYowJ8iJNqmNRotRrM7ZTJ7Fmzg80Mj0zi0Zc3H2iNWTSHVjVkNtTl6OZ6HrYEKDF1zXuwQfVsFvfq+ET2s9VJfEL87Iifhil1DmppJ48KfcTNivyhzzFJBX0c0hqEc7Jxbs2SUiBoW76eMvks0ZxKJu1O4YyvPG2VaMJBnAMeYVmgMB8TP/m/B/DdjdPMIfvcKxzMlkNFdOIPLJDOt0wwzQAC67A49Ray0GPSqBfj9TRxDRGnpZzRFRQZCbpef49Y2rvAUTbO71sQZHtzKe+VYmfAOWyhvz0IMMOnHXvrZ5Y2pXYJbweqGy6m+00BmOwru4CC5IkZufOYDkk3W+kh/uxo3giq5zZsad0VszR9043Err/CI0p41U6yd+uZ8wNxu1WUvTQI9ZkzVLexHW+TYRKGvc9aZJeL6WM3KKnoKqUkPWpJgJXRBlWeSPksshNx3DQgwyskrzPqRKz8ozgUMOy8HGN0zB0wF3/t/FeG7JSXj8FWMG+xcoNzJnUUudmx2tUy61sJTnWriJPLR93OC4=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 394936b1-add7-4ab7-ad83-08ddff99d09e
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7f9956a-d801-4975-d2b9-08ddff9a35ff
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2025 20:50:25.3502
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2025 20:53:15.4154
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n9oNloLyn/UsfbEFZg47OokB3Xv2+ZHulJkzsB4QTkoqXKCkm5Iq69QSnRVpzz87YtKPYnGIzDSlCBWN9XZuOQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7495
+X-MS-Exchange-CrossTenant-UserPrincipalName: piUAnUFi39whdG78B9NXrs8lmNMbZFaNlIZ6npOnbJ54Jnjf9R7EhlArgRhv/KdWlRrgGlhE6WFTFyDS1lAIkw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFF257CDCED
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-29_06,2025-09-29_04,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
- phishscore=0 mlxscore=0 suspectscore=0 adultscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2509150000 definitions=main-2509290193
-X-Proofpoint-GUID: Iq7lcJr1LWXIG_y6M2AtqA44w9Nb2wns
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI5MDE2OCBTYWx0ZWRfX0gM32d/qf4K/
- ciw+wR1PdAxsjXLsKCtydbU/pgaIMNyS1OYTbCkW5ZOiqOqa0hVg3mPZAI0Lj5R2ufKsD7UTF0r
- MRidVVIyf+1ECKuLW9J7KxCyuDwlNkBcfKJoJNipK+R9NNsADjEVk9I7iVYTgx9F0d8xrH99ZZl
- Kduc92oUC6fb+6brUa1NvrEOABXOOeUGzf3yB3NXri96UcsMsybn3pS75opilyr4SDRKq4LvfLa
- RIgli+nTE5fHqmKTOyfBqf8HDNhN9JwXLjywG+1gcO7l4dQlpbAZLSJOHMrTqVIZEXTYbNtQEZB
- fCiWBq+KtkYijW3x8fYoYMtZAP3QpctM1+fuR8DT0Fc2hc7+Z0GASwJwXhtSrt29mWirgqy9ysk
- covrzcd/nD379uxTe8amCBOtddpvcaI73h3bjNXC3+XA2ePhAF0=
-X-Authority-Analysis: v=2.4 cv=Z+Ph3XRA c=1 sm=1 tr=0 ts=68daf117 b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0
+ mlxlogscore=999 mlxscore=0 phishscore=0 bulkscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2509150000 definitions=main-2509290194
+X-Proofpoint-GUID: HK1NSPwXH5S1Dnhr_rM5_A0zQ1T55hdL
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI5MDE2OCBTYWx0ZWRfX+jc71IBeXHJc
+ K9M33+dPrGj3f019fJBKYmBO9k5qo7/nlzapKQEhedw1vMSbm/S9b+BRXAb094jaf+oXdxoWLET
+ C1yLhjYXIquqS5B6mDBkvEXDt9W6BFgN9SdlU0uN7rA4aR5R7RwA4tPU4NYvz+eWpFSOFfuRagC
+ brL+qTG1+B/GpLroe6t2WK47RhmVL5rFaVOKGZhZ2RqwP7ae+VqC9T5l+1K5wK6z9UN3+Dlz7OC
+ HPg+tM2b3l7hK2aAqcZyb6fH1nSwfHe+SSefBCfTU+lsNcN9MZA8xUaD3fOgx/pWCjAsjs4TJ1Z
+ zuNYOzLGv9nZIkI9DLkJrnfvEncUFkEhKjhsH3XwRWkgoamyvFnzMQ1JJZf12ofYCVv9+1eumUO
+ mxXswdLcLijCHy7im/xwKeCBAgXa3g==
+X-Authority-Analysis: v=2.4 cv=Z+Ph3XRA c=1 sm=1 tr=0 ts=68daf1c4 b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
  a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=yJojWOMRYYMA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=XFRmap13kSe4JC4BhIgA:9
- a=QEXdDO2ut3YA:10 cc=ntf awl=host:12089
-X-Proofpoint-ORIG-GUID: Iq7lcJr1LWXIG_y6M2AtqA44w9Nb2wns
+ a=yJojWOMRYYMA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=TTfZhms3z-kvY-M4JOsA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: HK1NSPwXH5S1Dnhr_rM5_A0zQ1T55hdL
 
 Reviewed-by: Eugene Loh <eugene.loh@oracle.com>
 
 On 9/29/25 15:47, Kris Van Hees wrote:
-> In order to allow [u]stack() to be used in expressions, they must be
-> subroutines.  An exception is added to allow them to retain their
-> original behaviour as data recording actions as well.
+> Distinguishing between kernel stacks and userspace stacks was done
+> based on the action id, even when used outside of action context
+> (i.e. in aggregation keys).  That is far from ideal.
 >
-> The implementation change requires a new internal type to be defined
-> (dt_stack) to hold stack trace data.
+> Encode the stack type along with the nframes and strsize values in
+> the  data record description argument for stack() and ustack()
+> records.
 >
-> This patch does not allow [u]stack() to be used in assignments to
-> variables just yet, but it supports all previous uses of [u]stack().
-> Additional functionality will be added on top of this.
+> The macros for managing that argument are moved to dt_impl.h since
+> they are internal to the DTrace implementation.
+>
+> All printing of stack traces is now consolidated in dt_printf.c as
+> well.
 >
 > Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
 > ---
->   include/dtrace/dif_defines.h                  |   6 +-
->   libdtrace/dt_cg.c                             | 350 +++++++++++-------
->   libdtrace/dt_dctx.h                           |   4 +-
->   libdtrace/dt_open.c                           |  21 +-
->   libdtrace/dt_options.c                        |  44 ++-
->   libdtrace/dt_printf.c                         |   3 +-
->   test/unittest/funcs/tst.subr.d                |  13 +-
->   .../printa/err.D_PRINTF_ARG_TYPE.stack.r      |   2 +-
->   .../printa/err.D_PRINTF_ARG_TYPE.ustack.r     |   2 +-
->   9 files changed, 289 insertions(+), 156 deletions(-)
+>   include/dtrace/actions_defines.h |   5 -
+>   libdtrace/dt_cg.c                |   6 +-
+>   libdtrace/dt_consume.c           | 256 ++----------------------------
+>   libdtrace/dt_impl.h              |  13 ++
+>   libdtrace/dt_printf.c            | 263 ++++++++++++++++++++++++++++---
+>   libdtrace/dt_printf.h            |  14 +-
+>   6 files changed, 272 insertions(+), 285 deletions(-)
 >
-> diff --git a/include/dtrace/dif_defines.h b/include/dtrace/dif_defines.h
-> index 9f6e3b55..a18614d2 100644
-> --- a/include/dtrace/dif_defines.h
-> +++ b/include/dtrace/dif_defines.h
-> @@ -2,7 +2,7 @@
->    * Licensed under the Universal Permissive License v 1.0 as shown at
->    * http://oss.oracle.com/licenses/upl.
->    *
-> - * Copyright (c) 2009, 2022, Oracle and/or its affiliates. All rights reserved.
-> + * Copyright (c) 2009, 2025, Oracle and/or its affiliates. All rights reserved.
->    */
+> diff --git a/include/dtrace/actions_defines.h b/include/dtrace/actions_defines.h
+> index 1a9c1a81..7c2f7dda 100644
+> --- a/include/dtrace/actions_defines.h
+> +++ b/include/dtrace/actions_defines.h
+> @@ -156,11 +156,6 @@
+>   		(uint16_t)(((x) & DTRACE_LLQUANTIZE_FACTORMASK) >> \
+>   			DTRACE_LLQUANTIZE_FACTORSHIFT)
 >   
->   /*
-> @@ -210,8 +210,10 @@
->   #define DIF_SUBR_INET_NTOA6		43
->   #define DIF_SUBR_D_PATH			44
->   #define DIF_SUBR_LINK_NTOP		45
-> +#define DIF_SUBR_STACK			46
-> +#define DIF_SUBR_USTACK			47
->   
-> -#define DIF_SUBR_MAX			45
-> +#define DIF_SUBR_MAX			47
->   
->   typedef uint32_t	dif_instr_t;
->   
+> -#define DTRACE_USTACK_NFRAMES(x)	(uint32_t)((x) & UINT32_MAX)
+> -#define DTRACE_USTACK_STRSIZE(x)	(uint32_t)((x) >> 32)
+> -#define DTRACE_USTACK_ARG(x, y)		\
+> -		((((uint64_t)(y)) << 32) | ((x) & UINT32_MAX))
+> -
+>   #ifndef _LP64
+>   # ifndef _LITTLE_ENDIAN
+>   #  define DTRACE_PTR(type, name)	uint32_t name##pad; type *name
 > diff --git a/libdtrace/dt_cg.c b/libdtrace/dt_cg.c
-> index 51473667..0299ccb1 100644
+> index 6e70331f..51473667 100644
 > --- a/libdtrace/dt_cg.c
 > +++ b/libdtrace/dt_cg.c
-> @@ -2723,7 +2723,8 @@ dt_cg_stack_arg(dtrace_hdl_t *dtp, dt_node_t *dnp, dtrace_actkind_t kind)
->    * The "kind" argument is either DTRACEACT_STACK or DTRACEACT_USTACK.
->    */
->   static int
-> -dt_cg_act_stack_sub(dt_pcb_t *pcb, dt_node_t *dnp, int reg, int off, dtrace_actkind_t kind)
-> +dt_cg_act_stack_sub(dt_pcb_t *pcb, dt_node_t *dnp, int reg, int off,
-> +		    dtrace_actkind_t kind)
->   {
->   	dtrace_hdl_t	*dtp = pcb->pcb_hdl;
->   	dt_irlist_t	*dlp = &pcb->pcb_ir;
-> @@ -2743,12 +2744,9 @@ dt_cg_act_stack_sub(dt_pcb_t *pcb, dt_node_t *dnp, int reg, int off, dtrace_actk
+> @@ -2701,7 +2701,7 @@ dt_cg_stack_arg(dtrace_hdl_t *dtp, dt_node_t *dnp, dtrace_actkind_t kind)
+>   		strsize = arg1->dn_value;
+>   	}
+>   
+> -	return DTRACE_USTACK_ARG(nframes, strsize);
+> +	return DTRACE_STACK_ARG(kind == DTRACEACT_USTACK, nframes, strsize);
+>   }
+>   
+>   /*
+> @@ -2738,7 +2738,7 @@ dt_cg_act_stack_sub(dt_pcb_t *pcb, dt_node_t *dnp, int reg, int off, dtrace_actk
+>   	/* Get sizing information from dnp->dn_arg. */
+>   	arg = dt_cg_stack_arg(dtp, dnp, kind);
+>   	prefsz = kind == DTRACEACT_USTACK ? sizeof(uint64_t) : 0;
+> -	nframes = DTRACE_USTACK_NFRAMES(arg);
+> +	nframes = DTRACE_STACK_NFRAMES(arg);
+>   	stacksize = nframes * sizeof(uint64_t);
 >   
 >   	/* Handle alignment and reserve space in the output buffer. */
->   	if (reg >= 0) {
-> -		uint_t	nextoff;
-> -		nextoff = (off + (align - 1)) & ~(align - 1);
-> -		if (off < nextoff)
-> -			emit(dlp,  BPF_ALU64_IMM(BPF_ADD, reg, nextoff - off));
-> -		off = nextoff + prefsz + stacksize;
-> +		off = ALIGN(off, align);
->   	} else {
-> +		reg = BPF_REG_9;
->   		off = dt_rec_add(dtp, dt_cg_fill_gap, kind,
->   				 prefsz + stacksize, align, NULL, arg);
->   	}
-> @@ -2762,11 +2760,7 @@ dt_cg_act_stack_sub(dt_pcb_t *pcb, dt_node_t *dnp, int reg, int off, dtrace_actk
->   		dt_regset_free_args(drp);
->   		/* mov32 %r0, %r0 effectively masks the lower 32 bits. */
->   		emit(dlp,  BPF_MOV32_REG(BPF_REG_0, BPF_REG_0));
-> -
-> -		if (reg >= 0)
-> -			emit(dlp,  BPF_STORE(BPF_DW, reg, 0, BPF_REG_0));
-> -		else
-> -			emit(dlp,  BPF_STORE(BPF_DW, BPF_REG_9, off, BPF_REG_0));
-> +		emit(dlp,  BPF_STORE(BPF_DW, reg, off, BPF_REG_0));
->   		dt_regset_free(drp, BPF_REG_0);
->   	}
+> @@ -8700,7 +8700,7 @@ dt_cg_agg(dt_pcb_t *pcb, dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
+>   				case DT_ACT_USTACK:
+>   					arg = dt_cg_stack_arg(dtp, knp, DTRACEACT_USTACK);
+>   					kind = DTRACEACT_USTACK;
+> -					size = 8 + 8 * DTRACE_USTACK_NFRAMES(arg);
+> +					size = 8 + 8 * DTRACE_STACK_NFRAMES(arg);
+>   					break;
+>   				case DT_ACT_JSTACK:
+>   					kind = DTRACEACT_JSTACK;
+> diff --git a/libdtrace/dt_consume.c b/libdtrace/dt_consume.c
+> index 280ed42a..eca2139f 100644
+> --- a/libdtrace/dt_consume.c
+> +++ b/libdtrace/dt_consume.c
+> @@ -1079,232 +1079,6 @@ dt_print_tracemem(dtrace_hdl_t *dtp, FILE *fp, const dtrace_recdesc_t *rec,
+>   	return nconsumed;
+>   }
 >   
-> @@ -2774,14 +2768,8 @@ dt_cg_act_stack_sub(dt_pcb_t *pcb, dt_node_t *dnp, int reg, int off, dtrace_actk
->   	if (dt_regset_xalloc_args(drp) == -1)
->   		longjmp(yypcb->pcb_jmpbuf, EDT_NOREG);
->   	dt_cg_access_dctx(BPF_REG_1, dlp, drp, DCTX_CTX);
-> -	if (reg >= 0) {
-> -		emit(dlp,  BPF_MOV_REG(BPF_REG_2, reg));
-> -		if (prefsz)
-> -			emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, prefsz));
-> -	} else {
-> -		emit(dlp,  BPF_MOV_REG(BPF_REG_2, BPF_REG_9));
-> -		emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, off + prefsz));
+> -int
+> -dt_print_stack(dtrace_hdl_t *dtp, FILE *fp, const char *format,
+> -    caddr_t addr, int depth, int size)
+> -{
+> -	dtrace_syminfo_t dts;
+> -	GElf_Sym sym;
+> -	int i, indent;
+> -	char c[PATH_MAX * 2];
+> -	uint64_t pc;
+> -
+> -	if (dt_printf(dtp, fp, "\n") < 0)
+> -		return -1;
+> -
+> -	if (format == NULL)
+> -		format = "%s";
+> -
+> -	if (dtp->dt_options[DTRACEOPT_STACKINDENT] != DTRACEOPT_UNSET)
+> -		indent = (int)dtp->dt_options[DTRACEOPT_STACKINDENT];
+> -	else
+> -		indent = _dtrace_stkindent;
+> -
+> -	for (i = 0; i < depth; i++) {
+> -		switch (size) {
+> -		case sizeof(uint32_t):
+> -			/* LINTED - alignment */
+> -			pc = *((uint32_t *)addr);
+> -			break;
+> -
+> -		case sizeof(uint64_t):
+> -			/* LINTED - alignment */
+> -			pc = *((uint64_t *)addr);
+> -			break;
+> -
+> -		default:
+> -			return dt_set_errno(dtp, EDT_BADSTACKPC);
+> -		}
+> -
+> -		if (pc == 0)
+> -			break;
+> -
+> -		addr += size;
+> -
+> -		if (dt_printf(dtp, fp, "%*s", indent, "") < 0)
+> -			return -1;
+> -
+> -		if (dtrace_lookup_by_addr(dtp, pc, &sym, &dts) == 0) {
+> -			if (pc > sym.st_value)
+> -				snprintf(c, sizeof(c), "%s`%s+0x%llx",
+> -					 dts.object, dts.name,
+> -					 (long long unsigned)pc - sym.st_value);
+> -			else
+> -				snprintf(c, sizeof(c), "%s`%s",
+> -					 dts.object, dts.name);
+> -		} else {
+> -			/*
+> -			 * We'll repeat the lookup, but this time we'll specify
+> -			 * a NULL GElf_Sym -- indicating that we're only
+> -			 * interested in the containing module.
+> -			 */
+> -			if (dtrace_lookup_by_addr(dtp, pc, NULL, &dts) == 0)
+> -				snprintf(c, sizeof(c), "%s`0x%llx",
+> -					 dts.object, (long long unsigned)pc);
+> -			else
+> -				snprintf(c, sizeof(c), "0x%llx",
+> -				    (long long unsigned)pc);
+> -		}
+> -
+> -		if (dt_printf(dtp, fp, format, c) < 0)
+> -			return -1;
+> -
+> -		if (dt_printf(dtp, fp, "\n") < 0)
+> -			return -1;
 > -	}
-> +	emit(dlp,  BPF_MOV_REG(BPF_REG_2, reg));
-> +	emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, off + prefsz));
->   	emit(dlp,  BPF_MOV_IMM(BPF_REG_3, stacksize));
->   	if (kind == DTRACEACT_USTACK)
->   		emit(dlp,  BPF_MOV_IMM(BPF_REG_4, BPF_F_USER_STACK));
-> @@ -2798,11 +2786,7 @@ dt_cg_act_stack_sub(dt_pcb_t *pcb, dt_node_t *dnp, int reg, int off, dtrace_actk
->   	emitl(dlp, lbl_valid,
->   		   BPF_NOP());
->   
-> -	/* Finish. */
-> -	if (reg >= 0)
-> -		emit(dlp,  BPF_ALU64_IMM(BPF_ADD, reg, prefsz + stacksize));
 > -
-> -	return off;
-> +	return prefsz + stacksize;
->   }
->   
->   static void
-> @@ -3909,33 +3893,42 @@ dt_cg_arglist(dt_ident_t *idp, dt_node_t *args, dt_irlist_t *dlp,
->   			longjmp(yypcb->pcb_jmpbuf, EDT_NOTUPREG);
->   
->   		/*
-> -		 * Handle actions that can be used as agg keys.
-> -		 * If we are not an aggregation, dt_cg_node(dnp, ...)
-> -		 * will alert us there is a problem.
-> +		 * Some function calls (actions or subroutines) need special
-> +		 * handling.
->   		 */
-> -		if (idp->di_kind == DT_IDENT_AGG &&
-> -		    dnp->dn_kind == DT_NODE_FUNC &&
-> -		    dnp->dn_ident != NULL)
-> -			switch (dnp->dn_ident->di_id) {
-> -			case DT_ACT_STACK:
-> -			case DT_ACT_USTACK:
-> -				/* If this is a stack()-like function, we can handle it later. */
-> -				dt_cg_push_stack(BPF_REG_FP, dlp, drp);
-> -				continue;
-> -			case DT_ACT_JSTACK:
-> -				dnerror(dnp, D_UNKNOWN, "jstack() is not implemented (yet)\n");
-> -				/* FIXME: Needs implementation */
-> -			case DT_ACT_SYM:
-> -			case DT_ACT_MOD:
-> -			case DT_ACT_UADDR:
-> -			case DT_ACT_UMOD:
-> -			case DT_ACT_USYM:
-> -				/* Otherwise, use the action's arg, not its "return value". */
-> -				dt_cg_node(dnp->dn_args, dlp, drp);
-> -				dt_cg_push_stack(dnp->dn_args->dn_reg, dlp, drp);
-> -				dt_regset_free(drp, dnp->dn_args->dn_reg);
-> -				continue;
-> +		if (dnp->dn_kind == DT_NODE_FUNC) {
-> +			dt_ident_t	*fidp = dnp->dn_ident;
-> +
-> +			assert(fidp != NULL);
-> +
-> +			/*
-> +			 * For subroutines, stack() and ustack() don't need to
-> +			 * be evaluated until we fill in the data of the tuple.
-> +			 */
-> +			if (fidp->di_kind == DT_IDENT_FUNC) {
-> +				if (fidp->di_id == DIF_SUBR_STACK ||
-> +				    fidp->di_id == DIF_SUBR_USTACK) {
-> +					dt_cg_push_stack(BPF_REG_FP, dlp, drp);
-> +					continue;
-> +				}
-> +			} else if (fidp->di_kind == DT_IDENT_ACTFUNC) {
-> +				switch (fidp->di_id) {
-> +				case DT_ACT_JSTACK:
-> +					dnerror(dnp, D_UNKNOWN, "jstack() is not implemented (yet)\n");
-> +					/* FIXME: Needs implementation */
-> +				case DT_ACT_SYM:
-> +				case DT_ACT_MOD:
-> +				case DT_ACT_UADDR:
-> +				case DT_ACT_UMOD:
-> +				case DT_ACT_USYM:
-> +					/* Otherwise, use the action's arg, not its "return value". */
-> +					dt_cg_node(dnp->dn_args, dlp, drp);
-> +					dt_cg_push_stack(dnp->dn_args->dn_reg, dlp, drp);
-> +					dt_regset_free(drp, dnp->dn_args->dn_reg);
-> +					continue;
-> +				}
->   			}
-> +		}
->   
->   		/* Push the component (pointer or value) onto the tuple stack. */
->   		dt_cg_node(dnp, dlp, drp);
-> @@ -3972,7 +3965,6 @@ empty_args:
->   	dt_regset_free(drp, BPF_REG_0);
->   
->   	/* Reserve space for a uint32_t value at the beginning of the tuple. */
-> -	emit(dlp, BPF_ALU64_IMM(BPF_ADD, treg, sizeof(uint32_t)));
->   	tuplesize = sizeof(uint32_t);
->   
->   	if ((areg = dt_regset_alloc(drp)) == -1)
-> @@ -3986,53 +3978,62 @@ empty_args:
->   	for (dnp = args, i = 0; dnp != NULL; dnp = dnp->dn_list, i++) {
->   		dtrace_diftype_t	t;
->   		size_t			size;
-> -		uint_t			nextoff;
->   		int			is_symmod = 0;
->   
-> -		if (dnp->dn_kind == DT_NODE_FUNC &&
-> -		    dnp->dn_ident != NULL)
-> -			switch (dnp->dn_ident->di_id) {
-> -			case DT_ACT_STACK:
-> -				tuplesize = dt_cg_act_stack_sub(yypcb, dnp, treg, tuplesize, DTRACEACT_STACK);
-> -				continue;
-> -			case DT_ACT_USTACK:
-> -				tuplesize = dt_cg_act_stack_sub(yypcb, dnp, treg, tuplesize, DTRACEACT_USTACK);
-> -				continue;
-> -			case DT_ACT_UADDR:
-> -			case DT_ACT_USYM:
-> -			case DT_ACT_UMOD:
-> -				nextoff = (tuplesize + (8 - 1)) & ~(8 - 1);
-> -				if (tuplesize < nextoff)
-> -					emit(dlp,  BPF_ALU64_IMM(BPF_ADD, treg, nextoff - tuplesize));
+> -	return 0;
+> -}
 > -
-> -				/* Preface the value with the user process pid. */
-> -				if (dt_regset_xalloc_args(drp) == -1)
-> -					longjmp(yypcb->pcb_jmpbuf, EDT_NOREG);
-> -				dt_regset_xalloc(drp, BPF_REG_0);
-> -				emit(dlp, BPF_CALL_HELPER(BPF_FUNC_get_current_pid_tgid));
-> -				dt_regset_free_args(drp);
-> -				emit(dlp, BPF_ALU64_IMM(BPF_RSH, BPF_REG_0, 32));
-> -				emit(dlp, BPF_STORE(BPF_DW, treg, 0, BPF_REG_0));
-> -				dt_regset_free(drp, BPF_REG_0);
+> -int
+> -dt_print_ustack(dtrace_hdl_t *dtp, FILE *fp, const char *format,
+> -    caddr_t addr, uint64_t arg)
+> -{
+> -	/* LINTED - alignment */
+> -	uint64_t *pc = ((uint64_t *)addr);
+> -	uint32_t depth = DTRACE_USTACK_NFRAMES(arg);
+> -	uint32_t strsize = DTRACE_USTACK_STRSIZE(arg);
+> -	const char *strbase = addr + (depth + 1) * sizeof(uint64_t);
+> -	const char *str = strsize ? strbase : NULL;
+> -	int err = 0;
 > -
-> -				/* Then store the value. */
-> -				dt_regset_xalloc(drp, BPF_REG_0);
-> -				emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, areg, -i * DT_STK_SLOT_SZ));
-> -				emit(dlp,  BPF_STORE(BPF_DW, treg, 8, BPF_REG_0));
-> -				dt_regset_free(drp, BPF_REG_0);
+> -	const char *name;
+> -	char objname[PATH_MAX], c[PATH_MAX * 2];
+> -	GElf_Sym sym;
+> -	int i, indent;
+> -	pid_t pid = -1, tgid;
 > -
-> -				emit(dlp,  BPF_ALU64_IMM(BPF_ADD, treg, 16));
-> -				tuplesize = nextoff + 16;
+> -	if (depth == 0)
+> -		return 0;
 > -
-> -				continue;
-> -			case DT_ACT_SYM:
-> -			case DT_ACT_MOD:
-> -				is_symmod = 1;
-> -				size = 8;
-> -				dt_regset_xalloc(drp, BPF_REG_0);
-> -				emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, areg, -i * DT_STK_SLOT_SZ));
-> -				break;
-> +		if (dnp->dn_kind == DT_NODE_FUNC) {
-> +			dt_ident_t	*fidp = dnp->dn_ident;
-> +
-> +			if (fidp->di_kind == DT_IDENT_FUNC) {
-> +				switch (fidp->di_id) {
-> +				case DIF_SUBR_STACK:
-> +					tuplesize += dt_cg_act_stack_sub(
-> +							yypcb, dnp, treg,
-> +							tuplesize,
-> +							DTRACEACT_STACK);
-> +					continue;
-> +				case DIF_SUBR_USTACK:
-> +					tuplesize += dt_cg_act_stack_sub(
-> +							yypcb, dnp, treg,
-> +							tuplesize,
-> +							DTRACEACT_USTACK);
-> +					continue;
-> +				}
-> +			} else if (fidp->di_kind == DT_IDENT_ACTFUNC) {
-> +				switch (fidp->di_id) {
-> +				case DT_ACT_UADDR:
-> +				case DT_ACT_USYM:
-> +				case DT_ACT_UMOD:
-> +					tuplesize = ALIGN(tuplesize, 8);
-> +
-> +					/* Preface the value with the user process pid. */
-> +					if (dt_regset_xalloc_args(drp) == -1)
-> +						longjmp(yypcb->pcb_jmpbuf, EDT_NOREG);
-> +					dt_regset_xalloc(drp, BPF_REG_0);
-> +					emit(dlp, BPF_CALL_HELPER(BPF_FUNC_get_current_pid_tgid));
-> +					dt_regset_free_args(drp);
-> +					emit(dlp, BPF_ALU64_IMM(BPF_RSH, BPF_REG_0, 32));
-> +					emit(dlp, BPF_STORE(BPF_DW, treg, tuplesize, BPF_REG_0));
-> +					dt_regset_free(drp, BPF_REG_0);
-> +
-> +					/* Then store the value. */
-> +					dt_regset_xalloc(drp, BPF_REG_0);
-> +					emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, areg, -i * DT_STK_SLOT_SZ));
-> +					emit(dlp,  BPF_STORE(BPF_DW, treg, tuplesize + 8, BPF_REG_0));
-> +					dt_regset_free(drp, BPF_REG_0);
-> +
-> +					tuplesize += 16;
-> +
-> +					continue;
-> +				case DT_ACT_SYM:
-> +				case DT_ACT_MOD:
-> +					is_symmod = 1;
-> +					size = 8;
-> +					dt_regset_xalloc(drp, BPF_REG_0);
-> +					emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, areg, -i * DT_STK_SLOT_SZ));
-> +					break;
-> +				}
->   			}
-> +		}
->   
->   		if (!is_symmod) {
->   			dt_node_diftype(dtp, dnp, &t);
-> @@ -4052,15 +4053,12 @@ empty_args:
->   		}
->   
->   		if (dt_node_is_scalar(dnp) || dt_node_is_float(dnp) || is_symmod) {
-> -			nextoff = (tuplesize + (size - 1)) & ~(size - 1);
-> -			if (tuplesize < nextoff)
-> -				emit(dlp,  BPF_ALU64_IMM(BPF_ADD, treg, nextoff - tuplesize));
-> +			tuplesize = ALIGN(tuplesize, size);
->   
-> -			emit(dlp,  BPF_STOREX(size, treg, 0, BPF_REG_0));
-> +			emit(dlp,  BPF_STOREX(size, treg, tuplesize, BPF_REG_0));
->   			dt_regset_free(drp, BPF_REG_0);
->   
-> -			emit(dlp,  BPF_ALU64_IMM(BPF_ADD, treg, size));
-> -			tuplesize = nextoff + size;
-> +			tuplesize += size;
->   		} else if (dt_node_is_string(dnp)) {
->   			uint_t	lbl_valid = dt_irlist_label(dlp);
->   
-> @@ -4068,6 +4066,7 @@ empty_args:
->   				longjmp(yypcb->pcb_jmpbuf, EDT_NOREG);
->   
->   			emit(dlp,  BPF_MOV_REG(BPF_REG_1, treg));
-> +			emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_1, tuplesize));
->   			emit(dlp,  BPF_MOV_IMM(BPF_REG_2, size + 1));
->   			emit(dlp,  BPF_MOV_REG(BPF_REG_3, BPF_REG_0));
->   			dt_cg_tstring_free(yypcb, dnp);
-> @@ -4081,7 +4080,7 @@ empty_args:
->   					  DT_ISIMM, 128 + i);
->   
->   			emitl(dlp, lbl_valid,
-> -				   BPF_ALU64_IMM(BPF_ADD, treg, size + 1));
-> +				   BPF_NOP());
->   			tuplesize += size + 1;
->   		} else if (t.dtdt_flags & DIF_TF_BYREF) {
->   			uint_t	lbl_valid = dt_irlist_label(dlp);
-> @@ -4090,6 +4089,7 @@ empty_args:
->   				longjmp(yypcb->pcb_jmpbuf, EDT_NOREG);
->   
->   			emit(dlp,  BPF_MOV_REG(BPF_REG_1, treg));
-> +			emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_1, tuplesize));
->   			emit(dlp,  BPF_MOV_IMM(BPF_REG_2, size));
->   			emit(dlp,  BPF_MOV_REG(BPF_REG_3, BPF_REG_0));
->   			dt_regset_free(drp, BPF_REG_0);
-> @@ -4102,7 +4102,7 @@ empty_args:
->   					  DT_ISIMM, 0);
->   
->   			emitl(dlp, lbl_valid,
-> -				   BPF_ALU64_IMM(BPF_ADD, treg, size));
-> +				   BPF_NOP());
->   			tuplesize += size;
->   		} else
->   			assert(0);	/* We shouldn't be able to get here. */
-> @@ -4128,10 +4128,10 @@ empty_args:
->   		dt_regset_xalloc(drp, BPF_REG_0);
->   		emite(dlp, BPF_CALL_FUNC(idp->di_id), idp);
->   		dt_regset_free_args(drp);
-> -		emit(dlp,  BPF_STORE(BPF_DW, treg, 0, BPF_REG_0));
-> +		emit(dlp,  BPF_STORE(BPF_DW, treg, tuplesize, BPF_REG_0));
->   		dt_regset_free(drp, BPF_REG_0);
->   	} else
-> -		emit(dlp,  BPF_STORE_IMM(BPF_DW, treg, 0, 0));
-> +		emit(dlp,  BPF_STORE_IMM(BPF_DW, treg, tuplesize, 0));
->   
->   	/* Account for the optional TLS key (or 0). */
->   	tuplesize += sizeof(uint64_t);
-> @@ -6324,6 +6324,42 @@ dt_cg_subr_strchr(dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
->   	TRACE_REGSET("    subr-strchr:End  ");
->   }
->   
-> +static void
-> +dt_cg_subr_stack_common(dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp,
-> +			dtrace_actkind_t kind)
-> +{
-> +	dtrace_hdl_t	*dtp = yypcb->pcb_hdl;
-> +
-> +	if ((dnp->dn_reg = dt_regset_alloc(drp)) == -1)
-> +		longjmp(yypcb->pcb_jmpbuf, EDT_NOREG);
-> +
-> +	/*
-> +	 * Collect the stack in the static buffer (because it is an invariant
-> +	 * for a probe firing), and return a pointer to it.
-> +	 */
-> +	dt_cg_access_dctx(dnp->dn_reg, dlp, drp, DCTX_MEM);
-> +	emit(dlp, BPF_ALU64_IMM(BPF_ADD, dnp->dn_reg, DMEM_STACK(dtp)));
-> +
-> +	/* Call the stack helper function to collect the stack. */
-> +	dt_cg_act_stack_sub(yypcb, dnp, dnp->dn_reg, 0, kind);
-> +}
-> +
-> +static void
-> +dt_cg_subr_stack(dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
-> +{
-> +	TRACE_REGSET("    subr-stack:Begin");
-> +	dt_cg_subr_stack_common(dnp, dlp, drp, DTRACEACT_STACK);
-> +	TRACE_REGSET("    subr-stack:End  ");
-> +}
-> +
-> +static void
-> +dt_cg_subr_ustack(dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
-> +{
-> +	TRACE_REGSET("    subr-ustack:Begin");
-> +	dt_cg_subr_stack_common(dnp, dlp, drp, DTRACEACT_USTACK);
-> +	TRACE_REGSET("    subr-ustack:End  ");
-> +}
-> +
->   static void
->   dt_cg_subr_strrchr(dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
->   {
-> @@ -6953,6 +6989,8 @@ static dt_cg_subr_f *_dt_cg_subr[DIF_SUBR_MAX + 1] = {
->   	[DIF_SUBR_INET_NTOA6]		= &dt_cg_subr_inet_ntoa6,
->   	[DIF_SUBR_D_PATH]		= &dt_cg_subr_d_path,
->   	[DIF_SUBR_LINK_NTOP]		= &dt_cg_subr_link_ntop,
-> +	[DIF_SUBR_STACK]		= &dt_cg_subr_stack,
-> +	[DIF_SUBR_USTACK]		= &dt_cg_subr_ustack,
->   };
->   
->   static void
-> @@ -8692,43 +8730,50 @@ dt_cg_agg(dt_pcb_t *pcb, dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
->   			uint64_t arg = 0;
->   			dt_ident_t *idp = knp->dn_ident;
->   
-> -			if (knp->dn_kind == DT_NODE_FUNC && idp != NULL &&
-> -			    idp->di_kind == DT_IDENT_ACTFUNC) {
-> -				size = 16;
-> +			if (knp->dn_kind == DT_NODE_FUNC && idp != NULL) {
->   				alignment = 8;
-> -				switch (idp->di_id) {
-> -				case DT_ACT_USTACK:
-> -					arg = dt_cg_stack_arg(dtp, knp, DTRACEACT_USTACK);
-> -					kind = DTRACEACT_USTACK;
-> -					size = 8 + 8 * DTRACE_STACK_NFRAMES(arg);
-> -					break;
-> -				case DT_ACT_JSTACK:
-> -					kind = DTRACEACT_JSTACK;
-> -					break;
-> -				case DT_ACT_USYM:
-> -					kind = DTRACEACT_USYM;
-> -					break;
-> -				case DT_ACT_UMOD:
-> -					kind = DTRACEACT_UMOD;
-> -					break;
-> -				case DT_ACT_UADDR:
-> -					kind = DTRACEACT_UADDR;
-> -					break;
-> -				case DT_ACT_STACK:
-> -					arg = dt_cg_stack_arg(dtp, knp, DTRACEACT_STACK);
-> -					kind = DTRACEACT_STACK;
-> -					size = 8 * arg;
-> -					break;
-> -				case DT_ACT_SYM:
-> -					kind = DTRACEACT_SYM;
-> -					size = 8;
-> -					break;
-> -				case DT_ACT_MOD:
-> -					kind = DTRACEACT_MOD;
-> -					size = 8;
-> -					break;
-> +
-> +				if (idp->di_kind == DT_IDENT_FUNC) {
-> +					switch (idp->di_id) {
-> +					case DIF_SUBR_USTACK:
-> +						arg = dt_cg_stack_arg(dtp, knp, DTRACEACT_USTACK);
-> +						kind = DTRACEACT_USTACK;
-> +						size = 8 + 8 * DTRACE_STACK_NFRAMES(arg);
-> +						goto add_rec;
-> +					case DIF_SUBR_STACK:
-> +						arg = dt_cg_stack_arg(dtp, knp, DTRACEACT_STACK);
-> +						kind = DTRACEACT_STACK;
-> +						size = 8 * arg;
-> +						goto add_rec;
-> +					}
-> +				} else if (idp->di_kind == DT_IDENT_ACTFUNC) {
-> +					size = 16;
-> +					switch (idp->di_id) {
-> +					case DT_ACT_JSTACK:
-> +						kind = DTRACEACT_JSTACK;
-> +						goto add_rec;
-> +					case DT_ACT_USYM:
-> +						kind = DTRACEACT_USYM;
-> +						goto add_rec;
-> +					case DT_ACT_UMOD:
-> +						kind = DTRACEACT_UMOD;
-> +						goto add_rec;
-> +					case DT_ACT_UADDR:
-> +						kind = DTRACEACT_UADDR;
-> +						goto add_rec;
-> +					case DT_ACT_SYM:
-> +						kind = DTRACEACT_SYM;
-> +						size = 8;
-> +						goto add_rec;
-> +					case DT_ACT_MOD:
-> +						kind = DTRACEACT_MOD;
-> +						size = 8;
-> +						goto add_rec;
-> +					}
->   				}
-> -			} else if (dt_node_is_string(knp)) {
-> +			}
-> +
-> +			if (dt_node_is_string(knp)) {
->   				size = dtp->dt_options[DTRACEOPT_STRSIZE] + 1;
->   				alignment = 1;
->   			} else {
-> @@ -8739,6 +8784,7 @@ dt_cg_agg(dt_pcb_t *pcb, dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
->   				alignment = size;
->   			}
->   
-> +add_rec:
->   			dt_aggid_rec_add(dtp, aid->di_id, kind, size, alignment, arg);
->   		}
->   	}
-> @@ -8822,10 +8868,34 @@ dt_cg(dt_pcb_t *pcb, dt_node_t *dnp)
->   				if (enp->dn_kind == DT_NODE_AGG)
->   					dt_cg_agg(pcb, enp, &pcb->pcb_ir,
->   						  pcb->pcb_regs);
+> -	tgid = (pid_t)*pc++;
+> -
+> -	if (dt_printf(dtp, fp, "\n") < 0)
+> -		return -1;
+> -
+> -	if (format == NULL)
+> -		format = "%s";
+> -
+> -	if (dtp->dt_options[DTRACEOPT_STACKINDENT] != DTRACEOPT_UNSET)
+> -		indent = (int)dtp->dt_options[DTRACEOPT_STACKINDENT];
+> -	else
+> -		indent = _dtrace_stkindent;
+> -
+> -	/*
+> -	 * Ultimately, we need to add an entry point in the library vector for
+> -	 * determining <symbol, offset> from <tgid, address>.  For now, if
+> -	 * this is a vector open, we just print the raw address or string.
+> -	 */
+> -	if (dtp->dt_vector == NULL)
+> -		pid = dt_proc_grab_lock(dtp, tgid, DTRACE_PROC_WAITING |
+> -		    DTRACE_PROC_SHORTLIVED);
+> -
+> -	for (i = 0; i < depth && pc[i] != 0; i++) {
+> -		const prmap_t *map;
+> -
+> -		if ((err = dt_printf(dtp, fp, "%*s", indent, "")) < 0)
+> -			break;
+> -		if (dtp->dt_options[DTRACEOPT_NORESOLVE] != DTRACEOPT_UNSET
+> -		    && pid >= 0) {
+> -			if (dt_Pobjname(dtp, pid, pc[i], objname,
+> -			    sizeof(objname)) != NULL) {
+> -				const prmap_t *pmap = NULL;
+> -				uint64_t offset = pc[i];
+> -
+> -				pmap = dt_Paddr_to_map(dtp, pid, pc[i]);
+> -
+> -				if (pmap)
+> -					offset = pc[i] - pmap->pr_vaddr;
+> -
+> -				snprintf(c, sizeof(c), "%s:0x%llx",
+> -				    dt_basename(objname), (unsigned long long)offset);
+> -
+> -			} else
+> -				snprintf(c, sizeof(c), "0x%llx",
+> -				    (unsigned long long)pc[i]);
+> -
+> -		} else if (pid >= 0 && dt_Plookup_by_addr(dtp, pid, pc[i],
+> -							  &name, &sym) == 0) {
+> -			if (dt_Pobjname(dtp, pid, pc[i], objname,
+> -					sizeof(objname)) != NULL) {
+> -				if (pc[i] > sym.st_value)
+> -					snprintf(c, sizeof(c), "%s`%s+0x%llx",
+> -						 dt_basename(objname), name,
+> -						 (unsigned long long)(pc[i] - sym.st_value));
 > -				else
-> +				else {
-> +					/*
-> +					 * Special case: [u]stack() in statement
-> +					 * context is treated as data generating
-> +					 * action.
-> +					 */
-> +					if (enp->dn_kind == DT_NODE_FUNC) {
-> +						uint_t	id;
-> +
-> +						id = enp->dn_ident->di_id;
-> +						if (id == DIF_SUBR_STACK)
-> +							id = DTRACEACT_STACK;
-> +						else if (id == DIF_SUBR_USTACK)
-> +							id = DTRACEACT_USTACK;
-> +						else
-> +							id = 0;
-> +
-> +						if (id) {
-> +							dt_cg_act_stack(pcb, enp, id);
-> +							pcb->pcb_stmt->dtsd_clauseflags |= DT_CLSFLAG_DATAREC;
-> +							goto done;
-> +						}
-> +					}
->   					dt_cg_node(enp, &pcb->pcb_ir,
->   						   pcb->pcb_regs);
-> +				}
+> -					snprintf(c, sizeof(c), "%s`%s",
+> -						 dt_basename(objname), name);
+> -			} else
+> -				snprintf(c, sizeof(c), "0x%llx",
+> -				    (unsigned long long)pc[i]);
+> -			/* Allocated by Plookup_by_addr. */
+> -			free((char *)name);
+> -		} else if (str != NULL && str[0] != '\0' && str[0] != '@' &&
+> -		    (pid >= 0 &&
+> -			((map = dt_Paddr_to_map(dtp, pid, pc[i])) == NULL ||
+> -			    (map->pr_mflags & MA_WRITE)))) {
+> -			/*
+> -			 * If the current string pointer in the string table
+> -			 * does not point to an empty string _and_ the program
+> -			 * counter falls in a writable region, we'll use the
+> -			 * string from the string table instead of the raw
+> -			 * address.  This last condition is necessary because
+> -			 * some (broken) ustack helpers will return a string
+> -			 * even for a program counter that they can't
+> -			 * identify.  If we have a string for a program
+> -			 * counter that falls in a segment that isn't
+> -			 * writable, we assume that we have fallen into this
+> -			 * case and we refuse to use the string.
+> -			 */
+> -			snprintf(c, sizeof(c), "%s", str);
+> -		} else {
+> -			if (pid >= 0 && dt_Pobjname(dtp, pid, pc[i], objname,
+> -			    sizeof(objname)) != NULL)
+> -				snprintf(c, sizeof(c), "%s`0x%llx",
+> -				    dt_basename(objname), (unsigned long long)pc[i]);
+> -			else
+> -				snprintf(c, sizeof(c), "0x%llx",
+> -				    (unsigned long long)pc[i]);
+> -		}
+> -
+> -		if ((err = dt_printf(dtp, fp, format, c)) < 0)
+> -			break;
+> -
+> -		if ((err = dt_printf(dtp, fp, "\n")) < 0)
+> -			break;
+> -
+> -		if (str != NULL && str[0] == '@') {
+> -			/*
+> -			 * If the first character of the string is an "at" sign,
+> -			 * then the string is inferred to be an annotation --
+> -			 * and it is printed out beneath the frame and offset
+> -			 * with brackets.
+> -			 */
+> -			if ((err = dt_printf(dtp, fp, "%*s", indent, "")) < 0)
+> -				break;
+> -
+> -			snprintf(c, sizeof(c), "  [ %s ]", &str[1]);
+> -
+> -			if ((err = dt_printf(dtp, fp, format, c)) < 0)
+> -				break;
+> -
+> -			if ((err = dt_printf(dtp, fp, "\n")) < 0)
+> -				break;
+> -		}
+> -
+> -		if (str != NULL) {
+> -			str += strlen(str) + 1;
+> -			if (str - strbase >= strsize)
+> -				str = NULL;
+> -		}
+> -	}
+> -
+> -	if (pid >= 0)
+> -		dt_proc_release_unlock(dtp, pid);
+> -
+> -	return err;
+> -}
+> -
+>   static int
+>   dt_print_usym(dtrace_hdl_t *dtp, FILE *fp, caddr_t addr, dtrace_actkind_t act)
+>   {
+> @@ -1355,7 +1129,7 @@ dt_print_umod(dtrace_hdl_t *dtp, FILE *fp, const char *format, caddr_t addr)
+>   		format = "  %-50s";
 >   
-> +done:
->   				if (enp->dn_reg != -1) {
->   					dt_regset_free(pcb->pcb_regs,
->   						       enp->dn_reg);
-> diff --git a/libdtrace/dt_dctx.h b/libdtrace/dt_dctx.h
-> index 9ff6cca5..b50a1395 100644
-> --- a/libdtrace/dt_dctx.h
-> +++ b/libdtrace/dt_dctx.h
-> @@ -1,6 +1,6 @@
->   /*
->    * Oracle Linux DTrace.
-> - * Copyright (c) 2020, 2024, Oracle and/or its affiliates. All rights reserved.
-> + * Copyright (c) 2020, 2025, Oracle and/or its affiliates. All rights reserved.
->    * Licensed under the Universal Permissive License v 1.0 as shown at
->    * http://oss.oracle.com/licenses/upl.
->    */
-> @@ -128,7 +128,7 @@ typedef struct dt_dctx {
->    *	    completed.
->    */
->   #define DMEM_STACK_SZ(dtp) \
-> -		(sizeof(uint64_t) * (dtp)->dt_options[DTRACEOPT_MAXFRAMES])
-> +		(sizeof(uint64_t) * (dtp)->dt_options[DTRACEOPT_MAXFRAMES] + 1)
->   #define DMEM_TSTR_SZ(dtp) \
->   		(DT_TSTRING_SLOTS * DT_TSTRING_SIZE(dtp))
->   #define DMEM_STRTOK_SZ(dtp) \
-> diff --git a/libdtrace/dt_open.c b/libdtrace/dt_open.c
-> index 509f263d..ed0b14a1 100644
-> --- a/libdtrace/dt_open.c
-> +++ b/libdtrace/dt_open.c
-> @@ -175,7 +175,7 @@ static const dt_ident_t _dtrace_globals[] = {
->   { "ipl", DT_IDENT_SCALAR, 0, DIF_VAR_IPL, DT_ATTR_STABCMN, DT_VERS_1_0,
->   	&dt_idops_type, "uint_t" },
->   { "jstack", DT_IDENT_ACTFUNC, 0, DT_ACT_JSTACK, DT_ATTR_STABCMN, DT_VERS_1_0,
-> -	&dt_idops_func, "stack([uint32_t], [uint32_t])" },
-> +	&dt_idops_func, "dt_stack([uint32_t], [uint32_t])" },
->   { "link_ntop", DT_IDENT_FUNC, 0, DIF_SUBR_LINK_NTOP, DT_ATTR_STABCMN,
->   	DT_VERS_1_5, &dt_idops_func, "string(int, void *)" },
->   { "llquantize", DT_IDENT_AGGFUNC, 0, DT_AGG_LLQUANTIZE,
-> @@ -273,8 +273,8 @@ static const dt_ident_t _dtrace_globals[] = {
->   { "speculation", DT_IDENT_FUNC, 0, DIF_SUBR_SPECULATION,
->   	DT_ATTR_STABCMN, DT_VERS_1_0,
->   	&dt_idops_func, "int()" },
-> -{ "stack", DT_IDENT_ACTFUNC, 0, DT_ACT_STACK, DT_ATTR_STABCMN, DT_VERS_1_0,
-> -	&dt_idops_func, "stack([uint32_t])" },
-> +{ "stack", DT_IDENT_FUNC, DT_IDFLG_DPTR, DIF_SUBR_STACK, DT_ATTR_STABCMN,
-> +	DT_VERS_1_0, &dt_idops_func, "dt_stack([uint32_t])" },
->   { "stackdepth", DT_IDENT_SCALAR, 0, DIF_VAR_STACKDEPTH,
->   	DT_ATTR_STABCMN, DT_VERS_1_0,
->   	&dt_idops_type, "uint32_t" },
-> @@ -328,8 +328,8 @@ static const dt_ident_t _dtrace_globals[] = {
->   	DT_VERS_1_2, &dt_idops_func, "_usymaddr(uintptr_t)" },
->   { "uregs", DT_IDENT_ARRAY, 0, DIF_VAR_UREGS, DT_ATTR_STABCMN, DT_VERS_1_0,
->   	&dt_idops_regs, NULL },
-> -{ "ustack", DT_IDENT_ACTFUNC, 0, DT_ACT_USTACK, DT_ATTR_STABCMN, DT_VERS_1_0,
-> -	&dt_idops_func, "stack([uint32_t], [uint32_t])" },
-> +{ "ustack", DT_IDENT_FUNC, DT_IDFLG_DPTR, DIF_SUBR_USTACK, DT_ATTR_STABCMN,
-> +	DT_VERS_1_0, &dt_idops_func, "dt_stack([uint32_t], [uint32_t])" },
->   { "ustackdepth", DT_IDENT_SCALAR, 0, DIF_VAR_USTACKDEPTH,
->   	DT_ATTR_STABCMN, DT_VERS_1_2,
->   	&dt_idops_type, "uint32_t" },
-> @@ -1054,8 +1054,17 @@ dt_vopen(int version, int flags, int *errp,
->   	dtp->dt_type_dyn = ctf_add_typedef(dmp->dm_ctfp, CTF_ADD_ROOT,
->   	    "<DYN>", ctf_lookup_by_name(dmp->dm_ctfp, "void"));
+>   	/*
+> -	 * See the comment in dt_print_ustack() for the rationale for
+> +	 * See the comment in dt_print_stack_user() for the rationale for
+>   	 * printing raw addresses in the vectored case.
+>   	 */
+>   	if (dtp->dt_vector == NULL)
+> @@ -1660,12 +1434,15 @@ dt_print_datum(dtrace_hdl_t *dtp, FILE *fp, dtrace_recdesc_t *rec,
 >   
-> +	/*
-> +	 * The stack type is added as a typedef of uint64_t[MAXFRAMES].  The
-> +	 * final value of MAXFRAMES may be adjusted with the "stackframes"
-> +	 * option.
-> +	 */
-> +	ctr.ctr_contents = ctf_lookup_by_name(dmp->dm_ctfp, "uint64_t");
-> +	ctr.ctr_index = ctf_lookup_by_name(dmp->dm_ctfp, "long");
-> +	ctr.ctr_nelems = _dtrace_stackframes;
+>   	switch (act) {
+>   	case DTRACEACT_STACK:
+> -		return dt_print_stack(dtp, fp, NULL, addr, rec->dtrd_arg,
+> -				      rec->dtrd_size / rec->dtrd_arg);
+> +	case DTRACEACT_USTACK: {
+> +		dtrace_probedata_t	pdat;
+>   
+> -	case DTRACEACT_USTACK:
+> -	case DTRACEACT_JSTACK:
+> -		return dt_print_ustack(dtp, fp, NULL, addr, rec->dtrd_arg);
+> +		/* dt_print_stack() uses dtpda_data only */
+> +		memset(&pdat, 0, sizeof(pdat));
+> +		pdat.dtpda_data = addr;
 > +
->   	dtp->dt_type_stack = ctf_add_typedef(dmp->dm_ctfp, CTF_ADD_ROOT,
-> -	    "stack", ctf_lookup_by_name(dmp->dm_ctfp, "void"));
-> +		"dt_stack", ctf_add_array(dmp->dm_ctfp, CTF_ADD_ROOT, &ctr));
+> +		return dt_print_stack(dtp, fp, NULL, &pdat, rec, 1, NULL, 0);
+> +	}
 >   
->   	dtp->dt_type_symaddr = ctf_add_typedef(dmp->dm_ctfp, CTF_ADD_ROOT,
->   	    "_symaddr", ctf_lookup_by_name(dmp->dm_ctfp, "void"));
-> diff --git a/libdtrace/dt_options.c b/libdtrace/dt_options.c
-> index 25e79979..7508f044 100644
-> --- a/libdtrace/dt_options.c
-> +++ b/libdtrace/dt_options.c
-> @@ -1,6 +1,6 @@
->   /*
->    * Oracle Linux DTrace.
-> - * Copyright (c) 2007, 2024, Oracle and/or its affiliates. All rights reserved.
-> + * Copyright (c) 2007, 2025, Oracle and/or its affiliates. All rights reserved.
->    * Licensed under the Universal Permissive License v 1.0 as shown at
->    * http://oss.oracle.com/licenses/upl.
->    */
-> @@ -912,6 +912,46 @@ dt_opt_rate(dtrace_hdl_t *dtp, const char *arg, uintptr_t option)
->   	return 0;
->   }
+>   	case DTRACEACT_USYM:
+>   	case DTRACEACT_UADDR:
+> @@ -2467,14 +2244,6 @@ dt_consume_one_probe(dtrace_hdl_t *dtp, FILE *fp, char *data, uint32_t size,
+>   			return dt_set_errno(dtp, EDT_BADRVAL);
+>   
+>   		switch (act) {
+> -		case DTRACEACT_STACK: {
+> -			int depth = rec->dtrd_arg;
+> -
+> -			if (dt_print_stack(dtp, fp, NULL, recdata,
+> -					   depth, rec->dtrd_size / depth) < 0)
+> -				return -1;
+> -			continue;
+> -		}
+>   		case DTRACEACT_SYM:
+>   			if (dt_print_sym(dtp, fp, NULL, recdata) < 0)
+>   				return -1;
+> @@ -2483,11 +2252,10 @@ dt_consume_one_probe(dtrace_hdl_t *dtp, FILE *fp, char *data, uint32_t size,
+>   			if (dt_print_mod(dtp, fp, NULL, recdata) < 0)
+>   				return -1;
+>   			continue;
+> +		case DTRACEACT_STACK:
+>   		case DTRACEACT_USTACK:
+> -			if (dt_print_ustack(dtp, fp, NULL,
+> -					    recdata, rec->dtrd_arg) < 0)
+> -				return -1;
+> -			continue;
+> +			func = dt_print_stack;
+> +			break;
+>   		case DTRACEACT_USYM:
+>   		case DTRACEACT_UADDR:
+>   			if (dt_print_usym(dtp, fp, recdata, act) < 0)
+> diff --git a/libdtrace/dt_impl.h b/libdtrace/dt_impl.h
+> index 7d8e4432..4dc4c9a7 100644
+> --- a/libdtrace/dt_impl.h
+> +++ b/libdtrace/dt_impl.h
+> @@ -236,6 +236,19 @@ typedef struct dt_tstring {
+>   	int		in_use;			/* In use (1) or not (0) */
+>   } dt_tstring_t;
 >   
 > +/*
-> + * When setting the maxframes option, set the option in the dt_options array
-> + * using dt_opt_runtime() as usual, and then update the definition of the CTF
-> + * type for "_stack" to be an array of the corresponding size.
-> + * If any errors occur, reset dt_options[option] to its previous value.
+> + * The stack()/ustack() data record argument encodes:
+> + *  - the stack type (kernel or userspace)
+> + *  - the number of frames in the stack trace
+> + *  - the size of the optional string area for ustack()
 > + */
+> +#define DTRACE_STACK_IS_USER(x)		((x) & (1 << 31))
+> +#define DTRACE_STACK_NFRAMES(x)		(uint32_t)((x) & INT32_MAX)
+> +#define DTRACE_STACK_STRSIZE(x)		(uint32_t)((x) >> 32)
+> +#define DTRACE_STACK_ARG(t, x, y)	((((uint64_t)(y)) << 32) | \
+> +					 ((t) ? (1UL << 31) : 0) | \
+> +					 ((x) & INT32_MAX))
+> +
+>   typedef struct dt_dirpath {
+>   	dt_list_t dir_list;		/* linked-list forward/back pointers */
+>   	char *dir_path;			/* directory pathname */
+> diff --git a/libdtrace/dt_printf.c b/libdtrace/dt_printf.c
+> index 1e01d468..0d7c0bb4 100644
+> --- a/libdtrace/dt_printf.c
+> +++ b/libdtrace/dt_printf.c
+> @@ -1,6 +1,6 @@
+>   /*
+>    * Oracle Linux DTrace.
+> - * Copyright (c) 2009, 2024, Oracle and/or its affiliates. All rights reserved.
+> + * Copyright (c) 2009, 2025, Oracle and/or its affiliates. All rights reserved.
+>    * Licensed under the Universal Permissive License v 1.0 as shown at
+>    * http://oss.oracle.com/licenses/upl.
+>    */
+> @@ -374,6 +374,200 @@ pfprint_uaddr(dtrace_hdl_t *dtp, FILE *fp, const char *format,
+>   	return dt_printf(dtp, fp, format, s);
+>   }
+>   
 > +static int
-> +dt_opt_maxframes(dtrace_hdl_t *dtp, const char *arg, uintptr_t option)
+> +dt_print_stack_kernel(dtrace_hdl_t *dtp, FILE *fp, const char *format,
+> +		      caddr_t addr, int indent, uint32_t depth)
 > +{
-> +	dtrace_optval_t val = dtp->dt_options[option];
-> +	ctf_file_t *fp = DT_STACK_CTFP(dtp);
-> +	ctf_id_t type = ctf_type_resolve(fp, DT_STACK_TYPE(dtp));
-> +	ctf_arinfo_t r;
+> +	dtrace_syminfo_t dts;
+> +	GElf_Sym sym;
+> +	int i;
+> +	char c[PATH_MAX * 2];
+> +	uint64_t pc;
 > +
-> +	if (dt_opt_runtime(dtp, arg, option) != 0)
-> +		return -1; /* dt_errno is set for us */
+> +	if (format == NULL)
+> +		format = "%s";
 > +
-> +	if (dtp->dt_options[option] > UINT_MAX) {
-> +		dtp->dt_options[option] = val;
-> +		return dt_set_errno(dtp, EOVERFLOW);
-> +	}
+> +	for (i = 0; i < depth; i++) {
+> +		pc = *((uint64_t *)addr);
+> +		if (pc == 0)
+> +			break;
 > +
-> +	if (ctf_array_info(fp, type, &r) == CTF_ERR) {
-> +		dtp->dt_options[option] = val;
-> +		dtp->dt_ctferr = ctf_errno(fp);
-> +		return dt_set_errno(dtp, EDT_CTF);
-> +	}
+> +		addr += sizeof(pc);
 > +
-> +	r.ctr_nelems = (uint_t)dtp->dt_options[option];
+> +		if (dt_printf(dtp, fp, "%*s", indent, "") < 0)
+> +			return -1;
 > +
-> +	if (ctf_set_array(fp, type, &r) == CTF_ERR ||
-> +	    ctf_update(fp) == CTF_ERR) {
-> +		dtp->dt_options[option] = val;
-> +		dtp->dt_ctferr = ctf_errno(fp);
-> +		return dt_set_errno(dtp, EDT_CTF);
+> +		if (dtrace_lookup_by_addr(dtp, pc, &sym, &dts) == 0) {
+> +			if (pc > sym.st_value)
+> +				snprintf(c, sizeof(c), "%s`%s+0x%llx",
+> +					 dts.object, dts.name,
+> +					 (long long unsigned)pc - sym.st_value);
+> +			else
+> +				snprintf(c, sizeof(c), "%s`%s",
+> +					 dts.object, dts.name);
+> +		} else {
+> +			/*
+> +			 * We'll repeat the lookup, but this time we'll specify
+> +			 * a NULL GElf_Sym -- indicating that we're only
+> +			 * interested in the containing module.
+> +			 */
+> +			if (dtrace_lookup_by_addr(dtp, pc, NULL, &dts) == 0)
+> +				snprintf(c, sizeof(c), "%s`0x%llx",
+> +					 dts.object, (long long unsigned)pc);
+> +			else
+> +				snprintf(c, sizeof(c), "0x%llx",
+> +				    (long long unsigned)pc);
+> +		}
+> +
+> +		if (dt_printf(dtp, fp, format, c) < 0)
+> +			return -1;
+> +
+> +		if (dt_printf(dtp, fp, "\n") < 0)
+> +			return -1;
 > +	}
 > +
 > +	return 0;
 > +}
 > +
->   /*
->    * When setting the strsize option, set the option in the dt_options array
->    * using dt_opt_size() as usual, and then update the definition of the CTF
-> @@ -1157,7 +1197,7 @@ static const dt_option_t _dtrace_rtoptions[] = {
->   	{ "jstackframes", dt_opt_runtime, DTRACEOPT_JSTACKFRAMES },
->   	{ "jstackstrsize", dt_opt_size, DTRACEOPT_JSTACKSTRSIZE },
->   	{ "lockmem", dt_opt_lockmem, DTRACEOPT_LOCKMEM },
-> -	{ "maxframes", dt_opt_runtime, DTRACEOPT_MAXFRAMES },
-> +	{ "maxframes", dt_opt_maxframes, DTRACEOPT_MAXFRAMES },
->   	{ "nusdtprobes", dt_opt_runtime, DTRACEOPT_NUSDTPROBES },
->   	{ "nspec", dt_opt_runtime, DTRACEOPT_NSPEC },
->   	{ "pcapsize", dt_opt_pcapsize, DTRACEOPT_PCAPSIZE },
-> diff --git a/libdtrace/dt_printf.c b/libdtrace/dt_printf.c
-> index 0d7c0bb4..a3e15397 100644
-> --- a/libdtrace/dt_printf.c
-> +++ b/libdtrace/dt_printf.c
-> @@ -24,7 +24,8 @@
->   static int
->   pfcheck_addr(dt_pfargv_t *pfv, dt_pfargd_t *pfd, dt_node_t *dnp)
->   {
-> -	return dt_node_is_pointer(dnp) || dt_node_is_integer(dnp);
-> +	return (dt_node_is_pointer(dnp) && !dt_node_is_stack(dnp)) ||
-> +	       dt_node_is_integer(dnp);
->   }
->   
+> +static int
+> +dt_print_stack_user(dtrace_hdl_t *dtp, FILE *fp, const char *format,
+> +		    caddr_t addr, int indent, uint32_t depth, uint32_t strsize)
+> +{
+> +	/* LINTED - alignment */
+> +	uint64_t *pc = ((uint64_t *)addr);
+> +	const char *strbase = addr + (depth + 1) * sizeof(uint64_t);
+> +	const char *str = strsize ? strbase : NULL;
+> +	int err = 0;
+> +
+> +	const char *name;
+> +	char objname[PATH_MAX], c[PATH_MAX * 2];
+> +	GElf_Sym sym;
+> +	int i;
+> +	pid_t pid = -1, tgid;
+> +
+> +	if (depth == 0)
+> +		return 0;
+> +
+> +	tgid = (pid_t)*pc++;
+> +
+> +	if (format == NULL)
+> +		format = "%s";
+> +
+> +	/*
+> +	 * Ultimately, we need to add an entry point in the library vector for
+> +	 * determining <symbol, offset> from <tgid, address>.  For now, if
+> +	 * this is a vector open, we just print the raw address or string.
+> +	 */
+> +	if (dtp->dt_vector == NULL)
+> +		pid = dt_proc_grab_lock(dtp, tgid, DTRACE_PROC_WAITING |
+> +		    DTRACE_PROC_SHORTLIVED);
+> +
+> +	for (i = 0; i < depth && pc[i] != 0; i++) {
+> +		const prmap_t *map;
+> +
+> +		if ((err = dt_printf(dtp, fp, "%*s", indent, "")) < 0)
+> +			break;
+> +		if (dtp->dt_options[DTRACEOPT_NORESOLVE] != DTRACEOPT_UNSET
+> +		    && pid >= 0) {
+> +			if (dt_Pobjname(dtp, pid, pc[i], objname,
+> +			    sizeof(objname)) != NULL) {
+> +				const prmap_t *pmap = NULL;
+> +				uint64_t offset = pc[i];
+> +
+> +				pmap = dt_Paddr_to_map(dtp, pid, pc[i]);
+> +
+> +				if (pmap)
+> +					offset = pc[i] - pmap->pr_vaddr;
+> +
+> +				snprintf(c, sizeof(c), "%s:0x%llx",
+> +				    dt_basename(objname), (unsigned long long)offset);
+> +
+> +			} else
+> +				snprintf(c, sizeof(c), "0x%llx",
+> +				    (unsigned long long)pc[i]);
+> +
+> +		} else if (pid >= 0 && dt_Plookup_by_addr(dtp, pid, pc[i],
+> +							  &name, &sym) == 0) {
+> +			if (dt_Pobjname(dtp, pid, pc[i], objname,
+> +					sizeof(objname)) != NULL) {
+> +				if (pc[i] > sym.st_value)
+> +					snprintf(c, sizeof(c), "%s`%s+0x%llx",
+> +						 dt_basename(objname), name,
+> +						 (unsigned long long)(pc[i] - sym.st_value));
+> +				else
+> +					snprintf(c, sizeof(c), "%s`%s",
+> +						 dt_basename(objname), name);
+> +			} else
+> +				snprintf(c, sizeof(c), "0x%llx",
+> +				    (unsigned long long)pc[i]);
+> +			/* Allocated by Plookup_by_addr. */
+> +			free((char *)name);
+> +		} else if (str != NULL && str[0] != '\0' && str[0] != '@' &&
+> +		    (pid >= 0 &&
+> +			((map = dt_Paddr_to_map(dtp, pid, pc[i])) == NULL ||
+> +			    (map->pr_mflags & MA_WRITE)))) {
+> +			/*
+> +			 * If the current string pointer in the string table
+> +			 * does not point to an empty string _and_ the program
+> +			 * counter falls in a writable region, we'll use the
+> +			 * string from the string table instead of the raw
+> +			 * address.  This last condition is necessary because
+> +			 * some (broken) ustack helpers will return a string
+> +			 * even for a program counter that they can't
+> +			 * identify.  If we have a string for a program
+> +			 * counter that falls in a segment that isn't
+> +			 * writable, we assume that we have fallen into this
+> +			 * case and we refuse to use the string.
+> +			 */
+> +			snprintf(c, sizeof(c), "%s", str);
+> +		} else {
+> +			if (pid >= 0 && dt_Pobjname(dtp, pid, pc[i], objname,
+> +			    sizeof(objname)) != NULL)
+> +				snprintf(c, sizeof(c), "%s`0x%llx",
+> +				    dt_basename(objname), (unsigned long long)pc[i]);
+> +			else
+> +				snprintf(c, sizeof(c), "0x%llx",
+> +				    (unsigned long long)pc[i]);
+> +		}
+> +
+> +		if ((err = dt_printf(dtp, fp, format, c)) < 0)
+> +			break;
+> +
+> +		if ((err = dt_printf(dtp, fp, "\n")) < 0)
+> +			break;
+> +
+> +		if (str != NULL && str[0] == '@') {
+> +			/*
+> +			 * If the first character of the string is an "at" sign,
+> +			 * then the string is inferred to be an annotation --
+> +			 * and it is printed out beneath the frame and offset
+> +			 * with brackets.
+> +			 */
+> +			if ((err = dt_printf(dtp, fp, "%*s", indent, "")) < 0)
+> +				break;
+> +
+> +			snprintf(c, sizeof(c), "  [ %s ]", &str[1]);
+> +
+> +			if ((err = dt_printf(dtp, fp, format, c)) < 0)
+> +				break;
+> +
+> +			if ((err = dt_printf(dtp, fp, "\n")) < 0)
+> +				break;
+> +		}
+> +
+> +		if (str != NULL) {
+> +			str += strlen(str) + 1;
+> +			if (str - strbase >= strsize)
+> +				str = NULL;
+> +		}
+> +	}
+> +
+> +	if (pid >= 0)
+> +		dt_proc_release_unlock(dtp, pid);
+> +
+> +	return err;
+> +}
+> +
 >   /*ARGSUSED*/
-> diff --git a/test/unittest/funcs/tst.subr.d b/test/unittest/funcs/tst.subr.d
-> index 9f7203c0..d97a0780 100644
-> --- a/test/unittest/funcs/tst.subr.d
-> +++ b/test/unittest/funcs/tst.subr.d
+>   static int
+>   pfprint_stack(dtrace_hdl_t *dtp, FILE *fp, const char *format,
+> @@ -381,19 +575,20 @@ pfprint_stack(dtrace_hdl_t *dtp, FILE *fp, const char *format,
+>   	      uint64_t normal, uint64_t sig)
+>   {
+>   	int width;
+> -	dtrace_optval_t saved = dtp->dt_options[DTRACEOPT_STACKINDENT];
+>   	const dtrace_recdesc_t *rec = pfd->pfd_rec;
+>   	caddr_t addr = (caddr_t)vaddr;
+> +	uint32_t depth = DTRACE_STACK_NFRAMES(rec->dtrd_arg);
+>   	int err = 0;
+>   
+> +	if (depth == 0)
+> +		return 0;
+> +
+>   	/*
+> -	 * We have stashed the value of the STACKINDENT option, and we will
+> -	 * now override it for the purposes of formatting the stack.  If the
+> -	 * field has been specified as left-aligned (i.e. (%-#), we set the
+> -	 * indentation to be the width.  This is a slightly odd semantic, but
+> -	 * it's useful functionality -- and it's slightly odd to begin with to
+> -	 * be using a single format specifier to be formatting multiple lines
+> -	 * of text...
+> +	 * If the field has been specified as left-aligned (i.e. (%-#), we use
+> +	 * the field width as indentation.  This is a slightly odd semantic
+> +	 * but it's useful functionality -- and it's slightly odd to begin with
+> +	 * to be using a single format specifier to be formatting multiple
+> +	 * lines of text...
+>   	 */
+>   	if (pfd->pfd_dynwidth < 0) {
+>   		assert(pfd->pfd_flags & DT_PFCONV_DYNWIDTH);
+> @@ -404,24 +599,14 @@ pfprint_stack(dtrace_hdl_t *dtp, FILE *fp, const char *format,
+>   		width = 0;
+>   	}
+>   
+> -	dtp->dt_options[DTRACEOPT_STACKINDENT] = width;
+> -
+> -	switch (rec->dtrd_action) {
+> -	case DTRACEACT_USTACK:
+> -	case DTRACEACT_JSTACK:
+> -		err = dt_print_ustack(dtp, fp, format, addr, rec->dtrd_arg);
+> -		break;
+> -
+> -	case DTRACEACT_STACK:
+> -		err = dt_print_stack(dtp, fp, format, addr, rec->dtrd_arg,
+> -		    rec->dtrd_size / rec->dtrd_arg);
+> -		break;
+> -
+> -	default:
+> -		assert(0);
+> -	}
+> +	if (dt_printf(dtp, fp, "\n") < 0)
+> +		return -1;
+>   
+> -	dtp->dt_options[DTRACEOPT_STACKINDENT] = saved;
+> +	if (DTRACE_STACK_IS_USER(rec->dtrd_arg))
+> +		err = dt_print_stack_user(dtp, fp, format, addr, width, depth,
+> +					  DTRACE_STACK_STRSIZE(rec->dtrd_arg));
+> +	else
+> +		err = dt_print_stack_kernel(dtp, fp, format, addr, width, depth);
+>   
+>   	return err;
+>   }
+> @@ -2287,3 +2472,29 @@ dt_print_type(dtrace_hdl_t *dtp, FILE *fp, void *fmtdata,
+>   
+>   	return 2;
+>   }
+> +
+> +int
+> +dt_print_stack(dtrace_hdl_t *dtp, FILE *fp, void *fmtdata,
+> +	       const dtrace_probedata_t *data, const dtrace_recdesc_t *recs,
+> +	        uint_t nrecs, const void *buf, size_t len)
+> +{
+> +	const char	*format;
+> +	dt_pfargd_t	pfd;
+> +
+> +	if (fmtdata == NULL)
+> +		format = "%s";
+> +	else
+> +		format = ((dt_pfargv_t *)fmtdata)->pfv_format;
+> +
+> +	/* pfprint_stack() uses pfd_rec, pfd_flags, and pfd_width only */
+> +	memset(&pfd, 0, sizeof(pfd));
+> +	pfd.pfd_rec = recs;
+> +	pfd.pfd_flags = DT_PFCONV_LEFT;
+> +
+> +	if (dtp->dt_options[DTRACEOPT_STACKINDENT] != DTRACEOPT_UNSET)
+> +		pfd.pfd_width = (int)dtp->dt_options[DTRACEOPT_STACKINDENT];
+> +	else
+> +		pfd.pfd_width = _dtrace_stkindent;
+> +
+> +	return pfprint_stack(dtp, fp, format, &pfd, data->dtpda_data, 0, 0, 0);
+> +}
+> diff --git a/libdtrace/dt_printf.h b/libdtrace/dt_printf.h
+> index f08e48eb..1ebdd8aa 100644
+> --- a/libdtrace/dt_printf.h
+> +++ b/libdtrace/dt_printf.h
 > @@ -1,6 +1,6 @@
 >   /*
 >    * Oracle Linux DTrace.
-> - * Copyright (c) 2007, 2023, Oracle and/or its affiliates. All rights reserved.
-> + * Copyright (c) 2007, 2025, Oracle and/or its affiliates. All rights reserved.
+> - * Copyright (c) 2005, 2024, Oracle and/or its affiliates. All rights reserved.
+> + * Copyright (c) 2005, 2025, Oracle and/or its affiliates. All rights reserved.
 >    * Licensed under the Universal Permissive License v 1.0 as shown at
 >    * http://oss.oracle.com/licenses/upl.
 >    */
-> @@ -36,6 +36,15 @@
->   	/*DSTYLED*/			\
->   	}
+> @@ -102,16 +102,16 @@ extern void dt_printf_validate(dt_pfargv_t *, uint_t,
 >   
-> +#define STKFUNC(x)			\
-> +	BEGIN				\
-> +	/*DSTYLED*/			\
-> +	{				\
-> +		subr++;			\
-> +		@stk[x] = sum(1);	\
-> +	/*DSTYLED*/			\
-> +	}
-> +
->   #define NUM_UNIMPLEMENTED 7
+>   extern void dt_printa_validate(struct dt_node *, struct dt_node *);
 >   
->   INTFUNC(rand())
-> @@ -89,6 +98,8 @@ STRFUNC(inet_ntoa6((in6_addr_t *)alloca(sizeof(in6_addr_t))))
->   /* Not implemented yet.
->      STRFUNC(d_path(&(curthread->fs->root)))
->      STRFUNC(link_ntop(ARPHRD_ETHER, (void *)alloca(sizeof(ipaddr_t)))) */
-> +STKFUNC(stack(5))
-> +STKFUNC(ustack(5))
+> -extern int dt_print_stack(dtrace_hdl_t *, FILE *,
+> -    const char *, caddr_t, int, int);
+> -extern int dt_print_ustack(dtrace_hdl_t *, FILE *,
+> -    const char *, caddr_t, uint64_t);
+>   extern int dt_print_mod(dtrace_hdl_t *, FILE *, const char *, caddr_t);
+>   extern int dt_print_umod(dtrace_hdl_t *, FILE *, const char *, caddr_t);
+>   extern int dt_print_type(dtrace_hdl_t *dtp, FILE *fp, void *fmtdata,
+>   			 const dtrace_probedata_t *data,
+> -			 const dtrace_recdesc_t *recs,
+> -			 uint_t nrecs, const void *buf, size_t len);
+> +			 const dtrace_recdesc_t *recs, uint_t nrecs,
+> +			 const void *buf, size_t len);
+> +extern int dt_print_stack(dtrace_hdl_t *dtp, FILE *fp, void *fmtdata,
+> +			  const dtrace_probedata_t *data,
+> +			  const dtrace_recdesc_t *recs, uint_t nrecs,
+> +			  const void *buf, size_t len);
 >   
->   BEGIN
->   /subr == DIF_SUBR_MAX + 1 - NUM_UNIMPLEMENTED/
-> diff --git a/test/unittest/printa/err.D_PRINTF_ARG_TYPE.stack.r b/test/unittest/printa/err.D_PRINTF_ARG_TYPE.stack.r
-> index 50e884a0..95ac80da 100644
-> --- a/test/unittest/printa/err.D_PRINTF_ARG_TYPE.stack.r
-> +++ b/test/unittest/printa/err.D_PRINTF_ARG_TYPE.stack.r
-> @@ -2,4 +2,4 @@
->   dtrace: failed to compile script test/unittest/printa/err.D_PRINTF_ARG_TYPE.stack.d: [D_PRINTF_ARG_TYPE] line 12: printa( ) argument #2 is incompatible with conversion #1 prototype:
->   	conversion: %p
->   	 prototype: pointer or integer
-> -	  argument: stack
-> +	  argument: dt_stack
-> diff --git a/test/unittest/printa/err.D_PRINTF_ARG_TYPE.ustack.r b/test/unittest/printa/err.D_PRINTF_ARG_TYPE.ustack.r
-> index fc9e1512..5df10376 100644
-> --- a/test/unittest/printa/err.D_PRINTF_ARG_TYPE.ustack.r
-> +++ b/test/unittest/printa/err.D_PRINTF_ARG_TYPE.ustack.r
-> @@ -2,4 +2,4 @@
->   dtrace: failed to compile script test/unittest/printa/err.D_PRINTF_ARG_TYPE.ustack.d: [D_PRINTF_ARG_TYPE] line 12: printa( ) argument #2 is incompatible with conversion #1 prototype:
->   	conversion: %p
->   	 prototype: pointer or integer
-> -	  argument: stack
-> +	  argument: dt_stack
+>   #ifdef	__cplusplus
+>   }
