@@ -1,86 +1,86 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB10B33F9
-	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 04:22:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D89228CB8
+	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 18:22:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759119751; cv=fail; b=rWh8dTDDsl3S+zaNrqt7k1769jyLhF9iMwgOm0hHevT4i8Jev9klvAXXhoRF44OMImW21V02kyNhCtr1qtlW08CkGbs3H8Tq/w+uSVd+6049lwn6fvByN4ARymsS8ZUKlzrrqu2mScqj4IH4XgZlWAlg9T6/zuAeglC970MelxM=
+	t=1759170131; cv=fail; b=Y49MYJY1aL5NqjzP7sSz0Sfp7X7IBwTDiuLdcxAn6KQJQ0DjzDFiMFCOCDa6nTFWqQWKLBssWM9/E5UFcjPR90Euygr4RgYCz2i2aXjU6JTVnowP4Cc/7CfXt0sMq+rMV2X0vD5NTYsF5V9IOYVtTHS8yHD2mDBxyYXxycAtFfc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759119751; c=relaxed/simple;
-	bh=piKa/9ynU4OI+DeXQoN4czKDBlEbH8UegvoiW+E4dI0=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=B3qWh/yi4FF7pRVnHulWvzFD12BzMKH4fRAAw5iMaVt8IwGkytnMmQec+mfem1z1rFXk7BSq7DlWVg+yqP3ZiLYvngYT2nySPVUozqmdkltsUKcaz8EDnJHpZYzAGzIsX831iPgkiMqHdPnxJvjGK3eTmlIbARvNx7OU1I5wcgo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=lj33Lo9o; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=nnjMhPgQ; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1759170131; c=relaxed/simple;
+	bh=pkLce3p7hMf7Q44BcjgAbhUFXMhci6RnfSaYbUOSAgI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=AdVW1gB/WD761f0Jn2qVP+PXtAwizjoqDIpCVkO6uhAvReQ8ttf+t5B/AfN6KXj/ttvyjvfEXl0G8n+WX6kbM2rleorkTkmNQlZEE58VsGN9GyJke33nj44sCTEG1YKFOetIWpTzi2bVNyfnkpE4GE10SoNZCvoOFcV575qW4pE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=iU1ycrGJ; dkim=fail (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=SSjG5gnx reason="signature verification failed"; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="lj33Lo9o";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="nnjMhPgQ"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58T3BLOO003510
-	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 04:22:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="iU1ycrGJ";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="SSjG5gnx"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58TI4Y0N006163
+	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 18:22:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=t928qeVbVMARETrtsBxblgpsRP5VAy4Yac8SVrpvYzg=; b=
-	lj33Lo9oyDcCrjxsSbKDPbHS7x48boHtRHBnlZ+HriWdY5vnZA2rsjGlKwGLNgUh
-	+SD5i7UKKQ0EQwnbEgEdJc/akwIf3b4i/CPJ/T2rY8pQ9Epw0TAb6Y7mN1fn4nK9
-	PQp20Z8NqXrEngeUOBcvEiiT83gXFyNdF/CPfvLUe73kQ9ZKA68rmO6lKadJqWE1
-	M6otpLmvjXoG0D0yNdPvlEvxSxnqgr+6Psx5nRTLUWBvU2wDWvXc+90FUNWRMSHA
-	NEwqgt6NnmAhA3lZroa91rMDc6/Bpors/+C6iSOQttxqQ0QEvJWUkuhq4m0Z8/mZ
-	Fi7h1PO+TRgeZ+OIhz//rg==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49fhy5r1q8-1
+	corp-2025-04-25; bh=OCPWWa170ImLS8zQ+ec2+H6C/pKIiG3FjH+cEW3vEnk=; b=
+	iU1ycrGJpSawUEBJ2LZawlgSP9MyFh+GqBWm1JDEGBcfdxDQmo9n7m5iu64L/Jqx
+	fvwFOD9h5+8KcWkhIUmHPV4aU1n8cS1IO44X17DM5RRVvFih6H2u6igUW/3mC2Lb
+	WqthAm5UjA+AypasxdfC9Jkg61DRCmwDw6LBQq5IjjX4SAOrg+69L8ggr8LULZwM
+	DdTuqzaWwAF7sSO8D9Z9zWU7uS6arc2haHaBZt8RmFpRTIm7hOrowAvk1+R49Jyn
+	XkD4etNrlzKZXhH61W1kBQx603IQqZ01uwRqfsyXThdoL38ytZp8YWHCoC3Cmibj
+	Hxc1mVbThZjOhXGhHnCnzQ==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49fy2p814m-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 04:22:28 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58T3Fa5H036750
-	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 04:22:28 GMT
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010009.outbound.protection.outlook.com [52.101.56.9])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49e6c659gv-2
+	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 18:22:08 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58TI24UA027167
+	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 18:22:07 GMT
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010056.outbound.protection.outlook.com [52.101.46.56])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49e6c6tfj2-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 04:22:28 +0000
+	for <dtrace@lists.linux.dev>; Mon, 29 Sep 2025 18:22:07 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DRooHlQtUgOLjVpI0bD1Q7Jsi3AQHCdToRx5fO0xSU5+8X6F0iLylTRALSh4fa2tOa/MwxN7L3MFqeh7v/PPhEI/iOG1EjRnXoHNjh4veYLlSrxoVIzxGoBtapN20KqU43SinSaaNePTKGgjPfAGgrzJJqro5lCDh996p6TKVZUDqtCPJZieXt/RwP7f6znkgldAfnrYIR5oGtiePV5dGBaXWCUNibhww6e0nibXaHgruJDhHkIoY7fNv/Hbx+SQ2M0a8XKYNpe/o/U6i4VhRcOknpBAa140imYgJWXkZ/sUSrEw5fUW5lWVNixu95bYdK0zmAtRZsRgMUk1EBh8cw==
+ b=sddoFk+Z9XADHwmUvJRHjiLQeBLT1hG2Js8VXKEIYfcyLNgLQepPICLMqd+kfAiecXQbji0TLbBxMwGTVhChPUvjSLbSGD3ZPM6i17in3ygSxSr7VG3p1QRgtj+2TCCLvexxqe3PxrwCMo0W+TNeCsFKhiJf4BCgi/GqGi3AUPCq9UtzRVA86ow2t736hYHfaXo73Enuh/hOlp6DLxmmloDxHY5cqoIh8ECBFqZ75UAP7XL9KX0fBjW956VBf+3fnk82fREtq1Mv1WmxxQoh4kTPl5ap7It9AvbO60q5YVP9mcYaIK8TbujHVNe1v3ALbm66NlC4+429LWJfyWokBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t928qeVbVMARETrtsBxblgpsRP5VAy4Yac8SVrpvYzg=;
- b=pSbdw3YSJTaFlT1V+RVLmLfVddmB7g0ZxPqW8NQB1g8aw3D3BfNe434O6nRyQk8I5uFLOmMoGslBBymsIIC/aTjHJXuuFXQn4dr//28H1eBHzUbMoBWFq8ns3LJc2FCY4P0gst5HpUxk7R4xSKGkeqygXqcvYxIqWFJViTvTo2m0xzF8b+AnOS+R5jbMeBjaX3kFn/2gV8dwBD6zKMYZ5/CczYcwa6unGnrOYV0gSLxxX9dc49D3ffIk3KIU40iW43yevSWLTHRXxV+nvVntTsmKaBlYXQlcnrfM3tD1sAOeLDsiUEndHP9fShExOLCI15GPkzRDL17kepuBbRYmXQ==
+ bh=VtbIwUGQuxUfH8HvDpL0R7aibt/rSoGfaiXPNYzV9nA=;
+ b=UZV+fLZVoAPghMmwSUv0bAENxT1050R0w03YCLqKqF1B2Zj/JSeFfNcyaDKtdhzbEL22fAx+7quiwYIxGONQaI/ahm2HGQ1eGLe0NjaSzyclirN33aZ7N6BbfTuOQJlSJkpHWhEotlqeyGGrrCYhEn5crEcD2dA25s6r2byzm7PvJVdgVxg2hg88oVnOO+pY2ERlGvfdcIDf4NYOcuY5gSkBfHCG5DsgupwPibtQkElrh/S70r6jukdPLqiCNfvuBdSItoyYwrat6ROelm7qn0p8ewblHHOcB81mX0T3oueITyCImFdMbHjii+UyRh3x3h6TGfHUL3taXAIfLTYlCw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t928qeVbVMARETrtsBxblgpsRP5VAy4Yac8SVrpvYzg=;
- b=nnjMhPgQiPERGdMhZdjnNyXuHgOmI9xrqDCqmdMRU9zjeE34oFMamazBnHMS1CKooucy+Ui2ytM7Jw6x7VVQ7pmhGoMJZmTAr+8ThaK/AHxU8MunAmKHUzq8rBa2u3eOL6hbJRvH+CeMqwc5ZBMkAGcVSIIGOWrWQdWEKkDiUA8=
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by CY8PR10MB7121.namprd10.prod.outlook.com (2603:10b6:930:73::20) with
+ bh=VtbIwUGQuxUfH8HvDpL0R7aibt/rSoGfaiXPNYzV9nA=;
+ b=SSjG5gnxVYCTRPWTlsFX34BTPzrJj3twt23+yZ6/gYlqqc1Hudf7P/g+4/9mVAHiF6IN/BnAAuwJDC4sPAw/PK6Gehdt1nSlh2chc2ggYPrO8VmDloEb9lz9GdG+8ria0MscYrdqEndc//e9Mu4pSJEKjc9r93Yyq63xnnCO5uE=
+Received: from SJ0PR10MB5672.namprd10.prod.outlook.com (2603:10b6:a03:3ef::21)
+ by SN4PR10MB5653.namprd10.prod.outlook.com (2603:10b6:806:20c::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.16; Mon, 29 Sep
- 2025 04:22:19 +0000
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::c47b:6cdc:87b1:aa6b]) by CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::c47b:6cdc:87b1:aa6b%6]) with mapi id 15.20.9160.015; Mon, 29 Sep 2025
- 04:22:18 +0000
-Message-ID: <92809454-e92e-73c2-84ae-8d63e792c8a3@oracle.com>
-Date: Mon, 29 Sep 2025 00:22:16 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 2/2] cg: transition [u]stack() from action to subroutine
-Content-Language: en-US
-To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.17; Mon, 29 Sep
+ 2025 18:22:04 +0000
+Received: from SJ0PR10MB5672.namprd10.prod.outlook.com
+ ([fe80::8800:9203:9f66:174b]) by SJ0PR10MB5672.namprd10.prod.outlook.com
+ ([fe80::8800:9203:9f66:174b%4]) with mapi id 15.20.9160.015; Mon, 29 Sep 2025
+ 18:22:04 +0000
+Date: Mon, 29 Sep 2025 14:22:00 -0400
+From: Kris Van Hees <kris.van.hees@oracle.com>
+To: Eugene Loh <eugene.loh@oracle.com>
+Cc: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
         dtrace-devel@oss.oracle.com
+Subject: Re: [PATCH 2/2] cg: transition [u]stack() from action to subroutine
+Message-ID: <aNrOSNsN3AZEvqyh@oracle.com>
 References: <SJ0PR10MB567238538078DC5066122BECC21DA@SJ0PR10MB5672.namprd10.prod.outlook.com>
-From: Eugene Loh <eugene.loh@oracle.com>
-In-Reply-To: <SJ0PR10MB567238538078DC5066122BECC21DA@SJ0PR10MB5672.namprd10.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <92809454-e92e-73c2-84ae-8d63e792c8a3@oracle.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PH0P220CA0012.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:d3::35) To CO6PR10MB5636.namprd10.prod.outlook.com
- (2603:10b6:303:14b::20)
+In-Reply-To: <92809454-e92e-73c2-84ae-8d63e792c8a3@oracle.com>
+X-ClientProxiedBy: BLAPR05CA0018.namprd05.prod.outlook.com
+ (2603:10b6:208:36e::13) To SJ0PR10MB5672.namprd10.prod.outlook.com
+ (2603:10b6:a03:3ef::21)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -88,283 +88,277 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|CY8PR10MB7121:EE_
-X-MS-Office365-Filtering-Correlation-Id: d6f36279-9e88-4731-220e-08ddff0fc6f5
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB5672:EE_|SN4PR10MB5653:EE_
+X-MS-Office365-Filtering-Correlation-Id: 65992978-4860-4c2d-b35c-08ddff8516f6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?aXN2Z0lHR2k3ak5mbEN2NjZVY3F0S1VoU1ZrSDkvYU1XTGd4bmppaW04aWI4?=
- =?utf-8?B?aXBieGxuWTlqZktMMFg2Vi9MY3huWFdIZGhwZWpSREdCNDRadFFRS1NlVXp1?=
- =?utf-8?B?a3k1S0I3dDU4VThsZXNYV3dGMGJITFhqOE9QcGQwenBqc3FuR3JaZGhFL3BV?=
- =?utf-8?B?d0x4b2Zwc080dCs5KzNhemt3ZzlaaC9kM3hoU1lRTTBwcklabVgzZzcvMkZ4?=
- =?utf-8?B?Mk53RzQ1OHJMYzA3a2FFVllQbmVmNDlnV2x3b3hZcHBXY0tyeEpKUVZuVXZn?=
- =?utf-8?B?bk03c2ErZlNYUzlmKzBCS3I5OVVZQW16djVvOEx4YjVXMVZPT3RoSU9GUkky?=
- =?utf-8?B?OE5HSUxzeTg4dEtCQ2JERmlWVkJqbXU3VUY5blVYZEJKdmFIMTA0aUM3eFdC?=
- =?utf-8?B?YW9aY1VDVFJGNjZlVk1KUVdTZ0o1NGhPR3VjZTJRdllraG85cW1lSGJwQmlX?=
- =?utf-8?B?eUFjWkc0UE1xL3F1MG1Tc0F4bDExbEprOHRGbTViZTZSMCtWYStQQ0U2c1o5?=
- =?utf-8?B?NFN3Z2hqM0ZSSlJTMlQvT3Rrb0VFRVVmQ1hzNWMwZkZDWE9wMW5jSHVtWEtM?=
- =?utf-8?B?b0xZamxpNVhsbGJ5QXptcm43TFhIdVdCekI5SlZweUxrY0xRbEhpSUxuK0Ev?=
- =?utf-8?B?RXRHVDRPVjdDMDkxL21qMGVzZS9YSUpSYXAxd3ExYzlFdjR3c281WGVDb3Yw?=
- =?utf-8?B?cU5wS3hHMDhDV29aR1h0R21DNHlDWGZDSndDMlVIZVBhN3pxd085Nkd1bDZp?=
- =?utf-8?B?RVhTVndubE9IL0h2UFdUaTVEYS90UGRhM1NFV3FNNk1KSFlwWHJtZC9PN0sv?=
- =?utf-8?B?czdQRHlwcHhMSFZEanphelZRWVhrRTJWenJJazhJNnVQb0YrQnFMYzZZby8z?=
- =?utf-8?B?RVJJSjVYVmt0c1JPYVpUTmFHTG1EUzkzT2E5NVYrT1FhaE9iblE1UFRjM3Jl?=
- =?utf-8?B?cis3QlhrRktERG5pZFdzdDN0aHJmemhsSDA3MzVreXRhK1EydVoxZXVBUDg4?=
- =?utf-8?B?eHNVOWRuQk1NOGp0ME80VC9YSGxrbTBxbjVWbng0UURrcHdOZWtIMWlTMkhJ?=
- =?utf-8?B?VFo2RldaQndzZVNYcVRHSms3bVRBdGRKM3Y2SjNoUmRaVksrUitaWU0rNEdr?=
- =?utf-8?B?VERWcmlKdDBGVGl4blZyMmMrYXhQWG5KSW9sWTRBRXFlSVpaVFU2ZUkvNVdn?=
- =?utf-8?B?SENkU2lHZzV0Q3dGbEh6RUNhZDRTaDhLLzJYQ0dSU1B1T1EzaTU1SUZZMmV4?=
- =?utf-8?B?VkVsSXhVWUNqM0xzR3VpZ0xiSWVjUFR0Vm1zRWZkT01hZUZOV3ZzM2xTVHVa?=
- =?utf-8?B?ZUZGcEhqaWxUZVhPeDB3K211ejdRR2VXdmVqb21ZS255R3NSZTVjV1ZHMHBY?=
- =?utf-8?B?UkQ4Q1RTaE9Pb1U0Z0x2V05zS3k0eWFvWkwyNUdWaUY2VWxlMjVsUnlFMmdm?=
- =?utf-8?B?alZ6WjJCWlZHbGZxajdOdzh4Uy9OMzc4blNnVE1sa1Y3RVFFTzQ0UTBpYWpy?=
- =?utf-8?B?N09SU2JiazNrY1NKQWRlMjFUS2U3OW5mN2NNKzlDZ0lyUlZOYVptWTJjTlRS?=
- =?utf-8?B?Z3VzVjBjS1hVQlZLbFVvdVdvdUZUNWs3ekdzTlVGNFRKNEQ4aHRXUW1rYUZk?=
- =?utf-8?B?b1lGVFpadGRLSDV2U3VuOVlJZ3lNRW8vUVBhdDJRbWZFNHVPRWliL2xlQUhz?=
- =?utf-8?B?SVBlcnZMdVQxWXRFNzQ5Q1JzK2lIS3NlMllWL2F6RlJ0dkdqWmc3Z2ZKUHla?=
- =?utf-8?B?dlhwODU3TGlRaEwxam16dzlGeExWV1VORjFoMlJLM0ZJY1BoMFROSFYxOXlV?=
- =?utf-8?B?OHlZOTVlRUo2aFJjSy9vZm5HcWtkTFB1bFppRUs2TGkzQUVvZk8vZWRDS3dF?=
- =?utf-8?B?RzExU2F1dW04VVdGMjgzR01UaFNkbzVnMnZrczV4eU1EbXk2WUNOUXp2c21r?=
- =?utf-8?Q?1awl1aO9+oQo5ZqPA6yMf+JQCYvccuGi?=
+	=?iso-8859-1?Q?jNwolcW6ok2fKj2XMH4xfE6isQ59i4FenpZOMyOmBmptwJ7zvwgU+T0y1l?=
+ =?iso-8859-1?Q?OIqZT/cCuTkMF7zQ29EsjyeW61CCzxwFZHmM98WvKSv9OKEOj+8VJXQX62?=
+ =?iso-8859-1?Q?/UNx9hLNBFuIKVYTrFDWkEluF3J0l2E1rDQx+/euMpkyVPqqFG/OY4f21p?=
+ =?iso-8859-1?Q?2pvNusImwxqv131KgipOYVG67242urGhC1OH/lNfdmugDKniD3jl6P5kPk?=
+ =?iso-8859-1?Q?KDAGiZqEnMJEOa0OVKW6xS38gh6QLGoe22PFmWo38y5NDPv95rjFIVC29o?=
+ =?iso-8859-1?Q?VZz6bkbHZHTe0vIwMKk2H+lMfsoP618nchQHBDbSNtVlyEejk5UbRFY/Is?=
+ =?iso-8859-1?Q?5ooLkOBJuTg+T1a9fnc1FMzhQ3iqXeYxyjZKPtlpiyRu/ebrovHIbU/LG/?=
+ =?iso-8859-1?Q?Cz58442MnK/k5XIsFVI543hwVRbwYbV0urKi759zaZFJLdJGieFGi0ve2q?=
+ =?iso-8859-1?Q?W+8+g/EzaiFyDvx7nLjDBn8fZD4FDR4GecchBoa+lOvugmmiyEhkDHIL/1?=
+ =?iso-8859-1?Q?4Usvp98rUsaS+c5n1xw1yLiWFoDf/CnlKTo7fLJPk0VBZwuqbiYIvIWJx4?=
+ =?iso-8859-1?Q?Kze9hexsytJLwOPhSKup3kOi7eOJj/nPpshw7PR343R51JCUEYWs7ybM2N?=
+ =?iso-8859-1?Q?Mk3BzO+pLwOnh2e/PdcS7AKTwxnKCKAuT3VAZpTPVUOuC4PaKHeW4JJecu?=
+ =?iso-8859-1?Q?+Q8O3lW7tkUwQF7U+vgoLmyPTR5Qx1qgNw6MYIJglZvf2ijHNVAKtc8l1G?=
+ =?iso-8859-1?Q?iN+Sf/zxHoD3VppNw9GgZXI/RJK6UonaDmL+9VtjvyW2TR5hWRF8qBOzQA?=
+ =?iso-8859-1?Q?QSvdaD5ZCsYM7Bvp7GHb/yHZzqqsb+njU0rT0IK8TwXtOIPYMyqBknpupa?=
+ =?iso-8859-1?Q?yBAQrmX+BqC2Wq2+W71JDygf/n0o9ZWhqHwoDJmaAaOl48Katd6Fv/U51k?=
+ =?iso-8859-1?Q?p0v2J6ZkjEWvUUlCBqR9tFWaGXTgEi3aqY8M4mbU59wM00MriTyQUTYGiO?=
+ =?iso-8859-1?Q?mHlAe/qHIylR/2TpMkLiVwAHaLtYefcF3pKp6q45Et5HwiKyZ8U5td+xEQ?=
+ =?iso-8859-1?Q?LPQ3VpRD8iZa8p/GyLksvX+ttHlrZHDQpIiC1u6VAbsfiCEgRf91kSpWtT?=
+ =?iso-8859-1?Q?GD75vzUkifzxby95i/0A9/woWTDBD3ka6gmvGaeJMHw+MBQu50hBDHX3xP?=
+ =?iso-8859-1?Q?87r08Bg/Qywn4BO2qh7joFUb77S6IIVFthsumyhNcBxQ3MPWdrIOpyLThJ?=
+ =?iso-8859-1?Q?BUvk4Q5E916IDQ7PpSV+aHh5FCD/0iWvQoc0ARISOZImMFIQfjURLXyS4u?=
+ =?iso-8859-1?Q?lgknTrr5xXAkjyob4EAL/+GdW2KDx43COZGRe70yj6L5C3LKU7lU0UKuf9?=
+ =?iso-8859-1?Q?zn4koSoJPMJ+YqBCRSa8gsitNHezBi/uj2G0DjbJ7R66EQSEH5xnC21f4I?=
+ =?iso-8859-1?Q?K4GoGguOjjYiADPz3yJHaIIPbS1A3Pb5qc7L8KRAegnod2q2YdXgi2Afnx?=
+ =?iso-8859-1?Q?haiwU7YWygmBnmyvBjhRUU?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5672.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?emZrK0tZSHlPeTdQQTdyWVdPMno5a2FSd3V0blBuTVVLNWxsTHNnTXc0V1ZG?=
- =?utf-8?B?Mk9CNlRINWdBVGovVk13cFZjU3o4Q3ZuM1ZKdEROM3ZKOXRDRmFONVVFcjdI?=
- =?utf-8?B?aGR2MkR5ZW1HbTh3allrYVF5OEdGWWwwb0xhMFFEVFBzaHdhWUliZWVPUDBj?=
- =?utf-8?B?ZzNsRTFNK3RKUlNMK1BGL1dwSE1MRjJ0aXRjWlU3SzZiR0dWK0lvTWQzMXkv?=
- =?utf-8?B?QTgxSDgrQWFHejROK0R1NUprdGNERjFqbVk1b29rYXlJTS9BVlpOWXZndmp6?=
- =?utf-8?B?NFIwK3E5cUV1dC8rWlBidGJFMTlOajY2K1dyN0tUQ2hUZTN4T1NsS0tTOUJ6?=
- =?utf-8?B?WFBYN0R3cVk0NWUrZVVnRkhuUVJyUUE4a0NMZ1ZMaDg1N1VqZFB2R1ViakNR?=
- =?utf-8?B?aUF0NE00Sy8xUGxYK3N2UUlNZkpCU2FycDlyUENhYWhjMU1Sa2lPVk84dDUv?=
- =?utf-8?B?NnAxOFl1SGFrOFY3djduMnF0NEs1blNYeDFjUmFtVGF5UmE0MWc3MlIwQ0lH?=
- =?utf-8?B?Sys5V0M4QlhHSFlOdVpDTWoxeThINFZLZE9nK0l0RmlyUnFidW1MN1VBbTFV?=
- =?utf-8?B?aFVvR1pXWnE4ZUNCMXRzeXk1RmQzWTlRaDBUTm1zdytFNk1PY2xEdS9PN1BI?=
- =?utf-8?B?VXRzajFoWFVZVWlaU0hBek1YOUV2ZVlTOUphR1FIRS9vQ2JxbFJRYnZHUGNn?=
- =?utf-8?B?NjJscElwSmZVNUJVWDlBVGcvVlJFUFlSbk8vNjZPaDVmZG5YRzRXSjFyQjJT?=
- =?utf-8?B?R3B2WTVNTDNadVZvOVBSdEpPcC9BbzZib0NuNkpQV2piYngrN1JEdkJCYjd6?=
- =?utf-8?B?eWxDTElFaGZFcmxkMTBISGorQTYyeXZyT0YyVmxveWh2UncvMndWYURsNm5R?=
- =?utf-8?B?U0o1K3NVR0dJWWY5MUhCSGZ4dDV5c25taUJKcktOQ2pqSmtQZ0wrLzh3djNG?=
- =?utf-8?B?R0RUUXdDckdNbHd4Mkw5dXA2ZXEzdXNjbi8yN242cGZ4UVIyS1FYbS9XSGdt?=
- =?utf-8?B?UlpjVkUrQXp4ZEs3VWV3UkwrNU41SkxGQlJad2RHbTdqTkd3cTY2anM4TDdj?=
- =?utf-8?B?a1VzYlMrRU9NK3N4VkVrMmt1RkhTR0FWQTFZcjM4YWM5Z3FRcFdndXA3WDZE?=
- =?utf-8?B?WlBlWnJPcE5PalFlYjN3dkZ6Kyt1b1hkUm5SMUhKNzB0MWRiK2VpVm90cVgx?=
- =?utf-8?B?QWhrK25oTFg3MjQ5Y01MODhxVlBWSGs2UXlMc0hRWSttT0EyUTJmS2ljeWZY?=
- =?utf-8?B?UWRTWXlPUFhFeUxUTHhoTnk2YWM4MUVieTZjRk1RWWtrU3JSOG5KZGRTNUl3?=
- =?utf-8?B?WDlxeXFHMTJwTG1pOVV6WUVPOE12MEpvQ3o2RzRzS3hxTWt6eHIydzg5bVpO?=
- =?utf-8?B?bXdLMDdHb3JLOHpYa3laR0o4MnF4bTFxK1k1b3F0V3RlN1VUdUR4dkg2QTlO?=
- =?utf-8?B?ZzlCYW5uNjMxVzFBUklEdXV3REdVU1ZZbDBXaW55N3M3Nnd0M09xeW9PRzdM?=
- =?utf-8?B?bXFOZ25mOUZNT0d5TGdrVUtQdHI0QzdDRC96SEE3MDJhbVIzQjNPOHJwdkVY?=
- =?utf-8?B?Y2d0end4WWNJM2dPNmJ5WGlkRzFhVFd4aHEyNG8veHkyNVF2T2VrWC9lNVRm?=
- =?utf-8?B?dnFzYnBwVTc5K1IwNnJYOTNZT25SSHA3ZlJZclU4SDFQdVlwM0JIRnZCS1NM?=
- =?utf-8?B?TkFYT0VyZnRDNmJaUVpaR1NDMXdBaHRkYzg3ZmlPTk1GbFdQUDB4ZXVFR0lH?=
- =?utf-8?B?elBBem9zQm9HV0RjZ29uZ3BoaVAzdGpNN0tsNlVPamQybHhuVlBkY1JodUhG?=
- =?utf-8?B?WE0yeXQySjZrT0d3SVF1cVZGOVVxU2N5OXpOSjB0TzRCWXVTUFE2cWVwMjU1?=
- =?utf-8?B?MjY3WEloOXc2Z2VOTjROWHBqbHhPT3NmVWw2NkpVdlBlSjJqQmpXcU5IcE8y?=
- =?utf-8?B?Z3VsWTluaEhIeWVsNjBqZ28yNnZIQVlMazV3aStlMkJFWkErVzZhOENuT1lt?=
- =?utf-8?B?OGxJdnV6WWRrQmlqcy9GR2k5Z3plSnBtUmFvc0ZqbjB1aVIrbTJVNFcrR09B?=
- =?utf-8?B?V094VDZXd3ljbEtWSStVRnFhOW5DSmY1RDhTU2RGQzJRMU1TbU5EeUF1alBO?=
- =?utf-8?Q?A2yHaH4AB/++d7l0xof7l5Gp5?=
+	=?iso-8859-1?Q?9Gj3D3Cw0/e7TG/iC2p5EiT5bhrKz0l7ncDx7bXcQol5q6POhvNI5TXbLf?=
+ =?iso-8859-1?Q?uJ/i8/oMqWfla/NG96QydQos2tOSJoRMTO5ufK+547MnU0cNm9bHQngQ5r?=
+ =?iso-8859-1?Q?8orF0cFLvwMQsCXytzMJIKTp21wnW68T461RT23SGLg0AXiQF8Ruxlb4lU?=
+ =?iso-8859-1?Q?AcSVu8A5UIlpdD+Bl+1ZdRthMvYyrB4LWrPHoMWsvA/D9wJRs6Xslaw+Td?=
+ =?iso-8859-1?Q?GxRBGEvZ3351dpD7slOzSaLuk7CIndVjkp0gJ1Miz2kMA7V3Ipl4JWpypY?=
+ =?iso-8859-1?Q?2m4s+gsdZqbGzEXoYJdj9fTepsn5qZBx+05oBpgM/gQtDkEHoHdwgo1+0Y?=
+ =?iso-8859-1?Q?BB2EQ3qhz0EGUUPa48Yp75Lnm2nh1kze43bt+vKFTfLjpfakRSHlmvM6PT?=
+ =?iso-8859-1?Q?O1oLzNvHLsrXIw96PZAf8HW4wKJg39rssW+jwNFy6h2E0OZ6YvAtFYTu9A?=
+ =?iso-8859-1?Q?ufAijotxdY0VZVp7Nc/+eKGIH0M3Qnjs+lEE0Mtj+ypK7zbsUhq6vrqhVd?=
+ =?iso-8859-1?Q?bcDuAbnsLO+/OYXVcxbMPpgPU3pyzF9v3yWwk4g5qbi0QFdD4ya6OslwuD?=
+ =?iso-8859-1?Q?60VlsRiQoQOWXaaaXMo3AdJYHL2Dveuwo4o0OpOVgQmdiAQxUfx9AJhyEF?=
+ =?iso-8859-1?Q?OTfo+mME8bbzUioyM7scU92eVHWw3YbDAKrBMZlYLvImWq8+SJYfWxhoFm?=
+ =?iso-8859-1?Q?YkwnNc6yIQtuXcZKEKTzSJiUK4Rr1W9G6GpfBUkz5dRWm6GXKvsCIuY/TM?=
+ =?iso-8859-1?Q?XOYQkk72UAR/4dE2Veqn8NZw7RJmVaQ09TbIBAwRzrpuexmTLrES6BXkxt?=
+ =?iso-8859-1?Q?iHiodSVbeJqhP071gde+T+bYiwCmgsItRSD2s1mHqDuDpQjVNfea0Ng8o6?=
+ =?iso-8859-1?Q?Lb4xpCeGevolDcKYuDG8wBqh+cqFXrmp26Nj+18sZfiV5LHGSsmckOZhCa?=
+ =?iso-8859-1?Q?arJeRZOxHOvGxLy5ShKJc/mGhoBNLVi7GfsNcdn2Nz/MBIHH482kK9HNkL?=
+ =?iso-8859-1?Q?49iHwSXYAs+EUKzyInXaon2AK1B5EddCLu3uXwsGQoGuSx1sECUb9Qtf2N?=
+ =?iso-8859-1?Q?SOZol8X/xScaULFUsuoKMIQJimsmWR8ORvJfC6q5uWyoBYJOTB85rizuqH?=
+ =?iso-8859-1?Q?suj2fP+oz2XXlmBcw1uUgKKcujFeETT1lsfo90jA6pl1wbPrSrgjvjBIgY?=
+ =?iso-8859-1?Q?LZkETLhTc5fXhbuCsF/cyLopigUkAlYbGLeV5USy8IbOkkRWftGG6Pl+59?=
+ =?iso-8859-1?Q?BHE3+/99wtxV63eBMx0eXMAkayeOUtq2QPV+GfYFE4cizHGiO1RVHE9kG9?=
+ =?iso-8859-1?Q?YnBHpkI3ImxgWjd1DcDPge6xnQnjJNVAL7foY/WfQ91lWi/Ta7sB8eQy7S?=
+ =?iso-8859-1?Q?7KDti1l8SFG8aJj363/HsaXvhvz6pQwLwtgWKNneA9YI/1nDjlRPD/IDX7?=
+ =?iso-8859-1?Q?Dv/t3pKurtgq3Bip9RG5hho6bveo143uomRQlETrlOL19efz/qbADWmMd9?=
+ =?iso-8859-1?Q?iJ+1nxA3i8OaKq40pInzI3/UJO5/2mf0xKXZzjmtkxZ1RcA19yqitbBAzm?=
+ =?iso-8859-1?Q?EzFzPr0lVmoLQL2gFAtB7cYVyvlID+MmbxCSbkIxj2gxJ/K6Pu38ybtyUT?=
+ =?iso-8859-1?Q?skpVvImgITI1J42phwbcB/ojA3Pc9hevTRAhGNhH2jVw7LaPxz7DnIQA?=
+ =?iso-8859-1?Q?=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	FOksLti/g774AVTNdFcMX5UXoyVDkc+9RVpiNUA/vMIm3XYFzNVvWxYPrlNDh4G9NEIpLqJaDoQs8UW9LO8NSBLETbq4YZmhIRB1vJaQdCueeuqaOvfxv//7CxT6WR4meWt1Zf8urwo0U72CGV/zdI0NonyHjT6UQRJncMdLPEWZY4u/NCYysQRRTtO3+c9QGzf0tTMqGTw1mevlXhM3WO3tdbGa5tZ9wHDLGvW6fcA5xP9YKyR2BQrflt6PmlVlsgygRVhc35qM6MgC/C/45amK4G3yh4lAMSAp/rBsGKGOCXsmH1gCZTmg8oK+5tlzkeddN/N7+rq5JMw6mwp8BXbH5brEWk7YwJFqCIpw9ZDnU7QqMnTY1eLbZgvGta2hM4vdQfgAQeuNf04laaVHiT9DrI/1f1hnwJQ19puujA7NJzhkdawtdmvlqmiH2bapwPVHvOUZMPN4pghFOzWozC4Z6gMY15YgEAgH6utBxjaUSy+yoqWHjYfEJNS8xgBp+aQw5zv67kVoeeNMfV6y32YGdtxNzO17odFbeAphhUP5Gi/FHSODTVj6s/FR3VX1NSUcX2GsX6sQ7iiylSCArGOmA2fOpXyLhkc5AX4PBgI=
+	X1xeuYDp/ANTNw7WhN75w2K1/5qvefQytvDNgabUIopvfoy1xBm7cnnTP1i0mvsdK0SL6CHjr0V5srCDeI6GinkO8oyromdRh15XNopWlxgaNtzfRQQt63njkJfDrhfLJcNRzlh/o2KefW4avKyV1+5fEUql/3qYTHYOeok14eJo3JL30KwEZ/kTqto3pAvHhxkKtw9tPP4kPVNQERlf4E6b+xqusCQeMZ9fjbnBVBzgSHCCvQ7dRe+kX92Ssx1IpFebBHrxlT2MlcQew1HvhfgB9zAOQTAQS/RicHENXtaOeXuKoVmr7QwQKc0TXiW66ZQB6qC/V6OCi+ox4TqOkuvxVAslZY12dQZlsixKNjw5Pv/ecB80/931UCuNTkC8jQG7JO8dIOffSDbMsVxD1JSyC38fUDnxUr19o0FPdmo7AyoQT74Bg3IOaApCZvwh9SSvMOsCUX7555jqvI7Vt3XW0HEU7yM2Zz9WCQ7r8rQvMzwKRcvp4DqVpC7aR42sVFmB40k1khZO4skscpy/f95eUkrvfvrbFyd3uqMwLhzLh3Qwr+hpp/EIVT3TEYozw8Os/00BrnVfdbv8r+LncDjCRPrKmdNcIbJMlWNWLBM=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d6f36279-9e88-4731-220e-08ddff0fc6f5
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65992978-4860-4c2d-b35c-08ddff8516f6
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5672.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2025 04:22:18.5592
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2025 18:22:04.0054
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5K+cKlG6G4tA90Yx0qiRJ1LpTc7VJddETZQycVNq3US4d+jNwPj+il6A3WvYuJLnijnEV++QqbBh7CA7eLO9+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB7121
+X-MS-Exchange-CrossTenant-UserPrincipalName: lZx9TDt5VBnXF9cUr/EnnNLqtnPbhWgDm/SU1V24Yy1eBsIjxjPOfRSa7+mvUZYZIClUvDfnks3Nf10bK5T7uVpa2wrOcIJBzfOdCJX2JfY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR10MB5653
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-29_01,2025-09-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
- mlxlogscore=999 suspectscore=0 phishscore=0 mlxscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2509150000 definitions=main-2509290039
-X-Authority-Analysis: v=2.4 cv=dcKNHHXe c=1 sm=1 tr=0 ts=68da0984 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ definitions=2025-09-29_06,2025-09-29_04,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0
+ malwarescore=0 adultscore=0 phishscore=0 spamscore=0 mlxscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2509150000 definitions=main-2509290170
+X-Proofpoint-GUID: 8MH2MeM1bpkK7SiFdbYtSdu4BZ4S140E
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI5MDE2OCBTYWx0ZWRfXxZia/aaGp4kR
+ RvMBg7wkLm6v1GBk/4c0SUyLRUcCyLy+1r37hPmNZZGcjAR4BL5fT6iqkkdSSzVrMe5uFewOZm9
+ gUarqFWC43grATocVD7DTf0HHaB9TuEWQUqVWeE0uj1Wb1PIEQg7ztyp1a5wQPFNMiZJagHcVym
+ wom8kTNgE8o6I3YvUOZO11/zCUlpdRZu9vHWVnvKOl5L/LTbxWy2LTOBz/0N+xOhehk/b4uHPxS
+ uKdCxJFPeZcESiO/ka6Nku53GE1DyAIUNaw4jK3n3RQw4XP4OQkrSyYAabcjS3opDKGnIBauagw
+ h0tYTYA4vs3iE+1Lof01TChWN7TCscYUSxiA5mcbkBwF2k2x2EUZ4XBpecnc/lerQpeRy6bFSBt
+ mMgB3WcvGMOJpe8Zx8CQFCfGif9oXA==
+X-Authority-Analysis: v=2.4 cv=Z+Ph3XRA c=1 sm=1 tr=0 ts=68dace50 cx=c_pps
+ a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=yJojWOMRYYMA:10 a=GoEa3M9JfhUA:10 a=LIbdzTo_y_-DU6o2t60A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: CkBIyoFzJX1JGu4p-z-ojjVx-7D1hFrh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI5MDAyOCBTYWx0ZWRfX+E9zm5gYJCQm
- tTqMH+eJCNvM0rI/k2ZoL5tqmXw5ONzSQCqbjVKeVQQ7heb0S4+J6QYRdH8lu21BtaE8oNo0mbb
- lKsjNo+BpYyHFj71Nztjcmafz4OyFtOJtKlXG3qb9XAhaWn37BVmbPK/dSP3x4PqMIqaXiq/Nbk
- u9uEIvVR1Peaj3vqPg8GKwaZgt1DQfOBgaissdHl7a/gHKBZQ55NafZlwCxaZs41E8i2tTBa0m+
- 9fLh0WfYgNDGNvtlmsWdcNeIDFcmHOLY8nER6Ve0vlCkWRWoJyvF99e3d946XHKe48WKQ9z5afw
- ZhQ0qE8CiZLMFQAubeUQjR5lE5frvrVkdwaKPJniiQeKaF3ZCnqD9O3d6GwuzMvQClM+mBSrC5F
- GxRgGKcnsgXbSL0casJpOYmtLOKiIg==
-X-Proofpoint-GUID: CkBIyoFzJX1JGu4p-z-ojjVx-7D1hFrh
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=yJojWOMRYYMA:10 a=GoEa3M9JfhUA:10 a=Ct5_UCQuFelvoDncnF0A:9
+ a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+X-Proofpoint-ORIG-GUID: 8MH2MeM1bpkK7SiFdbYtSdu4BZ4S140E
 
-I don't follow all the details, but I guess this looks fine to me.Â  I 
-did have a few minor syntactical comments.
+On Mon, Sep 29, 2025 at 12:22:16AM -0400, Eugene Loh wrote:
+> I don't follow all the details, but I guess this looks fine to me.  I did
+> have a few minor syntactical comments.
+> 
+> It seems that dt_cg_subr_stack() and dt_cg_subr_ustack() are virtually
+> identical.  Might one combine the two functions into a
+> dt_cg_subr_stack_common() (or whatever name seems suitable) and do this:
+> 
+> static void
+> dt_cg_subr_stack(dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
+> {
+>         dt_cg_subr_stack_common(dnp, dlp, drp, DTRACEACT_STACK);
+> }
+> 
+> static void
+> dt_cg_subr_ustack(dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
+> {
+>         dt_cg_subr_stack_common(dnp, dlp, drp, DTRACEACT_USTACK);
+> }
+> 
+> The win is less the reduction in lines of code and more in the clarity of
+> what is being done.
 
-It seems that dt_cg_subr_stack() and dt_cg_subr_ustack() are virtually 
-identical.Â  Might one combine the two functions into a 
-dt_cg_subr_stack_common() (or whatever name seems suitable) and do this:
+Sure.
 
-static void
-dt_cg_subr_stack(dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
-{
- Â Â Â Â Â Â Â  dt_cg_subr_stack_common(dnp, dlp, drp, DTRACEACT_STACK);
-}
+> Also, a few others sprinkled below...
+> 
+> On 9/23/25 12:01, Kris Van Hees wrote:
+> > diff --git a/libdtrace/dt_cg.c b/libdtrace/dt_cg.c
+> > @@ -3987,50 +3996,63 @@ empty_args:
+> >   		uint_t			nextoff;
+> >   		int			is_symmod = 0;
+> > -		if (dnp->dn_kind == DT_NODE_FUNC &&
+> > -		    dnp->dn_ident != NULL)
+> > -			switch (dnp->dn_ident->di_id) {
+> > -			case DT_ACT_STACK:
+> > -				tuplesize = dt_cg_act_stack_sub(yypcb, dnp, treg, tuplesize, DTRACEACT_STACK);
+> > -				continue;
+> > -			case DT_ACT_USTACK:
+> > -				tuplesize = dt_cg_act_stack_sub(yypcb, dnp, treg, tuplesize, DTRACEACT_USTACK);
+> > -				continue;
+> > -			case DT_ACT_UADDR:
+> > -			case DT_ACT_USYM:
+> > -			case DT_ACT_UMOD:
+> > -				nextoff = (tuplesize + (8 - 1)) & ~(8 - 1);
+> > -				if (tuplesize < nextoff)
+> > -					emit(dlp,  BPF_ALU64_IMM(BPF_ADD, treg, nextoff - tuplesize));
+> > -
+> > -				/* Preface the value with the user process pid. */
+> > -				if (dt_regset_xalloc_args(drp) == -1)
+> > -					longjmp(yypcb->pcb_jmpbuf, EDT_NOREG);
+> > -				dt_regset_xalloc(drp, BPF_REG_0);
+> > -				emit(dlp, BPF_CALL_HELPER(BPF_FUNC_get_current_pid_tgid));
+> > -				dt_regset_free_args(drp);
+> > -				emit(dlp, BPF_ALU64_IMM(BPF_RSH, BPF_REG_0, 32));
+> > -				emit(dlp, BPF_STORE(BPF_DW, treg, 0, BPF_REG_0));
+> > -				dt_regset_free(drp, BPF_REG_0);
+> > -
+> > -				/* Then store the value. */
+> > -				dt_regset_xalloc(drp, BPF_REG_0);
+> > -				emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, areg, -i * DT_STK_SLOT_SZ));
+> > -				emit(dlp,  BPF_STORE(BPF_DW, treg, 8, BPF_REG_0));
+> > -				dt_regset_free(drp, BPF_REG_0);
+> > -
+> > -				emit(dlp,  BPF_ALU64_IMM(BPF_ADD, treg, 16));
+> > -				tuplesize = nextoff + 16;
+> > -
+> > -				continue;
+> > -			case DT_ACT_SYM:
+> > -			case DT_ACT_MOD:
+> > -				is_symmod = 1;
+> > -				size = 8;
+> > -				dt_regset_xalloc(drp, BPF_REG_0);
+> > -				emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, areg, -i * DT_STK_SLOT_SZ));
+> > -				break;
+> > +		if (dnp->dn_kind == DT_NODE_FUNC) {
+> > +			dt_ident_t	*fidp = dnp->dn_ident;
+> > +
+> > +			if (fidp->di_kind == DT_IDENT_FUNC) {
+> > +				switch (fidp->di_id) {
+> > +				case DIF_SUBR_STACK:
+> > +					tuplesize = dt_cg_act_stack_sub(
+> > +							yypcb, dnp, treg,
+> > +							tuplesize,
+> > +							DTRACEACT_STACK);
+> > +					continue;
+> > +				case DIF_SUBR_USTACK:
+> > +					tuplesize = dt_cg_act_stack_sub(
+> > +							yypcb, dnp, treg,
+> > +							tuplesize,
+> > +							DTRACEACT_USTACK);
+> > +					continue;
+> > +				}
+> > +			} else if (fidp->di_kind == DT_IDENT_ACTFUNC) {
+> > +				switch (dnp->dn_ident->di_id) {
+> 
+> s/dnp->dn_ident/fidp/
 
-static void
-dt_cg_subr_ustack(dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
-{
- Â Â Â Â Â Â Â  dt_cg_subr_stack_common(dnp, dlp, drp, DTRACEACT_USTACK);
-}
+Thanks.
 
-The win is less the reduction in lines of code and more in the clarity 
-of what is being done.
+> > +				case DT_ACT_UADDR:
+> > +				case DT_ACT_USYM:
+> > +				case DT_ACT_UMOD:
+> > +					nextoff = ALIGN(tuplesize, 8);
+> > +					if (tuplesize < nextoff)
+> > +						emit(dlp,  BPF_ALU64_IMM(BPF_ADD, treg, nextoff - tuplesize));
+> > +
+> > +					/* Preface the value with the user process pid. */
+> > +					if (dt_regset_xalloc_args(drp) == -1)
+> > +						longjmp(yypcb->pcb_jmpbuf, EDT_NOREG);
+> > +					dt_regset_xalloc(drp, BPF_REG_0);
+> > +					emit(dlp, BPF_CALL_HELPER(BPF_FUNC_get_current_pid_tgid));
+> > +					dt_regset_free_args(drp);
+> > +					emit(dlp, BPF_ALU64_IMM(BPF_RSH, BPF_REG_0, 32));
+> > +					emit(dlp, BPF_STORE(BPF_DW, treg, 0, BPF_REG_0));
+> > +					dt_regset_free(drp, BPF_REG_0);
+> > +
+> > +					/* Then store the value. */
+> > +					dt_regset_xalloc(drp, BPF_REG_0);
+> > +					emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, areg, -i * DT_STK_SLOT_SZ));
+> > +					emit(dlp,  BPF_STORE(BPF_DW, treg, 8, BPF_REG_0));
+> > +					dt_regset_free(drp, BPF_REG_0);
+> > +
+> > +					emit(dlp,  BPF_ALU64_IMM(BPF_ADD, treg, 16));
+> > +					tuplesize = nextoff + 16;
+> > +
+> > +					continue;
+> > +				case DT_ACT_SYM:
+> > +				case DT_ACT_MOD:
+> > +					is_symmod = 1;
+> > +					size = 8;
+> > +					dt_regset_xalloc(drp, BPF_REG_0);
+> > +					emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, areg, -i * DT_STK_SLOT_SZ));
+> > +					break;
+> > +				}
+> >   			}
+> > +		}
+> >   		if (!is_symmod) {
+> >   			dt_node_diftype(dtp, dnp, &t);
+> > @@ -6968,6 +7070,7 @@ dt_cg_call_subr(dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
+> >   	assert(idp->di_id <= DIF_SUBR_MAX);
+> >   	fun = _dt_cg_subr[idp->di_id];
+> > +assert(fun != NULL);
+> 
+> Weird indentation?
 
-Also, a few others sprinkled below...
+I think I added that as debugging.  Will remove.
 
-On 9/23/25 12:01, Kris Van Hees wrote:
-> diff --git a/libdtrace/dt_cg.c b/libdtrace/dt_cg.c
-> @@ -3987,50 +3996,63 @@ empty_args:
->   		uint_t			nextoff;
->   		int			is_symmod = 0;
->   
-> -		if (dnp->dn_kind == DT_NODE_FUNC &&
-> -		    dnp->dn_ident != NULL)
-> -			switch (dnp->dn_ident->di_id) {
-> -			case DT_ACT_STACK:
-> -				tuplesize = dt_cg_act_stack_sub(yypcb, dnp, treg, tuplesize, DTRACEACT_STACK);
-> -				continue;
-> -			case DT_ACT_USTACK:
-> -				tuplesize = dt_cg_act_stack_sub(yypcb, dnp, treg, tuplesize, DTRACEACT_USTACK);
-> -				continue;
-> -			case DT_ACT_UADDR:
-> -			case DT_ACT_USYM:
-> -			case DT_ACT_UMOD:
-> -				nextoff = (tuplesize + (8 - 1)) & ~(8 - 1);
-> -				if (tuplesize < nextoff)
-> -					emit(dlp,  BPF_ALU64_IMM(BPF_ADD, treg, nextoff - tuplesize));
-> -
-> -				/* Preface the value with the user process pid. */
-> -				if (dt_regset_xalloc_args(drp) == -1)
-> -					longjmp(yypcb->pcb_jmpbuf, EDT_NOREG);
-> -				dt_regset_xalloc(drp, BPF_REG_0);
-> -				emit(dlp, BPF_CALL_HELPER(BPF_FUNC_get_current_pid_tgid));
-> -				dt_regset_free_args(drp);
-> -				emit(dlp, BPF_ALU64_IMM(BPF_RSH, BPF_REG_0, 32));
-> -				emit(dlp, BPF_STORE(BPF_DW, treg, 0, BPF_REG_0));
-> -				dt_regset_free(drp, BPF_REG_0);
-> -
-> -				/* Then store the value. */
-> -				dt_regset_xalloc(drp, BPF_REG_0);
-> -				emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, areg, -i * DT_STK_SLOT_SZ));
-> -				emit(dlp,  BPF_STORE(BPF_DW, treg, 8, BPF_REG_0));
-> -				dt_regset_free(drp, BPF_REG_0);
-> -
-> -				emit(dlp,  BPF_ALU64_IMM(BPF_ADD, treg, 16));
-> -				tuplesize = nextoff + 16;
-> -
-> -				continue;
-> -			case DT_ACT_SYM:
-> -			case DT_ACT_MOD:
-> -				is_symmod = 1;
-> -				size = 8;
-> -				dt_regset_xalloc(drp, BPF_REG_0);
-> -				emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, areg, -i * DT_STK_SLOT_SZ));
-> -				break;
-> +		if (dnp->dn_kind == DT_NODE_FUNC) {
-> +			dt_ident_t	*fidp = dnp->dn_ident;
-> +
-> +			if (fidp->di_kind == DT_IDENT_FUNC) {
-> +				switch (fidp->di_id) {
-> +				case DIF_SUBR_STACK:
-> +					tuplesize = dt_cg_act_stack_sub(
-> +							yypcb, dnp, treg,
-> +							tuplesize,
-> +							DTRACEACT_STACK);
-> +					continue;
-> +				case DIF_SUBR_USTACK:
-> +					tuplesize = dt_cg_act_stack_sub(
-> +							yypcb, dnp, treg,
-> +							tuplesize,
-> +							DTRACEACT_USTACK);
-> +					continue;
-> +				}
-> +			} else if (fidp->di_kind == DT_IDENT_ACTFUNC) {
-> +				switch (dnp->dn_ident->di_id) {
+> >   	if (fun == NULL)
+> >   		dnerror(dnp, D_FUNC_UNDEF, "unimplemented subroutine: %s\n",
+> >   			idp->di_name);
+> > diff --git a/libdtrace/dt_open.c b/libdtrace/dt_open.c
+> > index 509f263d..9dd8956d 100644
+> > --- a/libdtrace/dt_open.c
+> > +++ b/libdtrace/dt_open.c
+> > @@ -175,7 +175,7 @@ static const dt_ident_t _dtrace_globals[] = {
+> >   { "ipl", DT_IDENT_SCALAR, 0, DIF_VAR_IPL, DT_ATTR_STABCMN, DT_VERS_1_0,
+> >   	&dt_idops_type, "uint_t" },
+> >   { "jstack", DT_IDENT_ACTFUNC, 0, DT_ACT_JSTACK, DT_ATTR_STABCMN, DT_VERS_1_0,
+> 
+> Add DT_IDFLG_ALLOCA?  (Of course, it doesn't matter yet.)
 
-s/dnp->dn_ident/fidp/
+Ah no, some other changes will make that not even needed because I will be
+using the static area for storing stacks rather than allocating a new one for
+each invocation.
 
-> +				case DT_ACT_UADDR:
-> +				case DT_ACT_USYM:
-> +				case DT_ACT_UMOD:
-> +					nextoff = ALIGN(tuplesize, 8);
-> +					if (tuplesize < nextoff)
-> +						emit(dlp,  BPF_ALU64_IMM(BPF_ADD, treg, nextoff - tuplesize));
-> +
-> +					/* Preface the value with the user process pid. */
-> +					if (dt_regset_xalloc_args(drp) == -1)
-> +						longjmp(yypcb->pcb_jmpbuf, EDT_NOREG);
-> +					dt_regset_xalloc(drp, BPF_REG_0);
-> +					emit(dlp, BPF_CALL_HELPER(BPF_FUNC_get_current_pid_tgid));
-> +					dt_regset_free_args(drp);
-> +					emit(dlp, BPF_ALU64_IMM(BPF_RSH, BPF_REG_0, 32));
-> +					emit(dlp, BPF_STORE(BPF_DW, treg, 0, BPF_REG_0));
-> +					dt_regset_free(drp, BPF_REG_0);
-> +
-> +					/* Then store the value. */
-> +					dt_regset_xalloc(drp, BPF_REG_0);
-> +					emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, areg, -i * DT_STK_SLOT_SZ));
-> +					emit(dlp,  BPF_STORE(BPF_DW, treg, 8, BPF_REG_0));
-> +					dt_regset_free(drp, BPF_REG_0);
-> +
-> +					emit(dlp,  BPF_ALU64_IMM(BPF_ADD, treg, 16));
-> +					tuplesize = nextoff + 16;
-> +
-> +					continue;
-> +				case DT_ACT_SYM:
-> +				case DT_ACT_MOD:
-> +					is_symmod = 1;
-> +					size = 8;
-> +					dt_regset_xalloc(drp, BPF_REG_0);
-> +					emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, areg, -i * DT_STK_SLOT_SZ));
-> +					break;
-> +				}
->   			}
-> +		}
->   
->   		if (!is_symmod) {
->   			dt_node_diftype(dtp, dnp, &t);
-> @@ -6968,6 +7070,7 @@ dt_cg_call_subr(dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
->   	assert(idp->di_id <= DIF_SUBR_MAX);
->   
->   	fun = _dt_cg_subr[idp->di_id];
-> +assert(fun != NULL);
-
-Weird indentation?
-
->   	if (fun == NULL)
->   		dnerror(dnp, D_FUNC_UNDEF, "unimplemented subroutine: %s\n",
->   			idp->di_name);
-> diff --git a/libdtrace/dt_open.c b/libdtrace/dt_open.c
-> index 509f263d..9dd8956d 100644
-> --- a/libdtrace/dt_open.c
-> +++ b/libdtrace/dt_open.c
-> @@ -175,7 +175,7 @@ static const dt_ident_t _dtrace_globals[] = {
->   { "ipl", DT_IDENT_SCALAR, 0, DIF_VAR_IPL, DT_ATTR_STABCMN, DT_VERS_1_0,
->   	&dt_idops_type, "uint_t" },
->   { "jstack", DT_IDENT_ACTFUNC, 0, DT_ACT_JSTACK, DT_ATTR_STABCMN, DT_VERS_1_0,
-
-Add DT_IDFLG_ALLOCA?Â  (Of course, it doesn't matter yet.)
-
-> -	&dt_idops_func, "stack([uint32_t], [uint32_t])" },
-> +	&dt_idops_func, "dt_stack([uint32_t], [uint32_t])" },
->   { "link_ntop", DT_IDENT_FUNC, 0, DIF_SUBR_LINK_NTOP, DT_ATTR_STABCMN,
->   	DT_VERS_1_5, &dt_idops_func, "string(int, void *)" },
->   { "llquantize", DT_IDENT_AGGFUNC, 0, DT_AGG_LLQUANTIZE,
+> > -	&dt_idops_func, "stack([uint32_t], [uint32_t])" },
+> > +	&dt_idops_func, "dt_stack([uint32_t], [uint32_t])" },
+> >   { "link_ntop", DT_IDENT_FUNC, 0, DIF_SUBR_LINK_NTOP, DT_ATTR_STABCMN,
+> >   	DT_VERS_1_5, &dt_idops_func, "string(int, void *)" },
+> >   { "llquantize", DT_IDENT_AGGFUNC, 0, DT_AGG_LLQUANTIZE,
