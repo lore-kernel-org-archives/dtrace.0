@@ -1,81 +1,78 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD05B310647
-	for <dtrace@lists.linux.dev>; Thu,  2 Oct 2025 14:34:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1556F27F4D4
+	for <dtrace@lists.linux.dev>; Thu,  2 Oct 2025 19:09:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759415669; cv=fail; b=fDsg3Fev4IvzNuWYprD3ABvbR07kksPAzscWoesqe2HscJNx5Sv5zj7tfV1oyWBUql0hbbAQaT57/mPeHQPowBBXYZqo7I5LsRCULRY4/u7WtZZVNzVW8ld4OtLQIVeFVob/J+6grKik682gUHBqQEWt6W+GH+497Iwx0LCxX1U=
+	t=1759432195; cv=fail; b=CFifd0w03AeXAK/tpKOM2LTeOqdVugT9VWr+kB0AwSCvmKufZBEeUrAvjJrTL/AJ9oR9MF56624XzJg0s9Y/5IpNy3TZHDWNVQlhvbDTp9plEJao3WFJOP0Ij/6IsCJPf6BSEW3VF0bngMU1yFm4y+ac0YuVOys44OG5GEIrdTM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759415669; c=relaxed/simple;
-	bh=ol+me4xdH73ub00xNKHi18JQNNmF8Al5Q8+PihCztas=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=An5DoIJLtb83RHIK5pJDXhPfMxyHlTx+Fq5r+smfQECp5ZzKqjipzAeoxaEtxNfnWfWV2A4h5aijxP6qi1vugmifyI1pPbUKu/bVfrO5OtdILGPax7qyQ939rwazrOPRGs77etFdPYhjZTU6hWUfMZ8JR9L1zfmYRK3QJ6OmKsk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=e/9cme9S; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=NT08eBMV; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1759432195; c=relaxed/simple;
+	bh=zvzY7AXmI6Jfs8EFHOvtrUEFHF41xg0prtRXNM6SUho=;
+	h=Date:From:To:Subject:Content-Type:Message-ID:MIME-Version; b=Uk47cVLQRIyPknZaLvBQ8NrqlI9PD2dJDMP9Lu9IkfRmpqEn7SxT2Ger34wS+QnVAc9yUiTRPlOmIuEZm3ZijerIlJWbcCFK50WmRe6CGhYkHGtwq3mSK8UpXanXHBHC0KcdhvMDN8hGNa/kMUV7OmE8Ld+rwbdZ5aiFbssSgWE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=fMxWmMXY; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=zXkdvXQf; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="e/9cme9S";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="NT08eBMV"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 592DNK8p015096
-	for <dtrace@lists.linux.dev>; Thu, 2 Oct 2025 14:34:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=BjTSYUd0mwyaXyorZO
-	hv+XSOsnDS3H4Y4YnBsa88zbg=; b=e/9cme9S61lb6eibhEtCReaFq4OjNx6jh5
-	+WnPLSUV9W0CljMDyKbWGfQl0ErXGehICEwG7lwRTmWuSpCz/OkHArrDZcTzRrrS
-	zB7lBxcDksl2PyrO5GpHa3NYgk9hkSopVgIUOc+KoL61G3MBjQ7p9ipFY0C4pIRK
-	ixVMlm8rt4aTzHaolVPmZ0HxgicGZL2KRCDgvT5BhYlmaWm12oKsH/cq9MehT5dQ
-	HZsZv6ZxYOZkN+ACaFVAcbQg2Jn84vzcoPrj1zLtsT3ATenkRD0C8Tt87v3/Xmzn
-	wVyPxBqdYB70X3/Ip6+eWMDIBFHYAq0g1I8Yj7By1EgEcXZx4VxQ==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49gmrfud86-1
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fMxWmMXY";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="zXkdvXQf"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 592J1rkv003062
+	for <dtrace@lists.linux.dev>; Thu, 2 Oct 2025 19:09:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	content-type:date:from:message-id:mime-version:subject:to; s=
+	corp-2025-04-25; bh=3xn7nqbPmFpELRiwzMZb7aRiQQUjcZL99MqDq+ly8m8=; b=
+	fMxWmMXYF0cdWp+TKhu2agtPGgyGeNp3m2Qh4ck7O40EBlly375G12rn2C2NSTnf
+	zW0gZ3omFwybROvlp9X6s3+URpxdSPEU27bWx+V8sNHrUg5HXrq164+Pwf2G3XKm
+	SVBhQLuAExamPymXsU/WD2HnlcIzZkVxJmY+DOPRlfFXGDrJBOzoMGm4KMlr6biu
+	gvrunElcgFsi2YW6DEV1UraSkv3KMAYrmXQisSwi6XctQD8Wq1LbgHwQLjHojgX9
+	4x5zkDGn5GBhLT8T3AOyR9uUseD19aiyOwygnfnjDWISgaiAWcvy6QGGUfYbmS0H
+	w6riXxeAr7qFeMuBKLq0CQ==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49gmf1ux6u-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 02 Oct 2025 14:34:26 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 592DkA3x000367
-	for <dtrace@lists.linux.dev>; Thu, 2 Oct 2025 14:34:24 GMT
-Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010019.outbound.protection.outlook.com [40.93.198.19])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 49e6ch0qmv-1
+	for <dtrace@lists.linux.dev>; Thu, 02 Oct 2025 19:09:49 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 592Iedn0003793
+	for <dtrace@lists.linux.dev>; Thu, 2 Oct 2025 19:09:48 GMT
+Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010016.outbound.protection.outlook.com [40.93.198.16])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49hw18591n-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 02 Oct 2025 14:34:24 +0000
+	for <dtrace@lists.linux.dev>; Thu, 02 Oct 2025 19:09:48 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RQBA9ylrXNqa1YiyXuVsHst0RJSzUJQ2P2I1bazedEF0enthMi7cmHn1qLN1wF95c/Gx6WcnmeFUD7FhZuGrxgtZIa5vMhQSN58b4gIr3c9Db5lM7nSp5NrI0RpjaLg7v+UgzWzkJ3Z1YhVmoDgAnPaEIfp8jKXK133PGMiVabxeDXlhAAFbHYsk+CJAeTBorVJ0bF1h3v87SC9c7C9VGwtMmax21v28dgChfPHM8Tq9YptJRUVIyRccqxfRNymKvOJhA0MLF08HyrCARkjEEzGK+W+MNlZlWbfiBYlSmHNCWrvxdKmVJP77RLSxUVh+wiP2zc7GZ4dzjI8V9fUgNQ==
+ b=N+8+2pc48ol3fpgiuTsu1Tlcc3bIBDfw5VVDilQ/DKT/iDlQ1ayfluT5W5mHYKB1pznN8TlND3+Vz02U9/3pd8rO1uDeTo4v3ZuB6arKKM7Hrrn5V/sQLmFkG+McfwLQrImhsHCMVGRwWOc7CUdBWnxosSXqZkT3P6NtR76dbMZdWhqSJg1qrc76Ccs2ZkrYAY4wx1rfmtiNhyR8iu1rNZyaGUUKKRaKlUkGKYzl4AN3/KsahwNa4wTgRSFIIREpThpKlPewTfRgR5DZZax2/9vF7gBy4RfGM0Pp6aDG4FDTY2zkcGVKQuEjzPPeuOtLGQWT6s02vjBKG08ffzSZGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BjTSYUd0mwyaXyorZOhv+XSOsnDS3H4Y4YnBsa88zbg=;
- b=shDUQdFXiB0RYLom14zQ2ipafewZQmTQ5zWU/3SdopIePR3FynMX9K7/TymGfxijtLJ5gZ8OX60hcjBRW4RW0bJXyUc/5iqjLcugge0xWXthPUAyM09CeOHvNk4ZB1ouxWWvZaXU1dVP7m25D+gS/M4CorgHz5HOy4TXxn7uNtbK3jvuUYrT895j8ipOB7wbRoCPLXghm9Lks6v0bdh+xfzvRvy6/7HXjYKGx9qryazhh/sdS5Yd7g8tt9+PE8CDyTNKd6wlq3c96GrAbDUrknZk/PCXaB6JJlHKDREBRghFWawOo/gMfuS39pGg2P4vgv6CIB7K4K8E3gV0f6N0pw==
+ bh=3xn7nqbPmFpELRiwzMZb7aRiQQUjcZL99MqDq+ly8m8=;
+ b=d822Eb86HXo3ACpp3UghbVA28CfDdGPfcwsIZOk9v70tt3fNkL4RT0MR9ezd1o6aQhP9npD6VEy1Pg4Uv4wf33MNmyX/Q0blAemsdB5TfA2PYi3lZyHR/ERDu+Gp2uU6xVcfaQHHtb5EtotIp1CH4TeBnEzKLfQn5NBIvPrfQe0HIRWAtquoQfcdxFni3k9/djNEHlpHCO2jqSISkuv4ZCLIVzgrNCITG04ecnxAQAIaMlb7FJxTFCnnrF85WoV0vB4J8rIzgABwDiZv75du7HF/R0jcPyhCfdbC7yDNJf6DTGurqcKTmPgbQDJNoYYe/t/lvF6k86NKtj56KL3DQQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BjTSYUd0mwyaXyorZOhv+XSOsnDS3H4Y4YnBsa88zbg=;
- b=NT08eBMVPnID3Si8z1/p4zjxX8VIEGn+KGQiwKpnwCkajQHoos+FEpDcOIStM55HBIdHFv7PJ8+GLXHl9OaV9Bn+iYFf59z8dQuclGt24dBOtx37U4nrtJ9OhciJTD4dRMdNHHagpt3tbyWoDJ+UT28U8VAhBeRpYTjqCZpd+94=
+ bh=3xn7nqbPmFpELRiwzMZb7aRiQQUjcZL99MqDq+ly8m8=;
+ b=zXkdvXQfwLN2F+QG9vXOGJb6zAGTEX+UpZ3whhLZbIJ7V0+dCx8PGwjeCR0VWNDo3yPZwkhSF267VUV6JA9oR1LNhsPDuMCrHGuXGWS8X0m71BE08HNWzQrP4MN2Wec/Ku5dwdfHKb2TAQRjVJhgQa7jfJwOSxtVUx+qaz/Cack=
 Received: from SJ0PR10MB5672.namprd10.prod.outlook.com (2603:10b6:a03:3ef::21)
- by DM3PR10MB7927.namprd10.prod.outlook.com (2603:10b6:0:42::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9160.16; Thu, 2 Oct 2025 14:34:14 +0000
+ by MW5PR10MB5665.namprd10.prod.outlook.com (2603:10b6:303:19a::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.17; Thu, 2 Oct
+ 2025 19:09:38 +0000
 Received: from SJ0PR10MB5672.namprd10.prod.outlook.com
  ([fe80::8800:9203:9f66:174b]) by SJ0PR10MB5672.namprd10.prod.outlook.com
  ([fe80::8800:9203:9f66:174b%4]) with mapi id 15.20.9160.017; Thu, 2 Oct 2025
- 14:34:14 +0000
-Date: Thu, 2 Oct 2025 10:34:11 -0400
+ 19:09:38 +0000
+Date: Thu, 02 Oct 2025 15:09:36 -0400
 From: Kris Van Hees <kris.van.hees@oracle.com>
-To: eugene.loh@oracle.com
-Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH] Fix proc:::exec args[0]
-Message-ID: <aN6NY92lDrk+93PL@oracle.com>
-References: <20251002050558.22052-1-eugene.loh@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251002050558.22052-1-eugene.loh@oracle.com>
-X-ClientProxiedBy: BLAPR05CA0002.namprd05.prod.outlook.com
- (2603:10b6:208:36e::12) To SJ0PR10MB5672.namprd10.prod.outlook.com
+To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: [PATCH v2] options: check *frames option values against system limit
+Content-Type: text/plain
+X-ClientProxiedBy: BLAPR05CA0014.namprd05.prod.outlook.com
+ (2603:10b6:208:36e::18) To SJ0PR10MB5672.namprd10.prod.outlook.com
  (2603:10b6:a03:3ef::21)
+Message-ID:
+ <SJ0PR10MB5672250D1857696476BB9C3FC2E7A@SJ0PR10MB5672.namprd10.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -83,287 +80,497 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5672:EE_|DM3PR10MB7927:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9e5ae2b6-4df2-442a-3c6f-08de01c0c268
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB5672:EE_|MW5PR10MB5665:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4d9a1986-f42c-4b67-0ec6-08de01e73b76
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?4PnncsBLFMOoHgFeIp35Q+p2eZhtrVSnuTrEbrog1Qn9JXcPCRT4i6XPxY2h?=
- =?us-ascii?Q?zKz9NUDe/741jLnA+LMaqDFCGn30s+AjmVKpwDKGwuut/qj05lHME0WHFTok?=
- =?us-ascii?Q?pxohql0MLyBi3X0kAvi1K+LIJhw5153LhCh5RpdIKzxzdfrwBrPQPSHhHIaK?=
- =?us-ascii?Q?yfu9S4C5mqjU3zVItqyFCoslFhXVOVjw5uABO9Xb+Fw/zHrWVP1DSeg1tAK/?=
- =?us-ascii?Q?Flm6Y6rCUxdFtZHAnB/cWh0NO2TUYvnyTHzrx+ZE+OxvNuDhLunmzTyl+DLz?=
- =?us-ascii?Q?Pxi1WjfVwFX5axsUQvNDPTrgXd0CJTwmtAN07jFe7br38w/jYFLvaacENOS1?=
- =?us-ascii?Q?jWcnLq3e7LNyGJzCNFi/zoRvumc87sn6l0oJi/FPJyiJgWKzxFS8DoMDYCCz?=
- =?us-ascii?Q?Njk4UKqIejnQwQ2jQVGT7p0/ZMhDTXVlON2pRHyI+fr85I0xST+tTirg2kau?=
- =?us-ascii?Q?izyhOdwCryZnN5docAxozTHQltut6gBjar0yejKmfUjL15boEiupJHY5Aa5H?=
- =?us-ascii?Q?iKamguH6xMh3FUAckILYHEws7tzW51sO975L0PQ3NYhJPm2VIXLE+kyveeSR?=
- =?us-ascii?Q?PHQvvU7xOKCGlTX5eHD/IEIBYnsz4YAj4jlfJ4WolhULhfGWPuv/a0V501g1?=
- =?us-ascii?Q?xvFPstmFvAN9BUlpwZs7cscVps+c/L7c+mkwtuQSmQImJ/rnfE/A6p2iEEee?=
- =?us-ascii?Q?ka+LsSY+I+yKOZcGV7Op2cGgIPSWD+IhRYhu5m30KZH0KBJzb3w3HHtqGBbN?=
- =?us-ascii?Q?tYsk600s9Eiz5tWk6BaGnfdcVOi6KEuEsQcVOelnmQP3ZqoHAkUCJi2RyI19?=
- =?us-ascii?Q?sLa2dv38SSDeJ/YwDXj7kTUlRpEYbArfX5lSzf3GI2nkNYjkSWKMGzDNShED?=
- =?us-ascii?Q?9gcEnhIn64V9nC+uKpq0lgm08DeJ7m1570pKVY6d9julQVPM19fkfYJbGYRQ?=
- =?us-ascii?Q?UGCRS59eWjq27EARLPGklQzthomlwEjbUjTtUlfbTmRmA2V5hz6pW7Inj0Yz?=
- =?us-ascii?Q?sCY+Qrzp5lhrcqQ7CQjRFrLeYzpIKGAnTbyMPsL0ljGirqJM95lIsQe5bXf4?=
- =?us-ascii?Q?Nb381GJMj55/Eem25guHyJI8Ztc0Osb0pjPGNoEbm8wbABHHScXB1ZB0Eh3m?=
- =?us-ascii?Q?dUhbWYu8t67Uea6dfOxzG2cGF/X50zofnGrj2p0nOGPxSILpAhYFrcpp80H+?=
- =?us-ascii?Q?qyb0Gx/FAtxo2MZW2WtmcObcx1JTq2uGLxq9zj2F2zja7Nsc+3NXHFgZwViP?=
- =?us-ascii?Q?aOsPwsuEbnzEg/msI8HevO6O/Yckb4wHro8DCayvb3eb1E+FQXtOiLciANSa?=
- =?us-ascii?Q?OJr5HXLnhBHo7AhfzSTbpwJ9dFkfXuf5WfBYyGlp3KstRO+ZwzsiSleDtW0d?=
- =?us-ascii?Q?GOaP3DT+qDERaZwMfgWS/BwcVp3+CBBPIzzDNSvqeL+0TfSum7oHasaqa+Am?=
- =?us-ascii?Q?lUVJR+ZC/Y/i/hGI6pr2HnJsE7oH+W0s?=
+	=?us-ascii?Q?mWXn0YyqHmTwZHvGZguDrz3EDwfFpVItWpE0X+fwT6iOJCKcsDYUr9c8rdsH?=
+ =?us-ascii?Q?sVre0gNt3e4VBcjPnBltXC0iqHhtUbxH1173mZjWXATJ7NsjXrQSjpLPeVhh?=
+ =?us-ascii?Q?NU4hKHqUXOFSLpBca0DN12huImX/fziJw9Q/rwfzV7hgMFLb6dvN8nK+hH4G?=
+ =?us-ascii?Q?SLcEIizQqFVeNTyekx4L6xrHvF5m7XcQGtjs738Cu4Uf+FZUFrFDRG8fOr+J?=
+ =?us-ascii?Q?QfqlZAuSOSYvaF+TzAjYBVRJOyTCzubpSZ4MWGigwCCiOul0lRO0SwTdqcgc?=
+ =?us-ascii?Q?oWFLyKdhUNfdIppA2AZfDngnlW66DWdMbI/Wv9dvvVqTQvzuRuG5C7j47mbj?=
+ =?us-ascii?Q?yLGRJNhMeQCQWIK64+Ytjf0k3HSsxOeQavPc7K9istDHwUXlWtk04QgAZ3vL?=
+ =?us-ascii?Q?TWO4HWSzD4tKBZofzqyYj9AS/ZpLlPLIW3O/N9PbYlASAiZxb8d71N62RK19?=
+ =?us-ascii?Q?0POMlI1ABKogu6SVKC0GAJhHvw6b40dsVLf3G8iFIJoXOMECrkGVElMymbaB?=
+ =?us-ascii?Q?5cEFyImdXZQeG858bQHZwyi5anPY4dEulqXdvtQ5/PXxl5hh8e6JD/CG0pj1?=
+ =?us-ascii?Q?cRR/8BB0ShYZLZs7VAoYx6v/u1ScnzhFnV9xVIZ6pUZFbjJuY9znuK8hwepb?=
+ =?us-ascii?Q?/yDaeg54htqnIya5ixbMmYo8OxxydbK4vDFbDigRuSc508cN13wZJS8tddqW?=
+ =?us-ascii?Q?z6uYqUQ1fkADFMxNpMqVonBsRwfRFWkhd2r84vbj45nQNT3g5fD8TRO9nGDI?=
+ =?us-ascii?Q?Sjr9iY8uQiiXd81BVglt8TulVuEcik15oKk0bO7dZHUQK6HGd07DjmAMaib2?=
+ =?us-ascii?Q?pyIlbgMcmR5NZNzh/3BbzdUMaib4EbgVuXC2FWLfbtGPqeMTfYXr/vNw62OQ?=
+ =?us-ascii?Q?usrquEmqAnPlPX8lu5WGbcHJTTVZrk/J+qf+2s+ZEdwo7wLRwfIY5GMwXwha?=
+ =?us-ascii?Q?ggXfns9CrZu90wsjC4gurMZE0ujEFJiyturgtrn0VMCuHuIP7snf+KM/ru0K?=
+ =?us-ascii?Q?msBc73CVzHgf6cp5RVGEPvSgsNrVVCq/9QgA5XycFoFYkmgMuK0r0BTF1ZbL?=
+ =?us-ascii?Q?ny/UEsxDjc21TJ4SwvNEgzNZGZXTdJYzP84iGG/T672YJBeVCU1fZ1o5Nkl6?=
+ =?us-ascii?Q?QyQUbpR6RZXkh3kSTddILlA6eMSYpVZ7VObRzOGzs6N4R3Z8OGUqNDuWu3DL?=
+ =?us-ascii?Q?RXLM7BgpBo6900p519zxbivyF0+bXxndyFrNvQUCRc7cKg75VeOL+gh6X+/x?=
+ =?us-ascii?Q?8TjzhI2p9H/n/dWS56AUJiHHrkgCaEYbXzeTN/+AwXZG4fKcA0LaJDV4H9kB?=
+ =?us-ascii?Q?Wg2Li0rLd0cJNl/k3CbG0HvJwm0mca9B9HhBtibzhGtFIcfdNEkDrDl5Phdy?=
+ =?us-ascii?Q?uBj1lOlp6Qn9zRo7AM6krabzrmojpMQYGiXmRe0012qzOPTheSfoiZkpRGht?=
+ =?us-ascii?Q?dl9gTNP0IC+TjEz2v17DcBEFv2Tuqtzb9HzyL0HDXLrCEkXoSpiBhQ=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5672.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?OcH1fl3x4aUHxaoBlg+xn9R5bwxJ2jUF8u7EnwbBJuWVct6oCJQGdKml0ywG?=
- =?us-ascii?Q?X+Sv5Yk4U3BqVJyHuVeWqz4xMMKOsunA9WQltMrM31RQEMdGQKSx3ystVewl?=
- =?us-ascii?Q?RTrRJJEAwHH7+G3OSvRTMoVvFXRHkNF5XIXeengMarIR/lIhT0a4ocF0aUJu?=
- =?us-ascii?Q?kwm2C4IaDO0xPT2NL4y5LtApHGpbMSP02z+7w6iLu2+jjeAncfKG/hVI4pjK?=
- =?us-ascii?Q?D+e5SnQDEBZFyMeVfjs9Bo+L9aATvRq9hO3dXXRTzu6Y+840iqTygLi8I3xi?=
- =?us-ascii?Q?lWxQkHfvM1HXgSYQr1xUA6vQIXaZSPl+vutfGQ0NQRJPsgmfygj6z7MqkvFK?=
- =?us-ascii?Q?cbaCSf1dpLA3bHIlX8D2Yu+qOue7VcLdnRmxxTsnoK39eGm2sP0ebBY7Ddk1?=
- =?us-ascii?Q?miMcM8F7rbhWf/YglYOku10+6EpgYIEOuAAfbwjICBTtrfy9sS3hLLHFhzKd?=
- =?us-ascii?Q?GFFcyyI40GN01daGpZn2IALnwH15KXlsb9/kE8fNcsEp8QS1cK9eGV+Wm//J?=
- =?us-ascii?Q?nb/aUEFDAh+Rmh+D+U+rBnaUQ1otq5i9kUTS1vHqIAEIY1MmtOYujB5o/xJb?=
- =?us-ascii?Q?VFYZ4eIhF8GfmNyHmlPn9iMkTW1jJ7JVwoiOhQFEO8jJ7wVmDJG5HNMBJv0N?=
- =?us-ascii?Q?3FvZFv2X9ZzqqavtOe2aB4EOeh16obDkYzrpH6K89fhxfwQ0rWUaZPlngnBH?=
- =?us-ascii?Q?4YlIZ7J5mYNYp8m06tkDmpIzSNQXupF7S07r8LHV87csgrKas9jKJ0hw9mk3?=
- =?us-ascii?Q?+fJRMxyOsIpqeL10vE4X4hbCEcnSFM/jXuqjOHhoMMgU0AtMq/CuTMbDzGG+?=
- =?us-ascii?Q?dUxYaF5sxiPyHuOD9bJx5xgDlhwEr3deaqeiSsj9ORBi1kMy2EPr9xgfnkpW?=
- =?us-ascii?Q?KfGxX5w/87phVLl5ezhPGiJIac9UXjdRLduir9xV5tiFy9bzFMyEeusnwKlE?=
- =?us-ascii?Q?1+bUUGBa3AD8v4XLtwQlmCKymqsaK59RTBQcF8CZ74/SAtelQ53mv+Zy5+NR?=
- =?us-ascii?Q?ehVzJhE1JFOYTYiqYGBqWl8QTP6C1ch67cGhYEtWxooPeZtKkgM6LAfynUBg?=
- =?us-ascii?Q?K0JsHUGFnWmBQz8Zdn6R02jLQv1dQhdkezyF2vTf3Pm5fsAx6eBvwh8gNdHc?=
- =?us-ascii?Q?kArP/gRE65t5ztcKQOWfbQlrahNngaECzjmsj2tYm9c2caVIsDIV/Bp//3CI?=
- =?us-ascii?Q?1Mve7J9flUtez88KegRocelC7pt7vVgTWDpvYi7jCOE0kU90s+QvS3W3Ii+t?=
- =?us-ascii?Q?fmEt6ZwjodSPqpMvUSV8pYYSh6r4//waJ2gLYBvZf0QuDsU6cX0erMt/VKlR?=
- =?us-ascii?Q?AdxfD2B5p4LVgKpt9Sny4OhTZJQaFw44DbNr+rw9z/9sNjpSsC17GFuKeVMy?=
- =?us-ascii?Q?0ljM8SobZ0n9hEWjywBR/BhJDPkNANFBOt4bQQxc054svPkuz0A4IpMFY5wM?=
- =?us-ascii?Q?cO5d8Wp43CFHd3IlvY21jIEHi1FRRv4rApUknP84/UEveY+o5nP2BGLQ2qfO?=
- =?us-ascii?Q?wK8pDUNy9L+gZMWQuXOinj/f1ZC2eTQIT23/Efuvc5Ek4MYF+C8bedtQUdbO?=
- =?us-ascii?Q?4X8rNZ4Xi9HXC7gXTQZFHhUzJHVy5noHudnI7N9neCWTzkZb/lELkIVeKFHx?=
- =?us-ascii?Q?kw=3D=3D?=
+	=?us-ascii?Q?cpC4SQSnkSJ3pqlG53N70nuxfACM2N/74mBQvnuDMyarlHn/16MywIXwPXBO?=
+ =?us-ascii?Q?tCDqZMikF7LEHeZifbOTiMpbrZilOWAMMpPQhRxcj3zt9S5+Gd9WQKdeEwrE?=
+ =?us-ascii?Q?F9CuzqzvkOWo+hZFD3HWA92fz/Zds2Za9sqOxv+YVmY65tajdCzUW9230gUL?=
+ =?us-ascii?Q?Hrb5ItdouBIB2OgwimYDfiAU68MnlmjKWJsogia3TdtCo9ooGCaBLsQPHCWI?=
+ =?us-ascii?Q?wWr6LbTbIx/7g135E/ZJRxnGPm/5ztqIk1AeOwvUpyBUbzr5VwPysLwCseTd?=
+ =?us-ascii?Q?iDaP9oYjbUVS7ax82Hv5w5Cw/4xFMh2nif3zNo9ZHMScPo07h8jZgzUqZBs4?=
+ =?us-ascii?Q?prGYF2FVj2JIwS5Wfe54qiEVgS05SFuDsJ+uX6QyJhCho/xBMVEL51VnhAcq?=
+ =?us-ascii?Q?6eh+2EYt6EqkZ1a/ULDc4ibgN00dBFUzDLEmD3V37MvsJ/80LpGsgfORhDgv?=
+ =?us-ascii?Q?LyGMf7nmRgYyQMCV+g941jLVwRfqsKGnjAUCkOgkBslH8visggwE/z68r5vc?=
+ =?us-ascii?Q?cAdej92os7ypMK1/fTFRV0Ju0fBMHKrbuENHeFVyIzNOEfk+NycQVXKMLjr/?=
+ =?us-ascii?Q?6o6L9fJfJ1EyblfOI5TF9YCt16BY+Lz/WcR2phLJRDKNTG7GprqSdub1yMRu?=
+ =?us-ascii?Q?9pxrt42k6L34F0ymcqJbJckicN05vHvMDbUovmA+FyV6y0vXAEbwWjczo/25?=
+ =?us-ascii?Q?X3MmSd2ftHJte2pb7Lahc9NRKFIz+zWjbaPApJBbQRDGzK9Vqb65Fa5ae/SB?=
+ =?us-ascii?Q?R/apARFqCkUhp4iON3TnzVq/fi6PHVHounhh1nGBsMP9rn1RT7hTHzALyOV7?=
+ =?us-ascii?Q?zZDuaaqMvMNiPHHitONcy7YJT15AelG5hl473ws0MsiFJx/dFEVClsz88UbX?=
+ =?us-ascii?Q?d4iiS04mfROJKBfiIqcINL0UhPzZV1HX3jTAoy9730NR3lwsiEmtcpwvBemg?=
+ =?us-ascii?Q?Jol+6wNeN6fDO6Z/nJDdstqXv1KN7xoTqJTH9/EWqwULDarYGiRURTno4FLQ?=
+ =?us-ascii?Q?4L6LDGZ0v2e2FzcvQ2Uc+d236CMMoyqioR0IRtEFus9BU3vaF+doGSIOWODF?=
+ =?us-ascii?Q?ZcwPNnSFYiZ+6vGHwxmBlM83NZPmJuvAw9fL8gid3Prm2ug+MkVdn+TXYiU0?=
+ =?us-ascii?Q?IiEHZ5qmTY8U1Qh7oGd6LVbmdd9s7AFY4SXztUN9sCO9jAcq1aVs1AFwAwXI?=
+ =?us-ascii?Q?XDANLKRN5BqwyETqTmfrmLGAwPje4326+MOIpz5Zt/6uHcWgRzIa/l+oNz0t?=
+ =?us-ascii?Q?/ta1czhFw42Nm+NhNZYGUtiJbxzfxEBOrmmg4mRqQEUKF7TO0kzbNeN9aa5M?=
+ =?us-ascii?Q?s/KxnzqzAKLWlQs1s9i4s4PKBVOY7OFKkBmKmPsGMtfQV22e8vW79rJA42Y2?=
+ =?us-ascii?Q?N5aSrWkQfFbvMsqKbBDjwXzSyQMwl9J1h25AHFmIJu5Wk5hzCHIum/tvy2HV?=
+ =?us-ascii?Q?SNvisTuLHp1zljf0M8OHYCNm8Et0+xnRgO2LFenRul9/mYbBDlP9ooj/jBqn?=
+ =?us-ascii?Q?SHu1oG+hAJ1pGM9BM5fLsVBscINrGhLTLVgmP9bB91zqjMQKs/Uc8mYGK454?=
+ =?us-ascii?Q?AZ4MiOrx6OrSP2rx2twYxajXb5GOE+6/uO9QTxByVwlQYNt6ZT5jBL7xfXCX?=
+ =?us-ascii?Q?ng=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	PGQQbhKz21yu17odS5g2xR4Vh+syGziMNBfKL1cBc375oA+eQ5DD2wL7ISmrFNvBq4lIzBlOkBAZPSLT70b8N7o4a7fgiHxYmRUiZWHd6oi9AK/YxQrdylG5rDgyASITOZi3Z3RBlyCvEe2nCB8LYVb1hPVhvGOcLK5BB44HsPX1hU5tT7dLLAJWmNGJhO/ryRGORshfptdvXjqmEgbOofzibUEz6rJPmUM+cEYDt3xBdITitNj7ImkJipThfKOptWCvKGXBg8yXdYCAcqMudf03ZSZgXfVxclu1lFDI6Dhbvu9Au0ZjrytLNbc0mqwbvfFEQeBSU50vI1KRVFFEMMludwsrtUONXCsb2+coP0QX9ACdqb2TRPZsB/wUYAe++B45GAIFWZGd6fLn4135wPiw2aho7lUV26QtQ2xOYUifvii8mB1Fdq8sH4v4IfmK8kcMwKqqEkexyHgzpJqUcTu5RI1c74xGRFEs23YsbFNtUd/6Pug9jtz9+snOGm3nNqlm0c2j3jaeNAMFKwQHK0UPiPknlbp2/IQwB8KtfJaSdR+phWThZUt5aAkcLKy3wuaa0bNjwG0bVksqDzbYWtmzqRg29PHjs3EEu4tAnVE=
+	hNMqY0nd2JD8WiGcqJFkxqoHKEX1mk84E3an5cTUBeZ+rdOefrfWmNgmpygUfSTthJBDydZ5u3vC707T6cntDqJEvnktSFTnvjB/q1Qgy2GL0BbM76jKB+Uhw0umc4HSuKxBX0iqNN89FpJ/0IjyCOQPYAPh2jAvMBQhVXYyok4/r0DmljS8ymrgZWDAe7xUdVl7Pdl9nAyoXbhzu4V6hcduQFBay/3MWurF4eGCK8tXVAy1hGwom19L4R6wXzzgW/5UNu8rwe2TpXl/e1ZmQkzyUveWM92oX+WYC0PUd4T98lfrYHmgpk/H634govyr7EWPB70ZBQFndziT4EqZ45VZzUv+6Q9AP6aYln8OgT91auZO9fDWLZ/17CKoG2WcBGiqs+eM9ockiM9ujduI8mptFTXRLjT3jpoXHSf7d7dM3xBmWPTyqtgvQL55374AeDZiYeWL8lTe4PDeb3oBIWe5Y2IS6X693pj70OU6UU/AO1p3OjGU6EYa/OLZrcx/CQnmdBeDnYT0KqQlDV0oaKWkT6ISQkIiQTUH03Yq/cItUbiTZ4axRfUgHxaIw3qzxEoNMZ+8ZjZrQiSaQGESXb9RWsKCGI3aCCUQxlKFngE=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e5ae2b6-4df2-442a-3c6f-08de01c0c268
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d9a1986-f42c-4b67-0ec6-08de01e73b76
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5672.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2025 14:34:14.1430
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2025 19:09:38.1866
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: njxtFdXi/KrS8c9XXvQkTKxEthpY6Mjjs7l6lMcNiOUhLQGhRWdD2FuchDBkgxHElAKBGGK8rogi6tBUaqTPwQX+Z2e9p9fbvaqQlsCVE+c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR10MB7927
+X-MS-Exchange-CrossTenant-UserPrincipalName: Way1rJb/0i39CV8Xg0a4SwW2aulBINcD5zFzY6ESgUVv5miBS8DHhKBIFOCiV/Jduj1etJhQ8kODHufQmHT6pQcwkUYMN9HMlYSoeij9q24=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR10MB5665
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-02_05,2025-10-02_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
- phishscore=0 mlxscore=0 suspectscore=0 adultscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2509150000 definitions=main-2510020124
-X-Proofpoint-ORIG-GUID: Zo_gD-nsII4zwYpB8H2par-irlib8PGj
-X-Proofpoint-GUID: Zo_gD-nsII4zwYpB8H2par-irlib8PGj
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTMwMDE3MCBTYWx0ZWRfX+MmKEJFkf+Ep
- lW8Lxv/jFeqQKlFRoOfFt4M7H3Vxqci2tfdJa8UiP9FkWa9mFlDtrZAkTRXtEMQvXCSMZtKaYsx
- 0HSl2Q+b0xekKoyQPYWvNTaEabFo68HfWSjEKXpaUmDc53rfQfCWD0eVy3IRp6UQnuIoJKlczCq
- ESg5H60ztYcyXvaYWdaxK2nEICLyQAVHKV0f5ZY+Ih2aY8SN/RcE82mR0HCUwoXsKNyBBcm0mCb
- HTVJmvLpzqsEyLRG4xAnwFEM3f6IPr+Ei2NPooJsrNGf6zUqT2IjddXtWbP2fy+GOZZ5JhzC7w8
- 7k1NmG13UzyKCthvQKXaFmf7mVtHTV81TOLW6o+4m00HPgSko4+6DWfJgVtggM22n7/TpKsIBGD
- hyMpT/dylp4jk9tK3hNGEX0xik2GZvyVayD0MR4DWpJKnW2cvis=
-X-Authority-Analysis: v=2.4 cv=VpMuwu2n c=1 sm=1 tr=0 ts=68de8d72 b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ definitions=2025-10-02_07,2025-10-02_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0
+ mlxlogscore=999 adultscore=0 spamscore=0 malwarescore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2509150000 definitions=main-2510020166
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTMwMDE2NyBTYWx0ZWRfXzO2G6Ya0xr+5
+ 5Vp3oMdcJore0XzW0i86F6YR5htCnrSCF54QfN6KOAlXrr1yCnig+lBREPYO/ZZemnn7mTmbcJ7
+ 54NXs7koiHZGrV+SPJ5HEx7EBMkjtgdsz5fu5FvEBLFkxm+DKODVw1NLAJocvrX7mrQSv1pzDuX
+ WMNTglY59NYxKfhItZtpDAey3WRxvzdZxe4dz/Be4PzjbCGkZyuV6Fgm5uiEKzaIWGk2WF9n/4I
+ hzTjj5t0TEZxaycMCUStAS6vGCcdlxpbTBfTQ3MTm3FKpfTa4I74VrNl/Sz/4jtpaUxsiWEcmz0
+ SO3VtqPZ/kDK6LBk8ETKdNcNmcv2fsfv7YD6neiepsoKsTaGK/p73dThRofnvucR/6xszx3+Mw+
+ KTsOMJ6EmcmiPnbuumPaUtrVtirDSg==
+X-Authority-Analysis: v=2.4 cv=K/cv3iWI c=1 sm=1 tr=0 ts=68decdfd b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=HI04yxht2oAq-uXfAzQA:9
- a=CjuIK1q_8ugA:10 cc=ntf awl=host:12089
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=x6icFKpwvdMA:10
+ a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=o3_BI0SPW4EuL0nJPdEA:9
+X-Proofpoint-GUID: r8ZEpi8jDqqVsgx7E5mMHNEfXeBe5Clw
+X-Proofpoint-ORIG-GUID: r8ZEpi8jDqqVsgx7E5mMHNEfXeBe5Clw
 
-On Thu, Oct 02, 2025 at 01:05:58AM -0400, eugene.loh@oracle.com wrote:
-> From: Eugene Loh <eugene.loh@oracle.com>
-> 
-> Reported-by: Kris Van Hees <kris.van.hees@oracle.com>
-> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+Commit 81e99397d ("Add support for the stack() action") added code to
+retrieve the system limit for stack traces and used that value to set
+the 'maxframes' option.
 
-Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
+However, a user can set the 'maxframes' option from the command line,
+which would allow setting the option to value beyond the system limit.
 
-> ---
->  libdtrace/dt_prov_proc.c                | 12 ++++++
->  test/unittest/proc/tst.exec-execve.r    |  4 ++
->  test/unittest/proc/tst.exec-execve.sh   | 52 ++++++++++++++++++++++++
->  test/unittest/proc/tst.exec-execveat.r  |  4 ++
->  test/unittest/proc/tst.exec-execveat.sh | 54 +++++++++++++++++++++++++
->  5 files changed, 126 insertions(+)
->  create mode 100644 test/unittest/proc/tst.exec-execve.r
->  create mode 100755 test/unittest/proc/tst.exec-execve.sh
->  create mode 100644 test/unittest/proc/tst.exec-execveat.r
->  create mode 100755 test/unittest/proc/tst.exec-execveat.sh
-> 
-> diff --git a/libdtrace/dt_prov_proc.c b/libdtrace/dt_prov_proc.c
-> index 05ad66346..f7e46a5af 100644
-> --- a/libdtrace/dt_prov_proc.c
-> +++ b/libdtrace/dt_prov_proc.c
-> @@ -118,6 +118,18 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
->  		emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, BPF_REG_7, DMST_ARG(1)));
->  		emit(dlp, BPF_BRANCH_IMM(BPF_JEQ, BPF_REG_0, 0, exitlbl));
->  		emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(0), BPF_REG_0));
-> +	} else if (strcmp(prp->desc->prb, "exec") == 0) {
-> +		dt_probe_t	*uprp = pcb->pcb_parent_probe;
-> +
-> +		/*
-> +		 * If the underlying probe is syscall:vmlinux:execve:entry,
-> +		 * then the arg0 is already right.  If it is execveat, we have
-> +		 * to copy arg1 to arg0.
-> +		 */
-> +		if (strcmp(uprp->desc->fun, "execveat") == 0) {
-> +			emit(dlp, BPF_LOAD(BPF_DW, BPF_REG_0, BPF_REG_7, DMST_ARG(1)));
-> +			emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_ARG(0), BPF_REG_0));
-> +		}
->  	} else if (strcmp(prp->desc->prb, "exit") == 0) {
->  		ctf_file_t	*cfp = dtp->dt_shared_ctf;
->  		ctf_id_t	type;
-> diff --git a/test/unittest/proc/tst.exec-execve.r b/test/unittest/proc/tst.exec-execve.r
-> new file mode 100644
-> index 000000000..09791d5b0
-> --- /dev/null
-> +++ b/test/unittest/proc/tst.exec-execve.r
-> @@ -0,0 +1,4 @@
-> +execve      bogus_direc/bogus_exec
-> +proc:::exec bogus_direc/bogus_exec
-> +exec
-> +
-> diff --git a/test/unittest/proc/tst.exec-execve.sh b/test/unittest/proc/tst.exec-execve.sh
-> new file mode 100755
-> index 000000000..d3f84e0d2
-> --- /dev/null
-> +++ b/test/unittest/proc/tst.exec-execve.sh
-> @@ -0,0 +1,52 @@
-> +#!/bin/bash
-> +#
-> +# Oracle Linux DTrace.
-> +# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-> +# Licensed under the Universal Permissive License v 1.0 as shown at
-> +# http://oss.oracle.com/licenses/upl.
-> +#
-> +# This script tests that the proc:::exec probe fires for execve() and
-> +# produces the correct probe arg.
-> +
-> +dtrace=$1
-> +
-> +DIRNAME="$tmpdir/exec-execve.$$.$RANDOM"
-> +mkdir -p $DIRNAME
-> +cd $DIRNAME
-> +
-> +cat << EOF > parent.c
-> +#include <stdio.h>
-> +#include <unistd.h>
-> +
-> +int main(int c, char **v) {
-> +  char *argv[] = { "bogus_exec", NULL };
-> +  char *envp[] = { NULL };
-> +  int rc;
-> +
-> +  printf("exec\n");
-> +  rc = execve("bogus_direc/bogus_exec", argv, envp);
-> +
-> +  return 0;
-> +}
-> +EOF
-> +
-> +${CC} -o parent.x parent.c
-> +
-> +$dtrace $dt_flags -qn '
-> +BEGIN { dtpid = pid; }
-> +proc:::exec
-> +/ppid == dtpid && execname == "parent.x"/
-> +{
-> +    printf("proc:::exec %s\n", args[0]);
-> +}
-> +syscall::execve:entry
-> +/ppid == dtpid && execname == "parent.x"/
-> +{
-> +    printf("execve      %s\n", stringof(arg0));
-> +}' -c ./parent.x
-> +if [ $? -ne 0 ]; then
-> +    echo ERROR
-> +    exit 1
-> +fi
-> +
-> +exit 0
-> diff --git a/test/unittest/proc/tst.exec-execveat.r b/test/unittest/proc/tst.exec-execveat.r
-> new file mode 100644
-> index 000000000..696300e0e
-> --- /dev/null
-> +++ b/test/unittest/proc/tst.exec-execveat.r
-> @@ -0,0 +1,4 @@
-> +execveat    bogus_direc/bogus_exec
-> +proc:::exec bogus_direc/bogus_exec
-> +exec
-> +
-> diff --git a/test/unittest/proc/tst.exec-execveat.sh b/test/unittest/proc/tst.exec-execveat.sh
-> new file mode 100755
-> index 000000000..db68a5043
-> --- /dev/null
-> +++ b/test/unittest/proc/tst.exec-execveat.sh
-> @@ -0,0 +1,54 @@
-> +#!/bin/bash
-> +#
-> +# Oracle Linux DTrace.
-> +# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-> +# Licensed under the Universal Permissive License v 1.0 as shown at
-> +# http://oss.oracle.com/licenses/upl.
-> +#
-> +# This script tests that the proc:::exec probe fires for execveat() and
-> +# produces the correct probe arg.
-> +
-> +dtrace=$1
-> +
-> +DIRNAME="$tmpdir/exec-execveat.$$.$RANDOM"
-> +mkdir -p $DIRNAME
-> +cd $DIRNAME
-> +
-> +cat << EOF > parent.c
-> +#include <stdio.h>
-> +#include <linux/fcntl.h>      /* Definition of AT_* constants */
-> +#define __USE_GNU             /* so unistd.h will find execveat */
-> +#include <unistd.h>
-> +
-> +int main(int c, char **v) {
-> +  char *argv[] = { "bogus_exec", NULL };
-> +  char *envp[] = { NULL };
-> +  int rc;
-> +
-> +  printf("exec\n");
-> +  rc = execveat(AT_FDCWD, "bogus_direc/bogus_exec", argv, envp, 0);
-> +
-> +  return 0;
-> +}
-> +EOF
-> +
-> +${CC} -o parent.x parent.c
-> +
-> +$dtrace $dt_flags -qn '
-> +BEGIN { dtpid = pid; }
-> +proc:::exec
-> +/ppid == dtpid && execname == "parent.x"/
-> +{
-> +    printf("proc:::exec %s\n", args[0]);
-> +}
-> +syscall::execveat:entry
-> +/ppid == dtpid && execname == "parent.x"/
-> +{
-> +    printf("execveat    %s\n", stringof(arg1));
-> +}' -c ./parent.x
-> +if [ $? -ne 0 ]; then
-> +    echo ERROR
-> +    exit 1
-> +fi
-> +
-> +exit 0
-> -- 
-> 2.47.3
-> 
+We now record the system limit in dtrace_hdl_t as well as setting the
+'maxframes' option to this value as a default.  Options processing now
+ensures that *frames options cannot be set beyond the system limit.
+
+Note: If 'stackframes', 'ustackframes', or 'jstackframes' are set
+before 'maxframes' they could be given a value that exceeds 'maxframes'.
+The existing immplementation in the code generator already lowers their
+value to 'maxframes' as needed.
+
+Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+---
+ libdtrace/dt_impl.h                           |  1 +
+ libdtrace/dt_open.c                           |  7 +++-
+ libdtrace/dt_options.c                        | 38 +++++--------------
+ .../options/err.jstackframes-negative.d       | 24 ++++++++++++
+ .../options/err.jstackframes-too-high.sh      | 25 ++++++++++++
+ .../unittest/options/err.maxframes-negative.d | 24 ++++++++++++
+ .../options/err.maxframes-too-high.sh         | 25 ++++++++++++
+ .../options/err.stackframes-negative.d        | 24 ++++++++++++
+ .../options/err.stackframes-too-high.sh       | 25 ++++++++++++
+ .../options/err.ustackframes-negative.d       | 24 ++++++++++++
+ .../options/err.ustackframes-too-high.sh      | 25 ++++++++++++
+ 11 files changed, 211 insertions(+), 31 deletions(-)
+ create mode 100644 test/unittest/options/err.jstackframes-negative.d
+ create mode 100755 test/unittest/options/err.jstackframes-too-high.sh
+ create mode 100644 test/unittest/options/err.maxframes-negative.d
+ create mode 100755 test/unittest/options/err.maxframes-too-high.sh
+ create mode 100644 test/unittest/options/err.stackframes-negative.d
+ create mode 100755 test/unittest/options/err.stackframes-too-high.sh
+ create mode 100644 test/unittest/options/err.ustackframes-negative.d
+ create mode 100755 test/unittest/options/err.ustackframes-too-high.sh
+
+diff --git a/libdtrace/dt_impl.h b/libdtrace/dt_impl.h
+index 4dc4c9a7..723aac8b 100644
+--- a/libdtrace/dt_impl.h
++++ b/libdtrace/dt_impl.h
+@@ -310,6 +310,7 @@ struct dtrace_hdl {
+ 	uint_t dt_maxtuplesize;	/* largest tuple across programs */
+ 	uint_t dt_maxlvaralloc;	/* largest lvar alloc across pcbs */
+ 	uint_t dt_maxaggdsize;	/* largest aggregation data size */
++	uint64_t dt_maxframes;	/* system limit on stack traces */
+ 	dt_tstring_t *dt_tstrings; /* temporary string slots */
+ 	dt_list_t dt_modlist;	/* linked list of dt_module_t's */
+ 	dt_htab_t *dt_mods;	/* hash table of dt_module_t's */
+diff --git a/libdtrace/dt_open.c b/libdtrace/dt_open.c
+index ed0b14a1..ba5463a0 100644
+--- a/libdtrace/dt_open.c
++++ b/libdtrace/dt_open.c
+@@ -764,13 +764,16 @@ dt_vopen(int version, int flags, int *errp,
+ 	dtp->dt_options[DTRACEOPT_SCRATCHSIZE] = sizeof(uint64_t) + _dtrace_scratchsize;
+ 
+ 	/*
+-	 * Set the default value of maxframes.
++	 * Set the default value of maxframes.  This is the maximum of stack
++	 * frames that can be requested from the kernel.  The *frames options
++	 * cannot be set to a value that exceeds this limit.
+ 	 */
+ 	fd = fopen("/proc/sys/kernel/perf_event_max_stack", "r");
+ 	assert(fd);
+-	if (fscanf(fd, "%lu", &dtp->dt_options[DTRACEOPT_MAXFRAMES]) != 1)
++	if (fscanf(fd, "%lu", &dtp->dt_maxframes) != 1)
+ 		return set_open_errno(dtp, errp, EDT_READMAXSTACK);
+ 	fclose(fd);
++	dtp->dt_options[DTRACEOPT_MAXFRAMES] = dtp->dt_maxframes;
+ 
+ 	/*
+ 	 * Set the default pcap capture size.
+diff --git a/libdtrace/dt_options.c b/libdtrace/dt_options.c
+index 7508f044..97516517 100644
+--- a/libdtrace/dt_options.c
++++ b/libdtrace/dt_options.c
+@@ -913,40 +913,20 @@ dt_opt_rate(dtrace_hdl_t *dtp, const char *arg, uintptr_t option)
+ }
+ 
+ /*
+- * When setting the maxframes option, set the option in the dt_options array
+- * using dt_opt_runtime() as usual, and then update the definition of the CTF
+- * type for "_stack" to be an array of the corresponding size.
+- * If any errors occur, reset dt_options[option] to its previous value.
++ * Set a *frames option, ensuring that its value is within the system
++ * constaints.
+  */
+ static int
+-dt_opt_maxframes(dtrace_hdl_t *dtp, const char *arg, uintptr_t option)
++dt_opt_frames(dtrace_hdl_t *dtp, const char *arg, uintptr_t option)
+ {
+ 	dtrace_optval_t val = dtp->dt_options[option];
+-	ctf_file_t *fp = DT_STACK_CTFP(dtp);
+-	ctf_id_t type = ctf_type_resolve(fp, DT_STACK_TYPE(dtp));
+-	ctf_arinfo_t r;
+ 
+ 	if (dt_opt_runtime(dtp, arg, option) != 0)
+ 		return -1; /* dt_errno is set for us */
+ 
+-	if (dtp->dt_options[option] > UINT_MAX) {
+-		dtp->dt_options[option] = val;
+-		return dt_set_errno(dtp, EOVERFLOW);
+-	}
+-
+-	if (ctf_array_info(fp, type, &r) == CTF_ERR) {
+-		dtp->dt_options[option] = val;
+-		dtp->dt_ctferr = ctf_errno(fp);
+-		return dt_set_errno(dtp, EDT_CTF);
+-	}
+-
+-	r.ctr_nelems = (uint_t)dtp->dt_options[option];
+-
+-	if (ctf_set_array(fp, type, &r) == CTF_ERR ||
+-	    ctf_update(fp) == CTF_ERR) {
++	if (dtp->dt_options[option] > dtp->dt_maxframes) {
+ 		dtp->dt_options[option] = val;
+-		dtp->dt_ctferr = ctf_errno(fp);
+-		return dt_set_errno(dtp, EDT_CTF);
++		return dt_set_errno(dtp, EDT_BADOPTVAL);
+ 	}
+ 
+ 	return 0;
+@@ -1194,19 +1174,19 @@ static const dt_option_t _dtrace_rtoptions[] = {
+ 	{ "destructive", dt_opt_runtime, DTRACEOPT_DESTRUCTIVE },
+ 	{ "dynvarsize", dt_opt_size, DTRACEOPT_DYNVARSIZE },
+ 	{ "grabanon", dt_opt_runtime, DTRACEOPT_GRABANON },
+-	{ "jstackframes", dt_opt_runtime, DTRACEOPT_JSTACKFRAMES },
++	{ "jstackframes", dt_opt_frames, DTRACEOPT_JSTACKFRAMES },
+ 	{ "jstackstrsize", dt_opt_size, DTRACEOPT_JSTACKSTRSIZE },
+ 	{ "lockmem", dt_opt_lockmem, DTRACEOPT_LOCKMEM },
+-	{ "maxframes", dt_opt_maxframes, DTRACEOPT_MAXFRAMES },
++	{ "maxframes", dt_opt_frames, DTRACEOPT_MAXFRAMES },
+ 	{ "nusdtprobes", dt_opt_runtime, DTRACEOPT_NUSDTPROBES },
+ 	{ "nspec", dt_opt_runtime, DTRACEOPT_NSPEC },
+ 	{ "pcapsize", dt_opt_pcapsize, DTRACEOPT_PCAPSIZE },
+ 	{ "scratchsize", dt_opt_scratchsize, DTRACEOPT_SCRATCHSIZE },
+ 	{ "specsize", dt_opt_size, DTRACEOPT_SPECSIZE },
+-	{ "stackframes", dt_opt_runtime, DTRACEOPT_STACKFRAMES },
++	{ "stackframes", dt_opt_frames, DTRACEOPT_STACKFRAMES },
+ 	{ "statusrate", dt_opt_rate, DTRACEOPT_STATUSRATE },
+ 	{ "strsize", dt_opt_strsize, DTRACEOPT_STRSIZE },
+-	{ "ustackframes", dt_opt_runtime, DTRACEOPT_USTACKFRAMES },
++	{ "ustackframes", dt_opt_frames, DTRACEOPT_USTACKFRAMES },
+ 	{ "noresolve", dt_opt_runtime, DTRACEOPT_NORESOLVE },
+ 	{ NULL }
+ };
+diff --git a/test/unittest/options/err.jstackframes-negative.d b/test/unittest/options/err.jstackframes-negative.d
+new file mode 100644
+index 00000000..0fdcbb58
+--- /dev/null
++++ b/test/unittest/options/err.jstackframes-negative.d
+@@ -0,0 +1,24 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: The -xjstackframes option requires a non-negative value
++ *
++ * SECTION: Options and Tunables/Consumer Options
++ */
++
++/* @@runtest-opts: -xjstackframes=-1 */
++
++BEGIN
++{
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/options/err.jstackframes-too-high.sh b/test/unittest/options/err.jstackframes-too-high.sh
+new file mode 100755
+index 00000000..869a3d1f
+--- /dev/null
++++ b/test/unittest/options/err.jstackframes-too-high.sh
+@@ -0,0 +1,25 @@
++#!/bin/bash
++#
++# Oracle Linux DTrace.
++# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++# Licensed under the Universal Permissive License v 1.0 as shown at
++# http://oss.oracle.com/licenses/upl.
++#
++
++dtrace=$1
++
++#
++# ASSERTION: The -xjstackframes option value must be within the system limit.
++#
++# SECTION: Options and Tunables/Consumer Options
++#
++maxframes=$[ `cat /proc/sys/kernel/perf_event_max_stack` + 1 ]
++
++$dtrace $dt_flags -xjstackframes=$maxframes -qn '
++BEGIN, ERROR
++{
++	trace("ERROR: DTrace should fail to start.");
++	exit(0);
++}'
++
++exit $?
+diff --git a/test/unittest/options/err.maxframes-negative.d b/test/unittest/options/err.maxframes-negative.d
+new file mode 100644
+index 00000000..62e4d21f
+--- /dev/null
++++ b/test/unittest/options/err.maxframes-negative.d
+@@ -0,0 +1,24 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: The -xmaxframes option requires a non-negative value
++ *
++ * SECTION: Options and Tunables/Consumer Options
++ */
++
++/* @@runtest-opts: -xmaxframes=-1 */
++
++BEGIN
++{
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/options/err.maxframes-too-high.sh b/test/unittest/options/err.maxframes-too-high.sh
+new file mode 100755
+index 00000000..3b2674cf
+--- /dev/null
++++ b/test/unittest/options/err.maxframes-too-high.sh
+@@ -0,0 +1,25 @@
++#!/bin/bash
++#
++# Oracle Linux DTrace.
++# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++# Licensed under the Universal Permissive License v 1.0 as shown at
++# http://oss.oracle.com/licenses/upl.
++#
++
++dtrace=$1
++
++#
++# ASSERTION: The -xmaxframes option value must be within the system limit.
++#
++# SECTION: Options and Tunables/Consumer Options
++#
++maxframes=$[ `cat /proc/sys/kernel/perf_event_max_stack` + 1 ]
++
++$dtrace $dt_flags -xmaxframes=$maxframes -qn '
++BEGIN, ERROR
++{
++	trace("ERROR: DTrace should fail to start.");
++	exit(0);
++}'
++
++exit $?
+diff --git a/test/unittest/options/err.stackframes-negative.d b/test/unittest/options/err.stackframes-negative.d
+new file mode 100644
+index 00000000..e6c276d7
+--- /dev/null
++++ b/test/unittest/options/err.stackframes-negative.d
+@@ -0,0 +1,24 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: The -xstackframes option requires a non-negative value
++ *
++ * SECTION: Options and Tunables/Consumer Options
++ */
++
++/* @@runtest-opts: -xstackframes=-1 */
++
++BEGIN
++{
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/options/err.stackframes-too-high.sh b/test/unittest/options/err.stackframes-too-high.sh
+new file mode 100755
+index 00000000..0123f92b
+--- /dev/null
++++ b/test/unittest/options/err.stackframes-too-high.sh
+@@ -0,0 +1,25 @@
++#!/bin/bash
++#
++# Oracle Linux DTrace.
++# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++# Licensed under the Universal Permissive License v 1.0 as shown at
++# http://oss.oracle.com/licenses/upl.
++#
++
++dtrace=$1
++
++#
++# ASSERTION: The -xstackframes option value must be within the system limit.
++#
++# SECTION: Options and Tunables/Consumer Options
++#
++maxframes=$[ `cat /proc/sys/kernel/perf_event_max_stack` + 1 ]
++
++$dtrace $dt_flags -xstackframes=$maxframes -qn '
++BEGIN, ERROR
++{
++	trace("ERROR: DTrace should fail to start.");
++	exit(0);
++}'
++
++exit $?
+diff --git a/test/unittest/options/err.ustackframes-negative.d b/test/unittest/options/err.ustackframes-negative.d
+new file mode 100644
+index 00000000..ede20425
+--- /dev/null
++++ b/test/unittest/options/err.ustackframes-negative.d
+@@ -0,0 +1,24 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: The -xustackframes option requires a non-negative value
++ *
++ * SECTION: Options and Tunables/Consumer Options
++ */
++
++/* @@runtest-opts: -xustackframes=-1 */
++
++BEGIN
++{
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/options/err.ustackframes-too-high.sh b/test/unittest/options/err.ustackframes-too-high.sh
+new file mode 100755
+index 00000000..fc362fff
+--- /dev/null
++++ b/test/unittest/options/err.ustackframes-too-high.sh
+@@ -0,0 +1,25 @@
++#!/bin/bash
++#
++# Oracle Linux DTrace.
++# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++# Licensed under the Universal Permissive License v 1.0 as shown at
++# http://oss.oracle.com/licenses/upl.
++#
++
++dtrace=$1
++
++#
++# ASSERTION: The -xustackframes option value must be within the system limit.
++#
++# SECTION: Options and Tunables/Consumer Options
++#
++maxframes=$[ `cat /proc/sys/kernel/perf_event_max_stack` + 1 ]
++
++$dtrace $dt_flags -xustackframes=$maxframes -qn '
++BEGIN, ERROR
++{
++	trace("ERROR: DTrace should fail to start.");
++	exit(0);
++}'
++
++exit $?
+-- 
+2.43.5
+
