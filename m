@@ -1,494 +1,2261 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237C1292B4B
-	for <dtrace@lists.linux.dev>; Fri,  3 Oct 2025 16:05:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F26C26290
+	for <dtrace@lists.linux.dev>; Sat,  4 Oct 2025 03:18:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759507558; cv=fail; b=QDzzcpUH4kpQRPjqpwSONKIPFsM6A8i1/mdo0StpNserPyQpqHLPlkAW5DbtuP+nUCtJiaGYwRHlEPw5PpVFsyplV1OiKow1Lon1xCHYiqzS/ckn2Ls/AaMSUjFlKH+AZTAJJh8t0jO4F3rYqLzfyf5T4oorygTNza88HBkLwoM=
+	t=1759547915; cv=fail; b=suXN6yuz/rla7uhEIr/gOrTDwaaHEQO2GuKUiMO0pE2pXwRiY2puWNIiJhYKTV/4C2e7KT1n9dPrMwVN/p8MjjChkxrlpBIDdsL/IKNIekd8NqmJNvJ1ErFSjTYl+oa/Lmi/Jjkp3LQBT0Ilb1NgPWkqSZgRQU/RhKtOt9GRhTk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759507558; c=relaxed/simple;
-	bh=+m4dCv4eiC5/xz8hl/iadgk95ZWLB14mb292x9u0fyY=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=SXjviUjTFlwqFj85Dt5kc+sBEEba8UW7mLRGaBzfC/sm5LtLViNltTk2Mlzp/02/cm9p2i2qGhzRW3fMnUAFw4bb/HjigdV+ryM/bX2cbAgM9gHef9S4+y3TUIY7aB2QmuMeG98YQylcmY+F54TyTICgJvaAjFvCiCFQa096Noo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=j1J14MYB; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=CEixCYtR; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1759547915; c=relaxed/simple;
+	bh=zd+eU3Uz9FFoGwF4xx7JD206Fk3stsS3xh5c0mMDC8Y=;
+	h=Date:From:To:Subject:Content-Type:Message-ID:MIME-Version; b=ghaQoXGF7kQ8rv6PvtlJ06V7FNp2q1cbxzOpXn02G/AIuuZVGMfqMqwglwR6+kJ3JOrek0+GXLR2UnngaUXOhxgUYWBprsJDPe6xBbih0tOXmt097TwaB8kclrfim8Ow+raOg8yLMwn+/2KvOGQI7GyO4GYd+SwX4BY9nTOJH9U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=n01dsUGN; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=jfqZreHy; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="j1J14MYB";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="CEixCYtR"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 593FC5tK008003
-	for <dtrace@lists.linux.dev>; Fri, 3 Oct 2025 16:05:55 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="n01dsUGN";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="jfqZreHy"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59436TdE006713
+	for <dtrace@lists.linux.dev>; Sat, 4 Oct 2025 03:18:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=9YSyC4RqHsTZj5jdgpOldPdWddPSnnsUYkxa9UTZQRs=; b=
-	j1J14MYB92OyU/XFkB4UQewYgD8MPIgKTj/mEFGvvnfZnwZd5Jc6eNURnux7OnHl
-	EldA0id+l7iQr4keNJPD5VR2vg2KmPdKphum8rfgEVKfVjiIqhEmjKlSsd/jlaJK
-	IJMjyp8V+HG7TUQQP6F1Ex/ExAI3lHpcmRm5RwBm/6SclwV4Z1gG2JK8sJZMB3SI
-	9ISGMaUCtmLgJzsu8osiTmvl+lvvki0Y/OkRWC4mEr/yGenWc+tYfdRjJE2Ggd58
-	bFcRRkGBaYmit06TPweNcsqkX31q+kLZ7InNFWDFmIJTA3lX0FeJh72J1kdYU/UT
-	ClvvEU2EnoLikJl2TnLeEA==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49jeyqrbhw-1
+	content-type:date:from:message-id:mime-version:subject:to; s=
+	corp-2025-04-25; bh=u2utKYvu/e0g6MgNBwuno0ATHSdFRism7nyb6p3Tc30=; b=
+	n01dsUGNhphsrzi23gQd0O7JXH47kapm82BE3IEw3X0U76wZpZgYej/djr15L/d9
+	i0hY0fJ4Y8zP2kNgl5XYbOdRkj7yPlQ+iVgKZsTDzoPfcC322wUjbJ2ujDSAcITI
+	qtC0d4oB/BCuHIFbI/1JvttNtxpUGpEWKJbHCMCNxoEwkD2wcODHo9u7t4EW4/LZ
+	1w86skKvEW/olT/1jpfufdUChOboOPiorZW/EZ9LM3NMim0KEgc7N2g6tGyMYNFT
+	iVjAmNsxGPqs9sizBa4uzwOrWPWKbtSZM8B2VKXGVBdOXq31RsyIE0AVbQCpURFo
+	bWq+LIvr9eoCjfdlqnqGqA==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49jtg800t8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 03 Oct 2025 16:05:54 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 593ENZYg029674
-	for <dtrace@lists.linux.dev>; Fri, 3 Oct 2025 16:05:53 GMT
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012054.outbound.protection.outlook.com [40.93.195.54])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 49hw1fpkwy-2
+	for <dtrace@lists.linux.dev>; Sat, 04 Oct 2025 03:18:30 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5941XRpA021326
+	for <dtrace@lists.linux.dev>; Sat, 4 Oct 2025 03:18:30 GMT
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012026.outbound.protection.outlook.com [52.101.43.26])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49jt159s8s-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 03 Oct 2025 16:05:53 +0000
+	for <dtrace@lists.linux.dev>; Sat, 04 Oct 2025 03:18:30 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a8pvIwp4zWNzJXy2FkU+pXrttaqPBdNhwvRFesX9cH69HkeACigUWTrDMHrqbHZl6NFvACFmEOTniIEzWg1yBhNh/eXGUyCKyvpVb5o63onpi1U7fMtjDv0DurR5uuAfNLqoMEMSJZEx6vgdS6/PZ+g8yowBCcDtLEkEHiN09c7LG1NzwVmU7N8fCv+Mxg+oCMpTVCxLG/JuINEsj8Fd9wQCk65incikdDw8kFnymp0kzuVj5ekG6isf4bT2xnXgUn0T7FGAPlLrWZyIFWl7hL9wZiB+RuCmZaEpVUxLOO1KWuwLb2Wc2agbTfu8zcoBjkAXzZhIZBtN7ZUTMVbciA==
+ b=zCjh4p3mHfr24LGwXm4HnEb2z8xBpa+ZawhcSisjgMH57Y/RFEBMhHwmqjdVvnEhQu//0MCCawmyQcZ/vYNe770ypLRPxq7ZrgpJsnNvWqIhR2rueTeiAaYcRyyHH6XMpIdOrs36GdBAn1tcrkx410n/1Gf4rSVnL5jMxBPEcspZAg0Vuy1eDYc30/ETLO6ZFR1cdOR8svJYLufWjHdtIlR4fPEztl5o9igL30lpRD7GFcHjpHJlYQuV/zS6zOCpAtBc1h8tLm5GQ2YYDjCw4rlSGlmWn+DmbjRUjhibWVCdWe0XP6/r/N8DIhoMXVZm77iKZHZDOnsJXKJLxeRqdg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9YSyC4RqHsTZj5jdgpOldPdWddPSnnsUYkxa9UTZQRs=;
- b=N+2F0Ye5VLxMCsAfN+27WwoofATPdiUsZxghII+h1fYkxIWNNiH55Bi0NRKzIMLlXsVK0RJqxYSyUq+bMCbiA9w1bHf+L/HGknm3AhvK2RSgSkyREyUcLCGMngdd5FaG/FTYRj46UbaDFbvh0GltbamwLY1UFJqzBd0zfUVIQ8jU6t60tSDVQiY1ycctb9mi9g17qlpDFNIkv1hU5k210g21v4S8BJf544sSfwcn7CtAIqaNJjeegmrHtqldbdtZsuty7Ni/pWHZfOeyPWfR6X82vtzv0B3WPElYp2eZxRgP+UEhQ/I4Xm8hGrXax8+xbaJMdYax3MtPVI89pKEwNw==
+ bh=u2utKYvu/e0g6MgNBwuno0ATHSdFRism7nyb6p3Tc30=;
+ b=wzZDjsnWpycIni5tsWaXnsEuiYbZ5im3qCP46dAswAfZVN5Pt82/o/cIbLFH9NNsNcaYI0crKcHHAm7LybKCR4loWU4X1XkDMNx1zSzGyLx6zsZfgHiUec3WUL5HDmfBcVWxXN3p80KNy/17T5VWjQaQqTBd7gBuj87dKEOSoAh6KgEFtlTSyjUrCLECn5dCHCWUFIb19OtNB1Ly7VgW1avCbXL4qIEj1a/DvMFBO0LFflMCuuq5XF4lEyK9HTvLP6BsebvOD+QQH2W1yU7OtGSV4H9jl/5qQNi3l474LiSIbLhO7Lz88AmgR9VuEFifqYx2jkwiw/wCV7SIrJlt1A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9YSyC4RqHsTZj5jdgpOldPdWddPSnnsUYkxa9UTZQRs=;
- b=CEixCYtRkh5aMCFBA3U0UYnEf1Vsji9F3JAwJzZBmJ0n1mHtrsHJFMKKyOXUX28eqhpM1G2Oou7/kNDqecgTH7Kz1TajRuqUJzoh3cE6Ex1lFKJ/Q+V/FST3J1RbVScWgEcaApum3quhRkywSourkNf+1vOpEXe4bsBfD6ENIN4=
+ bh=u2utKYvu/e0g6MgNBwuno0ATHSdFRism7nyb6p3Tc30=;
+ b=jfqZreHyLUIfmz8KdMYyYbGh/WCP41seUI4aUGwV0YcyKWIC4LP0sbQy9Msh1lPkljZv6Zork2sSwSwrPM25ituXyHHv9jQsU8PoBjfvS+quTbjvuTeWBP31hwPHwMM6rDWOQ1pGYWEcTG0HD/9dl+afUicZ/vB7oKuWjW96STI=
 Received: from SJ0PR10MB5672.namprd10.prod.outlook.com (2603:10b6:a03:3ef::21)
- by PH0PR10MB4423.namprd10.prod.outlook.com (2603:10b6:510:40::14) with
+ by MN6PR10MB8071.namprd10.prod.outlook.com (2603:10b6:208:4ef::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.16; Fri, 3 Oct
- 2025 16:05:46 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.17; Sat, 4 Oct
+ 2025 03:18:19 +0000
 Received: from SJ0PR10MB5672.namprd10.prod.outlook.com
  ([fe80::8800:9203:9f66:174b]) by SJ0PR10MB5672.namprd10.prod.outlook.com
- ([fe80::8800:9203:9f66:174b%4]) with mapi id 15.20.9182.015; Fri, 3 Oct 2025
- 16:05:46 +0000
+ ([fe80::8800:9203:9f66:174b%4]) with mapi id 15.20.9182.015; Sat, 4 Oct 2025
+ 03:18:19 +0000
+Date: Fri, 03 Oct 2025 23:18:17 -0400
 From: Kris Van Hees <kris.van.hees@oracle.com>
-To: Eugene Loh <eugene.loh@oracle.com>,
-        "dtrace@lists.linux.dev"
-	<dtrace@lists.linux.dev>,
-        "dtrace-devel@oss.oracle.com"
-	<dtrace-devel@oss.oracle.com>
-Subject: Re: [DTrace-devel] [PATCH] cg, printf: allow storing [u]stack() into
- vars and printf using %k
-Thread-Topic: [DTrace-devel] [PATCH] cg, printf: allow storing [u]stack() into
- vars and printf using %k
-Thread-Index: AQHcM9VpXzPZSpG6lUOiMPAC5MnKurSv5NAAgACZxq0=
-Date: Fri, 3 Oct 2025 16:05:46 +0000
+To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: [PATCH v2] cg, printf: allow storing [u]stack() into vars and printf
+ using %k
+Content-Type: text/plain
+X-ClientProxiedBy: BLAPR05CA0010.namprd05.prod.outlook.com
+ (2603:10b6:208:36e::19) To SJ0PR10MB5672.namprd10.prod.outlook.com
+ (2603:10b6:a03:3ef::21)
 Message-ID:
- <SJ0PR10MB56720280A8F22CB49329CD88C2E4A@SJ0PR10MB5672.namprd10.prod.outlook.com>
-References:
- <SJ0PR10MB5672C09310C10847AEB00DCBC2E7A@SJ0PR10MB5672.namprd10.prod.outlook.com>
- <ae8fe2de-ec29-80cb-bdca-2358ed7db9c7@oracle.com>
-In-Reply-To: <ae8fe2de-ec29-80cb-bdca-2358ed7db9c7@oracle.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR10MB5672:EE_|PH0PR10MB4423:EE_
-x-ms-office365-filtering-correlation-id: 52099932-30aa-4ecc-4462-08de0296b667
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|38070700021|7053199007;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?baldSCEDVB11zgSAAbheFsyfsUnQc0RQiooNg1muPB2bxQfUndwcNp5CGz?=
- =?iso-8859-1?Q?0Y9DlRn+HlTuQ+hEgbkmdyrCwCiSvq28vq1CUIa30LfSaItbVHX2sQDPQ5?=
- =?iso-8859-1?Q?aUsz9vDOBL8QrqV1WrYWUMqnQkzKGiT/3Kn9CiCIYs1q9DHDXa+8D8eexi?=
- =?iso-8859-1?Q?+FlXkuhyGe3e1E16wAJa7eAcQFzAWPXy/VbelcVO/72EDhyQUfI1ZSEUv0?=
- =?iso-8859-1?Q?Puhhb6iS3xrzfbxtor/yVcTkkMP9lK/ltzBir4f3l8sjqEjGHpzyTnBVyk?=
- =?iso-8859-1?Q?AWgOlltS9K7KkyVKllG2cyRZX8YJ6KFPopX5/vF9N+nNIqZLH/PIwRYSmk?=
- =?iso-8859-1?Q?cM9vW0xy8iwDwaRcTi4pbMtnMH9AJGK5B3QBf+2UwQS7fgq7UP1J8khk1D?=
- =?iso-8859-1?Q?rCoEkYHWjQS3SXsMUr/7wR7f1mu8QlZqkuYwZ5ybp9beM6EcMxFAEol7O0?=
- =?iso-8859-1?Q?o/7fZa7jjr1hpvBG2kUCq7qI16XlD6uBeptEUx+qc1jGzgN2MCUT1q51fR?=
- =?iso-8859-1?Q?ET3H0cySpPmRQTw1oCEj90CUpv9v8Kne9AKTK0RoMiX1SaRnsbivWqwD4M?=
- =?iso-8859-1?Q?yAcmX8XwEHoaH/720CByB7A1qRWtXSBG5JwcYtoZxp7aESsYzk0ZwwWRSF?=
- =?iso-8859-1?Q?5MAQMA7eHoQr/AZofBjoQ8mGWD5yX7ntzVtCicPLczU/+uOn68S/mtYz4D?=
- =?iso-8859-1?Q?kG7LvcfLa2SF4NySkTKsaWQFbdsckhQ0B/JZ/VgnF1yJ8GqtIt6rjDJkOV?=
- =?iso-8859-1?Q?8FYEhS1Vk1sLWZdcRwFi92HnfWmKM7H+2wM0439r1zDmOjLmFphRwgkt0S?=
- =?iso-8859-1?Q?dRVRiGBuGpAS1ObgXVT61I96QZTICL6g2InmMHuimrGFsaHHSD8qkFALEM?=
- =?iso-8859-1?Q?a+GTVsT6K6QAwwLVBkYh98Pi9BuX9nxDPY6OifM5SEUuHlEr5/iLCrwxl9?=
- =?iso-8859-1?Q?kFr9IqVmpDHiMd9PVaSKoyG7nF74J2uB/7JRPV1d4NdoTX+VMczup8S6Zz?=
- =?iso-8859-1?Q?fE/I0UkvHY0rh6UbUkQIqVqT7euz3rGnt9c3YppaQEvv4TSu4kGJxZAt4E?=
- =?iso-8859-1?Q?9XAOe0C7Rpi6FYSdtqvx/pnxPckEnio6ifs0VBWTgRZyZns+6Tj1WnNqz2?=
- =?iso-8859-1?Q?nHVKOjZRSH1/2PbGNEJj0lbd+hHQFz/StNJaLFPEDUSb8eU3VGxim8Hv1j?=
- =?iso-8859-1?Q?u/dGwhIJZfPtAs0q3jg7aWSyErqDqiIpyLh/PrPlkLmCtPYHTZDPhiZmZI?=
- =?iso-8859-1?Q?20GBIB+g6zGxr3qMp6qEi75lT0JnlzPiSybgPcbBFzeU0QUBR20vMMS3fO?=
- =?iso-8859-1?Q?91pPdwfODTsVGNYBvIEcpMKj1kPmxx1hjiXR08XfqeLaKKnwt2E24FRwyf?=
- =?iso-8859-1?Q?1WiS63HZRO7UzR21dMbNRTABW6waeICGv3w4k0jlp4pv2dgWb9pNlvFv7j?=
- =?iso-8859-1?Q?XqQ+a40URIakOUe8kBHNhOlxyhdj1Gh6NLeKboedykXadugVaN40WVCGtO?=
- =?iso-8859-1?Q?HnZLbSeilzWoeeYcfq6ligt5f1eWb4jpqrdaxyi+i1xx0FzrTkTVcAEsDd?=
- =?iso-8859-1?Q?UTx1IhBPGmDj0xqZjn+n1a7rp38T?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5672.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021)(7053199007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?wrB4lWzBkrQ38Wtps2omW43KR9s0KAUKpRtKtsKj/q/rWCSnpfjIslQ+LO?=
- =?iso-8859-1?Q?NZF83BfnbcTjZNVpMK6yG/q0gidPZFgxjVeWYu4EZL41iADCQtSbyGBf5y?=
- =?iso-8859-1?Q?/pEhtE3Bq6rqGNC2g6fX0FUZg0jo9iwhZxdMQn3rBRKHHdAHY3RPw0CQvC?=
- =?iso-8859-1?Q?KWra3PRwgZSVYtFZ7N4SX7zG45hCstdNXHdXx0SJkz766bVHLfrbOAzbRd?=
- =?iso-8859-1?Q?eF8LqB9J8uzqbG1iyktiGJCjBPeIh6rakFynVT4BYrz9DJojvbmQklEHLk?=
- =?iso-8859-1?Q?rIy6dWK5zYeMCQi1cMVsTHbD7/JpYbtCB3kwZPn2MOHyl2uErgFmCHqSPa?=
- =?iso-8859-1?Q?huxkfDSEZ6Gq0cxLDNZL1OrGVIEx8qyuFdeVSeT3Xp1wIoktl31Ch2+yUN?=
- =?iso-8859-1?Q?9MqUSMMR7VVCp6p/nhXs3SzeyN2oFfi6GFGxRAJQNiRzxo4kTWT1hd1ytS?=
- =?iso-8859-1?Q?7YDCGFHrWv62ImUlV5rxrgX+qVqZZmNZgXvLOK2fAJKJhQxhvIVVB5+VT1?=
- =?iso-8859-1?Q?5ucf7765Tz6SzCeyMZB7C9UtVkVDNz0fr7CSMa7SBrZhRnQipVhum6dsAh?=
- =?iso-8859-1?Q?+3BRm23J23nr+64gqFREiWYVSqEDXyAOON2LqNZXggWUiZpc4zhxW4W8el?=
- =?iso-8859-1?Q?gPQiIayL1c3bQX8oo48L7YkaVg23vEdFeS8I+6OzLHIhAu+3hBtb6gss4v?=
- =?iso-8859-1?Q?8UkzS5J3B/SuevzMGX4YRc5K9Y38J9tQ3LrXG04qaJ1LeKLcIH31OPhSNd?=
- =?iso-8859-1?Q?nHvrN6QW7GZjnVn3JISvJa06d32RbZv/yDZ3ugBMeOdjpSzO3jDTZ+lPLP?=
- =?iso-8859-1?Q?dFpmyrb0ZvtosNJniUG0DJl2v67utn+S77nf4eaOLckermLybq3Nuw9f/B?=
- =?iso-8859-1?Q?0SOLookRUVnQx/aJYA8ZB28dPwgn/V/tx2hE5H5cgNvaGJmo5qRZBAYNb4?=
- =?iso-8859-1?Q?H2OteEyFrHRgUsHhS9hYSk4C3JNGxVz0NovAzYtOPK8k4s9rXjhccMxRYh?=
- =?iso-8859-1?Q?HcCKO/4xZ8N+0zmxgdkNgJ5TzsUVnqwyikxM5mZrnm7IRVrVieAptQSRjW?=
- =?iso-8859-1?Q?EGr8UAvA2OiA6OiCnskJJtWe7XN4BmYjGynkHx9LOBqMUlJp7fhU2Yo1qS?=
- =?iso-8859-1?Q?trgBcxuOHQnpaeVTCalHMDZZSuM5jXdJj203YjKNYfgSqMiAqviiLqLOKY?=
- =?iso-8859-1?Q?pk7ZUyFnyu4Fk0BIuh/XewgTx3NSaG6oa/HKDaObfCzjiNm5za3cYJYUZ2?=
- =?iso-8859-1?Q?vT4m9W1Mdxn5BvI5eKiwrnuBnttTkANCdENzfT7a+BDaOcnK2qj5NgBl+6?=
- =?iso-8859-1?Q?mWjE5eYhfnx/MnPLONnqTtWS/j2mmfwR081ouB9rov0qesj4eoZwBUKWKa?=
- =?iso-8859-1?Q?QcxE3lMU/brXTIzLAyIGvyzHIaB2vLUjilcaXIpbC3fQ8tOhPuI8wCp4Ym?=
- =?iso-8859-1?Q?Z6abhEWgOXlcZr2H2t5emF3qsi3sJzYuRa+QTA38GKmQSVhqa76WsAy2NR?=
- =?iso-8859-1?Q?oHKCpWp0BwMwxeIfLLiO7Iah30CzSBKDDpP7yNAMPF7rqFkbPoX6Y6M7wZ?=
- =?iso-8859-1?Q?zkAirqYW7tyiXNog/MFJoNDnPXfzmi3Uhjv+mmu8Rl9zWRY7cpTSr88S9A?=
- =?iso-8859-1?Q?V7GQTYe+n9OgtdXfxmM3meFoviKRQwgONq?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ <SJ0PR10MB5672B68BCEDEE2F488AD00EDC2E5A@SJ0PR10MB5672.namprd10.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
 List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB5672:EE_|MN6PR10MB8071:EE_
+X-MS-Office365-Filtering-Correlation-Id: ec88336e-6164-4875-32af-08de02f4aa54
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?I8jIJZkwt2h/6qpqv982NXMCqrXCkOgHc61doXSAE4Oe/c8BIkDgKe4hYQjH?=
+ =?us-ascii?Q?rOpKvCNsrM+AMdJ+owTiCm4GX1k/QX4Wby8lwfDS16Jw0BjFP1i52PAi2EuG?=
+ =?us-ascii?Q?YfYHrNu+3+VwNfQ8S4hNFKvCqKuG7tOVm9CB2IAmjbX5VfsKf+ctQ6ZVOeb3?=
+ =?us-ascii?Q?SDM8604LhMlO6wB6HdAh2+I3YFl2KTRgqnEr4x012Wdzi5f+WSq5NqKbpLJ6?=
+ =?us-ascii?Q?NROLWDlS8knUXAEglFjNLqEfKpbPkZmZMKXg/75QBENXWPskyCocyX5B3Ti0?=
+ =?us-ascii?Q?gRnC2762nIbZguozPJIlVVftj29XwlV9Hoh/aSqBgWizsycuLdaWsMPrNZXZ?=
+ =?us-ascii?Q?ShZt0Vircm9H23YB3SpiVcOQv1z51uTSYI5kMtjeik/ywenTgFB7O7sg0p7M?=
+ =?us-ascii?Q?tb6ZndHl4L82/nand7KhPxUqNULE8d0Bzai7POjgpmnqAKqVj/1fZUzf+cqq?=
+ =?us-ascii?Q?YcSvem2RVT+42w7+mPQj2CyO2K/44Nhzd+ZKF1FwNSfTUuGnlr0RsEVv0jPQ?=
+ =?us-ascii?Q?MmISjGjJQkP4qtCMeRGBCTxnXQ1f8fe098CxHd2yl5QBUkwPZxc3C7iB51v7?=
+ =?us-ascii?Q?jVfL4moTRGJM84SdZNWGU1i3zS/vBBmOlD30+uONW1OVsww/waNYOGfoDhmr?=
+ =?us-ascii?Q?DRVxcmPi/Dpm3+elg1qUAV8bXNRotJmh9LrhsHlP3QQHN7QPHtLM9Biy61Oc?=
+ =?us-ascii?Q?yxgEVlZJx4AGKzYl90m/eIw0u6tH6KvEZibWTaMt7irWigCGYVp8JJ/5HaLT?=
+ =?us-ascii?Q?+Syu6+zdEFMYcofibpp5T0dI21rB6QHNg39+R+Cuh9VU5wty2y3s5PBEMXvC?=
+ =?us-ascii?Q?OIU3hdeJoVJ666f31IEK9HPFua2tpsVPuwOR23DwvKR3buf2pa7eVo+TDmKe?=
+ =?us-ascii?Q?gYOHxmajNMzgEQ6QLiRfpLy4LwHp8/so9xbZk/byPISHeEdC0ofTBfi1zCmL?=
+ =?us-ascii?Q?q9IuEpjD5tFvATRt72kOe8DpdBHOQwI4tPI8Ob+aT+E7Xa/OTToqxMFksucv?=
+ =?us-ascii?Q?bdce6++aSBwdL/E7UW/Tq/7pNkjo8TPaXCDrdNJvOoFuRi3PM8qYyJdoTy5l?=
+ =?us-ascii?Q?O82fZ4nuVVXXmHm4jK81ZxQNiSi2QjQJmOyluu6fxSRsN0LKSLYKBU+389eR?=
+ =?us-ascii?Q?2XFIx+LGVuClC0KTNVPJ7vC3kBm2BFRY7UWoH+j0hJQW3ozQl9N7USxXuNag?=
+ =?us-ascii?Q?QR8CxgUaeFT5WMmDEpuO6XgYsWAVNcj5ArYQFkCYJaDuB6ZqMtlsawYlw/u0?=
+ =?us-ascii?Q?HgH7lg+49YYkhLEWHXJdLMNavTqMr+ekMRMCO4Ay14ETYadqHjl+hhwlY7U6?=
+ =?us-ascii?Q?V3PdHJLh7bqqj0l5GCHfxSxfxrJ8crrC1DLfhi3rckCJBs+uRJZsYNexCYa7?=
+ =?us-ascii?Q?biGf0vFDW+sUh3eokHLiLtk5YU8aO6DCVvThG5C/Oeg0OF05TZuHl8ncxBAR?=
+ =?us-ascii?Q?qpInR2SNTKE70WVUnB5U2gTSM5rLydNx?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5672.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?g6+JjWEA+3oB2J7Nypp9qvUd7+V27oOubDh+bMkqoC4wn2gfLqnfRU8cA0Fu?=
+ =?us-ascii?Q?1kQnRmIJXeUTclC8Mk+nAg9BOYlECzw0xSqur7M2M216H6iQefBGHnbOoS6v?=
+ =?us-ascii?Q?7FKZEjp/CM0LJMEna8gv+52OwOvjuoKag3YHd6Onbzkul3PeeKag0yTfKv4E?=
+ =?us-ascii?Q?AyQiJ+0f490Eyl4Zmf5tZLSSOyVS2EiybcUxSCpVI/dVLWxZvgoAjd3DaDxT?=
+ =?us-ascii?Q?EMeCCotXT6LD5sisFfOVKTYr6lVjYd/ZtuQMBxCmSRVeXmYfLEhk4oQHy3/H?=
+ =?us-ascii?Q?60o5bNAIO/+FS6LJQHJYpvaizswO6vOvXdMZacppe5jyE56tEkZgUgULz9fo?=
+ =?us-ascii?Q?eMtb4eUCgdNFDZCGguissImcw1sskCuXvF+Xd0WoWxkEttc99n1UeJCVB3ru?=
+ =?us-ascii?Q?BTGHDzzLoSkpd8wgO8Idk5QOdMwSJnIFC5hiNiCnMnvxK5uXIn0VK5RODbpc?=
+ =?us-ascii?Q?AVlgz5prEB+7sBgSWFV2DDV4tjyHyWAGXb2Xs4jVQ0VqLGUmF0cCVbGy21m6?=
+ =?us-ascii?Q?AtR+63ek/eBJnW25YdWveaRdURN9p8RWbHoBddRrD9goSeQtsa95x+mnPa3O?=
+ =?us-ascii?Q?APn4p+BfNfS7MZjZ0N5H8mCwCHJ1K0bQubl5u6wx0fgOE9ACXjmCG9SZZJ//?=
+ =?us-ascii?Q?vFh+G5nrYHViulFOywznaZ7KR1I13czRCkJn1wLceS3mH9hqm+5/Gf6errbe?=
+ =?us-ascii?Q?i+t7TWKfWofPIasnHME8DjexKrctYtsAYMuDlkunOtTiIZDJz5Tct+oDAKfy?=
+ =?us-ascii?Q?fUFT/tsjvrHPlTIV+o2wRylO79OuMdYm1auJOtrf74Le/004r0pfexIjGIT2?=
+ =?us-ascii?Q?Njn1L81woaC5yMYryP/UND0ILQJF/gikfBuM7JiVd1jJYzi+9AJySbtrVtgT?=
+ =?us-ascii?Q?/Yn3yAzuv99Pa2iKVQi66CukEQ6Tpybw6LE8Pikebs5UXGKbBxJsMhjhkfTw?=
+ =?us-ascii?Q?5qyW4CpB0XYBh6wz6FOlkP5JovSWeX2biGqB3kw6no/c/pgNBBEFvnpDZiZm?=
+ =?us-ascii?Q?86VkEkEiSE5Kg6dRCTi6CEyYzcS+1xwLX4cjOelfSwz4jYWX4T40Xn7jdHCO?=
+ =?us-ascii?Q?XgGhaVS/EBMiI1P/hPPiuLxGyQRNRBr0Xi9gw27JZ5eGCHSCg1g0RR51Ee2u?=
+ =?us-ascii?Q?3qrplgI2ndwmG9n4MNGqVUFkAMDIs6QP/6/EtfVozjfbuKHrKj0i6BzKQCsp?=
+ =?us-ascii?Q?MHJmQ0OuQThKohZHsLGp5xriuCIoOPODtQe2VbDxeWVXLr1F6I/xm9qvCqtT?=
+ =?us-ascii?Q?9EcIpFSV9n+HXWMQoLhZgQIihD4+KOTZgDNe5QQce+d/tCdIh2X8+CFQDpnQ?=
+ =?us-ascii?Q?/nthZ8BKbJVqfpJyfW4CeWcO3tcBSyuBPp1HkislmFIz6eBUOZPgLmyX9kBn?=
+ =?us-ascii?Q?mrpDR4t8UAy9Lg8ldIamIQ4gOU1UWYFEQgGmTCR74BdwB7PbUN/3wi0x7if1?=
+ =?us-ascii?Q?6Flmh4ohxW0k4HhTWfSX9pwdXa7eWqM8VyseLo+AhvrU83ZheuLuJe6xv1YG?=
+ =?us-ascii?Q?6GfK8xerurFP+COJENkGnpROeoZLi/USkJbDDWpVJCY5cNd0zOdx0cbmt2MI?=
+ =?us-ascii?Q?9CPrFGigdMgkVATrg0s+Usa+jsKzmG07kdKaR5EC7C6WAIXoZld8+yDahhFY?=
+ =?us-ascii?Q?Og=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	wGx8N1Q5oMqxZhThaLt5ZHT33cd4pjNg/KzKFHgRuwUXtOdm3dFqDdip7uBII78fw5MMW/CVRFYczUTA9ELqNeh2B/Fg2NE/OHxP0nsEi2fdxLHA+x/cMFgdf3SPzokafgHfN+IW2SSqVUxqGOC1inwIbynrRXMYN65iIOsaTYY/r3QBAY7SrGoLQkheVV/Lj6aUDZgVxE8n5qmofZBtGmZtl72uwQAf6UM7EQ+LvrppVCJkjlGpJN9plROjT4RSA5oLky6N7hxredhsIKytp/cTQjxr2lPPOQyi95YgQOhrxJNmr5f6ye8OBSu7JqmA6dGtIfuX27t2n1vtaS6AUbvM6mEl9vFiV2QIVWdj2KNvE0ug3YA526E4W+IgEfYbwTvL06ywHj8hfGuFVpmxXHnpZZX8bLoM4jpOap6ZWekhm+uVY2D+qcqd7L0s1mXfjX7BN7oLVUsM8dPzbXqDgBt2uJY7UFSj7fFRKTiIgmhjvwjoBFjjbxAuEjcD0P3nPE8HQ0zfHb3lZy10r+bu/y+zjzg2ZCjLfoDkj61YRp2KQ2GvS1MFP+roy2y7frGCCrxomxAdNiXXM/vgsgZ5m/wa6eCnaNOZ/dRaeTlZXKc=
+	UulpI72MC/Yt/rL+iqoT/l3f8b9HSF7o3SvdULO/xVU2TuA/2Q6nYaRSoIgZvRU0ePAKz9DhwqmE1Ir2UG3liEh/IKvF8EQUGRDi0+g7saOMWN+y1ZVNuF41TcewFzuA85bLK3iEGEcX0Yvmc8nGs9ICYbuvgCoFMgd89Frq1jm/aQPz0W3hyCkAVh5cFQGVuT7pMdGLyhy+JqCc0lbbX7/F+63yk54vpcbk1ZMv1Pj1gkyFsTgdmk5RLfBRM2LsBUcEMFD2RLV8AzfT19DO3OIrPaFhMDMzrMOXSFg0l475BjhgvTophv2jOQCBnW54+BBeGB3fMuBN91aCZzFu94DfMe/aDyvLFWp0xtTm3dsMB853G3WAJ0I5a/ZmLYwQgOqruMnnFAOXCCI6126Lu2U3UR/G4uinXTgRz+PM6kXpQnbdA6PvD7F1SJWHp5hM8NDmUfHGfjJlAGXUdeclstw37D0NuIlHghVI0LjsI8pApMAhE4mqnOmQ73RnXrkwg9pufeSeg+Ty8Zbs89bOUERf0KcvEJYOJR59VcKRoA4NpuKhkn3jwCyUi0K0t+N6+L0UkAKQxdUbR2v23JsSJYvKe9F+RKhgYhwNV5Y6NGk=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec88336e-6164-4875-32af-08de02f4aa54
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5672.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52099932-30aa-4ecc-4462-08de0296b667
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Oct 2025 16:05:46.1302
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2025 03:18:18.9607
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /FXj91NSgslaoJ5065sdjJjHVF1IO/Ka9blnXnzylI6alx9CzTUxtXRO3gAkox+FIeGbtI109kwiwSXPKsQ1rFU7D1v6GvHOSLoNI/Fuhk0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4423
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gJ+aK76j38IwdXxu+RD+JVl7Nm+D65WEbbgQ2ExAxuuNpO7zzlbrhJACBBjZdTFxWw2Gs4en62+Qcq7OZtcRBjALeGbzhVyd2sc3Y1SvRIY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR10MB8071
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-03_05,2025-10-02_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 phishscore=0
- suspectscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2509150000 definitions=main-2510030131
-X-Authority-Analysis: v=2.4 cv=IPQPywvG c=1 sm=1 tr=0 ts=68dff463 b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10 a=x6icFKpwvdMA:10 a=GoEa3M9JfhUA:10
- a=yPCof4ZbAAAA:8 a=Y4NHP_3z03PpqooPdw8A:9 a=wPNLvfGTeEIA:10 cc=ntf
- awl=host:13625
-X-Proofpoint-ORIG-GUID: igk1tYgy5t6L-4fLo90TdJG_30iZut0x
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDAzMDEwNSBTYWx0ZWRfX7J97tDP6YJQW
- 3LlVvT6C/qXFOm2k4JJjh+/t0ChGfLr8ndGX6WOs28bfK/6EbaeQI0n+bRqixVfcGIrw8dHurL2
- 7MmZqzRfiQ6ZfXWp5DLP9aYK1Enhs1UIVegTMxXLXTLsOY3OQn1zbPHKE+gWPRIcTEL9V5/1lrY
- B295efumbp83X+ddrggO3+PLHrZUaoHFOf4uJ5oHCyLj7JVAXnxUitzaWCcg2BlKdBoTt/1OkZ1
- s3LWZLJqqJ0WmCCk4wYBSwgIuLKoDSO73sCsCD4B4GFrCkGQIVjFVu274sRVrDx74XF8UJu94XZ
- A3O0r2LcltSokAAJm9HzX9yDHFJLCzop9sVSge8kzpkaXw9A8VtxdDHIb2W651m+08+UFYJ/3W+
- uKv0IBiXCrFCt3VapbLVWSgY6f7xloUxX2dT1nWMF1q/a58cZRU=
-X-Proofpoint-GUID: igk1tYgy5t6L-4fLo90TdJG_30iZut0x
+ definitions=2025-10-03_07,2025-10-02_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxscore=0 mlxlogscore=999
+ malwarescore=0 suspectscore=0 spamscore=0 adultscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2509150000
+ definitions=main-2510040025
+X-Authority-Analysis: v=2.4 cv=Kp5AGGWN c=1 sm=1 tr=0 ts=68e09207 b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=x6icFKpwvdMA:10
+ a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=WBaAfyhHTSOkFagb0gcA:9
+ a=bRr-f2iaO_3sP37p:21
+X-Proofpoint-GUID: ulRfe3mrrhr-nLFOHlWVQAT5zwof1GrM
+X-Proofpoint-ORIG-GUID: ulRfe3mrrhr-nLFOHlWVQAT5zwof1GrM
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAxNSBTYWx0ZWRfX7KDpKBMndQba
+ Pzv9pcAeiimb/feUMepKWf2ptpCmM7iJ83bf+wzjG5JEotlKVUk7neXYMz9Nv3xk/aqQRYnwJ5u
+ OMuC671yb9ciCpUyBWts0gJDSBAMP15UtuFpOLbHbtSIn9wPOfhEFOpjpcdZjbdiLfEy+H3TJ6G
+ LMOBK/g4xfLdrmbSNQuL/ovcDGquyFNLo+dtSQbQFbZOrxJ4l74/JDcEEnuIcZJREZzkTr3+2D2
+ lFI45NMRSQYaqzUbGYYiYP4KKmm402wZvGmroWjAOeZdIjonI6bOy5YFBFTtQddyGT3vgQq9pk7
+ vUOsL7IlrruNa8T8kwCq9qQdHLFnMRZKPeNtfGq1USztZ+WcFCH87MhnrMI+2ExOcuHx82/omvQ
+ ySBSLxBHBSoO3ZDA2hV4b5ft9Hfjsw==
 
-=0A=
-=0A=
-________________________________________=0A=
-From: Eugene Loh <eugene.loh@oracle.com>=0A=
-Sent: Friday, October 3, 2025 1:26 AM=0A=
-To: Kris Van Hees; dtrace@lists.linux.dev; dtrace-devel@oss.oracle.com=0A=
-Subject: Re: [DTrace-devel] [PATCH] cg, printf: allow storing [u]stack() in=
-to vars and printf using %k=0A=
-=0A=
-Wow.  Amazing stuff.  I wouldn't swear to every detail, but it generally=0A=
-looks good to me.=0A=
-=0A=
-Picky stuff below.=0A=
-=0A=
-On 10/2/25 15:47, Kris Van Hees via DTrace-devel wrote:=0A=
-> To support storing [u]stack() values in variables and as arguments for=0A=
-> printf(), a type definition is introduced:=0A=
->=0A=
->       typedef struct dt_stack {=0A=
->               uint32_t        frames;=0A=
->               uint32_t        strsz;    // optional string blob size=0A=
->               uint32_t        type;     // type of stack (kernel/user)=0A=
-=0A=
-The name is fine.  I can live with "type".  But in pfprint_stack() you=0A=
-call it "is_user", which seems much more descriptive.  I wouldn't mind a=0A=
-change to "is_user", but again I can live with "type".  Plus, changing=0A=
-to "is_user" means renaming the ref_type test.=0A=
-=0A=
-KVH: I'll rename it to is_user since there are only two types anyway.=0A=
-=0A=
->               uint32_t        pid;      // process id (or 0 for kernel)=
-=0A=
->               uint64_t        addrs[n]; // stack trace addresses=0A=
->       } dt_stack_t;=0A=
->=0A=
-> where 'n' is the maximum number of frames that can be retrieved (set=0A=
-> with the 'maxframes' option).=0A=
->=0A=
-> diff --git a/libdtrace/dt_cg.c b/libdtrace/dt_cg.c=0A=
-> @@ -2760,17 +2767,18 @@ dt_cg_act_stack_sub(dt_pcb_t *pcb, dt_node_t *dnp=
-, int reg, int off,=0A=
->               dt_regset_free_args(drp);=0A=
->               /* mov32 %r0, %r0 effectively masks the lower 32 bits. */=
-=0A=
->               emit(dlp,  BPF_MOV32_REG(BPF_REG_0, BPF_REG_0));=0A=
-> -             emit(dlp,  BPF_STORE(BPF_DW, reg, off, BPF_REG_0));=0A=
-> +             emit(dlp,  BPF_STORE(BPF_DW, reg, aloff + 12, BPF_REG_0));=
-=0A=
->               dt_regset_free(drp, BPF_REG_0);=0A=
-> -     }=0A=
-> +     } else=0A=
-> +             emit(dlp,  BPF_STORE_IMM(BPF_W, reg, aloff + 12, 0));=0A=
-=0A=
-Store BPF_DW at aloff+12?  Shouldn't that be BPF_W?  And then maybe=0A=
-don't need BPF_MOV32_REG?=0A=
-=0A=
-KVH: Yes, the store should be BPF_W.  Whether the masking (done using the M=
-OV32) is still needed is something I'll have to test.  It seems reasonable =
-but at the same time it is probably nicer to first make sure we are dealing=
- with a 32-bit value rather than counting on the store implementation to co=
-rrectly just use the lower 32 bits.=0A=
-=0A=
-> diff --git a/libdtrace/dt_printf.c b/libdtrace/dt_printf.c=0A=
-> @@ -569,18 +570,41 @@ dt_print_stack_user(dtrace_hdl_t *dtp, FILE *fp, co=
-nst char *format,=0A=
->       return err;=0A=
->   }=0A=
->=0A=
-> -/*ARGSUSED*/=0A=
-> +/*=0A=
-> + * The data at vaddr is structured as follows:=0A=
-> + *   uint32_t        depth=0A=
-> + *   uint32_t        strsz=0A=
-> + *   uint32_t        type=0A=
-> + *   uint32_t        pid=0A=
-> + *   uint64_t        addrs[depth & 0x7fffffff]=0A=
-> + *=0A=
-> + * If 'depth' member provides the maximum number of addresses in the sta=
-ck=0A=
-=0A=
-s/If/The/?  Also, "maximum" in this context is a little confusing to me=0A=
-(since maxframes is a different concept and we're just talking about how=0A=
-many frames we're making space for), but it's okay.=0A=
-=0A=
-KVH: Well, the depth *is* the maximum of frames that might be in the stack =
-trace rather than the number of frame slots actually used because it repres=
-ents how many values can be read safely.  Therefore, depth !=3D stackdepth.=
-=0A=
-=0A=
-> + * trace.=0A=
-> + * The 'strsz' member provides the size of the optional string blob that=
- is=0A=
-> + * appended to the stack trace data.=0A=
-> + * The 'type' member identifies the stack trace as kernel space (0) or=
-=0A=
-> + * userspace (1).=0A=
-=0A=
-Again, the code goes on to call this "is_user", which seems so much more=0A=
-descriptive.  But not a big deal.=0A=
-=0A=
-> + * The 'pid' member provides the userspace process id for userspace stac=
-k=0A=
-> + * traces and otherwise will be 0.=0A=
-> + * The 'addrs' array provides the stack traces addresses.  If the stack =
-trace=0A=
-> + * is shorter than 'depth', remaining addresses will be 0 and can be ign=
-ored.=0A=
-> + */=0A=
->   static int=0A=
->   pfprint_stack(dtrace_hdl_t *dtp, FILE *fp, const char *format,=0A=
->             const dt_pfargd_t *pfd, const void *vaddr, size_t size,=0A=
->             uint64_t normal, uint64_t sig)=0A=
->   {=0A=
->       int width;=0A=
-> -     const dtrace_recdesc_t *rec =3D pfd->pfd_rec;=0A=
-=0A=
-Well, if we no longer use pfd->pfd_rec, then the caller dt_print_stack()=0A=
-no longer needs to set it.=0A=
-=0A=
-KVH: Good point.  Removed.=0A=
-=0A=
-> diff --git a/test/unittest/funcs/stack/tst.asgn_dvar.d b/test/unittest/fu=
-ncs/stack/tst.asgn_dvar.d=0A=
-> +     assoc["a"] =3D stack(5);=0A=
-> diff --git a/test/unittest/funcs/stack/tst.asgn_dvar.r.p b/test/unittest/=
-funcs/stack/tst.asgn_dvar.r.p=0A=
-> @@ -0,0 +1,35 @@=0A=
-> +#!/usr/bin/gawk -f=0A=
-> +=0A=
-> +/ksys_write/ {=0A=
-> +    # check probe=0A=
-> +    if ( $1 !=3D "ksys_write:entry" ) {=0A=
-> +        print "ERROR: expected fun:prb =3D ksys_write:entry";=0A=
-> +        exit 1;=0A=
-> +    }=0A=
-> +=0A=
-> +    # check stack(3)=0A=
-> +    getline;=0A=
-> +    if (index($1, "`ksys_write+0x") =3D=3D 0 &&=0A=
-> +        match($1, "`ksys_write$") =3D=3D 0) {=0A=
-> +        print "ERROR: expected leaf frame to be ksys_write";=0A=
-> +        exit 1;=0A=
-> +    }=0A=
-> +    getline;=0A=
-> +    if (NF =3D=3D 0) {=0A=
-> +        print "ERROR: missing second frame";=0A=
-> +        exit 1;=0A=
-> +    }=0A=
-> +    getline;=0A=
-> +    if (NF =3D=3D 0) {=0A=
-> +        print "ERROR: missing third frame";=0A=
-> +        exit 1;=0A=
-> +    }=0A=
-> +    getline;=0A=
-> +    if (NF > 0) {=0A=
-> +        print "ERROR: expected stack(3) to have only three frames";=0A=
-> +        exit 1;=0A=
-> +    }=0A=
-> +=0A=
-> +    print "success";=0A=
-> +    exit(0);=0A=
-> +}=0A=
-=0A=
-Hang on.  The test uses stack(5) but the .r.p file twice tells me it=0A=
-expects stack(3).  What's going on?  Well, I think the stack is short=0A=
-and so we get stack(3) by accident, allowing the test to pass.  So it=0A=
-seems that we need to probe somewhere where the stack is deeper.=0A=
-=0A=
-Also, fwiw, all that nice diagnostic output emitted by the .r.p file in=0A=
-case of a failure will be lost.  We won't see it in runtest.log or=0A=
-runtest.sum.  Maybe that's okay.  Just fwiw.=0A=
-=0A=
-KVH: My bad, the test should be using stack(3)...  And the post-processor i=
-sn't doing its job.  v2 will fix.=0A=
-=0A=
-> diff --git a/test/unittest/funcs/stack/tst.ref_pid.d b/test/unittest/func=
-s/stack/tst.ref_pid.d=0A=
-> + * ASSERTION: Test accessing the 'pid' field of s kernel stack yields 0.=
-=0A=
-> diff --git a/test/unittest/funcs/stack/tst.ref_strsz.d b/test/unittest/fu=
-ncs/stack/tst.ref_strsz.d=0A=
-> + * ASSERTION: Test accessing the 'strsz' field of s kernel stack yields =
-0.=0A=
-=0A=
-"of s kernel" =3D>=0A=
-"of a kernel"=0A=
-(Ditto for the ustack variants of these tests.)=0A=
-=0A=
-KVH: Thanks.=0A=
-=0A=
-> diff --git a/test/unittest/funcs/stack/tst.store.d b/test/unittest/funcs/=
-stack/tst.store.d=0A=
-> +     v.depth =3D 2;=0A=
-> +     printf("%k", v);=0A=
-=0A=
-Wow, cool.  But how about changing this to=0A=
-         v.depth =3D 1;=0A=
-         printf("%k", v);=0A=
-         v.depth =3D 2;=0A=
-         printf("%k", v);=0A=
-and then checking that=0A=
-         the first stack is a single frame=0A=
-         the second stack looks like the first one plus one more frame=0A=
-Not hugely different from other testing being done, but since we're=0A=
-checking storing to a field of a stack var, could do some correctness=0A=
-checking and not just "well, it doesn't complain."=0A=
-=0A=
-KVH: Well, I am really only checking that it can be done.  Whether it has s=
-ensible effects is less interesting because messing with what essentially i=
-s an internal structure is unlikely to be a good idea.  Changing the depth =
-is really the only potentially useful thing, but even that is doubtful.=0A=
-=0A=
-But I'll look at perhaps checking it since it *could* be used i a sensible =
-way.=0A=
-=0A=
-> diff --git a/test/unittest/funcs/ustack/tst.asgn_dvar.d b/test/unittest/f=
-uncs/ustack/tst.asgn_dvar.d=0A=
-> +     assoc["a"] =3D ustack(5);=0A=
-> diff --git a/test/unittest/funcs/ustack/tst.asgn_dvar.r.p b/test/unittest=
-/funcs/ustack/tst.asgn_dvar.r.p=0A=
-> +#!/usr/bin/gawk -f=0A=
-> +=0A=
-> +/ksys_write/ {=0A=
-> +    # check probe=0A=
-> +    if ( $1 !=3D "ksys_write:entry" ) {=0A=
-> +        print "ERROR: expected fun:prb =3D ksys_write:entry";=0A=
-> +        exit 1;=0A=
-> +    }=0A=
-> +=0A=
-> +    # check stack(3)=0A=
-> +    getline;=0A=
-> +    if (index($1, "`ksys_write+0x") =3D=3D 0 &&=0A=
-> +        match($1, "`ksys_write$") =3D=3D 0) {=0A=
-> +        print "ERROR: expected leaf frame to be ksys_write";=0A=
-> +        exit 1;=0A=
-> +    }=0A=
-> +    getline;=0A=
-> +    if (NF =3D=3D 0) {=0A=
-> +        print "ERROR: missing second frame";=0A=
-> +        exit 1;=0A=
-> +    }=0A=
-> +    getline;=0A=
-> +    if (NF =3D=3D 0) {=0A=
-> +        print "ERROR: missing third frame";=0A=
-> +        exit 1;=0A=
-> +    }=0A=
-> +    getline;=0A=
-> +    if (NF > 0) {=0A=
-> +        print "ERROR: expected stack(3) to have only three frames";=0A=
-> +        exit 1;=0A=
-> +    }=0A=
-> +=0A=
-> +    print "success";=0A=
-> +    exit(0);=0A=
-> +}=0A=
-=0A=
-Okay, same problems as before (asgn_* tests, but stack that time and=0A=
-ustack this time).=0A=
-=0A=
-One "problem" is that the nice diagnostic output from the .r.p is lost=0A=
-when there is an error.  Oh well.  I guess that's okay.=0A=
-=0A=
-The big problem, though, is that the test emits ustack(5) while the .r.p=0A=
-file is emphatic that it is expecting ustack(3).  Well, it says=0A=
-"stack(3)" but that typo can be fixed and wouldn't change anything. In=0A=
-the stack() case, the problem was that the stack was coincidentally too=0A=
-small.  That is certainly not the problem here. Here, the problem is=0A=
-that we claim we're looking for ksys_write (which is the wrong frame to=0A=
-look for) and if we do not find it then no checks are applied!  So, the=0A=
-.r.p file should be changed to look for a ustack frame and to complain=0A=
-if it is not found.=0A=
-=0A=
-These problems appear in the other ustack asgn_* tests as well.=0A=
-=0A=
-> diff --git a/test/unittest/funcs/ustack/tst.ref_addrs.d b/test/unittest/f=
-uncs/ustack/tst.ref_addrs.d=0A=
-> +     trace("Expecting vmlinux`ksys_write, got ");=0A=
-> diff --git a/test/unittest/funcs/ustack/tst.ref_addrs.r b/test/unittest/f=
-uncs/ustack/tst.ref_addrs.r=0A=
-> +                  myfunc_z:entry   Expecting vmlinux`ksys_write, got   u=
-stack-tst-basic`myfunc_z=0A=
-=0A=
-Expecting vmlinux`ksys_write on the ustack?  No, as demonstrated by the=0A=
-expected output.=0A=
-=0A=
-> diff --git a/test/unittest/printf/tst.ustack25_pid.d b/test/unittest/prin=
-tf/tst.ustack25_pid.d=0A=
-=0A=
-This test fails for me, but I think the issue is simple:  leading white=0A=
-space / indentation.  It might suffice to strip out the leading spaces,=0A=
-both in the .r file AND in the output that is fabricated in the .r.p file.=
-=0A=
+To support storing [u]stack() values in variables and as arguments for
+printf(), a type definition is introduced:
+
+	typedef struct dt_stack {
+		uint32_t	frames;
+		uint32_t	strsz;	  // optional string blob size
+		uint32_t	is_user	  // 1 if userspace stack trace
+		uint32_t	pid;	  // process id (or 0 for kernel)
+		uint64_t	addrs[n]; // stack trace addresses
+	} dt_stack_t;
+
+where 'n' is the maximum number of frames that can be retrieved (set
+with the 'maxframes' option).
+
+Since dt_stack_t needs to be known early enough to define stack(),
+jstack(), and ustack(), it is defined in two stages.  First dt_stack_t
+is defined as a typedef for struct dt_stack, and once options have been
+processed, struct dt_stack is finalized.
+
+Once the value of a stack has been assigned to a variable, it can be
+accessed as a regular struct (*not* a pointer to a struct).
+Modification is also possible, and safety checks are performed to ensure
+that such modifications do not cause crashes in the consumer.
+
+Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+---
+ libdtrace/dt_cg.c                             | 97 +++++++++++--------
+ libdtrace/dt_dctx.h                           |  3 +-
+ libdtrace/dt_impl.h                           | 13 ---
+ libdtrace/dt_open.c                           | 62 +++++++++---
+ libdtrace/dt_parser.c                         |  2 +-
+ libdtrace/dt_printf.c                         | 43 ++++++--
+ .../unittest/funcs/stack/err.corrupted-data.d | 25 +++++
+ .../unittest/funcs/stack/err.corrupted-data.r |  4 +
+ .../unittest/funcs/stack/err.store-to-stack.d | 23 +++++
+ .../unittest/funcs/stack/err.store-to-stack.r |  2 +
+ test/unittest/funcs/stack/tst.asgn_dvar.d     | 25 +++++
+ test/unittest/funcs/stack/tst.asgn_dvar.r     |  1 +
+ test/unittest/funcs/stack/tst.asgn_dvar.r.p   | 35 +++++++
+ test/unittest/funcs/stack/tst.asgn_gvar.d     | 25 +++++
+ test/unittest/funcs/stack/tst.asgn_gvar.r     |  1 +
+ test/unittest/funcs/stack/tst.asgn_gvar.r.p   |  1 +
+ test/unittest/funcs/stack/tst.asgn_lvar.d     | 25 +++++
+ test/unittest/funcs/stack/tst.asgn_lvar.r     |  1 +
+ test/unittest/funcs/stack/tst.asgn_lvar.r.p   |  1 +
+ test/unittest/funcs/stack/tst.asgn_tvar.d     | 25 +++++
+ test/unittest/funcs/stack/tst.asgn_tvar.r     |  1 +
+ test/unittest/funcs/stack/tst.asgn_tvar.r.p   |  1 +
+ test/unittest/funcs/stack/tst.ref_addrs.d     | 24 +++++
+ test/unittest/funcs/stack/tst.ref_addrs.r     |  5 +
+ test/unittest/funcs/stack/tst.ref_depth.d     | 35 +++++++
+ test/unittest/funcs/stack/tst.ref_depth.r     |  6 ++
+ test/unittest/funcs/stack/tst.ref_is_user.d   | 35 +++++++
+ test/unittest/funcs/stack/tst.ref_is_user.r   |  6 ++
+ test/unittest/funcs/stack/tst.ref_pid.d       | 35 +++++++
+ test/unittest/funcs/stack/tst.ref_pid.r       |  6 ++
+ test/unittest/funcs/stack/tst.ref_strsz.d     | 35 +++++++
+ test/unittest/funcs/stack/tst.ref_strsz.r     |  6 ++
+ test/unittest/funcs/stack/tst.store.d         | 28 ++++++
+ test/unittest/funcs/stack/tst.store.r         |  1 +
+ test/unittest/funcs/stack/tst.store.r.p       | 63 ++++++++++++
+ .../funcs/ustack/err.corrupted-data.d         | 25 +++++
+ .../funcs/ustack/err.corrupted-data.r         |  4 +
+ .../funcs/ustack/err.store-to-stack.d         | 23 +++++
+ .../funcs/ustack/err.store-to-stack.r         |  2 +
+ test/unittest/funcs/ustack/tst.asgn_dvar.d    | 25 +++++
+ test/unittest/funcs/ustack/tst.asgn_dvar.r    |  1 +
+ test/unittest/funcs/ustack/tst.asgn_dvar.r.p  | 45 +++++++++
+ test/unittest/funcs/ustack/tst.asgn_gvar.d    | 25 +++++
+ test/unittest/funcs/ustack/tst.asgn_gvar.r    |  1 +
+ test/unittest/funcs/ustack/tst.asgn_gvar.r.p  |  1 +
+ test/unittest/funcs/ustack/tst.asgn_lvar.d    | 25 +++++
+ test/unittest/funcs/ustack/tst.asgn_lvar.r    |  1 +
+ test/unittest/funcs/ustack/tst.asgn_lvar.r.p  |  1 +
+ test/unittest/funcs/ustack/tst.asgn_tvar.d    | 25 +++++
+ test/unittest/funcs/ustack/tst.asgn_tvar.r    |  1 +
+ test/unittest/funcs/ustack/tst.asgn_tvar.r.p  |  1 +
+ test/unittest/funcs/ustack/tst.ref_addrs.d    | 24 +++++
+ test/unittest/funcs/ustack/tst.ref_addrs.r    |  5 +
+ test/unittest/funcs/ustack/tst.ref_depth.d    | 35 +++++++
+ test/unittest/funcs/ustack/tst.ref_depth.r    |  6 ++
+ test/unittest/funcs/ustack/tst.ref_is_user.d  | 35 +++++++
+ test/unittest/funcs/ustack/tst.ref_is_user.r  |  6 ++
+ test/unittest/funcs/ustack/tst.ref_pid.d      | 37 +++++++
+ test/unittest/funcs/ustack/tst.ref_strsz.d    | 35 +++++++
+ test/unittest/funcs/ustack/tst.ref_strsz.r    |  6 ++
+ test/unittest/funcs/ustack/tst.store.d        | 25 +++++
+ .../printa/err.D_PRINTF_ARG_TYPE.stack.r      |  2 +-
+ .../printa/err.D_PRINTF_ARG_TYPE.ustack.r     |  2 +-
+ test/unittest/printf/tst.stack.d              | 33 +++++++
+ test/unittest/printf/tst.stack.r              |  1 +
+ test/unittest/printf/tst.stack.r.p            | 75 ++++++++++++++
+ test/unittest/printf/tst.ustack25_pid.d       | 21 ++++
+ test/unittest/printf/tst.ustack25_pid.r       | 28 ++++++
+ test/unittest/printf/tst.ustack25_pid.r.p     | 37 +++++++
+ 69 files changed, 1238 insertions(+), 82 deletions(-)
+ create mode 100644 test/unittest/funcs/stack/err.corrupted-data.d
+ create mode 100644 test/unittest/funcs/stack/err.corrupted-data.r
+ create mode 100644 test/unittest/funcs/stack/err.store-to-stack.d
+ create mode 100644 test/unittest/funcs/stack/err.store-to-stack.r
+ create mode 100644 test/unittest/funcs/stack/tst.asgn_dvar.d
+ create mode 100644 test/unittest/funcs/stack/tst.asgn_dvar.r
+ create mode 100755 test/unittest/funcs/stack/tst.asgn_dvar.r.p
+ create mode 100644 test/unittest/funcs/stack/tst.asgn_gvar.d
+ create mode 120000 test/unittest/funcs/stack/tst.asgn_gvar.r
+ create mode 120000 test/unittest/funcs/stack/tst.asgn_gvar.r.p
+ create mode 100644 test/unittest/funcs/stack/tst.asgn_lvar.d
+ create mode 120000 test/unittest/funcs/stack/tst.asgn_lvar.r
+ create mode 120000 test/unittest/funcs/stack/tst.asgn_lvar.r.p
+ create mode 100644 test/unittest/funcs/stack/tst.asgn_tvar.d
+ create mode 120000 test/unittest/funcs/stack/tst.asgn_tvar.r
+ create mode 120000 test/unittest/funcs/stack/tst.asgn_tvar.r.p
+ create mode 100644 test/unittest/funcs/stack/tst.ref_addrs.d
+ create mode 100644 test/unittest/funcs/stack/tst.ref_addrs.r
+ create mode 100644 test/unittest/funcs/stack/tst.ref_depth.d
+ create mode 100644 test/unittest/funcs/stack/tst.ref_depth.r
+ create mode 100644 test/unittest/funcs/stack/tst.ref_is_user.d
+ create mode 100644 test/unittest/funcs/stack/tst.ref_is_user.r
+ create mode 100644 test/unittest/funcs/stack/tst.ref_pid.d
+ create mode 100644 test/unittest/funcs/stack/tst.ref_pid.r
+ create mode 100644 test/unittest/funcs/stack/tst.ref_strsz.d
+ create mode 100644 test/unittest/funcs/stack/tst.ref_strsz.r
+ create mode 100644 test/unittest/funcs/stack/tst.store.d
+ create mode 100644 test/unittest/funcs/stack/tst.store.r
+ create mode 100755 test/unittest/funcs/stack/tst.store.r.p
+ create mode 100644 test/unittest/funcs/ustack/err.corrupted-data.d
+ create mode 100644 test/unittest/funcs/ustack/err.corrupted-data.r
+ create mode 100644 test/unittest/funcs/ustack/err.store-to-stack.d
+ create mode 100644 test/unittest/funcs/ustack/err.store-to-stack.r
+ create mode 100644 test/unittest/funcs/ustack/tst.asgn_dvar.d
+ create mode 100644 test/unittest/funcs/ustack/tst.asgn_dvar.r
+ create mode 100755 test/unittest/funcs/ustack/tst.asgn_dvar.r.p
+ create mode 100644 test/unittest/funcs/ustack/tst.asgn_gvar.d
+ create mode 120000 test/unittest/funcs/ustack/tst.asgn_gvar.r
+ create mode 120000 test/unittest/funcs/ustack/tst.asgn_gvar.r.p
+ create mode 100644 test/unittest/funcs/ustack/tst.asgn_lvar.d
+ create mode 120000 test/unittest/funcs/ustack/tst.asgn_lvar.r
+ create mode 120000 test/unittest/funcs/ustack/tst.asgn_lvar.r.p
+ create mode 100644 test/unittest/funcs/ustack/tst.asgn_tvar.d
+ create mode 120000 test/unittest/funcs/ustack/tst.asgn_tvar.r
+ create mode 120000 test/unittest/funcs/ustack/tst.asgn_tvar.r.p
+ create mode 100644 test/unittest/funcs/ustack/tst.ref_addrs.d
+ create mode 100644 test/unittest/funcs/ustack/tst.ref_addrs.r
+ create mode 100644 test/unittest/funcs/ustack/tst.ref_depth.d
+ create mode 100644 test/unittest/funcs/ustack/tst.ref_depth.r
+ create mode 100644 test/unittest/funcs/ustack/tst.ref_is_user.d
+ create mode 100644 test/unittest/funcs/ustack/tst.ref_is_user.r
+ create mode 100644 test/unittest/funcs/ustack/tst.ref_pid.d
+ create mode 100644 test/unittest/funcs/ustack/tst.ref_strsz.d
+ create mode 100644 test/unittest/funcs/ustack/tst.ref_strsz.r
+ create mode 100644 test/unittest/funcs/ustack/tst.store.d
+ create mode 100644 test/unittest/printf/tst.stack.d
+ create mode 100644 test/unittest/printf/tst.stack.r
+ create mode 100755 test/unittest/printf/tst.stack.r.p
+ create mode 100644 test/unittest/printf/tst.ustack25_pid.d
+ create mode 100644 test/unittest/printf/tst.ustack25_pid.r
+ create mode 100755 test/unittest/printf/tst.ustack25_pid.r.p
+
+diff --git a/libdtrace/dt_cg.c b/libdtrace/dt_cg.c
+index 3ce13c74..75cd8b9e 100644
+--- a/libdtrace/dt_cg.c
++++ b/libdtrace/dt_cg.c
+@@ -2647,11 +2647,16 @@ dt_cg_act_speculate(dt_pcb_t *pcb, dt_node_t *dnp, dtrace_actkind_t kind)
+ 	dt_regset_free(drp, dnp->dn_reg);
+ }
+ 
+-static uint64_t
+-dt_cg_stack_arg(dtrace_hdl_t *dtp, dt_node_t *dnp, dtrace_actkind_t kind)
++/*
++ * Extract [u]stack() argument data, storing number of frames and optional
++ * string data in 'nframes' and 'strsz', and returning the storage size for
++ * the call stack data (not including the size of the optional string data).
++ */
++static uint_t
++dt_cg_stack_arg(dtrace_hdl_t *dtp, dt_node_t *dnp, dtrace_actkind_t kind,
++		uint_t *nframes, uint_t *strsz)
+ {
+-	int		nframes;
+-	int		strsize = 0;
++	uint_t		val;
+ 	dt_node_t	*arg0 = dnp->dn_args;
+ 	dt_node_t	*arg1 = arg0 != NULL ? arg0->dn_list : NULL;
+ 	int		indopt, def, inderr;
+@@ -2672,9 +2677,9 @@ dt_cg_stack_arg(dtrace_hdl_t *dtp, dt_node_t *dnp, dtrace_actkind_t kind)
+ 	}
+ 
+ 	/* Get the default number. */
+-	nframes = dtp->dt_options[indopt];
+-	if (nframes == DTRACEOPT_UNSET)
+-		nframes = def;
++	val = dtp->dt_options[indopt];
++	if (val == DTRACEOPT_UNSET)
++		val = def;
+ 
+ 	/* Get the specified value, if any. */
+ 	if (arg0 != NULL) {
+@@ -2682,26 +2687,31 @@ dt_cg_stack_arg(dtrace_hdl_t *dtp, dt_node_t *dnp, dtrace_actkind_t kind)
+ 			dnerror(arg0, inderr,
+ 				"%s( ) argument #1 must be a non-zero positive integer constant\n",
+ 				fname);
+-		nframes = arg0->dn_value;
++		val = arg0->dn_value;
+ 	}
+ 
+ 	/* If more frames are requested than allowed, silently reduce nframes. */
+-	if (nframes > dtp->dt_options[DTRACEOPT_MAXFRAMES])
+-		nframes = dtp->dt_options[DTRACEOPT_MAXFRAMES];
+-
+-	/* For user stacks, process one more argument. */
+-	if (kind == DTRACEACT_USTACK && arg1 != NULL) {
+-		if (arg1->dn_kind != DT_NODE_INT ||
+-		    ((arg1->dn_flags & DT_NF_SIGNED) &&
+-		    (int64_t)arg1->dn_value < 0))
+-			dnerror(arg1, D_USTACK_STRSIZE,
+-				"ustack( ) argument #2 must be a positive integer constant\n");
+-
+-		/* FIXME: for now, accept non-zero strsize, but it does nothing */
+-		strsize = arg1->dn_value;
++	if (val > dtp->dt_options[DTRACEOPT_MAXFRAMES])
++		val = dtp->dt_options[DTRACEOPT_MAXFRAMES];
++
++	if (nframes)
++		*nframes = val;
++
++	if (strsz) {
++		/* For user stacks, process one more argument. */
++		if (kind == DTRACEACT_USTACK && arg1 != NULL) {
++			if (arg1->dn_kind != DT_NODE_INT ||
++			    ((arg1->dn_flags & DT_NF_SIGNED) &&
++			    (int64_t)arg1->dn_value < 0))
++				dnerror(arg1, D_USTACK_STRSIZE,
++					"ustack( ) argument #2 must be a positive integer constant\n");
++
++			*strsz = arg1->dn_value;
++		} else
++			*strsz = 0;
+ 	}
+ 
+-	return DTRACE_STACK_ARG(kind == DTRACEACT_USTACK, nframes, strsize);
++	return 4 * sizeof(uint32_t) + val * sizeof(uint64_t);
+ }
+ 
+ /*
+@@ -2729,28 +2739,30 @@ dt_cg_act_stack_sub(dt_pcb_t *pcb, dt_node_t *dnp, int reg, int off,
+ 	dtrace_hdl_t	*dtp = pcb->pcb_hdl;
+ 	dt_irlist_t	*dlp = &pcb->pcb_ir;
+ 	dt_regset_t	*drp = pcb->pcb_regs;
+-	uint64_t	arg;
+-	int		nframes, stacksize, prefsz, align = sizeof(uint64_t);
++	int		allocsz, nframes = 0, strsz = 0, aloff;
+ 	uint_t		lbl_valid = dt_irlist_label(dlp);
+ 	dt_ident_t	*skip = dt_dlib_get_var(dtp, "STACK_SKIP");
+ 
+ 	assert(skip != NULL);
+ 
+ 	/* Get sizing information from dnp->dn_arg. */
+-	arg = dt_cg_stack_arg(dtp, dnp, kind);
+-	prefsz = kind == DTRACEACT_USTACK ? sizeof(uint64_t) : 0;
+-	nframes = DTRACE_STACK_NFRAMES(arg);
+-	stacksize = nframes * sizeof(uint64_t);
++	allocsz = dt_cg_stack_arg(dtp, dnp, kind, &nframes, &strsz);
+ 
+ 	/* Handle alignment and reserve space in the output buffer. */
+ 	if (reg >= 0) {
+-		off = ALIGN(off, align);
++		aloff = ALIGN(off, 8);
+ 	} else {
+ 		reg = BPF_REG_9;
+-		off = dt_rec_add(dtp, dt_cg_fill_gap, kind,
+-				 prefsz + stacksize, align, NULL, arg);
++		aloff = off = dt_rec_add(dtp, dt_cg_fill_gap, kind, allocsz, 8,
++					 NULL, 0);
+ 	}
+ 
++	/* Store the stack trace meta-data (type, depth, strsize). */
++	emit(dlp,  BPF_STORE_IMM(BPF_W, reg, aloff, nframes));
++	emit(dlp,  BPF_STORE_IMM(BPF_W, reg, aloff + 4, strsz));
++	emit(dlp,  BPF_STORE_IMM(BPF_W, reg, aloff + 8,
++				 kind == DTRACEACT_USTACK ? 1 : 0));
++
+ 	/* Write the tgid. */
+ 	if (kind == DTRACEACT_USTACK) {
+ 		if (dt_regset_xalloc_args(drp) == -1)
+@@ -2760,17 +2772,18 @@ dt_cg_act_stack_sub(dt_pcb_t *pcb, dt_node_t *dnp, int reg, int off,
+ 		dt_regset_free_args(drp);
+ 		/* mov32 %r0, %r0 effectively masks the lower 32 bits. */
+ 		emit(dlp,  BPF_MOV32_REG(BPF_REG_0, BPF_REG_0));
+-		emit(dlp,  BPF_STORE(BPF_DW, reg, off, BPF_REG_0));
++		emit(dlp,  BPF_STORE(BPF_W, reg, aloff + 12, BPF_REG_0));
+ 		dt_regset_free(drp, BPF_REG_0);
+-	}
++	} else
++		emit(dlp,  BPF_STORE_IMM(BPF_W, reg, aloff + 12, 0));
+ 
+ 	/* Call bpf_get_stack(ctx, buf, size, flags). */
+ 	if (dt_regset_xalloc_args(drp) == -1)
+ 		longjmp(yypcb->pcb_jmpbuf, EDT_NOREG);
+ 	dt_cg_access_dctx(BPF_REG_1, dlp, drp, DCTX_CTX);
+ 	emit(dlp,  BPF_MOV_REG(BPF_REG_2, reg));
+-	emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, off + prefsz));
+-	emit(dlp,  BPF_MOV_IMM(BPF_REG_3, stacksize));
++	emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, aloff + 16));
++	emit(dlp,  BPF_MOV_IMM(BPF_REG_3, nframes * sizeof(uint64_t)));
+ 	if (kind == DTRACEACT_USTACK)
+ 		emit(dlp,  BPF_MOV_IMM(BPF_REG_4, BPF_F_USER_STACK));
+ 	else {
+@@ -2786,7 +2799,7 @@ dt_cg_act_stack_sub(dt_pcb_t *pcb, dt_node_t *dnp, int reg, int off,
+ 	emitl(dlp, lbl_valid,
+ 		   BPF_NOP());
+ 
+-	return prefsz + stacksize;
++	return (aloff - off) + allocsz;
+ }
+ 
+ static void
+@@ -8735,15 +8748,13 @@ dt_cg_agg(dt_pcb_t *pcb, dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
+ 
+ 				if (idp->di_kind == DT_IDENT_FUNC) {
+ 					switch (idp->di_id) {
+-					case DIF_SUBR_USTACK:
+-						arg = dt_cg_stack_arg(dtp, knp, DTRACEACT_USTACK);
+-						kind = DTRACEACT_USTACK;
+-						size = 8 + 8 * DTRACE_STACK_NFRAMES(arg);
+-						goto add_rec;
+ 					case DIF_SUBR_STACK:
+-						arg = dt_cg_stack_arg(dtp, knp, DTRACEACT_STACK);
+ 						kind = DTRACEACT_STACK;
+-						size = 8 * arg;
++						goto is_stack;
++					case DIF_SUBR_USTACK:
++						kind = DTRACEACT_USTACK;
++is_stack:
++						size = dt_cg_stack_arg(dtp, knp, kind, NULL, NULL);
+ 						goto add_rec;
+ 					}
+ 				} else if (idp->di_kind == DT_IDENT_ACTFUNC) {
+diff --git a/libdtrace/dt_dctx.h b/libdtrace/dt_dctx.h
+index b50a1395..5bf21345 100644
+--- a/libdtrace/dt_dctx.h
++++ b/libdtrace/dt_dctx.h
+@@ -128,7 +128,8 @@ typedef struct dt_dctx {
+  *	    completed.
+  */
+ #define DMEM_STACK_SZ(dtp) \
+-		(sizeof(uint64_t) * (dtp)->dt_options[DTRACEOPT_MAXFRAMES] + 1)
++		(4 * sizeof(uint32_t) + \
++		 (dtp)->dt_options[DTRACEOPT_MAXFRAMES] * sizeof(uint64_t))
+ #define DMEM_TSTR_SZ(dtp) \
+ 		(DT_TSTRING_SLOTS * DT_TSTRING_SIZE(dtp))
+ #define DMEM_STRTOK_SZ(dtp) \
+diff --git a/libdtrace/dt_impl.h b/libdtrace/dt_impl.h
+index aa81906f..3b0b2358 100644
+--- a/libdtrace/dt_impl.h
++++ b/libdtrace/dt_impl.h
+@@ -236,19 +236,6 @@ typedef struct dt_tstring {
+ 	int		in_use;			/* In use (1) or not (0) */
+ } dt_tstring_t;
+ 
+-/*
+- * The stack()/ustack() data record argument encodes:
+- *  - the stack type (kernel or userspace)
+- *  - the number of frames in the stack trace
+- *  - the size of the optional string area for ustack()
+- */
+-#define DTRACE_STACK_IS_USER(x)		((x) & (1 << 31))
+-#define DTRACE_STACK_NFRAMES(x)		(uint32_t)((x) & INT32_MAX)
+-#define DTRACE_STACK_STRSIZE(x)		(uint32_t)((x) >> 32)
+-#define DTRACE_STACK_ARG(t, x, y)	((((uint64_t)(y)) << 32) | \
+-					 ((t) ? (1UL << 31) : 0) | \
+-					 ((x) & INT32_MAX))
+-
+ typedef struct dt_dirpath {
+ 	dt_list_t dir_list;		/* linked-list forward/back pointers */
+ 	char *dir_path;			/* directory pathname */
+diff --git a/libdtrace/dt_open.c b/libdtrace/dt_open.c
+index ba5463a0..bcaa4221 100644
+--- a/libdtrace/dt_open.c
++++ b/libdtrace/dt_open.c
+@@ -175,7 +175,7 @@ static const dt_ident_t _dtrace_globals[] = {
+ { "ipl", DT_IDENT_SCALAR, 0, DIF_VAR_IPL, DT_ATTR_STABCMN, DT_VERS_1_0,
+ 	&dt_idops_type, "uint_t" },
+ { "jstack", DT_IDENT_ACTFUNC, 0, DT_ACT_JSTACK, DT_ATTR_STABCMN, DT_VERS_1_0,
+-	&dt_idops_func, "dt_stack([uint32_t], [uint32_t])" },
++	&dt_idops_func, "dt_stack_t([uint32_t], [uint32_t])" },
+ { "link_ntop", DT_IDENT_FUNC, 0, DIF_SUBR_LINK_NTOP, DT_ATTR_STABCMN,
+ 	DT_VERS_1_5, &dt_idops_func, "string(int, void *)" },
+ { "llquantize", DT_IDENT_AGGFUNC, 0, DT_AGG_LLQUANTIZE,
+@@ -274,7 +274,7 @@ static const dt_ident_t _dtrace_globals[] = {
+ 	DT_ATTR_STABCMN, DT_VERS_1_0,
+ 	&dt_idops_func, "int()" },
+ { "stack", DT_IDENT_FUNC, DT_IDFLG_DPTR, DIF_SUBR_STACK, DT_ATTR_STABCMN,
+-	DT_VERS_1_0, &dt_idops_func, "dt_stack([uint32_t])" },
++	DT_VERS_1_0, &dt_idops_func, "dt_stack_t([uint32_t])" },
+ { "stackdepth", DT_IDENT_SCALAR, 0, DIF_VAR_STACKDEPTH,
+ 	DT_ATTR_STABCMN, DT_VERS_1_0,
+ 	&dt_idops_type, "uint32_t" },
+@@ -329,7 +329,7 @@ static const dt_ident_t _dtrace_globals[] = {
+ { "uregs", DT_IDENT_ARRAY, 0, DIF_VAR_UREGS, DT_ATTR_STABCMN, DT_VERS_1_0,
+ 	&dt_idops_regs, NULL },
+ { "ustack", DT_IDENT_FUNC, DT_IDFLG_DPTR, DIF_SUBR_USTACK, DT_ATTR_STABCMN,
+-	DT_VERS_1_0, &dt_idops_func, "dt_stack([uint32_t], [uint32_t])" },
++	DT_VERS_1_0, &dt_idops_func, "dt_stack_t([uint32_t], [uint32_t])" },
+ { "ustackdepth", DT_IDENT_SCALAR, 0, DIF_VAR_USTACKDEPTH,
+ 	DT_ATTR_STABCMN, DT_VERS_1_2,
+ 	&dt_idops_type, "uint32_t" },
+@@ -1058,16 +1058,33 @@ dt_vopen(int version, int flags, int *errp,
+ 	    "<DYN>", ctf_lookup_by_name(dmp->dm_ctfp, "void"));
+ 
+ 	/*
+-	 * The stack type is added as a typedef of uint64_t[MAXFRAMES].  The
+-	 * final value of MAXFRAMES may be adjusted with the "stackframes"
+-	 * option.
++	 * Define:
++	 *   typedef struct dt_stack {
++	 *   	uint32_t	frames;
++	 *	uint32_t	strsz;		// optional string blob size
++	 *	uint32_t	type;		// type of stack (kernel/user)
++	 *	uint32_t	pid;		// process id (or 0 for kernel)
++	 *   	uint64_t	addrs[n];	// stack trace addresses
++	 *   } dt_stack_t;
++	 *
++	 * It is done in two stages because we won't know the size of the addrs
++	 * array until runtime options have been processed.  We add all members
++	 * (except for addrs) here, and then append the addrs array in
++	 * dtrace_init().
+ 	 */
+-	ctr.ctr_contents = ctf_lookup_by_name(dmp->dm_ctfp, "uint64_t");
+-	ctr.ctr_index = ctf_lookup_by_name(dmp->dm_ctfp, "long");
+-	ctr.ctr_nelems = _dtrace_stackframes;
+-
+-	dtp->dt_type_stack = ctf_add_typedef(dmp->dm_ctfp, CTF_ADD_ROOT,
+-		"dt_stack", ctf_add_array(dmp->dm_ctfp, CTF_ADD_ROOT, &ctr));
++	{
++		ctf_id_t	stid, mbid;
++
++		stid = ctf_add_struct(dmp->dm_ctfp, CTF_ADD_ROOT, "dt_stack");
++		dtp->dt_type_stack = ctf_add_typedef(dmp->dm_ctfp, CTF_ADD_ROOT,
++						     "dt_stack_t", stid);
++
++		mbid = ctf_lookup_by_name(dmp->dm_ctfp, "uint32_t");
++		ctf_add_member(dmp->dm_ctfp, stid, "depth", mbid);
++		ctf_add_member(dmp->dm_ctfp, stid, "strsz", mbid);
++		ctf_add_member(dmp->dm_ctfp, stid, "is_user", mbid);
++		ctf_add_member(dmp->dm_ctfp, stid, "pid", mbid);
++	}
+ 
+ 	dtp->dt_type_symaddr = ctf_add_typedef(dmp->dm_ctfp, CTF_ADD_ROOT,
+ 	    "_symaddr", ctf_lookup_by_name(dmp->dm_ctfp, "void"));
+@@ -1174,6 +1191,27 @@ dtrace_init(dtrace_hdl_t *dtp)
+ 	int		i;
+ 	dtrace_optval_t	lockmem = dtp->dt_options[DTRACEOPT_LOCKMEM];
+ 	struct rlimit	rl;
++	dt_module_t	*dmp = dtp->dt_ddefs;
++	ctf_id_t	stid;
++	ctf_arinfo_t	ctr;
++
++	/*
++	 * Finalize 'struct dt_stack' now that we know the maxframes value.
++	 */
++	stid = ctf_lookup_by_name(dmp->dm_ctfp, "struct dt_stack");
++
++	ctr.ctr_contents = ctf_lookup_by_name(dmp->dm_ctfp, "uint64_t");
++	ctr.ctr_index = ctf_lookup_by_name(dmp->dm_ctfp, "long");
++	ctr.ctr_nelems = (uint_t)dtp->dt_options[DTRACEOPT_MAXFRAMES];
++
++	ctf_add_member(dmp->dm_ctfp, stid, "addrs",
++		       ctf_add_array(dmp->dm_ctfp, CTF_ADD_ROOT, &ctr));
++
++	if (ctf_update(dmp->dm_ctfp) != 0) {
++		dt_dprintf("failed update D container: %s\n",
++		    ctf_errmsg(ctf_errno(dmp->dm_ctfp)));
++		return dt_set_errno(dtp, EDT_CTF);
++	}
+ 
+ 	/*
+ 	 * Initialize the BPF library handling.
+diff --git a/libdtrace/dt_parser.c b/libdtrace/dt_parser.c
+index 006b4b6e..e71c0985 100644
+--- a/libdtrace/dt_parser.c
++++ b/libdtrace/dt_parser.c
+@@ -3794,7 +3794,7 @@ dt_cook_op2(dt_node_t *dnp, uint_t idflags)
+ 		 * described in the ANSI-C spec (see K&R[A7.17]).  We share
+ 		 * most of this code with the argument list checking code.
+ 		 */
+-		if (!dt_node_is_string(lp)) {
++		if (!dt_node_is_string(lp) && !dt_node_is_stack(lp)) {
+ 			kind = ctf_type_kind(lp->dn_ctfp,
+ 			    ctf_type_resolve(lp->dn_ctfp, lp->dn_type));
+ 
+diff --git a/libdtrace/dt_printf.c b/libdtrace/dt_printf.c
+index a3e15397..36169ed3 100644
+--- a/libdtrace/dt_printf.c
++++ b/libdtrace/dt_printf.c
+@@ -449,7 +449,8 @@ dt_print_stack_user(dtrace_hdl_t *dtp, FILE *fp, const char *format,
+ 	if (depth == 0)
+ 		return 0;
+ 
+-	tgid = (pid_t)*pc++;
++	tgid = ((uint32_t *)pc)[1];
++	pc++;
+ 
+ 	if (format == NULL)
+ 		format = "%s";
+@@ -569,18 +570,41 @@ dt_print_stack_user(dtrace_hdl_t *dtp, FILE *fp, const char *format,
+ 	return err;
+ }
+ 
+-/*ARGSUSED*/
++/*
++ * The data at vaddr is structured as follows:
++ *	uint32_t	depth
++ *	uint32_t	strsz
++ *	uint32_t	type
++ *	uint32_t	pid
++ *	uint64_t	addrs[depth & 0x7fffffff]
++ *
++ * The 'depth' member provides the maximum number of addresses in the stack
++ * trace.
++ * The 'strsz' member provides the size of the optional string blob that is
++ * appended to the stack trace data.
++ * The 'type' member identifies the stack trace as kernel space (0) or
++ * userspace (1).
++ * The 'pid' member provides the userspace process id for userspace stack
++ * traces and otherwise will be 0.
++ * The 'addrs' array provides the stack traces addresses.  If the stack trace
++ * is shorter than 'depth', remaining addresses will be 0 and can be ignored.
++ */
+ static int
+ pfprint_stack(dtrace_hdl_t *dtp, FILE *fp, const char *format,
+ 	      const dt_pfargd_t *pfd, const void *vaddr, size_t size,
+ 	      uint64_t normal, uint64_t sig)
+ {
+ 	int width;
+-	const dtrace_recdesc_t *rec = pfd->pfd_rec;
+-	caddr_t addr = (caddr_t)vaddr;
+-	uint32_t depth = DTRACE_STACK_NFRAMES(rec->dtrd_arg);
++	uint32_t *vals = (uint32_t *)vaddr;
++	uint32_t depth = vals[0];
++	uint32_t strsz = vals[1];
++	uint32_t is_user = vals[2];
++	caddr_t addr = (caddr_t)(vals + (is_user ? 2 : 4));
+ 	int err = 0;
+ 
++	if (depth > dtp->dt_options[DTRACEOPT_MAXFRAMES])
++		return dt_set_errno(dtp, EDT_DSIZE);
++
+ 	if (depth == 0)
+ 		return 0;
+ 
+@@ -603,9 +627,9 @@ pfprint_stack(dtrace_hdl_t *dtp, FILE *fp, const char *format,
+ 	if (dt_printf(dtp, fp, "\n") < 0)
+ 		return -1;
+ 
+-	if (DTRACE_STACK_IS_USER(rec->dtrd_arg))
++	if (is_user)
+ 		err = dt_print_stack_user(dtp, fp, format, addr, width, depth,
+-					  DTRACE_STACK_STRSIZE(rec->dtrd_arg));
++					  strsz);
+ 	else
+ 		err = dt_print_stack_kernel(dtp, fp, format, addr, width, depth);
+ 
+@@ -777,7 +801,7 @@ static const dt_pfconv_t _dtrace_conversions[] = {
+ { "hx", "x", "short", pfcheck_xshort, pfprint_uint },
+ { "hX", "X", "short", pfcheck_xshort, pfprint_uint },
+ { "i", "i", pfproto_xint, pfcheck_dint, pfprint_dint },
+-{ "k", "s", "stack", pfcheck_stack, pfprint_stack },
++{ "k", "s", "dt_stack_t", pfcheck_stack, pfprint_stack },
+ { "lc", "lc", "int", pfcheck_type, pfprint_sint }, /* a.k.a. wint_t */
+ { "ld",	"d", "long", pfcheck_type, pfprint_sint },
+ { "li",	"i", "long", pfcheck_type, pfprint_sint },
+@@ -2487,9 +2511,8 @@ dt_print_stack(dtrace_hdl_t *dtp, FILE *fp, void *fmtdata,
+ 	else
+ 		format = ((dt_pfargv_t *)fmtdata)->pfv_format;
+ 
+-	/* pfprint_stack() uses pfd_rec, pfd_flags, and pfd_width only */
++	/* pfprint_stack() uses pfd_flags, and pfd_width only */
+ 	memset(&pfd, 0, sizeof(pfd));
+-	pfd.pfd_rec = recs;
+ 	pfd.pfd_flags = DT_PFCONV_LEFT;
+ 
+ 	if (dtp->dt_options[DTRACEOPT_STACKINDENT] != DTRACEOPT_UNSET)
+diff --git a/test/unittest/funcs/stack/err.corrupted-data.d b/test/unittest/funcs/stack/err.corrupted-data.d
+new file mode 100644
+index 00000000..d35361eb
+--- /dev/null
++++ b/test/unittest/funcs/stack/err.corrupted-data.d
+@@ -0,0 +1,25 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Corrupted stack data does not cause a crash.
++ */
++
++/* @@trigger: periodic_output */
++
++fbt::hrtimer_nanosleep:entry
++{
++	v = stack(5);
++	v.depth = 0x7fffffff;
++	printf("%k", v);
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/stack/err.corrupted-data.r b/test/unittest/funcs/stack/err.corrupted-data.r
+new file mode 100644
+index 00000000..1a2b8d2b
+--- /dev/null
++++ b/test/unittest/funcs/stack/err.corrupted-data.r
+@@ -0,0 +1,4 @@
++                   FUNCTION:NAME
++         hrtimer_nanosleep:entry -- @@stderr --
++dtrace: script 'test/unittest/funcs/stack/err.corrupted-data.d' matched 2 probes
++dtrace: processing aborted: Data record has incorrect size
+diff --git a/test/unittest/funcs/stack/err.store-to-stack.d b/test/unittest/funcs/stack/err.store-to-stack.d
+new file mode 100644
+index 00000000..2125c395
+--- /dev/null
++++ b/test/unittest/funcs/stack/err.store-to-stack.d
+@@ -0,0 +1,23 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Assigning a member in stack() is not allowed.
++ */
++
++/* @@trigger: periodic_output */
++
++fbt::hrtimer_nanosleep:entry
++{
++	stack(5).depth = 2;
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/stack/err.store-to-stack.r b/test/unittest/funcs/stack/err.store-to-stack.r
+new file mode 100644
+index 00000000..1b0fb044
+--- /dev/null
++++ b/test/unittest/funcs/stack/err.store-to-stack.r
+@@ -0,0 +1,2 @@
++-- @@stderr --
++dtrace: failed to compile script test/unittest/funcs/stack/err.store-to-stack.d: line 16: operator = requires modifiable lvalue as an operand
+diff --git a/test/unittest/funcs/stack/tst.asgn_dvar.d b/test/unittest/funcs/stack/tst.asgn_dvar.d
+new file mode 100644
+index 00000000..fd32c7b0
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.asgn_dvar.d
+@@ -0,0 +1,25 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test assignment of stack() to a dynamic variable (assoc element).
++ */
++
++/* @@trigger: periodic_output */
++
++fbt::hrtimer_nanosleep:entry
++{
++	assoc["a"] = stack(3);
++	printf("%k", assoc["a"]);
++
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/stack/tst.asgn_dvar.r b/test/unittest/funcs/stack/tst.asgn_dvar.r
+new file mode 100644
+index 00000000..2e9ba477
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.asgn_dvar.r
+@@ -0,0 +1 @@
++success
+diff --git a/test/unittest/funcs/stack/tst.asgn_dvar.r.p b/test/unittest/funcs/stack/tst.asgn_dvar.r.p
+new file mode 100755
+index 00000000..31491c78
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.asgn_dvar.r.p
+@@ -0,0 +1,35 @@
++#!/usr/bin/gawk -f
++
++/hrtimer_nanosleep/ {
++    # check probe
++    if ( $1 != "hrtimer_nanosleep:entry" ) {
++        print "ERROR: expected fun:prb = hrtimer_nanosleep:entry";
++        exit(0);
++    }
++
++    # check stack(3)
++    getline;
++    if (index($1, "`hrtimer_nanosleep+0x") == 0 &&
++        match($1, "`hrtimer_nanosleep") == 0) {
++        print "ERROR: expected leaf frame to be hrtimer_nanosleep";
++        exit(0);
++    }
++    getline;
++    if (NF == 0) {
++        print "ERROR: missing second frame";
++        exit(0);
++    }
++    getline;
++    if (NF == 0) {
++        print "ERROR: missing third frame";
++        exit(0);
++    }
++    getline;
++    if (NF > 0) {
++        print "ERROR: expected stack(3) to have only three frames";
++        exit(0);
++    }
++
++    print "success";
++    exit(0);
++}
+diff --git a/test/unittest/funcs/stack/tst.asgn_gvar.d b/test/unittest/funcs/stack/tst.asgn_gvar.d
+new file mode 100644
+index 00000000..06e75430
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.asgn_gvar.d
+@@ -0,0 +1,25 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test assignment of stack() to a global variable.
++ */
++
++/* @@trigger: periodic_output */
++
++fbt::hrtimer_nanosleep:entry
++{
++	v = stack(3);
++	printf("%k", v);
++
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/stack/tst.asgn_gvar.r b/test/unittest/funcs/stack/tst.asgn_gvar.r
+new file mode 120000
+index 00000000..a79e4237
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.asgn_gvar.r
+@@ -0,0 +1 @@
++tst.asgn_dvar.r
+\ No newline at end of file
+diff --git a/test/unittest/funcs/stack/tst.asgn_gvar.r.p b/test/unittest/funcs/stack/tst.asgn_gvar.r.p
+new file mode 120000
+index 00000000..2ca41971
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.asgn_gvar.r.p
+@@ -0,0 +1 @@
++tst.asgn_dvar.r.p
+\ No newline at end of file
+diff --git a/test/unittest/funcs/stack/tst.asgn_lvar.d b/test/unittest/funcs/stack/tst.asgn_lvar.d
+new file mode 100644
+index 00000000..1b63d20a
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.asgn_lvar.d
+@@ -0,0 +1,25 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test assignment of stack() to a local variable.
++ */
++
++/* @@trigger: periodic_output */
++
++fbt::hrtimer_nanosleep:entry
++{
++	this->v = stack(3);
++	printf("%k", this->v);
++
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/stack/tst.asgn_lvar.r b/test/unittest/funcs/stack/tst.asgn_lvar.r
+new file mode 120000
+index 00000000..a79e4237
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.asgn_lvar.r
+@@ -0,0 +1 @@
++tst.asgn_dvar.r
+\ No newline at end of file
+diff --git a/test/unittest/funcs/stack/tst.asgn_lvar.r.p b/test/unittest/funcs/stack/tst.asgn_lvar.r.p
+new file mode 120000
+index 00000000..2ca41971
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.asgn_lvar.r.p
+@@ -0,0 +1 @@
++tst.asgn_dvar.r.p
+\ No newline at end of file
+diff --git a/test/unittest/funcs/stack/tst.asgn_tvar.d b/test/unittest/funcs/stack/tst.asgn_tvar.d
+new file mode 100644
+index 00000000..9722290b
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.asgn_tvar.d
+@@ -0,0 +1,25 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test assignment of stack() to a TLS variable.
++ */
++
++/* @@trigger: periodic_output */
++
++fbt::hrtimer_nanosleep:entry
++{
++	self->v = stack(3);
++	printf("%k", self->v);
++
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/stack/tst.asgn_tvar.r b/test/unittest/funcs/stack/tst.asgn_tvar.r
+new file mode 120000
+index 00000000..a79e4237
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.asgn_tvar.r
+@@ -0,0 +1 @@
++tst.asgn_dvar.r
+\ No newline at end of file
+diff --git a/test/unittest/funcs/stack/tst.asgn_tvar.r.p b/test/unittest/funcs/stack/tst.asgn_tvar.r.p
+new file mode 120000
+index 00000000..2ca41971
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.asgn_tvar.r.p
+@@ -0,0 +1 @@
++tst.asgn_dvar.r.p
+\ No newline at end of file
+diff --git a/test/unittest/funcs/stack/tst.ref_addrs.d b/test/unittest/funcs/stack/tst.ref_addrs.d
+new file mode 100644
+index 00000000..8ea385f7
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.ref_addrs.d
+@@ -0,0 +1,24 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test accessing the 'addrs' array of a kernel stack.
++ */
++
++/* @@trigger: periodic_output */
++
++fbt::hrtimer_nanosleep:entry
++{
++	trace("Expecting vmlinux`hrtimer_nanosleep, got ");
++	func(stack(7).addrs[0]);
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/stack/tst.ref_addrs.r b/test/unittest/funcs/stack/tst.ref_addrs.r
+new file mode 100644
+index 00000000..f209b8ed
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.ref_addrs.r
+@@ -0,0 +1,5 @@
++                   FUNCTION:NAME
++         hrtimer_nanosleep:entry   Expecting vmlinux`hrtimer_nanosleep, got   vmlinux`hrtimer_nanosleep                         
++
++-- @@stderr --
++dtrace: script 'test/unittest/funcs/stack/tst.ref_addrs.d' matched 2 probes
+diff --git a/test/unittest/funcs/stack/tst.ref_depth.d b/test/unittest/funcs/stack/tst.ref_depth.d
+new file mode 100644
+index 00000000..0a8ce390
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.ref_depth.d
+@@ -0,0 +1,35 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test accessing the 'depth' field of a kernel stack.
++ */
++
++/* @@trigger: periodic_output */
++
++fbt::hrtimer_nanosleep:entry
++{
++	trace("Expecting 7, got ");
++	trace(stack(7).depth);
++}
++
++fbt::hrtimer_nanosleep:entry
++/stack(7).depth == 7/
++{
++	exit(0);
++}
++
++fbt::hrtimer_nanosleep:entry
++/stack(7).depth != 7/
++{
++	exit(1);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/stack/tst.ref_depth.r b/test/unittest/funcs/stack/tst.ref_depth.r
+new file mode 100644
+index 00000000..10a70b58
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.ref_depth.r
+@@ -0,0 +1,6 @@
++                   FUNCTION:NAME
++         hrtimer_nanosleep:entry   Expecting 7, got                           7
++         hrtimer_nanosleep:entry 
++
++-- @@stderr --
++dtrace: script 'test/unittest/funcs/stack/tst.ref_depth.d' matched 4 probes
+diff --git a/test/unittest/funcs/stack/tst.ref_is_user.d b/test/unittest/funcs/stack/tst.ref_is_user.d
+new file mode 100644
+index 00000000..076fe289
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.ref_is_user.d
+@@ -0,0 +1,35 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test accessing the 'is_user' field of a kernel stack.
++ */
++
++/* @@trigger: periodic_output */
++
++fbt::hrtimer_nanosleep:entry
++{
++	trace("Expecting 0, got ");
++	trace(stack(7).is_user);
++}
++
++fbt::hrtimer_nanosleep:entry
++/stack(7).is_user == 0/
++{
++	exit(0);
++}
++
++fbt::hrtimer_nanosleep:entry
++/stack(7).is_user != 0/
++{
++	exit(1);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/stack/tst.ref_is_user.r b/test/unittest/funcs/stack/tst.ref_is_user.r
+new file mode 100644
+index 00000000..78259b48
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.ref_is_user.r
+@@ -0,0 +1,6 @@
++                   FUNCTION:NAME
++         hrtimer_nanosleep:entry   Expecting 0, got                           0
++         hrtimer_nanosleep:entry 
++
++-- @@stderr --
++dtrace: script 'test/unittest/funcs/stack/tst.ref_is_user.d' matched 4 probes
+diff --git a/test/unittest/funcs/stack/tst.ref_pid.d b/test/unittest/funcs/stack/tst.ref_pid.d
+new file mode 100644
+index 00000000..db64d5fb
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.ref_pid.d
+@@ -0,0 +1,35 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test accessing the 'pid' field of a kernel stack yields 0.
++ */
++
++/* @@trigger: periodic_output */
++
++fbt::hrtimer_nanosleep:entry
++{
++	trace("Expecting 0, got ");
++	trace(stack(7).pid);
++}
++
++fbt::hrtimer_nanosleep:entry
++/stack(7).pid == 0/
++{
++	exit(0);
++}
++
++fbt::hrtimer_nanosleep:entry
++/stack(7).pid != 0/
++{
++	exit(1);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/stack/tst.ref_pid.r b/test/unittest/funcs/stack/tst.ref_pid.r
+new file mode 100644
+index 00000000..30f4541d
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.ref_pid.r
+@@ -0,0 +1,6 @@
++                   FUNCTION:NAME
++         hrtimer_nanosleep:entry   Expecting 0, got                           0
++         hrtimer_nanosleep:entry 
++
++-- @@stderr --
++dtrace: script 'test/unittest/funcs/stack/tst.ref_pid.d' matched 4 probes
+diff --git a/test/unittest/funcs/stack/tst.ref_strsz.d b/test/unittest/funcs/stack/tst.ref_strsz.d
+new file mode 100644
+index 00000000..3ec5efcf
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.ref_strsz.d
+@@ -0,0 +1,35 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test accessing the 'strsz' field of a kernel stack yields 0.
++ */
++
++/* @@trigger: periodic_output */
++
++fbt::hrtimer_nanosleep:entry
++{
++	trace("Expecting 0, got ");
++	trace(stack(7).strsz);
++}
++
++fbt::hrtimer_nanosleep:entry
++/stack(7).strsz == 0/
++{
++	exit(0);
++}
++
++fbt::hrtimer_nanosleep:entry
++/stack(7).strsz != 0/
++{
++	exit(1);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/stack/tst.ref_strsz.r b/test/unittest/funcs/stack/tst.ref_strsz.r
+new file mode 100644
+index 00000000..3fff4fea
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.ref_strsz.r
+@@ -0,0 +1,6 @@
++                   FUNCTION:NAME
++         hrtimer_nanosleep:entry   Expecting 0, got                           0
++         hrtimer_nanosleep:entry 
++
++-- @@stderr --
++dtrace: script 'test/unittest/funcs/stack/tst.ref_strsz.d' matched 4 probes
+diff --git a/test/unittest/funcs/stack/tst.store.d b/test/unittest/funcs/stack/tst.store.d
+new file mode 100644
+index 00000000..68577e27
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.store.d
+@@ -0,0 +1,28 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: It is possible to store to members of dt_stack_t.
++ */
++
++/* @@trigger: periodic_output */
++
++fbt::hrtimer_nanosleep:entry
++{
++	v = stack(5);
++	printf("%k", v);
++	v.depth = 2;
++	printf("%k", v);
++	v.depth = 5;
++	printf("%k", v);
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/stack/tst.store.r b/test/unittest/funcs/stack/tst.store.r
+new file mode 100644
+index 00000000..2e9ba477
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.store.r
+@@ -0,0 +1 @@
++success
+diff --git a/test/unittest/funcs/stack/tst.store.r.p b/test/unittest/funcs/stack/tst.store.r.p
+new file mode 100755
+index 00000000..0d2b040d
+--- /dev/null
++++ b/test/unittest/funcs/stack/tst.store.r.p
+@@ -0,0 +1,63 @@
++#!/usr/bin/gawk -f
++
++/hrtimer_nanosleep/ {
++    # check probe
++    if ( $1 != "hrtimer_nanosleep:entry" ) {
++        print "ERROR: expected fun:prb = hrtimer_nanosleep:entry";
++        exit(0);
++    }
++
++    # collect 5 stack frames
++    for (i = 0; i < 5; i++) {
++        getline;
++        if (NF == 0) {
++            print "ERROR: missing stack(5) frame addrs["i"]";
++            exit(0);
++        }
++        stack[i] = $0;
++    }
++    getline;
++    if (NF != 0) {
++        print "ERROR: too many stack frames (first stack(5))";
++        exit(0);
++    }
++
++    # expect 2 stack frames
++    for (i = 0; i < 2; i++) {
++        getline;
++        if (NF == 0) {
++            print "ERROR: missing stack(2) frame addrs["i"]";
++            exit(0);
++        }
++        if (stack[i] != $0) {
++            print "ERROR: wrong stack(2) frame addrs["i"]";
++            exit(0);
++        }
++    }
++    getline;
++    if (NF != 0) {
++        print "ERROR: too many stack frames (stack(2))";
++        exit(0);
++    }
++
++    # expect 5 stack frames
++    for (i = 0; i < 5; i++) {
++        getline;
++        if (NF == 0) {
++            print "ERROR: missing stack(5) frame addrs["i"]";
++            exit(0);
++        }
++        if (stack[i] != $0) {
++            print "ERROR: wrong stack(5) frame addrs["i"]";
++            exit(0);
++        }
++    }
++    getline;
++    if (NF != 0) {
++        print "ERROR: too many stack frames (second stack(5))";
++        exit(0);
++    }
++
++    print "success";
++    exit(0);
++}
+diff --git a/test/unittest/funcs/ustack/err.corrupted-data.d b/test/unittest/funcs/ustack/err.corrupted-data.d
+new file mode 100644
+index 00000000..c4525aaf
+--- /dev/null
++++ b/test/unittest/funcs/ustack/err.corrupted-data.d
+@@ -0,0 +1,25 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Corrupted stack data does not cause a crash.
++ */
++
++/* @@trigger: ustack-tst-basic */
++
++pid$target:a.out:myfunc_z:entry
++{
++	v = ustack(5);
++	v.depth = 0x7fffffff;
++	printf("%k", v);
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/ustack/err.corrupted-data.r b/test/unittest/funcs/ustack/err.corrupted-data.r
+new file mode 100644
+index 00000000..8ad0244f
+--- /dev/null
++++ b/test/unittest/funcs/ustack/err.corrupted-data.r
+@@ -0,0 +1,4 @@
++                   FUNCTION:NAME
++                  myfunc_z:entry -- @@stderr --
++dtrace: script 'test/unittest/funcs/ustack/err.corrupted-data.d' matched 2 probes
++dtrace: processing aborted: Data record has incorrect size
+diff --git a/test/unittest/funcs/ustack/err.store-to-stack.d b/test/unittest/funcs/ustack/err.store-to-stack.d
+new file mode 100644
+index 00000000..106c0cd9
+--- /dev/null
++++ b/test/unittest/funcs/ustack/err.store-to-stack.d
+@@ -0,0 +1,23 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Assigning a member in ustack() is not allowed.
++ */
++
++/* @@trigger: ustack-tst-basic */
++
++pid$target:a.out:myfunc_z:entry
++{
++	ustack(5).depth = 2;
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/ustack/err.store-to-stack.r b/test/unittest/funcs/ustack/err.store-to-stack.r
+new file mode 100644
+index 00000000..3a0aeba5
+--- /dev/null
++++ b/test/unittest/funcs/ustack/err.store-to-stack.r
+@@ -0,0 +1,2 @@
++-- @@stderr --
++dtrace: failed to compile script test/unittest/funcs/ustack/err.store-to-stack.d: line 16: operator = requires modifiable lvalue as an operand
+diff --git a/test/unittest/funcs/ustack/tst.asgn_dvar.d b/test/unittest/funcs/ustack/tst.asgn_dvar.d
+new file mode 100644
+index 00000000..142a56ce
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.asgn_dvar.d
+@@ -0,0 +1,25 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test assignment of ustack() to a dynamic variable (assoc element).
++ */
++
++/* @@trigger: ustack-tst-basic */
++
++pid$target:a.out:myfunc_z:entry
++{
++	assoc["a"] = ustack(3);
++	printf("%k", assoc["a"]);
++
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/ustack/tst.asgn_dvar.r b/test/unittest/funcs/ustack/tst.asgn_dvar.r
+new file mode 100644
+index 00000000..2e9ba477
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.asgn_dvar.r
+@@ -0,0 +1 @@
++success
+diff --git a/test/unittest/funcs/ustack/tst.asgn_dvar.r.p b/test/unittest/funcs/ustack/tst.asgn_dvar.r.p
+new file mode 100755
+index 00000000..3b69efa4
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.asgn_dvar.r.p
+@@ -0,0 +1,45 @@
++#!/usr/bin/gawk -f
++
++/myfunc_z/ {
++    # check probe
++    if ( $1 != "myfunc_z:entry" ) {
++        print "ERROR: expected fun:prb = myfunc_z:entry";
++        exit(0);
++    }
++
++    # check stack(3)
++    getline;
++    if (index($1, "`myfunc_z+0x") == 0 &&
++        match($1, "`myfunc_z") == 0) {
++        print "ERROR: expected leaf frame to be myfunc_z";
++        exit(0);
++    }
++    getline;
++    if (NF == 0) {
++        print "ERROR: missing second frame";
++        exit(0);
++    }
++    if (index($1, "`myfunc_x+0x") == 0 &&
++        match($1, "`myfunc_x") == 0) {
++        print "ERROR: expected leaf frame to be myfunc_x";
++        exit(0);
++    }
++    getline;
++    if (NF == 0) {
++        print "ERROR: missing third frame";
++        exit(0);
++    }
++    if (index($1, "`myfunc_w+0x") == 0 &&
++        match($1, "`myfunc_w") == 0) {
++        print "ERROR: expected leaf frame to be myfunc_w";
++        exit(0);
++    }
++    getline;
++    if (NF > 0) {
++        print "ERROR: expected stack(3) to have only three frames";
++        exit(0);
++    }
++
++    print "success";
++    exit(0);
++}
+diff --git a/test/unittest/funcs/ustack/tst.asgn_gvar.d b/test/unittest/funcs/ustack/tst.asgn_gvar.d
+new file mode 100644
+index 00000000..089e145f
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.asgn_gvar.d
+@@ -0,0 +1,25 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test assignment of ustack() to a global variable.
++ */
++
++/* @@trigger: ustack-tst-basic */
++
++pid$target:a.out:myfunc_z:entry
++{
++	v = ustack(3);
++	printf("%k", v);
++
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/ustack/tst.asgn_gvar.r b/test/unittest/funcs/ustack/tst.asgn_gvar.r
+new file mode 120000
+index 00000000..a79e4237
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.asgn_gvar.r
+@@ -0,0 +1 @@
++tst.asgn_dvar.r
+\ No newline at end of file
+diff --git a/test/unittest/funcs/ustack/tst.asgn_gvar.r.p b/test/unittest/funcs/ustack/tst.asgn_gvar.r.p
+new file mode 120000
+index 00000000..2ca41971
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.asgn_gvar.r.p
+@@ -0,0 +1 @@
++tst.asgn_dvar.r.p
+\ No newline at end of file
+diff --git a/test/unittest/funcs/ustack/tst.asgn_lvar.d b/test/unittest/funcs/ustack/tst.asgn_lvar.d
+new file mode 100644
+index 00000000..132d4a89
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.asgn_lvar.d
+@@ -0,0 +1,25 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test assignment of ustack() to a local variable.
++ */
++
++/* @@trigger: ustack-tst-basic */
++
++pid$target:a.out:myfunc_z:entry
++{
++	this->v = ustack(3);
++	printf("%k", this->v);
++
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/ustack/tst.asgn_lvar.r b/test/unittest/funcs/ustack/tst.asgn_lvar.r
+new file mode 120000
+index 00000000..a79e4237
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.asgn_lvar.r
+@@ -0,0 +1 @@
++tst.asgn_dvar.r
+\ No newline at end of file
+diff --git a/test/unittest/funcs/ustack/tst.asgn_lvar.r.p b/test/unittest/funcs/ustack/tst.asgn_lvar.r.p
+new file mode 120000
+index 00000000..2ca41971
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.asgn_lvar.r.p
+@@ -0,0 +1 @@
++tst.asgn_dvar.r.p
+\ No newline at end of file
+diff --git a/test/unittest/funcs/ustack/tst.asgn_tvar.d b/test/unittest/funcs/ustack/tst.asgn_tvar.d
+new file mode 100644
+index 00000000..46fbe606
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.asgn_tvar.d
+@@ -0,0 +1,25 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test assignment of ustack() to a TLS variable.
++ */
++
++/* @@trigger: ustack-tst-basic */
++
++pid$target:a.out:myfunc_z:entry
++{
++	self->v = ustack(3);
++	printf("%k", self->v);
++
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/ustack/tst.asgn_tvar.r b/test/unittest/funcs/ustack/tst.asgn_tvar.r
+new file mode 120000
+index 00000000..a79e4237
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.asgn_tvar.r
+@@ -0,0 +1 @@
++tst.asgn_dvar.r
+\ No newline at end of file
+diff --git a/test/unittest/funcs/ustack/tst.asgn_tvar.r.p b/test/unittest/funcs/ustack/tst.asgn_tvar.r.p
+new file mode 120000
+index 00000000..2ca41971
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.asgn_tvar.r.p
+@@ -0,0 +1 @@
++tst.asgn_dvar.r.p
+\ No newline at end of file
+diff --git a/test/unittest/funcs/ustack/tst.ref_addrs.d b/test/unittest/funcs/ustack/tst.ref_addrs.d
+new file mode 100644
+index 00000000..97b0d684
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.ref_addrs.d
+@@ -0,0 +1,24 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test accessing the 'addrs' array of a userspace stack.
++ */
++
++/* @@trigger: ustack-tst-basic */
++
++pid$target:a.out:myfunc_z:entry
++{
++	trace("Expecting ustack-tst-basic`myfunc_z, got ");
++	ufunc(ustack(7).addrs[0]);
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/ustack/tst.ref_addrs.r b/test/unittest/funcs/ustack/tst.ref_addrs.r
+new file mode 100644
+index 00000000..20f36969
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.ref_addrs.r
+@@ -0,0 +1,5 @@
++                   FUNCTION:NAME
++                  myfunc_z:entry   Expecting ustack-tst-basic`myfunc_z, got   ustack-tst-basic`myfunc_z                         
++
++-- @@stderr --
++dtrace: script 'test/unittest/funcs/ustack/tst.ref_addrs.d' matched 2 probes
+diff --git a/test/unittest/funcs/ustack/tst.ref_depth.d b/test/unittest/funcs/ustack/tst.ref_depth.d
+new file mode 100644
+index 00000000..d847736a
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.ref_depth.d
+@@ -0,0 +1,35 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test accessing the 'depth' field of a userspace stack.
++ */
++
++/* @@trigger: ustack-tst-basic */
++
++pid$target:a.out:myfunc_z:entry
++{
++	trace("Expecting 7, got ");
++	trace(ustack(7).depth);
++}
++
++pid$target:a.out:myfunc_z:entry
++/ustack(7).depth == 7/
++{
++	exit(0);
++}
++
++pid$target:a.out:myfunc_z:entry
++/ustack(7).depth != 7/
++{
++	exit(1);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/ustack/tst.ref_depth.r b/test/unittest/funcs/ustack/tst.ref_depth.r
+new file mode 100644
+index 00000000..de6bf067
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.ref_depth.r
+@@ -0,0 +1,6 @@
++                   FUNCTION:NAME
++                  myfunc_z:entry   Expecting 7, got                           7
++                  myfunc_z:entry 
++
++-- @@stderr --
++dtrace: script 'test/unittest/funcs/ustack/tst.ref_depth.d' matched 4 probes
+diff --git a/test/unittest/funcs/ustack/tst.ref_is_user.d b/test/unittest/funcs/ustack/tst.ref_is_user.d
+new file mode 100644
+index 00000000..5465f090
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.ref_is_user.d
+@@ -0,0 +1,35 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test accessing the 'is_user' field of a userspace stack.
++ */
++
++/* @@trigger: ustack-tst-basic */
++
++pid$target:a.out:myfunc_z:entry
++{
++	trace("Expecting 1, got ");
++	trace(ustack(7).is_user);
++}
++
++pid$target:a.out:myfunc_z:entry
++/ustack(7).is_user == 1/
++{
++	exit(0);
++}
++
++pid$target:a.out:myfunc_z:entry
++/ustack(7).is_user != 0/
++{
++	exit(1);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/ustack/tst.ref_is_user.r b/test/unittest/funcs/ustack/tst.ref_is_user.r
+new file mode 100644
+index 00000000..937fd8d3
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.ref_is_user.r
+@@ -0,0 +1,6 @@
++                   FUNCTION:NAME
++                  myfunc_z:entry   Expecting 1, got                           1
++                  myfunc_z:entry 
++
++-- @@stderr --
++dtrace: script 'test/unittest/funcs/ustack/tst.ref_is_user.d' matched 4 probes
+diff --git a/test/unittest/funcs/ustack/tst.ref_pid.d b/test/unittest/funcs/ustack/tst.ref_pid.d
+new file mode 100644
+index 00000000..6ed62f12
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.ref_pid.d
+@@ -0,0 +1,37 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test accessing the 'pid' field of s userspace stack.
++ */
++
++/* @@trigger: ustack-tst-basic */
++
++pid$target:a.out:myfunc_z:entry
++{
++	trace("Expecting ");
++	trace($target);
++	trace(", got ");
++	trace(ustack(7).pid);
++}
++
++pid$target:a.out:myfunc_z:entry
++/ustack(7).pid == $target/
++{
++	exit(0);
++}
++
++pid$target:a.out:myfunc_z:entry
++/ustack(7).pid != $target/
++{
++	exit(1);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/ustack/tst.ref_strsz.d b/test/unittest/funcs/ustack/tst.ref_strsz.d
+new file mode 100644
+index 00000000..b78a00c0
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.ref_strsz.d
+@@ -0,0 +1,35 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test accessing the 'strsz' field of s userspace stack.
++ */
++
++/* @@trigger: ustack-tst-basic */
++
++pid$target:a.out:myfunc_z:entry
++{
++	trace("Expecting 42, got ");
++	trace(ustack(7, 42).strsz);
++}
++
++pid$target:a.out:myfunc_z:entry
++/ustack(7, 42).strsz == 42/
++{
++	exit(0);
++}
++
++pid$target:a.out:myfunc_z:entry
++/ustack(7, 42).strsz != 42/
++{
++	exit(1);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/funcs/ustack/tst.ref_strsz.r b/test/unittest/funcs/ustack/tst.ref_strsz.r
+new file mode 100644
+index 00000000..840f7e21
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.ref_strsz.r
+@@ -0,0 +1,6 @@
++                   FUNCTION:NAME
++                  myfunc_z:entry   Expecting 42, got                         42
++                  myfunc_z:entry 
++
++-- @@stderr --
++dtrace: script 'test/unittest/funcs/ustack/tst.ref_strsz.d' matched 4 probes
+diff --git a/test/unittest/funcs/ustack/tst.store.d b/test/unittest/funcs/ustack/tst.store.d
+new file mode 100644
+index 00000000..6a9f7c94
+--- /dev/null
++++ b/test/unittest/funcs/ustack/tst.store.d
+@@ -0,0 +1,25 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: It is possible to store to members of dt_stack_t.
++ */
++
++/* @@trigger: ustack-tst-basic */
++
++pid$target:a.out:myfunc_z:entry
++{
++	v = ustack(5);
++	v.depth = 2;
++	printf("%k", v);
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/printa/err.D_PRINTF_ARG_TYPE.stack.r b/test/unittest/printa/err.D_PRINTF_ARG_TYPE.stack.r
+index 95ac80da..b1e55bc0 100644
+--- a/test/unittest/printa/err.D_PRINTF_ARG_TYPE.stack.r
++++ b/test/unittest/printa/err.D_PRINTF_ARG_TYPE.stack.r
+@@ -2,4 +2,4 @@
+ dtrace: failed to compile script test/unittest/printa/err.D_PRINTF_ARG_TYPE.stack.d: [D_PRINTF_ARG_TYPE] line 12: printa( ) argument #2 is incompatible with conversion #1 prototype:
+ 	conversion: %p
+ 	 prototype: pointer or integer
+-	  argument: dt_stack
++	  argument: dt_stack_t
+diff --git a/test/unittest/printa/err.D_PRINTF_ARG_TYPE.ustack.r b/test/unittest/printa/err.D_PRINTF_ARG_TYPE.ustack.r
+index 5df10376..d6687d7a 100644
+--- a/test/unittest/printa/err.D_PRINTF_ARG_TYPE.ustack.r
++++ b/test/unittest/printa/err.D_PRINTF_ARG_TYPE.ustack.r
+@@ -2,4 +2,4 @@
+ dtrace: failed to compile script test/unittest/printa/err.D_PRINTF_ARG_TYPE.ustack.d: [D_PRINTF_ARG_TYPE] line 12: printa( ) argument #2 is incompatible with conversion #1 prototype:
+ 	conversion: %p
+ 	 prototype: pointer or integer
+-	  argument: dt_stack
++	  argument: dt_stack_t
+diff --git a/test/unittest/printf/tst.stack.d b/test/unittest/printf/tst.stack.d
+new file mode 100644
+index 00000000..db943c29
+--- /dev/null
++++ b/test/unittest/printf/tst.stack.d
+@@ -0,0 +1,33 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * ASSERTION: Test printf with %k and a stack argument.
++ *
++ * SECTION: Output Formatting/printf()
++ */
++
++#pragma D option destructive
++
++BEGIN
++{
++	system("echo write something > /dev/null");
++}
++
++fbt::ksys_write:entry
++{
++	printf("%k", stack(1));
++	printf("%k", stack(2));
++	printf("%k", stack(3));
++	printf("%k", stack());
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/printf/tst.stack.r b/test/unittest/printf/tst.stack.r
+new file mode 100644
+index 00000000..2e9ba477
+--- /dev/null
++++ b/test/unittest/printf/tst.stack.r
+@@ -0,0 +1 @@
++success
+diff --git a/test/unittest/printf/tst.stack.r.p b/test/unittest/printf/tst.stack.r.p
+new file mode 100755
+index 00000000..895f96f5
+--- /dev/null
++++ b/test/unittest/printf/tst.stack.r.p
+@@ -0,0 +1,75 @@
++#!/usr/bin/gawk -f
++
++/ksys_write/ {
++    # check probe
++    if ( $1 != "ksys_write:entry" ) {
++        print "ERROR: expected fun:prb = ksys_write:entry";
++        exit 1;
++    }
++
++    # check stack(1)
++    getline;
++    if (index($1, "`ksys_write+0x") == 0 &&
++        match($1, "`ksys_write$") == 0) {
++        print "ERROR: expected leaf frame to be ksys_write";
++        exit 1;
++    }
++    FRAME1 = $1;
++    getline;
++    if (NF > 0) {
++        print "ERROR: expected stack(1) to have only one frame";
++        exit 1;
++    }
++
++    # check stack(2)
++    getline;
++    if ($1 != FRAME1) {
++        print "ERROR: stack(2) leaf frame looks wrong";
++        exit 1;
++    }
++    getline;
++    FRAME2 = $1;
++    getline;
++    if (NF > 0) {
++        print "ERROR: expected stack(2) to have only two frames";
++        exit 1;
++    }
++
++    # check stack(3)
++    getline;
++    if ($1 != FRAME1) {
++        print "ERROR: stack(3) leaf frame looks wrong";
++        exit 1;
++    }
++    getline;
++    if ($1 != FRAME2) {
++        print "ERROR: stack(3) frame2 looks wrong";
++        exit 1;
++    }
++    getline;
++    FRAME3 = $1;
++    getline;
++    if (NF > 0) {
++        print "ERROR: expected stack(3) to have only three frames";
++        exit 1;
++    }
++
++    # check stack()
++    getline;
++    if ($1 != FRAME1) {
++        print "ERROR: stack() leaf frame looks wrong";
++        exit 1;
++    }
++    getline;
++    if ($1 != FRAME2) {
++        print "ERROR: stack() frame2 looks wrong";
++        exit 1;
++    }
++    getline;
++    if ($1 != FRAME3) {
++        print "ERROR: stack() frame3 looks wrong";
++        exit 1;
++    }
++    print "success";
++    exit(0);
++}
+diff --git a/test/unittest/printf/tst.ustack25_pid.d b/test/unittest/printf/tst.ustack25_pid.d
+new file mode 100644
+index 00000000..9ae3a7b8
+--- /dev/null
++++ b/test/unittest/printf/tst.ustack25_pid.d
+@@ -0,0 +1,21 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/* @@trigger: ustack-tst-basic */
++
++#pragma D option quiet
++
++pid$target:a.out:myfunc_z:entry
++{
++	printf("%k", ustack(25));
++	exit(0);
++}
++
++ERROR
++{
++	exit(1);
++}
+diff --git a/test/unittest/printf/tst.ustack25_pid.r b/test/unittest/printf/tst.ustack25_pid.r
+new file mode 100644
+index 00000000..e7732fb8
+--- /dev/null
++++ b/test/unittest/printf/tst.ustack25_pid.r
+@@ -0,0 +1,28 @@
++
++              ustack-tst-basic`myfunc_z
++              ustack-tst-basic`myfunc_y+{ptr}
++              ustack-tst-basic`myfunc_x+{ptr}
++              ustack-tst-basic`myfunc_w+{ptr}
++              ustack-tst-basic`myfunc_v+{ptr}
++              ustack-tst-basic`myfunc_u+{ptr}
++              ustack-tst-basic`myfunc_t+{ptr}
++              ustack-tst-basic`myfunc_s+{ptr}
++              ustack-tst-basic`myfunc_r+{ptr}
++              ustack-tst-basic`myfunc_q+{ptr}
++              ustack-tst-basic`myfunc_p+{ptr}
++              ustack-tst-basic`myfunc_o+{ptr}
++              ustack-tst-basic`myfunc_n+{ptr}
++              ustack-tst-basic`myfunc_m+{ptr}
++              ustack-tst-basic`myfunc_l+{ptr}
++              ustack-tst-basic`myfunc_k+{ptr}
++              ustack-tst-basic`myfunc_j+{ptr}
++              ustack-tst-basic`myfunc_i+{ptr}
++              ustack-tst-basic`myfunc_h+{ptr}
++              ustack-tst-basic`myfunc_g+{ptr}
++              ustack-tst-basic`myfunc_f+{ptr}
++              ustack-tst-basic`myfunc_e+{ptr}
++              ustack-tst-basic`myfunc_d+{ptr}
++              ustack-tst-basic`myfunc_c+{ptr}
++              ustack-tst-basic`myfunc_b+{ptr}
++              ustack-tst-basic`myfunc_a+{ptr}
++
+diff --git a/test/unittest/printf/tst.ustack25_pid.r.p b/test/unittest/printf/tst.ustack25_pid.r.p
+new file mode 100755
+index 00000000..c0110e00
+--- /dev/null
++++ b/test/unittest/printf/tst.ustack25_pid.r.p
+@@ -0,0 +1,37 @@
++#!/bin/bash
++
++# A pid entry probe places a uprobe on the first instruction of a function.
++# Unfortunately, this is so early in the function preamble that the function
++# frame pointer has not yet been established and the actual caller of the
++# traced function is missed.
++#
++# In Linux 6.11, x86-specific heuristics are introduced to fix this problem.
++# See commit cfa7f3d
++# ("perf,x86: avoid missing caller address in stack traces captured in uprobe")
++# for both a description of the problem and an explanation of the heuristics.
++#
++# Add post processing to these test results to allow for both cases:
++# caller frame is missing or not missing.
++
++missing_caller=1
++if [ $(uname -m) == "x86_64" ]; then
++        read MAJOR MINOR <<< `uname -r | grep -Eo '^[0-9]+\.[0-9]+' | tr '.' ' '`
++
++        if [ $MAJOR -ge 6 ]; then
++                if [ $MAJOR -gt 6 -o $MINOR -ge 11 ]; then
++                        missing_caller=0
++                fi
++        fi
++fi
++
++if [ $missing_caller -eq 1 ]; then
++        # Add the missing caller function after the current function.
++        awk '{ print }
++             /myfunc_z/ { print "              ustack-tst-basic`myfunc_y+{ptr}" }'
++else
++        # The .r results file has an extra frame at the end in case
++        # the caller frame is missing and the 25-frame limit goes
++        # "too far."  If the caller is not missing, fake that extra frame.
++        awk '{ print }
++             /myfunc_b/ { print "              ustack-tst-basic`myfunc_a+{ptr}" }'
++fi
+-- 
+2.43.5
+
