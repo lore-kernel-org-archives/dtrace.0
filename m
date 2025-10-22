@@ -1,80 +1,80 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA422262FEC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4956C2652A2
 	for <dtrace@lists.linux.dev>; Wed, 22 Oct 2025 03:23:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761103411; cv=fail; b=KdJ06f9uQ17EJ/QR/EAQkqx10+TL2kseWbeinuvoiqfKRULBq/6M1W/ygRSkTFh2pdC3dzzik0Mz8rhVAbaK2C8Wn6cJMbwPfgId7QPLC95o2NcyqUMOH/MpUVKXVPyu2BCt/P5xJNWUvXj9vskF2ABTnPdkmyzzwD6APT1IDYw=
+	t=1761103412; cv=fail; b=azdYDZ+M88E3f1Oe3ajP71H0VoTdnLdt9OqN/xYD3mprsRg1P6WovwZovUVCK/it40mZRLmMxQC0mYCy53fLjQX4hikIg7AlCh5V0bdzdz4x17hxln8XwlwqhPdb6EWoOu8Nb2iwG+6eeEVKNhF1R0wzV5JlwC5vgwhxOBh1858=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761103411; c=relaxed/simple;
-	bh=Y9jtNzNEAVTidcIFk+i5SiNNp2iD12fkQ5mQaNtg4oc=;
+	s=arc-20240116; t=1761103412; c=relaxed/simple;
+	bh=6vfmA81i8WVQICrg45zNKi2XQrjWbraH8xXxReRR3Yg=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qPcrGMH2eJXXX7nJw0X9C/A5awBrLkt2+AkKR3FsJMvl7CPT4OnCn5HTtMkkqXi/DakC8yUzGDeqpo/kXRCDyuaThoAdR8sC10NsFlfvdhW2LOnRYZ+urEd+llbQtYBx/DuSb4OwzCJtiDLtYhdysLF1HjKT4GehItZ2YeuXBNU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=jEh2wIyh; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=SYmRyuV2; arc=fail smtp.client-ip=205.220.165.32
+	 Content-Type:MIME-Version; b=WV1UQ0m3QjlTOn0lp/3Q4GPlLtguWlOoy0zablYoH+Yh9NTfL3tsg87abck/QjsVgKL3S4rqRhA+aWzH52Wjp19VB1lIpdDoXEBLM2iGlUy/D0zVK/ZtbpX8QFnGyTftGD4exwNCMZYyWhqJOKlaksFpexdWREHMZF4f9RK3960=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=rIiwvpIV; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=JrfKsRQ1; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="jEh2wIyh";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="SYmRyuV2"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59M3NTkb032694
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="rIiwvpIV";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="JrfKsRQ1"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59M3NQ71022548
 	for <dtrace@lists.linux.dev>; Wed, 22 Oct 2025 03:23:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=UczU8f0ZA7tU/4buAh
-	BvQpMq8HoHsKVqdF2cayspYw4=; b=jEh2wIyhJadTSoOERjmNCEIYQRCsEdqLQx
-	Rh2qhwmtHSCFuGyJRJcTyihAECL4NfwaX8yXnQqioHFgkS/MQPD2NE/xJIYXjx32
-	0BDnm9lpZ6x8wCL4ibtLESX51XAC+4Af+PJ3HTT+3OqwNyZTiEQWXL6X9weU/bCU
-	y2Yc9m2eruemeXWZnHUZSFXM2z5ZuGgwai9CSvR1/HP3f7wLG5vsWsGIoo5ySAm2
-	nDmPNjjnee/AJnqxr7Ecdg2qz68WdlZl3/xNoJ88kDNdwYu8HxcD+0o+pzIZ+iMp
-	PumcBLfkAIdADpuEdOJ8nG7i9Q/NzMZtQSt3NIKzwdEp0t1nIwIg==
+	:references:subject:to; s=corp-2025-04-25; bh=fqNaoXbCd//CtDchy1
+	lu2gqz4XpvHqk0WiHpwdAX7MQ=; b=rIiwvpIVZeWzGvDeE4kpcw6nxCYhyVhpi0
+	wYduUZmpw3avAHGH81sHmW54wbsYn+GDSXcMJ5q0PgNd/y4/Qj0TuIb8P6yzFEw+
+	JAh4bPF4tJeAWgsnGPxqHkNtXSSQbZtsCMUYy3wM4ipxELBu0qhvkyVFqzCBa8GG
+	lLpHwMoCv8iJy5pshIRoCmnwcEfd2VOYJR3cqQgMKkzx/L/6XLZT5GyrrITMPhbM
+	VgAK/PJL6TRB8jozjtg5MzYVNcIDyN2Ilu4KhQHtF7WI+HGz3hTVDEXcxC/awZ1/
+	YLcLS+6bXONtwHaWLlsIZr78dqLGtNxdN6iGl86vcfaGFP9ndF3Q==
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49v31d6xxu-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49v2vvxtn9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <dtrace@lists.linux.dev>; Wed, 22 Oct 2025 03:23:28 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 59M0mkBx025370
-	for <dtrace@lists.linux.dev>; Wed, 22 Oct 2025 03:23:28 GMT
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 59M0mkBv025370
+	for <dtrace@lists.linux.dev>; Wed, 22 Oct 2025 03:23:27 GMT
 Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012024.outbound.protection.outlook.com [52.101.43.24])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49v1bcmj65-13
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49v1bcmj65-11
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 22 Oct 2025 03:23:28 +0000
+	for <dtrace@lists.linux.dev>; Wed, 22 Oct 2025 03:23:27 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lJGTf+YgBcrrvTC9iNPmOlPVlH6G0T1ezAbS8ovmpc1I8cUqRYlKSPJTjJzptkOkojjnUSwx3AP7+JuEgxUwnaE2oYl9nfga3PFQktEQRvl3Wv3uWIWevDMGzGJhD0ywobs8GEf0Me92IatDtMPVBZ29HB09f5nBClkaZbDITYrGVdoFHpYaNKSsQ/1+xTXo0bzyiAztzUn0iw0jMquVCSE19BfNisqx/5g6ihGrzmhMiabN1eKhY8CqDQ3esXufQfABQl63SKjXu6fNuOSQM8b+gtHvbZ5rOWIcFITjMalGWD7VNuTkJc4jmh9DzX84XmzJLILFtV4wo2aZeWuZ0w==
+ b=uk2PWsjdYaoK3XeU2ncoav/5BsbfpWUtfADZk/fdQ4FT8iwb843+JlkBn5zAA1lsXTzc9nk8sR1mjpA4R1y9/cqsS1iDW06TcAFUYVoo00yKEM1f7qqOiBdQVDZfrhV2CnbGdcvM6AFgM+ceYIfpXXfy4Up4dOat3VktkCIct7Rp/xHu/DU75y0CxGygFV4KJY4vhKeUM9czmEV3bNT9GWax0B1+GtMzkkPxJSUkf+z9OipmwIgdZo/N/1iFhu6lTPUB1Q8zmmP4T2gGQWGmgMFse7AR2yhNgFFcwiLRfjSF0A6mpHDm7eGvNzitUWJHxasuWOG6JQIQGbPkhraxpg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UczU8f0ZA7tU/4buAhBvQpMq8HoHsKVqdF2cayspYw4=;
- b=g2M2pPInEIIvo7eNExiku1fnICIShtXU4x02zKZOPe3gJFsIc2nOUn+XMRIFpvBnm/Hvd8SK5sX9WV8UPIVYUAo28z6Wi14Wcg3GcUymOwu8zhVVp+19x5yZJ20xpadn8IEXNALAg/myHYF51mjRPt1NGnCuSt/KythSpRXQfKwModKQh5YnCNahV+QEja+SrLQYOsLcq1AaPoSMSnyaM0Ypm3LIT5ViV7lGJCU34SH3SOJBzExdxIynLren3mxDZVulls7vPfSuuuI7g/511GDhSeKubgyrPSypEjA0eCx3jq6Cn7vmv2wkjqp8sgODyP/CvuOCN2a1ZbHwKckMPA==
+ bh=fqNaoXbCd//CtDchy1lu2gqz4XpvHqk0WiHpwdAX7MQ=;
+ b=X540xGL9u7Ax99V8/ByrzSmqjfuqUi2bcowbl9y3gE3/I3AT7T7J2PXCpwE64OLGcNRyp8pDm/0e38rfiLwtepCO1/I9Cwg/tFMlzvnbpmOs7+l3t+Qw3dTIMHA6DYv8JfNKeNVXYxeNWIjnEJyvyjteLge1+jf132x6OzDXZRVqaN1zmScoZqUjA+AA2QmcbAQvGr8omNjoDE7uwHIIAfU+vz119OzsRS4/WQMUz7hb1CgDx3VKtDLkLKXsem/FeFBhsfMrTmbXw+vh6PuRyLKOPjrxtJbcvDS3Z7OpUkk4fl7VG8wpS71q8PzBJgDKuonkX/kAharlIUpo2tXsFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UczU8f0ZA7tU/4buAhBvQpMq8HoHsKVqdF2cayspYw4=;
- b=SYmRyuV29X0gtom/Zx09cCY9vEeCLzo7H8ffJq9gWV5nQIOmYja/MIg/LdIUHMx2GFMChHtHJIGxltXdldyWML8v9tfBWcq2AcaKdjtoMU5LNn6vJlwdolJlHMN4i0gAWfwM7NjhdmsX8bL8GdnZ/ru1dtKy9HPJkYlBNuDUvcE=
+ bh=fqNaoXbCd//CtDchy1lu2gqz4XpvHqk0WiHpwdAX7MQ=;
+ b=JrfKsRQ1T7McIEERysy95l6ZLCQweDCMqoJXyM2eHI0cNgnh37xEcWJpLHqy42lxPA2d60i90elvZ3PRP8Ra62Fd0doeGimDwQVeoW8b2J5hjsBLBey875p27Cy0UU1xuVx+y41S+n1fDYLHDL1Zw4bsfyLOJPE0FB01sOlqr9M=
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
  by DS0PR10MB6974.namprd10.prod.outlook.com (2603:10b6:8:148::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.16; Wed, 22 Oct
- 2025 03:23:18 +0000
+ 2025 03:23:16 +0000
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::c47b:6cdc:87b1:aa6b]) by CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::c47b:6cdc:87b1:aa6b%6]) with mapi id 15.20.9253.011; Wed, 22 Oct 2025
- 03:23:18 +0000
+ 03:23:16 +0000
 From: eugene.loh@oracle.com
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH v2 18/20] doc: Add TCP provider documentation
-Date: Tue, 21 Oct 2025 23:22:48 -0400
-Message-Id: <20251022032251.2010-13-eugene.loh@oracle.com>
+Subject: [PATCH v2 17/20] doc: Add IP provider documentation
+Date: Tue, 21 Oct 2025 23:22:47 -0400
+Message-Id: <20251022032251.2010-12-eugene.loh@oracle.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20251022032251.2010-1-eugene.loh@oracle.com>
 References: <20251022032251.2010-1-eugene.loh@oracle.com>
 Content-Type: text/plain
-X-ClientProxiedBy: PH8P222CA0015.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:510:2d7::19) To CO6PR10MB5636.namprd10.prod.outlook.com
+X-ClientProxiedBy: PH7PR03CA0007.namprd03.prod.outlook.com
+ (2603:10b6:510:339::9) To CO6PR10MB5636.namprd10.prod.outlook.com
  (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -84,80 +84,80 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|DS0PR10MB6974:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb239a23-77ec-473d-4a74-08de111a584b
+X-MS-Office365-Filtering-Correlation-Id: b3e91b55-d99f-40a8-a7ba-08de111a56e7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?sSRfqvk3E7CmS49F/FpTxygpmgSkI/xhaKzTFDFNNGjcQ+wqKEhpPCVDVxPi?=
- =?us-ascii?Q?qADlLO7OYUx3EKHkTHYqCP/qnQKfGRYPeCT7NzEw2xOGsSGu5K+RiX1h91oY?=
- =?us-ascii?Q?I3YK5amvxP6s33NFlci0yjW90aKcHPE7mSmCLTPMHoJaurHOJZJGCe4GUBcJ?=
- =?us-ascii?Q?GdLMZaUIB57zsLabFahc0LxrMAor+1RN53/gkRfLQxAH3rejWDZwlWds2mRZ?=
- =?us-ascii?Q?FdhpJGxjDF+/F5I05+7GbQak3A2DY/0TOc5eEMufSSSlme+81d+J5To+2s7d?=
- =?us-ascii?Q?hckCQWhQfnZZ5Sd5JiBWWLxQgCZ0CCilHo60liEaERGW1J4is6VQDwEI60Nu?=
- =?us-ascii?Q?CfPRw3cPvIQ3mdKgdXINHnpPRB+cGsswmVjIZ/e/3K2MMj1ryj6KkypCGR5f?=
- =?us-ascii?Q?0xHVnQtO2q3ngj/xRm20Y5dhopkt/hmj5kpEqKBhxd7mq0oYEYWS5Q3NN3Ib?=
- =?us-ascii?Q?if+QFLSsv8G9S0xbaiDaOHVtyS6672iG089xR1eAri8/s49LThnK9WyYausf?=
- =?us-ascii?Q?iSsoMTDBrQ4RDUHwWU0CCu/e/T8u9zhBsq+845DY0s0E8fqhoeBcRqM2rPsZ?=
- =?us-ascii?Q?sQIj/MvUyRvlotE/cc9CFkt2BdwzoQJ14xve4PAH0RUmV8FBepecNkUQUJkq?=
- =?us-ascii?Q?nfrqzOeq5/uUPmu5ra8O48+ZEyYn6Hq5XJ0M/JDuoYI3GZ+DFImopKpG6y25?=
- =?us-ascii?Q?xZHHvp/YfDpoAkgg88uvGx/Z0tT2gy1SMG3i9zOGzvpUJ/JN/1VQ4DZftJWy?=
- =?us-ascii?Q?z5QvjUFwHV8t3PYu09sNu83DyfhG0qD/FwZdZfI9R7bFF1g3QZwKcZSX9ZPk?=
- =?us-ascii?Q?VvHju/0nBiu6pLgXb4AUR48fiTgDvlkm8Y6FoU4qVKgPTpfp9vSXTF6ozuB8?=
- =?us-ascii?Q?ErVtJ68Gfe8+/LL0yGYsONhCXYEbY3gGPnN7e8eRYAwnxZL6Q4VtDYUd1qGq?=
- =?us-ascii?Q?D5C5C+aCAe6cUyTuFXhVuhdhx/Ea7PZddN2MTfGRKV+PY1kOKyOIf2RJ5EOq?=
- =?us-ascii?Q?peeGw/6a9wtYsdyNkonFedlYa61weLMBM7WNdB39Xxu3PS9Td6ulmSMNhvSP?=
- =?us-ascii?Q?LuWV/tpRs47R/iEUVl60dQtHV/g0gzJfJrlcj6G6YlVWSrHdtFRHqq8zqcM5?=
- =?us-ascii?Q?70qLi2aih4RNNTe00aV3daihdKksNWZkQbbYUi4yyDqNAwXDBnXkTSEsWfJz?=
- =?us-ascii?Q?dgVBqBb/Qvz7e2qDeOB9JNPNQ4VvS0ilTbEGVnnY4HuoUA1sUEwcG45j5zkK?=
- =?us-ascii?Q?39IsjJppbPxfn+xd8mlBvjoTi5gxpSZSeW2VT7FD+vOnuLJhrkCaxqgQ2Iol?=
- =?us-ascii?Q?wEq1gQP/r6NnIDXIxU+/B5UeDls8V1CH5Z8WfUKuxi6v4nBrviRg9JsRdEoV?=
- =?us-ascii?Q?2hY+F2p+p7IAXjwdYllQtOO/sErhvqT8gYmszdrBc8Luk/JShHDmOfYq8Lft?=
- =?us-ascii?Q?YPKCAB2fn0t1/561/eI7Pr67rxb+jFCS?=
+	=?us-ascii?Q?REqPcWcuuenSy/iyJ6HeZ93hSu99uoiK4RF5BQUnZMw35eodiPFm3/230ugm?=
+ =?us-ascii?Q?E+Cxa8fnECNP+hLyd3MlVcQW7Ag5OM5AZ/IWnggFw5uGhEHNIwezJc/uMwue?=
+ =?us-ascii?Q?/OkzehiBZA4bRIUvtSVLWEqrWonEXrlXutwbbGY6lmwxOVumHWcSGd3RUPji?=
+ =?us-ascii?Q?R0XExu6LDWldFiedkiQHRG9BKaUYEW4NEOnJoFtA45VksqHj+IGqyZnSJn4D?=
+ =?us-ascii?Q?wsBAlk9ooxHRL5wUuTtLBw7QAbfQMQ83YZ4OoMbEyg23Ynua2h5AMXlDdwDt?=
+ =?us-ascii?Q?EwyXjdQ/HF3m3/DGyIe1d4EqPJhUieMwOcVX9zOaSZ3I8Pkk7jLjo8PBVYXT?=
+ =?us-ascii?Q?rwM4gYaNM9RUtUB03wJgBaC6nIil/KrfIw/l6MHCt40mD5BjAFCXk3uFXu3r?=
+ =?us-ascii?Q?+SW5BLX4gbfczMAX8FnEMAiHFb1Sl2Vh8zjo70PcAMWCAslCCNsv5yshl84t?=
+ =?us-ascii?Q?F4/to+kDvpUZ0Zz75dmGO0maN520Zn/xaVbhysQSO7HYHMwyEsRl1/ahGwVm?=
+ =?us-ascii?Q?i9cxz+0ftHX0g5Nb5OkY9VjIGl1myQMjVDZarte2uhnlho3/xdCaZWus12Et?=
+ =?us-ascii?Q?k0SGH2GnluE+okE2do0blRDYjHNj3JjGBNozoG/AFTBg3NxJKoBS5DVhTxX7?=
+ =?us-ascii?Q?Chm6iviYFN0DCXEwnT3dnYYAZDmlcf4Ya278ERI04tfesio8dnDTpwrbm15h?=
+ =?us-ascii?Q?oktdxFrxXGUs9N6+59Iz7WHNkMLa6X2z/l2kCa8zoWVYIDNhiTPQNvp6HIU+?=
+ =?us-ascii?Q?sSB9N9syj7Bs5udxoS0JfLb59p/L97wb2MZmjx8hIyMuMjwi+8phOcRjj8t+?=
+ =?us-ascii?Q?ajY/KUqa7vwqYiQM/axRynFVMr9vQ3635vb40N8rIUnIKxFcFtOd7RBsB8dB?=
+ =?us-ascii?Q?RlUc9aFZv0Mh3fRbFMsuq/A17JEO3wvFdFl3ZgS9RpPAIugJcDZQkaR8VBOl?=
+ =?us-ascii?Q?knEMr2BaWJU2QZdgo+JGBirXNMma/dgU4QDAQbb+QQmsDAMW/MfSx0DxE1oM?=
+ =?us-ascii?Q?ylHrxoXlQfmX8dVGNDqX1kbxeMdpoHX2OrIcOMDfLi04OVoOL1+LElcmJijJ?=
+ =?us-ascii?Q?0AjerFubFTyRR28+oD9Wu7w8rDkA5mNpfRN+346v6M6LLuB36kTR2hHV6hRz?=
+ =?us-ascii?Q?TdbiBGJmxP6WbJRbSVXwJJDRBtK6l0vXe2Ae5CEpPhp8rQDeWRIzJJpGgUKx?=
+ =?us-ascii?Q?DzV1imeIcrF3tkYLV0+ItFnopkokFMMGbNwV5R2+s1AFoZYmDHTuhc1itsmH?=
+ =?us-ascii?Q?CIfn/Q/J3SchCWKJ6O81W9/El54V2OPi1ZVGCU8lWsmuCBtJxapdLbnqIvt2?=
+ =?us-ascii?Q?Zji9Ll7P0RGhO58sgpzmCcKL4KGDqYmYBER2zsRj9C7pn8+fV+2owdPANpSZ?=
+ =?us-ascii?Q?5AK7JnSuycbziZP3xYxZPi6SmYYMevVAiO05SSlLJmgn/MwV1APiI2cgHrFG?=
+ =?us-ascii?Q?zwixQnyQKGr/4GLPo649kAat8vQRiFxn?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?EQcLUV15kE8oV2y/qwIY5UhV4v3YcCdqnT5cIrE0GSi1+t32MhqyWiGVqNg4?=
- =?us-ascii?Q?AiO+XUed3DJe3BKZ8SPG2IJ50hWVsz76C2vaCraRXMVpNZEiEuxIWsAVPXJs?=
- =?us-ascii?Q?VLnulhDcOE8xMWIPbWcfZfUxKqOfC5FMDUG/qzpgBrmfRwVlL8nWKjyKI2rq?=
- =?us-ascii?Q?TtJCUWlC2QMkKEihkuJ2lKDM3fhiZuLJPSm6DFNqPliitAIfdZMQRKbCr/sN?=
- =?us-ascii?Q?mYzCjCl04vcwJQRXxGZ0veUMZoguja0L2An0i4tm4zJFch3gZHH3MR8Kk4Yw?=
- =?us-ascii?Q?Hn8DTWA4d4ZTrzHsznTin4dSR7YNkqOSsOMQKkGJCY7R7xlFbV6XELoTecvU?=
- =?us-ascii?Q?AYWxIm3mXNAeqzqilGVPh1NJnA/eP1vYNZV3WItqj5zAF2DivJ5GDQLcDorj?=
- =?us-ascii?Q?zblTZyZWuUvDakgPyaZht2Te1amh+F8G8ZOUUWZxJl/G0mTarVqqCSIRoxOj?=
- =?us-ascii?Q?A66Q7w9keN3AJmaGsc1ppvEXAdvbJ7Fw+UqrtjRtVjZWL5uIrC/ore5SHAhW?=
- =?us-ascii?Q?FQS7GzJg8PegpfNKFCiJp/JLX6eLSyCgDR0T7OVqwrxh+SrRnzQan7iC1yUl?=
- =?us-ascii?Q?MRCzgZeHajnMw6fhl8oZwV+Q4vvXa1/1Np6klFUm7t280Q+S2hchsNY3Sj/h?=
- =?us-ascii?Q?xlnrgsQrbOTN1wrCUjpt7KFiH2IGjd5ZzfA+BoCGpHKSPCgyhSez7ewIPLEk?=
- =?us-ascii?Q?+yIkfqfciFJyj4TV17D3ED1A17xf2MrY2OjeQ1fsi5XVCmK56fgVWA80WmUk?=
- =?us-ascii?Q?6KtqpkV6RAzELP5w+Ic1Z5dNErA1bAg4JuuHLsmxujWVRqAzTqPGSPDm1BEZ?=
- =?us-ascii?Q?LaeKxGBlHL6pd+wVwyyBKSOi/jncspt6PZ+2O3TZTPxyHqbJUwjKe45xaLuz?=
- =?us-ascii?Q?kYYHr+Cf5dHZUzDZeStnC7f2IQq9p0gY//m6hSWR514cHPFeusteJwo56cLo?=
- =?us-ascii?Q?BE6ys8V1+7ZG2mPg2+Om8tpgKZEB+0spPpFMoTu/kJO67DSAmBeFwXceHTU7?=
- =?us-ascii?Q?NhcwNNyX3g7HpGOF49lXV7I8MfozhWz1BhrSAI0BZD6OuEnZExiaeGHoUKsy?=
- =?us-ascii?Q?kbjVDKECZ0AhtwC9il0YOn+LeeNzbd9sUIGg0BxHLS5mNtGe4pjTsRRYG3tv?=
- =?us-ascii?Q?euzZOOuuoKpkQYLqyXkSaVwkWfCSp669UPsBgxwAkPGQXOgmnLmpFOOoIiiZ?=
- =?us-ascii?Q?3OzhEdY97wKj2lgaLUbR+kkauyatVHysOo3MpvV9d1H5kSKbKcACyO3l6Ee6?=
- =?us-ascii?Q?zRn6G9RHHfYuwZeDnKoMZrYbIneAEMvMinmO3Z5jkWPweInDruhL+e7A5dEE?=
- =?us-ascii?Q?ZM0doH0fnsuhUFo9IPxMNNWlusb8FR120tFrUtWYJkkPoY5y7MwB/PM8CoDo?=
- =?us-ascii?Q?KuqtFSq9PJkfUkk0tau0m5AX6b1S/MCsQSWUAa3RKMnMTl5HO2opxQWhUnCn?=
- =?us-ascii?Q?uTYYNUMfOmYK2IddU7/GwxPKO8dfZMmhKOXssWQ3UIW6eO+ZCpT9t3LUBnEk?=
- =?us-ascii?Q?+txSMNLLRb/NBfywEiCZ2yJ4oD3tuGxoQxLoxNTPxL3LmrhsNF1TKxKyDlLC?=
- =?us-ascii?Q?vcrapKCWo63ZxeWwlXL7qheNYbDs9NY3OAvYm9q4?=
+	=?us-ascii?Q?t5FsHaVO4lXOkycheZZkxEUHlPj3gFaQg2ZbyIfnVO7iadrO62aioUYZYMIZ?=
+ =?us-ascii?Q?3kbYkZa5zryhjRTJnhAkYRiXjoyWeCk5cUlBMVi7boJ4pS7Kn/dkuw9tFLvT?=
+ =?us-ascii?Q?aTszkbfw2AqmvNG3sc9lw6VmvMOD+qgT9W1Qxb+ESM8ylYJoTqr+gErK1K/y?=
+ =?us-ascii?Q?5BYx1Zx4IGO08rw/Tht2AVqscJm2jnVakjd0xgB4VpVq+hM1dis8NPE8FT0J?=
+ =?us-ascii?Q?6criNod/XIrC2gnk22Icdsku96ZUYZpBru5welhcHKw2dSuFx0GHG//TXP4u?=
+ =?us-ascii?Q?cozh32LMV3+tyzwiDpYpU9llXXcD0pawOwWrFOQIapMwOmDPeI0YMuvdlPML?=
+ =?us-ascii?Q?VumN5GUMs6eoTEDFDQnhM0P19kCJgRw9mV1jwpP6nXJx+dQVMuS0QmXg+3Xx?=
+ =?us-ascii?Q?qDgkmUwQ0hcGhh+3/zEy/bph0FzUl4wYPFPTJtqHQ6jOqqoCTCFI4vPMJC5T?=
+ =?us-ascii?Q?rT5cIoyhLEYZ4kjHalYW4Nx0v3MkRs2nnOIj5HghmiaFCya5iwaQP03p6/ou?=
+ =?us-ascii?Q?ajxZCyIh0E5w9+IoDlYl/kDlxhymH8qvT6PMYKy68X6K2390CPbg6A/9LaH6?=
+ =?us-ascii?Q?MM/0T9UZmNMavCKyqQXtfeLIxbSnXA2rg9tTV758Qd9fq6UO2JADacNY2NSO?=
+ =?us-ascii?Q?vD7tlW78xssTsSLrYunYKOugy6GSi8H84iADNF55Fn2H1iLCx26UJDb7JVTH?=
+ =?us-ascii?Q?OL6fb8hvfhMS5JWp2lfgZ7ymIiA95ypX6k8Xe+XDX5yfvFSxhhVqLSdrFmUR?=
+ =?us-ascii?Q?Knjm+OPE6MWG5PZ2nleqmJngczvBOjl3uMQXl77xXJ02HwOBveSzkUkubve4?=
+ =?us-ascii?Q?mOAWB84IzYuEfxUxSrqUEUUPdfYYtdehBLV2Uh05jaPTtJ+FuNXdZjkwNXps?=
+ =?us-ascii?Q?1qXxQQQybyNYrLS+z/nuu3B0JDH4eVBE1eu4CuW/dOgznj60eDe1CaMmrWrI?=
+ =?us-ascii?Q?wr2MkanUub4enSxIQbRs4w5qOBF5Ideq0S/G2G/n85x/Qv5wKMVLG7MK77e4?=
+ =?us-ascii?Q?AcqqpaGcWozPINNuEQzKK6+y4Y+cmW1wY/cemrkftKuXx8RUaUE2DvQguKly?=
+ =?us-ascii?Q?5ed5tAY36MdOA005rrG66JiJ7ED2garMnliAopZZE3ZE1+D3yMSDj63JsvQ6?=
+ =?us-ascii?Q?OgADw/5tgc9eW6+ydHtp1vF0JhkcjAxKkkBswJ+sXwEs0goVv0d7uq+MoB8U?=
+ =?us-ascii?Q?HycDOxc6CiVjdySpP3bc7Y92zA7w0mJU83fgqkp/syDl6NHXLIuN3B+bUF+D?=
+ =?us-ascii?Q?mnQCPYuGZ60DjVh/m3W5tqbZdf6RED/3ojPHrCG9i+ZViWetXpqIkLPhYaNa?=
+ =?us-ascii?Q?3iEBjfUt6aoSjfKw1EttGrObljuQw4R1N8eyhh1zErYdgtqnCwyIOv3tFDiz?=
+ =?us-ascii?Q?zeSEi0raKK7Zon48UsZvoUzWkp5NoU6/G5iv2SXb9GfJzq3XYMXqGJQ2acmW?=
+ =?us-ascii?Q?Bnclrt2G7Ntnp02yNQpY4A6Tv8qa/MfgxIwTPQ7Utf5drbq0LgfvTOILOtui?=
+ =?us-ascii?Q?vXLzxSjQmLQKNJzwP65vDLUx4f/WsNuk7UCp0MdDF7EI0oxtr+c7EqaOE1Xm?=
+ =?us-ascii?Q?0pPdSYTxUJWM6q8bE5ipShlWw5eK1zI7bBl2g3Lx?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	L78wn9RxO/FZJcML43FPzJQuhN4uOfrkvf3qKGg5pw87KLxoCh9IoMUyzqQc4Xn7CkWSGTMCscf3EvdmxVCO922xqw539xlv/uryDR6Id206uu8EpJeEXASU/ZTHP/0swm7DbeI39aPCKmtPgMq33mSLD1IlML1ClUeUYylnRV5wQny/NLJYvbCT6IpD7s3tGvMD6na6uVeBFBTRr12xtzkZEzX2X/6gdjwh5PhuG0G88l7jUC2VV5m8aFKa+4HAhpGXilHEzhgZWGi2/EsifA5mNK/i8qbrs3BIv7GoZehVOmSHXhFdURv79/3WAN81ZGj4QBCoFCsc2Mgg9HIsXK2Pc9IBK9bVAcWa6Ku4LOowAJZdK99xjDwTU/C4GykRrFBewIigZw2z4NR+sD93dsSdpZwEI82a/n9FdgtswKHIM0gEHpD1DW8Tb0SvFOjDGhMTERqk9n1k6W67HzApUEeYjdRcbnaK8dl5MJgfLCXgmKzHRGRQOD718sIIHUoa53lkfyC4Qum6l7fjo9Dl1OIiSBfTNrWSIQsJwyiQj47UjsKKrRNgejWVJQkod7E5N2cFM5lkSS74IM7hlaQ68AFnilD5FHmC10lYVWi0+eM=
+	vGbG4sQk1ep+yJd5QEQ0OQ6vM+ufvEKYe3SQoavL4wmRxRbEsudAqHEek2KEYQcq+XbxsGah76uwogHfEQN687R5cytE+0yj805Rah3YqrkLkGcxWB+UQntcnrwWl3Z1HrJnzP0kgAvAXlWy0Z/P0i+IYeHCYzyqrtPSGaIgKSeNUAQX35fgFk5RG4r8hU63adaRKvCTwATyX5iYSvYVD5Dbf/5FOov6RfO0em1TXqhj4UW5o3xvG+Lc1bpj3IZd9OeUygxgp9Y/K7jvAqf+REdVNYMS8mv348k61B4PYfQfB5bnhjf0K2cavT0d0IfyeUJC/E8aGlGQfcVLRnOt5DKcDPDG9o5PffDiwt1H2QQ3hBEupCpm8w94d2BnN/LeTVtBkZ9RgqHj7XI4nHgOxzdX2GaYetxD85t+pyXLV1MsstZKm0sbHuOkNweSTcyg2OMNi/leBgN+tKf/SBqOwC8nZzZBTH8DWeCTyNqZJHJNFfuUvMMGGD/SqvX+HFhPNqEy1pwWtfGPxpz1usQhFu3Ogp3maC7MWiZZaPcUTYOxl6720yMW4CujQVX4xpo/7kkHtL/xpAYpUJw0ZaNeP+ngXPkJXFw44Y/8e97mt6s=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb239a23-77ec-473d-4a74-08de111a584b
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3e91b55-d99f-40a8-a7ba-08de111a56e7
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2025 03:23:18.4939
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2025 03:23:16.1455
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xz85UzFvOm3S8lkZcSlNdvZBkyn551qBoeWrTRigeSa6o+DUupYxQ7anWEdVFFeVlfEQl3AnBJvs3YAmMmvCng==
+X-MS-Exchange-CrossTenant-UserPrincipalName: m8TAqGhyYPn33LZhWIoUkU+C87VkHXi+sHDLMrjrofer10SUGoSGgYgZ2tx/eWJEIwcJ8s7fVsmqvphPESf/FA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6974
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
@@ -166,191 +166,238 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxsc
  adultscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510020000
  definitions=main-2510220025
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMyBTYWx0ZWRfX3PuCWHHuc8q5
- uRvS9qc6XdZfqnZml2ggCJVOWN4jXTVu7TywRvBwBM7rcns34vfXMNB3f8M1ycypQLg4D16XJVy
- XfEIjBPVEcbv+ufVBCTaOG+q28kDLqsk782evgXlanE/CniZfYCo8C6ichiZTkJmzxPyRoCDGVd
- 2rblhlr0g9r1qF7gc0gToPI96/6lr++NTvMVVbv+z0ct3YYPV6tj0aNgSFTGLTj5NjdMbChdyAz
- dG9IAyrrexHzJJNFnnqnYBzsDp9nv++ZISBZ04QJVXeEnQtssg1kQ1ZGVegJHzQL1EIce8AlI90
- bKolo9nG6nlc+vZr2wmhcH/pc1R47V70ZIbHI5hDYE+7MErl9NqEIOQd4M493P3FE0Rlb2sZPFB
- 2f9BXyakLHFJuUvh9ibYeFdxm0jP6w==
-X-Proofpoint-GUID: EGpU_t6Cl5fU6bwKgPUAmTA8jCh8tUz0
-X-Authority-Analysis: v=2.4 cv=KoZAGGWN c=1 sm=1 tr=0 ts=68f84e30 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMiBTYWx0ZWRfXwfsS7EqKuvn/
+ mM23woReQnsC0z24TJq/QY9N63FlYFxCv2cYNdMRlMdCKhzKF6gCUhrDtRCZBV0OMSMmtSlf8zr
+ ZC4jLcdnh02HMWX4IT49oIDK03tfm3iydo3aIEJ1kyTYAFPlpmWJrjiDxgHRgPklUXzDjahNWT4
+ WC0JnjTca5wcGPpCiQntNpin8T+xzT9XwKY3Oz257c9pthZWaLMDKvHiidM7y9JLBRKhPfyvDeg
+ PcrLKdX/xBZXa+bkQ2CgLWpMyuatw3JyQzdyf4r2Jj/K0A18t9VUmUpEFlVdl5GCwtxhRLQWrmp
+ W8hKGxz6Sx/q4dS1z46uxNMM0oKlz1GE4thLt0NVAaFwXFVqbWcncopsCc5D4UgDli1XadiCqDI
+ QdO49CwKCAsJgrhXAvax/F2sSDz97w==
+X-Proofpoint-ORIG-GUID: W7Nmge1j8XWR_W_pG95ETN2M8WaDMobl
+X-Proofpoint-GUID: W7Nmge1j8XWR_W_pG95ETN2M8WaDMobl
+X-Authority-Analysis: v=2.4 cv=FuwIPmrq c=1 sm=1 tr=0 ts=68f84e30 cx=c_pps
  a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=x6icFKpwvdMA:10
  a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8
- a=iEjL8w5UfK9TKoV2nYYA:9
-X-Proofpoint-ORIG-GUID: EGpU_t6Cl5fU6bwKgPUAmTA8jCh8tUz0
+ a=9C9IiEIpXZVybtazt6oA:9
 
 From: Eugene Loh <eugene.loh@oracle.com>
 
 Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+Reviewed-by: Alan Maguire <alan.maguire@oracle.com>
 ---
- doc/userguide/index.md                        |   8 +-
+ doc/userguide/index.md                        |  10 +
  doc/userguide/reference/dtrace_providers.md   |   2 +
- .../reference/dtrace_providers_tcp.md         | 127 ++++++++++++++++++
- 3 files changed, 136 insertions(+), 1 deletion(-)
- create mode 100644 doc/userguide/reference/dtrace_providers_tcp.md
+ .../reference/dtrace_providers_ip.md          | 173 ++++++++++++++++++
+ 3 files changed, 185 insertions(+)
+ create mode 100644 doc/userguide/reference/dtrace_providers_ip.md
 
 diff --git a/doc/userguide/index.md b/doc/userguide/index.md
-index 063881c6d..fa9d9d021 100644
+index ef1489f5e..063881c6d 100644
 --- a/doc/userguide/index.md
 +++ b/doc/userguide/index.md
-@@ -259,9 +259,15 @@
-         -   [syscall Probes](reference/dtrace_providers_syscall.md#dt_ref_syscallprobes_prov)
-         -   [syscall Probe Arguments](reference/dtrace_providers_syscall.md#dt_ref_syscallargs_prov)
-         -   [syscall Stability](reference/dtrace_providers_syscall.md#dt_ref_syscallstab_prov)
-+    -   [TCP Provider](reference/dtrace_providers_tcp.md)
-+        -   [tcp Probes](reference/dtrace_providers_tcp.md#dt_ref_tcpprobes_prov)
-+        -   [tcp Probe Arguments](reference/dtrace_providers_tcp.md#dt_ref_tcpargs_prov)
-+            -   [tcpinfo\_t](reference/dtrace_providers_tcp.md#dt_ref_tcptcp_prov)
-+            -   [tcpsinfo\_t](reference/dtrace_providers_tcp.md#dt_ref_tcptcps_prov)
-+            -   [tcplsinfo\_t](reference/dtrace_providers_tcp.md#dt_ref_tcptcpls_prov)
-+        -   [tcp Stability](reference/dtrace_providers_tcp.md#dt_ref_tcpstab_prov)
-     -   [USDT Provider](reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md#dt_ref_usdt_prov)
-         -   [Defining USDT Providers and Probes](reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md#dt_ref_usdtprobes_prov)
-         -   [Adding USDT Probes to Application Code](reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md#dt_ref_usdt_probe_add_prov)
-         -   [Building Applications With USDT Probes](reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md#dt_ref_usdt_build_prov)
-         -   [USDT Examples](reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md#dt_ref_usdtexamples_prov)
--
+@@ -208,6 +208,16 @@
+             -   [fileinfo\_t](reference/dtrace_providers_io.md#dt_ref_iofile_prov)
+         -   [io Examples](reference/dtrace_providers_io.md#dt_ref_ioexamples_prov)
+         -   [io Stability](reference/dtrace_providers_io.md#dt_ref_iostab_prov)
++    -   [IP Provider](reference/dtrace_providers_ip.md)
++        -   [ip Probes](reference/dtrace_providers_ip.md#dt_ref_ipprobes_prov)
++        -   [ip Probe Arguments](reference/dtrace_providers_ip.md#dt_ref_ipargs_prov)
++            -   [pktinfo\_t](reference/dtrace_providers_ip.md#dt_ref_ippkt_prov)
++            -   [csinfo\_t](reference/dtrace_providers_ip.md#dt_ref_ipcs_prov)
++            -   [ipinfo\_t](reference/dtrace_providers_ip.md#dt_ref_ipip_prov)
++            -   [ifinfo\_t](reference/dtrace_providers_ip.md#dt_ref_ipif_prov)
++            -   [ipv4info\_t](reference/dtrace_providers_ip.md#dt_ref_ipipv4_prov)
++            -   [ipv6info\_t](reference/dtrace_providers_ip.md#dt_ref_ipipv6_prov)
++        -   [ip Stability](reference/dtrace_providers_ip.md#dt_ref_ipstab_prov)
+     -   [Lockstat Provider](reference/dtrace_providers_lockstat.md#dt_ref_lockstat_prov)
+         -   [lockstat Probes](reference/dtrace_providers_lockstat.md#dt_ref_lockstatprobes_prov)
+         -   [lockstat Probe Arguments](reference/dtrace_providers_lockstat.md#dt_ref_lockstatargs_prov)
 diff --git a/doc/userguide/reference/dtrace_providers.md b/doc/userguide/reference/dtrace_providers.md
-index a225f4486..7da634d2a 100644
+index 70fcb583f..a225f4486 100644
 --- a/doc/userguide/reference/dtrace_providers.md
 +++ b/doc/userguide/reference/dtrace_providers.md
-@@ -29,6 +29,8 @@ The `sched` provider makes available probes related to CPU scheduling.
- The Statically Defined Tracing \(SDT\) provider \(`sdt`\) creates probes at sites that a software programmer has formally designated. Thus, the SDT provider is chiefly of interest only to developers of new providers. Most users access SDT only indirectly by using other providers.
- -   **[Syscall Provider](../reference/dtrace_providers_syscall.md)**  
- The `syscall` provider makes available a probe at the entry to and return from every system call in the system.
-+-   **[TCP Provider](../reference/dtrace_providers_tcp.md)**  
-+The `tcp` provider makes available probe at different phases of TCP processing.
- -   **[USDT Provider](../reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md)**
- Use the USDT provider, for user space statically defined tracing, to instrument user space code with probes that are meaningful for an application.
- 
-diff --git a/doc/userguide/reference/dtrace_providers_tcp.md b/doc/userguide/reference/dtrace_providers_tcp.md
+@@ -11,6 +11,8 @@ The `dtrace` provider includes several probes that are specific to DTrace itself
+ The `fbt` \(Function Boundary Tracing\) provider includes probes that are associated with the entry to and return from most functions in the Linux kernel. Therefore, there could be tens of thousands of `fbt` probes.
+ -   **[IO Provider](../reference/dtrace_providers_io.md)**
+ The `io` provider makes available probes that relate to data input and output.
++-   **[IP Provider](../reference/dtrace_providers_ip.md)**
++The `ip` provider provides probes that can be used to study IP traffic.
+ -   **[Lockstat Provider](../reference/dtrace_providers_lockstat.md)**
+ The `lockstat` provider provides probes that can be used to study lock usage and contention.
+ -   **[Pid Provider](../reference/dtrace_providers_pid.md)**
+diff --git a/doc/userguide/reference/dtrace_providers_ip.md b/doc/userguide/reference/dtrace_providers_ip.md
 new file mode 100644
-index 000000000..fefa9d629
+index 000000000..0630e577a
 --- /dev/null
-+++ b/doc/userguide/reference/dtrace_providers_tcp.md
-@@ -0,0 +1,127 @@
-+# TCP Provider
++++ b/doc/userguide/reference/dtrace_providers_ip.md
+@@ -0,0 +1,173 @@
++# IP Provider
 +
-+The `tcp` provider makes available probes that mark different
-+phases of tcp processing.
++The `ip` provider makes available a probe at IP send operations in the system and a probe at receive.
 +
 +**Parent topic:**[DTrace Provider Reference](../reference/dtrace_providers.md)
 +
-+## tcp Probes <a id="dt_ref_tcpprobes_prov">
++## ip Probes <a id="dt_ref_ipprobes_prov">
 +
-+`tcp` provides a probe for each of TCP accept (established or refused), connect
-+(request, established, refused), send, receive, and state-change:
-+
-+- `accept-established`
-+- `accept-refused`
-+- `connect-request`
-+- `connect-established`
-+- `connect-refused`
-+- `send`
-+- `receive`
-+- `state-change`
-+
++The `ip` provider provides one probe for IP sends and another for IP receives.
 +The module name is always `vmlinux` and the function name is empty.
 +
-+## tcp Probe Arguments <a id="dt_ref_tcpargs_prov">
++## ip Probe Arguments <a id="dt_ref_ipargs_prov">
 +
-+The following table lists the argument types for `tcp` probes.
++The following table lists the argument types for both the `send` and `receive` probes.
 +
-+| probe                 | `args[0]`     | `args[1]`    | `args[2]`    | `args[3]`      | `args[4]`     | `args[5]`       |
-+| :---                  | :---          | :---         | :---         | :---           | :---          | :---            |
-+| `accept-established`  | `pktinfo_t *` | `csinfo_t *` | `ipinfo_t *` | `tcpsinfo_t *` | `tcpinfo_t *` | `void`          |
-+| `accept-refused`      | `pktinfo_t *` | `csinfo_t *` | `ipinfo_t *` | `tcpsinfo_t *` | `tcpinfo_t *` | `void`          |
-+| `connect-request`     | `pktinfo_t *` | `csinfo_t *` | `ipinfo_t *` | `tcpsinfo_t *` | `tcpinfo_t *` | `void`          |
-+| `connect-established` | `pktinfo_t *` | `csinfo_t *` | `ipinfo_t *` | `tcpsinfo_t *` | `tcpinfo_t *` | `void`          |
-+| `connect-refused`     | `pktinfo_t *` | `csinfo_t *` | `ipinfo_t *` | `tcpsinfo_t *` | `tcpinfo_t *` | `void`          |
-+| `send`                | `pktinfo_t *` | `csinfo_t *` | `ipinfo_t *` | `tcpsinfo_t *` | `tcpinfo_t *` | `void`          |
-+| `receive`             | `pktinfo_t *` | `csinfo_t *` | `ipinfo_t *` | `tcpsinfo_t *` | `tcpinfo_t *` | `void`          |
-+| `state-change`        | `void`        | `csinfo_t *` | `void`       | `tcpsinfo_t *` | `void`        | `tcplsinfo_t *` |
++| arg       | type            |
++| :---      | :---            |
++| `args[0]` | `pktinfo_t *`   |
++| `args[1]` | `csinfo_t *`    |
++| `args[2]` | `ipinfo_t *`    |
++| `args[3]` | `ifinfo_t *`    |
++| `args[4]` | `ipv4info_t *`  |
++| `args[5]` | `ipv6sinfo_t *` |
 +
-+The `pktinfo_t`, `csinfo_t`, and `ipinfo_t` structures are described in [IP Provider](dtrace_providers_ip.md).
++### pktinfo\_t <a id="dt_ref_ippkt_prov">
 +
-+### tcpinfo\_t <a id="dt_ref_tcptcp_prov">
-+
-+The `tcpinfo_t` structure contains TCP header fields.
-+Detailed information about this data structure can be found in `/usr/lib64/dtrace/*version*/tcp.d`.
-+The definition of `tcpinfo_t` is as follows:
++The `pktinfo_t` structure is an abstraction that describes a packet.
++Detailed information about this data structure can be found in
++`/usr/lib64/dtrace/*version*/ip.d` or
++`/usr/lib64/dtrace/*version*/net.d`, depending on `dtrace` version.
++The definition of `pktinfo_t` is as follows:
 +
 +```nocopybutton
-+typedef struct tcpinfo {
-+        uint16_t tcp_sport;      /* source port */
-+        uint16_t tcp_dport;      /* destination port */
-+        uint32_t tcp_seq;        /* sequence number */
-+        uint32_t tcp_ack;        /* acknowledgment number */
-+        uint8_t tcp_offset;      /* data offset, in bytes */
-+        uint8_t tcp_flags;       /* flags */
-+        uint16_t tcp_window;     /* window size */
-+        uint16_t tcp_checksum;   /* checksum */
-+        uint16_t tcp_urgent;     /* urgent data pointer */
-+        uintptr_t tcp_hdr;       /* raw TCP header */
-+} tcpinfo_t;
++typedef struct pktinfo {
++        uintptr_t pkt_addr;
++} pktinfo_t;
 +```
 +
 +**Note:**
 +
-+DTrace translates the members of `tcpinfo_t` from a `struct tcphdr *`.
++DTrace translates the members of `pktinfo_t` from the `struct sk_buff *`.
 +
-+### tcpsinfo\_t <a id="dt_ref_tcptcps_prov">
++### csinfo\_t <a id="dt_ref_ipcs_prov">
 +
-+The `tcpsinfo_t` structure contains stable TCP details from tcp_t.
-+Detailed information about this data structure can be found in `/usr/lib64/dtrace/*version*/tcp.d`.
-+The definition of `tcpsinfo_t` is as follows:
++The `csinfo_t` structure is an abstraction that describes connection state.
++Detailed information about this data structure can be found in
++`/usr/lib64/dtrace/*version*/ip.d` or
++`/usr/lib64/dtrace/*version*/net.d`, depending on `dtrace` version.
++The definition of `csinfo_t` is as follows:
 +
 +```nocopybutton
-+typedef struct tcpsinfo {
-+        uintptr_t tcps_addr;
-+        int tcps_local;              /* is delivered locally, boolean */
-+        uint16_t tcps_lport;         /* local port */
-+        uint16_t tcps_rport;         /* remote port */
-+        string tcps_laddr;           /* local address, as a string */
-+        string tcps_raddr;           /* remote address, as a string */
-+        int tcps_state;              /* TCP state */
-+        uint32_t tcps_iss;           /* Initial sequence # sent */
-+        uint32_t tcps_suna;          /* sequence # sent but unacked */
-+        uint32_t tcps_snxt;          /* next sequence # to send */
-+        uint32_t tcps_rnxt;          /* next sequence # expected */
-+        uint32_t tcps_swnd;          /* send window size */
-+        int32_t tcps_snd_ws;         /* send window scaling */
-+        uint32_t tcps_rwnd;          /* receive window size */
-+        int32_t tcps_rcv_ws;         /* receive window scaling */
-+        uint32_t tcps_cwnd;          /* congestion window */
-+        uint32_t tcps_cwnd_ssthresh; /* threshold for congestion avoidance */
-+        uint32_t tcps_sack_snxt;     /* next SACK seq # for retransmission */
-+        uint32_t tcps_rto;           /* round-trip timeout, msec */
-+        uint32_t tcps_mss;           /* max segment size */
-+        int tcps_retransmit;         /* retransmit send event, boolean */
-+        uint32_t tcps_rtt;           /* smoothed avg round-trip time, msec */
-+        uint32_t tcps_rtt_sd;        /* standard deviation of RTT */
-+        uint32_t tcps_irs;           /* Initial recv sequence # */
-+} tcpsinfo_t;
++typedef struct csinfo {
++	uintptr_t	cs_addr;
++	uint64_t	cs_cid;
++} csinfo_t;
 +```
 +
 +**Note:**
 +
-+DTrace translates the members of `tcpsinfo_t` from a `struct tcp_sock *`.
++DTrace translates the members of `csinfo_t` from the `struct sock *`.
 +
-+### tcplsinfo\_t <a id="dt_ref_tcptcpls_prov">
++### ipinfo\_t <a id="dt_ref_ipip_prov">
 +
-+The `tcplsinfo_t` structure has the old tcp state for state changes.
-+Detailed information about this data structure can be found in `/usr/lib64/dtrace/*version*/tcp.d`.
-+The definition of `tcplsinfo_t` is as follows:
++The `ipinfo_t` structure contains common IP info for both IPv4 and IPv6.
++Detailed information about this data structure can be found in `/usr/lib64/dtrace/*version*/ip.d`.
++The definition of `ipinfo_t` is as follows:
 +
 +```nocopybutton
-+typedef struct tcplsinfo {
-+        int tcps_state;        /* previous TCP state */
-+} tcplsinfo_t;
++typedef struct ipinfo {
++        uint8_t ip_ver;         /* IP version (4, 6) */
++        uint32_t ip_plength;    /* payload length */
++        string ip_saddr;        /* source address */
++        string ip_daddr;        /* destination address */
++} ipinfo_t;
 +```
 +
-+## tcp Stability <a id="dt_ref_tcpstab_prov">
++**Note:**
 +
-+The `tcp` provider uses DTrace's stability mechanism to describe its stabilities. These stability values are listed in the following table.
++DTrace translates the members of `ipinfo_t` from, variously,
++`struct iphdr *`, `struct ipv6hdr *`, or `void_ip_t *`.
++
++### ifinfo\_t <a id="dt_ref_ipif_prov">
++
++The `ifinfo_t` structure contains network interface info.
++Detailed information about this data structure can be found in `/usr/lib64/dtrace/*version*/ip.d`.
++The definition of `ifinfo_t` is as follows:
++
++```nocopybutton
++typedef struct ifinfo {
++        string if_name;            /* interface name */
++        int8_t if_local;           /* is delivered locally */
++        netstackid_t if_ipstack;   /* netns pointer on Linux */
++        uintptr_t if_addr;         /* pointer to raw struct net_device */
++} ifinfo_t;
++```
++
++**Note:**
++
++DTrace translates the members of `ifinfo_t` from a `struct net_device *`.
++
++### ipv4info\_t <a id="dt_ref_ipipv4_prov">
++
++The `ipv4info_t` structure is translated version of the IPv4 header
++(with raw pointer).
++These values are NULL if the packet is not IPv4.
++Detailed information about this data structure can be found in `/usr/lib64/dtrace/*version*/ip.d`.
++The definition of `ipv4info_t` is as follows:
++
++```nocopybutton
++typedef struct ipv4info {
++        uint8_t ipv4_ver;               /* IP version (4) */
++        uint8_t ipv4_ihl;               /* header length, bytes */
++        uint8_t ipv4_tos;               /* type of service field */
++        uint16_t ipv4_length;           /* length (header + payload) */
++        uint16_t ipv4_ident;            /* identification */
++        uint8_t ipv4_flags;             /* IP flags */
++        uint16_t ipv4_offset;           /* fragment offset */
++        uint8_t ipv4_ttl;               /* time to live */
++        uint8_t ipv4_protocol;          /* next level protocol */
++        string ipv4_protostr;           /* next level protocol, as string */
++        uint16_t ipv4_checksum;         /* header checksum */
++        ipaddr_t ipv4_src;              /* source address */
++        ipaddr_t ipv4_dst;              /* destination address */
++        string ipv4_saddr;              /* source address, string */
++        string ipv4_daddr;              /* destination address, string */
++        struct iphdr *ipv4_hdr;         /* pointer to raw header */
++} ipv4info_t;
++```
++
++**Note:**
++
++DTrace translates the members of `ipv4info_t` from a `struct iphdr *`.
++
++### ipv6info\_t <a id="dt_ref_ipipv6_prov">
++
++The `ipv6info_t` structure is translated version of the IPv6 header
++(with raw pointer).
++These values are NULL if the packet is not IPv6.
++Detailed information about this data structure can be found in `/usr/lib64/dtrace/*version*/ip.d`.
++The definition of `ipv6info_t` is as follows:
++
++```nocopybutton
++typedef struct ipv6info {
++        uint8_t ipv6_ver;               /* IP version (6) */
++        uint8_t ipv6_tclass;            /* traffic class */
++        uint32_t ipv6_flow;             /* flow label */
++        uint16_t ipv6_plen;             /* payload length */
++        uint8_t ipv6_nexthdr;           /* next header protocol */
++        string ipv6_nextstr;            /* next header protocol, as string */
++        uint8_t ipv6_hlim;              /* hop limit */
++        in6_addr_t *ipv6_src;           /* source address */
++        in6_addr_t *ipv6_dst;           /* destination address */
++        string ipv6_saddr;              /* source address, string */
++        string ipv6_daddr;              /* destination address, string */
++        struct ipv6hdr *ipv6_hdr;       /* pointer to raw header */
++} ipv6info_t;
++```
++
++**Note:**
++
++DTrace translates the members of `ipv6info_t` from a `struct ipv6hdr *`.
++
++## ip Stability <a id="dt_ref_ipstab_prov">
++
++The `ip` provider uses DTrace's stability mechanism to describe its stabilities. These stability values are listed in the following table.
 +
 +| Element   | Name Stability | Data Stability | Dependency Class |
 +| :---      | :---           | :---           | :---             |
