@@ -1,86 +1,85 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359B61DA0E1
-	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:32:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209031DA0E1
+	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:34:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761247954; cv=fail; b=lkzVPrBquYYd7w+Hw26+H4IQuy97QmoNJ0YyvYw7L//4y/be6dGnkmxeUXVSl8AnLdJlLIDcBCky1qSFng1TIQutfDihF9SmZJZ7mt5lvisvsxQ7LWG58EtXEkcCIlzLgZ50y8ahREfoNhydx2soIlrs+nL1/BKEh7XBq4S7QXg=
+	t=1761248055; cv=fail; b=TyKdNAZWUw6oYWidMPtKGyBNNCKYR8jv4KvugmsAMjXKzDi0Gm/A1x/upnCAuWZwpVJlQW0XhYHrEafgHG39i+iLS67JE06KTCUl1ufTSuBI/+K8fkgTHgFwCVI8H+wLBD4rN8ojwMp+1pJGDSsX4VW8iO90RLwK2MFuOCskDcA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761247954; c=relaxed/simple;
-	bh=lgleeMCuJQXueH4nGWwwi9YXn29RvGvk4pVzMruS3Lk=;
+	s=arc-20240116; t=1761248055; c=relaxed/simple;
+	bh=1Duany48QW4vyN4Imxzjftk+Cpv0Wlou0e66zmZKPec=;
 	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=mSOFn7Rlg803nc6IX+Xumbgmwh0xKAsxmVvQiJoBlgFDUDH2XYXiW6uq3lDYfRxhWtASC/upshXNCj5ZeNMld4jyrEzPVw+YUnQcODviIEDUnfMjoYWG+ZKuSry7Pj0KxiNgKSMhn0zH/p/6mBXtSKUnoDSCkR/pbyYYkQEY5/g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=IHICR9Fe; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=LM7RcEem; arc=fail smtp.client-ip=205.220.165.32
+	 Content-Type:MIME-Version; b=Z7LlCSgkHZKKm7ACQD19kol1rbk4NGMqFTcS1h4T9IYfwlFmUL+yciXZk3yLNqXVH4YsqZoeTyOaJiNEdzPxbzsxvjs3/ufVBNHho+9mcElTyNKvDzqn/ORFGiQQpEDHeY3Mx6G+q//SNUbgGhm3CB34Ex/3eU+tmMSg1kPC5uU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=necbR5/u; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Pgf3KZhB; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="IHICR9Fe";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="LM7RcEem"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59NIBwOo007588
-	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:32:31 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="necbR5/u";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Pgf3KZhB"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59NIBwdd009613
+	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:34:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=ozbzIWZz3wHPNabL+GECKe49lSpWMckRWeKGg5XQXLo=; b=
-	IHICR9FejIH0ykSAlg0QR7uYhA3HRwZSmKOr44ZX6RUXcAOb0Eoj7tRA+c6YHcRf
-	zWkbeoS9oImQ5kWvg0Is5ft5oOLxPfk9ijei/8Vmp3xy4hNe/9oW2lkUgqWWasP3
-	AxiR18wNYRIevSnW4YnJ2tfEui3p5Tw2RSL0ozPIMmYfxNRfccv9M7leu3OX2ArS
-	SZxkChEmSB3cVB5apneowjUeZikV4gNaJOlaXpFBSvn+MeBPWL3c52gQ2+ETIHJp
-	ZpYU9tr77OTMPaAxfHDIUkruVZqY1Y/DTLgpr2ed+w8TdRYHThdh7Za9q8+CaiVc
-	Qowl4nTmZIoO0m4ammeDFg==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49xstykkkp-1
+	corp-2025-04-25; bh=wfNBepldfFPZmyTDQc9D6M5gsPfqZbVdp/vdCOIgjjw=; b=
+	necbR5/uY0ozC7HQuIoyTIaoOAMnGoMjeKjIkNvqEjGR6+x+pVjihTxzojJqiMNR
+	QvVrIhPQ5oYa4Kq8Av4mt+Zls8L5Ui3fZ/30MmYAlHTKoLfWiVT5BJkZFx+IBRo4
+	4m1m6k+gVIo1VEvm9VMqNPxxokz0ZNkS6g2rJf3rmNvZYF51hx7WO2dBuRD+EpOF
+	7UFIxgQiw8hMe8RNl8MsWfIcBZaORbKZ812cxG0HOYNd8JPGL9UOEhextG1jhSBg
+	Vakve4XxSHDfyrvxgc9DZ/Pd1Lei/RNwYD2vaPjAmaonBByDHGqjx/3iHCyd6Wjo
+	1Wm6ypbwOrrbwnbBL1cKUg==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49ykah11rv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:32:31 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 59NHrrg7035776
-	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:32:30 GMT
-Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11012043.outbound.protection.outlook.com [40.107.209.43])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 49v1bg1prf-2
+	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:34:13 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 59NJYAXp001050
+	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:34:12 GMT
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012050.outbound.protection.outlook.com [52.101.43.50])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49v1beyqdn-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:32:30 +0000
+	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:34:11 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eeXyX2Utq2ptkkhomxCdSY41zwtuM1YdnlQm0Lf5afDxzN9kw0juJuJbtJONPuA7HLHU5wIiQjaHHKpU/WoJxGJ6g6zNGI6CwQ6ZJwytPysc5MUKXJ63MJU/Zv67LNNsS9CVoJ03FNL1BjmAFJk78jkL6Wk1E+pD92i1GQfTfivNaxLIGRtEo/xm2Ds873STODL+0vCWXymSKLa97cC7yy0Wf03xamN9delSWkaSrrS+dHPNgmFu+2ia2GnZubwUA4WGSrEBIeohs5/kkoy6W5OZNsIysJtdzHnr3q3V7kkjLnM8CNhH9AgZSsPJx7kLIiHdmohzHp4TPedrQ7L5gg==
+ b=n6OA3l5yGv+tRZ9vndmF+YrDL4wtEOaKT+Kaw9JrQHnZGqHvfP4v1JMMp0sSgeKTFd/WUYia5cfEvfMohlWjLd6NuQ3ikO0Sjk5sUxxyFROz7+xgfPGcAJViZr3UqgqwwOUX4bJc4erljlVDKg6U3+mZTXp1wZm62LhORj8FuTlrn5nnXn3htRlAnZ224n15KRrtGixo9+7O1Qrz52AF1l+T3l6Z0OqnV61lXgrLiDStp9cFZW+5Bdt1tP28OgrcfN1qrAN8tvutxeOHYA/vboJbltX0H1rLxOFkwAY/nE/kPSHTAXu5R0VlacvB7ut1BseNJTgNwCRtLQRgSWeKwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ozbzIWZz3wHPNabL+GECKe49lSpWMckRWeKGg5XQXLo=;
- b=rbmTF6ee8yo52y4QwYevkIiVcRA5tRlTPmaOEOb054SkbVtBxa6rkgpFe1WAdT4CAZajrnUHdMlYzDuj8VnW74LBHQC4SnOJReirx3iat3qIlCQuJTSp1+atVThdz3RLZMmtfGssd41/evvIB2Ej7cMv23aZ6VdEnMOtPgwc8wPUniL26nmHcLT5xaNsc6fCJnpAMWUbqKuFA8weeZb1mT9puQ3E0+uGnvQaryr1d9EjI+EoJelkkOiicFM8IL7lxNcIq1juFYSP6LjYMoodyZh04K5hJJouOLblzf/Z7LOwjvEW8zaUMeHSPxp/mXJuBKG6bo5pmHUPCEvlgs5jXA==
+ bh=wfNBepldfFPZmyTDQc9D6M5gsPfqZbVdp/vdCOIgjjw=;
+ b=hsEQMS0VZYHUxVuRLnMkgMI6x9GE6DyooCeJMqG1KVa/s326oYnKffoVUPIzfBcsjswyAkmdLdYrPspefVNbe6ekwBPI1/eUj0Rwg9nSrW9e/hXKnd2DJW5vrBopbEL2EJLxvkaHQcTnBOpb95Y3ASaH+mBYFZRbiXHIbKeroPAOfN26pS7k6C6Mb3gFaTs/ZV6r9fLjMLTgf5MrUIhOt+zT6iI3DmC1bq0yZK0838K10EsYObeUt6z24CTy04enUnU2ILnj60A1V23knxPy3iqIVSjSgRV6rBYAxWTJlLraK2rgCs2xceKGDlv4mmfLZz96oQdhBKlzVeZdMQxWjA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ozbzIWZz3wHPNabL+GECKe49lSpWMckRWeKGg5XQXLo=;
- b=LM7RcEemuY1gRubbO3+YiN2LCYTQ3sZjSbgwxD1nhUxkIH4IYN7lJT7JVzt9KDYp2BPZa5QPKgpSZv2gY+vYU2H893n9PVOTLRSpMhdFer5qy66mBxyhpSojEJYROp4LXqiTstXstQG7VktZKgrCTkqe3eyQB4GYtIaaZPHcgNU=
+ bh=wfNBepldfFPZmyTDQc9D6M5gsPfqZbVdp/vdCOIgjjw=;
+ b=Pgf3KZhBtP6L0Dg+9Wn9dmjtiMpy4X0chqSCHXoF8AUMbuHfVqm63iDEKO9ziVQAs9AlpbrASqj7E/fCDUNYqiNczKQiWgYZdWhvU94yvFwMvHtCEaF5gq5A3DJemYF+uz+U9UKj8zty+WqlKZ0RQG4zvSjHscfQupJpiTzFtfw=
 Received: from BLAPR10MB5075.namprd10.prod.outlook.com (2603:10b6:208:322::19)
- by CO1PR10MB4467.namprd10.prod.outlook.com (2603:10b6:303:90::22) with
+ by SJ0PR10MB4669.namprd10.prod.outlook.com (2603:10b6:a03:2ae::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Thu, 23 Oct
- 2025 19:32:26 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.17; Thu, 23 Oct
+ 2025 19:34:00 +0000
 Received: from BLAPR10MB5075.namprd10.prod.outlook.com
  ([fe80::8f5:4de9:81ce:f5c6]) by BLAPR10MB5075.namprd10.prod.outlook.com
  ([fe80::8f5:4de9:81ce:f5c6%5]) with mapi id 15.20.9228.010; Thu, 23 Oct 2025
- 19:32:26 +0000
-Message-ID: <a4a843c8-7494-41f0-b561-27c577904f8b@oracle.com>
-Date: Thu, 23 Oct 2025 13:32:23 -0600
+ 19:33:59 +0000
+Message-ID: <fd2b029e-ed32-4d98-98d1-3c0681a41f88@oracle.com>
+Date: Thu, 23 Oct 2025 13:33:57 -0600
 User-Agent: Mozilla Thunderbird
-Subject: Re: [DTrace-devel] [PATCH v2 14/20] doc: Link to "Character Escape
- Sequences" table
+Subject: Re: [DTrace-devel] [PATCH v2 15/20] doc: Clean up profile unit table
 To: eugene.loh@oracle.com, dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
 References: <20251022032251.2010-1-eugene.loh@oracle.com>
- <20251022032251.2010-9-eugene.loh@oracle.com>
+ <20251022032251.2010-10-eugene.loh@oracle.com>
 Content-Language: en-US
 From: Elena Zannoni <elena.zannoni@oracle.com>
 Organization: Oracle USA Inc.
-In-Reply-To: <20251022032251.2010-9-eugene.loh@oracle.com>
+In-Reply-To: <20251022032251.2010-10-eugene.loh@oracle.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CYZPR05CA0024.namprd05.prod.outlook.com
- (2603:10b6:930:89::29) To BLAPR10MB5075.namprd10.prod.outlook.com
+X-ClientProxiedBy: PH8PR07CA0036.namprd07.prod.outlook.com
+ (2603:10b6:510:2cf::9) To BLAPR10MB5075.namprd10.prod.outlook.com
  (2603:10b6:208:322::19)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -89,133 +88,133 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BLAPR10MB5075:EE_|CO1PR10MB4467:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5ad305bb-3957-417b-20e9-08de126ae502
+X-MS-TrafficTypeDiagnostic: BLAPR10MB5075:EE_|SJ0PR10MB4669:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9991207b-4efc-4f87-dbbb-08de126b1d27
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|10070799003|1800799024|366016|376014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|10070799003|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QmRTb2YySXJiRkxnTHFGVlJadUorSlgzZVpLR3Q1Z05MMW9HaFloOWtZb3g2?=
- =?utf-8?B?WGUzaWV0VThXdHBBTmpPdWxhR2lma1pDSkE1Q0tkbGJvMVUwdmYvUDhCUFc3?=
- =?utf-8?B?TGVlYldZWlQ4bzNjM09QNUg1NGNEL1lXVE1mbnBJeGZkT0Y2SVdyQ2E4WVhT?=
- =?utf-8?B?WlJCWDdvNzNQSGl1bEduNHpJM0F2WVpoVnNOUXU5TCsvc0sxQm1LZ2dpZWdn?=
- =?utf-8?B?Mi9SZXk2eXFMQUR0TVllajFDSTZZVTRjTUROM3Qwc0RpalNmaUpsM3NGMlhW?=
- =?utf-8?B?OUFsc1lQeGdKRVFoQi9Nc1hYeUtwWXhqOEZvV0x0bWtneTQ0blU3UjdhRmty?=
- =?utf-8?B?VjVFMlE2bmk2azRtTmFLOHpKVVMvMWpMYldPeUk4MHB2Z2tKYkZLL0lFVU1J?=
- =?utf-8?B?bHUzVGlhVVJ5b3R1TkZqNUlZeTFHM3VkTG15S3MzT3ZTblc1SWt3enZKdjZX?=
- =?utf-8?B?UlE0WkdDZHdtK0JoS1lyTWRtY0FjQlhCSjNYSTdoQWFpRDJ6RGJLT0tocVUz?=
- =?utf-8?B?UHFmZGNFWFo2MmdmVzBlbWJwbFdBYnlyKy9jd1QyaVI1c25idUZwditnazJk?=
- =?utf-8?B?VmJGUndyZzN3dFhVbEFqV2NOcW1Oam9RQmd2TmMydVNXTEhsU1dZb0lrVlR3?=
- =?utf-8?B?YndORkNaQVQvZ2hyS0RleEFidC9QZk1IUXcvZ0tyZFgxRXFOOWI5aHJmZUNl?=
- =?utf-8?B?SVJ0WElnMHlacjBIZTVMelJ6RXZEaUZIMFMvL0ZZM0V3ZnBtTDdYOTBvQmNZ?=
- =?utf-8?B?Y2ZSbTJrclhoZlRTVmN3RXAzNDhUcUJRejQ3MU5STEVrVUIrQUtZb2dCc243?=
- =?utf-8?B?N1dqZDN2TG0xZmFZb3VpdCthUTNoZFZtRUcxKzJLY0c2ODFmWDUrK0hKMmh0?=
- =?utf-8?B?ekFnSFlDc3o4TnhaNVgxb2dsdE1oeXJPdnBPMzlxSUN3N0l0enJHRWIxbFJ5?=
- =?utf-8?B?cG5BWDI1MjFXN2FwcDRDbXRyNGRjUWlXMDBwUzhDcTF2T1BiMllXR2hvQWlX?=
- =?utf-8?B?TWZ5UXZSODZZdzVYQk8rTmxqS1cxaUt0M1JGS085RnNNeEh0eWpjT25DRWxE?=
- =?utf-8?B?ZTRjRDlCZktreEdob2p6Vlg0M0NONm9qcWY1dENETmxQVnB2NHVRN1EyY0No?=
- =?utf-8?B?Skc3eG5hRWUxbEdkZlY1VmRaNDE0Q2RtMStSWllrREppZ2hONTFUVXpQdi92?=
- =?utf-8?B?NWxJR1hvKy9Zd3JoQWsyNm01a0x5bUdNTEpNZkhVcWV0SDcwRCtVUldIQ3JK?=
- =?utf-8?B?WmtsbWlmUStRQytQQm9MemVUZEVpdHRpQmRMbEpiSXJqc1ZaWURtR3hqSHpF?=
- =?utf-8?B?SzNURmk3UVlKaGgzWVE1ZGE2TDFDYXZKbzhudFJGOC85a2V1LzNLWWhkREhr?=
- =?utf-8?B?RUlvTW1iNlU4VzlMbFh5YWdJQ1htYnVHVVB0VDB6NjUxQjBKK2ZiWEJ1a2Nx?=
- =?utf-8?B?SFFhMndwTDBvWWhiRFRrbVMzMzNLRkRLKzhsODV5eTdqYVVIWVBEU25LZ2JI?=
- =?utf-8?B?UnpFMkFiRW8zOGFZUDZqM2poaEdXcTZMRlY1Zjl0WHQ5ZDJuTVlVeHYrWXpK?=
- =?utf-8?B?ZzNmbWJkTERSSGxtbmZqaE8xb09TY0l3bTd5Q3JtQjNYeXBZd2dmNUpEajh4?=
- =?utf-8?B?Tk1JQ3RHNUxVK3NJZGorWkFPN2dISGJvYUxJQTdoNndUbFR1c2gvWHJrK3E2?=
- =?utf-8?B?Q0hweG5UMzdUYWdVcUg2UmE3Lzh6UTFveE9EQlk1cW9mazl3Y2R0dllxRy84?=
- =?utf-8?B?b2hDQTNyS2x5ZEhBMU9OUDZranRRMjZXZDV5WnRvTkhNdmtXRFhVUUtRbVdP?=
- =?utf-8?B?THZoeEJ0WlRDc0gwZlV0cFhDVmlGM21jTTJsTWxBZ3kzaENCV3lVSEM2dVBl?=
- =?utf-8?B?dk5MOCt2MXRpRmZSN3V6eXRrSEZwMjRqb29hb3p2TmhSaXhNaHVmUlQwbzU4?=
- =?utf-8?Q?5qMPq8B03eqJ8LB0gB/L1AeGv+3XI7k3?=
+	=?utf-8?B?ZUZTUUtpbXhxbFVtQlFpUHQ5Y0VyWDJKdmU4czZONGJUUzBNQ3Y5RGtWR0V0?=
+ =?utf-8?B?TEE0RThWcDFyNUYvUXViNnF2b3lZY2huRWkwOTNjaDBtOG9TREovRU9qU3Jw?=
+ =?utf-8?B?U3kvNnd5ZjcwTGlqQlVZbHpxWEJwY21xZHdaMjZwMDZrckQxL1RaTytQa1hy?=
+ =?utf-8?B?Qk82eUFaaEpSYmwzZnU3K1Y1MFVzTjlLdzE5UXl3MWE1UWdZckJWdGM4UmQv?=
+ =?utf-8?B?Z09mTUpFRldlZWVLMTFmYzBmaW1HSExkU29mVHBPYS9TQXZWM1BQOTc3bjNN?=
+ =?utf-8?B?MTZ0aktUaEpoQk8vUWt2c0ZIb1JETnE3U1ZoQXRldHZENHVLQUNBcFpFYVpy?=
+ =?utf-8?B?Q0hOcXc1ck1KRzZBbjdUSXc1dDRpenArNllxZWdmYm9EVlZsNGthbjhraFdR?=
+ =?utf-8?B?Nlk0ZWpTdk1kVXd5Q0ZGbFNaKzlNVllvcGd1b0RaVVZqWXVIUnR3S0UzSXhl?=
+ =?utf-8?B?YkdvQUw2R0FmclJjTmVpMDZVVTBtNEthLy9vZGc1UENYejlpQnVrUVBnS21u?=
+ =?utf-8?B?b2lGTU1DOUd6dEgxNGFCSVhKODJtdkM0WUV5UEFTaFdHVTlaOWVHMUl1aENx?=
+ =?utf-8?B?dHJJRlJwV2dWNEFneWJqSmR6eXV0RXJPSFNoMmNEdmhDcWxCY2pKaFBCTnFM?=
+ =?utf-8?B?MnYrYVc4c1dyQU91QWhPdC9oN2tldnY3dEZVS1V4cXlRVEZWL1VzSS9wa0N2?=
+ =?utf-8?B?WkhEYjFKbTAzai9menkvakoyaUM0d0NBOEl3UjNtVUwxOEo2Mk9LK2p5SzBk?=
+ =?utf-8?B?aW54bkFHWU56YXovanFtU2QraXZaQTJQc3N2T0ZxRkJYSHZPODNmM1ZqT1hm?=
+ =?utf-8?B?c3BJcHkvUUlNd0UzdS9QT2hPZi9XQkR6OXA0RDRGU2lkRWhySHdLSnA4cUpF?=
+ =?utf-8?B?cnJwejBwd2cweTNKaWtpTStGbTYvMzE0Q3Y3RVBDakhWOEZMbitEOUJJV1R0?=
+ =?utf-8?B?L3B2L1dVTlFnTlJwckx5Ui9jOEdkNk0vSFUzODZrMGt1ejlOdi96enJKcVJw?=
+ =?utf-8?B?bHRXbi8rN2MrNUQ0a3AzVzBteEY2Qk1GdWpzVmhBVVNwNWJOZ0ZudFkxalcy?=
+ =?utf-8?B?VTU4YTdNaXV6cnZDbklreFJjb3dJY01DSHJmSFV5L2h4ZzZhb0tPTWdCOWlB?=
+ =?utf-8?B?VG13aS9TQ2xhYnJZNVBlTWlMVFJudW5PY1pJMy9oSzZsV210dkxFM0RYdDJZ?=
+ =?utf-8?B?S3UrWmJEWG5aSVpabTljeld0d3F5WWJQY3ZlTFVqWllSVDYwbEtDaTdLb2VI?=
+ =?utf-8?B?Ylpnd3ZkWEljS2M3NXBaMGJNc3FXbVpSMXVablcxemZJa2U2TWtRVjFFMVl6?=
+ =?utf-8?B?ZUVNaHV3VWJscGcrLzBWc0dVUlFHU1k0QkllcGo3cndmZnRKL3hGMFdEUWhZ?=
+ =?utf-8?B?UUY1M0N1ckVHL3F2aENMQVhOYjM5cm5BdTFZdHlLUEVEc05hUlhnSWlaK1Ir?=
+ =?utf-8?B?dWdzNEI5b1cvOEVXU3FTd05pYk5NSzZRNzJWOGw0R0F1R0lsTExBRWdQQlRW?=
+ =?utf-8?B?eE81bE9icWs1Zk5uQ2EzUGNEUGlKdjh4SS8yb0VpRG9VbkNqeVFiSGJsYjY2?=
+ =?utf-8?B?aTMwTVc5bHc4cmFGZFdnb2tQUER4RnhweWF6aVJsdXNwSHJyeE5ldkdFMWFs?=
+ =?utf-8?B?MEhQWUdUR1FQR1NOWE1TREZQQ1RLVFRUMWRnR2Jad0Y0N0JWTjJmb05zL21J?=
+ =?utf-8?B?cWtmbTFUUXJjQkErRnhZZVhlY3dTWUZmVjNkUEVMa0wwSTdIMXhhZkZhcFNM?=
+ =?utf-8?B?dGR6dnh1Q1gzeFk0UzY2N09qSGhxdHFCb0lWeHNpdjV1MENxbUZKdHAyZStt?=
+ =?utf-8?B?MlQwaStwNGR5WG1BOVYyY2ZpejRFcTdMRmN4T1lxT05EV0ZoQVFyaDVWNU1z?=
+ =?utf-8?B?Uy9sTGdwUmEySDR2OGIzemNMQ3l4N09Ba2VtVXNPTWd3RW9YQmVsZklkWmgv?=
+ =?utf-8?Q?/YHUvEEenw8m1xcP+9Cewsu967HqAlcK?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB5075.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB5075.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(10070799003)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UU9FbVVsNkJVMnhid1QzMjMwOFk3dmhHWWJ5YVdpejlVc21rQXpsT24xZjBN?=
- =?utf-8?B?TzBYQ1FodkoxUUhhbjVud3h1blNDSnRiOHh1M3NWNjFvQlVOdGJ0bStuUSs4?=
- =?utf-8?B?cVNQWjlPUm9QTHRrMVhXR0hXV3ROOUpHZk56WVZXZlg3eUZwOEJxZEpMOFBa?=
- =?utf-8?B?bjloV2NTaGh4Ymx3MGZ3QTRkTlJRS0VzWXl3TXVPN0dUcklYcHlqMWVQZmwz?=
- =?utf-8?B?cWVya0JGbWRBYkdncFpNL0txRW5KWWovclE4dU5mU1Fad25MU2NOWHEwZ0RQ?=
- =?utf-8?B?cFpaMWJrWWwvSlNZOWdOVkxCRkUzWUJRQVFSZ0luNEVKSG13QjlhQ1ZMc1Av?=
- =?utf-8?B?RW9kbDRlblJnMzV4V1R4N3F3aHdIQXJTSVBSZUdmZXFHZldLMmdGNTBuU0do?=
- =?utf-8?B?REwwTnJQaFpZdlVYdWZSREo5ZHBDS0EzUVI2TE1RMG40OUtvU1B4MHJYUU9y?=
- =?utf-8?B?dGl4RTdlUC9kOXNud3dMazV4c2UvbFRNODU5cDE5bkZjWm5zOUtDY2VocCto?=
- =?utf-8?B?ck5CM0NubUQrRFFOLytqOXVTUmNtYlNhQ0UzUmVvZ0FIWnp2cVhmTGt5VkNV?=
- =?utf-8?B?aE9xcW96eVFLWmY4T1dNZFU1Q2V4QjBMbld5c3FSZ0J0aG0zNDI2dHBjbkNl?=
- =?utf-8?B?Z1lXTmtyM0l3L3A4aE1FcWk2M2JEOU05MTRIK3pqMzBCOHN2dlQvQ2RZZnhM?=
- =?utf-8?B?MkVuT2tpc1pZRlVKNkRtd0JpbUZZYWRaV0J0K2w3Q1pLN3laUTArTGx1Kzdn?=
- =?utf-8?B?MFhMMHU2MlcxYUNSQkwyUHY2Q1F3alpkbkhacHArN0l0ZVhBS0xQMzFqT0x0?=
- =?utf-8?B?NHVKeGgxWUpXb3ppcHFiSE94bjJURmhsY2RUZmtGR2FTN0lzMHozbFZ3MnZv?=
- =?utf-8?B?TzFHMENqNXo4Vmd5SjAzMVlrK0VDOTNXS2ZxdkFpNlBQWFNWN3dxMWVRZTBy?=
- =?utf-8?B?TlIvY1dtZE1GcXMzT2NkVGlFeExRVWJUcnN1NUM5WDZsS3JnaXBCem1QdGdB?=
- =?utf-8?B?SzBrVEVPdXNvWW9KVDFXejcvVmRNUWRTK3U5TlFJK0hVN21wbDhxWHRGa3VF?=
- =?utf-8?B?Q09SRzQ5dUJuT2xGRXc5MGF0azRUaDBCcUFvNkJKejRNejY1TkoyUXB1UE9I?=
- =?utf-8?B?Q3RzOGIyelRkUzlRVlRlak9jbGo2SDg0UVdoa1RudXBrdEZxM25IL0ZRd2pu?=
- =?utf-8?B?MmhXZEFhTCtjbFNOOGNESUxaUWxrNHZSYmpuSnhkTWZ0K1c4VWVMV3dWT1Rm?=
- =?utf-8?B?MktPcmdIRDUwTDdKQTV0NWsvWi9LVkZ5aTBPNTYwOVJpUi9DZnUwZUtzMDIx?=
- =?utf-8?B?S3ppTmRpN2h3TldpL285NCs5U2xud3d2aCttQjJPbnppNlVoUWJuTzMvTk9Q?=
- =?utf-8?B?WEZvcllaQ2J3K3Jtb0ZPL0NTeFlpejA5OGI4QkVXSmtSZ2hUblhOb1l3NHVn?=
- =?utf-8?B?dnVEZktRNjMrSE1rZjhGY1BUeEt2dmJTeEtKb1FZaDdWNGdCSXdLTUg0dXhh?=
- =?utf-8?B?amVBd2VqckFMQmFvSjhiQmlLWVNxRlFSbGxFV0U3ZDdQUkVURGRlcFlKRmpJ?=
- =?utf-8?B?eU1UU1ZUYXV5SkRSOFBoeXdYZkc0emRiU2dTcE5vc0tKZytZbE5scW1ieEwz?=
- =?utf-8?B?em4wcEtpVXNuLy9GVkFDNzg1TVBVREtPdlFWTk1oU0w0aWVQU0daOWdPWTBF?=
- =?utf-8?B?dW9Pdm0ySDduWHgrQ2RNTmNYUWdxQlBhTEhiUGJUZmlhMVpvd1NHSlRvdGVk?=
- =?utf-8?B?Mm5jclI4cG96c3dxWGJxK0dtMEw5MXpMOHZNckNqRnZEVGhhRHg2OUNCSkxS?=
- =?utf-8?B?dFcxTStoQ3FhMG12aXFJSWhsbmFFZ2s0czNKaytBb2xGNDFsNEFlakxJUkxX?=
- =?utf-8?B?QzQ4VkVSQVhlS2hvN3hMQ3NGTFNaTnBOSllabWJmc3Z4NnNITzJrMWs3cjQ4?=
- =?utf-8?B?N3YyODJwS2c3TkNXQnNOWUpSRDhTd1VGY2h1U05PWUVRU3Yyb1kzOTJ5bGNL?=
- =?utf-8?B?OVg4NzI1OTF0UG5JbVNlQ2VTMVYrVzAwRDVOcU1PMjVBSWlUSHBGMWp4UGdD?=
- =?utf-8?B?ckVJbUxibCtPTkYwTHlqWHhHem01WDJIUkM1Q1ptaVp0TDVOTTlCZzl0UXQz?=
- =?utf-8?B?c29iNDBGdG9kTDBHZVFjZDFzUVdUcHhzbVhqbEovU1IyVklibGpldmtOUHN5?=
- =?utf-8?Q?th8jjzWZnKTceUzgWnE9jC8=3D?=
+	=?utf-8?B?MWpUNW1KWGsrMm9VKzRUVkM4RWZiV21OaENXUzY0UzVnVW1SemtITTlPZndl?=
+ =?utf-8?B?ZTRHVC81V3JjRDFxRHFFTDV5RzBBRE5obXU2Q013c2p1T005S0h1bU90Ujlh?=
+ =?utf-8?B?L2FSc01YN29oZHdMMGRKd01GS2NmZGNSK0VpOFduVE9uTUFUWDNpNXUyV2dF?=
+ =?utf-8?B?MDVpcUtBTTlDY3MzMlhBMnpFMFJQUnV1Z1RXRlR6dmFENzluVVdSTnUzZHdJ?=
+ =?utf-8?B?bEh5M1NmVk5YMk9WQmxkTHFYdGRKUFFmQTArbkNuZ3d0a1Rnd1FVV2FmSDZ2?=
+ =?utf-8?B?eWkzTzErRTVzMFgrT2ZySEVmZ256amMyMHpRbUl5aXdoMUg1UUFqSWxJVmRz?=
+ =?utf-8?B?Yzd6eUxTaUsvRmJva3V0YUl0bnBtSUZtN0ZZVG9GcndHZmRmdGlaT1FudTdv?=
+ =?utf-8?B?YjhaSTF6NEtjQ0xQRmZFRTdoQzl1NXo5eGNsWDRQM2VNRUgyZ1lEUTNFbUpl?=
+ =?utf-8?B?TTdDVW44M1U2amFRcjFGSXA4Vzg5NUdNYko2MXRDaEdBUGg5TEd6SXVDR2Zt?=
+ =?utf-8?B?QzNYV0Z5alpyMkMvN1pDTVRWVWs1dTRqMVQzemxmVUZzRFZsZk5iemt4ZVpL?=
+ =?utf-8?B?eDNQVCtGL0hWS0xqQ0M3bEpHUUU0NU5nNW5lVFFTbDkxb1NkczJsTzZ3YUtq?=
+ =?utf-8?B?bzYrTStBMVJKbDBONnovbnRvTW5pdUczaEFCVWVtYlAyQmhwam5qWHRmakJR?=
+ =?utf-8?B?UU9pUVN0VVFzSUM2RHNGV3djWWs0YnZWek45MjdXVVYxckF3YkZiN2VZQ0Fh?=
+ =?utf-8?B?YkVpb0dYZjY5dy9Yazd0Y0JJWnh0Q1FIODliVUtIWmoxMXlzZ0NJaTF0RUxH?=
+ =?utf-8?B?L09yM2piVzBMZGNISnhZRTRHdWVlay9leGdRcGZ4L2JXa0Nyb2tWeUQ1SklC?=
+ =?utf-8?B?OTRTajhOaWJnUXAwRFhJZnpVV2NtdlpGRlFOWlo0b3Rpa2Z0Nm44SzIwbzd2?=
+ =?utf-8?B?RTE4cXNSV3VyU09rRmxoQWZ0cDZLZ0pDVTBISEFIK05EenQ5SmdMUjB2dno2?=
+ =?utf-8?B?cWh0N0dxVUhianhXeGd4Z3k2dFhCT0FRTGlYSWRhOHBVeGcrOHdOcXlSWHhu?=
+ =?utf-8?B?MVMveXBmQ2ZScXB3bmVOeXdlYjNJSHV5MXplL1pKdXRPTWhaYzNXOTdSZUN0?=
+ =?utf-8?B?dDBGbjdFNDFKUzFQUW0yNm9EdXRtVmpRaHB1RElFWHZoQzJOTjFPekQvTFNr?=
+ =?utf-8?B?VHc3b3VYMG5GakRkNG9IWndvNmR2Ny83YTVEYW9mR2dwUGt4QU5YcVpxWTdD?=
+ =?utf-8?B?eU5ydmdaZUNRNTBYVWl3SEVTU2ZaZkJHOUxKWWlKekcxSUJyUlVNY2RpTmgz?=
+ =?utf-8?B?TEpwS1pFQ1drMU01Q1gvTnR1U213QkFZazBTKzFub1JMb1lQdGx5NlpKWDNW?=
+ =?utf-8?B?S1piZXc3VC9RYWtPcWt1UUpNWHZzZ2V6VklWZjJCaGIrTno4eEZRcTJkRkIr?=
+ =?utf-8?B?ajFJSDc4cXlEdW4wRUNkQzdTMk1wa3VyY3N0cXZybUpKRGkwWktMb3lUVFJr?=
+ =?utf-8?B?YXRVbE5TRC9ZV29SdmpYOEFPc0V1VUpVOWFTOEpXN1lxZXNLR3ErVk1yZEY4?=
+ =?utf-8?B?WkVRZ1AzTW1uM0hpY1RlWXo5YnFKdEVXMGNuRHBtTksybWw5RzI2N0F3dTAr?=
+ =?utf-8?B?S3g4N2NQKzdmTFc5R2pxYUY1SWlSK1QyZG1IdThsMi9qcUZQQ0JYNi94TzFt?=
+ =?utf-8?B?SUZoanRSQ3V0dGlMV2tvTlVFa3FCZzdVay9mbmhyUEk4bzEvTEtlMlpPZGpo?=
+ =?utf-8?B?bWpudnBCaUh5eDFPNTBScklyanFLRTgrWGZ0UjdCaFhIcUJ3aWtXVC82OTZw?=
+ =?utf-8?B?Nm96bnFaVisvSTU4dDRnSXM0L0hnVDhJNktVandzdFh6bkZFYXluRzNqVDBL?=
+ =?utf-8?B?YTBWVlBickZtck1ueXhsYmxzOGFSUXFJMEFBdTRJY2dkd0U3eHdIVitjdnFk?=
+ =?utf-8?B?aGV2TXNDcEJ3dm80Z2lRWWtTamtzTjlLeTVrejVnLzJlNkUreFh6NFk2a2dt?=
+ =?utf-8?B?Q0dsWU9lT0o4b3paT095SzhhUGlPWEVDU05jeTB3T3RoRmJrRlh2U1B0Sm9m?=
+ =?utf-8?B?ZXBwaWIxQURmSDBNNkpSU1FTSHNaU082TVp0L1hGUnphVUVQeGhTTXBvZDZx?=
+ =?utf-8?B?S2xCKzJsOWRsa25UWjJoR0JVWDlYeEtJODJhayt5NnVKNElEK3Fvb0JRdFYx?=
+ =?utf-8?Q?6lAIGp5Zjb0OliFeL0EOKkw=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	GSO5672D7a2zQzmcF6DyPA3gz6p1/H4ix28DOBuZI1R5juBFvtTCRokgXI54yI/d9tSAXtkTSme1VHN9fJ9JI+V/0nW/rfl71q02vSAjUNn56uep6rpJx2f48omTdlPNuOFDfBphHH9Aq0rCNAm0Ok8GWGBclP4TUeM8VPl4JrBJUMrZ0XVGor2O9XEG0pVab6tYsaB8FrP4dTly1T825Z3gS6nE+1Cg2SLc5XHHqsJYLami52k0Qn7p+wnPgbp1DzJ7QbR/tpNhxjGjtxIRMAFYH/YGdkMcSAgcJKvMAuP2ERv3HU4ccfHAPDjIHE0mWWvl25pxduMo8fN10fN7qUPCNpHOp7h9oyxafqEomHUMFA4aajzpQcPeY/FCQdOOUW9ww1rAo+orDJHsOzEPnpGZJwnLZCUUOMKYHHYXlrFr4WmZZLTlZlPahZ7hRRgTiTf5uz8jaobH2wUNpJbBOT5uNYZwa/BMjdQ8PJTQfe/OLVl+F9GULdksYAbpJd3Ep9/TXgdf31jgKCcaf0bsLaUQtBI9YDSJ60BCZ88MosMv4CTOYBQ+p4enYkwvkOQyfuDxVHeJ9nhzfALKOpxmRIXtrOUxxNbbdSSPW4hurDk=
+	dWmv3IDczoVr6Lbx1OK51NcAJucWURuEPwvoNTm4S/BXqRnMnYXSxrrPY1yGC1h2xC9flwFenCu9hzy399w+oNl4ADjTWrckEHyUYfhFVdV/iid9kR4HwmNm84HgdCSj7MI9/cU7ahREF78TE0ZNMqSwjdEbXnkcy+LSkQ158u3B/dx0dUFuKnVOiAvfHDzIpjTFnQpdkXsqxHj6OioKZrlXmPowx50/d2GYrWZLU1w/3GrA9OGcgiilBF3J2GYNu0UHFODWfUAgbF/JTdWcMzHrJAYkBORLqSz03JC6rGOPdyGfgk3e0obayMRkQGn3y0ccvLvuy48TmQPVrqDTVYn9eOyMWJZrbZrBmMRdozsHFmzkUBRnX8B8knbljmO1YIufLMOlAfjv7BuWKuuvoCcJbYcZ1shcR3QfwOJq31XY/UkzjPd+JUaKDz3YCrlarOwnSb6NPGisF8le1eGwbfrNHDOJ+m08PViAZm8Bm/8zzB8VTdWyFkYMoYraBMPuB3F5Wow2PNUbU8bZQjxVM5ryCQFJ8L1jO5sLPTbpnC3hA3sKtEFkt2ni4FEc7AircOb6kQHbC9Mt1CpRJaKwKw8ZrmVHbpwNUL075UZXjHo=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ad305bb-3957-417b-20e9-08de126ae502
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9991207b-4efc-4f87-dbbb-08de126b1d27
 X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5075.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2025 19:32:26.0822
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2025 19:33:59.8172
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BeCs/TI/wHUvGkvlZSjZq+D82mf8muRegQLNX14Lb1LujIAfhi5+a4dUxLtg8T0YJ5JvBZUF9DuxKxxokvr2RSyLDj1NmZsEsNIQVQi64D4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4467
+X-MS-Exchange-CrossTenant-UserPrincipalName: S2ZreKylyf91LLPy4KkM7/IRcIhibkRB9KIDfQkm51W5haHoQAt8hKezLoN5UTvsUX3cpX5IxDgYfMJodWb+fMQWxaeuPUr1yZ9JRj5ncZs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4669
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-23_02,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0
- adultscore=0 bulkscore=0 spamscore=0 suspectscore=0 mlxscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2510020000 definitions=main-2510230178
-X-Proofpoint-GUID: Zv3cz4_VIJ9LDwkExwVndZTSlmNMzF52
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIyMDA1MCBTYWx0ZWRfX+VeWVKweK4IA
- ad+mWVV0VR0Hpr6YyE09RxeGp6/zp905WtcYuLD3Kuo5d1cSZ15boNInqGR9FaT8RYligQdXzVH
- pyEkulHCGihce3NppsL+3nFQYEl9RhBnPskl6RJAGIfOg3ms2o6rotuaJMn/ZA7UaVN5fPphVoy
- Aa4IPWHDrmOfGf4IGEMPZnC9Hf+IESpAU/8/bKW1moiq1jl8EAU5IfoC1mmLO7fzxlWDqPDvA2x
- mDj2y6Gz7Kh2lFDlG4PNiboFgu8smye5urdJtIjJcmBb1ILJR5Fyv2jNLOlsWgQtaXvB0bKIaUj
- ibfc02SUg7ylSkCYp3GDCoPXI7rsO/w7r02vRCgMJmnXtUqh0HWJPwjmGC/L+Hn8/iovK8NDqJU
- Xi1CQGy8Mo+lq45iX7y30baY9CETzPM5NcWCropdSQlwuzIqi7I=
-X-Authority-Analysis: v=2.4 cv=OdeVzxTY c=1 sm=1 tr=0 ts=68fa82cf b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
+ suspectscore=0 spamscore=0 adultscore=0 bulkscore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2510020000 definitions=main-2510230179
+X-Proofpoint-ORIG-GUID: P9G2ttOy2eQU9MVai06pErfG-HewFH27
+X-Authority-Analysis: v=2.4 cv=XJc9iAhE c=1 sm=1 tr=0 ts=68fa8335 b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=x6icFKpwvdMA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=yPCof4ZbAAAA:8 a=aP3iKj1vRsiEQGyfWqAA:9 a=pygEKjHW9yQeKNym:21
- a=QEXdDO2ut3YA:10 cc=ntf awl=host:12091
-X-Proofpoint-ORIG-GUID: Zv3cz4_VIJ9LDwkExwVndZTSlmNMzF52
+ a=yPCof4ZbAAAA:8 a=ya8n6P55ioffdQ_uoxoA:9 a=ht3SdGwVgXH9XrWC:21
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIzMDEwMiBTYWx0ZWRfXxEetmY8iRV+g
+ hut46IQwxt2rUUXiAH9w6IpsFnI1r95QpA1Xt+UGdAN43b/tZilAneHn0/aLT1G9lYtVifJMEVY
+ FI02fFJ0XCqLHrnqlh52qy9pbKQk05ZcRH2BFTCdX9hO88j5/bXu3+uAZusJIEZggxKp2nRENpZ
+ pGpeCMyLIzJOzKqRHTGn0vOrfvDbFWnWU+ISGxHajUjZdG5/rxXBndzhJSrWzG66mU1Pb1D2p9m
+ 0gKcWXmsAD5LGA75ozYmcTw7I9bldpUvPxA0fjzHJnh9QtfCR1B+rLccJYS7ICvRcFxjDyMzszN
+ OjaZgQX7FzzuNSHD0O9SR8EzYrBckt4deDjhpBvFjYpUpjnoQwfgMcQl/Nu1lksyR+oz/kyJj+6
+ DjAE7tYp7X7A20VnHimpmjAc7tlw/g==
+X-Proofpoint-GUID: P9G2ttOy2eQU9MVai06pErfG-HewFH27
 
 
 Reviewed-by: Elena Zannoni <elena.zannoni@oracle.com>
 
-
 On 10/21/25 9:22 PM, eugene.loh--- via DTrace-devel wrote:
 > From: Eugene Loh <eugene.loh@oracle.com>
 > 
-> A link to this table did not work since it referenced an ID that did not
-> exist.  Add an anchor ID by the table and use it.
+> There are two references to "Table 1" (which is not otherwise
+> identified), along with links to an undefined ID.  Rework these
+> references.
 > 
 > While we're at it, convert the table from HTML to Markdown and break up
 > some longer lines, improving readability and maintainability of the
@@ -223,190 +222,118 @@ On 10/21/25 9:22 PM, eugene.loh--- via DTrace-devel wrote:
 > 
 > Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 > ---
->  ...dtrace-ref-TypesOperatorsandExpressions.md | 140 ++----------------
->  .../dtrace_builtin_variable_reference.md      |  11 +-
->  2 files changed, 20 insertions(+), 131 deletions(-)
+>  .../reference/dtrace_providers_profile.md     | 95 ++++---------------
+>  1 file changed, 20 insertions(+), 75 deletions(-)
 > 
-> diff --git a/doc/userguide/reference/dtrace-ref-TypesOperatorsandExpressions.md b/doc/userguide/reference/dtrace-ref-TypesOperatorsandExpressions.md
-> index c76d293c7..bb1c49949 100644
-> --- a/doc/userguide/reference/dtrace-ref-TypesOperatorsandExpressions.md
-> +++ b/doc/userguide/reference/dtrace-ref-TypesOperatorsandExpressions.md
-> @@ -474,135 +474,18 @@ D type
->  </td></tr><tbody></table>
->  Character constants are written as a single character or escape sequence that's inside a pair of single quotes \(`'a'`\). Character constants are assigned the `int` type rather than `char` and are equivalent to an integer constant with a value that's determined by that character's value in the ASCII character set. See the `ascii(7)` manual page for a list of characters and their values. You can also use any of the special escape sequences that are listed in the following table. D uses the same escape sequences as those found in ANSI C.
+> diff --git a/doc/userguide/reference/dtrace_providers_profile.md b/doc/userguide/reference/dtrace_providers_profile.md
+> index da83e8561..762109d02 100644
+> --- a/doc/userguide/reference/dtrace_providers_profile.md
+> +++ b/doc/userguide/reference/dtrace_providers_profile.md
+> @@ -11,86 +11,31 @@ Such probes aren't associated with any particular point of execution, but rather
+>  
+>  The `profile-*n*` probes fire at a fixed interval, at a high-interrupt level on all active CPUs.
+>  
+> -The units of *n* default to a frequency that's expressed as a rate of firing per second, but the value can also have an optional suffix , as shown in [Table 1](dtrace_providers_profile.md#dt_t1_prov), which specifies either a time interval or a frequency. The following table describes valid time suffixes for a `tick-` *n* probe.
+> +The units of *n* default to a frequency that's expressed as a rate of firing per second,
+> +but the value can also have an optional suffix, as shown in the following table,
+> +which specifies either a time interval or a frequency.
+> +The following table describes valid time suffixes for a `tick-` *n* probe.
+> +
+> +| Suffix         | Time Units                                       |
+> +| :---           | :---                                             |
+> +| `nsec` or `ns` | nanoseconds                                      |
+> +| `usec` or `us` | microseconds                                     |
+> +| `msec` or `ms` | milliseconds                                     |
+> +| `sec` or `s`   | seconds                                          |
+> +| `min` or `m`   | minutes                                          |
+> +| `hour` or `h`  | hours                                            |
+> +| `day` or `d`   | days                                             |
+> +| `hz`           | hertz \(frequency expressed as rate per second\) |
 >  
 > -<table><thead><tr><th>
 > -
-> -Escape Sequence
+> -Suffix
 > -
 > -</th><th>
 > -
-> -Represents
-> -
-> -</th><th>
-> -
-> -Escape Sequence
-> -
-> -</th><th>
-> -
-> -Represents
+> -Time Units
 > -
 > -</th></tr></thead><tbody><tr><td>
 > -
-> -`\a`
+> -`nsec` or `ns`
 > -
 > -</td><td>
 > -
-> -alert
-> -
-> -</td><td>
-> -
-> -`\\`
-> -
-> -</td><td>
-> -
-> -backslash
+> -nanoseconds
 > -
 > -</td></tr><tr><td>
 > -
-> -`\b`
+> -`usec` or `us`
 > -
 > -</td><td>
 > -
-> -backspace
-> -
-> -</td><td>
-> -
-> -`\?`
-> -
-> -</td><td>
-> -
-> -question mark
+> -microseconds
 > -
 > -</td></tr><tr><td>
 > -
-> -`\f`
+> -`msec` or `ms`
 > -
 > -</td><td>
 > -
-> -form feed
-> -
-> -</td><td>
-> -
-> -`\'`
-> -
-> -</td><td>
-> -
-> -single quote
-> -
-> -</td></tr><tr><td>
-> +**Table:**  Character Escape Sequences<a id="char_esc_seqs">
-> +
-> +| Escape Sequence | Represents      |     | Escape Sequence | Represents               |
-> +| :---            | :---            | --- | :---            | :---                     |
-> +| `\a`            | alert           |     | `\\`            | backslash                |
-> +| `\b`            | backspace       |     | `\?`            | question mark            |
-> +| `\f`            | form feed       |     | `\'`            | single quote             |
-> +| `\n`            | newline         |     | `\"`            | double quote             |
-> +| `\r`            | carriage return |     | `\0`*oo*        | octal value 0*oo*        |
-> +| `\t`            | horizontal tab  |     | `\x`*hh*        | hexadecimal value 0x*hh* |
-> +| `\v`            | vertical tab    |     | `\0`            | null character           |
->  
-> -`\n`
-> -
-> -</td><td>
-> -
-> -newline
-> -
-> -</td><td>
-> -
-> -`\"`
-> -
-> -</td><td>
-> -
-> -double quote
+> -milliseconds
 > -
 > -</td></tr><tr><td>
 > -
-> -`\r`
+> -`sec` or `s`
 > -
 > -</td><td>
 > -
-> -carriage return
-> -
-> -</td><td>
-> -
-> -`\0*oo*`
-> -
-> -</td><td>
-> -
-> -octal value 0*oo*
+> -seconds
 > -
 > -</td></tr><tr><td>
 > -
-> -`\t`
+> -`min` or `m`
 > -
 > -</td><td>
 > -
-> -horizontal tab
-> -
-> -</td><td>
-> -
-> -`\x*hh*`
-> -
-> -</td><td>
-> -
-> -hexadecimal value 0x*hh*
+> -minutes
 > -
 > -</td></tr><tr><td>
 > -
-> -`\v`
+> -`hour` or `h`
 > -
 > -</td><td>
 > -
-> -vertical tab
+> -hours
+> -
+> -</td></tr><tr><td>
+> -
+> -`day` or `d`
 > -
 > -</td><td>
 > -
-> -`\0`
+> -days
+> -
+> -</td></tr><tr><td>
+> -
+> -`hz`
 > -
 > -</td><td>
 > -
-> -null character
+> -hertz \(frequency expressed as rate per second\)
 > -
 > -</td></tr><tbody></table>
->  You can include more than one character specifier inside single quotes to create integers with individual bytes that are initialized according to the corresponding character specifiers. The bytes are read left-to-right from a character constant and assigned to the resulting integer in the order corresponding to the native endianness of the operating environment. Up to eight character specifiers can be included in a single character constant.
+>  ## tick-*n* Probes <a id="dt_ref_profile-tick-n_prov">
 >  
->  Strings constants of any length can be composed by enclosing them in a pair of double quotes \(`"hello"`\). A string constant can't contain a literal newline character. To create strings containing newlines, use the `\n` escape sequence instead of a literal newline. String constants can contain any of the special character escape sequences that are shown for character constants before. Similar to ANSI C, strings are represented as arrays of characters that end with a null character \(`\0`\) that's implicitly added to each string constant you declare. String constants are assigned the special D type `string`. The D compiler provides a set of special features for comparing and tracing character arrays that are declared as strings.
-> @@ -1407,4 +1290,3 @@ The D type namespace is initially populated with the D type intrinsics, such as
->  When the D compiler encounters a type declaration that doesn't specify an explicit namespace using the back quote operator, the compiler searches the set of active type namespaces to find a match by using the specified type name. The C namespace is always searched first, followed by the D namespace. If the type name isn't found in either the C or D namespace, the type namespaces of the active kernel modules are searched in load address order, which doesn't guarantee any ordering properties among the loadable modules. To avoid type name conflicts with other kernel modules, use the scoping operator when accessing types that are defined in loadable kernel modules.
+>  The `tick-*n*` probes fire at fixed intervals, at a high interrupt level on only one CPU per interval.
 >  
->  The D compiler uses the compressed ANSI C debugging information that's provided with the core Linux kernel modules to access the types that are associated with the OS source code, without the need to access the corresponding C include files. Note that this symbolic debugging information might not be available for all kernel modules on the system. The D compiler reports an error if you try to access a type within the namespace of a module that lacks the compressed C debugging information that's intended for use with DTrace.
-> -
-> diff --git a/doc/userguide/reference/dtrace_builtin_variable_reference.md b/doc/userguide/reference/dtrace_builtin_variable_reference.md
-> index 787137929..aecd2308c 100644
-> --- a/doc/userguide/reference/dtrace_builtin_variable_reference.md
-> +++ b/doc/userguide/reference/dtrace_builtin_variable_reference.md
-> @@ -221,7 +221,15 @@ The macro argument values must match the form of an integer, identifier, or stri
->  sudo ./foo '"a string argument"'
->  ```
+> -Unlike `profile-*n*` probes, which fire on every CPU, `tick-*n*` probes fire on only one CPU per interval and the CPU on which they fire can change over time. The units of *n* default to a frequency expressed as a rate of firing per second, but the value can also have an optional time suffix as shown in [Table 1](dtrace_providers_profile.md#dt_t1_prov), which specifies either a time interval or a frequency.
+> +Unlike `profile-*n*` probes, which fire on every CPU,
+> +`tick-*n*` probes fire on only one CPU per interval and the CPU on which they fire can change over time.
+> +The units of *n* default to a frequency expressed as a rate of firing per second,
+> +but the value can also have an optional time suffix as shown in the earlier table,
+> +which specifies either a time interval or a frequency.
 >  
-> -If you want D macro arguments to be interpreted as string tokens, even if they match the form of an integer or identifier, prefix the macro variable or argument name with two leading dollar signs, for example, `$$1`, which forces the D compiler to interpret the argument value as if it were a string surrounded by double quotes. All the usual D string escape sequences, per [Table 5](dtrace-ref-TypesOperatorsandExpressions.md#dt_t6_dlang), are expanded inside any string macro arguments, regardless of whether they're referenced by using the `$arg` or `$$arg` form of the macro. If the `defaultargs` option is set, unspecified arguments that are referenced with the `$$arg` form have the value of the empty string \(`""`\).
-> +If you want D macro arguments to be interpreted as string tokens,
-> +even if they match the form of an integer or identifier,
-> +prefix the macro variable or argument name with two leading dollar signs,
-> +for example, `$$1`, which forces the D compiler to interpret the argument value as if it were a string surrounded by double quotes.
-> +All the usual D string escape sequences, in the table of [Character Escape Sequences](dtrace-ref-TypesOperatorsandExpressions.md#char_esc_seqs),
-> +are expanded inside any string macro arguments,
-> +regardless of whether they're referenced by using the `$arg` or `$$arg` form of the macro.
-> +If the `defaultargs` option is set,
-> +unspecified arguments that are referenced with the `$$arg` form have the value of the empty string \(`""`\).
+>  The `tick-*n*` probes have several uses, such as providing some periodic output or taking a periodic action.
 >  
->  ### Target Process ID
->  
-> @@ -474,4 +482,3 @@ int64_t walltimestamp
->  ```
->  
->  The built-in variable `walltimestamp` references the current number of nanoseconds since 00:00 Universal Coordinated Time, January 1, 1970.
-> -
 
