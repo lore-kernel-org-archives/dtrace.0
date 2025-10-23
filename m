@@ -1,86 +1,85 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E088434DB50
-	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:52:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850A634DB7F
+	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:53:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761249170; cv=fail; b=pVYm2uBK8ZGLCeg9qAfF8KYuTMrK/jGBp7WKaxO0tvZ4cultGvbsHbABzh37qNb3hWjkTnZOANVt4eYDGw/NpfcnpDtQefMBJWLZC3IuZWWXauZegkv3463cs5EV9RibqZ/ADavbhLVEVxuUu2wThGq8hzMeUrCHUJR5QZ/MBZc=
+	t=1761249236; cv=fail; b=SHwnadivQ4OMkSDfON86TUfu6gIdhtgS8n1g2ogeniKXopHGtQ0vt+cc6nYu7Fu07xdZXygldXT18kDvCRS5d49YxR7ewb15WnoKt8wAUsR3kfliesKjhfqC/WMojrMSGI7Ug7LAeCdIEREQV3AK6dsY6ytngSETHLoC7K3meis=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761249170; c=relaxed/simple;
-	bh=y+TTLgTTafi3j1BIhXVPf3MgX/H4OEL8ywcKkIm8TXs=;
+	s=arc-20240116; t=1761249236; c=relaxed/simple;
+	bh=XSONos+j0s3q8rW+EnkvfTi9pvYWpn2wBlpKNt6CPLM=;
 	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Nd8xwVLhnfQtTAF5+xDz7T/B67gId4tuvXnBHp31lrQ3dqVGUpGgWiIT+1hZUtp0PyMvmWePMZbcXP1ngUC45atCyED6DzH8ZBqDcbF0xIIi+TlcQ5rmrJeLjM58E4GYpi+aXcEW0/nR0izv5FTUT4cE6gpEwbD8PCOCrO3cyNQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=sN89mfxi; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=wxCqoQpn; arc=fail smtp.client-ip=205.220.165.32
+	 Content-Type:MIME-Version; b=ByrgWVEArMY0EPiu76SMH/Tze7v26YxkTx+N44v+Kh92xyIBSt57RZDNr17wW5UvITtM0Q6cppScrXFDWxXup/Vrf/A4rOgBZ+EfAFe/C2usrLO7MENiJAKC52d8AyWe8urIW86lIL157v8u2qaArCq6zYUhJtB3DxW6/n1ih3s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=WJSH7NXy; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=KFFSgzJa; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="sN89mfxi";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="wxCqoQpn"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59NIBwhl019642
-	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:52:47 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="WJSH7NXy";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="KFFSgzJa"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59NJriku003413
+	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:53:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=0BBP2z65Dd8DgLZMTsDcYi21zgxdEr/LCSVR2KzObhw=; b=
-	sN89mfxidSkyIurre7H8apnc0fiPxsACxSX2im/tglDh+/ikRvG7tYnr1iFRkf/+
-	5vaapvBRzc1hEebMmxPOwImqvN+udRy+cC0lnNwMv98ztvBsd3VKeS7oN6TQdzC5
-	LvwVCpkRxW7Lr3iwN3oC4vsFhWu2r/Rai7P+c71AbSMXzOM3e+7EurbiXN7icZqJ
-	lK1LZoWZ6PsYfdfPixzSCwrFIQXwSlVplolWeptaWLX0q679NcH7Vbla2Z9ua0O0
-	5T9fbMdLidOyPC7ZPV2h0Gi2NnOh292JNUBtBPg2FbNB+k68lLB5stweyuhDMvsh
-	qWZNxtu8U2bODqDeMsJCFg==
+	corp-2025-04-25; bh=LMLiOxYZvh9gxBNWPEiewvxAH7ovYtULCv0Khoa62xE=; b=
+	WJSH7NXyr5JiKZOAET7C5UNZnKdCNA+Iq4MfoXw9tu+jPY+3bSLy/dnB3uQrsP9i
+	z3EFZFv2HpKDURYJIyyMAbtdkyAA5cLcqImYbOPQAFI9XA3d0nByd3oI+FdCcdYA
+	eriJBhjwjZyPNdvyXdF6LCa8syK+SKgUtSrj/ueKvrkbUiuD7Jd3ESw+RAQIDRbc
+	MqhnQsfUGep3j+IiuA73ynkm6U2EdwHrVSOdlZasqHGvTmgGUoVGt7Z7kecUA28W
+	pQCREAQ7VkOofbGQkeXZc/TigBOKIAiaer5+X+bDpZGvge+OBGHadpNB9AV1C+iu
+	WpSo4iKA3NI5iDeTZobysA==
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49xvd0uay3-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49ykah12qy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:52:46 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:53:51 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 59NIRZ4A005613
-	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:52:46 GMT
-Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010026.outbound.protection.outlook.com [52.101.85.26])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49v1bf1atn-2
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 59NJgYbV012674
+	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:53:50 GMT
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11013050.outbound.protection.outlook.com [40.107.201.50])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49v1bf1be6-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:52:46 +0000
+	for <dtrace@lists.linux.dev>; Thu, 23 Oct 2025 19:53:50 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r0GuT5NOLXnB7cpjREzsok5LODDgj8AxYynHROVWAWxpSPbf+mFTXHfweyJ/e2aurL+DAEc0Xa65taaa+Pewp51weat7G+Pn0qsBu+kFIKN6Mdxs2lAcnf1d5r/GlVJatf/qpCzotadvnYTrrvHtyPzajkVEcpBiiDcc62RatxvFgTpfq5NgLtS84JHDz5oyJs90S7DjuYWP1Bfyc7ZC1M0vItziQJzNHWIQDD4mAkmm3/60RWADO0ivuv4o6uxpaVkIN504l+mdZeowb8ej2P+F/fRfTDwhN9VowtvEfM02t5S6q6/WWFhfxfNevEXig5LTUAgdCcZ8AUa/0OSBIw==
+ b=qbchplUWC2QztiF9QaiL1OlwmlL5blMLMxfRj91dMQoRTEcPXvx94CZVRg5w3hVbQepITVdBhOYG4MRw72592ZUst7jHIc/iMlO5uId9457WyTutWZ+ZZa0+rvFfcXj/GeNueLTGNc1rvHxXL2P0gMQGTzTSl81FyVLcy5ZgRBmn8MUi7lQsjbMZvql7DDFtAPSliVAFDtTSABpDSRZqsIoaFrnevEkkmmmGB7GyoNBzkZIh4mSZno+3zttxBKWB6ea+WuRmJWfTEd0dfVe8TPvPw6oPyRvweip1ObZplnMt0eb2zi1O9ncX8qusBDTjPW3ZxreOjrv2KbhY6oxmlQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0BBP2z65Dd8DgLZMTsDcYi21zgxdEr/LCSVR2KzObhw=;
- b=PJPMy4fCugCl2tp9P5q8TD+lbhgXRzSXP4DJsdWFC2tn8Ae2CUegXAsM8F3dZdwHifdOVvexytylqfaOsNqG3A1/5VPyK6WO6ibyMS5zeG0YtwOiqNLQhtjfcv3XFMO9ajZk9DTrsW/nYFNXxjis6PFSaTz59f+N8gRVficZeSPqUozSFRCRCNvgRCzRgFAP3wjzb3DamK9zNwa+KQ+avOI6EX9peSY2QYNQADcsxnX3BVWQNHFtKK33vgYZjTlpnJ0h6INvqpE6fGH2VUiJmNpMX5tu1tTmIf/0cGa57eCty/da8SH+ySffJAjCgHmNi9Ab71ws5/DpcXUgNOVMKA==
+ bh=LMLiOxYZvh9gxBNWPEiewvxAH7ovYtULCv0Khoa62xE=;
+ b=quDjapnzdpYv/g6RJkSJDqLbMfrsMbgpF9pSDa48yD0y7Ny8ZcHTR7EZ8ghAGoCSM5/UqMaEsXJH/zzaRb2LaYWSLOfk+/6LIkA6Zn/2eP+tC4RXB/AJe5ifzO+n7E6FiXv+5hUR4pmzILAdBAJYXu9NWnc6RXtkD39DAwtpriNDx+cSXhHlabXb9hTnNMxhp8CzHEw0JzX16ec5sOrHXQTzqhjZP3Oa4DmRfEP8btnPEzCumvOCYl4atcsCPWpD/9NXwwowjpXhQQKBnNOryoxSGTvPd3ZdW6y7v5J+AWb+DQU+6yowepZOitr8Jbck4MtEPz6mVAFwjjtkGYNbvA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0BBP2z65Dd8DgLZMTsDcYi21zgxdEr/LCSVR2KzObhw=;
- b=wxCqoQpnTwcwv7iY3hZFy9SXh8EF25K8DwxMWD4uNCPLQAf0RCRp3Vpx6zj36LfAv6M/gf2zkMQYxAlkiLYGUUoLVPbXW9NBZG/AKRCvnknZHvTuHNqep7WJ5/nrioJAzF85uQqv8vBk3Jf8tfQ1q/AxLwVckTftTbj46qHTSj8=
+ bh=LMLiOxYZvh9gxBNWPEiewvxAH7ovYtULCv0Khoa62xE=;
+ b=KFFSgzJaWaoTGKo3/XrCU3Cflbsa1/3oxFVbi73c6Ga3T52S7Km8h0p2cgwxZtkHFfWuMc0xUvxAk5XXwx9xt9cJy2+aFywmlrTEYIfbMh21de6x8bl6B8uuPZeaxoGpYa7Y1yF9VF76d/Do6OfkDC+YldBWn6DP8yqwQ1QrQKg=
 Received: from BLAPR10MB5075.namprd10.prod.outlook.com (2603:10b6:208:322::19)
- by PH3PPF077CE0592.namprd10.prod.outlook.com (2603:10b6:518:1::785) with
+ by PH0PR10MB4582.namprd10.prod.outlook.com (2603:10b6:510:39::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Thu, 23 Oct
- 2025 19:52:42 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Thu, 23 Oct
+ 2025 19:53:47 +0000
 Received: from BLAPR10MB5075.namprd10.prod.outlook.com
  ([fe80::8f5:4de9:81ce:f5c6]) by BLAPR10MB5075.namprd10.prod.outlook.com
  ([fe80::8f5:4de9:81ce:f5c6%5]) with mapi id 15.20.9228.010; Thu, 23 Oct 2025
- 19:52:39 +0000
-Message-ID: <854ef7cf-b5a8-44c9-8d59-9ea9bfcce485@oracle.com>
-Date: Thu, 23 Oct 2025 13:52:35 -0600
+ 19:53:47 +0000
+Message-ID: <0881ec51-e603-41cd-a5cd-a2d59e4e6bae@oracle.com>
+Date: Thu, 23 Oct 2025 13:53:43 -0600
 User-Agent: Mozilla Thunderbird
-Subject: Re: [DTrace-devel] [PATCH 04/20] doc: Convert stability attribute
- tables to Markdown for readability
+Subject: Re: [PATCH v2 06/20] doc: Clean up dangling anchor links
 To: eugene.loh@oracle.com, dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-References: <20250926190557.8485-1-eugene.loh@oracle.com>
- <20250926190557.8485-4-eugene.loh@oracle.com>
+References: <20251022032251.2010-1-eugene.loh@oracle.com>
+ <20251022032251.2010-2-eugene.loh@oracle.com>
 Content-Language: en-US
 From: Elena Zannoni <elena.zannoni@oracle.com>
 Organization: Oracle USA Inc.
-In-Reply-To: <20250926190557.8485-4-eugene.loh@oracle.com>
+In-Reply-To: <20251022032251.2010-2-eugene.loh@oracle.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CYZPR14CA0027.namprd14.prod.outlook.com
- (2603:10b6:930:a0::17) To BLAPR10MB5075.namprd10.prod.outlook.com
+X-ClientProxiedBy: CY8PR02CA0006.namprd02.prod.outlook.com
+ (2603:10b6:930:4d::11) To BLAPR10MB5075.namprd10.prod.outlook.com
  (2603:10b6:208:322::19)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -89,1489 +88,500 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BLAPR10MB5075:EE_|PH3PPF077CE0592:EE_
-X-MS-Office365-Filtering-Correlation-Id: 84fccaa7-f324-4f2e-eea4-08de126db8a0
+X-MS-TrafficTypeDiagnostic: BLAPR10MB5075:EE_|PH0PR10MB4582:EE_
+X-MS-Office365-Filtering-Correlation-Id: 54080f08-0eed-40a3-bcbd-08de126de0f0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|10070799003;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|10070799003;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WjZ1ZDVoY053bFFPQUM5TVUxa052SXN6Nk5tVGd5N1hpRXpMejZhdTJPWXRn?=
- =?utf-8?B?VzNOV1IzYVNFMW40bXBiQnZHNEh0RzFub21CY3VuVGlyaTJsQjRLZlRMVTBT?=
- =?utf-8?B?V3ZTZklsWEs2RWtRNmVQbDVVOTQ4M3R0c01iQVp2R21iTXdHQjRhRC9jZTZu?=
- =?utf-8?B?Y3NlWmE5UEx3ZS90b2d6V3g0eVJmcXE3eFdRUGx5V3J2cEMydHVXMjg1MFlL?=
- =?utf-8?B?VklhVDhrZmZGNTEwUVk5S0o1c201bWU1b2U3VXRRblhWdm9EUkdIVUNZcXFE?=
- =?utf-8?B?R0FUd1prVitpVHhrZmlneUhoNVRhMVpMUU5QMmNrNUhjcnpVSFdRbjdmU2tn?=
- =?utf-8?B?a2JpdHdOeEpXc1pwUVVZdUdiSFNjWVF1SzVsUGcrMEF4YjVsT0FqTkJQcmpk?=
- =?utf-8?B?ZW05VmR4Q1VEVmpxeXB3emhwb3NPeXgzUVF2RWlxS0hMeVNmN3B2QkpEcmt4?=
- =?utf-8?B?MndYTVdGWWpUZms4MVEyZm1mVURrSmZCSTYvTFBHdnB3RE5vejlhR0svQ2pi?=
- =?utf-8?B?Lzh1dndIKzhlSWU2cHlheTZ4MG5obkhULzBYQzcyenpqNDZydVh4TGZVNHRu?=
- =?utf-8?B?TUpyRVRYdmpPek9CMnJEK1RPWlJEVW1uNFIwZnUwaE9PTWxFcXlQamFxU25p?=
- =?utf-8?B?aHhFZFdLbk1XVDR2VW04MFJISElyVXBSbUNJSEhTajBQZVNSeWZtVXJmQUhq?=
- =?utf-8?B?R01LdjBCaTgyMmNaQUJVblhwQWlOcXg5ZW80TUJDc2RRNDFpOWVsTzV0UWlO?=
- =?utf-8?B?a2JwVVNRSHZtRVI5eU10VUtrV25yVzhvdHhtVjB4OUZDZTNCcUQ4RWR0VUlr?=
- =?utf-8?B?ZC9RSFhzREtkZEdIc3NxQzdXVnQxOGpqclZucGx5QjVEcUVIcGU5SzZicytF?=
- =?utf-8?B?b3hzd0E4Q2s2NG1uRFZBUmxWUmJqeDkxUHQvV21VUmdDOXh0aERJajhzdlBz?=
- =?utf-8?B?K3JhbzRjVjVRekFKVkV1Q2RFUzVUOHprWWh2NDZ0MWloN3JnZ0VObWgzZHNy?=
- =?utf-8?B?ZkJ1UkpFUkowWmpUbk9kTmt3VU1nc2oxNUFnckpaT0toVlQxOXVHSFZVQWlx?=
- =?utf-8?B?dTI4aXhCMFdtMDdGSGlLcy9sL1Z1Z2ViNWl1QnVwNGlJSFNoQ21ZQS9yNDBv?=
- =?utf-8?B?aXVMQXc1Q1ZCWVZuaTRtQVlxOStkUGdxZkJvZy9UN1NjelNxR1NGN29BYXVv?=
- =?utf-8?B?cDhrNUxkOUJXWnBvSTQrcGt2U0lYOFhUaW9UWVJYVEUyZS9RMnFmSmY3V29t?=
- =?utf-8?B?anR2MmZWSFRXMERwV05tN09SamVUTVhGZm9Va21xcXFEVGhoOTBPUzdmTlIy?=
- =?utf-8?B?SnQ0NVdpTXg1MW9Fek01Z2JZRjJvMHJZOVB0RU5XdVlrQUFRZ0IxQkxKMXhB?=
- =?utf-8?B?M0RQS01OOGI2Y1IxUHQ4Q2I1QW5LUHI5M2x0aUpwYzBlYVhYYjBlQXpIRmZv?=
- =?utf-8?B?bDJLb3NoU2Y5RlEwNTMxRVFDeGFnaTZKQTN3V3RBQkptcDlWcnNjWTJXUjFa?=
- =?utf-8?B?T0lLdVdWN29GbU85YkVMRDRTTHV6a1Zwb3VUTEpueHhRTWY5NjliT0g5bUtY?=
- =?utf-8?B?T29BclFsZGkxWTNUQ0Njc3NlcFVrTHVwQXBoc1hOdkcxRWFkcSt6UUhOb0c3?=
- =?utf-8?B?bVBmS1kzbFJDMWVxTkxrYnBvMkVIMjBGWU5WUEMzYjRPTzRBVXF0NUh6bjd1?=
- =?utf-8?B?aHpyNkx4d2FDRHIyeGZRQzkwR2I0NGI5bnV0cEt0eDZhR1VhR2E2U00wamw2?=
- =?utf-8?B?V29xdTNYWXNIMTJLdzJvQmtwRDIyOWFFOVVyYUh0Tm9lQjJyV0Vyc3dma3U1?=
- =?utf-8?B?VjZrcUZ1SFkyeVExNm5SaitsT2ZJQVQrUngvK2NqQnQ3cytDSmgzWXk3L01a?=
- =?utf-8?B?S25LLzhkVXRLQlRrRGtxaDU0eTBzbUxqL084SFZ3bU5vVnlQd1o4aHVkQmxu?=
- =?utf-8?Q?LsPRu3I8vCeCyPCv6yRkAV2Nj8Jevq5U?=
+	=?utf-8?B?TFI2bWF1c2VJSUNLUUVqT29STTBWRWpVTkd6TVhGUENKYlF1K0FURnhwY3Y4?=
+ =?utf-8?B?VTgzTU9vOWRYN3lqcitjRGJHQytTQU5KUXdQU0pONGxac1JDeVVXVDgyNHdW?=
+ =?utf-8?B?ODIvKzgxVzA5Z2FyY25vWVdyQTIvL3RxclBrUHBUWXFva0g3ZEpRaDUydlZD?=
+ =?utf-8?B?d0pyb2pkOWtlYzA1K1gzYjJYb3ZXUHNMdGJLN0xiMUJ4Y0VCUFRRcXdheEtS?=
+ =?utf-8?B?VWNCalkrZmwvWGRhaWFqTGlzbE4zYWM1YzU5aXQ3b0EyQ05UOTUrOGlyVW53?=
+ =?utf-8?B?cHZ1UjM4UlpvS2ZSdUlpVGdTREtGOGpwY3gxT0c2R0lCSXFoRjRVTitkRmYx?=
+ =?utf-8?B?ejNHR3N2MlFKUlJyQk82eWl5L1JaSzM0VWNiYm1NTEZaTk9wMU00T2JRcTdJ?=
+ =?utf-8?B?bHMzK25nOEkxL2dGUXd5VVRMOU94Ky9lNVFuMDVITlZOVndDMElZMEVjSGZh?=
+ =?utf-8?B?ZGJNL1VUWU0rY0gweVNjSmFCQkV3Q1dBK0xEU2Fzdys2ZXNPK21BM0VYWS9X?=
+ =?utf-8?B?UzBjVXZVRFVhVm9PQkZBRmdaNzloT3FyeDFSUFpOYmxlKzV5NTQwSlpGNGdV?=
+ =?utf-8?B?d2diNDNHTzZ6RkdMMnQvdEE2TFVLNnN0OGFuL1FYaktjVkN0VEEzRXNlRkZO?=
+ =?utf-8?B?dmYzYlpkUmNqek1iSU5venFCNTJWNW1HRmRoZm9zNXlOcXpNYW9jMzhrUWIw?=
+ =?utf-8?B?eWJEVVhrQWdvZmdFWmRDc0ErZld3Z09OTVRnZXM4bzdIMkY1dGhlY0lPT0RX?=
+ =?utf-8?B?enNNQlBpTTZsOHlSVGtKVWhGcldyOGtaTzNPSjNCQ0hUdXZQM08yZkZGdGhH?=
+ =?utf-8?B?Z2xuMGo2WUlQQWY3cWZKcUhJR0RRMEFWWkxzaW5vMGNWbWJrT2xWVk9DQU1x?=
+ =?utf-8?B?VUZQWERSL3FRb1ZldkwrTjl4S1NzeUJmYllaNEJjMThjajlIVkp6V2wzVEE0?=
+ =?utf-8?B?RWp3MFVjWm5rU2NFaHVBb3lmalpWR2Z2WGtBeDVOWWZxY29Idm9QVi83N2Z1?=
+ =?utf-8?B?dUNxWFMxQ2hHMDk0bThvWVVTUDAwM0ZTYk5UdjRZZW4rR0IwbDM2QkJmMGt0?=
+ =?utf-8?B?U0NlMFV2WGM2V3A4Q0k3SElSWERIQjhBSFh4ZHc3VTJGQm9UYnVGRlkrQVRD?=
+ =?utf-8?B?T2lUby9zbHNJSFpsbGNvWkt4OU5HUm1EZCtmTTJueVJsOTlaTlpxdlY2Mlh4?=
+ =?utf-8?B?TitUWHNIWG1MdmszTUJIZVNPSCt0TzIwRkR0L2hpMmFKYmdzRzJjMnVFT0JF?=
+ =?utf-8?B?QjlaNThoVFdVTGdCTUdrcXlLdEFOUWtBSFpqOVlDR1U0M0ZHdFloSFFlMFY4?=
+ =?utf-8?B?dUlFMzlVaHM0TDNWTGhaNkFGQ0VLN1RwMGJoZi9NWTNYd01uWjdTWStkU1pj?=
+ =?utf-8?B?c2laZTd0aEJYOUtGUndJc3J2WG4rQzRublBrWWxqSXRpUE9JYjhuTzlPZkth?=
+ =?utf-8?B?Ty9RTjlZb3pPVmlZbDNzRWNTRDFDMzgrbyt3Z1JzcEJPQXBrN05TeG5rSWJ3?=
+ =?utf-8?B?OU56THNxRkIydTIrWXpLRUE2emtvcmVwV0hxTC84QVBIQkNzc0g0em9JeU14?=
+ =?utf-8?B?NkpXek5RUmppZWxxS0R1RmNYT3pyUzhWZnUwakE0QzByakJKMnBOR0VhS3l3?=
+ =?utf-8?B?QXZJM3VZTUNwR05NWFNpVUE0VWs5Z2d3ajUwc1dEckYzV3dXRjU5U2N6N2pZ?=
+ =?utf-8?B?ck1mSVo0MXYwb1UrKzk5dnpFYmlEendUbS8vV3ltK2dVeHdXMTdHOFc4aGUz?=
+ =?utf-8?B?dzIvd0RCOGJPTmlFK0lmMG1MVVBCL3F5cEVXd2dLanVtb0diQWk3QXFvUU5h?=
+ =?utf-8?B?LzRUTzgzVnJpYTJmMDhnTndmcVBCMEJ3U1J5R3F4bG5Ra2FFd08vQWRnVW5H?=
+ =?utf-8?B?QmFyOFFLcSt3S1hURUJveXFCekVtOFM5djd1ODhwTWpXMmk4U3pjSUFqWEE0?=
+ =?utf-8?Q?JsQ/bDnBh7bt/3Bgv5jTzhBtbCWloTyG?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB5075.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(10070799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB5075.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(10070799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?S24yWUdPczFWRG9acExpWUZLTE4wLytteDBaYlN1MUUyY1FydXlVU2xzRDFh?=
- =?utf-8?B?b1R4OWkvektCT2RsQzdGRFNVZU1Ud3Rab0o3SnFxK29sUE5CNmVyRGdDeHo3?=
- =?utf-8?B?VVJySVRuNDFqU2p6OERPL2R2eFZ4MEIvbVlPbFl5dWV4YUZkR1k3V3E3Z0Za?=
- =?utf-8?B?TkVuYjcrT0tLaEtRTUFDNWJDTWZxY013K1hrK3FOMTc5YUQyL1M5SUdkdVBM?=
- =?utf-8?B?YUxsRWxwU0VhY25UMFVRNWtWSGhNU2JrU3pRM3ZSNGttR3FTWDJ1Mk5hMmQ4?=
- =?utf-8?B?MmlyMThhaVJIZW13Vyt2YW5RV3NicmdRVEhmWFFLN0htcFRES2FVZjJlbEZP?=
- =?utf-8?B?S0UrcE4xa29OWGNGZk9PWElsRDFFUjZFTFFHZ0s2ei8zTkdsYm02ZU40ZHh6?=
- =?utf-8?B?cVVIclo5WjQ4cjZBSTJDTTVKT1k0VTNWUnpUZWZqVFhXOFI5WjNxZW95U1dt?=
- =?utf-8?B?L1BLODVRVGZLZllXRDZCeUZyREx2RFBmeHp5NWhxeFNtcGRmNEo1UVhDY2RW?=
- =?utf-8?B?cEZFYU1YVTNiSVpXb3E2ZnBxR1pwNVdhR2RVQmpZeUI5bHk2L214dWl6Qzdh?=
- =?utf-8?B?NHpNYnpzUW02NXhzN1J1ZS93dDZobDNxK1BNbm1hWlEyNzB6bThZTjhJMkZw?=
- =?utf-8?B?dnQ4YXpLT2NKZW1QQXlPWGVYWkJvcjAvRmpJdlR3aTVWTkIrbGU3aGxjd2dq?=
- =?utf-8?B?c1pEeHEraDJZU0RJaTgzYVg5RURoVVBwUUhTaVA2TkZlZ2Z4MUhpcGdRMEF1?=
- =?utf-8?B?WTltUzE2bDgxSC9PVHl2L1BTRjF0SlMzanBQUjMwNGJwb2I0bmVodUROOVBX?=
- =?utf-8?B?V1M1Q2hXbGVjRWlDTTFoRFRsYUR6WFA3eVZGdndCZ3RuNmlqdDdTbXk4L0dK?=
- =?utf-8?B?WWxmbE8yaGJUUm16RjBpbXRvSzFkWnYrNXQvVStxQ2lXK21yRlg5YWNWa0VP?=
- =?utf-8?B?N1Q1RFY2M1FsUU9QVkplTG82OVRFTDJ4RXo4RzB4eEgzVEcxMjMxeDBWSzFX?=
- =?utf-8?B?SXBxaXZEemp5Q2s1LzNqcVpRYnV5UUE2R2N1ZFZCdjN0WWE5bDlJcE9XUlFj?=
- =?utf-8?B?bHNhOE9KZkRLN3F1RDhXNUxuejZBQzlVRnhwNmpMd1pKbjR1Ynlxa0NjMUhi?=
- =?utf-8?B?TTlIck5wUlk1cGpKK3ZteGJSVTFaYmw4MDdiUGU1QzYvc2xYSmJnRFJMZTdr?=
- =?utf-8?B?YyszcENvSWlCeWhiZnJKWkFsSGFpWk9jV2xQa1NLSGJUZFR6c09CdWU0SGov?=
- =?utf-8?B?M1JNeU5GKzUyekdEdXVxUjZpSzRIU3l2WDFQVGhoSE5QSlhnVExWeHZzOXVn?=
- =?utf-8?B?QVpYRER4NW90bEZ0andpcTQ4TU1KZU9XQjZscW8rNWpCVEpZcUJ6SmpWU0xk?=
- =?utf-8?B?SjlKczdWRHUxQW8zQVJiL3Z1aDdGUzdOakFqVExUb2NEOEJVSExYSTF5S0Zm?=
- =?utf-8?B?MDV2UmhXTGlUR0tQeFR2Qm5VSGVHbXZwRHFrTkljWlJCTFZjQ3kxdWdHaEJi?=
- =?utf-8?B?QkJESlhjN1JXdXdOdVFuU2JuQmZWQTJjWjFuLzBZZjBjay9SSXdqTThjSGNo?=
- =?utf-8?B?dkZMLzNNUW9QVEc3MENGMExMVnk3TWt0eUowL1ZSWDUxcVoyZFg2dXpHMTVI?=
- =?utf-8?B?MHVkdXJIc29mOTNuSGl0Zk1kOFRNREhPMmgrZVROS2pwREtHNTZ0a2tlbzVt?=
- =?utf-8?B?MEtZZnRIVmxwNXJySXNab09FWXpFY3dPQjlRWnlXNURXcXRRZ3Ivai9ub3Nm?=
- =?utf-8?B?ZWJ4RTQ1TDhiVGVpNTVRQ3kvUzZuUVBiaWJ6NDN2SnJrbnpEeTNGSnJWeDhk?=
- =?utf-8?B?eXJYQmdDT3ZPcWVYanJlc0hTWlpqSGJuUW1TelpZa2d3b2VrUko5bHhyazAx?=
- =?utf-8?B?MEQvOTl4VTRpanZNNEdRWk1KRHJoaTZKdnh6Vks2ME9NM2ZpS3hoQWdMaFk0?=
- =?utf-8?B?SFlweVVBR2xxVTkvL0tEdWl5dDhxSGd1ckhsQU1IZDhZdG1nOWtMWGtENnI1?=
- =?utf-8?B?T2cyZTgxbkk0bnFoL2phQ0cwT01RYUhtbmR0MnpIWHRxcXdSTExWemJLWnhZ?=
- =?utf-8?B?MWhaOVRMMkVMRHBQUWxJWUFSOGNMR3dIUHV4M1JyR3YxNElVVXI1ZXlGS29k?=
- =?utf-8?B?YkJMazM1RW1qdXREVi93azZPRjIxaS9oczhTUTNpV0hqbFFmQndnZjlaLzV0?=
- =?utf-8?Q?LWwZDM6HHbEAfovVV5YJQRs=3D?=
+	=?utf-8?B?bjlyblRacmc4YzBJZ3RWMXJ1enJ6NzAyTm8yK0xxRFR1cjdPUFdMY2R6dGNU?=
+ =?utf-8?B?TUZZaFE4Z0VnR0FYTHVPbkxBVXlZbHZQOGV4Z2M4WVd0MlJvWnp1UDBtYmRV?=
+ =?utf-8?B?S2xwMERQblFDdEtCOTdRRWJYTjh2UHVqWWxhRmdxeDkxekRHR25vZ3JiV29D?=
+ =?utf-8?B?RGZoRll2OUh2MktPVTVvSlJxcDkwY2VoTE9ZY2E0anNRZDU0blNxWjdrcVY2?=
+ =?utf-8?B?OHowWGVPTXovNElPZGlRb2VVRmZHMHE3aEY0SlpkQi9VV1NicERidUFjV2ZZ?=
+ =?utf-8?B?a1ZlaDd0dkVlcHd1NU5EV0UyK3JnU1g0b0c0dlMwVldsSXNienlWUThrTTFv?=
+ =?utf-8?B?UVBCc2YyMC84empnMDFaWkxWVDgxOWF2UlVaT3RWRW01ZzQ2UXlKdTFieWdQ?=
+ =?utf-8?B?L0JIS3hBcjA0dkJhZENXblB5QkxERnV0d3E4Y0ZYZnpndWhVOElva1pqUnRO?=
+ =?utf-8?B?WjNVck5IcnE2VHlSb3dBdjIycU1GdU5jdURTbERkVTZNRHZBTS9PMzU3cHQ0?=
+ =?utf-8?B?Q0tuNGIzeEZ5ZCtOdzVoZjlYeHpvNzJxL1c5TnZobHdEV1hGQk03R3JMQXJ3?=
+ =?utf-8?B?SmdKeGV4Z3F2MkU2YktJSUZmbjFUeGp1OVlLeFRmY0N3bDJ3YjBid0Q3amVN?=
+ =?utf-8?B?czVtSDNyMkp3Q0J6NUtTV2ZqTWN5YzFlYXFZR0NVN3ZlejJveU9uTnNmVS93?=
+ =?utf-8?B?bjRic3NBaXQyaUhkMzZ5dkVxallCaGtCQkxZSHZyMjBzb093anpUSFZ3akFK?=
+ =?utf-8?B?NlBhcVNNb1REU3FLejRBc1Z3MHdtbWhwR29pSmFYc0piUTk4bmF2b0wwdnE1?=
+ =?utf-8?B?NGVFVDhPVzNXb3kwVmVoWDkzTExDd1JUa01YMzFnOVIzc1RYd0swdWI2YWJT?=
+ =?utf-8?B?Z0hQV3hoR0JSakszdkxnOTNNc2RWTkZxSi9SQVc0em42MXFEcGxEWVNXYktw?=
+ =?utf-8?B?NDFhOSs5UVhHUEhxNUtRbnJXNkRLQUZncERvTDhaUS9ZYldrVWJKVzJOTVFD?=
+ =?utf-8?B?YnRySElVR3VEd3NxUkU3Nm5aUVBnUElxcEFNOU1IWU1ldmpQK3h5Y3Q0RVBR?=
+ =?utf-8?B?SDlseGl6Uktya2dPcWI1TkNucUJvT1dSOW5DVVluS3lWMUZ0WlBXanlZSVNq?=
+ =?utf-8?B?RXd6U2JMVVNzcE1SNTMyQ3lkMDFNZDFwUDNqK3pGcE44ZWVQd1l2MEdTWU5u?=
+ =?utf-8?B?RzRja3lBN2VNRlZHaEVMTmpsMnRDL3BKQTZTWmZnUTdHNU5rSDErMFZLTEJN?=
+ =?utf-8?B?SHhGYm1aeUlSd3B4SEt2QnlxS0JsczU2TDJvTWNvdDJUV1k2VkFYd0sydFVv?=
+ =?utf-8?B?SnYyc2dONGxzWFhCN2FEZHlVa2VQdldmRGV1U2VQMDViY1RZOU9hRGpUK3FD?=
+ =?utf-8?B?L1lFTnZoLzBpbWd3TDd1ZEswYWJ1L1hyaER5U0hDZVp1aUMxODJoMGt3Yis3?=
+ =?utf-8?B?U1RIbmw2STVGYjl0dGJlcXMwZWlWU1ZQcXBMT1NJVWVUWG5IU2RvTVFxVDc3?=
+ =?utf-8?B?V3dkUTUwYUt4MG5GaWVVSmU4NDN6QWEvTVZ6d1pHcCtkRTJBRk1hRFlVQ1Bm?=
+ =?utf-8?B?dHdRRGZJUjNsUzJGMUJFWUpYeXBBdXhGdStNZi9WWUpWdzluVmYxSHAwR1dR?=
+ =?utf-8?B?LzdKdEdLc1ZMK0EvMzJmMnJkN2g3czN0SCtDZ0tlQ2tHbERmR3dyMm8wZDht?=
+ =?utf-8?B?b2JSZmpNM21GWTB5Zi9aQ3diaWtjWTNrZlVrejlaZHo0QnUvN20xRW1zNzRH?=
+ =?utf-8?B?TjU4a05HT3JvL2w3ZHArTXNTR0o3TlhkbXppVWtMcEtlQ1QwcVo1ZkF6K3Ir?=
+ =?utf-8?B?NjNQUmUybnhHZ2xrMUVkOHZYQVM5bXlXMHhVb1k2OGRjbUNnY3ZMS1pNV1Zn?=
+ =?utf-8?B?ajJDRi83QUFadm5McjF0UFd0RTBteERRb1dMdDdWbkl4elB1VDBnTlZRM2Jj?=
+ =?utf-8?B?RENsT2swOXp5SXRtdTlNekN1N0xSTmVDeml6UHNkVnBpWVhZOWt0RjllWTY1?=
+ =?utf-8?B?RUNaUXgyTzJnNzd3TWNYWS9SQlNGTWdiak1DQitFTm0vbVR1OURocXJ6OWFG?=
+ =?utf-8?B?OHV5T0o2Tk5pcHJYRFpRZHJGOWx2QTdQZithU3o0ckJqUWh1ejdScVpIb3FS?=
+ =?utf-8?B?N2ZpaGo0OTBQMnNQNytuSThITU4yak9wbURRbUpKSHVnNU5XWXEwdkR5eWdm?=
+ =?utf-8?Q?C+J4R59bwXSMNM+49xENJ2g=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	dxICdelGskBQsAJbbGMV/wX7jOZSjgqmu8eh7O6JQJsnFy8Eh5HEnOP3c2PBgtXCT151CzJMm0xqtFVjN18mzOYsIFlPFrQmVVf/vLPAvgRoEtdPMoog5k0WH7Dk9XsFsDX2dasM+ZO/UqgHRPsh+Up0tFDvbt1NTpMMQ5tqwxcmLhk6YQt4IdJJMRDeUr/Rx8YU2ulhWz3ey+2ujxlJyoHMaLrckFMGOao0pxmnM3giVlG7rnzVcd9ShKuzY2z2xCHlFDS7GHtyL2WTcPu/edd0M8bCHlKO5qufMEq/trdz3ZiKsKLkDMmZjOIBAVwwfWdshbaJg3WVP1XMvcETn6tFRY5GEdwMrzTo/GvgYmLKfPQViZBW+7QR83qS84zU+Wj0J42krPaXpbSOcbDQOL7gV4BbSSi2yRkxtC10AE0muQB/RWD5Se2SBf6EwzURUWzvSTIAAQ6wPLk//EIadXwIPy+WTBldep2kFO5jFfLHatuVa+r0wJK9h4h1R/Camx0af0RNSt6UGSX0V4PMq5p4CKDOFiAzISlhB1pc2LNKCbbMPgr+5kVF9e3bNaA+YD2OpdoW7gANFAMn/ct03CC+EcCVmCI7j8ucbEeJcU8=
+	F4RUQyIlQsU3T9uCyV1jt39CeUCm+XftYEZAQWqM/55Og2mJQ7xJgoukDtK+t0SLfGLzRgbtAcpICZJ7/W6kdjJloXMAlDKkK8M5zFah/kUGpbBRRc7e2TgDU1UdUtib+w6LIY9OhJVn9g6h/Y3ucGfoge2MGB6CurlOcvSpaAoVZgxFpqipmabFRSt7wZQNjiKOKkVZDkEYJivfPWBdxgLoipJw7tHUj+J+iJ2X3Wbfa8sIfSy6iRsKHwWyfBOjFYGz7dHZeE7qIy4iuARw6x6Ysa2aJ9JchSkZnep5e1Mslw3dFEnzQ00hNtBRIrWQWOpvK8pQoZLFBX24zj9Figrtrccz0lhCa4RdVJm7M3i5WhkqraHavKHMeMvF2K8KpHrMS/a1/cm6gRJ6CNNgQkFd8/uB91oLVBBhDPuxPSaiQwOEaSfDyMOJMz1QNwlozlLkX1J3gIPAMbeJlIrmvGe2Sw4ZWzMUGWAEVoSeNzRSEAs+5yXc5h26BleD6jT1Yny5XD6ng7KQBorNmpYpDoimBxPZS8Az9+QVgwBkP9HARDgHDMXsxjZof5eszh6/hphKhGOvvRQIQymVtiV40YaSYuorUgOVavoxl885XUs=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 84fccaa7-f324-4f2e-eea4-08de126db8a0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54080f08-0eed-40a3-bcbd-08de126de0f0
 X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5075.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2025 19:52:39.3809
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2025 19:53:47.0126
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tH8YBKHm5hqTXDqzP3Lzl/xeWqvjTKdq6E1yoYdYnFbT0gMFnUGAJ5eubmHqjV+WQfq4Tikoi/paaL9beuk5A9pyGbVK89nD4rZIn8kHKYI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF077CE0592
+X-MS-Exchange-CrossTenant-UserPrincipalName: o5jzOWbdIq6RSY5i32IcDE33yyp7wSbO8+P3Y4HoWSnKppeGG4s+ZOv5JqD2zIxU/VkeVlxRhepZdGgKbRK4XlNxeSgNTZYz8Ds6U3ay3A0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4582
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-23_02,2025-10-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 spamscore=0
  adultscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510020000
- definitions=main-2510230181
-X-Proofpoint-ORIG-GUID: CA8OTJv2AE6ok2ypXS8FEP1986J6TQSQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIyMDA3MyBTYWx0ZWRfX6DXktokP8eY7
- 3lgC3LIhtnCfN2/Iq49sUqoY8euPEgx1OuY0sFJV6rc/lbsWO4cCeuI381ld7kyg+/Cfbq2qp4V
- QO1BrEbgwXQMTA0bjc8lyZhCL93lmirvcU+wPcji/YU+lt0Cx0yVJVW+M+NzM8C+6uPFWjbAEEJ
- VDGDV5ZDVDl78rgKCaSjt+x6p/FRxdK75i9WkkMysRMbYo6nM2HWuaRz0iE9GkEtgalUc0XGS5N
- e6BCK5d2LvQFIAI6mljVAdq3Gp4/8v5QRua+X+w3tShtaMPDNO0O5WoR4Qt3BzFT78XkD9KjNdk
- RDlpiy/YBY2vjUX0O89dtNcU+jxAjLgqVcATmHkYRBWhielm+tTnAKkKl3Br4brv0ZSPaMW7ePN
- 9GizaVEa7SF6Z0z5dZP0KQDYdu65Jg==
-X-Proofpoint-GUID: CA8OTJv2AE6ok2ypXS8FEP1986J6TQSQ
-X-Authority-Analysis: v=2.4 cv=D9RK6/Rj c=1 sm=1 tr=0 ts=68fa878f cx=c_pps
+ definitions=main-2510230182
+X-Proofpoint-ORIG-GUID: -SpVLAEBR4QckASC1iYiclItBtBcLjek
+X-Authority-Analysis: v=2.4 cv=XJc9iAhE c=1 sm=1 tr=0 ts=68fa87cf cx=c_pps
  a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=x6icFKpwvdMA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=yPCof4ZbAAAA:8 a=CnENqBCox7jM_zMRg9QA:9 a=BQThsPIMUTkxSCMj:21
+ a=yPCof4ZbAAAA:8 a=zElM5TJG9adPCS0WnoIA:9 a=Vl0SkxlkIPbKrL4X:21
  a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIzMDEwMiBTYWx0ZWRfXz/zOf3Le8JFE
+ m/nKll5dqaGhNqLEZlzGNYCwV5BgyUp6i/On00rJM8qaXoVoeFUSVAS3rT7aW3vGhbMov6s0RsG
+ 5R7NT9LRN7Owh2JvFiyaAFB1NMoYPz9KogRd1dwTP8brxiK9PaiTKYdhBxFjEwlIPeyv1l8yhYm
+ kbQTrYsi6NxQ91sCfoZVj04/DA2n4wcOOtCeo49VhKO1+y5lPocNa0CHZlbzN8QKz1Y2cIE3YJ9
+ dMuhQc6GpXYWCqXgbI39upeyNCThU0f4zWhbX8R2oY0SeFQReQNusg+cw5S3yhzeU4Knv17xCgQ
+ lnUE1yBuCokiHbykrgPjTrfG5i9d36sPafUz0lOJCQD+yxvyp2m71F7+etEM1agmYU9IHdEM82j
+ u94i38A5rae2HeOdFXUCfNedTh0p6w==
+X-Proofpoint-GUID: -SpVLAEBR4QckASC1iYiclItBtBcLjek
 
 
 Reviewed-by: Elena Zannoni <elena.zannoni@oracle.com>
 
 
-On 9/26/25 1:05 PM, eugene.loh--- via DTrace-devel wrote:
+On 10/21/25 9:22 PM, eugene.loh@oracle.com wrote:
 > From: Eugene Loh <eugene.loh@oracle.com>
+> 
+> Links within the User Guide can point to specific anchor tags within a
+> page by appending '#' to the page in the link.  A number of links have
+> the '#' but no tag.  That's okay, but tidy them up for a cleaner look.
 > 
 > Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 > ---
->  .../reference/dtrace_providers_cpc.md         | 104 ++----------------
->  .../reference/dtrace_providers_dtrace.md      | 104 ++----------------
->  .../reference/dtrace_providers_fbt.md         | 104 ++----------------
->  .../reference/dtrace_providers_io.md          | 104 ++----------------
->  .../reference/dtrace_providers_lockstat.md    | 104 ++----------------
->  .../reference/dtrace_providers_pid.md         | 104 ++----------------
->  .../reference/dtrace_providers_proc.md        | 104 ++----------------
->  .../reference/dtrace_providers_profile.md     | 104 ++----------------
->  .../reference/dtrace_providers_rawtp.md       | 104 ++----------------
->  .../reference/dtrace_providers_sched.md       | 104 ++----------------
->  .../reference/dtrace_providers_sdt.md         | 104 ++----------------
->  .../reference/dtrace_providers_syscall.md     | 104 ++----------------
->  12 files changed, 84 insertions(+), 1164 deletions(-)
+>  .../dtrace-components-and-terminology.md      | 10 +++----
+>  doc/userguide/explanation/dtrace-concepts.md  |  4 +--
+>  doc/userguide/how-to/dtrace-guide.md          |  8 ++---
+>  .../dtrace-howto-create-a-dtrace-script.md    |  2 +-
+>  .../reference/d_program_syntax_reference.md   | 16 +++++-----
+>  .../dtrace-ref-DTraceSupportforStrings.md     |  4 +--
+>  .../dtrace-ref-PointersandScalarArrays.md     |  2 +-
+>  ...dtrace-ref-TypesOperatorsandExpressions.md |  4 +--
+>  .../reference/dtrace-ref-Variables.md         |  4 +--
+>  .../dtrace_builtin_variable_reference.md      |  2 +-
+>  .../reference/dtrace_command_reference.md     |  8 ++---
+>  doc/userguide/reference/dtrace_providers.md   | 30 +++++++++----------
+>  .../reference/dtrace_providers_proc.md        |  2 +-
+>  .../reference/dtrace_providers_sched.md       |  2 +-
+>  .../reference/dtrace_runtime_options.md       | 14 ++++-----
+>  15 files changed, 56 insertions(+), 56 deletions(-)
 > 
-> diff --git a/doc/userguide/reference/dtrace_providers_cpc.md b/doc/userguide/reference/dtrace_providers_cpc.md
-> index 5128d8e8b..39b2ca6f5 100644
-> --- a/doc/userguide/reference/dtrace_providers_cpc.md
-> +++ b/doc/userguide/reference/dtrace_providers_cpc.md
-> @@ -60,100 +60,10 @@ cpc:::cycles-all-50000000
+> diff --git a/doc/userguide/explanation/dtrace-components-and-terminology.md b/doc/userguide/explanation/dtrace-components-and-terminology.md
+> index be6c649d7..b187055a4 100644
+> --- a/doc/userguide/explanation/dtrace-components-and-terminology.md
+> +++ b/doc/userguide/explanation/dtrace-components-and-terminology.md
+> @@ -3,7 +3,7 @@
 >  
->  The `cpc` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
+>  Learn about the different components and the terms used to describe them within the DTrace framework.
 >  
-> -<table><thead><tr><th>
-> -
-> -Element
-> -
-> -</th><th>
-> -
-> -Name Stability
-> -
-> -</th><th>
-> -
-> -Data Stability
-> -
-> -</th><th>
-> -
-> -Dependency Class
-> -
-> -</th></tr></thead><tbody><tr><td>
-> -
-> -Provider
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Common
-> -
-> -</td></tr><tr><td>
-> -
-> -Module
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Function
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Name
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -CPU
-> -
-> -</td></tr><tr><td>
-> -
-> -Arguments
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Common
-> -
-> -</td></tr><tbody></table>
-> +| Element   | Name Stability | Data Stability | Dependency Class |
-> +| :---      | :---           | :---           | :---             |
-> +| Provider  | Evolving       | Evolving       | Common           |
-> +| Module    | Private        | Private        | Unknown          |
-> +| Function  | Private        | Private        | Unknown          |
-> +| Name      | Evolving       | Evolving       | CPU              |
-> +| Arguments | Evolving       | Evolving       | Common           |
-> diff --git a/doc/userguide/reference/dtrace_providers_dtrace.md b/doc/userguide/reference/dtrace_providers_dtrace.md
-> index 1680c2a72..ef62c5040 100644
-> --- a/doc/userguide/reference/dtrace_providers_dtrace.md
-> +++ b/doc/userguide/reference/dtrace_providers_dtrace.md
-> @@ -315,100 +315,10 @@ If the actions that are taken in the `ERROR` probe cause an error, that error is
+> -DTrace is a framework that dynamically traces data into buffers that are read by the `dtrace` command line utility. The `dtrace` command line utility can run programs that can implement certain functions by compiling D programs to generate eBPF code that's loaded into the kernel. In practice, all interaction with DTrace is performed by using the `dtrace` command line utility. See [Install DTrace](../how-to/dtrace-howto-install-dtrace.md#) for information on how to install the command line utility.
+> +DTrace is a framework that dynamically traces data into buffers that are read by the `dtrace` command line utility. The `dtrace` command line utility can run programs that can implement certain functions by compiling D programs to generate eBPF code that's loaded into the kernel. In practice, all interaction with DTrace is performed by using the `dtrace` command line utility. See [Install DTrace](../how-to/dtrace-howto-install-dtrace.md) for information on how to install the command line utility.
 >  
->  The `dtrace` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
+>  **Parent topic:**[DTrace Concepts](../explanation/dtrace-concepts.md)
 >  
-> -<table><thead><tr><th>
-> -
-> -Element
-> -
-> -</th><th>
-> -
-> -Name Stability
-> -
-> -</th><th>
-> -
-> -Data Stability
-> -
-> -</th><th>
-> -
-> -Dependency Class
-> -
-> -</th></tr></thead><tbody><tr><td>
-> -
-> -Provider
-> -
-> -</td><td>
-> -
-> -Stable
-> -
-> -</td><td>
-> -
-> -Stable
-> -
-> -</td><td>
-> -
-> -Common
-> -
-> -</td></tr><tr><td>
-> -
-> -Module
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Function
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Name
-> -
-> -</td><td>
-> -
-> -Stable
-> -
-> -</td><td>
-> -
-> -Stable
-> -
-> -</td><td>
-> -
-> -Common
-> -
-> -</td></tr><tr><td>
-> -
-> -Arguments
-> -
-> -</td><td>
-> -
-> -Stable
-> -
-> -</td><td>
-> -
-> -Stable
-> -
-> -</td><td>
-> -
-> -Common
-> -
-> -</td></tr><tbody></table>
-> +| Element   | Name Stability | Data Stability | Dependency Class |
-> +| :---      | :---           | :---           | :---             |
-> +| Provider  | Stable         | Stable         | Common           |
-> +| Module    | Private        | Private        | Unknown          |
-> +| Function  | Private        | Private        | Unknown          |
-> +| Name      | Stable         | Stable         | Common           |
-> +| Arguments | Stable         | Stable         | Common           |
-> diff --git a/doc/userguide/reference/dtrace_providers_fbt.md b/doc/userguide/reference/dtrace_providers_fbt.md
-> index 727614434..885d59230 100644
-> --- a/doc/userguide/reference/dtrace_providers_fbt.md
-> +++ b/doc/userguide/reference/dtrace_providers_fbt.md
-> @@ -78,100 +78,10 @@ The output shows the internal kernel functions that are making calls to the `kme
+> @@ -31,7 +31,7 @@ Output is displayed to show each of the different values that are used to refere
+>      ...
+>  ```
 >  
->  The `fbt` provider uses DTrace's stability mechanism to describe its stabilities. These stability values are listed in the following table.
+> -See [List and Enable Probes](../how-to/dtrace-howto-list-and-enable-probes.md#) for more information on how to list and enable specific probes.
+> +See [List and Enable Probes](../how-to/dtrace-howto-list-and-enable-probes.md) for more information on how to list and enable specific probes.
 >  
-> -<table><thead><tr><th>
-> -
-> -Element
-> -
-> -</th><th>
-> -
-> -Name Stability
-> -
-> -</th><th>
-> -
-> -Data Stability
-> -
-> -</th><th>
-> -
-> -Dependency Class
-> -
-> -</th></tr></thead><tbody><tr><td>
-> -
-> -Provider
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Common
-> -
-> -</td></tr><tr><td>
-> -
-> -Module
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Function
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Name
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Common
-> -
-> -</td></tr><tr><td>
-> -
-> -Arguments
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tbody></table>
-> +| Element   | Name Stability | Data Stability | Dependency Class |
-> +| :---      | :---           | :---           | :---             |
-> +| Provider  | Evolving       | Evolving       | Common           |
-> +| Module    | Private        | Private        | Unknown          |
-> +| Function  | Private        | Private        | ISA              |
-> +| Name      | Evolving       | Evolving       | Common           |
-> +| Arguments | Private        | Private        | ISA              |
-> diff --git a/doc/userguide/reference/dtrace_providers_io.md b/doc/userguide/reference/dtrace_providers_io.md
-> index ff1d12887..a458ab284 100644
-> --- a/doc/userguide/reference/dtrace_providers_io.md
-> +++ b/doc/userguide/reference/dtrace_providers_io.md
-> @@ -521,100 +521,10 @@ The previous output shows that the USB drive \(`sdc1`\) is clearly the limiting
+>  Probes are made available by *providers*, which group particular kinds of instrumentation together. If a provider is related to source code, its probes might also include information about the piece of code that the probe relates to in a *module* and a *function* identifier. Therefore, a probe is identified by a *probe description*, grouped into four fields:
 >  
->  The `io` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
+> @@ -64,7 +64,7 @@ Some probes don't have a module or function identifier when they're listed. When
+>  dtrace:::BEGIN
+>  ```
 >  
-> -<table><thead><tr><th>
-> -
-> -Element
-> -
-> -</th><th>
-> -
-> -Name Stability
-> -
-> -</th><th>
-> -
-> -Data Stability
-> -
-> -</th><th>
-> -
-> -Dependency Class
-> -
-> -</th></tr></thead><tbody><tr><td>
-> -
-> -Provider
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Module
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Function
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Name
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Arguments
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tbody></table>
-> +| Element   | Name Stability | Data Stability | Dependency Class |
-> +| :---      | :---           | :---           | :---             |
-> +| Provider  | Evolving       | Evolving       | ISA              |
-> +| Module    | Private        | Private        | Unknown          |
-> +| Function  | Private        | Private        | Unknown          |
-> +| Name      | Evolving       | Evolving       | ISA              |
-> +| Arguments | Evolving       | Evolving       | ISA              |
-> diff --git a/doc/userguide/reference/dtrace_providers_lockstat.md b/doc/userguide/reference/dtrace_providers_lockstat.md
-> index 1cf06a5db..98affd838 100644
-> --- a/doc/userguide/reference/dtrace_providers_lockstat.md
-> +++ b/doc/userguide/reference/dtrace_providers_lockstat.md
-> @@ -275,100 +275,10 @@ It might be surprising that so many locks are acquired with the `date` command.
+> -Probes aren't required to have a module and function. The dtrace `BEGIN`, `END` and `ERROR` probes are good examples of this because these probes don't correspond to any specific instrumented program function or location. Instead, these probes are used for more abstract concepts, such as the idea of the end a tracing request. Other probes, such as those made available by the [Profile Provider](../reference/dtrace_providers_profile.md#) or the [CPC Provider](../reference/dtrace_providers_cpc.md#), also don't include module or function identifiers in their descriptions.
+> +Probes aren't required to have a module and function. The dtrace `BEGIN`, `END` and `ERROR` probes are good examples of this because these probes don't correspond to any specific instrumented program function or location. Instead, these probes are used for more abstract concepts, such as the idea of the end a tracing request. Other probes, such as those made available by the [Profile Provider](../reference/dtrace_providers_profile.md) or the [CPC Provider](../reference/dtrace_providers_cpc.md), also don't include module or function identifiers in their descriptions.
 >  
->  The `lockstat` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
+>  ## D Programs {#concept_terms_programs}
 >  
-> -<table><thead><tr><th>
-> -
-> -Element
-> -
-> -</th><th>
-> -
-> -Name Stability
-> -
-> -</th><th>
-> -
-> -Data Stability
-> -
-> -</th><th>
-> -
-> -Dependency Class
-> -
-> -</th></tr></thead><tbody><tr><td>
-> -
-> -Provider
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Module
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Function
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Name
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Arguments
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tbody></table>
-> +| Element   | Name Stability | Data Stability | Dependency Class |
-> +| :---      | :---           | :---           | :---             |
-> +| Provider  | Evolving       | Evolving       | ISA              |
-> +| Module    | Private        | Private        | Unknown          |
-> +| Function  | Private        | Private        | Unknown          |
-> +| Name      | Evolving       | Evolving       | ISA              |
-> +| Arguments | Evolving       | Evolving       | ISA              |
-> diff --git a/doc/userguide/reference/dtrace_providers_pid.md b/doc/userguide/reference/dtrace_providers_pid.md
-> index e403d6c94..c0c7bbb9a 100644
-> --- a/doc/userguide/reference/dtrace_providers_pid.md
-> +++ b/doc/userguide/reference/dtrace_providers_pid.md
-> @@ -177,100 +177,10 @@ We probe on the chosen instruction, using both a relative offset `foo:4`, and an
+> @@ -119,12 +119,12 @@ The program probe description matches all system call functions at the entry poi
 >  
->  The `pid` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
+>  Although you could code an application to calculate an aggregation for a set of data, when many probes are firing concurrently, they can overwrite each other's updates to the aggregating variable or the calculation can become a serial bottleneck.
 >  
-> -<table><thead><tr><th>
-> -
-> -Element
-> -
-> -</th><th>
-> -
-> -Name Stability
-> -
-> -</th><th>
-> -
-> -Data Stability
-> -
-> -</th><th>
-> -
-> -Dependency Class
-> -
-> -</th></tr></thead><tbody><tr><td>
-> -
-> -Provider
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Module
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Function
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Name
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Arguments
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tbody></table>
-> +| Element   | Name Stability | Data Stability | Dependency Class |
-> +| :---      | :---           | :---           | :---             |
-> +| Provider  | Evolving       | Evolving       | ISA              |
-> +| Module    | Private        | Private        | Unknown          |
-> +| Function  | Private        | Private        | Unknown          |
-> +| Name      | Evolving       | Evolving       | ISA              |
-> +| Arguments | Private        | Private        | Unknown          |
+> -DTrace aggregation functions apply to the data as it's traced, so that the dataset doesn't need to be stored and the aggregation is always available as events occur. In this way, aggregation functions are more efficient and exact, and avoid overwrites. See [Aggregations](../reference/aggregation.md#) for more information.
+> +DTrace aggregation functions apply to the data as it's traced, so that the dataset doesn't need to be stored and the aggregation is always available as events occur. In this way, aggregation functions are more efficient and exact, and avoid overwrites. See [Aggregations](../reference/aggregation.md) for more information.
+>  
+>  ## Speculation {#concept_terms_speculation}
+>  
+>  While predicates can be used to filter out uninteresting events, they're only useful if you already know which events you need to filter. Because DTrace is often used to help debug particular system behaviors, DTrace includes a set of *speculation* functions that can be used to trace data speculatively.
+>  
+> -Speculation is used to trace quantities temporarily until particular information is known, at which case the data can be discarded or committed. By performing speculative tracing you can trace data until you know whether it's useful. For example, to trace data about events that might trigger a particular return code or error, you could speculatively trace all events and discard the trace data if it doesn't match the return code that you're interested in. See [Speculation](../reference/dtrace-ref-speculation.md#) for more information.
+> +Speculation is used to trace quantities temporarily until particular information is known, at which case the data can be discarded or committed. By performing speculative tracing you can trace data until you know whether it's useful. For example, to trace data about events that might trigger a particular return code or error, you could speculatively trace all events and discard the trace data if it doesn't match the return code that you're interested in. See [Speculation](../reference/dtrace-ref-speculation.md) for more information.
+>  
+>  
+> diff --git a/doc/userguide/explanation/dtrace-concepts.md b/doc/userguide/explanation/dtrace-concepts.md
+> index adb5413d3..6e2b91a65 100644
+> --- a/doc/userguide/explanation/dtrace-concepts.md
+> +++ b/doc/userguide/explanation/dtrace-concepts.md
+> @@ -5,8 +5,8 @@ Explore DTrace at a conceptual level and understand DTrace components and termin
+>  
+>  The topics in this section are general and can help you to understand what DTrace is and how it works.
+>  
+> --   **[About DTrace](../explanation/dtrace-about.md#)**
+> +-   **[About DTrace](../explanation/dtrace-about.md)**
+>  DTrace is a powerful tracing tool that's available on Linux. DTrace has low overhead and is safe to use on production systems to analyze what a system is doing in real time.
+> --   **[DTrace Components and Terminology](../explanation/dtrace-components-and-terminology.md#)**
+> +-   **[DTrace Components and Terminology](../explanation/dtrace-components-and-terminology.md)**
+>  Learn about the different components and the terms used to describe them within the DTrace framework.
+>  
+> diff --git a/doc/userguide/how-to/dtrace-guide.md b/doc/userguide/how-to/dtrace-guide.md
+> index 137d62e3a..02863588b 100644
+> --- a/doc/userguide/how-to/dtrace-guide.md
+> +++ b/doc/userguide/how-to/dtrace-guide.md
+> @@ -8,12 +8,12 @@ Most of the information in this document is generic and applies to all flavors o
+>  
+>  The topics in this section provide guidance on how to perform particular operations with DTrace and serve as an introduction to installing and using DTrace. By following steps in this guide, you can get started with DTrace immediately. After you have explored these topics, you can either review [DTrace Concepts](../explanation/dtrace-concepts.md) to get a better understanding of how DTrace works and how you can improve the way that you use it, or you can use the various references that are included to find out more about writing D programs that do what you need them to do.
+>  
+> --   **[Install DTrace](../how-to/dtrace-howto-install-dtrace.md#)**
+> +-   **[Install DTrace](../how-to/dtrace-howto-install-dtrace.md)**
+>  
+> --   **[List and Enable Probes](../how-to/dtrace-howto-list-and-enable-probes.md#)**
+> +-   **[List and Enable Probes](../how-to/dtrace-howto-list-and-enable-probes.md)**
+>  DTrace providers publish available probes to DTrace so that you can enable them to perform functions when they fire. You can use the `dtrace` command to list all available probes or to enable a probe.
+> --   **[Create a DTrace Script](../how-to/dtrace-howto-create-a-dtrace-script.md#)**
+> +-   **[Create a DTrace Script](../how-to/dtrace-howto-create-a-dtrace-script.md)**
+>  Learn how to create a DTrace script to develop understanding of the D Programming language.
+> --   **[Use Predicates For Control Flow](../how-to/dtrace-howto-use-predicates.md#)**
+> +-   **[Use Predicates For Control Flow](../how-to/dtrace-howto-use-predicates.md)**
+>  For runtime safety, one major difference between D and other programming languages such as C, C++, and the Java programming language is the absence of control-flow constructs such as `if`-statements and loops. D program clauses are written as single straight-line statement lists that trace an optional, fixed amount of data. D does provide the ability to conditionally trace data and change control flow using logical expressions called *predicates*. This tutorial shows how to use predicates to control D programs.
+>  
+> diff --git a/doc/userguide/how-to/dtrace-howto-create-a-dtrace-script.md b/doc/userguide/how-to/dtrace-howto-create-a-dtrace-script.md
+> index c4fcb4ed3..199649a9f 100644
+> --- a/doc/userguide/how-to/dtrace-howto-create-a-dtrace-script.md
+> +++ b/doc/userguide/how-to/dtrace-howto-create-a-dtrace-script.md
+> @@ -3,7 +3,7 @@
+>  
+>  Learn how to create a DTrace script to develop understanding of the D Programming language.
+>  
+> -Ensure that DTrace is installed on the system and that you can list and enable probes. See [Install DTrace](../how-to/dtrace-howto-install-dtrace.md#) and [List and Enable Probes](../how-to/dtrace-howto-list-and-enable-probes.md#).
+> +Ensure that DTrace is installed on the system and that you can list and enable probes. See [Install DTrace](../how-to/dtrace-howto-install-dtrace.md) and [List and Enable Probes](../how-to/dtrace-howto-list-and-enable-probes.md).
+>  
+>  This tutorial provides successive steps toward developing a DTrace script that you can use on a system to gather useful information. You can use this tutorial as a framework to create other scripts for DTrace, in future.
+>  
+> diff --git a/doc/userguide/reference/d_program_syntax_reference.md b/doc/userguide/reference/d_program_syntax_reference.md
+> index cd1ad5c1b..862ce0322 100644
+> --- a/doc/userguide/reference/d_program_syntax_reference.md
+> +++ b/doc/userguide/reference/d_program_syntax_reference.md
+> @@ -3,20 +3,20 @@
+>  
+>  This reference describes how to write D programs that can be used with DTrace to enable probes and perform operations.
+>  
+> --   **[Program Structure](../reference/d_program_syntax_reference_program_structure.md#)**  
+> +-   **[Program Structure](../reference/d_program_syntax_reference_program_structure.md)**  
+>  A D program consists of a set of clauses that describe the probes to enable, an optional predicate that controls when to run, and one or more statements that often describe some functionality to implement when the probe fires.
+> --   **[Types, Operators, and Expressions](../reference/dtrace-ref-TypesOperatorsandExpressions.md#)**  
+> +-   **[Types, Operators, and Expressions](../reference/dtrace-ref-TypesOperatorsandExpressions.md)**  
+>  
+> --   **[Variables](../reference/dtrace-ref-Variables.md#)**  
+> +-   **[Variables](../reference/dtrace-ref-Variables.md)**  
+>  
+> --   **[Pointers](../reference/dtrace-ref-PointersandScalarArrays.md#)**  
+> +-   **[Pointers](../reference/dtrace-ref-PointersandScalarArrays.md)**  
+>  
+> --   **[Structs and Unions](../reference/dtrace-ref-StructsandUnions.md#)**  
+> +-   **[Structs and Unions](../reference/dtrace-ref-StructsandUnions.md)**  
+>  
+> --   **[DTrace String Processing](../reference/dtrace-ref-DTraceSupportforStrings.md#)**  
+> +-   **[DTrace String Processing](../reference/dtrace-ref-DTraceSupportforStrings.md)**  
+>  
+> --   **[Aggregations](../reference/aggregation.md#)**
+> +-   **[Aggregations](../reference/aggregation.md)**
+>  
+> --   **[Speculation](../reference/dtrace-ref-speculation.md#)**
+> +-   **[Speculation](../reference/dtrace-ref-speculation.md)**
+>  
+>  
+> diff --git a/doc/userguide/reference/dtrace-ref-DTraceSupportforStrings.md b/doc/userguide/reference/dtrace-ref-DTraceSupportforStrings.md
+> index ea9dfa306..98f482c63 100644
+> --- a/doc/userguide/reference/dtrace-ref-DTraceSupportforStrings.md
+> +++ b/doc/userguide/reference/dtrace-ref-DTraceSupportforStrings.md
+> @@ -31,7 +31,7 @@ In the next D statement, if `s` is of type `string`, the string type indicates t
+>  trace(s);
+>  ```
+>  
+> -You can also perform lexical comparison of expressions of type string. See [String Comparison](dtrace-ref-DTraceSupportforStrings.md#).
+> +You can also perform lexical comparison of expressions of type string. See [String Comparison](dtrace-ref-DTraceSupportforStrings.md).
+>  
+>  ## String Constants {#dt_strcon_dlang}
+>  
+> @@ -80,7 +80,7 @@ Scalar type expressions, such as a pointer or integer, or a scalar array address
+>  
+>  ## String Comparison {#dt_strcomp_dlang}
+>  
+> -D overloads the binary relational operators and permits them to be used for string comparisons, as well as integer comparisons. The relational operators perform string comparison whenever both operands are of type `string` or when one operand is of type `string` and the other operand can be promoted to type `string`. See [String Assignment](dtrace-ref-DTraceSupportforStrings.md#) for a detailed description. See also [Table 1](dtrace-ref-DTraceSupportforStrings.md#dt_t14_dlang), which lists the relational operators that can be used to compare strings.
+> +D overloads the binary relational operators and permits them to be used for string comparisons, as well as integer comparisons. The relational operators perform string comparison whenever both operands are of type `string` or when one operand is of type `string` and the other operand can be promoted to type `string`. See [String Assignment](dtrace-ref-DTraceSupportforStrings.md) for a detailed description. See also [Table 1](dtrace-ref-DTraceSupportforStrings.md#dt_t14_dlang), which lists the relational operators that can be used to compare strings.
+>  
+>  <table><thead><tr><th>
+>  
+> diff --git a/doc/userguide/reference/dtrace-ref-PointersandScalarArrays.md b/doc/userguide/reference/dtrace-ref-PointersandScalarArrays.md
+> index c68982d40..da4b69333 100644
+> --- a/doc/userguide/reference/dtrace-ref-PointersandScalarArrays.md
+> +++ b/doc/userguide/reference/dtrace-ref-PointersandScalarArrays.md
+> @@ -53,7 +53,7 @@ dtrace: script '/tmp/badptr.d' matched 1 probe
+>  dtrace: error on enabled probe ID 2 (ID 1: dtrace:::BEGIN): invalid address (0x0) in action #1 at BPF pc 156
+>  ```
+>  
+> -Notice that the D program moves past the error and continues to run; the system and all observed processes remain unperturbed. You can also add an `ERROR` probe to any script to handle D errors. For details about the DTrace error mechanism, see [ERROR Probe](dtrace_providers_dtrace.md#).
+> +Notice that the D program moves past the error and continues to run; the system and all observed processes remain unperturbed. You can also add an `ERROR` probe to any script to handle D errors. For details about the DTrace error mechanism, see [ERROR Probe](dtrace_providers_dtrace.md).
+>  
+>  ## Pointer and Array Relationship {#dt_ptrarel_dlang}
+>  
+> diff --git a/doc/userguide/reference/dtrace-ref-TypesOperatorsandExpressions.md b/doc/userguide/reference/dtrace-ref-TypesOperatorsandExpressions.md
+> index 0e776867c..1a1549445 100644
+> --- a/doc/userguide/reference/dtrace-ref-TypesOperatorsandExpressions.md
+> +++ b/doc/userguide/reference/dtrace-ref-TypesOperatorsandExpressions.md
+> @@ -390,7 +390,7 @@ Type Name
+>  16 bytes
+>  
+>  </td></tr><tbody></table>
+> -D also provides the special type `string` to represent ASCII strings. Strings are discussed in more detail in [DTrace String Processing](dtrace-ref-DTraceSupportforStrings.md#).
+> +D also provides the special type `string` to represent ASCII strings. Strings are discussed in more detail in [DTrace String Processing](dtrace-ref-DTraceSupportforStrings.md).
+>  
+>  ## Constants {#dt_consts_dlang}
+>  
+> @@ -664,7 +664,7 @@ Arithmetic in D can only be performed on integer operands or on pointers. Arithm
+>  
+>  However, the DTrace execution environment does automatically check for and report division by zero errors resulting from improper use of the `/` and `%` operators. If a D program contains an invalid division operation that's detectable at compile time, a compile error is returned and the compilation fails. If the invalid division operation takes place at run time, processing of the current clause is quit, and the `ERROR` probe is activated. If the D program has no clause for the `ERROR` probe, the error is printed and tracing continues. Otherwise, the actions in the clause assigned to the `ERROR` probe are processed. Errors that are detected by DTrace have no effect on other DTrace users or on the OS kernel. You therefore don't need to be concerned about causing any damage if a D program inadvertently contains one of these errors.
+>  
+> -In addition to these binary operators, the `+` and `-` operators can also be used as unary operators, and these operators have higher precedence than any of the binary arithmetic operators. The order of precedence and associativity properties for all D operators is presented in [Operator Precedence](dtrace-ref-TypesOperatorsandExpressions.md#). You can control precedence by grouping expressions in parentheses \(`()`\).
+> +In addition to these binary operators, the `+` and `-` operators can also be used as unary operators, and these operators have higher precedence than any of the binary arithmetic operators. The order of precedence and associativity properties for all D operators is presented in [Operator Precedence](dtrace-ref-TypesOperatorsandExpressions.md). You can control precedence by grouping expressions in parentheses \(`()`\).
+>  
+>  ## Relational Operators {#dt_relatops_dlang}
+>  
+> diff --git a/doc/userguide/reference/dtrace-ref-Variables.md b/doc/userguide/reference/dtrace-ref-Variables.md
+> index da2130fa6..bc10071ca 100644
+> --- a/doc/userguide/reference/dtrace-ref-Variables.md
+> +++ b/doc/userguide/reference/dtrace-ref-Variables.md
+> @@ -15,7 +15,7 @@ D provides several variable types: scalar variables, associative arrays, scalar
+>  
+>      where *name* is any valid D identifier and *expression* is any value or expression that the variable contains.
+>  
+> -    DTrace includes several built-in scalar variables that can be referenced within D programs. The values of these variables are automatically populated by DTrace. See [DTrace Built-in Variable Reference](dtrace_builtin_variable_reference.md#) for a complete list of these variables.
+> +    DTrace includes several built-in scalar variables that can be referenced within D programs. The values of these variables are automatically populated by DTrace. See [DTrace Built-in Variable Reference](dtrace_builtin_variable_reference.md) for a complete list of these variables.
+>  
+>  -   **Associative Arrays**
+>  
+> @@ -29,7 +29,7 @@ D provides several variable types: scalar variables, associative arrays, scalar
+>  
+>      Where *name* is any valid D identifier, *key* is a comma-separated list of one or more expressions, often as string values, and *expression* is the value that's contained by the array for the specified key.
+>  
+> -    The type of each object that's contained in the array is also fixed for all elements in the array. You can use any of the assignment operators that are defined in [Types, Operators, and Expressions](dtrace-ref-TypesOperatorsandExpressions.md#) to change associative array elements, subject to the operand rules defined for each operator. The D compiler produces an appropriate error message if you try an incompatible assignment. You can use any type with an associative array key or value that can be used with a scalar variable.
+> +    The type of each object that's contained in the array is also fixed for all elements in the array. You can use any of the assignment operators that are defined in [Types, Operators, and Expressions](dtrace-ref-TypesOperatorsandExpressions.md) to change associative array elements, subject to the operand rules defined for each operator. The D compiler produces an appropriate error message if you try an incompatible assignment. You can use any type with an associative array key or value that can be used with a scalar variable.
+>  
+>      You can reference values in an associative array by specifying the array name and the appropriate key.
+>  
+> diff --git a/doc/userguide/reference/dtrace_builtin_variable_reference.md b/doc/userguide/reference/dtrace_builtin_variable_reference.md
+> index 607c8f0dd..28b3001ae 100644
+> --- a/doc/userguide/reference/dtrace_builtin_variable_reference.md
+> +++ b/doc/userguide/reference/dtrace_builtin_variable_reference.md
+> @@ -325,7 +325,7 @@ The built-in variable `execname` references the name that was passed to `execve(
+>  fileinfo_t fds[]
+>  ```
+>  
+> -The built-in `variable fds[]` is an array which has the files the current process has opened in a `fileinfo_t` array, indexed by file descriptor number. See [fileinfo\_t](dtrace_providers_io.md#).
+> +The built-in `variable fds[]` is an array which has the files the current process has opened in a `fileinfo_t` array, indexed by file descriptor number. See [fileinfo\_t](dtrace_providers_io.md).
+>  
+>  ## gid {#dt_ref_var_gid}
+>  
+> diff --git a/doc/userguide/reference/dtrace_command_reference.md b/doc/userguide/reference/dtrace_command_reference.md
+> index 90209d123..2c45d8e4b 100644
+> --- a/doc/userguide/reference/dtrace_command_reference.md
+> +++ b/doc/userguide/reference/dtrace_command_reference.md
+> @@ -3,12 +3,12 @@
+>  
+>  The `dtrace` command is a generic front-end utility for the DTrace facility. The command implements an interface to invoke the D language compiler. The `dtrace` command can also retrieve buffered trace data from the DTrace kernel facility and includes a set of basic routines to format and print traced data.
+>  
+> --   **[About the dtrace Command](../reference/dtrace_command_desc.md#)**  
+> +-   **[About the dtrace Command](../reference/dtrace_command_desc.md)**  
+>  The `dtrace` command provides a generic interface to all the essential services that are provided by the DTrace facility.
+> --   **[dtrace Command Options](../reference/dtrace_command_options.md#)**  
+> +-   **[dtrace Command Options](../reference/dtrace_command_options.md)**  
+>  
+> --   **[dtrace Command Operands](../reference/dtrace_command_operands.md#)**  
+> +-   **[dtrace Command Operands](../reference/dtrace_command_operands.md)**  
+>  
+> --   **[dtrace Command Exit Status](../reference/dtrace_command_exit_status.md#)**  
+> +-   **[dtrace Command Exit Status](../reference/dtrace_command_exit_status.md)**  
+>  
+>  
+> diff --git a/doc/userguide/reference/dtrace_providers.md b/doc/userguide/reference/dtrace_providers.md
+> index 6fd0fec6e..70fcb583f 100644
+> --- a/doc/userguide/reference/dtrace_providers.md
+> +++ b/doc/userguide/reference/dtrace_providers.md
+> @@ -3,30 +3,30 @@
+>  
+>  DTrace exposes different providers that publish probes that are grouped together for particular instrumentation or functionality.
+>  
+> --   **[CPC Provider](../reference/dtrace_providers_cpc.md#)**
+> +-   **[CPC Provider](../reference/dtrace_providers_cpc.md)**
+>  The CPU performance counter \(`cpc`\) provider makes available probes that are associated with CPU performance counter events.
+> --   **[DTrace Provider](../reference/dtrace_providers_dtrace.md#)**  
+> +-   **[DTrace Provider](../reference/dtrace_providers_dtrace.md)**  
+>  The `dtrace` provider includes several probes that are specific to DTrace itself.
+> --   **[FBT Provider](../reference/dtrace_providers_fbt.md#)**  
+> +-   **[FBT Provider](../reference/dtrace_providers_fbt.md)**  
+>  The `fbt` \(Function Boundary Tracing\) provider includes probes that are associated with the entry to and return from most functions in the Linux kernel. Therefore, there could be tens of thousands of `fbt` probes.
+> --   **[IO Provider](../reference/dtrace_providers_io.md#)**
+> - The `io` provider makes available probes that relate to data input and output.
+> --   **[Lockstat Provider](../reference/dtrace_providers_lockstat.md#)**
+> +-   **[IO Provider](../reference/dtrace_providers_io.md)**
+> +The `io` provider makes available probes that relate to data input and output.
+> +-   **[Lockstat Provider](../reference/dtrace_providers_lockstat.md)**
+>  The `lockstat` provider provides probes that can be used to study lock usage and contention.
+> --   **[Pid Provider](../reference/dtrace_providers_pid.md#)**
+> +-   **[Pid Provider](../reference/dtrace_providers_pid.md)**
+>  The `pid` provider traces a user process, both function `entry` and `return`, and an arbitrary instruction.
+> --   **[Proc Provider](../reference/dtrace_providers_proc.md#)**
+> +-   **[Proc Provider](../reference/dtrace_providers_proc.md)**
+>  The `proc` provider makes available the probes that pertain to the following activities: process creation and termination, LWP creation and termination, execution of new program images, and signal sending and handling.
+> --   **[Profile Provider](../reference/dtrace_providers_profile.md#)**
+> +-   **[Profile Provider](../reference/dtrace_providers_profile.md)**
+>  The `profile` provider includes probes that are associated with an interrupt that fires at some regular, specified time interval.
+> --   **[Rawtp Provider](../reference/dtrace_providers_rawtp.md#)**  
+> +-   **[Rawtp Provider](../reference/dtrace_providers_rawtp.md)**  
+>  The `rawtp` provider gives DTrace users access to the raw tracepoints exposed by the kernel tracing system, including access to the untranslated arguments of the associated tracepoint events.
+> --   **[Sched Provider](../reference/dtrace_providers_sched.md#)**
+> +-   **[Sched Provider](../reference/dtrace_providers_sched.md)**
+>  The `sched` provider makes available probes related to CPU scheduling.
+> --   **[SDT Provider](../reference/dtrace_providers_sdt.md#)**  
+> - The Statically Defined Tracing \(SDT\) provider \(`sdt`\) creates probes at sites that a software programmer has formally designated. Thus, the SDT provider is chiefly of interest only to developers of new providers. Most users access SDT only indirectly by using other providers.
+> --   **[Syscall Provider](../reference/dtrace_providers_syscall.md#)**  
+> +-   **[SDT Provider](../reference/dtrace_providers_sdt.md)**  
+> +The Statically Defined Tracing \(SDT\) provider \(`sdt`\) creates probes at sites that a software programmer has formally designated. Thus, the SDT provider is chiefly of interest only to developers of new providers. Most users access SDT only indirectly by using other providers.
+> +-   **[Syscall Provider](../reference/dtrace_providers_syscall.md)**  
+>  The `syscall` provider makes available a probe at the entry to and return from every system call in the system.
+> --   **[USDT Provider](../reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md#)**
+> +-   **[USDT Provider](../reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md)**
+>  Use the USDT provider, for user space statically defined tracing, to instrument user space code with probes that are meaningful for an application.
+>  
 > diff --git a/doc/userguide/reference/dtrace_providers_proc.md b/doc/userguide/reference/dtrace_providers_proc.md
-> index 24b18fc78..40903775d 100644
+> index 40903775d..6c1fa8ecf 100644
 > --- a/doc/userguide/reference/dtrace_providers_proc.md
 > +++ b/doc/userguide/reference/dtrace_providers_proc.md
-> @@ -695,100 +695,10 @@ Running this script results in output similar to the following:
+> @@ -130,7 +130,7 @@ No fundamental difference between a process and a thread that a process creates,
 >  
->  The `proc` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
+>  ## proc Probe Arguments {#dt_ref_procargs_prov}
 >  
-> -<table><thead><tr><th>
-> -
-> -Element
-> -
-> -</th><th>
-> -
-> -Name Stability
-> -
-> -</th><th>
-> -
-> -Data Stability
-> -
-> -</th><th>
-> -
-> -Dependency Class
-> -
-> -</th></tr></thead><tbody><tr><td>
-> -
-> -Provider
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Module
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Function
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Name
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Arguments
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tbody></table>
-> +| Element   | Name Stability | Data Stability | Dependency Class |
-> +| :---      | :---           | :---           | :---             |
-> +| Provider  | Evolving       | Evolving       | ISA              |
-> +| Module    | Private        | Private        | Unknown          |
-> +| Function  | Private        | Private        | Unknown          |
-> +| Name      | Evolving       | Evolving       | ISA              |
-> +| Arguments | Evolving       | Evolving       | ISA              |
-> diff --git a/doc/userguide/reference/dtrace_providers_profile.md b/doc/userguide/reference/dtrace_providers_profile.md
-> index 2fcc13213..bcc8c64d2 100644
-> --- a/doc/userguide/reference/dtrace_providers_profile.md
-> +++ b/doc/userguide/reference/dtrace_providers_profile.md
-> @@ -156,100 +156,10 @@ A time interval that's too short causes the machine to continuously field time-b
+> -The following table lists the argument types for the `proc` probes. See [proc Probes](dtrace_providers_proc.md#) for a description of the arguments. The `argN` are implementation specific. Use `args[]` to access the probe arguments.
+> +The following table lists the argument types for the `proc` probes. See [proc Probes](dtrace_providers_proc.md) for a description of the arguments. The `argN` are implementation specific. Use `args[]` to access the probe arguments.
 >  
->  The `profile` provider uses DTrace's stability mechanism to describe its stabilities. These stability values are listed in the following table.
+>  <table><thead><tr><th>
 >  
-> -<table><thead><tr><th>
-> -
-> -Element
-> -
-> -</th><th>
-> -
-> -Name Stability
-> -
-> -</th><th>
-> -
-> -Data Stability
-> -
-> -</th><th>
-> -
-> -Dependency Class
-> -
-> -</th></tr></thead><tbody><tr><td>
-> -
-> -Provider
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Common
-> -
-> -</td></tr><tr><td>
-> -
-> -Module
-> -
-> -</td><td>
-> -
-> -Unstable
-> -
-> -</td><td>
-> -
-> -Unstable
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Function
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Name
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Common
-> -
-> -</td></tr><tr><td>
-> -
-> -Arguments
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Common
-> -
-> -</td></tr><tbody></table>
-> +| Element   | Name Stability | Data Stability | Dependency Class |
-> +| :---      | :---           | :---           | :---             |
-> +| Provider  | Evolving       | Evolving       | Common           |
-> +| Module    | Unstable       | Unstable       | Unknown          |
-> +| Function  | Private        | Private        | Unknown          |
-> +| Name      | Evolving       | Evolving       | Common           |
-> +| Arguments | Evolving       | Evolving       | Common           |
-> diff --git a/doc/userguide/reference/dtrace_providers_rawtp.md b/doc/userguide/reference/dtrace_providers_rawtp.md
-> index 39f4f00f5..d85dd45a8 100644
-> --- a/doc/userguide/reference/dtrace_providers_rawtp.md
-> +++ b/doc/userguide/reference/dtrace_providers_rawtp.md
-> @@ -21,100 +21,10 @@ sudo dtrace -lvP rawtp
->  
->  The `rawtp` provider uses DTrace's stability mechanism to describe its stabilities. These stability values are listed in the following table.
->  
-> -<table><thead><tr><th>
-> -
-> -Element
-> -
-> -</th><th>
-> -
-> -Name Stability
-> -
-> -</th><th>
-> -
-> -Data Stability
-> -
-> -</th><th>
-> -
-> -Dependency Class
-> -
-> -</th></tr></thead><tbody><tr><td>
-> -
-> -Provider
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Module
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Function
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Name
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Arguments
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tbody></table>
-> +| Element   | Name Stability | Data Stability | Dependency Class |
-> +| :---      | :---           | :---           | :---             |
-> +| Provider  | Evolving       | Evolving       | ISA              |
-> +| Module    | Private        | Private        | Unknown          |
-> +| Function  | Private        | Private        | Unknown          |
-> +| Name      | Private        | Private        | ISA              |
-> +| Arguments | Private        | Private        | ISA              |
 > diff --git a/doc/userguide/reference/dtrace_providers_sched.md b/doc/userguide/reference/dtrace_providers_sched.md
-> index d4cd546ce..68bcdf715 100644
+> index 68bcdf715..f6d183708 100644
 > --- a/doc/userguide/reference/dtrace_providers_sched.md
 > +++ b/doc/userguide/reference/dtrace_providers_sched.md
-> @@ -814,100 +814,10 @@ The output histogram named `tick` shows that the clock tick is firing at a 1 mil
+> @@ -245,7 +245,7 @@ Probe
+>  </td></tr><tbody></table>
+>  ### lwpsinfo\_t and psinfo\_t {#dt_ref_lwpsinfo_t_psinfo_t_sched_prov}
 >  
->  The `sched` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
+> -The `lwpsinfo_t` and `psinfo_t` structures are described in [Proc Provider](dtrace_providers_proc.md#).
+> +The `lwpsinfo_t` and `psinfo_t` structures are described in [Proc Provider](dtrace_providers_proc.md).
 >  
-> -<table><thead><tr><th>
-> -
-> -Element
-> -
-> -</th><th>
-> -
-> -Name Stability
-> -
-> -</th><th>
-> -
-> -Data Stability
-> -
-> -</th><th>
-> -
-> -Dependency Class
-> -
-> -</th></tr></thead><tbody><tr><td>
-> -
-> -Provider
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Module
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Function
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Name
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Arguments
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tbody></table>
-> +| Element   | Name Stability | Data Stability | Dependency Class |
-> +| :---      | :---           | :---           | :---             |
-> +| Provider  | Evolving       | Evolving       | ISA              |
-> +| Module    | Private        | Private        | Unknown          |
-> +| Function  | Private        | Private        | Unknown          |
-> +| Name      | Evolving       | Evolving       | ISA              |
-> +| Arguments | Evolving       | Evolving       | ISA              |
-> diff --git a/doc/userguide/reference/dtrace_providers_sdt.md b/doc/userguide/reference/dtrace_providers_sdt.md
-> index 212d3f886..442911fc7 100644
-> --- a/doc/userguide/reference/dtrace_providers_sdt.md
-> +++ b/doc/userguide/reference/dtrace_providers_sdt.md
-> @@ -42,100 +42,10 @@ The arguments for each `sdt` probe are the arguments that are specified in the k
+>  ### cpuinfo\_t {#dt_ref_cpuinfo_sched_prov}
 >  
->  The `sdt` provider uses DTrace's stability mechanism to describe its stabilities. These values are listed in the following table.
+> diff --git a/doc/userguide/reference/dtrace_runtime_options.md b/doc/userguide/reference/dtrace_runtime_options.md
+> index b721f64e6..766709af2 100644
+> --- a/doc/userguide/reference/dtrace_runtime_options.md
+> +++ b/doc/userguide/reference/dtrace_runtime_options.md
+> @@ -5,19 +5,19 @@ DTrace uses reasonable default values and flexible default policies for runtime
 >  
-> -<table><thead><tr><th>
-> -
-> -Element
-> -
-> -</th><th>
-> -
-> -Name Stability
-> -
-> -</th><th>
-> -
-> -Data Stability
-> -
-> -</th><th>
-> -
-> -Dependency Class
-> -
-> -</th></tr></thead><tbody><tr><td>
-> -
-> -Provider
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Module
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Function
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Name
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tr><td>
-> -
-> -Arguments
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tbody></table>
-> +| Element   | Name Stability | Data Stability | Dependency Class |
-> +| :---      | :---           | :---           | :---             |
-> +| Provider  | Evolving       | Evolving       | ISA              |
-> +| Module    | Private        | Private        | Unknown          |
-> +| Function  | Private        | Private        | Unknown          |
-> +| Name      | Private        | Private        | ISA              |
-> +| Arguments | Private        | Private        | ISA              |
-> diff --git a/doc/userguide/reference/dtrace_providers_syscall.md b/doc/userguide/reference/dtrace_providers_syscall.md
-> index 3eaac4897..880b7de69 100644
-> --- a/doc/userguide/reference/dtrace_providers_syscall.md
-> +++ b/doc/userguide/reference/dtrace_providers_syscall.md
-> @@ -21,100 +21,10 @@ For `entry` probes, the arguments, `arg0` ... `arg*n*`, are arguments to the sys
+>  Options that can be specified when running the `dtrace` utility can be categorized into three types:
 >  
->  The `syscall` provider uses DTrace's stability mechanism to describe its stabilities. These stability values are listed in the following table.
+> --   [Compile-time Options](compiler_options.md#): affect the compilation process but might also affect runtime behavior.
+> +-   [Compile-time Options](compiler_options.md): affect the compilation process but might also affect runtime behavior.
 >  
-> -<table><thead><tr><th>
-> -
-> -Element
-> -
-> -</th><th>
-> -
-> -Name Stability
-> -
-> -</th><th>
-> -
-> -Data Stability
-> -
-> -</th><th>
-> -
-> -Dependency Class
-> -
-> -</th></tr></thead><tbody><tr><td>
-> -
-> -Provider
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Common
-> -
-> -</td></tr><tr><td>
-> -
-> -Module
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Unknown
-> -
-> -</td></tr><tr><td>
-> -
-> -Function
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Instruction set architecture \(ISA\)
-> -
-> -</td></tr><tr><td>
-> -
-> -Name
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Evolving
-> -
-> -</td><td>
-> -
-> -Common
-> -
-> -</td></tr><tr><td>
-> -
-> -Arguments
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -Private
-> -
-> -</td><td>
-> -
-> -ISA
-> -
-> -</td></tr><tbody></table>
-> +| Element   | Name Stability | Data Stability | Dependency Class |
-> +| :---      | :---           | :---           | :---             |
-> +| Provider  | Evolving       | Evolving       | Common           |
-> +| Module    | Private        | Private        | Unknown          |
-> +| Function  | Private        | Private        | ISA              |
-> +| Name      | Evolving       | Evolving       | Common           |
-> +| Arguments | Private        | Private        | ISA              |
+> --   [Runtime Options](runtime_options.md#): affect the runtime behavior of DTrace but which are often set at compile time.
+> +-   [Runtime Options](runtime_options.md): affect the runtime behavior of DTrace but which are often set at compile time.
+>  
+> --   [Dynamic Runtime Options](dynamic_runtime_options.md#): affect the runtime behavior of DTrace but which can be changed while tracing, by using the `[setopt](function_setopt.md)` function.
+> +-   [Dynamic Runtime Options](dynamic_runtime_options.md): affect the runtime behavior of DTrace but which can be changed while tracing, by using the `[setopt](function_setopt.md)` function.
+>  
+>  
+> --   **[Setting DTrace Compile-time and Runtime Options](../reference/setting_dtrace_compiler_and_runtime_options.md#)**  
+> +-   **[Setting DTrace Compile-time and Runtime Options](../reference/setting_dtrace_compiler_and_runtime_options.md)**  
+>  You can tune DTrace by setting or enabling a selection of runtime or compiler options. You can set options by either using the `-x` command line switch when running the `dtrace` command, or by specifying `pragma` lines in D programs. If an option takes a value, follow the option name with an equal sign \(`=`\) and the option value.
+> --   **[Compile-time Options](../reference/compiler_options.md#)**  
+> +-   **[Compile-time Options](../reference/compiler_options.md)**  
+>  Compile-time options can control how DTrace programs are compiled into eBPF code that's loaded into kernel space.
+> --   **[Runtime Options](../reference/runtime_options.md#)**  
+> +-   **[Runtime Options](../reference/runtime_options.md)**  
+>  Runtime options can control how the DTrace utility behaves.
+> --   **[Dynamic Runtime Options](../reference/dynamic_runtime_options.md#)**  
+> +-   **[Dynamic Runtime Options](../reference/dynamic_runtime_options.md)**  
+>  Dynamic runtime options are specific to D programs themselves and are likely to change depending on program functionality and requirements.
+>  
 
