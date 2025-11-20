@@ -1,82 +1,78 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0C728469E
-	for <dtrace@lists.linux.dev>; Thu, 20 Nov 2025 20:38:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6B81C3C08
+	for <dtrace@lists.linux.dev>; Thu, 20 Nov 2025 22:50:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763671117; cv=fail; b=CpElkyBQMvOqPKxwg+8jkOMWtHBFBvcaeyixdn59aVUm7kcdzGnlMXMIOIhVGcaw861UI0xsSI8qgc7xjwIgkP01wVdqzo9G9/yWVxaEJnFhYdlm19IYQWnREqmVefb/pzvMfUHgBsYeHgDR9u1ngSBMjlaiQyhX5LpXuhw9fzg=
+	t=1763679009; cv=fail; b=VG2TpzDWUAdUSklckqURg9bx3brJMrFK8CRlRLDdnZTi0Gn8dDaXPb1RSRP0KzqroWsNnKd6G9hlXNyxsyXlquCHOL4Aq9OJTCZqdWizN1O6GcUjQOxx2Qd31p9aWC8D+u+OfZAauq9upNXr6UwZq+byuXhPLF0+XPwciOPo4f8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763671117; c=relaxed/simple;
-	bh=50s/LrFg3AACRIM0foznl7+dRlZ0XUYddXmid29amE8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=RjojKZ0axwP6aJhoK1oCQnxNMO/Egzl9vL4iQKVBk77Hf4c7pzui3SeUAWOKLbCMmak9pdJCqlGQvyglHVdv+phgTbZEKYEe3wrOzaza7suRIZmp+L7PIbSEfVsBRKLKcZ/vzbQCdXR1uTzKiN/QKmuktqmeTtRnVYNwFu9JpWA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=QMKiKiHQ; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=jNg6BsVf; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1763679009; c=relaxed/simple;
+	bh=kaDJtvcpkQKujtM0YDCO5/3zpfsGKrhtZ+pcztxB15o=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=ORFTsSJU2OAcp6UDQ8zc9oJpsGTazOgVMhC0z/5iXfJc2BJv6dpudMfxAJAxSzBPtkkHH1RpdRGObJI/WyvIDshnygYYO5PCPSL/MI+zLtt28+r2sVXEjgvDdlinEolWWEAbIWwnMYxwiz/FE3gobtBBEkUFMwW/norLUI4FNco=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=MLRfHmY4; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=NPyYemPe; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="QMKiKiHQ";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="jNg6BsVf"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5AKJghgu026646
-	for <dtrace@lists.linux.dev>; Thu, 20 Nov 2025 20:38:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=YVbpbn6N2iFb2V/jXh
-	AbbrcFfDs/QHX3y1a85XpY0Xk=; b=QMKiKiHQGuUeUZIblegD7eMV67E2u1kvyU
-	s1Rtre5APcj9kR+mP5JtX7sLfJPBR0LMviwT5EPljU4ItJDA53VS9aFMODnyNJt2
-	wVx4zBzV5raO5LR2jIoHA77kWSiur5Cnjxtc3EgYNj1BzNq+Dw0t6gSmLjEHJYVQ
-	UZEs5Gr+pyeWkAx8hdZl3vFJ8axH6g9AdM05AeZT4OTtyXomoyo2/sip5OcgBiff
-	h5uAlCU2RAg9pmdcWbdgJPKIUUcrX5TTttJrxtCbb9CQFJjmrO2OEi7iplYIvQ1k
-	VFzUk2BEzgwpVz3kL5koQ5LuYPBfRXOkm/AZGBKzl4/ShFHHPMXw==
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="MLRfHmY4";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="NPyYemPe"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5AKJgK3u024236
+	for <dtrace@lists.linux.dev>; Thu, 20 Nov 2025 22:50:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	content-type:date:from:message-id:mime-version:subject:to; s=
+	corp-2025-04-25; bh=XvPo3bSpAnoG9CUIR6reDXujpz54yU81Z+vtdmZ7gyk=; b=
+	MLRfHmY4VQPHOQfSAzMj6W6siMoP/NCXeZzd3LoeT/IzUgpGBTO8Q+Glw5iRpZWK
+	195QJLjea+eUCI5KA/2YepvazdyF+SlzRScrUXiG3Hpb8f0iPcqUilZt8YIaJ+Xu
+	qyoz/gCUgqnkhbyor6ZhM68BTj7oX3kSeFSUjxmU4bwyS5byZwX/IegAOrfIptYa
+	bhOPeMj1nnjcfMDgZ7zvV0NsmQ5LycSC2U8O+j6zZcooY4S8oF3wcP4cYNWf4IFS
+	wEFpYhbfwiHh1dCcIR5eVRfDJev9EcbHkzkHuq41Q4pyzYWvLzmYTZag4fZz3F2L
+	RXf2goL7n4P0HqO6jhDmtw==
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4aej90a0gf-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4aejbusyaa-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 20 Nov 2025 20:38:34 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Thu, 20 Nov 2025 22:50:06 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5AKKPELS035996
-	for <dtrace@lists.linux.dev>; Thu, 20 Nov 2025 20:38:34 GMT
-Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010011.outbound.protection.outlook.com [52.101.46.11])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4aefypybhf-2
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5AKMd8JN035996
+	for <dtrace@lists.linux.dev>; Thu, 20 Nov 2025 22:50:05 GMT
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012036.outbound.protection.outlook.com [52.101.43.36])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4aefyq41uk-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 20 Nov 2025 20:38:34 +0000
+	for <dtrace@lists.linux.dev>; Thu, 20 Nov 2025 22:50:05 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gta3g5W113x27wxFLfprSDN5pUe3pdL+XVw2t0yiIZP/tWUzEL0MngpElqv8npLMKisW6A9RKr5YIeW0V+kLWRL0ZiIC4/PmvImtmcocCRzNwV/FdYpURHJm+eatxspr+aZv3sjq0G4+JQQ73ZiaTbXmwDMVuzk2y+YJep7KTcPXL521d3BVu69/PnYCvHGwB9tZrfHUejUPRLxJGPxavorksMxRC+K2iCqhNxww2p3gdxYrTmJ7VoTIJzx2AEW/phT9AsGlSJ1g8JzRLXvJ7HCigggPrAQYfUvOKbwpxNHhqNKlI5wgGdT9NgA0IpcPT9S5B23pv2JQSi2/1zO5aQ==
+ b=Il+F7G9ksBWjpTEt+8PZ4C+lTbjGOhgVb4JsPWR69fV+RE+ztwzp5Qf2Tz5E0ktxVFhSGrh0meurs0Ec+Woq6Sw1ijdrA8vdNGMAUuPdN3E/YzuQdeSZp5r7HwTkcgHbE47ni4HrAd9VMETNHsv9r8+L5flVUEM1dSN7f0L9cROY+U/8YeOURZoC0jUehh7M+Mct0YVhqM9bGA/7v7YxQ+58K+5+vO4ISC4sTq460nm/0cuKX19QOhGtOkLvHgG07Pov6FoQ6hXja1OO1F9w8NBiukOJYp7UxIpuyGhoKpKxrNk8cQHqnxtQyjBE7VkXliozO4W/Em1dF9UgCswQxQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YVbpbn6N2iFb2V/jXhAbbrcFfDs/QHX3y1a85XpY0Xk=;
- b=Awom/i+rWrW2zfROUMvkkWiG7033+OZb21k4RiXfsBY6ZCPlYFPdmbBy+P2nnKZPOh5A/9YgUmkBTRWfbx5VD3qmIgH+n1VdCL+CH3SjW+Jo5N9Mojb3+AMp31RI0p/wm2QSNG2Z+OQkpBRQwbLtgWL7xzeMwR7xZumgOkC1dSXgwNwRrAo+5v+gsezTdLzs83rp1mMmHf+Wo0ADkC2+4A6QrwII9ZPjjRGLpaK+hlf4Do8BkWWNaasSk3TnVLaVMvwqTGI9Lu6lL+tadfsGuARk6SMeqFBDVlW74GunpBq2ZjEIEejWYuw7ZiLwdCVqxlMLJdID8T85dRxddIKU9A==
+ bh=XvPo3bSpAnoG9CUIR6reDXujpz54yU81Z+vtdmZ7gyk=;
+ b=pgJJk/Y9QIxS8ENhfEb2Wo0fL0mAbYi8+IR9S/5neGc+u942cKBQS3gBA5e5jqaKJzCEVMonuKrdm6Byq6XyK2uGWCRCrKwA3UAIBxwPcKjHRARwLf8C78Jp4+52GgP5DZi1r2uK+0GmWivrK0n6G47vGog+Sf3lMOniR1mOkE2vj4OIr0dGlEGr5siuVljIbshgGpgK/JD8mOQIx7bCI3Nlt3x1nSb1ZaZGnBfcSR/SczrnygXKUTQzROFWZdDjEpqh5NUZ1j4idfh+kZOudIOogEW2HMQH6zA64pheqSRrrbY9J/9VzizxdxO420DHPr3jCLD0Mw4gaofFENZVUg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YVbpbn6N2iFb2V/jXhAbbrcFfDs/QHX3y1a85XpY0Xk=;
- b=jNg6BsVfx3/o9FShw6qdeOAIffCupPcGqkNWCfVxwEHYFNWV9n927HjZWRHzwU25qPa1n+tGh4I+Ra3qhFVtFji2rOHdoN9zYB+TU2RgGJd7/vDTQ3bs0VDPATRrEGPsVAMyaDmerhfuM5792N13htvH9zxbnA+odsmitwPWCjI=
-Received: from BY5PR10MB3987.namprd10.prod.outlook.com (2603:10b6:a03:1b0::20)
- by PH7PR10MB6281.namprd10.prod.outlook.com (2603:10b6:510:1a7::17) with
+ bh=XvPo3bSpAnoG9CUIR6reDXujpz54yU81Z+vtdmZ7gyk=;
+ b=NPyYemPezCEdgXIW6e2TRRkxzwQc/q7qy4E/OUAQa7cl9RqqtJKKLW7CCWGnFKEwgDd8tvd8s1dxiaG8KfgtiJAUTZOb/bkdbfEzk1YyV3OvEFQ3hZ9pSnJLvZG43s+Mcam2BwlCG238HrShutPWLeI8b6lyCiEAtPG1LJfpgF8=
+Received: from SJ0PR10MB5647.namprd10.prod.outlook.com (2603:10b6:a03:3da::17)
+ by PH7PR10MB7849.namprd10.prod.outlook.com (2603:10b6:510:308::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
- 2025 20:38:29 +0000
-Received: from BY5PR10MB3987.namprd10.prod.outlook.com
- ([fe80::82b7:1510:8197:f7bf]) by BY5PR10MB3987.namprd10.prod.outlook.com
- ([fe80::82b7:1510:8197:f7bf%5]) with mapi id 15.20.9343.009; Thu, 20 Nov 2025
- 20:38:29 +0000
-Date: Thu, 20 Nov 2025 15:38:26 -0500
-From: Kris Van Hees <kris.van.hees@oracle.com>
-To: eugene.loh@oracle.com
-Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH] Do not convert "__" to "-" for stapsdt provider names
-Message-ID: <aR98Qjq2zwtEV3Bt@oracle.com>
-References: <20251120185311.28904-1-eugene.loh@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251120185311.28904-1-eugene.loh@oracle.com>
-X-ClientProxiedBy: BLAPR05CA0005.namprd05.prod.outlook.com
- (2603:10b6:208:36e::14) To BY5PR10MB3987.namprd10.prod.outlook.com
- (2603:10b6:a03:1b0::20)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Thu, 20 Nov
+ 2025 22:50:02 +0000
+Received: from SJ0PR10MB5647.namprd10.prod.outlook.com
+ ([fe80::8db4:df1d:6afd:e4a7]) by SJ0PR10MB5647.namprd10.prod.outlook.com
+ ([fe80::8db4:df1d:6afd:e4a7%7]) with mapi id 15.20.9343.011; Thu, 20 Nov 2025
+ 22:50:02 +0000
+From: eugene.loh@oracle.com
+To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: [PATCH v2] Do not convert "__" to "-" for stapsdt provider names
+Date: Thu, 20 Nov 2025 17:50:00 -0500
+Message-Id: <20251120225000.31618-1-eugene.loh@oracle.com>
+X-Mailer: git-send-email 2.18.4
+Content-Type: text/plain
+X-ClientProxiedBy: BY1P220CA0025.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:5c3::12) To SJ0PR10MB5647.namprd10.prod.outlook.com
+ (2603:10b6:a03:3da::17)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -84,306 +80,287 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR10MB3987:EE_|PH7PR10MB6281:EE_
-X-MS-Office365-Filtering-Correlation-Id: dea5f2db-d2b4-4925-d469-08de2874c366
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB5647:EE_|PH7PR10MB7849:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1916621d-4103-44bc-bd8a-08de288723ce
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?4LtSzjX426I2y6gAVmqNF+e1hrkeB4p7NE9/0uNpK8cLSo0FNVVBxzltAdKc?=
- =?us-ascii?Q?DB/TO+S6s3M2Nxw8xK3Hl3FghXmSJvYdcIUZQ0FfqY4ed0dICZc1ucsBIRXF?=
- =?us-ascii?Q?gJUteNck354gwj565iQnMSl6x2g74OX3eqVDU1yOuM5oTHctcxV8fPHJdG+L?=
- =?us-ascii?Q?KYYypUBQBuagwK1ziF4QiNCyf4wDvSHetGBz23BtITxdyqUh4v4yIeIkbDIH?=
- =?us-ascii?Q?sIJ5UMvZVGaV2Q/co5Dn+n8m/GH/BZfVMFlvyU6pTN5P87M6kJgKCDyP88Pn?=
- =?us-ascii?Q?XQgxhzueTDKBG8ziYWblfglBwv9bqQJbAH+Da72aI3NoFQAMbhWk04Cl9VBL?=
- =?us-ascii?Q?rERrZdpg0Zxq1zJXD+LZlq2B+qylAmaIVDGGbGje1WCuOvFrPyBfKmRN3ZCP?=
- =?us-ascii?Q?E76ZpLxRyBQuPQ6BWpYGuYgXCINB8hZXWBzV59IwwQSEla3bOaK92LCtmjJY?=
- =?us-ascii?Q?Dyxrow+IxP2UAhGknH6OS/qWgzFkkgbrmKR6EWNqri+qUA1bqueKikFlzTPe?=
- =?us-ascii?Q?pAidb/VoAdv9aOIwlfKnio7K28mTB2IOcE9JChsJw273kzD9XPSxOBDdqyyq?=
- =?us-ascii?Q?PnjFq8x73aXE5Rhd2OVFWnap0/7M1qKspDHkCNiS7SGMDG1Y86HqlxFEalCs?=
- =?us-ascii?Q?O8aIv/Bxas/Ko3P/gCi+kU4yWb8jGi9pV6dEDf0NpQcCm7fx7YFOixR2gE8V?=
- =?us-ascii?Q?so0E4P9gGBuRz02cCLMz/K3UfV1QOF4f6PdAnjj7dDC0YBqi3ruYnfJdJWJd?=
- =?us-ascii?Q?oYVyCA9SHEVwNhMPxRFtgmF9qduTne4KZD0IQ8FjgGd6K0JMgr2ptvhqBvxy?=
- =?us-ascii?Q?pXlJ3asG3zSG4DnCBS0/lpYSsvlMnfOpVBguI2dDo6qgqsNkcVBwtDQNfU3a?=
- =?us-ascii?Q?3e9qPs9uJ1EgdvYr9XZ8NQBbwY9SY8VU8RE107R8DnUNdy7tXAUFw8u3Y88H?=
- =?us-ascii?Q?QxVUw5wKdALGu2bBEsf7AwA6/qQK42CJpblRxf6JWS9LlekadkQeXAD6nzzT?=
- =?us-ascii?Q?O1ByaBXNW+UDAaSJVteFQuZQ1C5JT1PEw0u6RuUJW9LEES+A6CqfnB/7RL3l?=
- =?us-ascii?Q?aO5Z1k8BVoS9C2v2M7G9U3M07z59Sz7CzD9h0ubEohZNdTp3igHXewQxfzHa?=
- =?us-ascii?Q?1o9uPp4gEZKJCZUzlCmZTYelI04ySsEYCzVg22e+x6lAloScOoptFagNuw5f?=
- =?us-ascii?Q?+J1xfNQ0zN/yUx+3RLua//EzntmiNmKuZO+IF82/FTzS2a2/Si+cw63rNgul?=
- =?us-ascii?Q?5048RX0A/Yljy2q3Cl2C6b2v5IBq/SafbnwV7AdzpZss1TLM6tPR7sGmjJXi?=
- =?us-ascii?Q?L3We7jN2ZKrD/bAsSrko005HOtS1LLGVpvZK7cJalrZ1nl2ZMegW7vJrid5d?=
- =?us-ascii?Q?Pugn31vV7nLZHmU2/GSdtpQWO5hd2tBRJWPV1Eu09vb33HZGbEWafZBrWZef?=
- =?us-ascii?Q?2SSWjamAXcIWS6qRHIa6xikM9a4yvk3D?=
+	=?us-ascii?Q?f20VlARDKd4MrDSdhmx3sx4RXNaWOIL1iX+NC0GoZsJUQtEuixvMa6OMob/c?=
+ =?us-ascii?Q?v2QhU+8cWvQjdjLLT8gCHrf5p9gMDgjDPJwo1kqxO2SODXoJcid2cKAQTTCp?=
+ =?us-ascii?Q?ZbqV7VrgOdyNUCmFGcyD0ThDgA9AmyLSwbnuqpLeaIka3o85+wTkTetSTpZw?=
+ =?us-ascii?Q?fqhb4wTp3YQvi8FY+to+v5fcWjryxkIiEVe/OiNC401wAZtyKdXDfzcuxJ4L?=
+ =?us-ascii?Q?BhvQr6xC4Xp8vZHNhGxbECTAiSQIdpZ6SF53EFvmkCQFpEQbxPjNakhxOudF?=
+ =?us-ascii?Q?cQRpesrKRgy+VUACsGqTNh8QSJeTQ3b9p+zqcycYL5ZGoziL15dTPlgRXMg5?=
+ =?us-ascii?Q?bTgzsJ62twzdiZRn07eQgeFXRezidfdir/0H4bVig6WcxUS1mo8Tymg8HUsZ?=
+ =?us-ascii?Q?PeWRHR803ehFHmkaPffMljQlj47ekLed5mjZJVfxWRYcUOJ5FlsEXfSFeN7A?=
+ =?us-ascii?Q?w1DJ1BKYDlrjyRNJUSm0GhU6dQoPyXRCC9FthuqT6s12ZNk6KxeD6cof+RPu?=
+ =?us-ascii?Q?pkKrCPRpbKlHyK7/FKCIVWTI1ZlHj6NuBICjb3VDUMHGwIZH8C5UqZM7Kdri?=
+ =?us-ascii?Q?cDTscLQiQL6FBJoe2rGD9C/KltG1lMJGuhtUxF0X797lNwksg/8fBp5gTJIN?=
+ =?us-ascii?Q?wtCRxe0wc3Bk2651ON8BLeQ0OY5ZAfaXjjLtn6KAmTh9riY9a8Kw9P+SorFn?=
+ =?us-ascii?Q?PV8IlxCGkmyYHGcg1lmBA96Sb+Wr1a0CZs+j4TR33CxDr65YfNLqrorRj3WH?=
+ =?us-ascii?Q?urUU1ugZoLwSc00mIDDnKdaH2D5mkKxzWL9neyx5CNhbeJqqxHlYIB0XqtkR?=
+ =?us-ascii?Q?X2/FSBzDeZGrcn8CBSVAyU17FxOCOdwlPj7RufXX0MEH0lTGD3Xj6+vmj+ic?=
+ =?us-ascii?Q?d4ldHW/9G0oE821U2meADcNoVyWMyOSNVoa+4sqDHXrOAf+DUPF3Auuj3Pjv?=
+ =?us-ascii?Q?XAYenTGf6449x8rTUKcbSHC5wbF808YItAe3DIbHwWbHDM4IBjVN3yGxTnvi?=
+ =?us-ascii?Q?MKMukiLLRYHAHxgqgejv81V76c89LT1BrWmbW+LRqEQLjZGXYBgqVo1ikDbL?=
+ =?us-ascii?Q?rtVaGTxZPZiYMYTM0OVDzYLIV9Phe7CUQyGVUaseLSxCl01CVzENizMueN4v?=
+ =?us-ascii?Q?peQurl/PVNFtyn6gP3MlErhArg2n9PjdTcwEhI+eUzGvKZSUwTGdMKzByS1w?=
+ =?us-ascii?Q?PuNH3MfK+OEmQTSrERnIuVUcPJqrMMnjicb9ESnx5+/62jPambslldk1lYum?=
+ =?us-ascii?Q?gfJyHjET8fbbvsvGYet9idgDG3n7itbYHUYr6KgU5yDjHTl6gxkYOQZlyJeW?=
+ =?us-ascii?Q?NdDa4VH2qR11T0vSmCOpBG2Vg2+jlY5yGGKYTsiEvR/pqANYCu3nSgCEl0Cf?=
+ =?us-ascii?Q?i3/W2/j6e4CD72eTh0QXrE3e2ZSw+Y6iniz6C5y4BHL9HmBYOE80z0iSTjpP?=
+ =?us-ascii?Q?B+mO5HpLq5/N4uM++TEN3UtPJ9DjqaQ9?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB3987.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5647.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?x92F35x8mP3d6Cx1qUyezwi9brnh5Of+YHY4HC7rbO+ra7OTwl2ZWaRlaWY8?=
- =?us-ascii?Q?Y0GqkqWJLPnYu0twzkZ6Kr19d2BxOzAP0Rj0pGOQi9oPbAyIKsRtyeIWEKvT?=
- =?us-ascii?Q?nTJbA28bAUXD1NcCfJDofwORZ5nwKJJlT/ei0h8DUaYx7O9tzqoazYC5dwD0?=
- =?us-ascii?Q?0wmkrC565mKa/gVptC7v0NePwy16bD/9FqXnKA4rMaCEV19OEL7sU1fObRdF?=
- =?us-ascii?Q?tJd9lhrSzpvhu1CkMUyYhJvRvC3F6NHTTbHZYcZgcYafTVRC6Am52IzfsLxi?=
- =?us-ascii?Q?nX5VjsvHyOfjGJxvjBLOHKvS8QTxciwvMkz6JKxl6TCJSNk23QQskLJIga4Z?=
- =?us-ascii?Q?Sa1V9zDs77ffNxv53oktPVt3N3egN16QCZX1xBZb3Hd/dozlsw4Wqy3OF68W?=
- =?us-ascii?Q?rS13mALxk+KeWnhcIwG98hKCJLhC5w0s1LfhyoCF6OaVlZ1Oq+dLBHpX8Va3?=
- =?us-ascii?Q?IgTheYQVadgIhVub9+MeSRZQB+mIkYPwu2gy+QBaXcM5FxvD+Oa7BY5qsEO5?=
- =?us-ascii?Q?o9woNyHKAk4sJOBHk5u8S7hYwLfjc6qO6hrAGVVGyZEXwi5fBWSOXFpRFjIz?=
- =?us-ascii?Q?CtfkLC/A/dRAEDxAcwLVn2ZXep/zCRCl8J8kzegGMOd4CIQeSfyoFny5iI3F?=
- =?us-ascii?Q?bBw9q34sce6unt9Dr5JCdM9lIcZcxzUNiL0Ggpy73nAXu8DO1eeYREHCwN8f?=
- =?us-ascii?Q?g00m7zy+d4GA59M6wMAMk5epeS1O4HzOH3RNzw9fkDEzluuhvmRjMdT94Uw1?=
- =?us-ascii?Q?4llDgyOx23JHvXSHA2HTsGY1aW6IPa9tSDqgaLUkYMoJ4Yn0OwKBiV993z/c?=
- =?us-ascii?Q?iWTESrG36PuhUgiU3vqB4m3B9c26viijqQMKbJDuxljCI7SFsWN9cBvB0LdC?=
- =?us-ascii?Q?RTrEGEojl6VMVk6BTnwZ/J0kkoYDLBY8YIWmopjnRWoFCju8QdMJ+Ty2G4co?=
- =?us-ascii?Q?2+W97Rxsr/OCk7wO15ht6YKm6gOhZ9O2fzyo4bKsEkRwpkQey4VdojZiY3yc?=
- =?us-ascii?Q?32C6fI78F5WrmRk6J+G4jVmdaFETubjE7KibhHoqCigpBazqAOAyymF7/Zkt?=
- =?us-ascii?Q?pHM3BtsCiSxghslOPp7sfIX2+eaVxYMfYjpKZuN3LB9bUG1jW+PlwNJBV95d?=
- =?us-ascii?Q?SybrlSNb4zxWs5CT/RpVaT36/ATnGkRPlw6YonR8INwRHXhIyin++H3iv0fs?=
- =?us-ascii?Q?3/lH9jWeiNhxcAZIu+V5H8IMlF8UMXIiOPR0T5pRBEeTYX62rujGJlSU4Vot?=
- =?us-ascii?Q?vdCxGV/2FFthLrMlIwDHdumKHpNiqGTDY15NLCOBKVWRFax9gZp10G1UjQ6o?=
- =?us-ascii?Q?nX3tYVTKYEL8njM9x3Icdg5XuyJ0pwwVBZDjD29bUAeX4j35D+Do/zupvYi+?=
- =?us-ascii?Q?etgGOIKH407ydaI9AUzvuQGi5r9zw/+1yfB6GuZj5nDGLkNTeus95tFKq8OX?=
- =?us-ascii?Q?iIWKOKBJSiCBFT1RmcQEPFwgufNPWUJWm5wbix1VAyRdP3JMVeS3klbgD3pI?=
- =?us-ascii?Q?BCiJ/9JqozbAqwDte/t7x/YkbKfnZumFZazokmPt9WoPvFi7c0aLWys66Wyt?=
- =?us-ascii?Q?XnjgmfEoyVrPBB2WXlEkC/PR2QzBEThj4a2eHHUZw0TDSSZ6mXdTz/rg9P8W?=
- =?us-ascii?Q?dg=3D=3D?=
+	=?us-ascii?Q?aTkQE2NN+auZqaDBY00AOaxc2HsnFeh3p2CT4mVXuxfUmRjLsJBDN8RQ8rvm?=
+ =?us-ascii?Q?5GEn3A2pocnMrzvbM6HBbKn9YeqmGO2I3Mcz6x4m9zwhaUiCObW7zxUSwoDz?=
+ =?us-ascii?Q?KoMHqft6d0ZYMe/GarcZ7b/J/SJXg01H6CqL89UrfM/gYwQvHBIeMWH/Kh9L?=
+ =?us-ascii?Q?3LDg21AqODX1Sqnhz3E5Rq2UX0DJcu08j2ccNv9revj5PFvQA1Z5GdAPS0V+?=
+ =?us-ascii?Q?P8DjgkswY1VowTYRBSHGOdaBl0NaQpE5w9Czie5rMQuAxICMQVzMzKOP+bH5?=
+ =?us-ascii?Q?tgE8LSOfDhYteK4aYZQ4dBbouRbNHMpuB0PpuKxWw0fnzOgJgr2esVWpxT7w?=
+ =?us-ascii?Q?AqVbXa6I+OfSFF/caMnfplctMK1/leqRaPJ5i4BlKKnVDq8dIsZu87dxExrz?=
+ =?us-ascii?Q?pogz3sq2U22NZwTNUGuNtv4gHKUFv9ZZYwKVs1jOcxRWBiLWJt5kdUL3tQet?=
+ =?us-ascii?Q?DQbt+3hd0U6xo7yhWo6vx92641DWpGBOP+GNeOT63aHk4S9lJq4anpsU6zlH?=
+ =?us-ascii?Q?SJeii3IqqEvH3kg340ABCNbRRAHrW1rm4Xh9JYnLMt42CKUgg/YiCGK5KqAw?=
+ =?us-ascii?Q?uOi2D6HFLeBYoVSp8LuLyeEkz3vty26iXJye5xhtG42CV1hxMxO+HfgRXtqO?=
+ =?us-ascii?Q?cJO79Uly+8B47E2DKnnLpHaUAcpe25BAsCi3QwZhQBNjTneIxZB7iYgAdh/6?=
+ =?us-ascii?Q?Eu4wx0p2hirrowM9uURUjvOBFL7VRdIbOQLr4JUykNSzYAZLluECntrbfK7Z?=
+ =?us-ascii?Q?7giB9L2o2anznB6ZLbl0JrhBomk+DH1oz0Bb4ETBXVvjMXp0QDX/QRrBgcVA?=
+ =?us-ascii?Q?isOUbO+sNxgNPi0wrTlOu8gZBb6yh24TLT93gGZpYDWs5Ezcc9XyZIdojxSJ?=
+ =?us-ascii?Q?3aTDLFi3wqTyPjWJaRGtOhqn21+KGfuEMPv1lwRFo/HvIQ91pJROemHPXCrd?=
+ =?us-ascii?Q?c2BuQWNOsKOFK30UiKH5y93OlPu474NZsEWrza/srihW++nzz7md5FHdUcRv?=
+ =?us-ascii?Q?CnAtgBGlsVh2QrZjMduDsQXtYK9kEKSVW0cbonMWqhS/rcCzvJP+1TMgpx/H?=
+ =?us-ascii?Q?nayeNVQD5fG0K2ThCQhKVATKGbqHtunNwN6VTThblqvc7sv1xO25xbc+KXda?=
+ =?us-ascii?Q?JojxMyylI4FRUrlbTlR4ncnAauEnPPeOJrae36FBEI9pibu1ZzMTC9pczgtF?=
+ =?us-ascii?Q?gIYCChYUAM8QiKg5JWsk1HsjyG+QvwmhHmvgEEOhHoy2nGAIwZvcHNU/Xiyl?=
+ =?us-ascii?Q?ano1e4cTZZvllsB4mlyab/Js6WOmATe0fhpQnxDlcayfLEjHfpZoXgrI4ZXf?=
+ =?us-ascii?Q?E2pVpmU02gs0bMvCKtT8l137+TTyMMCsOKpi9iLpjiIO0qZaTB8+fnnhpeQo?=
+ =?us-ascii?Q?UNZ7Xkq3rBIGNAHKg+O9PwIZ23voVKivwA2OMCiX74LTjyiP18wGf2790OiY?=
+ =?us-ascii?Q?4sFeE/GfH/AqgIDSCR96crY9Pf86f4AFCzuSP0v/+ehqRn7aZ8xZkYwEbZ8L?=
+ =?us-ascii?Q?BNQ9xXCMtjmY9LhLTwbrwAmkkXoPNPumt1Af/MzT0aKv8FSrHxKQIzCR+m+4?=
+ =?us-ascii?Q?cOPSKjKUc2wtzW3fLmb7ud1+2FWLeVVOtXqFSxKt?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	nG5ALdnNiLwwSu25+o2EKwzl5jncvJ6q1BWVzkaD9rwY+L9zViQwHLK+ZenloI3dR7hCXnwkdqFfCxK8cSDSBqSm/jirviYUu+LD+ZmHR4LNaLlLoE3fCWUsoagnKfOQ5QLN8CimHrfDFGHiv/gOrlXelrskj9raNmp1eM8mcSadT5l/W/bEpsLGJemaXOeT+EuehOOJSehi15ULygy4vrmcWKOlIuIpenoNJOyBcIxmgDZQXU5DY1GubmjK6Q5m8nJI+LTgUsJ8+mdP6yNrAoECtTVSnvYrXay92IrVhl8f40PRj3G1/LC/DfDTELiTk01oZGcM3NsL/Xa9tvnyjMrv6GAY7tHsl4RAUXS404MF8WYbU+I7YTsW28qVsWextgQm49LLMnp8l3e2YNZbDNnhNBu9h7qPk2HctVwb3khl/fdcTOfo27g+e04Lw8ESOfvJz+WZPv6u9kgKpiahyon9V6jJI2l+uEDEMcVMIZsnfAEdXe+U+co0tnuEhZs+SpeahXTq9AXpVZ+ra8+8G1+s8pGJH8qJA511o6tWjU+O693YyVp43ane2agNd8eRp/0kAraWSUL/ANACh6Krwz7/EWmVvqGajnOSJp/qvmg=
+	d7aL2rrWjtDHlol1EUZTk4VCgt7angurjEeZrTpaAwWlHD2clF1j4pDSrxy7Qck5J+3z6yBvOLtbd3b/bO3imtK4R05hzsDXmsP8zzuSqZ82Dq0uOCbLkoO1kjCfB7I/NRvfkvcRfIJuU41AkhITlCJbiC7wzvwbVu39r39fjJe8Ijau2FOMHRatZLJqZr2E/cv0K+s5uJgsVN2clZWAnWJru8lligbbyhuTly14lK+Ldoy8jvW9CKVUivzxXQA1JNE0C+QfVvIiVuQYoPKGdzQAm4Myn2LrKT+CEM0240PdCg4++CZVeRYozV5bD4Ht+XZ3rZIkUOMImWJ7UlxxoaZU14rU8mv4JSMy+URUwWRO18Iny8c6lWt76OXIwe2jzjCw7HWWFHSxNd7YobHqhi06pwxPxmxBoCqGa5VcQGIylrgy8n+zowDCvjk4Xacd7MFILQQrMiPY2XlATxDOodTBS0KGS4eUiDBCvA3ZOdPorLcuyBpINlcmZ7yM6gQ1uLIiWW19rj8iSk2vNbZ8q8jDSWtQpJfsA/cKZYnJGs/8zpcw38wZaa/iXVN3atiJwPwA+gcHp8aKWm+mrXyJ/cMKIIxgY2okg1d+NgiiF2c=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dea5f2db-d2b4-4925-d469-08de2874c366
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB3987.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1916621d-4103-44bc-bd8a-08de288723ce
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5647.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 20:38:29.4629
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 22:50:02.1741
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 90eF2oyVkwnzkLuv1WGpe55I9j6ilp8xdqSN61ip2fXADWF1VS/hFoplh0ZpH1as1uDK31eroxUJDi1gT4V4diUNVUaKoxVF1uo7qmyQxbw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6281
+X-MS-Exchange-CrossTenant-UserPrincipalName: eDs3/2H450NSimBf8FuNqGLHg4pyEx/u/BXtnax5uen6CVtBq3JsdSfestayp6T9YCTOaDKh3TPA+gn0VgIGNw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB7849
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-20_08,2025-11-20_01,2025-10-01_01
+ definitions=2025-11-20_09,2025-11-20_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 bulkscore=0
  mlxlogscore=999 phishscore=0 suspectscore=0 mlxscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
- definitions=main-2511200144
-X-Authority-Analysis: v=2.4 cv=OMAqHCaB c=1 sm=1 tr=0 ts=691f7c4a b=1 cx=c_pps
+ definitions=main-2511200161
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE1MDAzMiBTYWx0ZWRfX6xkrHJK9tskl
+ Z8RLoYxCIeNw6N8vQli84GOnV6QlgakTVlkyUVqxIT1SR0KkdMh1i0jPbSo7Z1saJT/i0ED2N+V
+ kIWzvwm3oaVRgpJv47MZqIxK/oiM8dgf7L+QTVA0+5Aj1LOD3wGvyhymTqcvC9S04gwaY/cUeOt
+ zXJDx5rYzFQvKAp3ZQt8tDkThbhCsB60HkZ8lUtDZtnG3HyYDBLEimLtV+uvhhgoBH1KBtl3zQi
+ 3BZOJQkdEsh/708zAbHRHgBmdbNWsmrLHoOxz5/15OvAuVscqk3NXEL+LGWwu6SkBRE17jeI7Ka
+ lTxICxyY4ljxWKPMbqeqg3yajUbEZF1C+5VxqGB2+Z9hFRjylcMnhq0bKLcx850rCjXTDM1jnFV
+ ZhfeWzHsYeVkauet4dxTXc+VMFyC4/91+RxkyS0xKJlHska+w8s=
+X-Proofpoint-GUID: kyCX-0Al6DB3yCHNGoYhG24_YWDIkaMv
+X-Proofpoint-ORIG-GUID: kyCX-0Al6DB3yCHNGoYhG24_YWDIkaMv
+X-Authority-Analysis: v=2.4 cv=Rdydyltv c=1 sm=1 tr=0 ts=691f9b1f b=1 cx=c_pps
  a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6UeiqGixMTsA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=yPCof4ZbAAAA:8 a=Q7Hd2Uh0GVzwwfS5EQIA:9 a=CjuIK1q_8ugA:10 cc=ntf
- awl=host:12098
-X-Proofpoint-ORIG-GUID: Tjk0WJ0DIo2SvC_fIsVKJECYNcCVypM2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE1MDAzMSBTYWx0ZWRfX7VKg3bghVHUH
- /76N6nzD4QrtgKZU7EyQUrMmCTAeO8obAnA7BUps0i7pfBOxXV16u2f+/gXtNqLI1fXGRhhwGCt
- A2kvdA4x0daftm6dNEMen6rfoc4ZIaAMU8+C8NOWFikuxfMH47EXZGqkkWvupc2dnSOoMrI3mjN
- SYshV7KIM8iFtoXuMOAeIBhcwKqJoIKtANWGYq+RYWKj/jkcS0Jy6adJjKKKq7RulBiHP1c7OwC
- eeA4GfT50uHqFtEbNsL8kwzZnDudaS38gqGqhwj2Ligk0Xdv0rpN66ozGHboirSoiixpq27/6gX
- tSdd+iMfcuneqtDme3uUjh2UuppviuqFdiOgGKzUiK/hgbVXTor+GsdijCSCo0e9qY3fFPtrUo6
- E4zCQ/9WMAriOwJJwsjoXTgxzt9MYw3cNKRB3lTAt3jT58puOCc=
-X-Proofpoint-GUID: Tjk0WJ0DIo2SvC_fIsVKJECYNcCVypM2
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=6UeiqGixMTsA:10
+ a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8
+ a=jhF1E0G1u5ZEie5f_MMA:9 cc=ntf awl=host:12098
 
-On Thu, Nov 20, 2025 at 01:53:11PM -0500, eugene.loh@oracle.com wrote:
-> From: Eugene Loh <eugene.loh@oracle.com>
-> 
-> DTrace converts "__" to "-" for USDT probe names, but not for functions,
-> modules, or providers.  We document this behavior.
-> 
-> We provide the same conversion for stapsdt probe names, but we also
-> convert stapsdt provider names and in commit 22932a9875
-> ("selftests/usdt: add is-enabled stapsdt tests using semaphores") we
-> test that conversion.
-> 
-> SystemTap performs the conversion for the probe name but not for the
-> provider name.
-> 
-> Remove the conversion for stapsdt provider names.
+From: Eugene Loh <eugene.loh@oracle.com>
 
-I would rewrite this commit comment...
+DTrace provides "__" to "-" conversion for USDT probe names.
 
-	DTrace provides "--" to "_" conversioon for USDT probe names.
+Commit 4f58b864a0 ("support stapsdt ELF-note-defined static probes")
+included "__" to "-" conversion for stapsdt provider names and probe
+names.  Commit 22932a9875
+("selftests/usdt: add is-enabled stapsdt tests using semaphores")
+adds tests for both conversions.
 
-	Commit 4f58b864a ("support stapsdt ELF-note-defined static probes") 
-	included "__" to "-" conversion for provider names and probe names.
-	Commit 22932a9875
-	("selftests/usdt: add is-enabled stapsdt tests using semaphores")
-	adds tests for both conversions.
+Since SystemTap itself provides "__" to "-" conversion only for probe
+names, remove the conversion for stapsdt provider names.
 
-	Since SystenTap itself also only provides "__" to "-" conversion for
-	probe names, remove the conversion for stapsdt provider names.
+Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+---
+ libdtrace/dt_pid.c                            |  1 -
+ .../usdt/tst.stapsdt-notes-isenabled.r        | 24 ++++----
+ .../usdt/tst.stapsdt-notes-isenabled.r.p      |  4 ++
+ .../usdt/tst.stapsdt-notes-isenabled.sh       | 61 +++++++++++--------
+ 4 files changed, 52 insertions(+), 38 deletions(-)
+ create mode 100755 test/unittest/usdt/tst.stapsdt-notes-isenabled.r.p
 
-> 
-> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-> ---
->  libdtrace/dt_pid.c                            |  1 -
->  .../usdt/tst.stapsdt-notes-isenabled.r        | 24 ++++----
->  .../usdt/tst.stapsdt-notes-isenabled.r.p      |  4 ++
->  .../usdt/tst.stapsdt-notes-isenabled.sh       | 61 +++++++++++--------
->  4 files changed, 52 insertions(+), 38 deletions(-)
->  create mode 100755 test/unittest/usdt/tst.stapsdt-notes-isenabled.r.p
-> 
-> diff --git a/libdtrace/dt_pid.c b/libdtrace/dt_pid.c
-> index 703be112e..39714bdb2 100644
-> --- a/libdtrace/dt_pid.c
-> +++ b/libdtrace/dt_pid.c
-> @@ -1360,7 +1360,6 @@ dt_stapsdt_parse(dtrace_hdl_t *dtp, dt_proc_t *dpr, dtrace_probedesc_t *pdp,
->  		if (strlen(prv) >= nhdr.n_descsz)
->  			continue;
->  		strncpy(prvname, prv, sizeof(prvname));
-> -		(void) strhyphenate(prvname);
->  		prb = prv + strlen(prv) + 1;
->  		if (strlen(prb) >= nhdr.n_descsz)
->  			continue;
-> diff --git a/test/unittest/usdt/tst.stapsdt-notes-isenabled.r b/test/unittest/usdt/tst.stapsdt-notes-isenabled.r
-> index b088b285f..19924aa6b 100644
-> --- a/test/unittest/usdt/tst.stapsdt-notes-isenabled.r
-> +++ b/test/unittest/usdt/tst.stapsdt-notes-isenabled.r
-> @@ -1,13 +1,13 @@
-> -test:main:zero-probe
-> -test:main:one-probe:1
-> -test:main:two-probe:2:3
-> -test:main:three-probe:4:5:7
-> -test:main:four-probe:7:8:9:10
-> -test:main:five-probe:11:12:13:14:15
-> -test:main:six-probe:16:17:18:19:20:21
-> -test:main:seven-probe:22:23:24:25:26:27:28
-> -test:main:eight-probe:29:30:31:32:33:34:35:36
-> -test:main:nine-probe:37:38:39:40:41:42:43:44:45
-> -test:main:eleven-probe:56:57:58:59:60:61:62:63:64:65
-> -test:main:twelve-probe:67:68:69:70:71:72:73:74:75:76
-> +test__prov$pid:test:main:zero-probe
-> +test__prov$pid:test:main:one-probe:1
-> +test__prov$pid:test:main:two-probe:2:3
-> +test__prov$pid:test:main:three-probe:4:5:7
-> +test__prov$pid:test:main:four-probe:7:8:9:10
-> +test__prov$pid:test:main:five-probe:11:12:13:14:15
-> +test__prov$pid:test:main:six-probe:16:17:18:19:20:21
-> +test__prov$pid:test:main:seven-probe:22:23:24:25:26:27:28
-> +test__prov$pid:test:main:eight-probe:29:30:31:32:33:34:35:36
-> +test__prov$pid:test:main:nine-probe:37:38:39:40:41:42:43:44:45
-> +test__prov$pid:test:main:eleven-probe:56:57:58:59:60:61:62:63:64:65
-> +test__prov$pid:test:main:twelve-probe:67:68:69:70:71:72:73:74:75:76
->  
-> diff --git a/test/unittest/usdt/tst.stapsdt-notes-isenabled.r.p b/test/unittest/usdt/tst.stapsdt-notes-isenabled.r.p
-> new file mode 100755
-> index 000000000..234d1fa55
-> --- /dev/null
-> +++ b/test/unittest/usdt/tst.stapsdt-notes-isenabled.r.p
-> @@ -0,0 +1,4 @@
-> +#!/usr/bin/gawk -f
-> +
-> +# Replace pid in provider name with "$pid" for standardized output.
-> +{ sub(/^test__prov[0-9][0-9]*:/, "test__prov$pid:"); print; }
-> diff --git a/test/unittest/usdt/tst.stapsdt-notes-isenabled.sh b/test/unittest/usdt/tst.stapsdt-notes-isenabled.sh
-> index 322bf53aa..a839d5722 100755
-> --- a/test/unittest/usdt/tst.stapsdt-notes-isenabled.sh
-> +++ b/test/unittest/usdt/tst.stapsdt-notes-isenabled.sh
-> @@ -83,67 +83,78 @@ if [ $? -ne 0 ]; then
->  fi
->  
->  $dtrace -c ./test -qs /dev/stdin <<EOF
-> -test-prov\$target:::zero-probe
-> +test__prov\$target:::zero-probe
->  {
-> -	printf("%s:%s:%s\n", probemod, probefunc, probename);
-> +	printf("%s:%s:%s:%s\n", probeprov, probemod, probefunc, probename);
->  }
->  
-> -test-prov\$target:::one-probe
-> +test__prov\$target:::one-probe
->  {
-> -	printf("%s:%s:%s:%li\n", probemod, probefunc, probename, arg0);
-> +	printf("%s:%s:%s:%s:%li\n", probeprov, probemod, probefunc, probename,
-> +	       arg0);
->  }
->  
-> -test-prov\$target:::two-probe
-> +test__prov\$target:::two-probe
->  {
-> -	printf("%s:%s:%s:%li:%li\n", probemod, probefunc, probename, arg0, arg1);
-> +	printf("%s:%s:%s:%s:%li:%li\n",
-> +	       probeprov, probemod, probefunc, probename,
-> +	       arg0, arg1);
->  }
->  
-> -test-prov\$target:::three-probe
-> +test__prov\$target:::three-probe
->  {
-> -	printf("%s:%s:%s:%li:%li:%li\n", probemod, probefunc, probename, arg0, arg1,
-> -	       arg2);
-> +	printf("%s:%s:%s:%s:%li:%li:%li\n",
-> +	       probeprov, probemod, probefunc, probename,
-> +	       arg0, arg1, arg2);
->  }
->  
-> -test-prov\$target:::four-probe
-> +test__prov\$target:::four-probe
->  {
-> -	printf("%s:%s:%s:%li:%li:%li:%li\n", probemod, probefunc, probename, arg0, arg1,
-> -	       arg2, arg3);
-> +	printf("%s:%s:%s:%s:%li:%li:%li:%li\n",
-> +	       probeprov, probemod, probefunc, probename,
-> +	       arg0, arg1, arg2, arg3);
->  }
->  
-> -test-prov\$target:::five-probe
-> +test__prov\$target:::five-probe
->  {
-> -	printf("%s:%s:%s:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
-> +	printf("%s:%s:%s:%s:%li:%li:%li:%li:%li\n",
-> +	       probeprov, probemod, probefunc, probename,
->  	       arg0, arg1, arg2, arg3, arg4);
->  }
->  
-> -test-prov\$target:::six-probe
-> +test__prov\$target:::six-probe
->  {
-> -	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
-> +	printf("%s:%s:%s:%s:%li:%li:%li:%li:%li:%li\n",
-> +	       probeprov, probemod, probefunc, probename,
->  	       arg0, arg1, arg2, arg3, arg4, arg5);
->  }
->  
-> -test-prov\$target:::seven-probe
-> +test__prov\$target:::seven-probe
->  {
-> -	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
-> +	printf("%s:%s:%s:%s:%li:%li:%li:%li:%li:%li:%li\n",
-> +	       probeprov, probemod, probefunc, probename,
->  	       arg0, arg1, arg2, arg3, arg4, arg5, arg6);
->  }
->  
-> -test-prov\$target:::eight-probe
-> +test__prov\$target:::eight-probe
->  {
-> -	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
-> +	printf("%s:%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li\n",
-> +	       probeprov, probemod, probefunc, probename,
->  	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
->  }
->  
-> -test-prov\$target:::nine-probe
-> +test__prov\$target:::nine-probe
->  {
-> -	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
-> +	printf("%s:%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li:%li\n",
-> +	       probeprov, probemod, probefunc, probename,
->  	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
->  }
->  
-> -test-prov\$target:::eleven-probe,
-> -test-prov\$target:::twelve-probe
-> +test__prov\$target:::eleven-probe,
-> +test__prov\$target:::twelve-probe
->  {
-> -	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
-> +	printf("%s:%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li:%li:%li\n",
-> +	       probeprov, probemod, probefunc, probename,
->  	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
->  }
->  EOF
-> -- 
-> 2.47.3
-> 
+diff --git a/libdtrace/dt_pid.c b/libdtrace/dt_pid.c
+index 7d6cfb4dc..fb3c59581 100644
+--- a/libdtrace/dt_pid.c
++++ b/libdtrace/dt_pid.c
+@@ -1346,7 +1346,6 @@ dt_stapsdt_parse(dtrace_hdl_t *dtp, dt_proc_t *dpr, dtrace_probedesc_t *pdp,
+ 		if (strlen(prv) >= nhdr.n_descsz)
+ 			continue;
+ 		strncpy(prvname, prv, sizeof(prvname));
+-		(void) strhyphenate(prvname);
+ 		prb = prv + strlen(prv) + 1;
+ 		if (strlen(prb) >= nhdr.n_descsz)
+ 			continue;
+diff --git a/test/unittest/usdt/tst.stapsdt-notes-isenabled.r b/test/unittest/usdt/tst.stapsdt-notes-isenabled.r
+index b088b285f..19924aa6b 100644
+--- a/test/unittest/usdt/tst.stapsdt-notes-isenabled.r
++++ b/test/unittest/usdt/tst.stapsdt-notes-isenabled.r
+@@ -1,13 +1,13 @@
+-test:main:zero-probe
+-test:main:one-probe:1
+-test:main:two-probe:2:3
+-test:main:three-probe:4:5:7
+-test:main:four-probe:7:8:9:10
+-test:main:five-probe:11:12:13:14:15
+-test:main:six-probe:16:17:18:19:20:21
+-test:main:seven-probe:22:23:24:25:26:27:28
+-test:main:eight-probe:29:30:31:32:33:34:35:36
+-test:main:nine-probe:37:38:39:40:41:42:43:44:45
+-test:main:eleven-probe:56:57:58:59:60:61:62:63:64:65
+-test:main:twelve-probe:67:68:69:70:71:72:73:74:75:76
++test__prov$pid:test:main:zero-probe
++test__prov$pid:test:main:one-probe:1
++test__prov$pid:test:main:two-probe:2:3
++test__prov$pid:test:main:three-probe:4:5:7
++test__prov$pid:test:main:four-probe:7:8:9:10
++test__prov$pid:test:main:five-probe:11:12:13:14:15
++test__prov$pid:test:main:six-probe:16:17:18:19:20:21
++test__prov$pid:test:main:seven-probe:22:23:24:25:26:27:28
++test__prov$pid:test:main:eight-probe:29:30:31:32:33:34:35:36
++test__prov$pid:test:main:nine-probe:37:38:39:40:41:42:43:44:45
++test__prov$pid:test:main:eleven-probe:56:57:58:59:60:61:62:63:64:65
++test__prov$pid:test:main:twelve-probe:67:68:69:70:71:72:73:74:75:76
+ 
+diff --git a/test/unittest/usdt/tst.stapsdt-notes-isenabled.r.p b/test/unittest/usdt/tst.stapsdt-notes-isenabled.r.p
+new file mode 100755
+index 000000000..234d1fa55
+--- /dev/null
++++ b/test/unittest/usdt/tst.stapsdt-notes-isenabled.r.p
+@@ -0,0 +1,4 @@
++#!/usr/bin/gawk -f
++
++# Replace pid in provider name with "$pid" for standardized output.
++{ sub(/^test__prov[0-9][0-9]*:/, "test__prov$pid:"); print; }
+diff --git a/test/unittest/usdt/tst.stapsdt-notes-isenabled.sh b/test/unittest/usdt/tst.stapsdt-notes-isenabled.sh
+index 322bf53aa..a839d5722 100755
+--- a/test/unittest/usdt/tst.stapsdt-notes-isenabled.sh
++++ b/test/unittest/usdt/tst.stapsdt-notes-isenabled.sh
+@@ -83,67 +83,78 @@ if [ $? -ne 0 ]; then
+ fi
+ 
+ $dtrace -c ./test -qs /dev/stdin <<EOF
+-test-prov\$target:::zero-probe
++test__prov\$target:::zero-probe
+ {
+-	printf("%s:%s:%s\n", probemod, probefunc, probename);
++	printf("%s:%s:%s:%s\n", probeprov, probemod, probefunc, probename);
+ }
+ 
+-test-prov\$target:::one-probe
++test__prov\$target:::one-probe
+ {
+-	printf("%s:%s:%s:%li\n", probemod, probefunc, probename, arg0);
++	printf("%s:%s:%s:%s:%li\n", probeprov, probemod, probefunc, probename,
++	       arg0);
+ }
+ 
+-test-prov\$target:::two-probe
++test__prov\$target:::two-probe
+ {
+-	printf("%s:%s:%s:%li:%li\n", probemod, probefunc, probename, arg0, arg1);
++	printf("%s:%s:%s:%s:%li:%li\n",
++	       probeprov, probemod, probefunc, probename,
++	       arg0, arg1);
+ }
+ 
+-test-prov\$target:::three-probe
++test__prov\$target:::three-probe
+ {
+-	printf("%s:%s:%s:%li:%li:%li\n", probemod, probefunc, probename, arg0, arg1,
+-	       arg2);
++	printf("%s:%s:%s:%s:%li:%li:%li\n",
++	       probeprov, probemod, probefunc, probename,
++	       arg0, arg1, arg2);
+ }
+ 
+-test-prov\$target:::four-probe
++test__prov\$target:::four-probe
+ {
+-	printf("%s:%s:%s:%li:%li:%li:%li\n", probemod, probefunc, probename, arg0, arg1,
+-	       arg2, arg3);
++	printf("%s:%s:%s:%s:%li:%li:%li:%li\n",
++	       probeprov, probemod, probefunc, probename,
++	       arg0, arg1, arg2, arg3);
+ }
+ 
+-test-prov\$target:::five-probe
++test__prov\$target:::five-probe
+ {
+-	printf("%s:%s:%s:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
++	printf("%s:%s:%s:%s:%li:%li:%li:%li:%li\n",
++	       probeprov, probemod, probefunc, probename,
+ 	       arg0, arg1, arg2, arg3, arg4);
+ }
+ 
+-test-prov\$target:::six-probe
++test__prov\$target:::six-probe
+ {
+-	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
++	printf("%s:%s:%s:%s:%li:%li:%li:%li:%li:%li\n",
++	       probeprov, probemod, probefunc, probename,
+ 	       arg0, arg1, arg2, arg3, arg4, arg5);
+ }
+ 
+-test-prov\$target:::seven-probe
++test__prov\$target:::seven-probe
+ {
+-	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
++	printf("%s:%s:%s:%s:%li:%li:%li:%li:%li:%li:%li\n",
++	       probeprov, probemod, probefunc, probename,
+ 	       arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+ }
+ 
+-test-prov\$target:::eight-probe
++test__prov\$target:::eight-probe
+ {
+-	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
++	printf("%s:%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li\n",
++	       probeprov, probemod, probefunc, probename,
+ 	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+ }
+ 
+-test-prov\$target:::nine-probe
++test__prov\$target:::nine-probe
+ {
+-	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
++	printf("%s:%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li:%li\n",
++	       probeprov, probemod, probefunc, probename,
+ 	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+ }
+ 
+-test-prov\$target:::eleven-probe,
+-test-prov\$target:::twelve-probe
++test__prov\$target:::eleven-probe,
++test__prov\$target:::twelve-probe
+ {
+-	printf("%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probefunc, probename,
++	printf("%s:%s:%s:%s:%li:%li:%li:%li:%li:%li:%li:%li:%li:%li\n",
++	       probeprov, probemod, probefunc, probename,
+ 	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+ }
+ EOF
+-- 
+2.47.3
+
