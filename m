@@ -1,57 +1,57 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80F9185955
-	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 17:23:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490C62A1BB
+	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 17:23:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766078642; cv=none; b=MZ42/FNCZ1eXGGzO0RPuXQ70218SixzhlH38HM7ILLT2yLpebzgYvywViOVBTKUAdBO+SHeibQZ47A9g4XmvV7lfFwFX0CJkwgAdhSqcBD0u4WObPRAmvBDWsGokAVsl4hfHQCTr8wutSrTOHiryynXYykiccLj9a+BdBg0yc5A=
+	t=1766078643; cv=none; b=IbrKzi0xsel48l1j1dnqBXEWX6Mkj4Y8MPV9loaUmsYohB8vGMZEuuZq5eaVzMyggk9JJow1hVDI0DGKX/OYj/Ai68JMlD2EmCtDRlp+b9qUoy8Ap45K3J3KiQSvCl9e89lOxW8Yq7nF/RT/ihyT1eIxsS3goW2czdFXqHB+mvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766078642; c=relaxed/simple;
-	bh=MIhIK5nZHzCxGcDT8rhgINB7RWvQ6Lme5gCux5mYVE4=;
+	s=arc-20240116; t=1766078643; c=relaxed/simple;
+	bh=xpBQHUzV3cgJTBXCuOftYEBj5cpMg3Npv6LluDn5Hgs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a6KG27EDRMDlgJClzSdcRLZMbgbm/ncGbfxfn2ADqgC+EzscEUXpSzY/aXoM6T1Zs9rO4J9dHa8IoXTdl+6/fH5ssI1+CPxL/EtIEZtxMjcvEBvLxnQd941+t2+XylYGhpMdrypCgDkz2akGVJmgFiwxHHdTkOITauqdmFXBRDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=KL12+SPb; arc=none smtp.client-ip=205.220.177.32
+	 MIME-Version; b=UUdCAnwub1ypLWaEryZVNooLS6pVV/2by5+RT8cSmQLQNEY5EHzGyNsPo02wktwCoMGNVrss7m4+yAqgu+69SqcPwSWSfzkmpI3tXnxKJ+hRbRy5iujGkvNC6seJmDN9BLVgfu5qjjvD9cW5eKi2q7qWLggSdcvSqcGw+nfi7M4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=nKHlv2Jg; arc=none smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="KL12+SPb"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BIDCOtb1002899
-	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 17:23:58 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="nKHlv2Jg"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BIDCEpv973026
+	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 17:23:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=dr/ET
-	0yq3ny53XV09fBKJitXkepD9B7FKXvq9tIRi9g=; b=KL12+SPb9PD8hNnizwxZN
-	fWctArIf7TKgjUVMofzXZwdmMrLXT7c4u8XIczgqE5WjpniiYlfiHDynTQ/qUAIB
-	bgFExdXAx/hLcvH0wreCx6bsGD7IhlCweDCIMlsvMbb7H3LJweoYT02kS2DL+T8J
-	Y7qK6YP6PQkU1Cf41lhlYzrlqr09HmQpD8eGj4h2nwM9VrZKTQpyhRXaQB83yb8q
-	KJKb0zx2cp1vckvN4iFLsUceuTKs51A5T9buMuHzzgNlDD4GFdMme20ANZ64E3Gu
-	RPOYouqys7XyItPZPC9jsDSg4YXHwg7Cilj1LkE5jKquz2uqAfMshqwv+ZC2NGTD
-	w==
+	:mime-version:references:subject:to; s=corp-2025-04-25; bh=xC/1H
+	XnSZg0YQadegGzjuW+YrrOGywUfBP3xAf9unR8=; b=nKHlv2Jg+QtEdlBDxs576
+	8nWUZoG2Gyi6pP7HEEXS04g1Cdar/6NFn/M1DBFaSMI+jJm4GO8S9NEjCSNzyx1O
+	kO1Kj4IK5TgKjLIrJZyMo7j0okGoP8L6rfnK/098BU0KhJF5CvkOduk2h3Ak+NxS
+	a2pFPOP7NOA3j5Di4B8ZG0tyTf1xHmKixocxVoqbsxdOmnde/UZjwg5rqibf8ZTT
+	nWGtKBBm9yoff7qPZZkbob7vA8Km/BRCsWZAeMkGMSCVrSy2SPR+48QXYMjAjVal
+	umm7DDDKJKV+5ThkmObK81AKH9s2kQZBsIfH2Zp+CLvcYiEEZ14cnTZ5tbblAqjQ
+	Q==
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4b47n89394-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4b47ay949s-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 17:23:58 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 17:23:57 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5BIH3Yk1016420
-	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 17:23:57 GMT
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5BIGaYkv016348
+	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 17:23:56 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4b0xkpq6y6-1
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4b0xkpq6x6-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 17:23:57 +0000
+	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 17:23:56 +0000
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5BIHNtS8002775
-	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 17:23:57 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5BIHNtS5002775
+	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 17:23:56 GMT
 Received: from bpf.uk.oracle.com (dhcp-10-154-104-22.vpn.oracle.com [10.154.104.22])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4b0xkpq6v9-3;
-	Thu, 18 Dec 2025 17:23:56 +0000
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4b0xkpq6v9-2;
+	Thu, 18 Dec 2025 17:23:55 +0000
 From: Alan Maguire <alan.maguire@oracle.com>
 To: dtrace@lists.linux.dev
 Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
-Subject: [RFC patch 2/4] test: add systemwide stapsdt note test
-Date: Thu, 18 Dec 2025 17:23:52 +0000
-Message-ID: <20251218172354.3206787-3-alan.maguire@oracle.com>
+Subject: [RFC patch 1/4] stapsdt provider: support systemwide probing
+Date: Thu, 18 Dec 2025 17:23:51 +0000
+Message-ID: <20251218172354.3206787-2-alan.maguire@oracle.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20251218172354.3206787-1-alan.maguire@oracle.com>
 References: <20251218172354.3206787-1-alan.maguire@oracle.com>
@@ -69,96 +69,340 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adult
  suspectscore=0 phishscore=0 malwarescore=0 spamscore=0 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
  definitions=main-2512180143
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDE0MyBTYWx0ZWRfX7xzGyBa0nAjj
- j6ztf94pMSV1p8AiRWizYdhNZyaV08Dx7dGwF0xrkQalLZuUB3gR2XBUGCxYlXn2DwDlU7wHtz8
- 9vo5osvOS3dae8HSNGD1tJXUAslnSxrtvC2P5g2z5L5TZRkWqRBbVXEmTy2ePZsXUWe/WRtEvDc
- WF1VGKDa7+U557ZOj+7aMO9FYUnmHXEMFuoM+LOFnG0Fslx2wDlqdcbCntBfuro0KHzUuoBiNJg
- UgC+WxPCpFGu2IdCrj8WtEOSV6F++ueesgQoKpNIoX1BHz/keeqQgIuCDuR7FcxXKDNO64IlIGZ
- 8XoHwCif3g9+zksr+8On9D1tdPInkn3aNk6+2hcl7mNmnNyoFZkw8KupOReemVY0uEuu+uqKr1h
- cdovZpB374G3xY/rnxq1GWQ/TOCt76Ht2sUKW3uq3lGTat1sNz0=
-X-Proofpoint-ORIG-GUID: 07H7P8qfcorUy7Rera1BvpTT9-WYejMd
-X-Authority-Analysis: v=2.4 cv=Vq0uwu2n c=1 sm=1 tr=0 ts=694438ae b=1 cx=c_pps
+X-Authority-Analysis: v=2.4 cv=foDRpV4f c=1 sm=1 tr=0 ts=694438ad b=1 cx=c_pps
  a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
  a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8
- a=JEC0fJkXhVgF0k8_IpoA:9 cc=ntf awl=host:12110
-X-Proofpoint-GUID: 07H7P8qfcorUy7Rera1BvpTT9-WYejMd
+ a=l75cTfOQyV0KYdqE2NcA:9 cc=ntf awl=host:12110
+X-Proofpoint-GUID: 4sJJanRPypYOKSa4G5JrU-uksGy8VXfb
+X-Proofpoint-ORIG-GUID: 4sJJanRPypYOKSa4G5JrU-uksGy8VXfb
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDE0MyBTYWx0ZWRfX+PR99NhmkQyA
+ BroYm3q+CoCFdj3x4YFyQs1MbTlx1WPD5MvOeCEZ5lpOrUx0lGG9y/tGMj3vtJGMBZufhJ4wECB
+ C0OBvWYd1CFstd2eoNd1c8zOiZ9RbROa3jX6Q5sxeYuyV8dy9p52gDJz/zjQCOWs6gjP3CQuZOD
+ qv3HRCLVz7NYDZCffSD98/gK3JodH1U9ukyHTHd66aFSTTd9PlzuDHWuvRSpqg6WbQHM8yry9Fq
+ qax7hbTS9dfEHQ8Exbg5K+zlyjm9tZaBnsqRrFH4XxKNjpLG2TaxmtsyIIhGTlVHgU3mM/FhwUf
+ Um/GAN4+I8WLeY3+a2/BcdaDvGbrTfQD6sVdZLxqRBgX8CHa7fl1CtxylOJjeyxrul3J9KROICh
+ IutfIUYowjCh0ZLtNuiblyk/FUG5BYfdpcThIvdaIARwy8fueqg=
 
-Add test verifying that systemwide stapsdt probe firing
-is detected and we retrieve arguments correctly.
+For stapsdt probes we can do systemwide probing by having
+the kernel insert traps into the VMAs associated with a file
+from the point that instrumentation is enabled.  This means that
+for any _new_ process probes will fire.  Capturing existing
+processes means iterating over /proc maps etc.  However having
+this support is still valuable, and as long as it is documented
+clearly seems worthwhile even in such a form.
+
+The key problem for DTrace is how to specify a file path in
+a module in a provider:module:function:probe specification.
+
+Here the approach (also used by libbpf) is to expand potential
+paths using [LD_LIBRARY_]PATH from a binary/library name; so
+specifying
+
+myprov*:myprog::myprobe
+
+causes us to search /usr/bin, /usr/sbin and PATH directories
+to find myprog to instrument it.  If the module contains .so
+we check /usr/lib, /usr/lib64 and LD_LIBRARY_PATH.
+
+The other part that was needed was fixups to offsets that are
+optionally provided in .stapsdt.base and the addrs[1] value.
 
 Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 ---
- .../usdt/tst.stapsdt-notes-systemwide.r       |  2 +
- .../usdt/tst.stapsdt-notes-systemwide.sh      | 51 +++++++++++++++++++
- 2 files changed, 53 insertions(+)
- create mode 100644 test/unittest/usdt/tst.stapsdt-notes-systemwide.r
- create mode 100755 test/unittest/usdt/tst.stapsdt-notes-systemwide.sh
+ libdtrace/dt_pid.c         | 158 ++++++++++++++++++++++++++++---------
+ libdtrace/dt_prov_uprobe.c |  12 ++-
+ 2 files changed, 130 insertions(+), 40 deletions(-)
 
-diff --git a/test/unittest/usdt/tst.stapsdt-notes-systemwide.r b/test/unittest/usdt/tst.stapsdt-notes-systemwide.r
-new file mode 100644
-index 00000000..48ee5472
---- /dev/null
-+++ b/test/unittest/usdt/tst.stapsdt-notes-systemwide.r
-@@ -0,0 +1,2 @@
-+test:args:2:./test:val:18
+diff --git a/libdtrace/dt_pid.c b/libdtrace/dt_pid.c
+index 36a5883b..3448397c 100644
+--- a/libdtrace/dt_pid.c
++++ b/libdtrace/dt_pid.c
+@@ -7,7 +7,9 @@
+ 
+ #include <sys/ioctl.h>
+ #include <sys/types.h>
++#include <sys/stat.h>
+ #include <sys/sysmacros.h>
++#include <unistd.h>
+ #include <stddef.h>
+ #include <assert.h>
+ #include <ctype.h>
+@@ -34,11 +36,13 @@
+ 
+ #include <dt_impl.h>
+ #include <dt_program.h>
++#include <dt_probe.h>
+ #include <dt_provider.h>
+ #include <dt_pid.h>
+ #include <dt_string.h>
+ 
+ #define SEC_STAPSDT_NOTE	".note.stapsdt"
++#define SEC_STAPSDT_BASE	".stapsdt.base"
+ #define NAME_STAPSDT_NOTE	"stapsdt"
+ 
+ /*
+@@ -1267,9 +1271,10 @@ dt_stapsdt_parse(dtrace_hdl_t *dtp, dt_proc_t *dpr, dtrace_probedesc_t *pdp,
+ 		 unsigned long addr_start)
+ {
+ 	size_t shstrndx, noff, doff, off, n;
++	Elf_Scn *scn = NULL, *nscn = NULL;
+ 	const prmap_t *pmp = NULL;
++	unsigned long base = 0;
+ 	char *mapfile = NULL;
+-	Elf_Scn *scn = NULL;
+ 	Elf *elf = NULL;
+ 	GElf_Shdr shdr;
+ 	GElf_Ehdr ehdr;
+@@ -1323,12 +1328,14 @@ dt_stapsdt_parse(dtrace_hdl_t *dtp, dt_proc_t *dpr, dtrace_probedesc_t *pdp,
+ 		secname = elf_strptr(elf, shstrndx, shdr.sh_name);
+ 		if (strcmp(secname, SEC_STAPSDT_NOTE) == 0 &&
+ 		    shdr.sh_type == SHT_NOTE)
+-			break;
++			nscn = scn;
++		if (strcmp(secname, SEC_STAPSDT_BASE) == 0)
++			base = shdr.sh_addr;
+ 	}
+ 	/* No ELF notes, just bail. */
+-	if (scn == NULL)
++	if (nscn == NULL)
+ 		goto out;
+-	data = elf_getdata(scn, 0);
++	data = elf_getdata(nscn, 0);
+ 	for (off = 0;
+ 	     (off = gelf_getnote(data, off, &nhdr, &noff, &doff)) > 0;) {
+ 		char prvname[DTRACE_PROVNAMELEN];
+@@ -1385,38 +1392,59 @@ dt_stapsdt_parse(dtrace_hdl_t *dtp, dt_proc_t *dpr, dtrace_probedesc_t *pdp,
+ 				psp.pps_refcntr_off = addrs[2] - phdr.p_vaddr + phdr.p_offset;
+ 		}
+ 
++		/* readjust based on optional .stapsdt.base, note base addr. */
++		if (base && addrs[1])
++			psp.pps_off += base - addrs[1];
 +
-diff --git a/test/unittest/usdt/tst.stapsdt-notes-systemwide.sh b/test/unittest/usdt/tst.stapsdt-notes-systemwide.sh
-new file mode 100755
-index 00000000..2014aceb
---- /dev/null
-+++ b/test/unittest/usdt/tst.stapsdt-notes-systemwide.sh
-@@ -0,0 +1,51 @@
-+#!/bin/bash
-+#
-+# Oracle Linux DTrace.
-+# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
-+# Licensed under the Universal Permissive License v 1.0 as shown at
-+# http://oss.oracle.com/licenses/upl.
-+
-+# This test covers stapsdt probes fired by the STAP_PROBEn macros,
-+# testing various argument forms (constant, register, deref etc).
-+
-+if [ $# != 1 ]; then
-+	echo expected one argument: '<'dtrace-path'>'
-+	exit 2
-+fi
-+
-+dtrace=$1
-+CC=/usr/bin/gcc
-+CFLAGS="-I${PWD}/test/unittest/usdt"
-+
-+DIRNAME="$tmpdir/usdt-notes.$$.$RANDOM"
-+mkdir -p $DIRNAME
-+cd $DIRNAME
-+
-+cat > test.c <<EOF
-+#include <sdt_notes.h>
-+
-+int
-+main(int argc, char **argv)
+ 		if (!psp.pps_off)
+ 			continue;
+ 		psp.pps_nameoff = 0;
+ 
+-		if (!pmp)
+-			pmp = Paddr_to_map(dpr->dpr_proc, addr_start + addrs[0]);
+-		if (!pmp) {
+-			dt_dprintf("%i: cannot determine 0x%lx's mapping\n",
+-				   Pgetpid(dpr->dpr_proc), psp.pps_off);
+-			continue;
+-		}
+-		if (!mapfile)
+-			mapfile = Pmap_mapfile_name(dpr->dpr_proc, pmp);
++		if (dpr) {
++			if (!pmp)
++				pmp = Paddr_to_map(dpr->dpr_proc, addr_start + addrs[0]);
++			if (!pmp) {
++				dt_dprintf("%i: cannot determine 0x%lx's mapping\n",
++						   Pgetpid(dpr->dpr_proc), psp.pps_off);
++				continue;
++			}
++			if (!mapfile)
++				mapfile = Pmap_mapfile_name(dpr->dpr_proc, pmp);
+ 
+-		if (!mapfile) {
+-			dt_pid_error(dtp, pcb, dpr, D_PROC_USDT,
+-				     "Cannot get name of mapping containing probe %s for pid %d\n",
+-				     psp.pps_prb, dpr->dpr_pid);
+-			err = -1;
+-			break;
+-		}
+-		psp.pps_fn = mapfile;
+-		if (dt_Plookup_by_addr(dtp, dpr->dpr_pid, addr_start + addrs[0],
+-				       &fun, &sym) == 0)
+-			psp.pps_fun = (char *)fun;
+-		else
+-			psp.pps_fun = no_fun;
+-		psp.pps_dev = pmp->pr_dev;
+-		psp.pps_inum = pmp->pr_inum;
+-		psp.pps_pid = dpr->dpr_pid;
+-		psp.pps_nameoff = 0;
++			if (!mapfile) {
++				dt_pid_error(dtp, pcb, dpr, D_PROC_USDT,
++					     "Cannot get name of mapping containing probe %s for pid %d\n",
++					     psp.pps_prb, dpr->dpr_pid);
++				err = -1;
++				break;
++			}
++			psp.pps_fn = mapfile;
++			if (dt_Plookup_by_addr(dtp, dpr->dpr_pid, addr_start + addrs[0],
++					       &fun, &sym) == 0)
++				psp.pps_fun = (char *)fun;
++			else
++				psp.pps_fun = no_fun;
++			psp.pps_dev = pmp->pr_dev;
++			psp.pps_inum = pmp->pr_inum;
++			psp.pps_pid = dpr->dpr_pid;
++			psp.pps_nameoff = 0;
++		} else {
++			struct stat stats = {};
+ 
++			if (stat(path, &stats)) {
++				dt_pid_error(dtp, pcb, dpr, D_PROC_USDT,
++					     "failed to stat() %s", path);
++				dtrace_errmsg(dtp, dtrace_errno(dtp));
++				err = -1;
++				break;
++			}
++			psp.pps_mod = mod;
++			psp.pps_dev = stats.st_dev;
++			psp.pps_inum = stats.st_ino;
++			psp.pps_fn = path;
++			psp.pps_fun = no_fun;
++			psp.pps_pid = -1;
++		}
+ 		if (pvp->impl->provide_probe(dtp, &psp) < 0) {
+ 			dt_pid_error(dtp, pcb, dpr, D_PROC_USDT,
+ 				     "failed to instantiate probe %s for pid %d: %s",
+@@ -1506,6 +1534,48 @@ dt_pid_create_stapsdt_probes_proc(dtrace_probedesc_t *pdp, dtrace_hdl_t *dtp,
+ 	fclose(fp);
+ }
+ 
++static int expand_modpath(const char *mod, char *path, size_t pathsz)
 +{
-+	STAP_PROBE4(test_prov, args, argc, argv[0], argv[1] + 4, 18);
++	const char *searches[2] = {};
++	int perm, i;
++
++	if (strstr(mod, ".so")) {
++		searches[0] = getenv("LD_LIBRARY_PATH");
++		searches[1] = "/usr/lib64:/usr/lib";
++		perm = R_OK;
++	} else {
++		searches[0] = getenv("PATH");
++		searches[1] = "/usr/bin/:/usr/sbin";
++		perm = R_OK | X_OK;
++	}
++
++	for (i = 0; i < sizeof(searches)/sizeof(const char *); i++) {
++		const char *s, *n;
++
++		if (!searches[i])
++			continue;
++
++		for (s = searches[i]; s != NULL; s = n) {
++			int len;
++
++			if (*s == ':')
++				s++;
++			n = strchr(s, ':');
++			if (n)
++				len = n - s;
++			else
++				len = strlen(s);
++			snprintf(path, pathsz, "%.*s/%s", len, s, mod);
++			/* make sure accessible */
++			if (faccessat(AT_FDCWD, path, perm, AT_EACCESS) < 0)
++				continue;
++			dt_dprintf("%s: found full path '%s'\n", mod, path);
++			return 0;
++		}
++	}
++	return -ENOENT;
 +}
-+EOF
 +
-+${CC} ${CFLAGS} -o test test.c
-+if [ $? -ne 0 ]; then
-+	echo "failed to compile test.c" >& 2
-+	exit 1
-+fi
-+export PATH=.:$PATH
+ static int
+ dt_pid_create_stapsdt_probes(dtrace_probedesc_t *pdp, dtrace_hdl_t *dtp, dt_pcb_t *pcb)
+ {
+@@ -1522,14 +1592,25 @@ dt_pid_create_stapsdt_probes(dtrace_probedesc_t *pdp, dtrace_hdl_t *dtp, dt_pcb_
+ 
+ 	pidstr = &pdp->prv[len];
+ 
+-	while (isdigit(*(pidstr - 1)))
+-		pidstr--;
+-	if (strlen(pidstr) == 0)
+-		return 0;
+-
+ 	pvp = dt_provider_lookup(dtp, "stapsdt");
+ 	assert(pvp != NULL);
+ 
++	while (isdigit(*(pidstr - 1)))
++		pidstr--;
++	if (strlen(pidstr) == 0) {
++		char m[PATH_MAX];
 +
-+$dtrace -c './test arg1val' -qs /dev/stdin <<EOF
-+test_prov*:test::args
-+{
-+	printf("%s:%s:%li:%s:%s:%li\n", probemod, probename,
-+	       arg0, copyinstr(arg1), copyinstr(arg2), arg3);
-+}
-+
-+EOF
-+status=$?
-+
-+exit $status
++		/* only full pid wildcards are supported. */
++		if (*(pidstr - 1) != '*')
++			return 0;
++		if (isdigit(*(pidstr - 2)))
++			return 0;
++		if (dt_probe_lookup(dtp, pdp) != NULL)
++			return 0;
++		if (expand_modpath(pdp->mod, m, sizeof(m)))
++			return 0;
++		return dt_stapsdt_parse(dtp, NULL, pdp, pcb, pvp, m, 0);
++	}
+ 	pid = atoll(pidstr);
+ 	if (pid <= 0)
+ 		return 0;
+@@ -1612,8 +1693,13 @@ dt_pid_create_usdt_probes(dtrace_probedesc_t *pdp, dtrace_hdl_t *dtp, dt_pcb_t *
+ 	free(globpat);
+ 	globfree(&globbuf);
+ 
+-	if (err == 0)
++	if (err == 0) {
+ 		err = dt_pid_create_stapsdt_probes(pdp, dtp, pcb);
++		if (err != 0) {
++			dt_dprintf("stapsdt probe creation %s:%s:%s:%s failed: %d\n",
++				   pdp->prv, pdp->mod, pdp->fun, pdp->prb, err);
++		}
++	}
+ 
+ 	/* If no errors, report success. */
+ 	if (err == 0)
+diff --git a/libdtrace/dt_prov_uprobe.c b/libdtrace/dt_prov_uprobe.c
+index e94827f2..631c3557 100644
+--- a/libdtrace/dt_prov_uprobe.c
++++ b/libdtrace/dt_prov_uprobe.c
+@@ -507,7 +507,7 @@ clean_usdt_probes(dtrace_hdl_t *dtp)
+ 			list_probe_t		*pup = prp->prv_data;
+ 			dt_uprobe_t		*upp = pup->probe->prv_data;
+ 
+-			if (Pexists(upp->pid))
++			if (upp->pid == -1 || Pexists(upp->pid))
+ 				continue;
+ 		}
+ 
+@@ -629,7 +629,7 @@ static int add_probe_usdt(dtrace_hdl_t *dtp, dt_probe_t *prp)
+ 		assert(0);   // FIXME do something here
+ 
+ 	/* Even though we just enabled this, check it's still live. */
+-	if (!Pexists(pid)) {
++	if (pid != -1 && !Pexists(pid)) {
+ 		probe_disable(dtp, prp);
+ 		dt_bpf_map_delete(fd, &pdp->id);
+ 
+@@ -944,6 +944,7 @@ static int provide_probe(dtrace_hdl_t *dtp, const pid_probespec_t *psp,
+ 		return -1;
+ 
+ 	upp = uprp->prv_data;
++	upp->pid = psp->pps_pid;
+ 	upp->flags |= flags;
+ 
+ 	/* Look up the overlying probe. */
+@@ -1552,7 +1553,7 @@ static int uprobe_create(dtrace_hdl_t *dtp, const dt_uprobe_t *upp,
+ 	attr.uprobe_path = (uint64_t)upp->fn;
+ 	attr.probe_offset = upp->off;
+ 
+-	return dt_perf_event_open(&attr, upp->pid, -1, -1, 0);
++	return dt_perf_event_open(&attr, upp->pid, upp->pid == -1 ? 0 : -1, -1, 0);
+ }
+ 
+ static int attach(dtrace_hdl_t *dtp, const dt_probe_t *uprp, int bpf_fd)
+@@ -1563,7 +1564,10 @@ static int attach(dtrace_hdl_t *dtp, const dt_probe_t *uprp, int bpf_fd)
+ 	assert(upp->fn != NULL);
+ 
+ 	upp->fd = uprobe_create(dtp, upp, upp->refcntr_off);
+-
++	if (upp->fd < 0) {
++		dt_dprintf("uprobe_create failed: %d\n", upp->fd);
++		return upp->fd;
++	}
+ 	/* attach BPF program to the probe */
+ 	if (ioctl(upp->fd, PERF_EVENT_IOC_SET_BPF, bpf_fd) < 0)
+ 		return -errno;
 -- 
 2.43.5
 
