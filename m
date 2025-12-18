@@ -1,78 +1,87 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE52522FF22
-	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 20:36:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0368427462
+	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 21:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766090201; cv=fail; b=WcOLU5qzXlpuhmhZ/TqcoiMk+1mqGOrV3MK3slsKTprpEGK5IQN6R/WaVszJpJxBURI1cihq/FF/2vO2V9cJNR56l6QUMJhDkgcGZN7x9BpS6n0GNO8AqFTBRBVX5UQdbb1yeY2gXVO9cMY3RRFXpfV4xCcAnSpgTWazfJhdF+w=
+	t=1766091971; cv=fail; b=Ei9/pZjXKwZsKeX7Kf2nClH4VrjNMjEwVqJaXICF5nhbd+cMTHdSTkjVABKJGqVDo3ZyhSJm1jtjNfFlzPtlkKw4LkIIvBrfpqf/GueEz1q/NvYvxCk6P0hQ3QPb51l2l3OZ1qiIX5thLYn9N+EYPIefJO85Yvwbo8ngtdzBBcQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766090201; c=relaxed/simple;
-	bh=7szzzXCkFihAD9y+gxJOpcHVFz74xmBZL4cpip64n5w=;
-	h=Date:From:To:Subject:Content-Type:Message-ID:MIME-Version; b=Z2R9SQ/jGedUB3fRo8tyyNVdivmS2L6iRhLMKI6l7N4g7Ghui4QoG2FIDoebdyVncrYSoYtnEgwUCzrJCbYj6XVLGeCo5FXuQHLwQDUM7h+g9rCYygLAM4duicEpJbVn70a5sxxuKaBvyM7GjCx3st/79FzgXCU4o/pZMc8nKEQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ZALIPbP1; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=iyYfickr; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1766091971; c=relaxed/simple;
+	bh=pHjV5sJZ3ObS9+0HS21UJAoEiHxpuKUHZBdwLIFNnow=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=sCYdzs9uI/34K5KAS755oGWMQtQBieryvzR2+0ATMTUrG7o6DdYgyudw3KXqqjRVJ7nGuvUifcK2PLKBg6OcOYK9JjjRP4geNt1M00beiwW8sYk8hTSx8Eka0iVoPBKObAg9UfM7f13Z55PlW/dCWca68NuFHy3FjO0jEzwYmms=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ht0sDfwl; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=tnduwaCY; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZALIPbP1";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="iyYfickr"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BIJkMij2012472
-	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 20:36:38 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ht0sDfwl";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="tnduwaCY"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BIJkU3J1605318
+	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 21:06:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-type:date:from:message-id:mime-version:subject:to; s=
-	corp-2025-04-25; bh=sKdzqmwBZgMCQ48xlMRXAe82NjI+QNggkuoUpYC+LTQ=; b=
-	ZALIPbP1l6H+ZHBAFvthilf2mVRJlaR/o19QDyayXw19s74O0FdOx8NmhtBo68KP
-	AAB9V8pCeJDcM6bGEfaGemBi6gz26mdaSClexvA9Tw0kvOdvMDmAAB5RtSDPxiKV
-	ACMUAfCe+8zgvSqQYJKw+IJP+bVc6KQELse5cvoApLtZ/cvU2SE5ijwR+QLmfY0v
-	6PAtFt/OhpFxrRw62ObLxnCuevXmGg84fdMjhNP3dxTCKVhsUYMR5Ocu4/o7zz2n
-	zVY9dTHkxAu+eGiWRqBcJfVeReoBdaUR6VzRYoK33yPGDWalfgwOvPZTJaAYY270
-	z0GwPYSDkcvwAGmQarbBhg==
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=AJl+3grNwL4HbaLp1C/lVVG4iuMkYorz5Oake1+Jg0w=; b=
+	ht0sDfwlDVNxv7s4xdX1oRNPnmvMjpzZY18VhqlXx2GWaMPNOeOSTDxo4uPGdQ4O
+	EHQRNQwtYvUw0CF/rWvpxg/Dufi962/htSDkgOhVavuQKTw9Stb+zCUDYMqBAgTg
+	VWE7MFwYhkF0arRqVgO4sslzrMfL1dteE9caCDXKHiJafAyJ0BpErIK7mzjkooJU
+	PaglRApTYc4aPX8u/JRMZ1aSu3buiWNIhDLwfpoJTWdjk7nNwQUBgMVLdofi9Z4+
+	miolh/KsTZQexbby6lOY+rnub5rK4TKMchtHRqQu40CW7mSLSw2UUb42q2zW8cNb
+	3pjPLqBh0Fe0kma2xgZ3vw==
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4b4r2bg2em-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4b4r2cg3yn-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 20:36:37 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 21:06:07 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5BIJT7Uu024101
-	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 20:36:37 GMT
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012063.outbound.protection.outlook.com [40.93.195.63])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4b4qtdaed5-2
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5BIJT3LH024074
+	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 21:06:06 GMT
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012043.outbound.protection.outlook.com [52.101.43.43])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4b4qtdbhkk-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 20:36:37 +0000
+	for <dtrace@lists.linux.dev>; Thu, 18 Dec 2025 21:06:06 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=On02QH78K8pPBoozUwsPN2StR7O/t0ShyMAhLUwfsV3HgHUXpQnzYwEbvh1ZiVFj7JGPkoGBq0+KDNMdYvmcMynlMmMfovG4axXqrdtbReQ3DMJVzQrhuEe+uX7VT+W99c5UkRjnQAaan6KWUCK201vElgKXIx9CbmDODLxt0T2tuDYwf9dokeciL+yAhN0QyQ/DaZC1bD9n1rOnjQwLh/JqPqy4xK5qd1yWy0Ndm0Pi6uIzmVjXPE1zWVFHD5GZdxLKCVC9iTIq5w/wMo//MCS7SRLG5ftHXahNKjtdCxZkaWjgF1ezYAyZ0gqK2lVQS9NMvBnNah1kBpEKrZUpQQ==
+ b=DZYSpox7pVUIvOkZbv1rnqlBElNJ/sKbtPKYubRvFNUqRPNgudBBiKdD9rVkW6FjRC5/mEEJ4DI1DDmWcYlJr69VCkoRum9z215ur6+kEgTCy0Ikg1NUoYdfw1xLQ1EYoJSEuwFcwY3BAkPcGnpmPGOBHZf+M9w0CsJdmROTuJOQDHh9gRMHWK0+A488MgqLeHsat9QYxy1YknWNkk81bC3EFp0Ctjr3Y3pJVfhbL150r0cCGUmZSUT2ZE0oAJGU0im3PmWe4kPk046277zIK3Wa0Ot2/XtO/Qz4ZOjiuFEQkQrX+9WMdkArChoYn3e982u8GgoTjt5hzgT4eif30w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sKdzqmwBZgMCQ48xlMRXAe82NjI+QNggkuoUpYC+LTQ=;
- b=HmGV/ABJO8rG72wUZJ296rX3rPEL6o36YAI6rHV2Jc8uCJFVE3B9LaXyBq/Lw8S4/enNwvMGSMwRoNkBpYN99VsJKRza1P5LmDhL4xJSSCFFKfL6Gi5Xhidqw/LiktmNUG5GwLSvYGtlxiWoqlllyIExAQg3VkCO5B69SwJUu+5CVUoSypnxQyIOPphYjo+iqt6LulMNkp8n40H4qb8WynpfJ+NEkf8PQCvE5eoDGoaRjw7pnA5RnkJ8iYr5d4KxJHoDSM73EUL7ndr9eOZqfdcq/pbCodWWW/k4B9bpgO3VeaFArLTKBQAYHwaJLzSfpMTK0R5L7DDrdkqRDCz7iQ==
+ bh=AJl+3grNwL4HbaLp1C/lVVG4iuMkYorz5Oake1+Jg0w=;
+ b=mjUAXBwd/aiYt5XnH6+dPOUBYLD5kXEcrs5gNAYB4lypjhLmOYN9l8nohgXvhHe9SrRoeMpVLROYoztK/nV64PiNjJAuusTzmEH14DOyQB3GxnCIptvuwnW2PLg5Tcf92A3jhltkaJW+ynVgLi5D+OCf9b6wL4HeFE6KSX6/HwyTv/mzb22Iz4XBugmeKele1ueD2NUN1ezfs6RjLipzijicflABpIJGRGbl144Tyxur6iah2xE3eQl1M4aiy6HUnzBR17Wy5j/bMxYxaKK7EDFl2RqVAUfhW/tv03GuJltCsFKTTnXkYZri/dJHHoLZfUjxFQHc2h6IN5uFINdeYA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sKdzqmwBZgMCQ48xlMRXAe82NjI+QNggkuoUpYC+LTQ=;
- b=iyYfickrj89JFdsdAVg5Dyy+4vGKU5J5uJ+S7EeaM8HVKyVlU53wKfOB3aA412HDYgK5XKrI+2bHnA5fqQc4HCrjTlnFbz8j6XisCg429B294cJbcHMTHiUcSpoCxEWrKZwDE+7Y8q1/mDrmUtEciwOAs8wnsVksPok5NklZ1pY=
-Received: from DS0PR10MB7522.namprd10.prod.outlook.com (2603:10b6:8:15e::16)
- by CH0PR10MB5114.namprd10.prod.outlook.com (2603:10b6:610:dd::13) with
+ bh=AJl+3grNwL4HbaLp1C/lVVG4iuMkYorz5Oake1+Jg0w=;
+ b=tnduwaCYdmoSqT6FsN8jx7cFGRXR9f/IBVOia4NXk7fd3AWnbfJs4jr6l+Hm8wlJ+pVzbjItR9Eeui+Cei99erSId8mwMJ/GSFMAIJTOkOFUHGbzk8N4CrDs2ENbG03btPPLvdP4GHtQ7FI4Yj8+S3lR+Zr/kCKHSEGKyZ0mwpo=
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
+ by BLAPR10MB5153.namprd10.prod.outlook.com (2603:10b6:208:330::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.8; Thu, 18 Dec
- 2025 20:36:34 +0000
-Received: from DS0PR10MB7522.namprd10.prod.outlook.com
- ([fe80::9668:955e:1688:ea7a]) by DS0PR10MB7522.namprd10.prod.outlook.com
- ([fe80::9668:955e:1688:ea7a%6]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
- 20:36:33 +0000
-Date: Thu, 18 Dec 2025 15:36:32 -0500
-From: Kris Van Hees <kris.van.hees@oracle.com>
-To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH v2 4/4] options: discontinue -xversion=V as a valid option
-Content-Type: text/plain
-X-ClientProxiedBy: BLAPR05CA0002.namprd05.prod.outlook.com
- (2603:10b6:208:36e::12) To DS0PR10MB7522.namprd10.prod.outlook.com
- (2603:10b6:8:15e::16)
-Message-ID:
- <DS0PR10MB75225B4E633FF1F79FABFFFEC2A8A@DS0PR10MB7522.namprd10.prod.outlook.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Thu, 18 Dec
+ 2025 21:06:03 +0000
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::c47b:6cdc:87b1:aa6b]) by CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::c47b:6cdc:87b1:aa6b%6]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
+ 21:06:03 +0000
+Message-ID: <d701127d-01e5-3849-c824-39839bb8d34b@oracle.com>
+Date: Thu, 18 Dec 2025 16:06:00 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [DTrace-devel] [PATCH v2 4/4] options: discontinue -xversion=V as
+ a valid option
+Content-Language: en-US
+To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
+        dtrace-devel@oss.oracle.com
+References: <DS0PR10MB75225B4E633FF1F79FABFFFEC2A8A@DS0PR10MB7522.namprd10.prod.outlook.com>
+From: Eugene Loh <eugene.loh@oracle.com>
+In-Reply-To: <DS0PR10MB75225B4E633FF1F79FABFFFEC2A8A@DS0PR10MB7522.namprd10.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PH7P220CA0070.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:32c::10) To CO6PR10MB5636.namprd10.prod.outlook.com
+ (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -80,325 +89,342 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR10MB7522:EE_|CH0PR10MB5114:EE_
-X-MS-Office365-Filtering-Correlation-Id: 722e345c-0f4e-4d0c-e953-08de3e752212
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|BLAPR10MB5153:EE_
+X-MS-Office365-Filtering-Correlation-Id: bb182b30-1b01-4bdd-a0f4-08de3e7940cf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|13003099007;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?hUkpVVSBItL8OI1GSzXvIDBd+CssPNfmeIigW9+kyM+QRKU7s/xWIZqCsbPt?=
- =?us-ascii?Q?yA7qONqyTMNYi1BgjGC3xBdNkzSYwh3RX5jUuWowxutxIk6Ik17IJ3HWuJBW?=
- =?us-ascii?Q?y8wk8RN+StM8zRRGQF/PSOjY2epQ09B8NXtVIkp2Jq3LrayFzWHsmsPfK79I?=
- =?us-ascii?Q?/q0cAjPFbptdo+ISo5Di8bPaqkzw+CMO4z+rwm9+Q0uREEMvQqH6fI9SlKxu?=
- =?us-ascii?Q?aW3Aiu9ngz8nLjO2TTFQwBhW9tx2teXNxk1EHIMWhAfMDSElIP6XGbkfJ0Pa?=
- =?us-ascii?Q?jgqyHotX4UtHEOBQr3hWOFkuOgh2chwaPm7PJVbZb1hXW0QSH7LCd7T7SMc8?=
- =?us-ascii?Q?9mc5KN9dK7QT4dX2Hchk+5NSFJF43sn5aBndI4qEdA9x4mnLG+kXVRVOGONh?=
- =?us-ascii?Q?ZG0EA57ftHsjXIqzjepbqbGrXYEy8XIrtuL/oRtuMkhKhTFvbAuyeyma1Lrb?=
- =?us-ascii?Q?jdw7G47fGD+vLyNVESg3FnRLbxZ+cxLdtACVuUA010otDSTbztsIyO+NWgTO?=
- =?us-ascii?Q?V+QX44FZvlovMDo6rCdCxtHYa7KpY5smJ9pNuPg4cb5AxZkOeP+L4JAzc5tG?=
- =?us-ascii?Q?fTcMqqJFwRgDpKPyHumywWweeKK901Tauoap8LzKncaPoVSUpk8GUtJMbQHQ?=
- =?us-ascii?Q?KdoaVfoXfbN31BxgB9JRVUhN60C0pFQhSyjEVQ78oiNOuds8m+a1Spo9Ncx7?=
- =?us-ascii?Q?VJqeIkCxftC5in24p0VtpKbDxgkR2RjMxspglhtSuGkRSAl4FGgyrI8zO/uF?=
- =?us-ascii?Q?ALV6RVxrWcGkamo/uClX1H1yRatFsyl0Pz47KM6e/NynUPNyq+4+h6yihxbE?=
- =?us-ascii?Q?WRJ0DEpxK7OWLvFjlsNJ36xYhJvC4LZO0T5JlqK/Et+U6Urh+iH2rAUxTZFV?=
- =?us-ascii?Q?3f3iB6otlGFgJPPnsXrNcYTxf3GMAu/ikrS2QXCYBTlPvude9dQzmnPM5GKK?=
- =?us-ascii?Q?2WOLnrZT36u7iScylDZGlr7f+8Wj7hC+DB9sEy8uSB+twRLGUapr+qrOZmlH?=
- =?us-ascii?Q?NDAokOEXVBe4kk5RxcxQrgYAyQebp5lNW+mEQgeRiU03/fzh6CkY9q2qDwCh?=
- =?us-ascii?Q?OONi3AzFItn4BJFPxG4gv+cztLJ/qVZ7pO5s/Fj/DOxPZySQgdvjI4/msQyC?=
- =?us-ascii?Q?31PHwAcvo2DUcOTaJIcIj6bClIWKAKh86b67ltyDUwtNxC9E4kiG38AAXFg/?=
- =?us-ascii?Q?fDfk1lFql6k+T7y43iNyQ4DSOpDcMoWILrubepAMkkgfMbNIYNbWlbo397VL?=
- =?us-ascii?Q?pmFk/TVj+/EU8mgICn68R2hB52L5Oszj/VM1vrRRImbByggePAGb5KmPdOy1?=
- =?us-ascii?Q?KYMBoCgXODI+xNAQ2g5zhNlAOqX5QEKfk1rSa8MfihZOzlH5365t8HpJW4qZ?=
- =?us-ascii?Q?tm4P5ANPwPPkVDSpkuZnqYa72aplgu4bEomuRD90dY7nuyx1us1TFYSoTiSa?=
- =?us-ascii?Q?AvgeiUP2cPY+OBiTayrlFtgio6rG12Kdntuu1TdiEUCXpdD7KRfxVw=3D=3D?=
+	=?utf-8?B?dmlBQjk4L1lHZC9XcGhTaENubFpYeWhGNmNLdU1TU3Z4am52VFl2WW5TZFN5?=
+ =?utf-8?B?MG9kbTlGTXVEYXdMRTd5TFZmZCtiY3dkbFlNeVRvUm5hTTZMTisxa0hoWHE1?=
+ =?utf-8?B?YnZZcU9LL3BYTS83Zzg2VUR1T3VSV3gvaE0zSCtJc2ZiYWYxOHdDcXI5NVd3?=
+ =?utf-8?B?S2VxQXI2blVhd2hNQXlTcms5MnZESDErY1ZueTN2Qk9MbjdkQjJsWjd4RXZQ?=
+ =?utf-8?B?N1UvUHFRQThsMkY0TVM3a0duYVA3NFJoT1JwRVhSU25Ubk5YVGdxdFp6UmpW?=
+ =?utf-8?B?V081b3hRdU9qZEoydVR6dXFmdGxMeWh4Vm1MK09hZjJMcDBGN2tKbFZoeGlR?=
+ =?utf-8?B?Y2gzRkFFSlQrejNsMGpNRExFTXBOUG0rdGtmV29yME9PbVBZem5ESTIrQ1Jz?=
+ =?utf-8?B?UFdDVGsyckZWd3hWcjJUSkdtTi9DSFoyMmN4MUdpMFpNdzEwdENNNmpKRnZI?=
+ =?utf-8?B?STcwWjA0S1drMkNnS1h2dVJnVWI0SW9XOGFaS3F4c0lobENtMGRNQ2dHZWRy?=
+ =?utf-8?B?SXBFaENQeTRTM3AzQmFOeGtxYklHNVdUZFdqTDFWYlBNNnFtWmlYRG1ScGsx?=
+ =?utf-8?B?SnBSM1c2YkVyVWNrZVlLWlFINGZLZTRHUE5uWDQwUDl1bXpMUEpDLzRyeGE1?=
+ =?utf-8?B?N0V6ci9EY2tTNUliQnNEQXNxUEl6SlMzWURwbTBVSllkaDdra20zZW9xTmNq?=
+ =?utf-8?B?SFFZMmdvNS92VWdCeGwvdC92Z0tnYVNNUmhWTDFWanhiaUpZVmZhcCtaQW8r?=
+ =?utf-8?B?SUhsOGdaclVFazJTS29VOU4rZmpkUjdURk1HY2pBbFhESlliaGpXcGd6OERV?=
+ =?utf-8?B?QWhPRXVDZ01ySlg5Q0RYbCt5OW5pazh3WnJiS3dFR2JyVko0RWZzckVkUzRr?=
+ =?utf-8?B?aVlKay8wcmh4VEt4dWNBUnEyOHNrV3ZxZi9EU2cvcXNsVW9xK21SdEozK3FZ?=
+ =?utf-8?B?QmxCYktlZUR4ZzRsT1NuT0pHMGk3TDhUajNnM0dnV2FyV1dXbENwMDYyeEcv?=
+ =?utf-8?B?ZkpZbEtlM1ZIbjFZOU4ycUpOYmw5QzdJY2pKMmZyMFA1ZzJRcmRIMUptM1Jt?=
+ =?utf-8?B?VDZxRFhCTFd1eVN2Wi9oOWwwMXRZdlV2YVU1R1ZEVlg1QXkyazEwUDdwTldu?=
+ =?utf-8?B?dHZjNGVpYU9pT0tFMWJTZlpJL1YvanBQN0FlY2w1VC84cjNSd0puYzZMSURW?=
+ =?utf-8?B?TGQxbmdmN3M0WC9wZS90S25nbjJBU1BUNDdnYk9rdW1SV2FiNGNrcnZraWFi?=
+ =?utf-8?B?UGtLekZ0UE5DV2tySy9RRDVMSmFkVGVNMko4c1NrZGN2VitsdEdPWCsxaUVk?=
+ =?utf-8?B?TUN2VUJyRDN2UC9Ka2ZHWCsxeVM3U3BIY1liUXh0WFVsL0lzZyttUEVsV1g1?=
+ =?utf-8?B?RnIxOFVBQUtmMDVIazc4bUtlUVpqSTE1d3lBRkZDOSttT3gzMUpGdlhYeWdX?=
+ =?utf-8?B?ZkZiNC81eWpONW9veGlrWTltbktLbHhFOWZXcWV6dmt0eGtGYzc1REp5alZH?=
+ =?utf-8?B?VVJ2emhROForaUd3Q29FSGkvaHVBZm1RaU5lcVlNMVhOZXkxVWJQZWh4SzBM?=
+ =?utf-8?B?K2ZacXhpSnlaRnA3eFUwNGJjaUdTNlorZXFvQ0o3elRmVWRaakFBK1dMcEVm?=
+ =?utf-8?B?SzNBaWFhQXZLb3d4SElJK0x3TkM2NFJZOEdOazJLZ0FoNXNTbVZ6LzBpZUVY?=
+ =?utf-8?B?NGdVemZPWnZNUE5TdjgrK0I5cTRick5YeUsvSEhQdHpqUlpLblhtdi9DeFYr?=
+ =?utf-8?B?U1Bhek42TDQxTzd6byszQUQzdUF1d1FtME1waUU1d1RrOVR3MlJhWUk4RldP?=
+ =?utf-8?B?QU1KK2NLWnZkc0VLUy9xN0xiN09VTHY5Wk1XSU44ak1rTVBUR3BFTjdLc3dQ?=
+ =?utf-8?B?ZEVDN3E4TUNobUVlK283alFPTzZVR2cwbDNqOHJXNTI1bitsMUNUV2JNampU?=
+ =?utf-8?B?elZmSzN6U0lkdlNNOWkyOG13Q1ZabnEzUkZPZnNTOHMrbktseURSUnh6QXdV?=
+ =?utf-8?B?bzY4eVl5L2FnPT0=?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR10MB7522.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?xA7OnWUfoRU/a4pl0nPsOOY74zxYs8To2Ttq6bKy/jWAZ46uLvWdJkUbD1pV?=
- =?us-ascii?Q?88/Njfqjdt5/MM1tw6ay/Z7VyvnIZVtuwhYpmNvhMvPbImCE8KbNn8AHzq2J?=
- =?us-ascii?Q?sKeIfkSFxpFCQNGkvLNuTtDb4dsZaiNM2y2WMzBnFyAYc9rRyGRJTHAzMFOJ?=
- =?us-ascii?Q?fCxJTMTCURC4zJBswW3Tm27xv9TOAHE/paEUsm8nZIqT3swS00cnmnI0kO9n?=
- =?us-ascii?Q?GovRXqcj5m/RvQVBZf+nTJuHbs6tACqGOEzUAW6NTMpWCuHH3iWxWswYVe7z?=
- =?us-ascii?Q?JUP8K73kjsaJ72A/DI6hYp0tV1CMM6M5OfP/L4hNe2DP6b3ZIZmz00BPRdru?=
- =?us-ascii?Q?yk242vglGqaPguGPRnAIwvCjGlDdGFPh+xqJNcLgfc35llY53Wg43FQ9pbIB?=
- =?us-ascii?Q?tNpfLcNMpnuNuWyJ7zSv+g4R5CTHNpL2/sXR3A7YvqWodE3ZIt6GTPoDUtRi?=
- =?us-ascii?Q?kRDWW5HH7xLKegDH/Bvs+ttZPhF0qvulNVUg8mv1tjH+eSqcxF2jr+d5QbeM?=
- =?us-ascii?Q?Wi+f+M+bwb2SYQ1G8DrBhgR4hphle6qLO8Z1qw5WN7CXJ3uyqIAlvk/eFJLk?=
- =?us-ascii?Q?pr9Ho3C7bMeJ7krj7KQfNVV414ajJXi2voQabQaF+OiXU6aZHLM1SUuvuHuz?=
- =?us-ascii?Q?SkeOfQkhF8+xxn5JnVEq38achht9YTe0iWzQzPFHcVfFYXEy3XSM8XZ7a9Qu?=
- =?us-ascii?Q?LNsAn3CT04CJ5Mp4wn2uvxFHj7t8YIPF5uosqDwsvokvJUZO3F/RF6f1bQsi?=
- =?us-ascii?Q?mnE+3sMtgIF1qhUaRlvx10Q78wokEMKMZxd9RBwjktCDts5D/R1YCPfaLREq?=
- =?us-ascii?Q?elnVn4UD3Cy9/LfE0UZ7LdVPWxiTUoyw3M5yPJw5RJxUQ1aoXVnjlXzKw0dn?=
- =?us-ascii?Q?BgMg6aQ2ILBbe8Lz1Y+rz6KhblrynHee0QFRZ6d8GZvRGQiTFUFPdEZNQF6y?=
- =?us-ascii?Q?8pAnAfIc2bRVoz16RKO6TJS2pOA2yf76p+BT79Sai/A4/ObzGyI8pEeSgeY9?=
- =?us-ascii?Q?t7LCdINycOUjUcnl17tSQ11/2olMykFFYw1C8BNeteEPDGcpksjRTZuoAJIv?=
- =?us-ascii?Q?RGbksYmdLUWF9umX1+qpWlus9jBthtWOasrM+uSu2MHLqIOzWbb4nlx9SSxS?=
- =?us-ascii?Q?l+BFfOH+jU82B7YD4Qlz0pnr+AmEAJwUK2PZXYSH28RPsAyF9ssjDpfJtxz6?=
- =?us-ascii?Q?drOBJqnc7ZS5SgrwZTpr+mPkBKx82PaSdPlfjwK7iDcxbg9fW2GWwi+5pgKk?=
- =?us-ascii?Q?Q//dyySwd5nGQGpoc9uNbSMRlr0WLBT1/icld/4ouf2uoQSo7rdPzW/iQAmY?=
- =?us-ascii?Q?/F4TsbMAAHxh1tKbfPYVO+tixwzELwflxHdICw74yt7Z5BDyc0Bx0PZgUGT/?=
- =?us-ascii?Q?qLNcF3vumibzLylc7pTem1sN3o4pMbSUqf92Sh5yN9uccfoYw+RIxZUnyr7/?=
- =?us-ascii?Q?Lrg0GC72Oncu+gTq+qiEL0mPgSEYKd68Iet0Xt5vMjLCddL9RZvDfCY+uNQ6?=
- =?us-ascii?Q?7iOjEQLA59/dSn7ety7olwKnoRzM/+HFqDN812lcd5EaDiF3xxQ8IjImIyYN?=
- =?us-ascii?Q?/+Cv2tnSyHSvxXqw0VRhvdmaTmFcbnR6tHkv8PW3paYUu5LMbJ913Zm3COql?=
- =?us-ascii?Q?HA=3D=3D?=
+	=?utf-8?B?cFNmY081Y0tSdndhZ3R5OXpub3NXSGxOVTZHLzVsT3B4VzlRNXF2Tkk3WXc2?=
+ =?utf-8?B?dlBIZUh2VzhRUXBKYUtuendlVFJORTNuTDRwM2YwRFVOODcweXdYMUdhWnlr?=
+ =?utf-8?B?V0lDdkh2U21YRFZ4M2tpZnQvWmhEMHhmeDZwL2EyeFRzTjhOU2NTMHdObksz?=
+ =?utf-8?B?d05pNXZ2SnoxektlbzNKYVFlZEkzMVZMWXBmQ3MxbEhRTGdOc1p4ZmxJYnlK?=
+ =?utf-8?B?QjRiMWd3aXZ6OHVESVZoL0kyelZsYktXdEFleU1qVEFUdk5JK0NDZmcwYkc4?=
+ =?utf-8?B?Qk5wMjZEUnR6UGM4aVd6cm5PTjZYa21majNSeFVmbThhMFozYlYzQmpvcU40?=
+ =?utf-8?B?c1BNT0tlZHlUNDZwaE9wTmJ2ZUNCNGxwalJELzFIYjdzOFFjZy84ZEIrRVE4?=
+ =?utf-8?B?KzJCRkcvQjdTenIraWsvTE9jL2hBRDdpdDMxcVZ4Y3lNMk1NNGRSdGdjTXhl?=
+ =?utf-8?B?cUxrT1d2Zy90KytJenBSa1FjT2N4QlZwTTBPMGpjWndCa1lwbGQ5YzdiZUFz?=
+ =?utf-8?B?Z3VkZnNyT2RHTVRyUkM1V2N3VWRwQlNEN0ZtaFhaWjhZR3IzN0R4UXJqa21O?=
+ =?utf-8?B?VlV2eGJnM01oYyt3clEwdXU3ekhzcm5aRkhubUI3bkxEU3NGV1hRcU1tSnBZ?=
+ =?utf-8?B?YVlhd1dPRGVPeER3TXp2Y0VqQXBkdEFiRS9QejVlNHowTG5xVU5BM0ZSUFRG?=
+ =?utf-8?B?UllNSjZ5VDNLRnBmOUVSKzcxSyswazBUNjJTdm9xS2RpZGNuZWlLSGVSU1M3?=
+ =?utf-8?B?N1RMSEVQWk5oWlVRM0JpR3lVUlAzS3d3S0UybkpyMWN1aDFJZWt3OGhuWXZ4?=
+ =?utf-8?B?TmxSR0UwOStGTXRnRnAzYmdLU0tqcXRjd3lJN3RyeVNOdXJuN2RPMmk5YTla?=
+ =?utf-8?B?NGlOUCs3djB2UVVudGlkUEUvYkZVWnIxWjZoQU42cW5XOFBqMDRQRG81VHQw?=
+ =?utf-8?B?d3RUYzZtSURUK3pFSlk1SFpEK0RJQ25ZZWVJSG1Uek9wWFJ0RFJlOHFsa2JF?=
+ =?utf-8?B?emo4YlFaU1l4OXJtR1U3UzlrMGFYRDNuUXhBaFBsdkxmejhYVGdSQnlmRUZK?=
+ =?utf-8?B?OVhEdDloNHBqQ3lVSXdBb3FKQW0wb3IrZndZZW5SRkZ4ZzcrUGJFVmpyUkYr?=
+ =?utf-8?B?ak9XSWRxVHhYVWMwSW9lZUxUQytLdWZlaGpBNGlCUUQxSUp6N0NpeVJiWUJl?=
+ =?utf-8?B?ekxuL2UrcTQyejlzU29JbUc5S3BzU3Raa1BaVSthRnI0SldielQxdXNKOG1y?=
+ =?utf-8?B?VGc5ajVmaXBPQm16R0xHbEFINVJaUnQ5NmoybjN2bXVaZVljRC85eHdLSlBH?=
+ =?utf-8?B?aGhPK2dFWUJPR2NuY0pMV3FaOGtlNjFtejBKUVVMd0tOU3VFcjRwcjE4UzFu?=
+ =?utf-8?B?eVdLRG1EbXhyU2svY21PT3E0cDRSMERJRit4ZlZMbFZVdmh0N3lGN2Evd0pQ?=
+ =?utf-8?B?QXloV0JMNkFXV3Bzck9EWXJ6OGd2UjJLcXJiV3JpQkxTczV0K2VNanlKbHVH?=
+ =?utf-8?B?MnhVbUkzdTZUb1J6TXQwOGdCUHljeUlzeEZtNDZEdFZsTWtPRHhEU3QwVHRv?=
+ =?utf-8?B?WWowZE9hRU9uMXU1bHFkV0M3aVcrM2czYUtTVmZpS1JNOS9QZTRPdHJPZVJx?=
+ =?utf-8?B?RzJUZThDaldmY0xJSzBMblpTZFJ2T09Sc1ZqY2VQZTk1R0xOUnNSK1Zhd2FG?=
+ =?utf-8?B?NHhYSTllYXdFdEdMWnh5Z1ExMHg2V3I0Ky9UNWJRR0poZWlBMnViK0hkSVJM?=
+ =?utf-8?B?VytzV2c1aDgyMVZYdTZWaGt5UjRDdVlYd0pnL1ZHalRjZTh6MFJ0ZmZwOXRE?=
+ =?utf-8?B?ZG5lT1p5VDVzcWM4U0xHbHp0U1Vxb3ozZTB3M3YrNTBldDc0NDZnQW9hZjg2?=
+ =?utf-8?B?WVZvdHZzS3M0enpwOXRncnE0ZnpmeUYydkw2MVJOV2Z6Rk9PSXgrYnBaNkFx?=
+ =?utf-8?B?NXZGU0wvWTN3ZnVHbFJ2SGJITlplVDJnVmJxb2xJTTU2N2dlbWZaUy9OeHBM?=
+ =?utf-8?B?SmhOdWpFb0tXZmhNRXhiaU4yR0E2V3JTWWRYaUNkVVBXaGYwQUNNa241QVRy?=
+ =?utf-8?B?TmlhWkJjMmFQRmQrelFQSnh4dXQzV01rOTR1cXlHMTBzbjh3ckVkb3JCWmMx?=
+ =?utf-8?Q?Dmozv2ePU9azhKYokc4IBhNNZ?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	mqPqiTzipXsMn1myX2BlR6IRQkUANKmTBOjKsm/mQq3rBvGEpwnTREJkbGHolR0DHjIExJwbyHgQwz8VvfKVvhijsVc7g5FDewFPqmKNIulLGUqLfDEiz1F09tzPb7Z+nkoYRvWD0XEPMm2jE695F5nqSp71GoAMpgMtMDzFLxKO3CgVjaCoDzWWShSu7G7j2oE9w5kndL9ijhCazqFJhmPhNsfaRElzWyW918GJJodE7vgWUh3ZdYFtldciatRAExlkpOUFhuGUt+DpVCsm8G7emkXDvvFw9kHs9WYnuboLndJokbLLsoxrq5yj+B2gUf2rPh9z3X9kBpiFJekuKpWxhvd2NdrBK9HrKIVD+XMpa9rRbjjJQu8EDhy+t/rWO1EWikPQfXkXC3WCVgh1EufyVdbyqLGy5W85WFW4RX9scDybEL+KxgQWxQ4OYSW7hUprZfk2TNg0yPvfBtBSEynGWsavXr0rmfDSuFlcRSonvaxC2Ts4fh/rMevXFdv11tIRE2b6KxPi8qVYQGtiRG4AMuFBR963B1EcSM3mxS+QanEuxHxGPhajRZjSytKCxjvIJonD2V+e0yV2wRU1AvB+yVp7j7bSmF9t5rN0Vb4=
+	FdOcB+y1INQG74wlOcqm1ifRCdFV0oaOGkeMSruOGlXVEmHl2NNH0bctEqQD0Z0xpt2aWtUBoKI5IT7iKkDEldJQ6z/XA6hnXAACiW4UHZEWUz58gf0JSncM8+I1qcF1XCtN22TgZHNSGQzoXw3tv1v0Q8LMdXQJtG2G4ja8MJwzsR58ej4AaXLvRo0QHgzEyQqyiKAaAsEW7Jm5Qf27OsbP1QP9Fl4XDe9bVQe7eZOSNwNKWk2H6fwBPruYCcMB9ZAjmFKj32EBEbE6zTAmboOmrh67xZip49Z+Jwf/PtcpY9aqcEcI1GHpetV4SvwBWI4x3sMVXcPXSKNrkotvS5HKkMasP90MQ9yjT1MDhcIhdRa1wv/EHIrfbKltiNXzYG2A3ShUPUxdIp0zHYl/dah7ub56BAEnaeHpIu0cxBTD9VoL1UB66qc6tzm0Hv4DtO0G4SrZRQ15P6rX2nRxjm6nPS9d47cqNoRh603NVV6Cz7kBpsZ1AhvgVv5C/WSFUe6ZUvdKDSpFKZZcK6fnVytNLzFhh16sEjwymcmryuskL4Ckpfsf5k1SwLmFh6ga6NivubCBav4L9Ipv12/J6NcsLlT5SLpwIdvsuAlzU0A=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 722e345c-0f4e-4d0c-e953-08de3e752212
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR10MB7522.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb182b30-1b01-4bdd-a0f4-08de3e7940cf
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 20:36:33.8413
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 21:06:03.3798
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KZIo0HRKFmjFWnutXKpsNj7scRsvvaigfCZks+tHzDJ28sEV5H5RrTn+bBzh3S5VnyurceHa0nn13nrRzSVACPufCNfw1rMH39qzA/erq4o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB5114
+X-MS-Exchange-CrossTenant-UserPrincipalName: kHbn736/8qys3lVQFdxWjnyTMKD0mPyY4EB0b+iDjpbC0a/lWhyv3gFu8qTd1mckH/aIa9cGpDshSnptfrwkww==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5153
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-18_03,2025-12-17_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 mlxlogscore=999
  suspectscore=0 spamscore=0 malwarescore=0 adultscore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2512120000
- definitions=main-2512180171
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDE3MSBTYWx0ZWRfX05oq45l4Dr8B
- 0M++TuqPRLDSbo00AZW/Iapp9NWJ8CftahEIxuXBs32XAaN9cnvhrQohe24QkLTQAKle9kGJmcf
- ylKvINGAuEh/ziujJIrkeHFatiWb8O+wozCGf1Q2G6UFdp4VtGtdbj+I6ZooNJKkgharDxlUwu+
- xllCB6bpRWsX3vJS23R4qmr2EPYIFvqiAR1Z800Z6WlowAGFgqF9tDeJC7RQ0RGdW1sDpwXdvnz
- iTsE9q7NYEdVdHi6dMVlKzO3PL1LbpYk+oUywgA/K43+mWmeXIVAGlLXgotxs42jIwxaenfxBaC
- kzXvU9SJlAYk0+IRJLCpD9A/TSNDbDqItkdvWSKkBS4aeID6lzHYAuwq+WJ5puAzxW0C8tfwP/x
- vuZyEO9qTApGzfaeenRKx0MzhqEtqH3NuXIDvnk4Hy2Ed0ONWS/TgMatKmKJvFgf0gwy7PX0qKT
- GVIIExn37PuDt0DYgzA==
-X-Proofpoint-ORIG-GUID: Mkq8rdbfnaBYbBcLDqv8spDum1I2qCaU
-X-Proofpoint-GUID: Mkq8rdbfnaBYbBcLDqv8spDum1I2qCaU
-X-Authority-Analysis: v=2.4 cv=ObyVzxTY c=1 sm=1 tr=0 ts=694465d5 b=1 cx=c_pps
+ definitions=main-2512180175
+X-Authority-Analysis: v=2.4 cv=YJmSCBGx c=1 sm=1 tr=0 ts=69446cbf b=1 cx=c_pps
  a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10
- a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8
- a=_kUXBw3cv70qbZ-X1GQA:9
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=wP3pNCr1ah4A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=yPCof4ZbAAAA:8 a=F23UnYTvweldJ78FYksA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDE3NSBTYWx0ZWRfX7lsju9D6r560
+ ztQi49KTDF648a51krjATncxFXb7EVGrjnxuwGaTyfXgW5L9LIYeAZpVgxR3kRNIc/Gt6h+gJlG
+ 3s5S93bBDO72OUTdDKbAcCL0EY5FYeEBf5i7fw+ed/y7uakeKM+1/mo3Pb1y+ZHgUx85BwvxOb0
+ SvYEkIAjlr6YdLxoW2/+q16EWhrQ1F3XO0okyCiawRoeJin2PfX+FUx5Bve5Z7rtkfU2lP2taLW
+ YhvJ9P8I8Vv84Owdjd0kN5Kyfje1cNB6CP288odqAL5QfBb33WZCYYLPaSl0yhDV0HIxm9mZzCg
+ Ly2ZWe7UmspFhDXDXjxxb6ewpCkfp5uo4q39ILJeQu+o9pMfxw/dr7QhlJClL+sQq4bp4dJ0a0a
+ 2zhZtvto+IQ+q3h2aebkuqG+JAIqCJwulE0F59tBGSvC/t3yi6qAyph82Smnhh6M/KmsvSxIn/i
+ qKn3EnjntVV+b9Cdv4g==
+X-Proofpoint-ORIG-GUID: Y7aTFML5r-sx4EueYsYqFZjM8GX3sZ8b
+X-Proofpoint-GUID: Y7aTFML5r-sx4EueYsYqFZjM8GX3sZ8b
 
-DTrace allowed setting a previous version to operate in compatibility
-mode.  Unfortunately, it was not fully implemented.  Translators are
-not really versioned, and if a translator uses an identifier that does
-not exist in the version specified in -xversion=V, data structures end
-up corrupted.
+Reviewed-by: Eugene Loh <eugene.loh@oracle.com>
 
-Since the usefulness of -xversion=V seems to be less than the effort
-needed to rectify the implementation, we are no longer supporting this
-option.
-
-Tests added to ensure that the error is reported for -xversion=V and
-when set using a pragma.  The former version tests have been removed
-as they have become obsolete.
-
-Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
----
- libdtrace/dt_options.c                     | 14 ++---------
- test/unittest/options/err.version-pragma.d | 18 ++++++++++++++
- test/unittest/options/err.version-pragma.r |  2 ++
- test/unittest/options/err.version.d        |  4 ++--
- test/unittest/options/err.version.r        |  2 +-
- test/unittest/options/tst.version.r        |  1 -
- test/unittest/options/tst.version.sh       | 14 -----------
- test/unittest/version/err.1.1.d            | 27 ---------------------
- test/unittest/version/tst.1.0.d            | 28 ----------------------
- 9 files changed, 25 insertions(+), 85 deletions(-)
- create mode 100644 test/unittest/options/err.version-pragma.d
- create mode 100644 test/unittest/options/err.version-pragma.r
- delete mode 100644 test/unittest/options/tst.version.r
- delete mode 100755 test/unittest/options/tst.version.sh
- delete mode 100644 test/unittest/version/err.1.1.d
- delete mode 100644 test/unittest/version/tst.1.0.d
-
-diff --git a/libdtrace/dt_options.c b/libdtrace/dt_options.c
-index 97516517..0a35e852 100644
---- a/libdtrace/dt_options.c
-+++ b/libdtrace/dt_options.c
-@@ -24,6 +24,7 @@
- #include <dt_pcap.h>
- #include <dt_string.h>
- #include <libproc.h>
-+#include <port.h>
- 
- static int
- dt_opt_agg(dtrace_hdl_t *dtp, const char *arg, uintptr_t option)
-@@ -676,18 +677,7 @@ dt_opt_invcflags(dtrace_hdl_t *dtp, const char *arg, uintptr_t option)
- static int
- dt_opt_version(dtrace_hdl_t *dtp, const char *arg, uintptr_t option)
- {
--	dt_version_t v;
--
--	if (arg == NULL)
--		return dt_set_errno(dtp, EDT_BADOPTVAL);
--
--	if (dt_version_str2num(arg, &v) == -1)
--		return dt_set_errno(dtp, EDT_VERSINVAL);
--
--	if (!dt_version_defined(v))
--		return dt_set_errno(dtp, EDT_VERSUNDEF);
--
--	return dt_reduce(dtp, v);
-+	return dt_set_errno(dtp, ENOTSUPP);
- }
- 
- static int
-diff --git a/test/unittest/options/err.version-pragma.d b/test/unittest/options/err.version-pragma.d
-new file mode 100644
-index 00000000..88825ef6
---- /dev/null
-+++ b/test/unittest/options/err.version-pragma.d
-@@ -0,0 +1,18 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2023, 2025, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
-+
-+/*
-+ * ASSERTION: The -xversion option is deprecated.
-+ *
-+ * SECTION: Options and Tunables/Consumer Options
-+ */
-+
-+#pragma D option version=99.1
-+
-+BEGIN {
-+	exit(0);
-+}
-diff --git a/test/unittest/options/err.version-pragma.r b/test/unittest/options/err.version-pragma.r
-new file mode 100644
-index 00000000..279186d3
---- /dev/null
-+++ b/test/unittest/options/err.version-pragma.r
-@@ -0,0 +1,2 @@
-+-- @@stderr --
-+dtrace: failed to compile script test/unittest/options/err.version-pragma.d: line 14: failed to set option 'version' to '99.1': Operation not supported
-diff --git a/test/unittest/options/err.version.d b/test/unittest/options/err.version.d
-index bd86e13f..093b29aa 100644
---- a/test/unittest/options/err.version.d
-+++ b/test/unittest/options/err.version.d
-@@ -1,12 +1,12 @@
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2023, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2023, 2025, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
- 
- /*
-- * ASSERTION: The -xversion option works.
-+ * ASSERTION: The -xversion option is deprecated.
-  *
-  * SECTION: Options and Tunables/Consumer Options
-  */
-diff --git a/test/unittest/options/err.version.r b/test/unittest/options/err.version.r
-index 6cdd1f7f..7c659859 100644
---- a/test/unittest/options/err.version.r
-+++ b/test/unittest/options/err.version.r
-@@ -1,2 +1,2 @@
- -- @@stderr --
--dtrace: failed to set -x version: Requested version is not supported by compiler
-+dtrace: failed to set -x version: Operation not supported
-diff --git a/test/unittest/options/tst.version.r b/test/unittest/options/tst.version.r
-deleted file mode 100644
-index 8b137891..00000000
---- a/test/unittest/options/tst.version.r
-+++ /dev/null
-@@ -1 +0,0 @@
--
-diff --git a/test/unittest/options/tst.version.sh b/test/unittest/options/tst.version.sh
-deleted file mode 100755
-index 37fb6f75..00000000
---- a/test/unittest/options/tst.version.sh
-+++ /dev/null
-@@ -1,14 +0,0 @@
--#!/bin/bash
--#
--# Oracle Linux DTrace.
--# Copyright (c) 2023, 2025,Oracle and/or its affiliates. All rights reserved.
--# Licensed under the Universal Permissive License v 1.0 as shown at
--# http://oss.oracle.com/licenses/upl.
--#
--
--dtrace=$1
--
--myversion=`$dtrace $dt_flags -V | gawk '{ print $NF }'`
--
--$dtrace $dt_flags -xversion=$myversion -qn 'BEGIN { exit(0) }'
--exit $?
-diff --git a/test/unittest/version/err.1.1.d b/test/unittest/version/err.1.1.d
-deleted file mode 100644
-index 0b63421f..00000000
---- a/test/unittest/version/err.1.1.d
-+++ /dev/null
-@@ -1,27 +0,0 @@
--/*
-- * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2020, Oracle and/or its affiliates. All rights reserved.
-- * Licensed under the Universal Permissive License v 1.0 as shown at
-- * http://oss.oracle.com/licenses/upl.
-- */
--/* @@runtest-opts: -Ze */
--
--#pragma D option version=1.1
--
--/*
-- * The following identifiers were added as D built-ins as of version 1.1.
-- * Using these identifiers as user-specified variables should be illegal in
-- * that and any later versions, but legal in earlier versions.
-- */
--int strstr;
--int strchr;
--int strrchr;
--int strtok;
--int substr;
--int index;
--int freopen;
--
--write:entry
--{
--	exit(0);
--}
-diff --git a/test/unittest/version/tst.1.0.d b/test/unittest/version/tst.1.0.d
-deleted file mode 100644
-index 79f23b0d..00000000
---- a/test/unittest/version/tst.1.0.d
-+++ /dev/null
-@@ -1,28 +0,0 @@
--/*
-- * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2020, Oracle and/or its affiliates. All rights reserved.
-- * Licensed under the Universal Permissive License v 1.0 as shown at
-- * http://oss.oracle.com/licenses/upl.
-- */
--/* @@runtest-opts: -Ze */
--
--#pragma D option version=1.0
--
--/*
-- * The following identifiers were added as D built-ins as of version 1.1.
-- * Using these identifiers as user-specified variables should be illegal in
-- * that and any later versions, but legal in earlier versions.
-- */
--int strstr;
--int strchr;
--int strrchr;
--int strtok;
--int substr;
--int index;
--int freopen;
--
--write:entry
--{
--	exit(0);
--}
--
--- 
-2.51.0
-
+On 12/18/25 15:36, Kris Van Hees via DTrace-devel wrote:
+> DTrace allowed setting a previous version to operate in compatibility
+> mode.  Unfortunately, it was not fully implemented.  Translators are
+> not really versioned, and if a translator uses an identifier that does
+> not exist in the version specified in -xversion=V, data structures end
+> up corrupted.
+>
+> Since the usefulness of -xversion=V seems to be less than the effort
+> needed to rectify the implementation, we are no longer supporting this
+> option.
+>
+> Tests added to ensure that the error is reported for -xversion=V and
+> when set using a pragma.  The former version tests have been removed
+> as they have become obsolete.
+>
+> Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+> ---
+>   libdtrace/dt_options.c                     | 14 ++---------
+>   test/unittest/options/err.version-pragma.d | 18 ++++++++++++++
+>   test/unittest/options/err.version-pragma.r |  2 ++
+>   test/unittest/options/err.version.d        |  4 ++--
+>   test/unittest/options/err.version.r        |  2 +-
+>   test/unittest/options/tst.version.r        |  1 -
+>   test/unittest/options/tst.version.sh       | 14 -----------
+>   test/unittest/version/err.1.1.d            | 27 ---------------------
+>   test/unittest/version/tst.1.0.d            | 28 ----------------------
+>   9 files changed, 25 insertions(+), 85 deletions(-)
+>   create mode 100644 test/unittest/options/err.version-pragma.d
+>   create mode 100644 test/unittest/options/err.version-pragma.r
+>   delete mode 100644 test/unittest/options/tst.version.r
+>   delete mode 100755 test/unittest/options/tst.version.sh
+>   delete mode 100644 test/unittest/version/err.1.1.d
+>   delete mode 100644 test/unittest/version/tst.1.0.d
+>
+> diff --git a/libdtrace/dt_options.c b/libdtrace/dt_options.c
+> index 97516517..0a35e852 100644
+> --- a/libdtrace/dt_options.c
+> +++ b/libdtrace/dt_options.c
+> @@ -24,6 +24,7 @@
+>   #include <dt_pcap.h>
+>   #include <dt_string.h>
+>   #include <libproc.h>
+> +#include <port.h>
+>   
+>   static int
+>   dt_opt_agg(dtrace_hdl_t *dtp, const char *arg, uintptr_t option)
+> @@ -676,18 +677,7 @@ dt_opt_invcflags(dtrace_hdl_t *dtp, const char *arg, uintptr_t option)
+>   static int
+>   dt_opt_version(dtrace_hdl_t *dtp, const char *arg, uintptr_t option)
+>   {
+> -	dt_version_t v;
+> -
+> -	if (arg == NULL)
+> -		return dt_set_errno(dtp, EDT_BADOPTVAL);
+> -
+> -	if (dt_version_str2num(arg, &v) == -1)
+> -		return dt_set_errno(dtp, EDT_VERSINVAL);
+> -
+> -	if (!dt_version_defined(v))
+> -		return dt_set_errno(dtp, EDT_VERSUNDEF);
+> -
+> -	return dt_reduce(dtp, v);
+> +	return dt_set_errno(dtp, ENOTSUPP);
+>   }
+>   
+>   static int
+> diff --git a/test/unittest/options/err.version-pragma.d b/test/unittest/options/err.version-pragma.d
+> new file mode 100644
+> index 00000000..88825ef6
+> --- /dev/null
+> +++ b/test/unittest/options/err.version-pragma.d
+> @@ -0,0 +1,18 @@
+> +/*
+> + * Oracle Linux DTrace.
+> + * Copyright (c) 2023, 2025, Oracle and/or its affiliates. All rights reserved.
+> + * Licensed under the Universal Permissive License v 1.0 as shown at
+> + * http://oss.oracle.com/licenses/upl.
+> + */
+> +
+> +/*
+> + * ASSERTION: The -xversion option is deprecated.
+> + *
+> + * SECTION: Options and Tunables/Consumer Options
+> + */
+> +
+> +#pragma D option version=99.1
+> +
+> +BEGIN {
+> +	exit(0);
+> +}
+> diff --git a/test/unittest/options/err.version-pragma.r b/test/unittest/options/err.version-pragma.r
+> new file mode 100644
+> index 00000000..279186d3
+> --- /dev/null
+> +++ b/test/unittest/options/err.version-pragma.r
+> @@ -0,0 +1,2 @@
+> +-- @@stderr --
+> +dtrace: failed to compile script test/unittest/options/err.version-pragma.d: line 14: failed to set option 'version' to '99.1': Operation not supported
+> diff --git a/test/unittest/options/err.version.d b/test/unittest/options/err.version.d
+> index bd86e13f..093b29aa 100644
+> --- a/test/unittest/options/err.version.d
+> +++ b/test/unittest/options/err.version.d
+> @@ -1,12 +1,12 @@
+>   /*
+>    * Oracle Linux DTrace.
+> - * Copyright (c) 2023, Oracle and/or its affiliates. All rights reserved.
+> + * Copyright (c) 2023, 2025, Oracle and/or its affiliates. All rights reserved.
+>    * Licensed under the Universal Permissive License v 1.0 as shown at
+>    * http://oss.oracle.com/licenses/upl.
+>    */
+>   
+>   /*
+> - * ASSERTION: The -xversion option works.
+> + * ASSERTION: The -xversion option is deprecated.
+>    *
+>    * SECTION: Options and Tunables/Consumer Options
+>    */
+> diff --git a/test/unittest/options/err.version.r b/test/unittest/options/err.version.r
+> index 6cdd1f7f..7c659859 100644
+> --- a/test/unittest/options/err.version.r
+> +++ b/test/unittest/options/err.version.r
+> @@ -1,2 +1,2 @@
+>   -- @@stderr --
+> -dtrace: failed to set -x version: Requested version is not supported by compiler
+> +dtrace: failed to set -x version: Operation not supported
+> diff --git a/test/unittest/options/tst.version.r b/test/unittest/options/tst.version.r
+> deleted file mode 100644
+> index 8b137891..00000000
+> --- a/test/unittest/options/tst.version.r
+> +++ /dev/null
+> @@ -1 +0,0 @@
+> -
+> diff --git a/test/unittest/options/tst.version.sh b/test/unittest/options/tst.version.sh
+> deleted file mode 100755
+> index 37fb6f75..00000000
+> --- a/test/unittest/options/tst.version.sh
+> +++ /dev/null
+> @@ -1,14 +0,0 @@
+> -#!/bin/bash
+> -#
+> -# Oracle Linux DTrace.
+> -# Copyright (c) 2023, 2025,Oracle and/or its affiliates. All rights reserved.
+> -# Licensed under the Universal Permissive License v 1.0 as shown at
+> -# http://oss.oracle.com/licenses/upl.
+> -#
+> -
+> -dtrace=$1
+> -
+> -myversion=`$dtrace $dt_flags -V | gawk '{ print $NF }'`
+> -
+> -$dtrace $dt_flags -xversion=$myversion -qn 'BEGIN { exit(0) }'
+> -exit $?
+> diff --git a/test/unittest/version/err.1.1.d b/test/unittest/version/err.1.1.d
+> deleted file mode 100644
+> index 0b63421f..00000000
+> --- a/test/unittest/version/err.1.1.d
+> +++ /dev/null
+> @@ -1,27 +0,0 @@
+> -/*
+> - * Oracle Linux DTrace.
+> - * Copyright (c) 2006, 2020, Oracle and/or its affiliates. All rights reserved.
+> - * Licensed under the Universal Permissive License v 1.0 as shown at
+> - * http://oss.oracle.com/licenses/upl.
+> - */
+> -/* @@runtest-opts: -Ze */
+> -
+> -#pragma D option version=1.1
+> -
+> -/*
+> - * The following identifiers were added as D built-ins as of version 1.1.
+> - * Using these identifiers as user-specified variables should be illegal in
+> - * that and any later versions, but legal in earlier versions.
+> - */
+> -int strstr;
+> -int strchr;
+> -int strrchr;
+> -int strtok;
+> -int substr;
+> -int index;
+> -int freopen;
+> -
+> -write:entry
+> -{
+> -	exit(0);
+> -}
+> diff --git a/test/unittest/version/tst.1.0.d b/test/unittest/version/tst.1.0.d
+> deleted file mode 100644
+> index 79f23b0d..00000000
+> --- a/test/unittest/version/tst.1.0.d
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -/*
+> - * Oracle Linux DTrace.
+> - * Copyright (c) 2006, 2020, Oracle and/or its affiliates. All rights reserved.
+> - * Licensed under the Universal Permissive License v 1.0 as shown at
+> - * http://oss.oracle.com/licenses/upl.
+> - */
+> -/* @@runtest-opts: -Ze */
+> -
+> -#pragma D option version=1.0
+> -
+> -/*
+> - * The following identifiers were added as D built-ins as of version 1.1.
+> - * Using these identifiers as user-specified variables should be illegal in
+> - * that and any later versions, but legal in earlier versions.
+> - */
+> -int strstr;
+> -int strchr;
+> -int strrchr;
+> -int strtok;
+> -int substr;
+> -int index;
+> -int freopen;
+> -
+> -write:entry
+> -{
+> -	exit(0);
+> -}
+> -
