@@ -1,82 +1,87 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5B2246788
-	for <dtrace@lists.linux.dev>; Thu, 15 Jan 2026 23:31:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506613594F
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 05:19:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768519894; cv=fail; b=lbBDh67ZrROqvU5eGKpKmVrgZ1Z6O6Tf1f48EyOBpbqQ37YdmodFpAlbHSe6KE2imFGAxeAW8jawukBJLO2bAPYiyNvCAe8T/B2EAXmej+GUsEFaZdqvbwXF8qfD2Z4vJ47GqN8VRDeowjfy/9ZjfuyFSFLZTWfNIPSjS7K4a7A=
+	t=1768540745; cv=fail; b=QkhgovppZyGnsRpsOIrnxnHvBHdUmVViIcgX7h+WCnQHmCH1OcMfx1C5bG/6OlKEA7CY4DaVLI9J2Oq/lv0aSeh3CIAc7CTovOnKK+ZiBM2HrS9kX3cJAJXDFukuXNCz53dwkTSLySgcgN1uDfSFf6MkQ6iEFpsV60AD5i7rdZs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768519894; c=relaxed/simple;
-	bh=meHzzvB1TdFu2uSng3iOnYJqjw8K5NhY2P3NYNr2O4M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=NvWPkMqBe8cAz0GDR6E2iuv97FbcmSo05pBSRblqGB1QYAHM9AszLjYDs3jdxkNHci+2XdmBhzgmkvbCX1bhdpB4KljpWYm3VsmpaiYHrEckvemV6hjiqWbDm+LRUU7hg2LrQJqtSxbQ4yM3jO1FxNWcBbjXuG7Ug7V7VsLxtZg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=iDT4Z9uU; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=GSzuGpzN; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1768540745; c=relaxed/simple;
+	bh=nhwivWQ1TMtbvEcNfB4A+VRbS25OospsDdVDWsZkBzg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=b2b5Ok3ocGaN7F4NveR+tf1apq0cg2yhJ9X5xrlX0rF0UYBJnTB+9OaO1EV0t4AbEWYUp6IOrIkSI6etzV0zLnk2c65K+8i1H5e786jBYkjYVCwLXcf03ZRhj9NbWjxIrtbAwsBLtm+ShmuQ4uSkX6T9rpPLmLUaGSZ5CHxAJKY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=TKPem/FL; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=WEU4mjPl; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="iDT4Z9uU";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="GSzuGpzN"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="TKPem/FL";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="WEU4mjPl"
 Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60FNNXZe1430609
-	for <dtrace@lists.linux.dev>; Thu, 15 Jan 2026 23:31:32 GMT
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60FNNnKa1430848
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 05:19:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=hfw5I2lCrh2J6qoPlO
-	SOhxZM0FEbfOpxm9/1bxUjgB8=; b=iDT4Z9uUMD0bmHBmY2EXr6qQnv7ugNVusq
-	eBoXectH+mTJZz8AO+DhSQVXt3py87u1+dfZnzhAr4cyN34MH32kw7bMya3xAmW7
-	vCrBao06n+uKYuLRtOnIwVxcy3l/VGvX+PG3Ad0jVEQ/YYz2k0Sv6YmnXCN+Ouwi
-	PXgncLmenrBZNthB/XNmdSm6GadCs/rechPqee1qe90HDBDPm6sSUEFTK/ogccBF
-	/sNAeYgYaWTO6yMrJVz5S2N/XFfpVZzNsxH8vWATuqEPJA3gRSHtMd8wsF9AFOFY
-	pV3T1RSufRp2pf4y0CdUF31BYiBpxgt2ZTm8y4XXdWvRrjSe8kxQ==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bkre411ac-1
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=+vfTVLDeyT/T+A4Ej7YImG9Y9Yej1kkZerv16HWak3I=; b=
+	TKPem/FLsHoHJdl28btrkgvSWcAjQ4gdezRVra8l91EU7SOjy1Ar03QCTeBPza2T
+	b3GClT6C7OTBjBCkdhEZ/qtVJ5ZYX8A7PZWha5CmL3H0JEVwKjiCxgrGuLYUmv0L
+	z5L4nI+LUXV9RLpxASCug4Y4QjKV0dnj6hMc1R/JQFO5xvg+KyTJdT00eNhdSbhy
+	yy6Qu6Dg1TdIsR9j2q88MUfskvQXHBvQWxtQXkZE9pmqvgJM1+2HlLNvzI/BvLD4
+	a7Gu/irnphgsX+9fi/H9v+A2oFf+9b91IKAKdxMnxxUzX6QrAauNlQqxTrZps3Go
+	tcfCEa1IsIa7Ru5i8Ai5BQ==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bkre41es0-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 15 Jan 2026 23:31:31 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60FMXL0q000380
-	for <dtrace@lists.linux.dev>; Thu, 15 Jan 2026 23:31:30 GMT
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010029.outbound.protection.outlook.com [52.101.201.29])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd7fsffw-2
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 05:19:02 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60G5ExY0006236
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 05:19:01 GMT
+Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010033.outbound.protection.outlook.com [52.101.201.33])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd7c2kr4-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 15 Jan 2026 23:31:30 +0000
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 05:19:01 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=duI0pGXP3l1GYLCa5zwGjptD5T9LxrtLIeVLlWLy9Npkx+IJHyjcSNuk4XxuBNXqsYhcAAFJjZIa3n+QBaXtZ4NYTHs9v9Wt3J555WT/oRxESTUuICjIakrIOXefezKnbvwJ9rMHliRLpXG36Tj4l5qJkaMGRmONPEBpDQubcyE1MQxII+zVRgd6SOXy7gYidtXoviBzt1E1q+/Bh/DluctNcSkvoHHPvv9IhhGVviLnVbpMH0agpUI/QHRgjw1rtSjn1/l74rc+imbEz7Hs2afn0KEaCWKmpL1fVCBieK5VOahPlhnR4lwF/t2ROmouMXheNicrJmRiTcDTvt/HHQ==
+ b=x3hbhZF9S0G6H3jAKWZIp08Am3R9l4MuO0NCIH7hR6TTNP0hChhHXrkbCsH+3rbpVbGqWCH5AIVRMj/xrWy47RnPwDHycaEULkfCwjs052Nuh+4oBrpkv5Jpv5dICBpjvb1VJOBwI4fzZUAQj3omSY2Neavd9zxql1vJI3HCv2ZX2nHShu7DKVVGa94G7fMSZqqSvdDlfxHpbxTjDpqiDiRleAjihkMgGgd3GB4iQvQCIITiWZjWvv+RlUQ7FXwgpHwEH4LUmO7XET1wUFr1E/4TTNBJFGdMhY+hgk8banoPdDYLl/u/1ubrxAZQXBBbWvWicgjlQFjPRKN1bBi8SQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hfw5I2lCrh2J6qoPlOSOhxZM0FEbfOpxm9/1bxUjgB8=;
- b=Guq0vmAyuj5EDYcqzl0OEd13aWrde8N4J05JIoTHBIMKGqRTwCoJmySiao94VKp3HhL+/j2TMI2saxFHDHpFfyqUL5w/rZGwhQ+C6fsCUCKz6qQvMyi7QBAHOfT3wF6qk2OaRFoYUHomdP6B4yoSPp5D2Vvcs0H4RHD3tx8EKNCrKezDQ7j45zOJOVgzVISKL3hH7PDuIjxR5FMe8kbOjRwB67KgiD4lcKtIux4MhHgBWS16ao+5Tvtnsfmee9PZmO5Y9Zp9sxtLZMaDlElRl33ep81HUAvWNQI84IoQQ8EfBCxTIGEQ5J4OowOoJ8/e0tjo1Y3F2j/uyNiYpyqlVw==
+ bh=+vfTVLDeyT/T+A4Ej7YImG9Y9Yej1kkZerv16HWak3I=;
+ b=xdPi2aO1Jjc3tAsr4HpNtH+5QeMSKM4+G2x/owxM474EUbhjYqUEAq4gYoVYmM/LnltbKoZiDg4b7QuDq0vg6JOBsGx4Sfs7uO7248BwrkuYue51sTSBH4Iti4zGCbP8gwnHLqgiwu01oy/1uq5Lt4gJfSNBzPoAachTO1GMPoZ5XFsFDEjHWlmu0wLVjDhp7WVMKfVOxAkfve5C8oPepKUK8a+E+1fNVxhKp23B36ducMKaYQI3Vw2cj17BEhSXmdKKs/9mv8E4EqN7194fcp1qinpvNMFWMA2YV5RymH6MSBxqbEg08vQY7XXlkYViHwlAWz+1BLgXbH629MLqwg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hfw5I2lCrh2J6qoPlOSOhxZM0FEbfOpxm9/1bxUjgB8=;
- b=GSzuGpzNicXDwqMuQS7J3PNKcfbGuLHoqq/tdeH3xhuAURdJAj1Lgfrw5xvSQiF/zNlSRwebGHgT+JRlqi4r4GzdfEtOsyffSdwfJ7NM09y5rbyoS+uFxdhEAkazBQUdeulQCT8f1PKty83ShJj23lIvlmrG76iej7Z6/A1uJgk=
-Received: from DS0PR10MB7522.namprd10.prod.outlook.com (2603:10b6:8:15e::16)
- by DS4PPF717557185.namprd10.prod.outlook.com (2603:10b6:f:fc00::d29) with
+ bh=+vfTVLDeyT/T+A4Ej7YImG9Y9Yej1kkZerv16HWak3I=;
+ b=WEU4mjPlE6iwCo187y6K3keGiA1zmDMrEowCC4yZjJ6JYRPjovoNvQyNtzoxs2a94QCObRYfQjDlVYprlCJgUWOIvrhvGtm9W9OnTcxUwBGlK5P+v4KiLuxeq13tksO7PZDs8khkhHBZX+OjHbO61dUvlL/XVMNEHFKrZocDjeo=
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
+ by PH0PR10MB5817.namprd10.prod.outlook.com (2603:10b6:510:12a::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.6; Thu, 15 Jan
- 2026 23:31:27 +0000
-Received: from DS0PR10MB7522.namprd10.prod.outlook.com
- ([fe80::9668:955e:1688:ea7a]) by DS0PR10MB7522.namprd10.prod.outlook.com
- ([fe80::9668:955e:1688:ea7a%6]) with mapi id 15.20.9520.005; Thu, 15 Jan 2026
- 23:31:26 +0000
-Date: Thu, 15 Jan 2026 18:31:24 -0500
-From: Kris Van Hees <kris.van.hees@oracle.com>
-To: eugene.loh@oracle.com
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Fri, 16 Jan
+ 2026 05:18:53 +0000
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::c47b:6cdc:87b1:aa6b]) by CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::c47b:6cdc:87b1:aa6b%6]) with mapi id 15.20.9520.005; Fri, 16 Jan 2026
+ 05:18:53 +0000
+Message-ID: <cfc4a3c2-b2b3-b912-f53b-1a995388db11@oracle.com>
+Date: Fri, 16 Jan 2026 00:18:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 2/2] rawfbt: prvname is not properly set
+Content-Language: en-US
+To: Kris Van Hees <kris.van.hees@oracle.com>
 Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH v2] doc: Add include path for sys/usdt.h
-Message-ID: <aWl4zEgRcSfaiGfd@oracle.com>
-References: <20251126235628.3318-1-eugene.loh@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251126235628.3318-1-eugene.loh@oracle.com>
-X-ClientProxiedBy: BLAPR05CA0006.namprd05.prod.outlook.com
- (2603:10b6:208:36e::9) To DS0PR10MB7522.namprd10.prod.outlook.com
- (2603:10b6:8:15e::16)
+References: <20260113214205.9159-1-eugene.loh@oracle.com>
+ <20260113214205.9159-2-eugene.loh@oracle.com> <aWlnowR5WC8zzdd+@oracle.com>
+From: Eugene Loh <eugene.loh@oracle.com>
+In-Reply-To: <aWlnowR5WC8zzdd+@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PH7P221CA0075.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:510:328::26) To CO6PR10MB5636.namprd10.prod.outlook.com
+ (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -84,345 +89,388 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR10MB7522:EE_|DS4PPF717557185:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3fad9a76-2cd6-4761-4f20-08de548e3393
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|PH0PR10MB5817:EE_
+X-MS-Office365-Filtering-Correlation-Id: 22a13feb-33f2-4bae-783a-08de54bebd4a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0fTp5lylrVMlYltEVrjDXdYvIhFkg1vgrypFjAam013Ho1iYdWlPTWCjFTDa?=
- =?us-ascii?Q?xWfCY6b1NyWfcEAxcMt77Ei/cTAPuusJN9i3ZW+ADFZVS764clMeT2OLGhBR?=
- =?us-ascii?Q?iC9FxjfcE2DiXBGaVbWo2RnkT+q9hiazpusnTSR0xT20th/UoJ1SRE0QkO5W?=
- =?us-ascii?Q?3A36J429RQ1Y4wtThQdYt1bXfpnuvpFkm/h14JfY3Rv3h7MlvREmAec29mxo?=
- =?us-ascii?Q?IYFjlTO9Q3zp1ALn57E3mzAz9P//La6/dec2czhPx4nhU6Nt6J+RBKYqYOdN?=
- =?us-ascii?Q?onCae67EyzTnL43AHBPnR3qJUISm0ohDfJltdGhjBpzyNyjSj/OaQvsLTReW?=
- =?us-ascii?Q?UTC0RFX7N1HS8dqfXFutx6Cxwuv+UPl3h+73JhaHxIURvBdcv+qQwdmZcdBZ?=
- =?us-ascii?Q?oKG7T37seNab3Y6anua7Nh9H7YQeKTcxf/9QUJd0blRLojnnPMqY4FhRwubI?=
- =?us-ascii?Q?DD0hyy/5dlwFi+IfUOWeL8d3saZz5BmyxIIzYOuX+x4+SOWy+KcUIy3F+FlR?=
- =?us-ascii?Q?nDM8QbAJ2VLXWzci+7V0LIXim2Hy/etAnqKLJCcxEefcUsOfgs34wFcqARBz?=
- =?us-ascii?Q?CdsC2AIwj/t+GOnOlDj4tE3vqWPgfm4EknMiewFTC1/zAUoniIVe+A84V2Gz?=
- =?us-ascii?Q?Il9QJ0nDTn04T0uBRxHOIy38MtDMPGF1FyMs8Ah/1pf/6pmARSSAsp1hLx9V?=
- =?us-ascii?Q?ed2gPMAbQ8Cv7CZsjdEwKGLwyBUYZ0Lujeizzf+xiYhBr/w3XWsDrSN0pho2?=
- =?us-ascii?Q?7K7p7mIU4n8eeyV4356oQtAKkOcGuC6VYYQSq/E3qsfcdXdUztGkPVhpEFzw?=
- =?us-ascii?Q?5Gh/sF+d0gtUdpXpeakKbMd6ooMk2J9cCse/15VmaoGAM8Yi8giImQicEA2W?=
- =?us-ascii?Q?U/FwkMachpUuUBBW+fr5V7TeMtRMzZBTGhn3IZGgnj2AfDGOCBu/ct6DwY+1?=
- =?us-ascii?Q?YGT3jT1DMFQAiyatq0S4SVhjl2qFJhIa3i8BxMm2w8+On9yLaZOVDdBvIkUC?=
- =?us-ascii?Q?6YE1ASAxXA+ZTQeuj1IKua1cps1lVj8ZhqOwhK8RlIGHLiXTt0qDtBKxwF2h?=
- =?us-ascii?Q?2u/rR2IKwHurDMoLd8deASu6ibLh7AlwwrS8SWmCd0q+p4WpCBPzZQRzJOBZ?=
- =?us-ascii?Q?xj4oD8pAjpUKBQOWfdxoZJy4ZFVP1xr3s7tBZ5m5aF9QzLeHzOloiywTqmCH?=
- =?us-ascii?Q?6v9H+QcBgWtiujiB84l334zf8H5nT8TbVCnPLqXtRhC+Qk70i5M+YY2E69+C?=
- =?us-ascii?Q?QyyZRClyN/ixWmhk16wNZYoiJwQbje0UGd3miQ3qBJF59tR/Cu+/9cfapqiW?=
- =?us-ascii?Q?+nvRbtm7lFGsokkxPJirS55I+lr+UMksnCQ2FGRBJpb4Hn7VU95ppDNz6PY6?=
- =?us-ascii?Q?LQaMrf3XsVKTTl7fHgh/1sSdapg4oty4FsaF2spruilr4VgIP+s8qNtIhY8r?=
- =?us-ascii?Q?q6NzAahZH6KezSyKZ1a25rlYL/Fyakel/27Zq98H/fnC9GFx4SXCv44IAE8h?=
- =?us-ascii?Q?EG7xfo3+GEIvIGDyq4salh8kbJ0FTd1iwXGwHNJOlJQozaj3T6LUsS9v8umL?=
- =?us-ascii?Q?aWzmrfEKNHRCgWyIM6k=3D?=
+	=?utf-8?B?eW5QWTk2MS8zWnpYdUdmcjhkQVgvL1N3cjA5c2dTVHl0RWh5NVI1VjBFSmZt?=
+ =?utf-8?B?eWVGck9obzZCSHFmVm04NWowN05Za1ZNdmt5bVpYYVIrZTdGVjFvRngyL1VF?=
+ =?utf-8?B?VzZMRmgwRW5nNTNpU0pVcWVHV29FS3pQSUVQQnJ2Q1F1WEJtQ1BTVGhCcGtn?=
+ =?utf-8?B?ZTU3ZEFpTUkrS2poOFRLNzcrejErTHhMQkZpVE1nR3p6V2lZQVR1bUpSanVl?=
+ =?utf-8?B?c1hLbDRQdnR1Z3J3MEh0eWpJMXByaStqYVUvaWI2akM0RzhVVTdGcDlqUWkx?=
+ =?utf-8?B?YUV5RmJYVEFYZVR4cXFJaTVRdXV2UnZRNHNld1llbzN6RnFUUUpXdVRxa0Iv?=
+ =?utf-8?B?K0M0a2p1ejhGSzUxbXlRVkRhNmx0R0VjUVZUWDVoc0laSW4rODFURXJocm1J?=
+ =?utf-8?B?OVpDV2M4Q3FCeTIwZkg0ZGlWMUJRanFWWHRBVklrZTYwM29XMTdXTUJDakY4?=
+ =?utf-8?B?UnhZalB6UG1MTmtEUjVLb3Z5V2lNSGJVWHRnc1Q3OEtydjNjbHo4WXhlY1Zv?=
+ =?utf-8?B?ZVl5QmhvdWJCTzNzUXZsbTRRS3QyaFFBMHhINWRWTE5rNXBQVzhnTnFzekxG?=
+ =?utf-8?B?SDErZGxqRE9xdkExOFE5ZGYwMVAwS0FqM0t4NlgvS092RE5HSWtCV3ZsSDAr?=
+ =?utf-8?B?bkJXaHR3NnV2NG90ZmFSQVRmbVpuazRGQVovL0pudmRXa2VydEZVcXRWS2M0?=
+ =?utf-8?B?eHRRZlExYS9xSVdBWU91Y0dyb2JvemdScnRPNUNCS1kwMFdYK2J3dmIzMS8z?=
+ =?utf-8?B?ZVdjWE95V2lCa3o4LzVGRDBJaXIwNSt1emhIL0cyNlRneDR4RHVLRmFaOWZL?=
+ =?utf-8?B?ejZpNWF2cHpTcjFkcjVhZXROcS9RRUhPcTJCU0krcXcrSmpWRDI3b2VVNFJi?=
+ =?utf-8?B?WkVxUUNnbmFhaVRVckhpTGw2NUFQTDliY1pGUHhOVVJKNldGdmZHdXJFWG1L?=
+ =?utf-8?B?Umt2aEZkNlUycHJHeU5IZnNaZlR0ckpzM2N1eno2dU1xaDVvc3Y4d014dWhU?=
+ =?utf-8?B?Zk1uR0JLbENObEJ2K2RoTjhnWDdLbFVuMGVqOU40U25iN0ludi9pTXZBNmgr?=
+ =?utf-8?B?emhRUXZTTjQ5ejFNeE1HRlplZU5WRXJxMFhnS1FqSENrZDJmT3JUaVE0Vnph?=
+ =?utf-8?B?R21DSVNHSldWKzRRVzQxa2t5Nnlwd25OakJCSEtHeE9RNDE1aFArRnltSkkr?=
+ =?utf-8?B?QlBENlZYM2VPbUd1VHE5eGI3TUpSZ1pVOWhrM3RTQjd0SmNZOTlFNTdVMXQv?=
+ =?utf-8?B?RzZtYkFCSzY2dTZXYXBwbFFvVElkd2pCbzR1MkY4eGRXNGRWa1ZhTCtOZEZw?=
+ =?utf-8?B?Y0d2QUU0MWQ0MWVsc2loSmw4Z092RHdQMTlqbzFhRkxFY3BjaWhRaHhoM043?=
+ =?utf-8?B?VGdOaExxSFVMRWp0TURWZU1XWStTL0s5V010MXl5RWtNYlNGTmZ0ODhlZnhh?=
+ =?utf-8?B?N3hkOHZKYW1qWUNxbExRY2lTcjlWT20yUitwaHFweUNRR0dzSTNYMVBDeFFP?=
+ =?utf-8?B?TWt6MTFQTVM2bjVmL3YvWG1YM2VsaUV1VEx1MURkeDkwSitSeTdrRW1jQUhP?=
+ =?utf-8?B?UjJRczVTU09TQlFSV2czTCtBeDUzVDkzMlAyN21oQ2h2bFdGRDkyekhlMHow?=
+ =?utf-8?B?QkJmTmhPR0Ftb1BpUVdrdXkrUjJMcGpZM21MVTVsWWFGVng3bi9MZmNjdy9I?=
+ =?utf-8?B?SWw5TTV0eU1JS2c5Q3pLU0YzWmhoUFp5K3ZXa1FuVm9JRmd4TE5HQ3M0VE42?=
+ =?utf-8?B?c1VkcWhhb1gzUTNOK3R5RXRoTFBSRTYyOE1SKzEwMUJKMzdsMDdVend0c040?=
+ =?utf-8?B?RTBDek41TFljRDREcU00NnhkREFwNWl3dmxKVitpSEZVaFBHOStTdE1OSWNs?=
+ =?utf-8?B?ZDdlL2J2ekdKakQyQ09ReXVWZ1grYUNCdkR5ZldHejcxQkhxRERvT0Mwbnhx?=
+ =?utf-8?B?KzczRGl1aUllN1dNcmgxajloOFVaSU10R1JuOWJsMlBZdUZYd1p6dFJJQVpY?=
+ =?utf-8?B?cEtpOE5NdDl5ODEwZ1dOa05zdjVKNVRTZUNmVE1NQTROVUN6c04zS3oyRjhU?=
+ =?utf-8?B?Y29EUnRSaTY2RXB3UksxcDc1YXBmWE9Da1lpRjVJOG5aWXB4MUZHejFpdXhP?=
+ =?utf-8?Q?YcAgJbA8BMS/Gm1SgU2doN1DR?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR10MB7522.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Y9U5VjyrGVcOtA1BjLQvrf8EBTAXCsRvuzUpbetrj5i4menuZBmW9fkfe7Eq?=
- =?us-ascii?Q?aGTBwKFVO5IXthdw73+4VYUReNlUuKubFTb5Mq1MuEEv3uT/ROV30rKLTpFe?=
- =?us-ascii?Q?YQHZSCvLcErhLso9mf0+NxeY7fZUHEeY01PKR3vCxgQ5lVx2Q8e30XZCfCL8?=
- =?us-ascii?Q?mohmppEjZaqL9d0ulaTdxtFSkLzkKi4ABnAkt74VXJA9UzCWvg0G6yXT+ZRK?=
- =?us-ascii?Q?nN+ExYTNCgXXWST4Qs8fDIND/iDFetDQff48ArtZ+/2HlcdfQustLwoyszuD?=
- =?us-ascii?Q?7c2IZObI89saWHzTnl9UgXJqknWZHv0JdUe8lEM/33C6n0XeV2gDenn9y6gd?=
- =?us-ascii?Q?yxrb7328iS0nJiMWqUMb87elnG6FY+A4rlNTWHbeBtVMkJBlvO51kFcs8vmq?=
- =?us-ascii?Q?8QXHRxPE79TclAipzxTt0OHHVAqVPupfE20X0IreUA1jxOI76QGkoRQoTwUy?=
- =?us-ascii?Q?Hzy81dLvqaRBnXlLem5xpUyfEgoEYCrfDgpmvZedYWTHwkvxivHMxgDX48gi?=
- =?us-ascii?Q?rDpOSs8jMP8W6x3G/iN1x37m+zsuZ7pZBXUULEVoyN1fGEfx56Um/bAlB1R5?=
- =?us-ascii?Q?TJ3XJNKPxA1MKgsymJznPhSlhXiGl3snZs5gaK1Qo7EuqKPyd71Wz9ooaGip?=
- =?us-ascii?Q?ko+hzmYoTFK4PvkSPjZzip6XRhN8yRP+bCiDCZWdQMzc75S7n9zEDLp/Y+cf?=
- =?us-ascii?Q?MwbfFr3fCYVFJ3t1v10tYEKP8bqiWWzEjhMd4wh8GCP6rw57Oq26VCMVIAVY?=
- =?us-ascii?Q?LtPBoRdnakG/c05J3jguPi/plM5tXuLIF+99P8Darecwo4Yjm821r0U4h5Ka?=
- =?us-ascii?Q?yov8INWq84BNWXVN1+8Zf3kMmDIX+Ck+5ilFtogdVhGoy35I1ZgK4kyqjt52?=
- =?us-ascii?Q?4QDCN0r7M9mpzh8Y1xVcw3/GG6xqyJGTIB7VoejdjY6YCL76Qk5E+Jx09dTE?=
- =?us-ascii?Q?dZjaAYHv3AmLHvHyP13BohdeZ0xSXBUwEb5GHFCZxUJLLtXWbepDMq0jdXVq?=
- =?us-ascii?Q?arSG7Ej7/SleibM9AdYqcZ/e6dBWV/MySW4nyYE6sz/SRsbqSAjIQ5bHo2zs?=
- =?us-ascii?Q?VvLt/x4s0uAzi2t2iSNEXdGtVwCBQt5jKspXr2WAmDrfEISC2rrXRds1KMWj?=
- =?us-ascii?Q?Zk35WykrCN8mKniKYOUv910LRLPgUWxlukX7owChSCheqnKAMruRj/KfWo9Q?=
- =?us-ascii?Q?1Wk0Z3MJrr9nc7O/nk0l6i6FA4+p4tY7+Uty14fDrxfntmzM6vvuHywANKd2?=
- =?us-ascii?Q?6hxohlZxayqo+lCE+7g5taYNnVCE/UC8tYlqhtlHACzdMTVfhgunHfRtlT0a?=
- =?us-ascii?Q?eHr8uSJ7pYiitm0DoKwLDd8G55lnvzQvc5Jw9pm2Tv0A2sV8vpxxcJcrVs+a?=
- =?us-ascii?Q?FhQfEZnK7ENZVz0yjV+t2VTV1hjC+IqohlhFjIU3JXIkjAOj1AUXzF+hm8xZ?=
- =?us-ascii?Q?8TbtrNBbK9k/C+I8g/oHpJSouBwfH/VlzZ4UypB2OwwItGdqeN08Cw0q1XVu?=
- =?us-ascii?Q?vb3xF4w7AXPz1EiyA1l3doZSQDEh8c8aiTawV3Ol1VEtwySm9npMy31xdZbz?=
- =?us-ascii?Q?q2EMLQcVcHjMoGRHRkVKYBrDMru1wOYZuyktq9bDyGvUP3X+L5yZKeO9fzmD?=
- =?us-ascii?Q?A3UJPrEb1bGvt4sVoET+rTnpJNbvtL1jad1uAR40draseDNlKF1GBCORoCUs?=
- =?us-ascii?Q?wr7qSlyqakhnKBmr/9x9IOEA0DJ1gMCzHgxYNHkdjfRy0nBCs/tEh/P627GF?=
- =?us-ascii?Q?67Li90rMzw=3D=3D?=
+	=?utf-8?B?L1dRYThGaUExZDBJU0U1aFJnRnRodFNESkVLOFBlVzhUM0VBbk02RVBCRXdD?=
+ =?utf-8?B?eWJHM2U1bWtTVEpPVHE3SXBzWnl5aTNNZTZzd0Nob1V5UEI4ZjZlQWp3cG1u?=
+ =?utf-8?B?K0ZmNFluVGFCNzEzVTE1MERNbUplbWJsWmVRN1duekJjQVk3YjF3ckY1RWN1?=
+ =?utf-8?B?d3FRRW5CZ2RaUnVJN3pwK1VDbkY4TnliVEpHZ25UUUhkYmRUbUhPMjRoUURC?=
+ =?utf-8?B?dmZROWFta082eVRSMVdGc3FKVTV5aVBZS0NnRmJ5TWJTeUVjU29CTkl6QlRK?=
+ =?utf-8?B?VjlHQndUSGVuQ0toK1VCWjlRUUZ0UTVteWVKcUxPKzYycEMzc3laOHFlUmJl?=
+ =?utf-8?B?NVVYL281QTQyV0ZNVDFaVjl4NEpPR2hEZkJVekdXdTlNVHV0cklxZEZxaGxY?=
+ =?utf-8?B?WkFIK043TWtTVHNBVmMvV0t3MFZNb1o0WWZsRnBEOFhYZldLWGZmc25JcVox?=
+ =?utf-8?B?R0IwTzhzQnRZbS9BWXF0b3I5QkR3NC9BRlJ2Y3ZsVVdGN1ZMWSt6djVIemxS?=
+ =?utf-8?B?SUNxVFZlZGl0YUhKbjZRbFBQUGtRTnN4aDkxemNhWjFvNU8zbEZQcEsvTkFk?=
+ =?utf-8?B?STZRQjE3SE00ZHJ5b1VJeDlmbXpXaTdmKzhQOHJWNkV5VkR6NFhVQmxDMHVO?=
+ =?utf-8?B?WDdDeFU4RC9OWmhYL090VHVtUTMzc3ZkNjltbkh5VFZGVG1KQ2YxeG9xTHRn?=
+ =?utf-8?B?bW4zWE40VDdBUThDWTd0bWJxSTFEMWk3SUdjRURVOWlGdC9sakNVdmpUQjlm?=
+ =?utf-8?B?ckNDS0trWW5WMUk1U1BPZjFzWUZsaTZtNFcrZlRyVGQxZGxLZHR0cnBTUkth?=
+ =?utf-8?B?MVdnVTRnL2xDVGJzNGRoMmRDSWxrVTdJUTR3aGtEZE12Q3d0R1BLNUFYUzlo?=
+ =?utf-8?B?eXkzbE9Da2Z1UjVlZzhtQXJtbVExeEl0bmpBMk8yaTZPSjc4OG9SbUtYemQx?=
+ =?utf-8?B?QW1jNDNxaWpIWTBUbTRPbERJem56MTRZNldLR2V4YklES25EaUE5T0dOeUNM?=
+ =?utf-8?B?b1drQmxMNkcyaUZudGpnT1JhdGN0QTRGYkRpTjhLWUkvWUVyWXIrc2ZDRzVv?=
+ =?utf-8?B?QzAydW9TcThOemI4R3ptMWVuS0lIdlE4STYvQUJ3eTBHTnBIZjhBSThiSE9i?=
+ =?utf-8?B?RThLNFdWZGRxU2tYSUpySjVVNm03a2RWTzB1N0lGSW94V3hkTW52bDAvVkFy?=
+ =?utf-8?B?ZEpzUThyREhCMEpTb3F3aXVxZTFaQU9zMjBLWFdXWThWQStueCtyNENPalpq?=
+ =?utf-8?B?ZXNnV1QxdVN6LzYrYWpKZXhJWTZNa25CeWhPY0NHbmJidGwxYjg1dUxRNWc1?=
+ =?utf-8?B?UjlIVTB2djkrUU1mYTlzTzN6UnJUKzNGUXlBZGRJcTgyVGpxSmt5Q1ZybzNN?=
+ =?utf-8?B?dnQrYWxaUVlXK3h1OWE1UXcyaXdYQ01XeTZ2eURwUVlrV3doQlU5cHo5Vllw?=
+ =?utf-8?B?M2xBdXNpdnJYcDR6TjFUMnA2dGUyTlRYdFFER0RreGZYQlJndEdTaVFjbEMv?=
+ =?utf-8?B?c3phbGhPd0JZY3NJamhZRk9GQW83QjRjbHQ1Q294NE00YzV0UVIvREhCb0Mw?=
+ =?utf-8?B?cHF4bENBb05WT0xkWXZjR20wOXN4U0dNZFFocWxmYmFPSzh4UFR0dmV3ZFQ3?=
+ =?utf-8?B?ZmROMGhBYzFLYXlqblpPTGhGWW83NUgySjdjQU9DYTI2dnlNeUQ2SE1jR3RC?=
+ =?utf-8?B?N3JNZmQwUUxHdENIajJib29yVEVuRzV6Q0Y4OWZZT1ZqZUVIK0RKR3RKVENG?=
+ =?utf-8?B?Y1FjcW1nNVg3K3g2K3Z6NGs5d3kxa09qMVdEYVAxQUtwb1BUTmhLTEtzNUpF?=
+ =?utf-8?B?eDFBVkY5YU5NMUNnY3dOT3RJU0ozYjNHOGhDOVhNNUQxdkFHT003VjAxOWdt?=
+ =?utf-8?B?alRHUkJTdG5rek13OWRRVTVLVDZSZE9oeE4wZWZHKzRQd0hwWGpiclFSKzda?=
+ =?utf-8?B?Y2gzTTNYeEtreE5YbmVnY1Z2aXpJcDVFRnpsWW40NDNIWDdBYVQ1Z0xrY1Nk?=
+ =?utf-8?B?cVZ4Ni9BT28xUzl0T2xzR0hwejNGV21OWGE2dldmZ2FxU2V4SkVlMXhhRDFT?=
+ =?utf-8?B?K1NGeTM0RFNlQXN3UVMvaXBQaWlyeWtaSWRRQW1xRXNDL09Sc1JvOGU1eHg3?=
+ =?utf-8?B?UWhpbUF2WGJZempnbzZwSUdxWG5tbmQvZ2J4Z3Uvc3JWOTNsRWE1aWlDT283?=
+ =?utf-8?B?T1ovV2Z4T2JNZVNpYm0zSGZ5RXFMdnFEdzRPM3lrZE9oazVhbTZWeEdvZWN0?=
+ =?utf-8?B?c0s0eldjYis4bm5haytIdjBFSDRtOXFJb1MyY1E4L3J3ektPU2ptdTdCd3VU?=
+ =?utf-8?B?ZERPZUgrMVJYSnVtQklvWUtiTE5iTCtmVElyYmFMRDNhaWxoK3Fwdz09?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	mQLVx97WLN1n71+wElKVRd018rvXX8DTCYmMca1ELU0sgODQxnP5RdDer525sLHQVKVAihMGqND7wh9t+7anxUga35Yd5JPt6rvwsU0qd1BMPSUoeUqg7lBEGh8FFjwkGNel85uoq7EUgJRDqwNP0LkPD1ATowUkCybpu88HNsGI34qdtmvB+dKQM2JSb5I71U/4Rl9C4xS2wssIyzaUMgi3gSjPubE8Q2INWMOkUGNfEch+CKm+0nMmd/OqO2Dsa6p/tpX4WWlXv00tggOF/mfhPKXGi2kP6I5t5SYnqfYhwGZqt6E5vw+qKivApU45FHEwHxgNua0Vk4PZej0+o2SsnJdWyTUR9qnC3tzF+ssXjdeI24kL/w9muo1bueRIw/7VbRGpBGgQ3rQVXETtZHangpwiz8A6/hhX9UzYoma6Oy9kEc6otFHk9TXt0vL3iOnWP6G4vlslSqjUPv6JxEScH3Gwa/zHWVz/rANYgqqTzvBPN9ZIO2dGZ0j1RQoyGKA48tWVTpqSK3pL2KDSNJTny48RYXFo/54qmJqo+Q6K3L/Xtl+v8QpdcmDbeoEbO5jEp8BOGfm57Yd4X1YGa3YtphDDxM7BJ4pbAC1uom0=
+	jt8V6QD3W6rODxSvGtPn8jiCQeRxo1xl/7FFoQO1c9zqhw7jRFtvc1zgs5SX2KVHj2phNceqjyw2m+78wkQkhPbI4Dkuu0eQ+RlKzu/7q7WucwEhpJEZHA+B0QeJilxuLceYvQvoHNbY8WFzucdxMgrKqSJgbtwUfThGc+Kb+gl05KJWpVuain4UOd0tAdgyMqOvgz8uzvQpBQ98s7sgpF9kaBUDtE6HWM2TOhtRZmGuH9U6cO+ex/KR93EV3fu4974MNXa0DQLKoPy7kBW+wYLNbKmAtmEAmhY32dDzmQRyWf9VAfJcYjKDY26G6jDXGtxuEzDC91/gJqhEyumSfhbcEhYElODI2Zi6qTdO16KIz1xnBFcI1UN7F/jO55V4Lput71B+g47Lm/gkJme6PMDjxiE3pS9OqjUQLz2t82a825hZqCcZT1mPwZWlFLiGJXy3tsU6MPrZP1AX97NJvc3u+J7szP2fXs3o163MOCgI9/Esoh47ket4TBHyWX/Va0s5Lq/U3iTInjPj0dDtEJ8Tl+tR649SayDkeDAuypooq2DmzC2LAMSk5cGsctZTjoX+H1blstqEvNCYSNyRbJj+IalwWRpWpsnu5m90C3I=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3fad9a76-2cd6-4761-4f20-08de548e3393
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR10MB7522.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22a13feb-33f2-4bae-783a-08de54bebd4a
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 23:31:26.4385
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 05:18:53.1076
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TkdPQEcpQeuffp3kxJQNC0fYwJDEqZhDAPEFWAl7aIEwnF54wRm0lPjGrqGogpLf/ylpxXC9xJPxab1gaTnGXNAuxfSsBGpOSKunxmxp9a8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF717557185
+X-MS-Exchange-CrossTenant-UserPrincipalName: qmwaBl8ULDhsYER5Uc0ixRIh7M9aUjkIiF6MIz6pvpBVaI0v7hP0IgPp2HMgF72h5H/BIvbu2QrE9e42Z7gfdg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5817
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-15_07,2026-01-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 bulkscore=0
- suspectscore=0 spamscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2512120000
- definitions=main-2601150186
-X-Proofpoint-ORIG-GUID: AcnBYMpjdHORekP3IVPbpincr8iYcazk
-X-Authority-Analysis: v=2.4 cv=YKOSCBGx c=1 sm=1 tr=0 ts=696978d4 b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
+ definitions=2026-01-16_01,2026-01-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
+ mlxscore=0 adultscore=0 phishscore=0 malwarescore=0 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2512120000 definitions=main-2601160041
+X-Proofpoint-ORIG-GUID: -qwXNnRIuQHoUb8Kift4xZR9fc1Pd3Js
+X-Authority-Analysis: v=2.4 cv=YKOSCBGx c=1 sm=1 tr=0 ts=6969ca46 cx=c_pps
+ a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=yPCof4ZbAAAA:8 a=gy2Ro_FX9eGampgkbCQA:9 a=CjuIK1q_8ugA:10 cc=ntf
- awl=host:13654
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDE4NiBTYWx0ZWRfX84B9vj2nkWK1
- F6SiiNTWLZPubSLU3/dPs00OYOCKT7WrBVRml2Nwy7acBmHdirboS2MiFw2v1i2Kio/4G8sJYjq
- ETlLz9z+1Y5l8gTEqk0lg1aMQl4hT2eaDL8PSoiwLQsMGDHj4FBWw5cTOzaBWqm8x0mifw4fluM
- zhObIH4cIdkOH0rwHNYOqE5101JGN87FGproUKczDodSkplsK7sQIOFy0odjNn3peZdZdxwOMio
- mYHhDv6N7sczaLqL3ZWi0syNbQ2NEe7X5tp7vsJ7cLb6qD8kzjRJKHG69Hej1KnikN3ZpxgZJ6N
- wNYzqmvg40ll5XNVL7hBUWE19DatlwJB0UXRDOBaG+kwWzhB3rW5Cxn91m1aj6Plxw8JBqbR2lx
- J9dYgAFkC2Je+ZQpduWj/gFFYx48imwaW8A06WbXpOJOrHHIjqyuj06yy+BvH7SBs9zxiZCzif3
- uSqGpx4waiFc6GsmuvCJxCYMNYolq2CHYI2Y80lg=
-X-Proofpoint-GUID: AcnBYMpjdHORekP3IVPbpincr8iYcazk
+ a=yPCof4ZbAAAA:8 a=549CepK1Ao5t7TUToacA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDA0MCBTYWx0ZWRfXyTSWpBEySMEV
+ 0of7T9B3Ziwl2MfRy/RGBb89kE7acQtduQUg6XJ5YAkrT0t5fffsQRmP9epg1hYsVnFEb205ffb
+ 71JglNDPM9MTabGeY99DqRr5H8s+CteRBuFE95v2FzUNs+ILrDdp3tdWqGjknGvZTN83LWxTdHJ
+ XBPqViE4+wxEd8iGWDvynIfNqyzEbaRnmj6XOih0t+etznrMiQpSvFfNfuGsaXBeQ8nyn7l8M/5
+ 0Vo0FkouzGQzdhc1HrqSliMa3mAmCBeHBT2f61PX+HVGbTJs3sPoAS9YjvNKvgX/ghu0rPJc5R8
+ 2ZBEISc3jrLWmlQ0hODHPpSqsJct9sYI2ew+XRymKE8SOnGZX7ojVBBHISxJiz8ZL084uI6c4Zc
+ 3Z9udKeb1a99dUIzIobSISQOGpZAMVEWZbwmLtjOFqOn7Z2c7h9AbMV0KMI+28Nkt7gWwCq8QpB
+ SqfIzXMIGCbzuDeWFdw==
+X-Proofpoint-GUID: -qwXNnRIuQHoUb8Kift4xZR9fc1Pd3Js
 
-On Wed, Nov 26, 2025 at 06:56:28PM -0500, eugene.loh@oracle.com wrote:
-> From: Eugene Loh <eugene.loh@oracle.com>
-> 
-> When dtrace constructs a USDT header, it includes the header sys/usdt.h.
-> 
-> Add a note to our documentation that /usr/lib64/dtrace/include needs to
-> be on the include path for this header to be found.
-> 
-> While we are at it, break long lines of text up for better readability
-> of the Markdown file and simpler diffs in the future.
-> 
-> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+On 1/15/26 17:18, Kris Van Hees wrote:
 
-Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
+> On Tue, Jan 13, 2026 at 04:42:05PM -0500, eugene.loh@oracle.com wrote:
+>> From: Eugene Loh <eugene.loh@oracle.com>
+>>
+>> The char array prvname[] is set for each provider.  It is used in the
+>> file that implements the provider.  It might also be passed to
+>> dt_sdt_populate() via a function argument.
+>>
+>> However, dt_provider_tp.h also defines the macro GROUP_DATA in terms of
+>> prvname.  In turn, GROUP_DATA is used not only in dt_prov_dtrace.c but
+>> then again in dt_prov_fbt.c to define FBT_GROUP_DATA.
+>>
+>> In commit 0b7c5a632 ("fbt, rawfbt: consolidate code to avoid duplication"),
+>> the fbt and rawfbt providers are combined into a single file.  Thus, two
+>> uses of prvname collide.  The in-file collisions get resolved, but the
+>> cascade of macro definitions does not:  FBT_GROUP_DATA ends up using
+>> "fbt" for both fbt and rawfbt providers.  As a result, it is possible
+>> for rawfbt probes not to be seen.
+>>
+>> Notice that GROUP_DATA is always paired with prp->desc->prb.  Therefore,
+>> simply replace:
+>>      -#define GROUP_DATA     getpid(), prvname
+>>      +#define PROBE_DATA     getpid(), prp->desc->prv, prp->desc->prb
+>> This makes the code more compact and relieves the macro definitions from
+>> needing prvname.  It also makes the FBT_GROUP_DATA macro unnecessary.
+>>
+>> The format (FMT) macro is similarly renamed and redefined to include the
+>> probe info.
+>>
+>> Add a test to check that a rawfbt probe can be found behind an fbt probe
+>> when the probe description has a wildcard provider.
+>>
+>> Orabug: 38842114
+>> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+>> ---
+>>   libdtrace/dt_prov_dtrace.c                    | 14 ++++++-------
+>>   libdtrace/dt_prov_fbt.c                       | 13 ++++++------
+>>   libdtrace/dt_prov_rawtp.c                     |  4 ++--
+>>   libdtrace/dt_prov_sdt.c                       |  4 ++--
+>>   libdtrace/dt_provider_tp.h                    | 12 +++++------
+>>   .../providers/rawfbt/tst.wildcard-provider.d  | 20 +++++++++++++++++++
+>>   .../providers/rawfbt/tst.wildcard-provider.r  |  2 ++
+>>   7 files changed, 45 insertions(+), 24 deletions(-)
+>>   create mode 100644 test/unittest/providers/rawfbt/tst.wildcard-provider.d
+>>   create mode 100644 test/unittest/providers/rawfbt/tst.wildcard-provider.r
+>>
+>> diff --git a/libdtrace/dt_prov_dtrace.c b/libdtrace/dt_prov_dtrace.c
+>> index 34b5d8e24..102afd84e 100644
+>> --- a/libdtrace/dt_prov_dtrace.c
+>> +++ b/libdtrace/dt_prov_dtrace.c
+>> @@ -243,8 +243,8 @@ static int attach(dtrace_hdl_t *dtp, const dt_probe_t *prp, int bpf_fd)
+>>   		/* add a uprobe */
+>>   		fd = open(UPROBE_EVENTS, O_WRONLY | O_APPEND);
+>>   		if (fd != -1) {
+>> -			rc = dprintf(fd, "p:" GROUP_FMT "/%s %s\n",
+>> -				     GROUP_DATA, prp->desc->prb, spec);
+>> +			rc = dprintf(fd, "p:" PROBE_FMT " %s\n",
+>> +				     PROBE_DATA, spec);
+>>   			close(fd);
+>>   		}
+>>   		free(spec);
+>> @@ -252,14 +252,14 @@ static int attach(dtrace_hdl_t *dtp, const dt_probe_t *prp, int bpf_fd)
+>>   			return -ENOENT;
+>>   
+>>   		/* open format file */
+>> -		len = snprintf(NULL, 0, "%s" GROUP_FMT "/%s/format",
+>> -			       EVENTSFS, GROUP_DATA, prp->desc->prb) + 1;
+>> +		len = snprintf(NULL, 0, "%s" PROBE_FMT "/format",
+>> +			       EVENTSFS, PROBE_DATA) + 1;
+>>   		fn = dt_alloc(dtp, len);
+>>   		if (fn == NULL)
+>>   			return -ENOENT;
+>>   
+>> -		snprintf(fn, len, "%s" GROUP_FMT "/%s/format",
+>> -			 EVENTSFS, GROUP_DATA, prp->desc->prb);
+>> +		snprintf(fn, len, "%s" PROBE_FMT "/format",
+>> +			 EVENTSFS, PROBE_DATA);
+> How about also changing this to use asprintf() rather than doing the douoble
+> snprintf (one to get the langth, the alloc, and then actually populate).
 
-> ---
->  ...ticallyDefinedTracingofUserApplications.md | 115 ++++++++++++++----
->  1 file changed, 89 insertions(+), 26 deletions(-)
-> 
-> diff --git a/doc/userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md b/doc/userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md
-> index e8298dea8..1ad4f6410 100644
-> --- a/doc/userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md
-> +++ b/doc/userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md
-> @@ -1,17 +1,26 @@
->  
->  # USDT Provider <a id="dt_ref_usdt_prov">
->  
-> -Use the USDT provider, for user space statically defined tracing, to instrument user space code with probes that are meaningful for an application.
-> +Use the USDT provider, for user space statically defined tracing,
-> +to instrument user space code with probes that are meaningful for an application.
->  
-> -For example, if an application has `put` and `get` operations, you can insert `put` and `get` instrumentation points in the source code, even if each operation is implemented on several code paths. A DTrace user could then enable such probes to trace activity, even without knowing how those operations are implemented in the source code. As usual, there are negligible performance impacts for DTrace probes when the probes aren't enabled. USDT probes can also appear in shared libraries.
-> +For example, if an application has `put` and `get` operations,
-> +you can insert `put` and `get` instrumentation points in the source code,
-> +even if each operation is implemented on several code paths.
-> +A DTrace user could then enable such probes to trace activity,
-> +even without knowing how those operations are implemented in the source code.
-> +As usual, there are negligible performance impacts for DTrace probes when the probes aren't enabled.
-> +USDT probes can also appear in shared libraries.
->  
-> -USDT is for user space processes. For kernel modules, statically defined tracing is handled by the related SDT mechanism.
-> +USDT is for user space processes.
-> +For kernel modules, statically defined tracing is handled by the related SDT mechanism.
->  
->  **Parent topic:**[DTrace Provider Reference](../reference/dtrace_providers.md)
->  
->  ## Defining USDT Providers and Probes <a id="dt_ref_usdtprobes_prov">
->  
-> -Define USDT providers and probes in a `.d` file that you add to the source code. For example, a file `myproviders.d` contains:
-> +Define USDT providers and probes in a `.d` file that you add to the source code.
-> +For example, a file `myproviders.d` contains:
->  
->  ```
->  provider myprov
-> @@ -21,17 +30,28 @@ provider myprov
->  };
->  ```
->  
-> -In this example, the provider name is `myprov`, but, as with the `pid` provider, DTrace users must append the process ID \(pid\) of the process or processes that interest them. In contrast to the `pid` provider, the USDT provider descriptions can use wildcards for the pids. For example, specifying `myprov1234` traces this provider's probes only for process ID `1234`. In contrast, `myprov*` traces this provider's probes for all processes that have been appropriately instrumented, even processes that haven't yet started. Or, as with the `pid` provider, you can use a symbolic pid, such as `myprov$target` for the process started with the `-c` option.
-> +In this example, the provider name is `myprov`, but, as with the `pid` provider,
-> +DTrace users must append the process ID \(pid\) of the process or processes that interest them.
-> +In contrast to the `pid` provider, the USDT provider descriptions can use wildcards for the pids.
-> +For example, specifying `myprov1234` traces this provider's probes only for process ID `1234`.
-> +In contrast, `myprov*` traces this provider's probes for all processes that have been appropriately instrumented,
-> +even processes that haven't yet started.
-> +Or, as with the `pid` provider, you can use a symbolic pid,
-> +such as `myprov$target` for the process started with the `-c` option.
->  
-> -The provider definition lists its probes, along with any probe arguments. The D compiler converts two consecutive underscores \(`__`\) to a dash \(`-`\) in the probe name.
-> +The provider definition lists its probes, along with any probe arguments.
-> +The D compiler converts two consecutive underscores \(`__`\) to a dash \(`-`\) in the probe name.
->  
-> -This following example runs command `./a.out`, then traces the USDT probe `my-put` on that one process, displaying the two arguments to that probe.
-> +This following example runs command `./a.out`,
-> +then traces the USDT probe `my-put` on that one process,
-> +displaying the two arguments to that probe.
->  
->  ```
->  sudo dtrace -c ./a.out -n 'myprov$target:::my-put { printf("put %d %d\n", arg0, arg1); }'
->  ```
->  
-> -The following example traces all processes with `myprov` probes, even if they haven't yet started. This example uses the `-Z` option of `dtrace` in case zero processes match at the time `dtrace` is started.
-> +The following example traces all processes with `myprov` probes, even if they haven't yet started.
-> +This example uses the `-Z` option of `dtrace` in case zero processes match at the time `dtrace` is started.
->  
->  ```
->  sudo dtrace -Z -n 'myprov*:::my-put { printf("put %d %d\n", arg0, arg1); }'
-> @@ -60,15 +80,27 @@ void foo(void)
->  }
->  ```
->  
-> -This example includes a header file that's automatically generated. The name of this header file is derived from the file name that defines the macros to access the probes. It defines macros that provide access to the USDT probes.
-> +This example includes a header file that's automatically generated.
-> +The name of this header file is derived from the file name that defines the macros to access the probes.
-> +It defines macros that provide access to the USDT probes.
->  
-> -You can place probes in the code, referring to the probes by using the macros, which concatenate provider, and probe names, and converting to uppercase. In this example, the macros are `MYPROV_MY_PUT()` and `MYPROV_MY_GET()`.
-> +You can place probes in the code, referring to the probes by using the macros,
-> +which concatenate provider, and probe names, and converting to uppercase.
-> +In this example, the macros are `MYPROV_MY_PUT()` and `MYPROV_MY_GET()`.
->  
-> -An optional optimization is to test if a probe is enabled. While the computational overhead of a disabled DTrace probe is often similar to a few no-op instructions, setting up probe arguments can be expensive. In this example, `bar(1111)` and `bar(2222)`might be costly function calls. Therefore, for each probe, DTrace also supplies an `is-enabled` macro, named by appending `_ENABLED`. In the example, `MYPROV_MY_PUT_ENABLED()` for the `my-put` probe, to help minimize the cost of any work associated with disabled probes.
-> +An optional optimization is to test if a probe is enabled.
-> +While the computational overhead of a disabled DTrace probe is often similar to a few no-op instructions,
-> +setting up probe arguments can be expensive.
-> +In this example, `bar(1111)` and `bar(2222)`might be costly function calls.
-> +Therefore, for each probe, DTrace also supplies an `is-enabled` macro,
-> +named by appending `_ENABLED`.
-> +In the example, `MYPROV_MY_PUT_ENABLED()` for the `my-put` probe,
-> +to help minimize the cost of any work associated with disabled probes.
->  
->  ## Building Applications With USDT Probes <a id="dt_ref_usdt_build_prov">
->  
-> -The `dtrace` command becomes part of the build procedure, which can be thought of in four parts:
-> +The `dtrace` command becomes part of the build procedure,
-> +which can be thought of in four parts:
->  
->  1.  Generate the header file that defines the macros to access the probes. For example:
->  
-> @@ -76,25 +108,44 @@ The `dtrace` command becomes part of the build procedure, which can be thought o
->      dtrace -h -s myproviders.d
->      ```
->  
-> -    The previous command produces the `myproviders.h` header file. While `dtrace` requires root privileges for runtime tracing, generating the header file doesn't have this requirement.
-> +    The previous command produces the `myproviders.h` header file.
-> +    While `dtrace` requires root privileges for runtime tracing,
-> +    generating the header file doesn't have this requirement.
->  
-> -2.  Compile the source code, which includes the `dtrace` generated header file based on the provider and probe definitions. For example, for several source files:
-> +2.  Compile your source code.
-> +
-> +    For example, if you have multiple source files:
-> +
-> +    ```
-> +    gcc -I/usr/lib64/dtrace/include -c func1.c
-> +    gcc -I/usr/lib64/dtrace/include -c func2.c
-> +    gcc -I/usr/lib64/dtrace/include -c func3.c
-> +    ```
-> +
-> +    The `-I` option is to find `<sys/usdt.h>`, which is
-> +    referenced by the header file generated by `dtrace` in the
-> +    previous step.  The path to use on your system is given by:
->  
->      ```
-> -    gcc -c func1.c
-> -    gcc -c func2.c
-> -    gcc -c func3.c
-> +    pkg-config --cflags dtrace_sdt
->      ```
->  
-> +    Note that `<sys/usdt.h>` is also in the DTrace source code
-> +    directory `uts/common/`.
-> +
->  3.  Post process each object file using `dtrace`. For example:
->  
->      ```
->      dtrace -G -s myproviders.d func1.o func2.o func3.o
->      ```
->  
-> -    Again, `dtrace` doesn't require root privileges for this step. This step also generates the object file `myproviders.o` from `myproviders.d` and the other object files, linking provider and probe definitions with a user application.
-> +    Again, `dtrace` doesn't require root privileges for this step.
-> +    This step also generates the object file `myproviders.o` from `myproviders.d` and the other object files,
-> +    linking provider and probe definitions with a user application.
->  
-> -4.  Link the final executable. The `-Wl,--export-dynamic` link options to `gcc` are required for symbol lookup in a stripped executable at runtime, for example, when you use the D function `ustack()`. For example:
-> +4.  Link the final executable.
-> +The `-Wl,--export-dynamic` link options to `gcc` are required for symbol lookup in a stripped executable at runtime,
-> +for example, when you use the D function `ustack()`. For example:
->  
->      ```
->      gcc -Wl,--export-dynamic,--strip-all myproviders.o func1.o func2.o func3.o
-> @@ -152,7 +203,7 @@ The `dtrace` command becomes part of the build procedure, which can be thought o
->  
->      ```
->      dtrace -h -s myproviders.d
-> -    gcc -c func.c
-> +    gcc -I/usr/lib64/dtrace/include -c func.c
->      dtrace -G -s myproviders.d func.o
->      gcc -Wl,--export-dynamic,--strip-all myproviders.o func.o
->      ```
-> @@ -168,7 +219,12 @@ The `dtrace` command becomes part of the build procedure, which can be thought o
->              tick-5sec {exit(0)}'
->          ```
->  
-> -        This first example, runs the `a.out` command with the `-c` option. The `-q` quiet option suppresses extraneous output. The D script is on the command line, and it prints both args for the `put` probe and reports the `get` probe. The example refers symbolically to `$target`, the pid of the target command is specified with `-c`.
-> +        This first example, runs the `a.out` command with the `-c` option.
-> +        The `-q` quiet option suppresses extraneous output.
-> +        The D script is on the command line,
-> +        and it prints both args for the `put` probe and reports the `get` probe.
-> +        The example refers symbolically to `$target`,
-> +        the pid of the target command is specified with `-c`.
->  
->          After five seconds, the `dtrace` job finishes, ending the target command.
->  
-> @@ -184,7 +240,10 @@ The `dtrace` command becomes part of the build procedure, which can be thought o
->          kill $pid
->          ```
->  
-> -        In this example, the command is already running with process ID `$pid`. We refer to the specific numerical pid that interests us. The `dtrace` command doesn't, in this case, end the process of interest. We handle that separately.
-> +        In this example, the command is already running with process ID `$pid`.
-> +        We refer to the specific numerical pid that interests us.
-> +        The `dtrace` command doesn't, in this case, end the process of interest.
-> +        We handle that separately.
->  
->      -   One more possibility is to run the program using:
->  
-> @@ -196,7 +255,10 @@ The `dtrace` command becomes part of the build procedure, which can be thought o
->          ./a.out &
->          ```
->  
-> -        In this example, the `-Z` option allows for zero probe matches at first. The probes match later, when a USDT process has started. After a short delay, a USDT process is started. At some point, the USDT process is ended.
-> +        In this example, the `-Z` option allows for zero probe matches at first.
-> +        The probes match later, when a USDT process has started.
-> +        After a short delay, a USDT process is started.
-> +        At some point, the USDT process is ended.
->  
->      In each of these cases, the output is printed after one second, and looks similar to:
->  
-> @@ -217,10 +279,11 @@ The `dtrace` command becomes part of the build procedure, which can be thought o
->          tick-5sec {exit(0)}'
->      ```
->  
-> -    In this case, not only does the `put` probe not fire, but also the `is-enabled` conditional `MYPROV_MY_PUT_ENABLED()` is false. Therefore, the `bar()` function isn't called. The only output displayed each second is:
-> +    In this case, not only does the `put` probe not fire,
-> +    but also the `is-enabled` conditional `MYPROV_MY_PUT_ENABLED()` is false.
-> +    Therefore, the `bar()` function isn't called.
-> +    The only output displayed each second is:
->  
->      ```
->      get
->      ```
-> -
-> -
-> -- 
-> 2.47.3
-> 
+Sure, sounds good.  On the other hand, this is in dt_prov_dtrace, while 
+the main point of the patch is an fbt problem.  Yeah, I know, not a big 
+deal.  But since we've been chasing these asprintf() sites 
+opportunistically over a couple of patches and there are several (4?) 
+more sites to go, how about I do all these asprintf() conversions in a 
+separate patch?
+
+>>   		f = fopen(fn, "r");
+>>   		dt_free(dtp, fn);
+>>   		if (f == NULL)
+>> @@ -300,7 +300,7 @@ static void detach(dtrace_hdl_t *dtp, const dt_probe_t *prp)
+>>   	if (fd == -1)
+>>   		return;
+>>   
+>> -	dprintf(fd, "-:" GROUP_FMT "/%s\n", GROUP_DATA, prp->desc->prb);
+>> +	dprintf(fd, "-:" PROBE_FMT "\n", PROBE_DATA);
+>>   	close(fd);
+>>   }
+>>   
+>> diff --git a/libdtrace/dt_prov_fbt.c b/libdtrace/dt_prov_fbt.c
+>> index 3feac56ea..8dbf9740a 100644
+>> --- a/libdtrace/dt_prov_fbt.c
+>> +++ b/libdtrace/dt_prov_fbt.c
+>> @@ -53,8 +53,7 @@ static const char		prvname[] = "fbt";
+>>   
+>>   #define KPROBE_EVENTS		TRACEFS "kprobe_events"
+>>   
+>> -#define FBT_GROUP_FMT		GROUP_FMT "_%s"
+>> -#define FBT_GROUP_DATA		GROUP_DATA, prp->desc->prb
+>> +#define FBT_PROBE_FMT		"dt_%d_%s_%s"
+>>   
+>>   static const dtrace_pattr_t	pattr = {
+>>   { DTRACE_STABILITY_EVOLVING, DTRACE_STABILITY_EVOLVING, DTRACE_CLASS_COMMON },
+>> @@ -508,16 +507,16 @@ static int kprobe_attach(dtrace_hdl_t *dtp, const dt_probe_t *prp, int bpf_fd)
+>>   		if (fd == -1)
+>>   			goto out;
+>>   
+>> -		rc = dprintf(fd, "%c:" FBT_GROUP_FMT "/%s %s\n",
+>> +		rc = dprintf(fd, "%c:" FBT_PROBE_FMT "/%s %s\n",
+>>   			     prp->desc->prb[0] == 'e' ? 'p' : 'r',
+>> -			     FBT_GROUP_DATA, tpn, fun);
+>> +			     PROBE_DATA, tpn, fun);
+>>   		close(fd);
+>>   		if (rc == -1)
+>>   			goto out;
+>>   
+>>   		/* create format file name */
+>> -		if (asprintf(&fn, "%s" FBT_GROUP_FMT "/%s/format", EVENTSFS,
+>> -			     FBT_GROUP_DATA, tpn) == -1)
+>> +		if (asprintf(&fn, "%s" FBT_PROBE_FMT "/%s/format", EVENTSFS,
+>> +			     PROBE_DATA, tpn) == -1)
+>>   			goto out;
+>>   
+>>   		/* open format file */
+>> @@ -583,7 +582,7 @@ static void kprobe_detach(dtrace_hdl_t *dtp, const dt_probe_t *prp)
+>>   		}
+>>   	}
+>>   
+>> -	dprintf(fd, "-:" FBT_GROUP_FMT "/%s\n", FBT_GROUP_DATA, tpn);
+>> +	dprintf(fd, "-:" FBT_PROBE_FMT "/%s\n", PROBE_DATA, tpn);
+>>   	close(fd);
+>>   
+>>   	if (tpn != prp->desc->fun)
+>> diff --git a/libdtrace/dt_prov_rawtp.c b/libdtrace/dt_prov_rawtp.c
+>> index 709f7040f..e3269f4b3 100644
+>> --- a/libdtrace/dt_prov_rawtp.c
+>> +++ b/libdtrace/dt_prov_rawtp.c
+>> @@ -56,7 +56,7 @@ static const dtrace_pattr_t	pattr = {
+>>   /*
+>>    * The PROBE_LIST file lists all tracepoints in a <group>:<name> format.
+>>    * We need to ignore these groups:
+>> - *   - GROUP_FMT (created by DTrace processes)
+>> + *   - PROBE_SFMT
+>>    *   - kprobes and uprobes
+>>    *   - syscalls (handled by a different provider)
+>>    *   - pid and usdt probes (ditto)
+>> @@ -89,7 +89,7 @@ static int populate(dtrace_hdl_t *dtp)
+>>   
+>>   			*p++ = '\0';
+>>   
+>> -			if (sscanf(buf, GROUP_SFMT, &dummy, &str) == 2) {
+>> +			if (sscanf(buf, PROBE_SFMT, &dummy, &str) == 2) {
+>>   				free(str);
+>>   				continue;
+>>   			}
+>> diff --git a/libdtrace/dt_prov_sdt.c b/libdtrace/dt_prov_sdt.c
+>> index 74555f5be..ee2cc3c27 100644
+>> --- a/libdtrace/dt_prov_sdt.c
+>> +++ b/libdtrace/dt_prov_sdt.c
+>> @@ -54,7 +54,7 @@ static const dtrace_pattr_t	pattr = {
+>>   /*
+>>    * The PROBE_LIST file lists all tracepoints in a <group>:<name> format.
+>>    * We need to ignore these groups:
+>> - *   - GROUP_FMT (created by DTrace processes)
+>> + *   - PROBE_SFMT
+>>    *   - kprobes and uprobes
+>>    *   - syscalls (handled by a different provider)
+>>    *   - pid and usdt probes (ditto)
+>> @@ -87,7 +87,7 @@ static int populate(dtrace_hdl_t *dtp)
+>>   
+>>   			*p++ = '\0';
+>>   
+>> -			if (sscanf(buf, GROUP_SFMT, &dummy, &str) == 2) {
+>> +			if (sscanf(buf, PROBE_SFMT, &dummy, &str) == 2) {
+>>   				free(str);
+>>   				continue;
+>>   			}
+>> diff --git a/libdtrace/dt_provider_tp.h b/libdtrace/dt_provider_tp.h
+>> index f131b1e02..406609d1b 100644
+>> --- a/libdtrace/dt_provider_tp.h
+>> +++ b/libdtrace/dt_provider_tp.h
+>> @@ -18,13 +18,13 @@ extern "C" {
+>>    * Tracepoint group naming format for DTrace providers.  Providers may append
+>>    * to this format string as needed.
+>>    *
+>> - * GROUP_DATA provides the necessary data items to populate the format string
+>> - * (PID of the dtrace process and the provider name).  GROUP_SFMT is like
+>> - * GROUP_FMT, but for sscanf().
+>> + * PROBE_DATA provides the necessary data items to populate the format string.
+>> + * PROBE_FMT formats that data.
+>> + * PROBE_SFMT is a format string for recognizing PROBE_FMT data in sscanf().
+>>    */
+>> -#define GROUP_FMT	"dt_%d_%s"
+>> -#define GROUP_SFMT	"dt_%d_%ms"
+>> -#define GROUP_DATA	getpid(), prvname
+>> +#define PROBE_DATA	getpid(), prp->desc->prv, prp->desc->prb
+>> +#define PROBE_FMT	"dt_%d_%s/%s"
+>> +#define PROBE_SFMT	"dt_%d_%ms"
+>>   
+>>   typedef struct tp_probe tp_probe_t;
+>>   
+>> diff --git a/test/unittest/providers/rawfbt/tst.wildcard-provider.d b/test/unittest/providers/rawfbt/tst.wildcard-provider.d
+>> new file mode 100644
+>> index 000000000..ad9f4c779
+>> --- /dev/null
+>> +++ b/test/unittest/providers/rawfbt/tst.wildcard-provider.d
+>> @@ -0,0 +1,20 @@
+>> +/*
+>> + * Oracle Linux DTrace.
+>> + * Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
+>> + * Licensed under the Universal Permissive License v 1.0 as shown at
+>> + * http://oss.oracle.com/licenses/upl.
+>> + */
+>> +
+>> +/*
+>> + * ASSERTION: rawfbt probes can be found even when a wildcard provider
+>> + * description also allows fbt probes.
+>> + */
+>> +
+>> +#pragma D option quiet
+>> +
+>> +BEGIN,
+>> +*fbt:vmlinux:do_sys_open*:entry
+>> +{
+>> +	printf("success\n");
+>> +	exit(0);
+>> +}
+> I am confused how this test accomplishes verification of the assertion.  If
+> a regular FBT probe satisfies the probe description, wouldn't this pass also?
+> Wouldn't a -l based test be better here, where you can test that the output
+> does indeed report both the fbt probe and the rawfbt probe that match?
+
+It appears that -l is not an issue;  a -l test does not show the 
+problem.  The test in the patch is derived from the user bug report that 
+motivated this patch.
+
+The whole prvname problem is that the bad prvname value makes GROUP_DATA 
+bad, which makes FBT_GROUP_DATA bad, which is an issue only in 
+kprobe_attach (and detach).  So, we need kprobe_attach() to see the problem.
+
+>> diff --git a/test/unittest/providers/rawfbt/tst.wildcard-provider.r b/test/unittest/providers/rawfbt/tst.wildcard-provider.r
+>> new file mode 100644
+>> index 000000000..b34a52d2f
+>> --- /dev/null
+>> +++ b/test/unittest/providers/rawfbt/tst.wildcard-provider.r
+>> @@ -0,0 +1,2 @@
+>> +success
+>> +
+>> -- 
+>> 2.47.3
+>>
