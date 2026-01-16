@@ -1,78 +1,82 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72EE122578D
-	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 21:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E5F246778
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 21:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768599977; cv=fail; b=VasehYAw6czddcSzTcwA9e3JLTRE68nBpLdzglUpXKh8QgNcQ7hN8rL6p+Qqo5qZTzUW0mI4clUJbOP/UYn2PKMWIp7M6rQ07+e7aNiPl1NKzg8yk5QVc+5lmeDWLjDaeZy0g1sBDipOFLOnXMej8bmxXL0NSo2CmxWruvf2ox8=
+	t=1768600324; cv=fail; b=gaoiJooVPB7gHM73f3ifs6u84z9bLJKqhU4JjgGxpj1qdvcL3OmXYIcKqp0Xyy/SdRsXaQebUmVSat6JayiYgFsbbUhs7QhDpuJqhz5HuHDxKfmN/psp7aergJWmw1mVrI7gE3SX5buvgBCDkf1qJkK41vGgQKXOyNswrfZUO9M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768599977; c=relaxed/simple;
-	bh=GO9c77mqushqY8jVWiKvANVi+nE3CmYkkpX1/k24bdA=;
-	h=Date:From:To:Subject:Content-Type:Message-ID:MIME-Version; b=fy7DW9jMAObzWxn0GZpN1eeJ5poTITMobyUiLbIZCPbv9xIjwcL1X/7DteXYAkcmXiinEPMPE3+6YawMGP+i2Z9yLJz+iigw0f88Mp3sve1PlI6Xri4nihO5xqWPWN2w4BW0YMvOodc1ZmpWy3Zk72l4saAXwp61wkfRuD13Xx0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=NovPwMp+; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=B3O42rke; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1768600324; c=relaxed/simple;
+	bh=Ej8YAJuKyovitPEnkXuVzqnXCN8ACs3YTN8Rp/ePwao=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=atG11mISetkvzdTk8fJ89LgqYTU2OwFx6J5xPuNxaHOLx8GWnYxJr80Nv0GJNb7Z2oiTbk3U3I7oq1NV0kdH8WIx3/uzSUeA5tVmIOBAAGpO8QTuwXYQiqvxwehS/8xy4xEOGoaTloTeNfkGhulyzdJBmjq/eLnKPyp18AR8QRc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=iAkexev2; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=l+KsR5Q6; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="NovPwMp+";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="B3O42rke"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60GKbRCw4013404
-	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 21:46:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-type:date:from:message-id:mime-version:subject:to; s=
-	corp-2025-04-25; bh=PP5AUrjyNg8c4wg1UOhUnVOfXNn2LhCbd3H7QTzezLs=; b=
-	NovPwMp+Rzlja8uBcdEid973ech0cbDdxuwEoILAxdh10L0YcZvC5aTrVp1tSwWI
-	PgtYGTdVfL/w6JZq6sxEKw8G1oXOO7N1/wCIqhsUq6V2d5e/cYHIyQPsQ8L9CoDJ
-	2fqTeBTUhQLb6w/eKWxDmcKKdGAXYIv7Gve/Rxa0YuoV1eGSSlU1rOPU6BXdbbuk
-	S9oASxqwGlCy9ZP9PN8KRCXGULtmU8IQsz4PeaUjyb2QRFFcXaWODsHz0rBpNevb
-	086az4QPV+fTPLtCBnv9A3tRELnK7Uu8dW7pSNh1CJukdc0VEixK8rIgnLQWFmdk
-	V30Qxe+90QsszezMZH/qsQ==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bqvhe82ka-1
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="iAkexev2";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="l+KsR5Q6"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60GKZLAr3905634
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 21:52:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=ckzy6ZUtzGEUaB0iwB
+	m4VzlK2cvFep3Yp0PsXujpKVw=; b=iAkexev2Xpe96UXdgmdRqvH/x5Xjhs+n9Y
+	+rfNcM/IA0docp/OGX2cPdKtZHAqo53GtgbUlyOa5rDGP0TtIHTIKJNsyN0xwOI2
+	nrmZ7cGJSXPmX4qwNq0Xza8dF2ZQBjkpxGvU5OmzZ+UMeseYLfFSDH+TnC+e39S8
+	MqgsDK1jZjnTozcaqlmjg1GTSGSPKmU+NJlSDfYoI07a+nQ4AHTN60/R0u0jwCyc
+	WF2+shlgW2UfBUsHTk2qYYZoZK4L3BJk7mjCRb6ZyCvTzgTJNzTq8qjhkCGGdEj1
+	rQmD1Ons2lR+vd/alyKLsyvuYyZt3mJAqXqyT0u2ByGAqVxr0J+A==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bqvg80332-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 21:46:11 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60GKEbJe015897
-	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 21:46:11 GMT
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012049.outbound.protection.outlook.com [52.101.53.49])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4bqv6sjqn1-2
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 21:52:01 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60GKKiYU010791
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 21:52:01 GMT
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013030.outbound.protection.outlook.com [40.93.201.30])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4bqv9m2qgg-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 21:46:10 +0000
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 21:52:01 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yfPQCa4/IZ9l6YhoPhY++S07ZfYAqoWrwxUcWQNGcJSxDbiiKdpDhidoZEECloqXqk/3svwliyfY1uJ/WBmqlE8ndV4woYjxal0jrETVj68mZ9psRfvYSnC6ki9e/S7SWD/InuH29wHf5eT2MqCHvd+Ez4UrligSwqydivZ3PLDIRLdXwaxp/g7wnaMUWMnEb1I1u+1fV/liZlCoQk5qKboIzKX3TmIX+1GKgIueFxVCfEvPL4BOQUoIRMJY9LXu8EIuyFNXmbuVA7sAaLdZQlK9EaKnF6yXH3xnZrFRGhoXn2c1djSv/BZUJROawv9WVh710Yoyfiat7FoHsvExCQ==
+ b=Jo6h2illdBlOwM+gYMFFf++82cCr7T2q3+hPTiHjnrX9ED5WrISs6QuLndO/jBB4411229z4VbUUbnHzLHIp0OIisUzvnCemDBBG7kI7eHU7xVZqlslMZwusBELcP81wobBIi/ePkhq1odhkNMVhPL5Crz3M5V6711r07FWqrkUvt10TofaZK7Ay/gIfoi4EVcbUk/sJLjnvCowA3zXAo8pPTiPoB5aoo2uYpLasNauDEZITiJfx1p9/vqwVcNYneGB07l9Z/C3AfWy/7wNnWtFF3MsJlCpAoTrtbKtT7tG82OpmWMRFZNStzqb0H3Y0+Ln0PsOTRoslyDsOih1t8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PP5AUrjyNg8c4wg1UOhUnVOfXNn2LhCbd3H7QTzezLs=;
- b=QCI9GYAyKb8LmUj0afhhSZqwnHsS6rlZ2RmsqP2Fea0TG1s4FjrFy9IDF59DKnFLe57yQ2yQZGET9rl3WQIE+JRgZNfFgAkJ0t0lwg52EsFJQ1U11O1Gx/zp3erIMHp166wxHAjJGFynfRKHu1LV4b5C5AyUapvi7Td9noiOMgJPNSzx5ocWnxF07bDWqQLpuWxzLM1uEP9upAX8fS2DhBXRQOfqbiiFjoV+XRUQOkogvxLPJyHoDhyEZFCz28qGD0dH0ohcPAS0yJghkdyY5+4I8rUAFozM1Le7pjhmRAntkHAh8AOVcfZAb+pgPeVPNdmnnw/6rvPM1hPNEZ//kw==
+ bh=ckzy6ZUtzGEUaB0iwBm4VzlK2cvFep3Yp0PsXujpKVw=;
+ b=XCYvSFDORLA84ZWwaqSGuj4hUBHK2MbFGUVjgxqsofHjgFPzg27m3d1HHGMYbS5iSDocAisqSKAiJY7JwlNHZdBQP40K72BSU3DWDW3JRhfp7KPGwdKYuJ8+Mb336ZbndwvLMDuxq3v2okwlImsDg174j19gY4zXVfjELUvz/jASyz9HwpSN3bn+olwC0pWsP9pO53xbODStSiTQeSKZ88dYnT3sVRQmAZMiuTnyF9hFyWmcXYCS13pDtaS4RI2XTkXCwfPe8gqZ4/Df90XHh7ykRHSYqGmKWN8jgG6U1fFgHnGEGr0H5QqPnaE05ogWUi40NiHAj7guRm5t+4JsBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PP5AUrjyNg8c4wg1UOhUnVOfXNn2LhCbd3H7QTzezLs=;
- b=B3O42rke43OT4uu9O9m27eslLg+BeHlWzz7Ocw2+HqauvZ0cxVb9DCFZBdhusN+AJhZnFdfCL4l1E+4AQEjAMBf1M9/Uj7GjQ6tHByZx1UPCYxLwf5hj02+FvR1N2rEMEKLVPkaeiiYrlvpW9KbLIP4UcCTYTaTyEIJoLszoQpQ=
+ bh=ckzy6ZUtzGEUaB0iwBm4VzlK2cvFep3Yp0PsXujpKVw=;
+ b=l+KsR5Q64s9zIvfYU8x1hQ2U5v4ek36603KqcU6yw0gPpq3zUIPlWn2kFAHW4FN36k4HICoZ/9N4lwO0XToApaIg3XE5VTUiSJVYB83EI9B6IHFdBcULuMAXKYvUjmEWm4TMRA8gi7En/ZB3jukWSamzCLDJuqL/yzdPAy4o++U=
 Received: from DS0PR10MB7522.namprd10.prod.outlook.com (2603:10b6:8:15e::16)
- by SA1PR10MB7710.namprd10.prod.outlook.com (2603:10b6:806:3a7::12) with
+ by CH2PR10MB4373.namprd10.prod.outlook.com (2603:10b6:610:a9::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.6; Fri, 16 Jan
- 2026 21:46:01 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Fri, 16 Jan
+ 2026 21:51:55 +0000
 Received: from DS0PR10MB7522.namprd10.prod.outlook.com
  ([fe80::9668:955e:1688:ea7a]) by DS0PR10MB7522.namprd10.prod.outlook.com
  ([fe80::9668:955e:1688:ea7a%6]) with mapi id 15.20.9520.005; Fri, 16 Jan 2026
- 21:45:58 +0000
-Date: Fri, 16 Jan 2026 16:45:57 -0500
+ 21:51:55 +0000
+Date: Fri, 16 Jan 2026 16:51:52 -0500
 From: Kris Van Hees <kris.van.hees@oracle.com>
-To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH v4] test: correct file permissions
-Content-Type: text/plain
-X-ClientProxiedBy: BLAPR05CA0024.namprd05.prod.outlook.com
- (2603:10b6:208:36e::20) To DS0PR10MB7522.namprd10.prod.outlook.com
+To: eugene.loh@oracle.com
+Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: Re: [PATCH v2] Fix printf formatting with non-monetary grouping chars
+Message-ID: <aWqy-H1D-AJYD_rh@kvh-deb-bpf.us.oracle.com>
+References: <20260116211432.21975-1-eugene.loh@oracle.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260116211432.21975-1-eugene.loh@oracle.com>
+X-ClientProxiedBy: BY3PR05CA0019.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::24) To DS0PR10MB7522.namprd10.prod.outlook.com
  (2603:10b6:8:15e::16)
-Message-ID:
- <DS0PR10MB7522826E8A633859ACE9C676C28DA@DS0PR10MB7522.namprd10.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -80,753 +84,301 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR10MB7522:EE_|SA1PR10MB7710:EE_
-X-MS-Office365-Filtering-Correlation-Id: 72fad01d-6b50-4098-977c-08de5548a278
+X-MS-TrafficTypeDiagnostic: DS0PR10MB7522:EE_|CH2PR10MB4373:EE_
+X-MS-Office365-Filtering-Correlation-Id: adb98edf-7024-4de4-a26d-08de554976ff
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Ls02DZLcsKrvp9I/e6o0n8VYRGGB+zSrDdlXWxPW6QQGUITXPyPxKsFEfKpK?=
- =?us-ascii?Q?1CUSf8L/0eZzoybnbhJsdlJAR0VhdhkD6BWLd1QRHUBOhscplhegvjbjkDpG?=
- =?us-ascii?Q?uwkUeKAtsvASmMpXdd4wG8gksTSU51DI27gE89kOA+igp2P4L92FmgJxasKA?=
- =?us-ascii?Q?hPBpaRNbjWRJR8JMDOKzWWysuHCsv7cG9lwOGAyKgMp5j54Jeq9Vg+HjUEBL?=
- =?us-ascii?Q?JDvVQHM2q9JfvXoj1W93LDNkyubn0dqiFwJQevt7YJYeX78jUOhLdqnvjU+9?=
- =?us-ascii?Q?nNTIgRoHgngZu5aKoeshnqIZaDL705xFH+n8P/SPB4Igi+FqSxUl8Vb+rQlM?=
- =?us-ascii?Q?J6DjVCb4ZfR9lzRNtcOTW77SK3U5hnGlrU61br0CEOnG3u6q6YTi/m/PjVlc?=
- =?us-ascii?Q?+oZpSvVS1nEw2FJg65vLoPQCH8xPyYv0kvT8MJlD3nUVgDkptGuU6R60X6tU?=
- =?us-ascii?Q?Sgb7pCjhatnFzVhVJAV1xKYJIdzMr+TfUnV3VZdSy9cdqLDCfPuCQhHzVjmd?=
- =?us-ascii?Q?Ydya/cD5NslNjgSbUdOOlYvE19INo+0Dph/jl2L3mAkvOVHhcn//blbpsmZZ?=
- =?us-ascii?Q?0QJev6tUK1LQiuv3ihsJIfg4PJ6sJ0meMAlY/fYRYEIry3p0uU/E2VuvG70L?=
- =?us-ascii?Q?TpsZMiBPMWKPmDlS2cJy/4OSJB0dM4/N8mbtUGHVMdmYNQEemJmHujB6mU0P?=
- =?us-ascii?Q?rY67i3xePiiyAWxt4XOM1B0WRjP0fzp2RVtSY/KtI/YfNDNuyNdgzIVyLw/v?=
- =?us-ascii?Q?dG8H4HYzMikS11Dgz6WA/ovQW7y4bC0iP9KxiV9ky7BUKbnQqAKbNnD/yVec?=
- =?us-ascii?Q?jK/EGs3pAAIf8jGSXzXAlzexF9wHN8K69uBtTd8Kpgub8Lala4eNDd1fx4Xn?=
- =?us-ascii?Q?u49mEdxHJUXj2SqQXTRiVpj+aXTf9cWNexio9d/oLasrA0A5JhPcKbGNrlPk?=
- =?us-ascii?Q?d00o3er75FJaTT9QRUJ6eH20RBN97KIdnw2I2VSowVlBTFaPNexKgK2WDv4T?=
- =?us-ascii?Q?Ja0NdfRpOlw6gdM7hyYfzm3FyFsEM8KwT/js7NvUJwDQH1xF3BOTKpZ5BZ28?=
- =?us-ascii?Q?UCGjXatv3ekZVj0Wkx1sB1IbdzwePa1bQFN2mf5LrcVKptpuES1OFyX8qGrT?=
- =?us-ascii?Q?MFXrQireKPrRq9AGrzo6La1KaKMirjkQkiTVPLbi1YBnqUdiKXcLMKhbvzFM?=
- =?us-ascii?Q?NMBB+7DVwu+fkP181sjyXTg4sPM31olvk6W7jObrYx7UgYUarP6lElIFT0g6?=
- =?us-ascii?Q?ZJVtFS577DM+GkLInAxcECk+67CdjxiZYSHYT9YLog/Xxtctm7rpt1UbhOzI?=
- =?us-ascii?Q?rKMY07nmEXeuG2uUSfV4T3BirP6z6TECx2fob1CK3RoINKYpXCVa4L23V76M?=
- =?us-ascii?Q?Ix6q2t/GFIlyDfTUUPrfWITIV7ldPwL7afksecF7oU/VkKuIWtjnBJ9NyynE?=
- =?us-ascii?Q?dPeeGTrgc13EdBYJBezbbz1FLgVFSHVPAvYfzZ0sCIG+q/7qCjuw/qJPIS12?=
- =?us-ascii?Q?DrOMYeIrlrb2ofgXt0cOimi2ydalA+ZJntH1bDyJWLK/ydnnLehYNdjpNyum?=
- =?us-ascii?Q?KPOw0qi6k9iA2dDKv1M=3D?=
+	=?us-ascii?Q?3f8RHZQ62nmLB/ybmzTJHQFL7nFMG9G9vLLjzi09NSW7tHTdyATRC2CYnLpO?=
+ =?us-ascii?Q?8n8Qrl7j7n4BgEXNeZX55VN+G/TnqiElVx2G4RfBVyF7wZWWO5YhfzbWZZfC?=
+ =?us-ascii?Q?FDt7eXYN5pxL3wQ2AkFJkXO5Z7fPw0SaRNBtBHZwqwiiXJ8ilhOKuZpFoJya?=
+ =?us-ascii?Q?LT3rwQ+NumiMWPa8lbrtCq9GKzBbX44rasOfJAx14XJ4rvPuoQDH/Zkm7Ro+?=
+ =?us-ascii?Q?DvV1VgrKIQCXEyaw/7yxzcqO39xpevKjq8mizUCfXwUPvGVxDAKBpgo1Z0qL?=
+ =?us-ascii?Q?oNi4+C9eeRAz5jFm19pdSmw5k8bBQNqWGuWfHO+y9BPTGu0J0y3X5KpKnEqv?=
+ =?us-ascii?Q?mjWRdxbntIgCziLU9Tz/RfXWS67KNNEfycZ7q1ve5pUnfG12qH8Th/rOT9CU?=
+ =?us-ascii?Q?98/4z196HrVMnifOqkh+AEciTJvE5yOSQIp51+RWgKijtwoNLhJUOTU0KXMa?=
+ =?us-ascii?Q?/1lHjoYpY/CpHv3zrE4t77QiZvUC3zIsRGDCMB8WOn4eVHUcQirONEW/mS32?=
+ =?us-ascii?Q?2br7XxFq5/i2sQdo0/bagFX4TwDY9YCKS2bFnI0mbD+mxLNfQLVMwj/wtwX9?=
+ =?us-ascii?Q?G86k4qORmbmnNxENkPfSm9JB3rcK26JbsV5x/ieZocblXPQa1r78wDoLhPnU?=
+ =?us-ascii?Q?xA08wVgGE9EyL1kWcW9JkxC2HitjioOQ+6o5C2K4scCRxJfFtnJMr1MGRRsd?=
+ =?us-ascii?Q?ToQPVdHAovcKhR+pfOuJ4tox+Qvp2B3HSakWgcg8pJTYERp4vPwmPMFu7HOn?=
+ =?us-ascii?Q?8xZeuyARw6hr0kmzS0aIkLdTXnHcrEKAerQZ1gtSoOTaPKjGZQ2BLwU92rwg?=
+ =?us-ascii?Q?ATebPPJvHXM74kelQABwIZeik9uZ7mkFIjHT6iPasOpQfdJbQVN5pKEkQUaC?=
+ =?us-ascii?Q?8ocQtugSZwTUt17Bth9cJufA+2YAD8P52FZGy4IljxY6f2aY3ceh2CrDRZZP?=
+ =?us-ascii?Q?uHQi+MIdP7UtDf2xiJMp6tXpCo80VsGxbWj6zxDYabtWXFC/qxfQKhdIo6JT?=
+ =?us-ascii?Q?i22KdQtOJrjb+3bBsDHr97vo8HbV28Qso6u+TA4rCFaJbl0A6cBacAqdT44I?=
+ =?us-ascii?Q?6JZSvbPepxaxhD+IkRlbFIJR7U2mMpd8Qla/ViCKiOrWPl1x8jeAVoVn3k2A?=
+ =?us-ascii?Q?hkIjD5LDf0aQeH7jDbsP4QAx3zFL9BydhKcjwdzupj/nKeVjo2xUYew7Oy9s?=
+ =?us-ascii?Q?NbHOxiRcAcNep39aK8FwmlDKwenaenGX9u9SUXlvvaj9rqp0Eqmcfr1jb890?=
+ =?us-ascii?Q?Ke33vpMahaS805O1nShmBU4mWVOfOCXbvXsdrsfytoX26Rgdxx0bXovaJ3ne?=
+ =?us-ascii?Q?61X4V2cYOTcog3ykYeN3ocjSW+jjR7jtqq8L4tSs8yAtPWjF/VPRaVb6Ga9O?=
+ =?us-ascii?Q?V12yK/B+pTFjb8I6BMjHeW3SOL1kN/z3j0NAESUhzLJgoXKcEYOCgUiQ+Z0H?=
+ =?us-ascii?Q?28m64G/N4E2kylVL+GaDeChy/Ro+G1DkYXTxxgQqzNi5spbWZvEg65Ha+lkk?=
+ =?us-ascii?Q?EkscFPo4hiWW/qPMzgksWlky64OtwAJ1cuGBStQHORo01GaBHp79iWkpFUYE?=
+ =?us-ascii?Q?Sb7E0ZKx/zBH9yDcWx4=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR10MB7522.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?uyxO2Xc8/YvjriwZ9fTGrCzISxpevd3HgNm1D+icOzzEBWK5gcfClBypYmMS?=
- =?us-ascii?Q?fY2pWWC2hHV47c7X5K9u1znjEiqQtFJUHDQ04Xhd1nnKgrQG5CXTUugUc5hm?=
- =?us-ascii?Q?V/vjsk+o9JOUiVrWa9mlf4aY4mPD6orOY4WXiRaFGqZ7F2kma+dHYDYRN8dg?=
- =?us-ascii?Q?M88owR2Dn3GfDQLfPP2Z2AinFpCGP58IShXepgRHU/qTUCpmiAMlL6XaBll0?=
- =?us-ascii?Q?zRCiGM+C0myG3V+x1NK+DjzT3YXGL1tSgfRvIemLEGLwrqfBbT0wRmpxpJnt?=
- =?us-ascii?Q?hfYsEjEETGymqd50mUsQ2WlmGzPvQhg2lQRTEAQyNdl2QDoW8YHw6TKzexD1?=
- =?us-ascii?Q?zpeFOGjRscEHvJlM7fXgVLC3h1+7h2i/LUq9YlDJMoP0pdA9Mq43OrW2Xg/h?=
- =?us-ascii?Q?PPbuZKVRlBY09sS22pHWJFygy3SvrLX5P2vCnslAXzMxBZcJ/iLPW364VJhU?=
- =?us-ascii?Q?gO8i6RqCcDEhp+38OjbDVW0TGbHXCfvX/4AvlJgfOHUrSP/fCTTOOlYxig4j?=
- =?us-ascii?Q?JDE+qjtZJYi4A9rT8YANB6NCUdEVe6H+ptLKAmKjeTThozjUMc8hzlycQc/C?=
- =?us-ascii?Q?rfZhzzm1q8Mm38Pzv4EYc9QLPSwnyMmEgXOzytbiRYtEueiuFgSJwDnPyg9s?=
- =?us-ascii?Q?cS6BJ+VYQ6ba5xxrCFdFc0m9oB2tImsCJjq6Ddv6106shMGSpZHRCx0utXOj?=
- =?us-ascii?Q?x1XPzvS6ARD874WFLLTgFbLUcnQ7EQI9SS3vm3fGBHYhEiDs7tvdWojPjNtg?=
- =?us-ascii?Q?hJgNJYj5bPnPqahnjib9/8pcca/1CLPlY88DfPYcnuHJfQGsDCyrz53/gt0N?=
- =?us-ascii?Q?kJiF6rBn5EgLl29n1mxOmP7/YZZYpN59wRNhJHqpIHs11Zp8QjFXzJP9hzRN?=
- =?us-ascii?Q?YE+3ZPi9XuJnQBg7etePOKdw5WJvmaIl81NOHGVJsY4MOqM2LVmi8oQajo3L?=
- =?us-ascii?Q?vHwbo3fQIToN7eH4ykCC+7geo5lR//68n8WD9kmWJheAuHnhe8yIV8HX8fQ7?=
- =?us-ascii?Q?+XgBl/izgpeRJK6jnF8+vJl2sSisq1xpL2bup/E1DW5RBreePPq8tN/Go3kp?=
- =?us-ascii?Q?eBdLcFTkVEcSC8ooI9P4rWNR4YX7jzGuIP+Jvj0k2kYh0h5Wg6Z1syEyp3Rp?=
- =?us-ascii?Q?JnvypMMSFz2cyZfoOPBuuEjDkPrISSHpG1TvRdPEjCGc6sGs/rhfwWh1aMCZ?=
- =?us-ascii?Q?YxBjh7tuhb4Js3c+GMlmOgpi1Yx6tuNrcRuj6Y/MFafDgTuAW97/jTqWctrv?=
- =?us-ascii?Q?lp8GYb61L9CpEQtyPu5LECJZv8FscwwV92ETd/0ZG17oPklM10IANmkF2yyc?=
- =?us-ascii?Q?9zISofk1U4DGOb6V2wUTpTznFhor6C4nehNF52Z+PTycq87q/6B35dHFlHGO?=
- =?us-ascii?Q?4HgPEBiAWhJGsxRNuRsn1MosoTFWvUU58cndmBzqr2mkwZfVN/eYBE+bw3We?=
- =?us-ascii?Q?ztlOwT/iuHgukfOnZ9sRy89mJ0JOEDgmpkKnBDHEZnbCcugWSvY7y9Zg1noG?=
- =?us-ascii?Q?SzZwMegRxJH+gvLOwPG6FB1yWLQ+rz4K3hyId/dFl/0QEv2VR9lkTFy9hoDl?=
- =?us-ascii?Q?Fw+n0X1sh7s6LYXnk8bWoE3xAYlqHOrRwdk//YlbLmlyytDWBarLoYM8G6b2?=
- =?us-ascii?Q?h9/x5nnD4rQ30CBnGj+KcilH5S+BjQlZN8Cb9pnlVF+ZXgdsyio08T3zxlpV?=
- =?us-ascii?Q?FibtdwYEtQ9FUjPyaWvJ6af8aa7vSWSnkRn8nVBgtmAxUMkKeQOqldCv+izr?=
- =?us-ascii?Q?Z6+imjRU9g=3D=3D?=
+	=?us-ascii?Q?Wx8sR67SFSqFI55Q5L6sWrbSd14lBIDvRURpiG4+AIPu48//+NEWKfp0yVvv?=
+ =?us-ascii?Q?kzCgwK4kxmsaI/QHsVhBDAgsVVlggYYq06qmh6sVYAsAMOWace/pkdFr5ouT?=
+ =?us-ascii?Q?YpX5WU6CC0iTn7OjPP+WgIqScAxVB7RweiOtXzR1q1GgUlQgpfGs7hshTh75?=
+ =?us-ascii?Q?PCnZWhOZEubl3heTAYB9RLmr+mK3lD2ZsbqkalrCuf7Z3H2pBevx6is4FiRM?=
+ =?us-ascii?Q?sa92Rlo7E1o0GIbIhdOzqok3d+nf7EbIA0xksvDG+5C850r3qRl4k4zAvGid?=
+ =?us-ascii?Q?Jq5y022DAbpRILcrGyYt75XKqMY3GswBSXHufl4SmC+S/y7kptCFCgQbmhe3?=
+ =?us-ascii?Q?YWb+6sBC6O/WlipK1Q01HooTsUFRpXYCWPJFyj7zFAa6iV3g9NKOOdaSKGsT?=
+ =?us-ascii?Q?MmIFWB6ZCXubKycFhxXsENPwKoRApEwB14TrpbVXiNH2OB1yJRRBPzfEq03T?=
+ =?us-ascii?Q?pP1xb/WbE/6+rKaegDCEUxIvPJ2xGhp4/VahbIJ9OrbNFrymTlQCz1RwYUbY?=
+ =?us-ascii?Q?Pqe1ZME41vr9Tng85mWSEkhO4yaLIgCmY+IdwehqmdkKWwUR3EcCQRRzX/0i?=
+ =?us-ascii?Q?0DoaM8ggVQFWWxpXUgtL6i2Af5zhSOoGIOLhhwod6EZLceTa+XM1lfrp7U5k?=
+ =?us-ascii?Q?0LSs2LFoibra26btbNSbxkvf7z0NLB6suikiQMx7hEt7UsNJZjFkzY66u86a?=
+ =?us-ascii?Q?LqXpSq2NRYWUpkqTc3V+U+x8SWxuODEl3mVzMzIkrb61Dq3G0X30el0cmKel?=
+ =?us-ascii?Q?0b/OJpmINcRvfBU4/u41m0/v2Qx94nAG/P4ddBGkuXmaU1tjNVGv8VgsymH+?=
+ =?us-ascii?Q?DAYXQcbCCCjIIgF/Tv25jPtMe82ali8OapwRqIdDnrqHsKL95SAC6xsZ81OU?=
+ =?us-ascii?Q?jagkBwu+XOKZA1hnGS1EOW0vXhfAgHYNdc5vUuw2uftED4s1qO2/Ip7vJdM6?=
+ =?us-ascii?Q?VQ3OG8pOpQJ5NxODENCcQbTn9rad4PypDoLQC/FAkelUNNfAXeYg8GwGVpcJ?=
+ =?us-ascii?Q?vucSXV8tbjauXB3u1StPZEGPSl91drBTCW9GckR5mFRmMy9UdKN7V2aTdhEE?=
+ =?us-ascii?Q?7Bgyas/wXlR4ha83tTm6+V1tBBG3lJKrnRF88qSh9Akq/0+ByQslb91N/jL3?=
+ =?us-ascii?Q?AtQqnb57KEZECWh1IJCTPY0+a0jOl/J907Uj36dfLFdalpMJ+f4TqswhF5YR?=
+ =?us-ascii?Q?vlpjoEL13BohCOyruH2bg39Mp9oE1E4tm/YQUpKY+OxrCTq7z7Dd31DNeAHz?=
+ =?us-ascii?Q?+P4dv+YaJR3sN6qvnFXpsusiTg4BDkLMmcrb77OLX0j6NcjO3eQv51Zu4WRh?=
+ =?us-ascii?Q?aO6T5iRPmSJH3Qp90qZDz0ZbzzBJlQb8Fzns7/O0mKVT/vnk/8j7jTDpaOrk?=
+ =?us-ascii?Q?a2q7BhOh/U+nc7dbOhyWpxFmmxNyCE3h3UApQQc2JCFR+qM0leWP7OSrwG1P?=
+ =?us-ascii?Q?McEpLEmQt2ooYivQnW9VK7P7EAXnJN44YghZCsgNjAwyAb5ML++rQEeEpip1?=
+ =?us-ascii?Q?qR9rDA58xOeixP9jIJq+bHtPyh+HuLQsIKUlrVybtrUndG7o5fBf6qmNuiN8?=
+ =?us-ascii?Q?iR8qw2ieIAXZxnmWx5DodRMdAFEmI2yZaKUtdrzOlSxFrg9YoUCjz2scrsJe?=
+ =?us-ascii?Q?bt9VAupTGD1j9sbUzYh5mnoY9YAjpHfwURDJ206tzFdcjoF8iCIIoxUjGLo2?=
+ =?us-ascii?Q?aRsv+dj0asw9H6CekMhnfT8Clp2f+6Y/ZfV1XYrc5jbn0wyYDXP8j7Ym3Ve8?=
+ =?us-ascii?Q?eTwB820IOSF9y2KxXfKxW+4coWznVxY=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	B3RZBGWObvNCcIzJD0X4CwC7FwyO9KaItpnJZKxrblFLSuLWw4ecfDQc05TYgYp+lmaE1cpCN2t8H3bbO+PU4XRslJqeqXgIMDFZbU+La6R7YphMR59oMwfNKOUwV4JCBzyQy9CbLIH87/1uLtFXoZIU6EoXVJm/N8HxxF5iIkXI2h85G9SSFKNX0IK/e7ARSLsuQ7p2rClRMOAYJP1UtORgMjIrtUYZL70zLOROxjYlt5kAYCVBscxUdmOtObfbke5oKVrlL+fPyGpQspty/F6JeDaPpoIV+vRMv/pmAHcjyY80976VxLTKFU24FzRL7Q0ULYqi4UYts69Rlq6wYZov9ihVAw41PwiKtXY7ESiIceRn3xA+V9vvjfgebhLnkDcYaMzna9i7SyZJGuJz9qV+P1iTE8JeSWBw5G+KrL2Qsp+q5YwcVckbx+kJSukBilT3/WaFkYzupge7kexHz+W4jZ+6vseQIxC9zgbuvpubU8TrxQ0hPz526Ip8ZCBOWXtKotis9Yad47Rz+1osIDtD13d+so/T8lg4cM6CIyDSyH67naIRHe7R+rC/Pk59aej8Y92XQnEbKrUbmGEZH1as88f+0+Ua2frik7VWODc=
+	YHun2QJ6wsd2u2++EMbJEFQCPE+XbIjn0viJsDeCl0Lr2dsX6EG2aeaydL0c+zCVNH2QHzuEEuIQ7XXjdJ610UzDUcQhaZtRVrSL4aHsPFow9xNOAcxQ/mdhr1aznb7SbAY3LtZT48hoe1IWpmtPHEdWOcoxYjttJ+qwnVBf1Yx8jsAvM1bNUcFJjyf/HDPT7PIfy3v3ylofVzwj7ONqARQLMmKls0nXd949NT3K4F9JmA90V8cpWw7+KQW8g3tXdfJZIhh+JFqbeA9685u6gRgx4VZWoG5q6tmccNDZ0WBgkzspQx740A521FSCGfiZesNrvqwEgg/PwQOQnvH6nX5N6/Ww6IVLwIDYvYF2ujU5DJP/l/3duLUFMvreww1LS/mU3ueF6TWu1us3vtSSgYgkfJANY96Vm214CaERcrSoPPhbRjju+ykyLBuKx/srk1TWPPO/os0BRCZc1gyJSjixj3KkE7rHH0nBK5G/Jq3V9g42R2f2cNqELowxHNKPL9ylcHdMw2Wpldzj8SfFFEM51EHwKQs+qNk0Os3xjLjkY5GJm1/OVE6xPjf1IXc1XTZPeC837LCnOGHC8Hq0Ewkt0BzJx38iwE/CYsh906U=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72fad01d-6b50-4098-977c-08de5548a278
+X-MS-Exchange-CrossTenant-Network-Message-Id: adb98edf-7024-4de4-a26d-08de554976ff
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR10MB7522.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 21:45:58.7010
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 21:51:55.2033
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TCRTSeLSX0h/Dl+WzNJ7hUYBzShr6EUjeCOmXt5fXGCUb5NzexihM8o4/+kAupm8hkURplwXeyebuSC/G8CURnI17W9edFaEazEPJAy9YyI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB7710
+X-MS-Exchange-CrossTenant-UserPrincipalName: H7PVzRKjoIUNlRYFmjyrMmx1owQ89X61hqdKpIr4VvqWfsx88xDQEP5zwZSYSuWiGdvGWS6HT1d7iMbSS9vDRT8Z8TPOHxhp4PHPuD/+EPw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB4373
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2026-01-16_08,2026-01-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 spamscore=0
- adultscore=0 mlxlogscore=999 suspectscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2601150000
- definitions=main-2601160164
-X-Proofpoint-GUID: gU63JFtiB-tBop8SCk5EvAb2mazI0aUu
-X-Proofpoint-ORIG-GUID: gU63JFtiB-tBop8SCk5EvAb2mazI0aUu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDE2NCBTYWx0ZWRfX8lGBkPsyEpiL
- 04/K84Zp5U+2jeqYlmpWcNv1Mayjo3+HTe9lEuyBOBGgMzdVU3Kxs+JJMAowNiIm8/8gwWA6X32
- 7YehgMv26exRwHN3Zk+uefKMYfejuKhWNXy3QmdHREGCBhApAAVwIT1z256kdTC3skhZqb4oK2x
- aMgNkwu+KYTCsh3QW6H1J7Amtrsf+5UcX3Mm8yS0SXA86U0Qup4IhK/qd6NBdJXdlPQxUFqvN4b
- eONJSpfG8MBQZJue0B8YdwgniQSiuuQEUBk/Fu4tMsdVIT+j8M6a4/FAwfWeCrnxCgDUVFbxxmw
- byZJ+fVQXbstfKzglB+Dl1V2ug0BuFOFP1TMDiujbiRpb7L4S5hx9eMsK4bxljktH8Si0BaHqj2
- 3qiQ/eJtIgBbWyG9HGcyecC2+/G72ddrv3x2ZtPVnFTLdRyUwdtolF4T3HXgdXp4a7GhmnfEb2o
- D+Pb7aCXBQfzpmSEFdw==
-X-Authority-Analysis: v=2.4 cv=Aa+83nXG c=1 sm=1 tr=0 ts=696ab1a4 b=1 cx=c_pps
- a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
+ phishscore=0 bulkscore=0 mlxscore=0 spamscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2601150000 definitions=main-2601160164
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDE2NSBTYWx0ZWRfX7lmtOU6h5qdP
+ d1/bP9LrZwT0cajPYI6BsnEWdU9rnGiZmIwIk4A2cukgsMFvN+FPwNh20zh4P43a0aOxiXdYCC8
+ t5yFoLILLXNIx6G6N7+opzr3bV/wWwkWBLkhIUMTuGpZ/tZtmZw4kULSxcBp3FJvKe1O2/qI8Wx
+ WR60dc5xY4ZXjZPBb1KwhBYIcle0746KPXCMmc/BZ/MFu2m/37HD0O8MXjNBQDpxnFBV2JNv2QX
+ /0T0EBxr6frfnTrYOHsgfRx1xcSWlzTBKlR9LTMQL5hPacxtouqOhj7maljluy9DWY2f5cNv6sX
+ e1z88e6AmqyJf/bY3cEGknv+4kL/HIF8xYOgpgWrsR1XFRI2EfROvlHBEEembZSHopoxrnt+3JB
+ Yvg7Ueo0e5d5OavHkpb58G9iY5JGrB5ajZk6bXQXU56/2qSMT4kQdXsy38VdyALe+g1mlYAVpmf
+ NgGcCcatSEeEiFm35CQ==
+X-Proofpoint-GUID: oB-taNkpmeDfI1G6Lb76Pc6aLQoefnKn
+X-Proofpoint-ORIG-GUID: oB-taNkpmeDfI1G6Lb76Pc6aLQoefnKn
+X-Authority-Analysis: v=2.4 cv=OJoqHCaB c=1 sm=1 tr=0 ts=696ab302 cx=c_pps
+ a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10
- a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8
- a=k9U2Ook-XkZQRppUD3UA:9 a=iv76wg4OxLMjXHVm:21
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=yPCof4ZbAAAA:8 a=TZ-BptfkB5O5dS1Um-gA:9 a=CjuIK1q_8ugA:10
 
-Various tests had a #!-invocation while still being expected to be used
-as scripts fed to dtrace.  Removed the #!-lines and marked the files
-non-executable.
+On Fri, Jan 16, 2026 at 04:14:32PM -0500, eugene.loh@oracle.com wrote:
+> From: Eugene Loh <eugene.loh@oracle.com>
+> 
+> Non-monetary grouping characters are used to separate groups of digits
+> in numbers that are not monetary values.  DTrace used to document
+> support for printf formatting, using a single quote, for such grouping.
+> Currently, support is largely implemented, but simply not working.
+> 
+> Add a setlocale() call to pick LC_NUMERIC up from environment variables.
+> 
+> Orabug: 30430270
+> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 
-Various tests that were meant to be invoked as standaline scripts had an
-absoolute path to dtrace in the #!-invocation which was not recognized.
-runtest.sh expects standalone D scripts to use '#!dtrace' so that the
-correct path to the dtrace executable being tested can be inserted.
-Corrected the tests, and ensured they are executable.
+Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
 
-Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
----
- test/demo/script/interp.d                                   | 4 ++--
- test/demo/script/tracewrite.d                               | 6 +++---
- test/demo/spec/specopen.d                                   | 6 +++---
- test/stress/fbtsafety/tst.vahole.d                          | 4 ++--
- test/unittest/lockstat/tst.lockstat-summary.d               | 0
- test/unittest/scripting/err.D_MACRO_UNDEF.invalidargs.d     | 4 ++--
- test/unittest/scripting/err.D_OP_LVAL.rdonly.d              | 4 ++--
- test/unittest/scripting/err.D_OP_WRITE.usepidmacro.d        | 4 ++--
- test/unittest/scripting/err.D_SYNTAX.concat.d               | 4 ++--
- test/unittest/scripting/err.D_SYNTAX.desc.d                 | 4 ++--
- test/unittest/scripting/err.D_SYNTAX.inval.d                | 4 ++--
- test/unittest/scripting/err.D_SYNTAX.pid.d                  | 4 ++--
- test/unittest/scripting/tst.arg0.d                          | 4 ++--
- test/unittest/scripting/tst.assign.d                        | 4 ++--
- test/unittest/scripting/tst.assign.r                        | 4 ----
- test/unittest/scripting/tst.basic.d                         | 4 ++--
- test/unittest/scripting/tst.pgid.d                          | 4 ++--
- test/unittest/scripting/tst.pgid.r                          | 6 +-----
- test/unittest/scripting/tst.pid.d                           | 4 ++--
- test/unittest/scripting/tst.pid.r                           | 6 +-----
- test/unittest/scripting/tst.quiet.d                         | 0
- test/unittest/scripting/tst.sid.d                           | 4 ++--
- test/unittest/scripting/tst.trace.d                         | 4 ++--
- .../speculation/err.D_ACT_SPEC.SpeculateWithBreakPoint.d    | 5 ++---
- .../speculation/err.D_ACT_SPEC.SpeculateWithBreakPoint.r    | 2 +-
- .../speculation/err.D_ACT_SPEC.SpeculateWithChill.d         | 5 ++---
- .../speculation/err.D_ACT_SPEC.SpeculateWithChill.r         | 2 +-
- .../speculation/err.D_ACT_SPEC.SpeculateWithCopyOut.d       | 5 ++---
- .../speculation/err.D_ACT_SPEC.SpeculateWithCopyOut.r       | 2 +-
- .../speculation/err.D_ACT_SPEC.SpeculateWithCopyOutStr.d    | 5 ++---
- .../speculation/err.D_ACT_SPEC.SpeculateWithCopyOutStr.r    | 2 +-
- .../speculation/err.D_ACT_SPEC.SpeculateWithPanic.d         | 5 ++---
- .../speculation/err.D_ACT_SPEC.SpeculateWithPanic.r         | 2 +-
- .../speculation/err.D_ACT_SPEC.SpeculateWithRaise.d         | 5 ++---
- .../speculation/err.D_ACT_SPEC.SpeculateWithRaise.r         | 2 +-
- .../unittest/speculation/err.D_ACT_SPEC.SpeculateWithStop.d | 5 ++---
- .../unittest/speculation/err.D_ACT_SPEC.SpeculateWithStop.r | 2 +-
- 37 files changed, 61 insertions(+), 80 deletions(-)
- mode change 100644 => 100755 test/demo/script/interp.d
- mode change 100644 => 100755 test/demo/script/tracewrite.d
- mode change 100644 => 100755 test/stress/fbtsafety/tst.vahole.d
- mode change 100755 => 100644 test/unittest/lockstat/tst.lockstat-summary.d
- mode change 100644 => 100755 test/unittest/scripting/err.D_MACRO_UNDEF.invalidargs.d
- mode change 100644 => 100755 test/unittest/scripting/err.D_OP_LVAL.rdonly.d
- mode change 100644 => 100755 test/unittest/scripting/err.D_OP_WRITE.usepidmacro.d
- mode change 100644 => 100755 test/unittest/scripting/err.D_SYNTAX.concat.d
- mode change 100644 => 100755 test/unittest/scripting/err.D_SYNTAX.desc.d
- mode change 100644 => 100755 test/unittest/scripting/err.D_SYNTAX.inval.d
- mode change 100644 => 100755 test/unittest/scripting/err.D_SYNTAX.pid.d
- mode change 100644 => 100755 test/unittest/scripting/tst.arg0.d
- mode change 100644 => 100755 test/unittest/scripting/tst.assign.d
- mode change 100644 => 100755 test/unittest/scripting/tst.basic.d
- mode change 100644 => 100755 test/unittest/scripting/tst.pgid.d
- mode change 100644 => 100755 test/unittest/scripting/tst.pid.d
- mode change 100644 => 100755 test/unittest/scripting/tst.quiet.d
- mode change 100644 => 100755 test/unittest/scripting/tst.sid.d
- mode change 100644 => 100755 test/unittest/scripting/tst.trace.d
-
-diff --git a/test/demo/script/interp.d b/test/demo/script/interp.d
-old mode 100644
-new mode 100755
-index be690b56..fba39e41
---- a/test/demo/script/interp.d
-+++ b/test/demo/script/interp.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -s
-+#!dtrace -s
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2005, 2021, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2005, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/demo/script/tracewrite.d b/test/demo/script/tracewrite.d
-old mode 100644
-new mode 100755
-index 0c139ead..f888ecd8
---- a/test/demo/script/tracewrite.d
-+++ b/test/demo/script/tracewrite.d
-@@ -1,13 +1,13 @@
--#!/usr/sbin/dtrace -s
-+#!dtrace -s
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2005, 2020, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2005, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
- 
--/* @@trigger: readwholedir */
-+/* @@runtest-opts: -c test/triggers/readwholedir */
- 
- syscall::write:entry
- /pid == $target/
-diff --git a/test/demo/spec/specopen.d b/test/demo/spec/specopen.d
-index e7dbc3b2..b3769789 100644
---- a/test/demo/spec/specopen.d
-+++ b/test/demo/spec/specopen.d
-@@ -1,12 +1,12 @@
--#!/usr/sbin/dtrace -Fs
--
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2005, 2024, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2005, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
- 
-+#pragma D option flowindent
-+
- syscall::openat:entry
- {
- 	/*
-diff --git a/test/stress/fbtsafety/tst.vahole.d b/test/stress/fbtsafety/tst.vahole.d
-old mode 100644
-new mode 100755
-index b918e663..732ae3ca
---- a/test/stress/fbtsafety/tst.vahole.d
-+++ b/test/stress/fbtsafety/tst.vahole.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -Cs
-+#!dtrace -Cs
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/lockstat/tst.lockstat-summary.d b/test/unittest/lockstat/tst.lockstat-summary.d
-old mode 100755
-new mode 100644
-diff --git a/test/unittest/scripting/err.D_MACRO_UNDEF.invalidargs.d b/test/unittest/scripting/err.D_MACRO_UNDEF.invalidargs.d
-old mode 100644
-new mode 100755
-index 45c37efe..6fcb4d54
---- a/test/unittest/scripting/err.D_MACRO_UNDEF.invalidargs.d
-+++ b/test/unittest/scripting/err.D_MACRO_UNDEF.invalidargs.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -qs
-+#!dtrace -qs
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/scripting/err.D_OP_LVAL.rdonly.d b/test/unittest/scripting/err.D_OP_LVAL.rdonly.d
-old mode 100644
-new mode 100755
-index b51e1160..866a7f32
---- a/test/unittest/scripting/err.D_OP_LVAL.rdonly.d
-+++ b/test/unittest/scripting/err.D_OP_LVAL.rdonly.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -qs
-+#!dtrace -qs
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/scripting/err.D_OP_WRITE.usepidmacro.d b/test/unittest/scripting/err.D_OP_WRITE.usepidmacro.d
-old mode 100644
-new mode 100755
-index a4880cca..9a9d1566
---- a/test/unittest/scripting/err.D_OP_WRITE.usepidmacro.d
-+++ b/test/unittest/scripting/err.D_OP_WRITE.usepidmacro.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -qs
-+#!dtrace -qs
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/scripting/err.D_SYNTAX.concat.d b/test/unittest/scripting/err.D_SYNTAX.concat.d
-old mode 100644
-new mode 100755
-index 8f7b210f..8d6e5f64
---- a/test/unittest/scripting/err.D_SYNTAX.concat.d
-+++ b/test/unittest/scripting/err.D_SYNTAX.concat.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -qs
-+#!dtrace -qs
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/scripting/err.D_SYNTAX.desc.d b/test/unittest/scripting/err.D_SYNTAX.desc.d
-old mode 100644
-new mode 100755
-index 34ae864c..e8ec7851
---- a/test/unittest/scripting/err.D_SYNTAX.desc.d
-+++ b/test/unittest/scripting/err.D_SYNTAX.desc.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -qs
-+#!dtrace -qs
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/scripting/err.D_SYNTAX.inval.d b/test/unittest/scripting/err.D_SYNTAX.inval.d
-old mode 100644
-new mode 100755
-index d3338cfd..d2ae68a6
---- a/test/unittest/scripting/err.D_SYNTAX.inval.d
-+++ b/test/unittest/scripting/err.D_SYNTAX.inval.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -qs
-+#!dtrace -qs
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/scripting/err.D_SYNTAX.pid.d b/test/unittest/scripting/err.D_SYNTAX.pid.d
-old mode 100644
-new mode 100755
-index 01044d6e..1f383dd7
---- a/test/unittest/scripting/err.D_SYNTAX.pid.d
-+++ b/test/unittest/scripting/err.D_SYNTAX.pid.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -qs
-+#!dtrace -qs
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/scripting/tst.arg0.d b/test/unittest/scripting/tst.arg0.d
-old mode 100644
-new mode 100755
-index 905fefb6..d2aa4345
---- a/test/unittest/scripting/tst.arg0.d
-+++ b/test/unittest/scripting/tst.arg0.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -s
-+#!dtrace -s
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2021, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/scripting/tst.assign.d b/test/unittest/scripting/tst.assign.d
-old mode 100644
-new mode 100755
-index 9bbd8e49..cde5d64c
---- a/test/unittest/scripting/tst.assign.d
-+++ b/test/unittest/scripting/tst.assign.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -qs
-+#!dtrace -qs
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2020, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/scripting/tst.assign.r b/test/unittest/scripting/tst.assign.r
-index 103e9945..8b137891 100644
---- a/test/unittest/scripting/tst.assign.r
-+++ b/test/unittest/scripting/tst.assign.r
-@@ -1,5 +1 @@
--                   FUNCTION:NAME
--                          :BEGIN 
- 
---- @@stderr --
--dtrace: script 'test/unittest/scripting/tst.assign.d' matched 1 probe
-diff --git a/test/unittest/scripting/tst.basic.d b/test/unittest/scripting/tst.basic.d
-old mode 100644
-new mode 100755
-index cd7b716a..792d6f06
---- a/test/unittest/scripting/tst.basic.d
-+++ b/test/unittest/scripting/tst.basic.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -s
-+#!dtrace -s
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2020, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/scripting/tst.pgid.d b/test/unittest/scripting/tst.pgid.d
-old mode 100644
-new mode 100755
-index 8d82f2bd..44ce7515
---- a/test/unittest/scripting/tst.pgid.d
-+++ b/test/unittest/scripting/tst.pgid.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -qs
-+#!dtrace -qs
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2020, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/scripting/tst.pgid.r b/test/unittest/scripting/tst.pgid.r
-index 6e512550..15f22b61 100644
---- a/test/unittest/scripting/tst.pgid.r
-+++ b/test/unittest/scripting/tst.pgid.r
-@@ -1,6 +1,2 @@
--                   FUNCTION:NAME
--                          :BEGIN The pgid is 
-+The pgid is 
- 
--
---- @@stderr --
--dtrace: script 'test/unittest/scripting/tst.pgid.d' matched  probe
-diff --git a/test/unittest/scripting/tst.pid.d b/test/unittest/scripting/tst.pid.d
-old mode 100644
-new mode 100755
-index 2d0499d7..70197c86
---- a/test/unittest/scripting/tst.pid.d
-+++ b/test/unittest/scripting/tst.pid.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -qs
-+#!dtrace -qs
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2020, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/scripting/tst.pid.r b/test/unittest/scripting/tst.pid.r
-index 9430557f..b8a74268 100644
---- a/test/unittest/scripting/tst.pid.r
-+++ b/test/unittest/scripting/tst.pid.r
-@@ -1,6 +1,2 @@
--                   FUNCTION:NAME
--                          :BEGIN The pid is 
-+The pid is 
- 
--
---- @@stderr --
--dtrace: script 'test/unittest/scripting/tst.pid.d' matched  probe
-diff --git a/test/unittest/scripting/tst.quiet.d b/test/unittest/scripting/tst.quiet.d
-old mode 100644
-new mode 100755
-diff --git a/test/unittest/scripting/tst.sid.d b/test/unittest/scripting/tst.sid.d
-old mode 100644
-new mode 100755
-index e4f1395c..670761d8
---- a/test/unittest/scripting/tst.sid.d
-+++ b/test/unittest/scripting/tst.sid.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -s
-+#!dtrace -s
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2020, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/scripting/tst.trace.d b/test/unittest/scripting/tst.trace.d
-old mode 100644
-new mode 100755
-index 148e5c60..f52b14ef
---- a/test/unittest/scripting/tst.trace.d
-+++ b/test/unittest/scripting/tst.trace.d
-@@ -1,8 +1,8 @@
--#!/usr/sbin/dtrace -s
-+#!dtrace -s
- 
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2021, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-diff --git a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithBreakPoint.d b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithBreakPoint.d
-index 50bbf177..044b5a95 100644
---- a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithBreakPoint.d
-+++ b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithBreakPoint.d
-@@ -1,7 +1,6 @@
--#!/usr/sbin/dtrace -ws
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2021, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-@@ -10,8 +9,8 @@
-  * ASSERTION: Destructive actions may never be speculative.
-  *
-  * SECTION: Speculative Tracing/Using a Speculation
-- * SECTION: dtrace(1M) Utility/ -w option
-  */
-+#pragma D option destructive
- #pragma D option quiet
- 
- BEGIN
-diff --git a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithBreakPoint.r b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithBreakPoint.r
-index 1590807c..206641c0 100644
---- a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithBreakPoint.r
-+++ b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithBreakPoint.r
-@@ -1,2 +1,2 @@
- -- @@stderr --
--dtrace: failed to compile script test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithBreakPoint.d: [D_ACT_SPEC] line 28: destructive actions may not follow speculate( )
-+dtrace: failed to compile script test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithBreakPoint.d: [D_ACT_SPEC] line 27: destructive actions may not follow speculate( )
-diff --git a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithChill.d b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithChill.d
-index 47e248d2..e02577d2 100644
---- a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithChill.d
-+++ b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithChill.d
-@@ -1,7 +1,6 @@
--#!/usr/sbin/dtrace -ws
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2021, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-@@ -10,8 +9,8 @@
-  * ASSERTION: Destructive actions may never be speculative.
-  *
-  * SECTION: Speculative Tracing/Using a Speculation
-- * SECTION: dtrace (1M) Utility/ -w option
-  */
-+#pragma D option destructive
- #pragma D option quiet
- 
- BEGIN
-diff --git a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithChill.r b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithChill.r
-index d01ab558..ab7c6ed9 100644
---- a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithChill.r
-+++ b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithChill.r
-@@ -1,2 +1,2 @@
- -- @@stderr --
--dtrace: failed to compile script test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithChill.d: [D_ACT_SPEC] line 28: destructive actions may not follow speculate( )
-+dtrace: failed to compile script test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithChill.d: [D_ACT_SPEC] line 27: destructive actions may not follow speculate( )
-diff --git a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOut.d b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOut.d
-index 14cc1d5c..dbb8f294 100644
---- a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOut.d
-+++ b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOut.d
-@@ -1,7 +1,6 @@
--#!/usr/sbin/dtrace -ws
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2021, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-@@ -10,8 +9,8 @@
-  * ASSERTION: Destructive actions may never be speculative.
-  *
-  * SECTION: Speculative Tracing/Using a Speculation
-- * SECTION: dtrace(1M) Utility/ -w option
-  */
-+#pragma D option destructive
- #pragma D option quiet
- 
- char a[2];
-diff --git a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOut.r b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOut.r
-index 89592786..f57aba47 100644
---- a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOut.r
-+++ b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOut.r
-@@ -1,2 +1,2 @@
- -- @@stderr --
--dtrace: failed to compile script test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOut.d: [D_ACT_SPEC] line 34: destructive actions may not follow speculate( )
-+dtrace: failed to compile script test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOut.d: [D_ACT_SPEC] line 33: destructive actions may not follow speculate( )
-diff --git a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOutStr.d b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOutStr.d
-index 43a41440..00f56e1d 100644
---- a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOutStr.d
-+++ b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOutStr.d
-@@ -1,7 +1,6 @@
--#!/usr/sbin/dtrace -ws
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2023, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-@@ -10,8 +9,8 @@
-  * ASSERTION: Destructive actions may never be speculative.
-  *
-  * SECTION: Speculative Tracing/Using a Speculation
-- * SECTION: dtrace(1M) Utility/ -w option
-  */
-+#pragma D option destructive
- #pragma D option quiet
- 
- string str;
-diff --git a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOutStr.r b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOutStr.r
-index 3bc21b18..da4038aa 100644
---- a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOutStr.r
-+++ b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOutStr.r
-@@ -1,2 +1,2 @@
- -- @@stderr --
--dtrace: failed to compile script test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOutStr.d: [D_ACT_SPEC] line 34: destructive actions may not follow speculate( )
-+dtrace: failed to compile script test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithCopyOutStr.d: [D_ACT_SPEC] line 33: destructive actions may not follow speculate( )
-diff --git a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithPanic.d b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithPanic.d
-index 80a3204d..9fb6a1e3 100644
---- a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithPanic.d
-+++ b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithPanic.d
-@@ -1,7 +1,6 @@
--#!/usr/sbin/dtrace -ws
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2021, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-@@ -10,8 +9,8 @@
-  * ASSERTION: Destructive actions may never be speculative.
-  *
-  * SECTION: Speculative Tracing/Using a Speculation
-- * SECTION: dtrace(1M) Utility/ -w option
-  */
-+#pragma D option destructive
- #pragma D option quiet
- 
- BEGIN
-diff --git a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithPanic.r b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithPanic.r
-index 3c120a03..7c15314d 100644
---- a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithPanic.r
-+++ b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithPanic.r
-@@ -1,2 +1,2 @@
- -- @@stderr --
--dtrace: failed to compile script test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithPanic.d: [D_ACT_SPEC] line 28: destructive actions may not follow speculate( )
-+dtrace: failed to compile script test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithPanic.d: [D_ACT_SPEC] line 27: destructive actions may not follow speculate( )
-diff --git a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithRaise.d b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithRaise.d
-index a8c1c4d4..c239bc7a 100644
---- a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithRaise.d
-+++ b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithRaise.d
-@@ -1,7 +1,6 @@
--#!/usr/sbin/dtrace -ws
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2021, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-@@ -10,8 +9,8 @@
-  * ASSERTION: Destructive actions may never be speculative.
-  *
-  * SECTION: Speculative Tracing/Using a Speculation
-- * SECTION: dtrace(1M) Utility/ -w option
-  */
-+#pragma D option destructive
- #pragma D option quiet
- 
- BEGIN
-diff --git a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithRaise.r b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithRaise.r
-index 136f5cde..6e85370a 100644
---- a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithRaise.r
-+++ b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithRaise.r
-@@ -1,2 +1,2 @@
- -- @@stderr --
--dtrace: failed to compile script test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithRaise.d: [D_ACT_SPEC] line 28: destructive actions may not follow speculate( )
-+dtrace: failed to compile script test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithRaise.d: [D_ACT_SPEC] line 27: destructive actions may not follow speculate( )
-diff --git a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithStop.d b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithStop.d
-index a0bca73d..dd20eac4 100644
---- a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithStop.d
-+++ b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithStop.d
-@@ -1,7 +1,6 @@
--#!/usr/sbin/dtrace -ws
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2006, 2021, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-@@ -10,8 +9,8 @@
-  * ASSERTION: Destructive actions may never be speculative.
-  *
-  * SECTION: Speculative Tracing/Using a Speculation
-- * SECTION: dtrace(1M) Utility/ -w option
-  */
-+#pragma D option destructive
- #pragma D option quiet
- 
- BEGIN
-diff --git a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithStop.r b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithStop.r
-index 8cdc6ba1..98725509 100644
---- a/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithStop.r
-+++ b/test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithStop.r
-@@ -1,2 +1,2 @@
- -- @@stderr --
--dtrace: failed to compile script test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithStop.d: [D_ACT_SPEC] line 28: destructive actions may not follow speculate( )
-+dtrace: failed to compile script test/unittest/speculation/err.D_ACT_SPEC.SpeculateWithStop.d: [D_ACT_SPEC] line 27: destructive actions may not follow speculate( )
--- 
-2.51.0
-
+> ---
+>  cmd/dtrace.c                                  |  5 +++-
+>  test/unittest/printf/tst.grouping-LC_ALL.r    |  5 ++++
+>  test/unittest/printf/tst.grouping-LC_ALL.sh   | 29 +++++++++++++++++++
+>  test/unittest/printf/tst.grouping-LC_ALL.x    | 13 +++++++++
+>  .../unittest/printf/tst.grouping-LC_NUMERIC.r |  5 ++++
+>  .../printf/tst.grouping-LC_NUMERIC.sh         | 29 +++++++++++++++++++
+>  .../unittest/printf/tst.grouping-LC_NUMERIC.x | 13 +++++++++
+>  7 files changed, 98 insertions(+), 1 deletion(-)
+>  create mode 100644 test/unittest/printf/tst.grouping-LC_ALL.r
+>  create mode 100755 test/unittest/printf/tst.grouping-LC_ALL.sh
+>  create mode 100755 test/unittest/printf/tst.grouping-LC_ALL.x
+>  create mode 100644 test/unittest/printf/tst.grouping-LC_NUMERIC.r
+>  create mode 100755 test/unittest/printf/tst.grouping-LC_NUMERIC.sh
+>  create mode 100755 test/unittest/printf/tst.grouping-LC_NUMERIC.x
+> 
+> diff --git a/cmd/dtrace.c b/cmd/dtrace.c
+> index baa73e9d7..6cd7aeadb 100644
+> --- a/cmd/dtrace.c
+> +++ b/cmd/dtrace.c
+> @@ -1,6 +1,6 @@
+>  /*
+>   * Oracle Linux DTrace.
+> - * Copyright (c) 2006, 2025, Oracle and/or its affiliates. All rights reserved.
+> + * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
+>   * Licensed under the Universal Permissive License v 1.0 as shown at
+>   * http://oss.oracle.com/licenses/upl.
+>   */
+> @@ -9,6 +9,7 @@
+>  #include <sys/stat.h>
+>  #include <sys/wait.h>
+>  #include <sys/compiler.h>
+> +#include <locale.h>
+>  
+>  #include <dtrace.h>
+>  #include <stdlib.h>
+> @@ -924,6 +925,8 @@ main(int argc, char *argv[])
+>  	pid_t pid;
+>  	struct dtrace_proc *proc;
+>  
+> +	setlocale(LC_NUMERIC, "");
+> +
+>  	g_ofp = stdout;
+>  
+>  	g_pname = basename(argv[0]);
+> diff --git a/test/unittest/printf/tst.grouping-LC_ALL.r b/test/unittest/printf/tst.grouping-LC_ALL.r
+> new file mode 100644
+> index 000000000..077a0b7f9
+> --- /dev/null
+> +++ b/test/unittest/printf/tst.grouping-LC_ALL.r
+> @@ -0,0 +1,5 @@
+> +123456789
+> +
+> +123,456,789
+> +
+> +success
+> diff --git a/test/unittest/printf/tst.grouping-LC_ALL.sh b/test/unittest/printf/tst.grouping-LC_ALL.sh
+> new file mode 100755
+> index 000000000..970dc3420
+> --- /dev/null
+> +++ b/test/unittest/printf/tst.grouping-LC_ALL.sh
+> @@ -0,0 +1,29 @@
+> +#!/bin/bash
+> +#
+> +# Oracle Linux DTrace.
+> +# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
+> +# Licensed under the Universal Permissive License v 1.0 as shown at
+> +# http://oss.oracle.com/licenses/upl.
+> +#
+> +
+> +dtrace=$1
+> +
+> +for mylocale in C en_US.utf8; do
+> +	export LC_ALL=$mylocale
+> +
+> +	$dtrace $dt_flags -qs /dev/stdin << EOF
+> +	BEGIN
+> +	{
+> +		printf("%'d\n", 123456789);
+> +		exit(0);
+> +	}
+> +EOF
+> +	if [ $? -ne 0 ]; then
+> +		echo ERROR: dtrace
+> +		locale
+> +		exit 1
+> +	fi
+> +done
+> +
+> +echo success
+> +exit 0
+> diff --git a/test/unittest/printf/tst.grouping-LC_ALL.x b/test/unittest/printf/tst.grouping-LC_ALL.x
+> new file mode 100755
+> index 000000000..c55a29a9a
+> --- /dev/null
+> +++ b/test/unittest/printf/tst.grouping-LC_ALL.x
+> @@ -0,0 +1,13 @@
+> +#!/bin/bash
+> +#
+> +# Oracle Linux DTrace.
+> +# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
+> +# Licensed under the Universal Permissive License v 1.0 as shown at
+> +# http://oss.oracle.com/licenses/upl.
+> +
+> +if locale -a | grep -q en_US.utf8 ; then
+> +	exit 0
+> +fi
+> +
+> +echo the en_US.utf8 locale was not found
+> +exit 2
+> diff --git a/test/unittest/printf/tst.grouping-LC_NUMERIC.r b/test/unittest/printf/tst.grouping-LC_NUMERIC.r
+> new file mode 100644
+> index 000000000..077a0b7f9
+> --- /dev/null
+> +++ b/test/unittest/printf/tst.grouping-LC_NUMERIC.r
+> @@ -0,0 +1,5 @@
+> +123456789
+> +
+> +123,456,789
+> +
+> +success
+> diff --git a/test/unittest/printf/tst.grouping-LC_NUMERIC.sh b/test/unittest/printf/tst.grouping-LC_NUMERIC.sh
+> new file mode 100755
+> index 000000000..1e95901fc
+> --- /dev/null
+> +++ b/test/unittest/printf/tst.grouping-LC_NUMERIC.sh
+> @@ -0,0 +1,29 @@
+> +#!/bin/bash
+> +#
+> +# Oracle Linux DTrace.
+> +# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
+> +# Licensed under the Universal Permissive License v 1.0 as shown at
+> +# http://oss.oracle.com/licenses/upl.
+> +#
+> +
+> +dtrace=$1
+> +
+> +for mylocale in C en_US.utf8; do
+> +	export LC_NUMERIC=$mylocale
+> +
+> +	$dtrace $dt_flags -qs /dev/stdin << EOF
+> +	BEGIN
+> +	{
+> +		printf("%'d\n", 123456789);
+> +		exit(0);
+> +	}
+> +EOF
+> +	if [ $? -ne 0 ]; then
+> +		echo ERROR: dtrace
+> +		locale
+> +		exit 1
+> +	fi
+> +done
+> +
+> +echo success
+> +exit 0
+> diff --git a/test/unittest/printf/tst.grouping-LC_NUMERIC.x b/test/unittest/printf/tst.grouping-LC_NUMERIC.x
+> new file mode 100755
+> index 000000000..c55a29a9a
+> --- /dev/null
+> +++ b/test/unittest/printf/tst.grouping-LC_NUMERIC.x
+> @@ -0,0 +1,13 @@
+> +#!/bin/bash
+> +#
+> +# Oracle Linux DTrace.
+> +# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
+> +# Licensed under the Universal Permissive License v 1.0 as shown at
+> +# http://oss.oracle.com/licenses/upl.
+> +
+> +if locale -a | grep -q en_US.utf8 ; then
+> +	exit 0
+> +fi
+> +
+> +echo the en_US.utf8 locale was not found
+> +exit 2
+> -- 
+> 2.47.3
+> 
