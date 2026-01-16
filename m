@@ -1,85 +1,78 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56B23093AD
-	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 23:04:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E4DB665
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 23:11:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768604646; cv=fail; b=DT8SrEFKqkNksYPjACy3ODl+lWcSknHAPOuF7zQARZepEBlI3awhnCln0SE1K4MlOSV/0+9uIIseKtNd9ZDxN40+TgkqyDN8vLiNE54rnpnJI8Da3OSlbCw5RgeoGIgd4kseGWbB9AsN73uth1+tIyI4pVDSmK60DDAieq2uvyo=
+	t=1768605067; cv=fail; b=nVc1sHQdO7gjGAlNXIwg5QOVIArJ2cNdToiWHwsAWafbmNlDxsFU4tjUsYYOQUMcohjltWCSy6r0ENooh8tRwRlQh1Qszb1ZeKlkxlZnWLTyRDBtXqXBEwGatPTmciVLejroAb6hdGe/jtOLPFO6Ezyb6JvSRA1cSQ6d7DJ/OM8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768604646; c=relaxed/simple;
-	bh=NU6wsZAkjd6IpwV/7S4qx+86vm7M0/LiIO4Y6eQRxKo=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=N/Njh1BVFjsbIlOb6aFy+zDCKOOFVzun0TZDKtU/CZOkSAoMHWsl+w4jLeub6QDbKUvEfr2ouavW9Iw4aJKX1dDNK4ZDDNE2AW76LzemBSGBEPumUCySLgVVKA4K2UZXoeOPmeqQjaJmYvKK/WCAB1YxpcDA3f6/Zs/jtTlPaNw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=RnD317B6; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=j1Qp26UR; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1768605067; c=relaxed/simple;
+	bh=dY3F9Gvkq3Nwqp8E6KEU9RIU1rl2uJD4HasMCWe+dNU=;
+	h=Date:From:To:Subject:Content-Type:Message-ID:MIME-Version; b=Y8OokRe8sdOClqkullsphZeQomEGvqGpJjN9T6P00LURBrh2rz8rMgxY3/2oj5iJWYVU1P3c6L+BXMTXzgRQTy+NG+8yplDZO2fYQ1tWSwLOyqcmf6ilNedPKYgCg2+tEbqUXXfDnNjSu0Mfea4cToQgRNtD2O7ZY7RxN8X2Zqg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=FiVCIHrH; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=cI+n4xNf; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="RnD317B6";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="j1Qp26UR"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="FiVCIHrH";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="cI+n4xNf"
 Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60GKWIfA3528508
-	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 23:04:04 GMT
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60GKWcrq3528727
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 23:11:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=SNYxBbUb3WujmcELeo83r4wxF3D1NmdAVajpwVB3/Kk=; b=
-	RnD317B6JOBOFOKpMAPssOhdblK+SahpZkHOuUVM0k9bEUwwNTI+LcxNScqeTePt
-	ECubdU2r1ug7n826rZRHxgm/QzOinMXXX1MBUY5PDX1c4Fotl+otKciW7n0zge29
-	nThxvIyH96XX/gXqMOzAGO9ZcI9LpPGJkOe9ev3/nZCSkPSolFhvONJhXWL3i3Fc
-	uUHeGwXvR+lNSiMHpHon2AvqWdKjA/VlVSfnprNjcxHE5jHi1HWTvKBCi4CBkRoA
-	quW8zP4Z6CrJCyDHvB0gnKCGazXopzGmGqxSslNFPpo/rrSwZYCN31PK7IvjE7Ti
-	kkDcDgqLyJIRUwUZhvmGjw==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bqvf005pn-1
+	content-type:date:from:message-id:mime-version:subject:to; s=
+	corp-2025-04-25; bh=eiGRUwLJJ65D9X/Ax6X7rkf4OC2V8TkmIGcIrR+fAcQ=; b=
+	FiVCIHrHJletdZn/UKI4pvuspjc0UhsbvCit4+q0p8UGKAo7kmtRQTKCpmvulKCl
+	4QKp0bEWDf2JJloaz7HiR+6IjCvzGQyE2tWSBSctGPCK5wpTAf/NV6i+p8TRPYrm
+	GctxDkwhDbmNpheQeoQx/uyf/tJH2DmRv2NTGst3km/RwdkKbuIRIaLqCRij0OCy
+	pr2bz4oCEW3lgKj5RDJ6NjwUDKAHPmijCxxH1Ftz4eB9EM8+WH7b2HT6SGuGx7HQ
+	SuKW5n0IFdnhlzqLQe4GjZgTges6UkGbNjW5xwIwtmm1NucSfvpo1BEGijNrruhK
+	/FuM4bDHciS0FbOVUZKAEA==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bqvf005uy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 23:04:03 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60GMmfWn012756
-	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 23:04:02 GMT
-Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012050.outbound.protection.outlook.com [40.107.200.50])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bqv7a4pnp-1
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 23:11:05 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60GKv1Af036593
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 23:11:04 GMT
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011020.outbound.protection.outlook.com [52.101.52.20])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bqvtjbnve-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 23:04:02 +0000
+	for <dtrace@lists.linux.dev>; Fri, 16 Jan 2026 23:11:04 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=E02t4HpCpf+x/pAY/3CHFYyMLqoKRlR7LQN1Tk4j4gK7Pgoln9p52VSPyt/CZx6PyZLv6quOh5v7/7kjs2OskEt0sUpwwcW+TPf6Ca6EbhL57vwCNFxFtZPv12gudcJqHwPQy5XVsSKqtrTAYobWDiR/6jaOsxjSfY6zraXuopkx7QLJWG+0NeTq2PorX7+khERRLQm4yYmYdvCbpVNS2LxkcgEC2c83i9cCzZu6u788bkHdRu2JMViAdeZXEffb/LPuBMWVL9wKJFdOqxZU+PRIIih201EXFj/XM/4Eehjb90O8yib+/C4iqT6oUYfWHKCEzq7xllq+FyjuEwmk/w==
+ b=HI/0RmrAcqY0CGrDX7SH6FteKH4vCb35w4qqe90Lz9RYtLR51iuJ/0wofSgqivWvkHQvLvK9K5+XF4WbogKR0XIxoCt+XVdpj+/FQndPMTzCqdOR/0yqZCCMkklxEP0I9sfI1rZYwd8UmCzepXaZ2EYYXs9SzuY+PgqgDcFVY/gi1m3pgKrVCWjGdfHFfbc8o1IyQSCKmH4HbBC1vzQ7NWl0cQ7d4bIJxa2sA3JV36qdKd6Eus2SJj0QZ5XLNN8bS3KUNeM7cma9VvehuVzPLDzJywuLcdzFtfnMXzY2fDj8y+rqxUK34XvQOhqTogDuF7LneAOZ2uGAl8XgCsi4JQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SNYxBbUb3WujmcELeo83r4wxF3D1NmdAVajpwVB3/Kk=;
- b=OGd7BGgH/CTNqfQ6Pks9cXSzC/NcJK7BuuWHdXKsNtPNQkN6Jmod07UfntA8oPt+EqLYgdYUul761xGdIG1vnmlJzGAIj4xrPKCUwgIpqLlMX4xBFNnmH4aVs5viA9HVwNTujXnbJl7m76Yqy4Sy+MFr9zJ2UeUEPO5DtbtSoteiHeUqjyn2HTnhU4FHOBTaxvSmhWJW4f067XjnHw3xqqkPTarmaL5mQ7o+Wd26sK1D/e+f5Ro6UdAxBhyNRPGpE43jMNkNgm0p9YoPsOYrHDm7Uq5P8+0lTfRq6EprJFno3u9dLCC0O1MA2CQL07rNX35tq9TBabs0LDVxCSX0xQ==
+ bh=eiGRUwLJJ65D9X/Ax6X7rkf4OC2V8TkmIGcIrR+fAcQ=;
+ b=TWLDdcGMn0+uLaxSdZ62fM0EnvaRMe1RDZbOxt1xvlaRqNa2hL1S8YRDrkBOx/+Flmb2LiZNjJhE5rKmYolDKg0zE6wsP+K6JHZYCvPyc5IfBzhXA0HNnJ1HkfKEcoFTumWORvQpXInG04fvnUUXa/HDdsMRyBjOR7VrmwGANUqldseR9X3KeroJOI38kBs1XjOStT/qbKqYcpW5UBNLFqzqUZ3WY1vxWvXRsfKimTIQhUUnH7m5EJ6lsXwFr4zAR5Eb0vfqsOGJMyazptCNDp3fbdqsVUW5LnDhG8sG8XKa3fvzoOH5klI3gmO9nAATJNu/0+HaAd2Ui/MOicRauw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SNYxBbUb3WujmcELeo83r4wxF3D1NmdAVajpwVB3/Kk=;
- b=j1Qp26URMvwKb2R4zROOXzYwVjV+bw8zCq8+GpklLKmo0dmTNlrR5V2DygSz2cbzMLzOU1hdPyJBi0Yvx5TnLQ+liqLS3O/VrDuzMrWFjpDtA5nmTXjvpcNP8loOrulPLSn/r0UzFwuKTG9TVGOFreThnhH4ht368cB5NcPqrxw=
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by MW4PR10MB6417.namprd10.prod.outlook.com (2603:10b6:303:1e9::9) with
+ bh=eiGRUwLJJ65D9X/Ax6X7rkf4OC2V8TkmIGcIrR+fAcQ=;
+ b=cI+n4xNf+po9lRyIyzW2y0vFYr/70LC8oL2MfWjJpERM4Jph5PWtD7iEuzivp0fVYH5mkyDYWxaU4ELR7M8BVovNApeZUXXpggoCUyQ6FjLbq3LxXZJccGIzWLhiqdjby/vk1me6U5vQ+ZBW2tGAHSHSZ25QPTd6mnN0JU1sD1o=
+Received: from DS0PR10MB7522.namprd10.prod.outlook.com (2603:10b6:8:15e::16)
+ by DS5PR10MB997752.namprd10.prod.outlook.com (2603:10b6:8:340::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.6; Fri, 16 Jan
- 2026 23:03:56 +0000
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::c47b:6cdc:87b1:aa6b]) by CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::c47b:6cdc:87b1:aa6b%6]) with mapi id 15.20.9520.006; Fri, 16 Jan 2026
- 23:03:56 +0000
-Message-ID: <4f2a00c7-adcb-50a3-8963-d97cc0122c2c@oracle.com>
-Date: Fri, 16 Jan 2026 18:03:52 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] spec: various fixes
-Content-Language: en-US
-To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev
-References: <DS0PR10MB752287C32D26FEB3EF6F32F8C28DA@DS0PR10MB7522.namprd10.prod.outlook.com>
-From: Eugene Loh <eugene.loh@oracle.com>
-In-Reply-To: <DS0PR10MB752287C32D26FEB3EF6F32F8C28DA@DS0PR10MB7522.namprd10.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PH8P223CA0028.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:510:2db::21) To CO6PR10MB5636.namprd10.prod.outlook.com
- (2603:10b6:303:14b::20)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Fri, 16 Jan
+ 2026 23:11:02 +0000
+Received: from DS0PR10MB7522.namprd10.prod.outlook.com
+ ([fe80::9668:955e:1688:ea7a]) by DS0PR10MB7522.namprd10.prod.outlook.com
+ ([fe80::9668:955e:1688:ea7a%6]) with mapi id 15.20.9520.005; Fri, 16 Jan 2026
+ 23:11:02 +0000
+Date: Fri, 16 Jan 2026 18:11:01 -0500
+From: Kris Van Hees <kris.van.hees@oracle.com>
+To: dtrace@lists.linux.dev
+Subject: [PATCH] test: expected results files should not be executable scripts
+Content-Type: text/plain
+X-ClientProxiedBy: BLAPR05CA0001.namprd05.prod.outlook.com
+ (2603:10b6:208:36e::6) To DS0PR10MB7522.namprd10.prod.outlook.com
+ (2603:10b6:8:15e::16)
+Message-ID:
+ <DS0PR10MB7522AE1AEEB271BE04A500FCC28DA@DS0PR10MB7522.namprd10.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -87,463 +80,202 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|MW4PR10MB6417:EE_
-X-MS-Office365-Filtering-Correlation-Id: 87b016b3-2ef7-4f5f-0158-08de555386b6
+X-MS-TrafficTypeDiagnostic: DS0PR10MB7522:EE_|DS5PR10MB997752:EE_
+X-MS-Office365-Filtering-Correlation-Id: 27785b1f-7b99-46f6-b2be-08de5554849d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TnFwUEhqQTROQ0xLbVIvdUFOTTdwWmNoODBXRzc1SkNBTGxDaFV4TVd0TTkw?=
- =?utf-8?B?cEhCYjU5Sk1lY3NWZkk4eDJEUy9rblIrcFI4MGRWdFFPNzhhVEYzNUl1VFJk?=
- =?utf-8?B?MnA4REcyaFdoK2hESTlQKzhjMHZzMVdPY0VsejRicHhSM3JsQ1ErU2xTaXp3?=
- =?utf-8?B?Q3RUdzFLdGkwOEF5K1BWKzRLN2hhZFgvV0JuR0FhaDRMbWU4RnViMlc5OVBJ?=
- =?utf-8?B?WVM5UTJnQzdyd3RFQ0NlZkFVc3JHQXM0SWlwMnNGSE55d1RyaTRkQVZSZURJ?=
- =?utf-8?B?aUNLekh6RjdPcmNXUEhRNHJuV2JzSkx5aXdQWWxxSFE2ZE9jaW5UUzhOVWtI?=
- =?utf-8?B?U3luL0pRdlN1ZDRmR0dHVk9OL1VjK1A2cXFmb1hHMlFDWkJySzdJbVZ2andW?=
- =?utf-8?B?TVVTa1JtQ1JDN2I0aXdMZDlEUUM3UXNGZHRkVFk5dWlQamRyZnBORnJqYlRT?=
- =?utf-8?B?K1lGTkNET0hDNWQ5c2ZkcEUxZUJabWdpWDdHeTdBRzRyU0xERHJHZHdhNTVl?=
- =?utf-8?B?QktwaFhNbUFzRXRwNkxsUEZVSHVBb0ZIVCtTakJDaXhLbGc5MDhwb0ZkMmZU?=
- =?utf-8?B?N04zNGJkeE92cVRlMDBLbWY2blhFYzE4VVNDbWtsWFFjSUNkV2hqZmU2L2lB?=
- =?utf-8?B?TytBanV1Sjhjczh3dTlWZTBjNFhqZktobTg4Y3JFVGVVbm13Q2lncUpIay8v?=
- =?utf-8?B?Z01lOWI2SHlqOTBNVkpORjFoQW5mRUpKSWtSbExUKzBadnh3WGtuRFE2UnV3?=
- =?utf-8?B?R2RuOTRPVFk5MTVwZE03NzNsdU1JbHVBUEN0NTd3Nm9Ic0ZWQ1lrbGExUTBB?=
- =?utf-8?B?aEVTZzRZa0s0b0ozUW5IV2hNanhEZzNHUDNRdmF6NGExaitHNzNUZU9zdzdv?=
- =?utf-8?B?eFRYWnp2dXEyNGF0THRTemFnWDZqTU56NXQ3Ly96ZUUrWmh6TVRUdDV3STAy?=
- =?utf-8?B?dUtjR0xFYnVXUkhObmVoS2QwVjFRdWY0My9nY3BsTlF3ZDBlKzZla3VIRTdX?=
- =?utf-8?B?eDNhQkpINVZuMlJoc3puM0M3SEI4T0dKQXdNdklLS1BESVcwekdpTUUySXNZ?=
- =?utf-8?B?WkRZMkRTWGd2Y0tyME9GN2h2TWQvQktBb0VlWktJb3VIT2V0c2pVSVgrd1NL?=
- =?utf-8?B?MlVaNG04NW14ck11R3NrcjRCZm9JS0xsclVJUVhxV3FCS21reTk4cHhRb3Fq?=
- =?utf-8?B?TFc0SDltNXNnbkt4eHlyWkJJSDRZZGhyUjVzMUs0R05xbUtJbEFmRk1jS0Vo?=
- =?utf-8?B?a3ZSN3VLMklBckhoSFR1UDRhRUx2amtSeW1MaDJGL2VYeGdEby9tYU5zcFRm?=
- =?utf-8?B?a1FpSUgyb3FxZzRKa1VFblI1TSttSllsWE5uWlBlWStPLy9oWUgrTnY2ZnhY?=
- =?utf-8?B?WjhsZnBGbGsxR0hYR05NL3M2bjMrSlA2azZ2RUo0ZW1YbmdBWDVQaEtjcUpF?=
- =?utf-8?B?TUtrSm1aNWpCbzdqMy9YSEFKNncrS3hGUFdrVWlsalg3MmlaQ0dYZHBlSEZt?=
- =?utf-8?B?Y1NlSGI4KzhIMk8rRlJYV3pyVXlLZTh6NndNVVIyMmxMYjNrYjhvUm0zMDNC?=
- =?utf-8?B?SVZGSXZ2VVlueTNZRmhZY2xCL3RKYzlKWWJGY3g5dXgyWlR3eWlSd1N2K21G?=
- =?utf-8?B?TzRCcmNLQ0pLNjFIZUhrQXpMVzVOT1VmVnJ3aTMra3hlbm1SQzBXK0dIRnZ2?=
- =?utf-8?B?WVJyb0FHK2phbGw2WUlaMGdBWDRlbUUvUVhzdi9WTDlyNDdhaVJHbytSK1lh?=
- =?utf-8?B?bXl3MEFGNE1xdnVJeWhYa0xSWm1YNy93a3hDWlV0SnpucnR4TWNscndyVFhx?=
- =?utf-8?B?dStwUkJhNWNBeHkvK2gwWnJ3MEV3RjZHNmdLSDRDMnBhMUFBdDJlMDVGTE1L?=
- =?utf-8?B?QmsxTXNwbU5lWTZlMFk1UnBJTjVqWDJ5UGk0aVlDTGNMeGUwSkZlWXhFUlla?=
- =?utf-8?B?RE9SeE53QVJudTRVaFBFN3VpYkd3UVc3WjRPbk1qUzlrM25QbnU4eGNZZVZo?=
- =?utf-8?B?R3RsNk52bVlNaGhwV3FwMzhjYWdvcytOSStiVnVUcW1SUHRpUlhBM3kwUkc5?=
- =?utf-8?B?UFRIOEpkSkp4a3N3Z3AxMjNqNkMzZVFJSjRySllQZ2VyN3N1bWV3bzVjYXQx?=
- =?utf-8?Q?Xww4=3D?=
+	=?us-ascii?Q?xLs0pfC7K54UttFloeNPWjAw9H/3WwqWkqVTBbmtrTCMhOUrZVE0TWyt6A45?=
+ =?us-ascii?Q?gaNWtbVY5mUBXZ1oly/uq3n6t4LeD/G6lU2VbViVWz7HRg8F9I1ULmMqcHdm?=
+ =?us-ascii?Q?yVkNa7jCefWKFSfAS5mt2PUAYub0Qbehg31zEqwMCJIg92qxPHWWGX2Dvd7m?=
+ =?us-ascii?Q?RlXD4SC2QZBDBdkBtv0a7XqLCQAj7Zj+KUlqS+eP1JID+PrERDcefUUyHWTp?=
+ =?us-ascii?Q?tEa4UnzyXyLt/FVBEcMMYI63HL63L+PRExGwre0Vn1eyd/L16vCC+zijDYbr?=
+ =?us-ascii?Q?0lIT40JyuaQxQ9cAlsJDZrXVthIv1pIbQTnWg3EAFruGCWOqD6vJnBYM4l/w?=
+ =?us-ascii?Q?Q9DeMoRfExGG1Qbk5U4NR2Jfc2cT/KCNIttsnY8fMXfGXn7MNvulMA6xPtuh?=
+ =?us-ascii?Q?GDaN8qpUAKoUB7anknWew8YWJMvdAzkMsfVmL1VftYGokkns9W3UZc+FGRuT?=
+ =?us-ascii?Q?oeFV/j2BCdIZjtdUFRYpQmteWNMVyVgG0qEw1L6bdktQvSxTSSTX+CbmNATn?=
+ =?us-ascii?Q?uz1dXG//PN6MA+fPrpZUE/CXmmQl38O5tPmYv9LMyxytvTJKnrbwHIc0HawT?=
+ =?us-ascii?Q?wy3VM0JhdYNhazqussJqdCB4FjA8lMPNdUDUcxUH4q+OSR0tu3C9WdyXrOQw?=
+ =?us-ascii?Q?zsl/RpODco9FntZmJz3kZmfdSD5TPbUy5MgKUBg61TvAVtgOwRKjx7c9bTAe?=
+ =?us-ascii?Q?az8taSGKogFeF77/JrMiUrDsxpMr77PvMq56bwE2YJDvaJ1d3Q3uqWKi+nfR?=
+ =?us-ascii?Q?7RC3xqtCOF1hlKCHMtJOyKHvdccxv+J8lqMIcNf3rJyCIt6JF3SPrK6coFPB?=
+ =?us-ascii?Q?xUFJnTHsvS5OKbm7x9dnyAEfkN60gfjevCaU3nQPkFZApj5/d6/0xmblKXyV?=
+ =?us-ascii?Q?Z+reFCm9MowH0nvHdSbnpNQGAleTJUn8Ekk6VCeWcxvK+ibIys0D7wi6bkdQ?=
+ =?us-ascii?Q?wiNDpswgHD0Nal1umvDOhwOBGnWPIRxEjqSS48chpja3FPM2OdIj5Y9xhCEc?=
+ =?us-ascii?Q?V96mivpRKRa4zjghfUaUzQCiDuatITnwnEt427Hy7dLjAUzj3P64DBp9A7Eq?=
+ =?us-ascii?Q?+knVvC62z5ayzdJ1S5Uz8UnISaDwxCaUvKtgA+LdQ+B4ll5kpFpvSflcGrVU?=
+ =?us-ascii?Q?dsArN10Be+RyiXPC4ykbgwOUVGQzzMfYhNGltUC02tsChNmO4xw/Q4esEWNS?=
+ =?us-ascii?Q?rgFSbkmJa1WND6Yi9Nf/RyAeFrP+igp9ClOz5OeeGIMXfVnUtS88KbaDTPef?=
+ =?us-ascii?Q?B984qg9PUbQ5BXD+atrLQA2o5L3d8+eqfj/vrwyUWZw/xFc55+ekXCQrM0XJ?=
+ =?us-ascii?Q?4YPYDPuWCiBormQRNmZkFr4+GEDHcmgoXTBy72C5i/n86AS6yVKHadGdCz5Y?=
+ =?us-ascii?Q?YCM2m8Q6mzwkMB7iLKJn7NRb7K9snocAS/3yDDGy2MI6+yK1vdfgL62RcuZf?=
+ =?us-ascii?Q?nzPUO+2rUH66NOg8hYnhWtcWGwPme1+cBOXmVe8lR2fA83GIMV13w8NakaKj?=
+ =?us-ascii?Q?BIZMas67pwglL8yk0WSrBCmZeQzgylkSJYJIv6p177kndx9UyKJHQL9Dx8L5?=
+ =?us-ascii?Q?L8h2EaCQYIV119zDiZI=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR10MB7522.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cE1IUDlLMEFBb2wwZXYzL3hOZFoxdDRseXIrMUU2eG0reW9FaUJqYTNQd1Yv?=
- =?utf-8?B?bmZtYnEyTnVpMm92TTdCS0xFbEM0aWNEdDdnRmlHVHRUaHBkZzBDWWFNTVJu?=
- =?utf-8?B?ZnN2Z2dYL0gzS2lIaS91cmJnRXVmSU13czJBM0Y3c0hjajQ1QUV2M0o3WnNh?=
- =?utf-8?B?YkRUdkhuUG5uNWRXNkRvSVl0KzYxd2hRSEwvbm5jcmhqVUR3bVZwc3UzQ2dE?=
- =?utf-8?B?UVZkN1ppNVRXQ2NTRjlTUkM1TkQ0Q1BXdFpOV1FncVZ6dVU0VDEreVpENTFN?=
- =?utf-8?B?NVNsMGtqSkkxVFcxbkp6SkJMdmpRZlpkZGptSGJPWFZCbTNMNzFnNmR3Vk0z?=
- =?utf-8?B?RVFGZS9NRWpQbGNBVlRIS3dQcUxjU05rQ04zOG5uMVVTVDNmSkhZS0tOQWVV?=
- =?utf-8?B?UUZFM0I2bDNnZ0kwQ2Q3TFMxWE1nYmdmcTZvVGxUK3V2ZDRkTGdKb3V2Y2R6?=
- =?utf-8?B?T3pBMlRQNE0yUUs5dW40WXJtdUxTU1NId05MMTFkcnIvM3o2SUdUbS9idUpF?=
- =?utf-8?B?dlpLTThBekZweTEybE9ENnBOUmNJUFBoczQ2c0I1N1JkMlJ0RzdRaGRNeC9n?=
- =?utf-8?B?clZ1V2diaU1hWi9oSWxCQUxDcGZSZEtTOXdkNE9TNE1venlHbFhudkJwQ0x5?=
- =?utf-8?B?dW5vbWpEYlRjZ0RuczFxU3pudTNNNkFscjllT0E3VUlKQS9VS29QVkNMbWd0?=
- =?utf-8?B?ZHhpQTh0SFBMc2VodTAxaXJEbFBDNkNlTnlETHplMDRiQmxHbUd4QlRMSVBm?=
- =?utf-8?B?ZWVyb2FUK0FMNDZMeUhPUVFaZHBqYytRdTN4Z3VwRmRSQWM3eG9JeHdUOFY5?=
- =?utf-8?B?SGppdnZpdFZ6VmVFYVNVR2kvQTJMYUNKMmM3UnlNV0wvbzJueGl0RlphOXVD?=
- =?utf-8?B?QVFBaUVHNVk0cGYwYlhrYUhScHhUMVZGeXU3ekRlbnZPUWw4TU9RQ2g4c0xB?=
- =?utf-8?B?TVRVMkFtZXFRM09URjBzdzROSFJYUDUxSDQyQ0xPWllOQktkRmVKZlJydXFD?=
- =?utf-8?B?NXRBWXlBVFdINGVKRUpNajlaVDdsbUJxT1pheGpHKzNIRzRzem4wUGpOcnJ3?=
- =?utf-8?B?ajVrcGdxT2NUK0FSTkNJbXhSKzdPNklBOHM5NjRVV1VIR0dQeEVKQXp3bUV6?=
- =?utf-8?B?aERJOWNaWDdGcXlSOVNwVGFoclZDMU8wcTBqa3ZQUUtmUEo1aGNUeTI1QVFt?=
- =?utf-8?B?UmhUR0ZXQ25ncm1PZElpd0pKWnVvdFFFMEo1MHZscEs0dGJCK3RERjNuc1Y0?=
- =?utf-8?B?Sml4L2lsaytTWUtwT3JJV0lEVjVyT3NZZWk1WE5lUTQvcHI5cUZnUDNMSXM5?=
- =?utf-8?B?MVowOUFGV3NDZ2tPSDlYSExHQ2ZTaTJjb3RudVJJcy8yZm4rVUN3RHRUMDdO?=
- =?utf-8?B?ZVd2NXBnSURSZjAzZURyeHZCTUlDd0krSFpGM1FETUF4OVdUR0t2aXBLRUJI?=
- =?utf-8?B?d3pDb0N5bnY4TzNna0NGeTlGMGFRWitEZ2tTajhwRGY3QlM4L3Fzajh3Uld0?=
- =?utf-8?B?QjJaQVczYzhWeC8zWnB1a2tiT2tkWmlxN2IyMjVCeUdJdjBYWmV2WE5GcTJB?=
- =?utf-8?B?OG5Vb3IyQit3R0IxcW5jSU02amNCMzBFUUJmYlJuQlBGamIvNXlkUFFKVm9U?=
- =?utf-8?B?aUxscjhHdWlXNGtlRWxxSG5qeWlsa2JSdzhVT2RPUkNFVzIxY0xIelBJRThk?=
- =?utf-8?B?Yyt1SWZrRWpySEZLWWIrUHh1OWRlTmROd2JVa2hjaXZ4ekUraXBxTEtZOXF3?=
- =?utf-8?B?dG5mVElPVlBVWUVqTHg1U3BFSjJxREV4R0h0Ui9Sdm9ZQXY5aFRhZXpSODFu?=
- =?utf-8?B?WVNySUVhdlhjYmFITEUxbHBOblNTL2hMMVhYS05EUTRTWmhBUVZXSTVUb3U5?=
- =?utf-8?B?ejZGTFpnQ2oxaVV5WGcwa2tQT0FzVzh2OVF4QVJTTFFzaFcwTnhhcmMvWllY?=
- =?utf-8?B?WUpNWitrTWNCdUMyVHlCcE1ROGtZQnUrQVZyYzlBL3ZUdW9Ec2hyODNKVEln?=
- =?utf-8?B?cGJvdUdYcW1LUFJDYVk4Z0kvb2kxRXR6TzVNL3BFNkxtaFE5ZHRWQm1SSlNk?=
- =?utf-8?B?QWh4MHhrQXBudnBBeXFoSDNNc2cxY2YzRnZlUHZBWkJnWHljVER6aXJIK3ZD?=
- =?utf-8?B?RWpLRzFueGpNc2NyUTcwcS8xNXZuTFE1Zk9ua2hHMDM2MXNRbnpJbFpSMlhi?=
- =?utf-8?B?bUkwT0g2c2pOdzRUdGh0WWkzWVZ4eWhreE9qRVVPcWtIbzZCTlI2RUtMdmdr?=
- =?utf-8?B?VzRZdEtqVXpXR0tvZU1uWDM0UXNlTDZwd0tHb0J1bWlqNE9kYWpGRkhjZVUy?=
- =?utf-8?B?SklQSUpFV1p5VGFmQmE3aEMvS2lhSXRraXlJYnhqOGxoSEVxNWliZz09?=
+	=?us-ascii?Q?70rABO7F+Zag5a7+hDdGOpQ4yx3ML1bueANIHoEv36CwBT8aOdVoUd24r2S2?=
+ =?us-ascii?Q?+KMkcuMBb1/G03BgTPw5pxQ2Uji+PVD7SRXbVM3KfJeIZ+1OzyttfF6xGWeH?=
+ =?us-ascii?Q?aJaRvUDuKcgtzomTWfF8u4k8jCdnwUki2z0WTUUL02MX84frP1V59/KTgFZJ?=
+ =?us-ascii?Q?I371ibzuIHARWgrAjM/OCZpW0KH2vrGBzFQH+yxsq4AFKnRRzli2pu/3vivs?=
+ =?us-ascii?Q?JxctGffWKQos8JKNLftC7zOhy5Sz69mF9PZMM4QnRdUHUMk/Mty0n/7LCrB7?=
+ =?us-ascii?Q?KPytnpeNi6sqRwqku6vcUEXFdiXoJ/TOKNOOt+QadAFlilBKNu9Hc/LCudjm?=
+ =?us-ascii?Q?lYSWCE2DlH5OC8xgOYgWyVZM9TC8c5TCFIVirjuVgj423MblGWJvOC6EQTJ5?=
+ =?us-ascii?Q?yXfKw9NvwxqCbCLqy6JW67gn/edgl83BghFc6Llu1aekXMRa9ff+DVPT6B59?=
+ =?us-ascii?Q?4CrTEH60OzLQt7ThrHo2nTRbv3J6inBdEYyQh/diwyjRYkb5HR6hbyiDG0At?=
+ =?us-ascii?Q?+x9pyhyasMzYe6xfsJzjMgSNKgHAyY++tQJEtaIKhGRRHVCOGHexcO34S1iP?=
+ =?us-ascii?Q?1Gui5kqzyO9UTRHKON9v3L1ZdxPg+eZ7cKNiPUb+W8ir83FBR4iE2W+U3S4w?=
+ =?us-ascii?Q?K02my3G64NdfzJxkDtDJIMGWCRWDk0WnzoB0YOOYx2zk1LM4avbA8RdNKF4r?=
+ =?us-ascii?Q?WRCz9HqdYUZAAMwAcndmcdp8PEckMGmrmJIMmmyN7lgx/imUVmgAhLmE+1C2?=
+ =?us-ascii?Q?KrEP40HIz1KNEiOEeL3tWXozJtOc9Yefqt6nP0HUdSFARnyXGMOp5UgcYEB4?=
+ =?us-ascii?Q?U4tRVZziZq/A1E6XtKkfs9SdF7KbNA/vKfHWPYpPzqgSFhiZ7ZsKYA4YXmRn?=
+ =?us-ascii?Q?4HOHe1rhXxUciFOVNpFsoJYX2wlJb/1MrPrzSLhbAv78ox5BKQCg8AprZZPI?=
+ =?us-ascii?Q?qh2O5PFdH1sY+jP8zwzhzyx0o+JikowFAhOWKJOLUAiZX36VVQbSnhGN++/M?=
+ =?us-ascii?Q?yVvY/hst+M+NfYamEaJM/WUad7TB3qGNt8aih7EyGTI4deJ/cgmBwfhp5zuf?=
+ =?us-ascii?Q?W+nI2JI9vKFRH47jU/n2vkuLRu2EmRhWAUIGFj/sx8CU4lbZmDYZ6xaLhiJw?=
+ =?us-ascii?Q?Lh6A88P96l/1RGJWyMB6LLlMMXsJKIGcBQg/WQKm+DfIorsDaRI3rwn2imtt?=
+ =?us-ascii?Q?YKYa8rajoVG5MR5MWAwcnelFDTsS70vDbHJyc9u5zhUEUfFMxslh9nNA7L6k?=
+ =?us-ascii?Q?AtX/l+hMCi0fhm853jmtSy24kClju1WxMNy9CciAySClwiXQ/5Vjo5hb/NIc?=
+ =?us-ascii?Q?TvF2u3XzOeqFKKFzvWR8dL474mBlh3EilipKZ/Q+7Gid6mMSnes1pa6co/Xs?=
+ =?us-ascii?Q?b6TMJ0w/W39pEp08C5fyegqocivHz18TXhXkuAftyAeCyrHvyLaT33umCApL?=
+ =?us-ascii?Q?mUSIV2NLZU4Vdl98uHlpqD1zxiq2Oiaaq/IJ8L5WEzLNcW8LiyvqKvzae/rT?=
+ =?us-ascii?Q?ssYuWN1Zm+DS5qRIZQJ0Exzwk22/nssDV2/F0gMN5Lx1jfLVLrdv58Wn5v/z?=
+ =?us-ascii?Q?Khipkb1noVYL/+/4XFhnVGuDk7hR7z/CkF1715oQj2iu82qdmSrFtPxdsL4S?=
+ =?us-ascii?Q?BWaFLk170O4zAv4fVkbnDK+s9kjjS6VNv25e52Z4hGDjZtHl+TkzYFNcF3A7?=
+ =?us-ascii?Q?WNR1/UWgJUoMKyf+Q7tT+XcNaZ/qGunJ1iiXT2T83sNZd2JWLq5SfJzmXBI4?=
+ =?us-ascii?Q?wQn3/Dj5w/9CGLfG0ZGIVoRbxHdgNf8=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	9+/qm1iZs7Z0Ln6Ch9H3tkDNgvzTFSp9rcxXitfdDYV7HmnpERr+EDAYWXNu3HVkNpH2js+ATNKluKhB/W3eF36xURMLSdoIkKgXKuHaxJca9JGSJ59njHKiueDIialFkgeoEmft89rocT0o7Z/SMGbJHITOEqLWWSvP8wfU5+AtYDhKelxXn5mejOJABYLiwHU/VYUGUd/V1r6JGq0DMT7wjzbsdIOpvZtDxrJGbvUcsqh35vPX0RUT6wAvR8S2YUmoNBIO51HyabJ1kPJGsT1DgH6VECat+DIIlLDuW5QRyTRJ3RnN1sXKUyUNSOZhcEbndBCQIMbNu5OsVBID39kjgnD3KiDO+1iLoPgQNBkjv3VHiSaw/7qOUVlfZAeq77J+F5BLSvBWSf6cViw6pnD2D6Tg6YI/rO1Vo1+hDBzIgF3OvnnHm6+TNMK3Nq0AWqV0WcpFNzySiDpo5Olr1XvM2RZnG5M4r3KUWmrpIZ9qHPP5mzqjLeyR2MeFXBASGMAn8a3dzOeRt/+itmeuaXH2V0qBJFA8KIjXfVeQROd1ZaHN0g/E1/BAyU3k7EtuPGc0jaoYNa+qqlXpMw7YIkkfj4C5uk5PIC7TznjH6iA=
+	LTukr6whFQ4hPxoW9vGdvDaWKyU0uG26dVlSSCVfNy9IBXur3YoBkF3IFfz3VN/hp9g4GYNyBTCBr575cozeadENuVwG152QBW+bUAOJxGejGuhje+aWelPfDJm51CZ4lOrWGZMbHlZI2WGHXQ2UIiBzhFgNVpHzs6J0tdAeytUUHco9YISxU/DqkkYs6/Otx+Ro+2Ea1hU/uXLTsBknP/bUkIKvr5RrHQn3HqX7SVa5EGDGt36aAnfFkJew3ZRN4RLt9hE/Q9C71G6yfkp/E2C/9zNNcPos3c9XAkSF4c5A4p3EHXXbQw9/lOroOkROtUwsPmDcAUEqkO0bcn8ymAxxAtyf2RnRnYTzmcdLCpSUscN3PDFNy7B5C1BU4lpiYq1wxZ20wH1KaUN17Lal17L5hU3WjKA4ew8yPqI3MEm4PvCh5Qg70EdRcKBg0mTLSqjAFNoxK4Cfet7w+ZEwHEYmoIHPisdBNw8+ROxpj4OKuk2kKPspeFtO5J0W14p4yT2E/s0ix20fJLYdzrPUEd/oWd9tWDd968K2V/l2QvCWQE73E4MHZD1Iz9ENQgaYBkvwCpRN0WJw6w4u9evQ1fbzMGUBKSSzx69Gbi30sLA=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87b016b3-2ef7-4f5f-0158-08de555386b6
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 27785b1f-7b99-46f6-b2be-08de5554849d
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR10MB7522.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 23:03:56.5536
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 23:11:02.5299
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pCBFSWsgbhT249nnrxk/iaOkJ45ISdcjLt0iMnrAcGynKcP2VzbJeayaJQRU1U8VgE0J2FwLUzhcx9Tx0clhXg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB6417
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3bimYQkakFle0vESXm+XPfzfkKWJ1jVhRZPKdOs/G5+rChSB/aw5jhUcDgiFxAmlOKm8uTVtj/MQrrG2QuKW6b2rpzH/aBhFNy2xDU/aZZ0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PR10MB997752
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2026-01-16_08,2026-01-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999
- malwarescore=0 spamscore=0 adultscore=0 mlxscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2601150000 definitions=main-2601160173
-X-Authority-Analysis: v=2.4 cv=AJKKJ3lP c=1 sm=1 tr=0 ts=696ac3e3 b=1 cx=c_pps
- a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 adultscore=0
+ malwarescore=0 phishscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2601150000
+ definitions=main-2601160173
+X-Authority-Analysis: v=2.4 cv=AJKKJ3lP c=1 sm=1 tr=0 ts=696ac589 b=1 cx=c_pps
+ a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=yPCof4ZbAAAA:8 a=9CPj241U2dBcJ7DSbn8A:9 a=QEXdDO2ut3YA:10 cc=ntf
- awl=host:12110
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDE3MyBTYWx0ZWRfX/2R0t84bMwmw
- Waq227cy+g7b7/4ygpg0FWCe1U1csjCKq3bqtqpxm5MyHR03Pw60F2MyVXNh0U1+5n/yaBo2KjE
- sY7WSlWyeHFNe9egfoHQC5wsS4wrL7ItzHUKEdM9s1aeAeihYNpRvovlDZsyyxbr+kTwRgnwdxF
- RQ9FCTGw2RmBWNFF9bW4zcsfEficQHn1I5qszzJpnjfnwKtiEUHvqRp3aOWoeXdeGEKgOBkLo9x
- Gm1bHkYcyFovYPK1v6fOagkKnrH7N42wjzsm9hIxzqA0b7svSvlLI97+B/o/XYf+U5dFFx89JC/
- 3loFzDOETy9hGUinCE/MmDf6MeUEQor4YF1e+KF4ARZLko64Vjx65/LNOa5MHcGEe/Pp3r+wJgD
- JSg1kVCyCviqWgcdqvFnxaK1X6W119I4XBGLq+Oay7g9bcEtDF9FK1zF/2WfwVvr9dmgZIQVD/c
- +k6HBn9i3poUw73hJZSyMfL6x/fOYFKXXepY16Ks=
-X-Proofpoint-ORIG-GUID: iRwMLLHRwlvW_rLVJnE64680rqfvKI0T
-X-Proofpoint-GUID: iRwMLLHRwlvW_rLVJnE64680rqfvKI0T
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10
+ a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8
+ a=Q5fRQ3yqeweb3U8okS0A:9 cc=ntf awl=host:13654
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDE3NCBTYWx0ZWRfX/7gkjBWeUIK4
+ fWlteMX1jnriSRQoYqKxrX+zhYccyqHyH3JpTvuoVa21z2QZ43LPIleAV0ARn3W6/HJ7j4i6MQM
+ iSWKUiLKC5F0FZ9+zvq8NBnEteFM9D29E86f6ACXZ8bOqU7CgEKR0MOa6EVaqWekU70b5muFAXJ
+ MgTEhkcLaz1gp+ophTP1aia13aKVfR+4EkDkqdVx+h78EOeBOl7CEWJMksJH2IfRp5cPM5mRzwn
+ 4Jqxe5+yWFRw0jiFP1FHs2Ccc/mm8M1R8Kw9sonr7QQXC5wGu7v6mOZ2JHUOT9QJUIv1j72kzh8
+ ukItmgF/NoRKw/3AV7HsYY9LLPEPcfCK0++p9dh0FLILytnGRNCIRGRWxbbF8j5xeyHckd83ddO
+ HYqCgixl71+ihsdeP3Z+fvmRMFPygC7uwrHqAozreoTvZYfjsk6lopyW/dT/OAuibEt28edXz2D
+ EWRM11MVNoembpnxvVLf711XLY9GgXxODLoQeWvE=
+X-Proofpoint-ORIG-GUID: pMrISFJFg1uksVIpUY5yPImuLsdnLCwT
+X-Proofpoint-GUID: pMrISFJFg1uksVIpUY5yPImuLsdnLCwT
 
-Reviewed-by: Eugene Loh <eugene.loh@oracle.com>
+Tthese tests generated a bash or perl script as output, but given that
+the associated .r files are not meant ot be executable, do not emit a
+that looks like a script is not executable.
 
-On 1/16/26 17:47, Kris Van Hees wrote:
-> Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
-> ---
->   dtrace.spec | 96 ++++++++++++++++++++++++++---------------------------
->   1 file changed, 48 insertions(+), 48 deletions(-)
->
-> diff --git a/dtrace.spec b/dtrace.spec
-> index 4b20dc40..d8c3e9b3 100644
-> --- a/dtrace.spec
-> +++ b/dtrace.spec
-> @@ -588,7 +588,7 @@ systemctl start dtprobed || :
->   * Tue Jul 30 2019 Kris van Hees <kris.van.hees@oracle.com> - 2.0.0-0.1
->   - DTrace implementation based on BPF (initial portions).
->   
-> -* Fri Aug 10 2018 - <nick.alcock@oracle.com> - 1.1.0-0.1
-> +* Fri Aug 10 2018 Nick Alcock <nick.alcock@oracle.com> - 1.1.0-0.1
->   - Add more DTRACE_PROBE definitions to sdt.h, for SystemTap
->     compatibility, and test them (Tomas Jedlicka) [Orabug: 27721525]
->   - Fix disassembler coredump (Tomas Jedlicka) [Orabug: 28054399]
-> @@ -615,19 +615,19 @@ systemctl start dtprobed || :
->     [Orabug: 28142056]
->   - Clean up compiler warnings (Eugene Loh) [Orabug: 27934422, 27998779]
->   
-> -* Thu May 10 2018 - <nick.alcock@oracle.com> - 1.0.2-1
-> +* Thu May 10 2018 Nick Alcock <nick.alcock@oracle.com> - 1.0.2-1
->   - Testsuite fixes [Orabug: 27995907]
->   
-> -* Fri Apr 27 2018 - <nick.alcock@oracle.com> - 1.0.1-1
-> +* Fri Apr 27 2018 Nick Alcock <nick.alcock@oracle.com> - 1.0.1-1
->   - ARM64 USDT and pid probe support (Kris Van Hees) [Orabug: 27847969]
->   - Fix -c option on ARM64 (Kris Van Hees) [Orabug: 27847946]
->   - Disable pid provider tests on UEK4.
->   - Testsuite fixes [Orabug: 27921244, 27919918]
->   
-> -* Thu Mar 29 2018 - <tomas.jedlicka@oracle.com> - 1.0.0-10
-> +* Thu Mar 29 2018 Tomas Jedlicka <tomas.jedlicka@oracle.com> - 1.0.0-10
->   - Enabled tst.default.d in smoketests.
->   
-> -* Tue Mar 27 2018 - <tomas.jedlicka@oracle.com> - 1.0.0-9
-> +* Tue Mar 27 2018 Tomas Jedlicka <tomas.jedlicka@oracle.com> - 1.0.0-9
->   - Updated translators to match new kernel redesign of per-task and
->     per-process data. [Orabug: 27731759]
->   - Enhanced build system to support multiple kernels [Orabug: 27731756]
-> @@ -635,7 +635,7 @@ systemctl start dtprobed || :
->   - Adjusted the interpretation of /proc/kallmodsyms for aarch64
->     (Eugene Loh) [Orabug: 27214992]
->   
-> -* Thu Mar  8 2018 - <nick.alcock@oracle.com> - 1.0.0-8
-> +* Thu Mar  8 2018 Nick Alcock <nick.alcock@oracle.com> - 1.0.0-8
->   - Change dtrace_proc_*() public interfaces to take a struct dtrace_proc,
->     avoiding lifecycle issues that can cause access to freed memory when
->     victims are exec()ing rapidly [Orabug: 27501199]
-> @@ -651,37 +651,37 @@ systemctl start dtprobed || :
->   - Consider erratically failing tests in some directories to be passes
->   - Test fixes [Orabug: 27583002, 27651838]
->   
-> -* Fri Feb 16 2018 - <nick.alcock@oracle.com> - 1.0.0-7
-> +* Fri Feb 16 2018 Nick Alcock <nick.alcock@oracle.com> - 1.0.0-7
->   - Internal development release.
->   - Several latent porting bugs fixed (Kris Van Hees)
->   - Make tests used in smoke testsuite rely on sdt less
->     (Kris Van Hees)
->   
-> -* Tue Jan 30 2018 - <nick.alcock@oracle.com> - 1.0.0-6
-> +* Tue Jan 30 2018 Nick Alcock <nick.alcock@oracle.com> - 1.0.0-6
->   - Internal development release.
->   - ARM64 support [Orabug: 27438960, 27438993, 27438977]
->   - Include correct procfs.h (Tomas Jedlicka) [Orabug: 27266725]
->   
-> -* Thu Jan 18 2018 - <nick.alcock@oracle.com> - 1.0.0-5
-> +* Thu Jan 18 2018 Nick Alcock <nick.alcock@oracle.com> - 1.0.0-5
->   - Internal development release.
->   - Bring back translators for 4.14.
->   
-> -* Fri Jan 12 2018 - <nick.alcock@oracle.com> - 1.0.0-4
-> +* Fri Jan 12 2018 Nick Alcock <nick.alcock@oracle.com> - 1.0.0-4
->   - Internal development release.
->   - Eliminate new symbol at address 0 on KPTI-enabled kernels
->     [Orabug: 27364377]
->   - Boost some test timeouts
->   
-> -* Fri Jan  5 2018 - <nick.alcock@oracle.com> - 1.0.0-3
-> +* Fri Jan  5 2018 Nick Alcock <nick.alcock@oracle.com> - 1.0.0-3
->   - Internal development release.
->   - New tests and test fixes (Kris Van Hees, Nicolas Droux)
->     [Orabug: 27194352, 27282243]
->   
-> -* Fri Dec 15 2017 - <nick.alcock@oracle.com> - 1.0.0-2
-> +* Fri Dec 15 2017 Nick Alcock <nick.alcock@oracle.com> - 1.0.0-2
->   - Internal development release.
->   - Fix rare assertion failures at exit [Orabug: 26848964]
->   
-> -* Thu Nov 30 2017 - <nick.alcock@oracle.com> - 1.0.0-1
-> +* Thu Nov 30 2017 Nick Alcock <nick.alcock@oracle.com> - 1.0.0-1
->   - Release for smoketesters, not GA
->   - Fix mod() normalization: add test for it (Tomas Jedlicka, Eugene Loh)
->     [Orabug: 26826564]
-> @@ -698,16 +698,16 @@ systemctl start dtprobed || :
->   - New tests for the lockstat provider and fixes to jstack and 3-arg
->     tracemem tests (Eugene Loh, Alan Maguire) [Orabug: 26149894, 27015838]
->   
-> -* Mon Oct 16 2017 - <nick.alcock@oracle.com> - 0.6.2-3
-> +* Mon Oct 16 2017 Nick Alcock <nick.alcock@oracle.com> - 0.6.2-3
->   - Apply correct version of lockstat patch [Orabug: 26149894]
->   
-> -* Mon Oct 16 2017 - <nick.alcock@oracle.com> - 0.6.2-2
-> +* Mon Oct 16 2017 Nick Alcock <nick.alcock@oracle.com> - 0.6.2-2
->   - Add lockstat provider [Orabug: 26149894] (Alan Maguire)
->   - Add missing obsolete of dtrace-modules-provider-headers (Tomas Jedlicka)
->     [Orabug: 26883486]
->   - Add missing testsuite NFS dependency (Tomas Jedlicka) [Orabug: 26860985]
->   
-> -* Thu Sep 21 2017 - <nick.alcock@oracle.com> - 0.6.2-1
-> +* Thu Sep 21 2017 Nick Alcock <nick.alcock@oracle.com> - 0.6.2-1
->   - Internal development release.
->   - Fix segfault at shutdown time if grabbed processes die at
->     precisely the wrong time [Orabug: 26528776]
-> @@ -727,14 +727,14 @@ systemctl start dtprobed || :
->   - Testsuite fixes and new tests for inet_*() and lquantize
->     (Eugene Loh, Alan Maguire, Nick Alcock)
->   
-> -* Wed Sep 13 2017 - <nick.alcock@oracle.com> - 0.6.1-3
-> +* Wed Sep 13 2017 Nick Alcock <nick.alcock@oracle.com> - 0.6.1-3
->   - Relicense all of userspace, including the testsuite, to UPL.
->   - Merge NEWS from the modules into NEWS for userspace: there is
->     only one NEWS now.
->   - Test fixes (Tomas Jedlicka, Nick Alcock) [Orabug: 26522961]
->   - make check-quick support, skipping long-running tests
->   
-> -* Fri Jul 14 2017 - <tomas.jedlicka@oracle.com> - 0.6.1-2
-> +* Fri Jul 14 2017 Tomas Jedlicka <tomas.jedlicka@oracle.com> - 0.6.1-2
->   - Internal development release
->   - Fix name of lowest bucket in dtrace_print_lquantize() (Eugene Loh)
->     [Orabug: 26261502]
-> @@ -754,7 +754,7 @@ systemctl start dtprobed || :
->   - dtrace-utils-testsuite now depends on dtrace-devel.
->     (Nick Alcock) [Orabug: 26415697]
->   
-> -* Thu May 25 2017 - <nick.alcock@oracle.com> - 0.6.1-1
-> +* Thu May 25 2017 Nick Alcock <nick.alcock@oracle.com> - 0.6.1-1
->   - Add translators and tests for TCP and UDP (Alan Maguire)
->     [Orabug: 25815242]
->   - Add translators for the IO provider (Nicolas Droux) [Orabug: 25816562]
-> @@ -764,15 +764,15 @@ systemctl start dtprobed || :
->   - Repeated dtrace -G no longer corrupts the object file (Kris Van Hees)
->     [Orabug: 22509887]
->   
-> -* Tue Mar 21 2017 - <nick.alcock@oracle.com> - 0.6.0-3
-> +* Tue Mar 21 2017 Nick Alcock <nick.alcock@oracle.com> - 0.6.0-3
->   - Test fixes
->   
-> -* Fri Mar  3 2017 - <nick.alcock@oracle.com> - 0.6.0-2
-> +* Fri Mar  3 2017 Nick Alcock <nick.alcock@oracle.com> - 0.6.0-2
->   - Internal development release
->   - Add translator for ip provider [Orabug: 25557249]
->   - Test fixes and new tests.
->   
-> -* Tue Jan 17 2017 - <nick.alcock@oracle.com> - 0.6.0-1
-> +* Tue Jan 17 2017 Nick Alcock <nick.alcock@oracle.com> - 0.6.0-1
->   - Internal development release
->   - Allow self-grabs [Orabug: 24829169]
->   - Use /proc/pid/map_files if available [Orabug: 24843582]
-> @@ -780,22 +780,22 @@ systemctl start dtprobed || :
->   - Add improved multi-argument DTRACE_PROBE macro [Orabug: 24678905]
->   - Fix infloops in SPARC breakpoint handling [Orabug: 24454127]
->   
-> -* Tue Nov  8 2016 - <nick.alcock@oracle.com> - 0.5.4-1
-> +* Tue Nov  8 2016 Nick Alcock <nick.alcock@oracle.com> - 0.5.4-1
->   - Work around elfutils bug causing object file corruption [Orabug: 25059329]
->   
-> -* Wed Jul 20 2016 - <nick.alcock@oracle.com> - 0.5.3-2
-> +* Wed Jul 20 2016 Nick Alcock <nick.alcock@oracle.com> - 0.5.3-2
->   - New tests
->   
-> -* Thu Apr 28 2016 - <nick.alcock@oracle.com> - 0.5.3-1
-> +* Thu Apr 28 2016 Nick Alcock <nick.alcock@oracle.com> - 0.5.3-1
->   - Prevent intermittent assertion failures crashes and hangs when
->     shutdown races with termination of a grabbed process [Orabug: 22824594]
->     [Orabug: 23028026]
->   
-> -* Fri Feb  5 2016 - <nick.alcock@oracle.com> - 0.5.2-2
-> +* Fri Feb  5 2016 Nick Alcock <nick.alcock@oracle.com> - 0.5.2-2
->   - Fix uregs array on SPARC [Orabug: 22602756]
->   - Testsuite fixes
->   
-> -* Tue Jan 12 2016 - <nick.alcock@oracle.com> - 0.5.2-1
-> +* Tue Jan 12 2016 Nick Alcock <nick.alcock@oracle.com> - 0.5.2-1
->   - Do not crash USDT probe users when shared libraries are in the upper half of
->     the address space [Orabug: 22384028]
->   - Do not waste CPU time busywaiting in a do-nothing ioctl()-heavy loop
-> @@ -805,39 +805,39 @@ systemctl start dtprobed || :
->     [Orabug: 22390414]
->   - Fix smoketests on SPARC [Orabug: 22533468]
->   
-> -* Tue Dec  8 2015 - <nick.alcock@oracle.com> - 0.5.1-4
-> +* Tue Dec  8 2015 Nick Alcock <nick.alcock@oracle.com> - 0.5.1-4
->   - Internal development release.
->   - Prevent testsuite hangs when per-arch options are in use [Orabug: 22030161]
->   
-> -* Thu Nov 19 2015 - <nick.alcock@oracle.com> - 0.5.1-3
-> +* Thu Nov 19 2015 Nick Alcock <nick.alcock@oracle.com> - 0.5.1-3
->   - Fix buggy performance improvements to correctly detect out-of-tree modules
->     (like dtrace.ko) and speed them up some more [Orabug: 22237449]
->     [Orabug: 22238204]
->   
-> -* Wed Nov 18 2015 - <nick.alcock@oracle.com> - 0.5.1-2
-> +* Wed Nov 18 2015 Nick Alcock <nick.alcock@oracle.com> - 0.5.1-2
->   - Internal development release.
->   - Remove typoed non-bug from rpm changelog.
->   
-> -* Wed Nov 18 2015 - <nick.alcock@oracle.com> - 0.5.1-1
-> +* Wed Nov 18 2015 Nick Alcock <nick.alcock@oracle.com> - 0.5.1-1
->   - Internal development release.
->   - Improve startup performance when disk cache is cold [Orabug: 22185787]
->     [Orabug: 22185763] [Orabug: 22083846]
->   - Fix various problems in the testsuite and in DTRACE_DEBUG output
->     [Orabug: 21431540] [Orabug: 22170799]
->   
-> -* Wed Nov  4 2015 - <nick.alcock@oracle.com> - 0.5.0-4
-> +* Wed Nov  4 2015 Nick Alcock <nick.alcock@oracle.com> - 0.5.0-4
->   - Improve identification of system daemons that must not be ptraced
->     unless explicitly specified [Orabug: 21914902]
->   - Improve symbol resolution in the absence of ptrace() [Orabug: 22106441]
->   - Fix dtrace -p with an invalid PID [Orabug: 21974221]
->   - Close any inherited fds before running testsuite [Orabug: 21914934]
->   
-> -* Wed Sep 23 2015 - <nick.alcock@oracle.com> - 0.5.0-3
-> +* Wed Sep 23 2015 Nick Alcock <nick.alcock@oracle.com> - 0.5.0-3
->   - Internal development release
->   - No longer reference UEK3 kernels on SPARC.
->   - Do not require 32-bit glibc on SPARC.
->   
-> -* Wed Sep  9 2015 - <nick.alcock@oracle.com> - 0.5.0-2
-> +* Wed Sep  9 2015 Nick Alcock <nick.alcock@oracle.com> - 0.5.0-2
->   - Internal development release
->   - No longer Provide: an unversioned dtrace-utils [Orabug: 21622263]
->   - Add missing testsuite package deps [Orabug: 21663841] [Orabug: 21753123]
-> @@ -845,29 +845,29 @@ systemctl start dtprobed || :
->   - Test logfiles should not be affected by the verbosity of the test run
->     [Orabug: 21769905]
->   
-> -* Wed Aug 12 2015 - <nick.alcock@oracle.com> - 0.5.0-1
-> +* Wed Aug 12 2015 Nick Alcock <nick.alcock@oracle.com> - 0.5.0-1
->   - Internal development release
->   - SPARC64 support. [Orabug: 19005071]
->   - Translator support for 4.1 kernel.
->   
-> -* Tue Jun 30 2015 - <nick.alcock@oracle.com> - 0.4.6-4
-> +* Tue Jun 30 2015 Nick Alcock <nick.alcock@oracle.com> - 0.4.6-4
->   - Add DTrace release and SCM version info via dtrace -Vv [Orabug: 21351062]
->   - Add source-tree-independent testsuite RPM (not distributed)
->   - Fix the testsuite module-loading pre-checks to actually work
->     [Orabug: 21344988]
->   - Various build system fixes
->   
-> -* Tue Jun 23 2015 - <nick.alcock@oracle.com> - 0.4.6-3
-> +* Tue Jun 23 2015 Nick Alcock <nick.alcock@oracle.com> - 0.4.6-3
->   - Internal development release
->   - Fix deadlocks and failures to latch processes for symbol lookup caused
->     by failure to correctly track their state over time, in 0.4.6-1+ only.
->   
-> -* Mon Jun 22 2015 - <nick.alcock@oracle.com> - 0.4.6-2
-> +* Mon Jun 22 2015 Nick Alcock <nick.alcock@oracle.com> - 0.4.6-2
->   - Internal development release
->   - Fix a rare race causing stalls of fork()ed children of traced processes
->     under load, in 0.4.6-1 only [Orabug: 21284447]
->   
-> -* Thu Jun 18 2015 - <nick.alcock@oracle.com> - 0.4.6-1
-> +* Thu Jun 18 2015 Nick Alcock <nick.alcock@oracle.com> - 0.4.6-1
->   - Internal development release
->   - Support multiple kernels with a single userspace tree, loading system
->     D libraries from directories named like /usr/lib64/dtrace/3.8.
-> @@ -882,14 +882,14 @@ systemctl start dtprobed || :
->     being monitored is unchanged since it was last inspected. [Orabug: 21279300]
->   - Properly remove breakpoints from fork()ed children. [Orabug: 21279300]
->   
-> -* Mon Feb 16 2015 - <nick.alcock@oracle.com> - 0.4.5-3
-> +* Mon Feb 16 2015 Nick Alcock <nick.alcock@oracle.com> - 0.4.5-3
->   - The dependencies are adjusted to pick up the renamed dtrace headers package.
->     [Orabug: 20508087]
->   
-> -* Tue Nov 18 2014 - <nick.alcock@oracle.com> - 0.4.5-2
-> +* Tue Nov 18 2014 Nick Alcock <nick.alcock@oracle.com> - 0.4.5-2
->   - A number of crashes when out of memory are fixed. [Orabug: 20014606]
->   
-> -* Thu Oct 23 2014 - <nick.alcock@oracle.com> - 0.4.5-1
-> +* Thu Oct 23 2014 Nick Alcock <nick.alcock@oracle.com> - 0.4.5-1
->   - Automatically load provider modules from /etc/dtrace-modules, if present
->     [Orabug: 19821254]
->   - Fix intermittent crash on failure of initial grabs or creations of processes
-> @@ -903,15 +903,15 @@ systemctl start dtprobed || :
->     [Orabug: 19882050]
->   - Fix DIF subr names in dtrace -S output [Orabug: 19881997]
->   
-> -* Tue Jul 22 2014 - <nick.alcock@oracle.com> - 0.4.4-2
-> +* Tue Jul 22 2014 Nick Alcock <nick.alcock@oracle.com> - 0.4.4-2
->   - Ensure that the DOF ELF object does not require execstack
->     (Kris Van Hees) [Orabug: 19217436]
->   
-> -* Tue Jul  8 2014 - <nick.alcock@oracle.com> - 0.4.4-1
-> +* Tue Jul  8 2014 Nick Alcock <nick.alcock@oracle.com> - 0.4.4-1
->   - New -xcppargs option as part of fixes for the testsuite on OL7
->     [Orabug: 19054052]
->   
-> -* Tue May 13 2014 - <nick.alcock@oracle.com> - 0.4.3-1
-> +* Tue May 13 2014 Nick Alcock <nick.alcock@oracle.com> - 0.4.3-1
->   - Fix array underrun when no textual mapping for the executable can be found
->     [Orabug: 18550863]
->   - Fix unlikely buffer overrun at process-map-read time [Orabug: 18550863]
-> @@ -920,13 +920,13 @@ systemctl start dtprobed || :
->   - Fix error-path dereference of uninitialized variable in error message
->     [Orabug: 18550863]
->   
-> -* Thu May  1 2014 - <nick.alcock@oracle.com> - 0.4.2-2
-> +* Thu May  1 2014 Nick Alcock <nick.alcock@oracle.com> - 0.4.2-2
->   - Interrupting dtrace with a SIGINT while monitored processes are dying no
->     longer hangs dtrace on a condition variable [Orabug: 18689795]
->   - Symbol lookups on processes that died at the same instant now always fail
->     and no longer access freed memory [Orabug: 18550863]
->   
-> -* Wed Apr 16 2014 - <nick.alcock@oracle.com> - 0.4.2-1
-> +* Wed Apr 16 2014 Nick Alcock <nick.alcock@oracle.com> - 0.4.2-1
->   - killing dtrace while a ustack() is in progress no longer risks killing
->     crucial system daemons [Orabug: 18600515]
->   - Fix a leak of filehandles to executables [Orabug: 18600594]
-> @@ -936,7 +936,7 @@ systemctl start dtprobed || :
->     [Orabug: 18603463]
->   - Fixes for newer versions of make, ld, and bison [Orabug: 18551552]
->   
-> -* Tue Jan  7 2014 - <nick.alcock@oracle.com> - 0.4.1-1
-> +* Tue Jan  7 2014 Nick Alcock <nick.alcock@oracle.com> - 0.4.1-1
->   - Install showUSDT in docdir. (Kris van Hees) [Orabug: 17968414]
->   - Install ctf_module_dump. [Orabug: 17968381]
->   - A lexer bug was fixed causing spurious errors if D scripts contained a
+Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+---
+ test/unittest/funcs/substr/tst.substr.d | 2 +-
+ test/unittest/funcs/substr/tst.substr.r | 2 --
+ test/unittest/funcs/tst.basename.d      | 4 +---
+ test/unittest/funcs/tst.basename.r      | 2 --
+ test/unittest/funcs/tst.index.d         | 2 +-
+ test/unittest/funcs/tst.index.r         | 2 --
+ 6 files changed, 3 insertions(+), 11 deletions(-)
+
+diff --git a/test/unittest/funcs/substr/tst.substr.d b/test/unittest/funcs/substr/tst.substr.d
+index 8da15c30..4dcef73b 100644
+--- a/test/unittest/funcs/substr/tst.substr.d
++++ b/test/unittest/funcs/substr/tst.substr.d
+@@ -153,7 +153,7 @@ BEGIN
+ 
+ 	end = i;
+ 	i = 0;
+-	printf("#!/usr/bin/perl\n\nBEGIN {\n");
++	printf("BEGIN {\n");
+ 
+ }
+ 
+diff --git a/test/unittest/funcs/substr/tst.substr.r b/test/unittest/funcs/substr/tst.substr.r
+index 94d94e74..285b5c19 100644
+--- a/test/unittest/funcs/substr/tst.substr.r
++++ b/test/unittest/funcs/substr/tst.substr.r
+@@ -1,5 +1,3 @@
+-#!/usr/bin/perl
+-
+ BEGIN {
+ 	if (substr("foobarbazbop", 3) ne "barbazbop") {
+ 		printf("perl => substr(\"foobarbazbop\", 3) = \"%s\"\n",
+diff --git a/test/unittest/funcs/tst.basename.d b/test/unittest/funcs/tst.basename.d
+index 86d80873..2b3d098a 100644
+--- a/test/unittest/funcs/tst.basename.d
++++ b/test/unittest/funcs/tst.basename.d
+@@ -1,6 +1,6 @@
+ /*
+  * Oracle Linux DTrace.
+- * Copyright (c) 2006, 2023, Oracle and/or its affiliates. All rights reserved.
++ * Copyright (c) 2006, 2026, Oracle and/or its affiliates. All rights reserved.
+  * Licensed under the Universal Permissive License v 1.0 as shown at
+  * http://oss.oracle.com/licenses/upl.
+  */
+@@ -38,8 +38,6 @@ BEGIN
+ 
+ 	end = i;
+ 	i = 0;
+-
+-	printf("#!/bin/bash\n\n");
+ }
+ 
+ syscall::ioctl:entry
+diff --git a/test/unittest/funcs/tst.basename.r b/test/unittest/funcs/tst.basename.r
+index 4f3aa0cc..fb68c543 100644
+--- a/test/unittest/funcs/tst.basename.r
++++ b/test/unittest/funcs/tst.basename.r
+@@ -1,5 +1,3 @@
+-#!/bin/bash
+-
+ if [ `basename "/foo/bar/baz"` != "baz" ]; then
+ 	echo "basename(\"/foo/bar/baz\") is \"baz\"; expected \"`basename "/foo/bar/baz"`"\"
+ fi
+diff --git a/test/unittest/funcs/tst.index.d b/test/unittest/funcs/tst.index.d
+index aab920eb..a918c386 100644
+--- a/test/unittest/funcs/tst.index.d
++++ b/test/unittest/funcs/tst.index.d
+@@ -60,7 +60,7 @@ BEGIN
+ 	i++;
+ 
+ 	end = j = k = 0;
+-	printf("#!/usr/bin/perl\n\nBEGIN {\n");
++	printf("BEGIN {\n");
+ }
+ 
+ tick-1ms
+diff --git a/test/unittest/funcs/tst.index.r b/test/unittest/funcs/tst.index.r
+index 40f360fe..4eaa081c 100644
+--- a/test/unittest/funcs/tst.index.r
++++ b/test/unittest/funcs/tst.index.r
+@@ -1,5 +1,3 @@
+-#!/usr/bin/perl
+-
+ BEGIN {
+ 	if (index("foobarbaz", "barbaz") != 3) {
+ 		printf("perl => index(\"foobarbaz\", \"barbaz\") = %d\n",
+-- 
+2.51.0
+
