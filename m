@@ -1,78 +1,86 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B8420E31C
-	for <dtrace@lists.linux.dev>; Mon, 26 Jan 2026 04:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DB034A788
+	for <dtrace@lists.linux.dev>; Mon, 26 Jan 2026 16:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769403231; cv=fail; b=LamtX1SR0wfeub8TcHU4h9YM6IIDnLNFxMa9gEvK1vm9VFXnS8ojvOC88aARR/dKX87lTh9Wfi956nFG8kgnktRLZypLBMfN+MRMhHHqRNNisexcND1zzQOioEJyUai+mApyfgXU1KKkJUdOBROse4uQDENcA5+OGvsUeoNAtwI=
+	t=1769446414; cv=fail; b=VfkdSeW73Nd1/zjdWAYF6Yo9hY/oe6q2nDq9N6XvSkxtr2pSxImwyTAwBJ3vb2ogigqoKJ3iq7wLv+4nLlwQ1P7t1MNRY76cUdP428a4pxVisd+OdWlAoCxqwgr1nbU9YQ86+wE0hidNci1syHK5yWagv320qTaAG2ZBCSbfyk0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769403231; c=relaxed/simple;
-	bh=6j9MJwLvfcT2/YzXUGeo+NLgyR4rlgOrdmbGPYg3cTQ=;
-	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=pu0LlAn9fxlYO2W5eBAK9oOIRCcLfbySY7S/KudvxT2JH21J6JyhI0KuTVIcdJkVAPeiT+1jCHofYeiMdhzgxp1IVAGTTuoBDgMsYusOScSARz5ExuRx2QlFiaZ3Ahin797KJScSJ66sgAdstSmc3s/sCv9L167gFwaSVJzTltI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=l+SMu99r; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Lnh0QGB4; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1769446414; c=relaxed/simple;
+	bh=pAc8R1rJYihupcvA1HO18VA2mhwli32v3TUaJxT3p74=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=A8ls4rvrFidnkHWAyzT0Fh5xi8Nx2XsebLCSTEY+oKzfng/pwbd9mJdTJXHvqRPWPy7yFAQ4W+2wKI+ma+ClDbAVDu5ib5UgV3z18tXy95E0EO5OHHzS5MRMjetbP8FsJzew/d9YECHUvv6ZZvEs2X4cJfJ9ti8GP3CtaujH/00=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Gy0vgi4W; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=b99mdap2; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="l+SMu99r";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Lnh0QGB4"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60Q23qB9247091
-	for <dtrace@lists.linux.dev>; Mon, 26 Jan 2026 04:53:48 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Gy0vgi4W";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="b99mdap2"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60QGj0oP1228967
+	for <dtrace@lists.linux.dev>; Mon, 26 Jan 2026 16:53:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-type:date:from:message-id:mime-version:subject:to; s=
-	corp-2025-04-25; bh=t+al2LP+iax7OqHbnFnrpauwzWf2t8SAZJS4hrrL3N4=; b=
-	l+SMu99r4BbkR9eVfO0v6WiXJqEZPv11MSW6sdcnCpzYstvBmC4KIuWJY5VkRhyv
-	EC3HvBeZ/cTYJfyfa+CW3ZqmHqcc5fXqRwsyn4VThjtJOqG4kpDd+aYT/cdIkXa8
-	nAxl5UwI9ntPS8FHQQ5Qpdr0hpayyPvuyTVbWAGR55rVwkmpdH4YZEiUWc0By7kr
-	PZGeeIy0MFbAnaGgzSPJoHj1UHf8IP4a9MzbvkkRmXi5G+SwIakBqiftbVlc9Qmq
-	jZ8LkorKgkaACYPUUW2FjM/SFXC4Vee+kjTku6y590CEp033iVIgD0yEjWv4jGsf
-	Mtj39/rcOTvIXjvNT2LYNA==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bvn09hdhg-1
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=BPBjlv3VoAXxCFb6aX3Ny6V19KWxOU64ZQFGYZeFwoM=; b=
+	Gy0vgi4WDjVg+uDpDAKOJ7VrWM6X33sZChpuw3hQnFKt5MiyhBA7WGu/N9S+tgPj
+	icQigaOI6qkqSvhDX4oZkeFLTIF2Px3mrPr02bhBZXjIxXrQGl+Crl5MntL6BSBu
+	lw7TqIbw04Ouc91Wc0pjEoXjeb4HWBGSTtsfKy9x6j6iZb2Y/U/jFzdccoZCMEG/
+	lC35Ou2Okb+XpiivaLMr6e9G+W7gvNbYqdtz18AmypbDdTU3ITum0KHrz4JU3JyF
+	1dvpmwUO3vDwWhK9G5TcYs1vNbvwzXFyG5kxENZ74Bv2eqmT5p8czPi+6jKJjaHh
+	kUdf4DXKkHCOAJ8keCdvig==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bvp4bt8hs-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 26 Jan 2026 04:53:47 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60Q1ItjX020034
-	for <dtrace@lists.linux.dev>; Mon, 26 Jan 2026 04:53:46 GMT
-Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010016.outbound.protection.outlook.com [52.101.46.16])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bvmhcuh77-2
+	for <dtrace@lists.linux.dev>; Mon, 26 Jan 2026 16:53:31 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60QFKgr2035147
+	for <dtrace@lists.linux.dev>; Mon, 26 Jan 2026 16:53:30 GMT
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012039.outbound.protection.outlook.com [40.107.200.39])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4bvmh8640b-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Mon, 26 Jan 2026 04:53:46 +0000
+	for <dtrace@lists.linux.dev>; Mon, 26 Jan 2026 16:53:30 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yhj7oI5EJwG3f9Y4Cm2gkkkmH3QWAss6YlbW6AiVAMTMVfgz6LiDItBMTFseCIxTnZkJLWtdTUEwwQfbi0/xBbiMknWvauAGOYTwBFSqMA3YH4TjHZ4RB8ilrRhfTNPc9tPAh2jkxFOC5wRGl2tinQVFKCMp8FlFw74cA1Mr9dJeYCMMvVIBFtVS1jn6IRv9zSLU32fl2GK9/p2aS2TV8PNZAm8ykVtCDzxkNnVDQ0rAeqBDWiOVKR/aGWEt50YD3KlyQO+KEmdp6Dobu3mfFUYhdvGHTom1+VRGm4b913z2k8W6zqD3aJSw6Vi7yq2RvzRSjoDcsx+xVJxVRHzepA==
+ b=BtU9rxgGjR7wPJZ0w++PmHMDRMynX4uUiquu+xHNtXdzQWer6Bjzywad1ArNwgvhH8ZFHPJBY2z48g33RXNFXwWktAG9LUMAIFIW+njF86hMlAYA9nJPUxPPMU1Y+oCpQLru6U61BPa6EM3MOh7btTKrGSj4D3PVfxpCvFrdG6HBKgmhbc76qOxlbg3JPmk7mE4HsY0Gbvx3ZFJ5s5sOslunQBKCufnAYW7knK3yHZfKOliPmNCz2cLMjMv2ke9l6kjhU3/ZVUiAa+6ErbK//nZ9WoZ68YhWQiWXMuyt2nxcI9CizG/A1RL8y5DOtxdhyXzl86gwGfkM+WITTczUYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t+al2LP+iax7OqHbnFnrpauwzWf2t8SAZJS4hrrL3N4=;
- b=ysJZ+qs0U1e5OKR80IgHz9jSWFMf41KFwVYf2ANg02CRWDwBK3WO9ZF4mNBfoPbV7K6H7bzvzw7z6sf/NTBQIg+qdahFFNyCpGL6KEiFZY93pvjsYKTu/rHYJwHB6t0Nu4BYjGZv7CuhCu/rPWX26mQa4pWY6hRbW5VLRfZFWL4HQXRrQvnmsFjpsoKSJ76VVZrIsFeKjLXle4TkaUJayEPZGrcLCnlhw1lTs0bX/I7HIuhHbX0gXInQ4/vshs0dldnlgoviSgmQivh5VPxYMDzgmflFjq2fgJdoBeUYQjbMKN3n4bctUodRYFRFm5AWPLVUIOFdAHjidnCn+0oC0w==
+ bh=BPBjlv3VoAXxCFb6aX3Ny6V19KWxOU64ZQFGYZeFwoM=;
+ b=B+vexq7lApuKNTp2RtJoVROWqq5wbRu7mRAzkED2jtOm/TFNeaXaC1NhofSqUjfIyQPCoUa4ZrmiTK9V6AqasaHGBcNPOZXVNp+SRivI/jRAoK66OtC1B1UKAlsfMavPTKIez6y36BsB0glyhnmhepUrh+nEQYlyGMsU0YxiurlQq4gHNJnhZ3LToAjQC6x5pQqxRpr3F7Rnr7mznqigTe/bPYUOWU3jMn616GAoXPQoo2w79pu52wKpzneyrQnJ96k2sgTLlmkupMVj1ivOsh5A1yPKS7eq8bkByS2fOjcPSoFhN3dkfl3g/kyiarWCoFcnRUTloYhJ6RFuBPPDZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t+al2LP+iax7OqHbnFnrpauwzWf2t8SAZJS4hrrL3N4=;
- b=Lnh0QGB4/IJfXSzNCGEv6/xc3PKWzguKTf/Ondc6d6D0p3X0JcsctivDnp8XbqRPtqstVbsXzO0C5AgaLfB510ycbhKYwQV6GmUtjY+sQb1bh7Yh8tSvlSpohr2wO4zSNErdLiCBhKMN0wkMHzkigwtDNvTkQsi4vAr0s8wyZLw=
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by DS7PR10MB7324.namprd10.prod.outlook.com (2603:10b6:8:ec::22) with
+ bh=BPBjlv3VoAXxCFb6aX3Ny6V19KWxOU64ZQFGYZeFwoM=;
+ b=b99mdap24Akkn618/0vpeHOzUE7KwSK51bkyEdWw84YFYG07XgrFy3BDSeZyEnvz2MmUN1nZGHhqb6t0AY0ibZs3zl4Z7rJqnukQAEO3cXCOYBfuWbtRBTGviQJ3SDLWOpUCbWdiw0TY0r+3gM37TQUWFZN7FIjN1u4q3IugCQs=
+Received: from BLAPR10MB5075.namprd10.prod.outlook.com (2603:10b6:208:322::19)
+ by CH0PR10MB7536.namprd10.prod.outlook.com (2603:10b6:610:184::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.12; Mon, 26 Jan
- 2026 04:53:39 +0000
-Received: from CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::c47b:6cdc:87b1:aa6b]) by CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::c47b:6cdc:87b1:aa6b%6]) with mapi id 15.20.9542.010; Mon, 26 Jan 2026
- 04:53:40 +0000
-From: eugene.loh@oracle.com
-To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH] Update LLM context files to forbid "if" statements
-Date: Sun, 25 Jan 2026 23:53:41 -0500
-Message-Id: <20260126045341.7172-1-eugene.loh@oracle.com>
-X-Mailer: git-send-email 2.18.4
-Content-Type: text/plain
-X-ClientProxiedBy: PH7PR02CA0010.namprd02.prod.outlook.com
- (2603:10b6:510:33d::29) To CO6PR10MB5636.namprd10.prod.outlook.com
- (2603:10b6:303:14b::20)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Mon, 26 Jan
+ 2026 16:53:18 +0000
+Received: from BLAPR10MB5075.namprd10.prod.outlook.com
+ ([fe80::8f5:4de9:81ce:f5c6]) by BLAPR10MB5075.namprd10.prod.outlook.com
+ ([fe80::8f5:4de9:81ce:f5c6%5]) with mapi id 15.20.9542.010; Mon, 26 Jan 2026
+ 16:53:21 +0000
+Message-ID: <cde7e0e8-95ef-46ad-ac67-c17ec6ab2d2b@oracle.com>
+Date: Mon, 26 Jan 2026 09:53:22 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [DTrace-devel] [PATCH] Update LLM context files to forbid "if"
+ statements
+To: eugene.loh@oracle.com, dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+References: <20260126045341.7172-1-eugene.loh@oracle.com>
+Content-Language: en-US
+From: Elena Zannoni <elena.zannoni@oracle.com>
+Organization: Oracle USA Inc.
+In-Reply-To: <20260126045341.7172-1-eugene.loh@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CYZPR05CA0010.namprd05.prod.outlook.com
+ (2603:10b6:930:89::18) To BLAPR10MB5075.namprd10.prod.outlook.com
+ (2603:10b6:208:322::19)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -80,199 +88,223 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|DS7PR10MB7324:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6f12f34d-834a-4dd5-e3e5-08de5c96dfc4
+X-MS-TrafficTypeDiagnostic: BLAPR10MB5075:EE_|CH0PR10MB7536:EE_
+X-MS-Office365-Filtering-Correlation-Id: cb42194c-05cd-4af7-e730-08de5cfb6982
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?3QFzgzq/IZqlGVYOFDpq7RQni7wJZOGpk3/PY7MFBFmxMy1OLCsnJYH7bQSs?=
- =?us-ascii?Q?+LNMQuigeg0+Z8xkQJ07n8uJvy0raaOUWDIGGV0W5F4QCWipwHcmsL4m+K0X?=
- =?us-ascii?Q?wlwhnzkDXtVAMCqjzb+LD4abGNRel1sLMyVww19ZQdr+pUWTyhbFhYP1WtZP?=
- =?us-ascii?Q?GVm+8vaeSK/r3tVa4lil7fh1LVk6JCApY1p6dzCagPoZDn0oUUwb1it8burz?=
- =?us-ascii?Q?YxRP31jKdQCvEBCLivGHw1ZR/DDTcN4URH/T0z/GCcDHqZdMgCYguTLTtRXO?=
- =?us-ascii?Q?5KU9RJatqwXavfwA7XBEH06trT2OGcnlbx0zHnxMRichTalPYmuO+siB9dgK?=
- =?us-ascii?Q?w2RXbZmVmKPHalQ+s1EdmQJwUT8ZJk9IWte3pM6VoWsOZFhkllUaHAm5boV1?=
- =?us-ascii?Q?r3gDuAPfUnRXb50oWxXIpo9ueLCrVfifnAF5jdCmLMFvAmwJr5pJH9MZtfPJ?=
- =?us-ascii?Q?OmpEbfWV8izjqlziE5HUYBOydFXvxGcPwzdS/F04whhWSwHRl6LfgT2CAXLd?=
- =?us-ascii?Q?YxDXWITRKpeDdk2tHhdBy9HHBnrG6HiRWW7vsm2xoeb5ibE86xIS7QCHtT67?=
- =?us-ascii?Q?znBCG1trdVvqODme+5qJjXv/30A4a1l88W0u0W/T3RY5ieVBXEYfTg/9l1TN?=
- =?us-ascii?Q?8zpyo2ZCsKC7enTNCufUJnehgeyjCPG4OkSa/kpU5EPuVQewZMi0KP8xmx2U?=
- =?us-ascii?Q?8QTuTnPiZ5We6WPZ0YUm4G8LK0+ULHO6VBPKVZW08YzaAXHBgX23hdQ7adnz?=
- =?us-ascii?Q?4FyQyPtM04/jsIHzQiUA/Ay1fHh+kU4dXjwtdQkaW9XHrPtaaQunO2Vj5jbq?=
- =?us-ascii?Q?rYIUZUeQ9gf5kZg6mp6ychUNORjqlFR3lZeepkeYQJtnjLx3oy/F87hNYr7b?=
- =?us-ascii?Q?wlVbpguOI/e0dfVALHxPT2la9z+fiYa9zAk/gwKCPEbsk3k/MKw8TkPWIUre?=
- =?us-ascii?Q?STOAVhjFoU+43mOuCkBjUZr11+Qi0bQY3V9xZ586tViZM9gu/gF0VJVZXC0M?=
- =?us-ascii?Q?BQwP8uMTnObtk1otH12AfHIx3cIC39vDYARG9VQmYRdSWCQZsywA7WYcV46V?=
- =?us-ascii?Q?O4bD++Omu4mu8SR6y1eAF3NvAGyz9ebrSvRmrJedV6UWVkRIXNvNqHZG7UZp?=
- =?us-ascii?Q?Pd2XGOnBAN4lS2gCfaeaNbgU7p+74BTiQuBRXwzUQMf/4SPPrkbQSb+yuqz1?=
- =?us-ascii?Q?pV/AiSTTAmJmfMUJU4rxbSZGQKlGkdHusjJDaC9/QOrNXalRPbdWnYYa4dsE?=
- =?us-ascii?Q?ImAQcGMdEXT+FDvBzwscbNzMQASwtqwHUiuZwGSFAce9L7Ld13hs8C1Pgc1Z?=
- =?us-ascii?Q?YqTAohBo0cGjlIyEb6DmNIyPka2DU1NkybZe936wRdZo0kz6KsJgHenjNjF9?=
- =?us-ascii?Q?py1pgwslAZnH6lVnvdJgorg8IdXsgpRssR0BMaGShWAkZv3JpBuvdPiNRAV1?=
- =?us-ascii?Q?n/oiSddy1LbpDSqddCNhkvmyO4ydwtnA4eWh+W1tOFtBjBFNIZY7MtE9r6eD?=
- =?us-ascii?Q?QziWUWSg544G8y6lTwoGFuYjnofpBLPQjVwpViG5watwt4nDdS2QgF40QPn8?=
- =?us-ascii?Q?MZUv8N25R5eRRbzBgww=3D?=
+	=?utf-8?B?THFxWU1jTXExUk5Eb2NFNDNud1UweTczcFV4eFh0S1pJRW5WTGxGTXB0ZWpu?=
+ =?utf-8?B?S01XblF6MFk0K1FaZFlmLzQreE9VL3BCVmE1b1pLTXdpNGpRK3RPV0ZaV3FQ?=
+ =?utf-8?B?c25xZ1prazlScUtiNURuOU1JR201aHN1b0VpZkJVVjQyWVRKYjBRek8vOWxr?=
+ =?utf-8?B?NkMvK2dhS3c1d2VGa25EOXBTbTdtZ3pISmptVWtTR1U3bTkzMG9MdnBDU1A3?=
+ =?utf-8?B?NVlMTlFxYjRKNFgxdnVrY3NGanJ3M2FiYlAvOS9SMm9xbER2ODd3c2g2eEhI?=
+ =?utf-8?B?NkVyN2RSNzhiY2NudlZEVGtaTWFJTHVLWmxjUDFOSTM2Rit6SUM2TjN2UnhF?=
+ =?utf-8?B?SWMrdFNqVGhwSHhqWG92Y3hodVIwMFJIUXczaFhRWWs2dDdGM0ZjNm1CQjhk?=
+ =?utf-8?B?ZU9RQ1NPOS9Na3N6TzNrMktFVUtIVmxwYW5sRGw0MGQ1QzF3NGtFRDJ0ODhH?=
+ =?utf-8?B?K1AxVWdmeVhHRlppeTFCS05yWFhzR2hJdGUvNlU3NjNuZDVadWxPTThVZHY2?=
+ =?utf-8?B?WjZXTm55ZjM3SHRQZFFiSXlpYXQxbFI1TGg5S0dlamVUTkE3UTFZVFArNlFU?=
+ =?utf-8?B?dk9tYnFjc3ZvV0IrWnhTOG9WemF2bnNyVFBia1MvWUJlaUpydEJsV1ZDcncr?=
+ =?utf-8?B?OTVLYUxYTTlTY2lEMzR0RjRHUHNLck1xdkhESUcydTNub3FVc3pET0pUMWhj?=
+ =?utf-8?B?Y0Z6bEFvOU52OGM1Y1oxOTJBalpJOWNpOXMzQ0wyWkJXK0x1MTBFbjZ0aDVs?=
+ =?utf-8?B?WEVlUzRGTmhFV01uRlN4VnQ1eWpFcGN3OG1odzBNd01iaTg2V0pLcGNJZ0NG?=
+ =?utf-8?B?dldMZnZJMWZjSWRkT0JJMzJuNzhKTndVY0wyZ2xvT284ajdCOHhsQVNnYXFj?=
+ =?utf-8?B?K0dvWVNlYzhDVjBsb3VuMWZsNHd4RWo4akp5NlR1L1VqR2UrSWIzQi9BZmV3?=
+ =?utf-8?B?bUFvTVZPM3h0K1RWUThWMmgvWmhycHUwNmRuTU4xS1RSamZ2SWo1TVd3R0Z6?=
+ =?utf-8?B?dUIvVzRJeDVZQ3BXa1JDQmZFRENRdU01K0JnSEUzTTU0dW5vbW5zd2RoTmNm?=
+ =?utf-8?B?S0VpSktOYVNkYVd2czdPRjJjSXhoMnFQUjhybG1ONGE5ZjlRNW9maVJINHpa?=
+ =?utf-8?B?cHdBaWtjRGNUUHZPM0VSaXVNOW4vdmthYmtsOGV2ekdZMlI5bWJ5WlFZWXBk?=
+ =?utf-8?B?VnJSdDdwSXBSOFRYTVJiV3Z3anhleWMvWTBBdkJBZVNRVDhGWHh1Z2RmMVV5?=
+ =?utf-8?B?S1FYUjdpbDd2Y3dzZzY2NE51YXYvWWprTzdKcU9QaS9tWEgvUGhaVnFwbzlN?=
+ =?utf-8?B?SllDRHFQOTdsbE15NFpMeUMweVk5bFNvVHhLMnBCRUtTdldXa3lrZ29INzVt?=
+ =?utf-8?B?K1hoQmdJVGpkb3BDQ29rT0x2ck1OYURIYTREQklRK0c1bDRpa2N2WFBPZWo3?=
+ =?utf-8?B?N0U4b3RUOGt1YWZaNG92N3k2Z2tHQ3NRUDAzTGMyWkFEak5ENTlMT2FFcmxC?=
+ =?utf-8?B?aU1rVlZqZDNOWVhqaWIvVmFEc2JzOUJ5dkw3azBac09SaytabGJjWkIzTTNw?=
+ =?utf-8?B?UzB5NVBoRCtjdzVrMjlocW1mOXBRMXdGS2NJQ0V4VENIcXFFZ0daRjcyb0x5?=
+ =?utf-8?B?Y2pGMi94V0dsQVByQXBpSU1VSCtNZ0lHNUl1ZTRYdFlEVlA0dHJqeHNIeUFo?=
+ =?utf-8?B?c0hXYStWby9ORWR2U2R1Y0tWbkFJczJJbW1NRFRxTHJyNlUwSy8veHhyTXZV?=
+ =?utf-8?B?amIxTFJtSDd2TlBsc3RWa3Q4VitMUmtWVTd6MTNRaHRpdEhsdk02NzRWQnZ1?=
+ =?utf-8?B?dHI4YWdEdUcxc2pNOWR6VnQ4aVlBM1Y1aDE0QWVQZG9YWThHTDY1SEo0VWVC?=
+ =?utf-8?B?dU9mQWEwL25uTXE2NTRBQlBXaFdHaFJGbTVzZW8yUG40Vmo4NktCMFVjUUVv?=
+ =?utf-8?B?OE5iZE5wMk9DVlRSMGN1YWIzcDB4ZitScjUzUnp1WEV3dENPVmFXWlh1T2Fy?=
+ =?utf-8?B?ajdaOWozdkFUYUhBU2MvVDhPVWxIYS9Db1QvaTNMQkdRbDRFMWl6NVBxdkRS?=
+ =?utf-8?B?ekVwYm5rdURTTkVBbDAvYUJrOWt4QmxJOE91bEpEWEgxY3Ezd3ZWZFpFMyt5?=
+ =?utf-8?Q?LKhc=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB5075.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?q0ZdMa1pleoh7wsV8XehjMFYPFkYfQyyXVQ4RNHzMZMNxGUrjztl05U8QeL9?=
- =?us-ascii?Q?lsaz12wmRMQsH7dj9MvYLcCXE41mvMEYQyjBb2xkKYfH3h5CBVHlZCtp8e7C?=
- =?us-ascii?Q?Mg/JoBSwpOacC1DEMA9MDhQNIqQkRxWmieBrY7cz2cfhc+e5g99uXcqtljYG?=
- =?us-ascii?Q?DP+4auVMS5ZsiQs6lLDcwx+yM3KiwiRAHYS91zVLNczpY3RqX/JyO2aa9lDI?=
- =?us-ascii?Q?HOd84V6IgNmnPKr2zSU7hQOaqnu8YJ1XR1r3NEckLcDkIBtyk1XlPX+9MZB9?=
- =?us-ascii?Q?VyKfO//vuTzdY2KRyqcOfnWcXSMVVy2M1MpCXTX7+5p6V4HLTakpf6ZibKYr?=
- =?us-ascii?Q?LBnbS2AfzywReKYZB2X3busYG7R8X55PWXaR29lPLDQZqXNd0wGgEQhZ1YfM?=
- =?us-ascii?Q?6Yrxy393gFmlxvD+eQWiOP9D7eBckYPTi7gRmok6Ji0AF0VeXqmhUlhdIG7q?=
- =?us-ascii?Q?KXDEattiHn7MU8vJ7eeNqLdQS5SKGU4DhRxteG7Oxo7nE5ml8+XFIzovzYSq?=
- =?us-ascii?Q?85APiLCfwirLBaCzLbyh2Mid4nwBi2fN4I8Rrb8+IyQgEKzA9BKaSpBiIPTL?=
- =?us-ascii?Q?EozZYtTovQiK2OSF8MUnuMsWcJPGn9Y5gY1vRz+ihXlhLENUCTICRsz/opEn?=
- =?us-ascii?Q?rC6qtb37st22SX0nGPUMatB4xrybQWx6lZKVIXNMVcnJcuvb/DkfN2VosYOk?=
- =?us-ascii?Q?ADDjqwHWav1hhQjNfPu1r/qisj8B4RRdEtwO1Ph+UUMT0dxIgVESCf01MHHS?=
- =?us-ascii?Q?zaWwzqdhHJ4Ib1YQWLtjwuj9RM8ZacsjJGhEmrGGgqmfSTMqc2GmkJdTHQtW?=
- =?us-ascii?Q?3CwlK/A5bitMftH2XcIMKGKvz3scYpVfC57Kj0yO085t0xDaVhTmGAYesBN+?=
- =?us-ascii?Q?z0r9x7URIs7nXksNPRD3qNJsKN86VNS856wJb5mvEPW8/YcckFi0ZOnrFq9g?=
- =?us-ascii?Q?9RVJMBoHXLOrRxVT83gBbHqCMcMwksBlf+HflQQ48mn4klJzD57rgsZMZbpr?=
- =?us-ascii?Q?2o+9ktOXx6L7oaCuP3dmsRRXyRssm8CY4PQA5avS+CFdcrJpr+rQDXwQK3ns?=
- =?us-ascii?Q?UDvQE9xcmVf57MC0euGeBlm4eRRuWQvtUDSxYaWP7ENOF8GQaWI/ysgHRKat?=
- =?us-ascii?Q?OjuR3OhYiJqzwea1V5BBd8EWJ5ra5Rfqtbo5U4aWkn+vCffyv6wuEldGIFl5?=
- =?us-ascii?Q?fJso7fmIG/mw4tOWsWzHO2YS3AtKAZf4pMlue1RG88+8u2qY/raUhgLtlDrN?=
- =?us-ascii?Q?yYXmApJEDqCQhtK9v+48PA6CIRpipJheIlL8qLiOFMib7JpXRt+PcI5Cjone?=
- =?us-ascii?Q?goC+jAqqsN4ul2Oy0lv2IzF/RQ/s6sTMpVR0jI6B1TJhXkA8P81LRi/zTYm+?=
- =?us-ascii?Q?QQ7zNQFWW+JWpK4wSfrcf0SGNDaqj8Z87CUrbvajqnpsG2WOlgCudgUex6zP?=
- =?us-ascii?Q?hPPCSG5CfWsx5c63p9ufcAjUUkxC3GfH7afvie656xB6R4KIQZ02TYDA+20z?=
- =?us-ascii?Q?lEQl4z9lxPvFamXYDdqBMxLxuSn9rh6El9CvMOoal7x8ittwGuMrVA60dzeE?=
- =?us-ascii?Q?TldFM6ul6y+5G05engfsfj72YPdDC5KsQjp1wsexKA6qwaWRPzuzil63xCZ4?=
- =?us-ascii?Q?kZ+AH13fRS0gphtWSQTFp1Wg37CWWSEzdHhDppdCRqiUo+T3ZdsyEbCz1/8F?=
- =?us-ascii?Q?miYdUTBIIOpSio0k5EwAcuiboZG2etE+NItCtzbcuxoCkiHfqXVAPb6kSoz6?=
- =?us-ascii?Q?WeEJQmx7cg=3D=3D?=
+	=?utf-8?B?ZXJSMmorKzBQd21WbG8xSCtPMVFOS1pvc3Voa1NWMVZkaUxwbTdBN1podURK?=
+ =?utf-8?B?a2ZHbUQzTHF4NEpQcHpmTDdMd3hOM3VhRml3Sm8wdFhqRUVVK0NrL0xhb3Qr?=
+ =?utf-8?B?RlFuWmRJeFlWallpeG1sUTk0TjNpTm5HZ25Pc2tCZEhETWJKRXBlRFowKzRp?=
+ =?utf-8?B?SFcrSmRQWHhpK2tnWlpMMS9aZzBaeU92QWo1UG5FcmswbHdBNURPTnVxY1k3?=
+ =?utf-8?B?UnE1Q1hpOEFjdWpKenh3VnNua2FvVjN4YitCSkhBUTNoeFVDbWFYL2F0RFcr?=
+ =?utf-8?B?eE03NnhmMFlUSWYveDN4YmdMUFRlLzNMaVZVT25mNXp6bWEyK2JjQXhsNCtR?=
+ =?utf-8?B?Ukp0Y1dDK00yWkFmYkVWMnpHTmF5RWlmdlRMSlRCM21OTSs0a1p0VVJ3VHdJ?=
+ =?utf-8?B?Smx2NklIUDBpenpSeFBKVE1yL1BnMGpmbmlwYlJFUG1sUlVQcUo3OXY2YjNS?=
+ =?utf-8?B?UjlWZ0ZOMnhOOCttaUVQd2dFT001cTNpYjVKZm1pL0VnV25mSmZhc1ZoRTIx?=
+ =?utf-8?B?blh0Z1hrb0hQM2hNWk9kK0dLdUg4L2d3TFY2SGdCMlVkRlhoOE16UWVoZk05?=
+ =?utf-8?B?TnJibkhjWEJGUHRWekMxT3FSTEFOdENmZ2tXSEJoWExSWG9OaHA2L2FDaUpo?=
+ =?utf-8?B?OUkrZHdiczdMRXdqS3ZGUnVPc20rN1hKOGVzMFlnU25CSlFablg1eFJTcjda?=
+ =?utf-8?B?ZTNDQWp3UG5VRWI3dldrNEVPaVl0M1VRN3ZwM0NsYXVIbUF5T0NBZGtxRWs1?=
+ =?utf-8?B?WW9yR1dtU0RWM0VPei9WNUQwWXd5b1pVblFJbGtUYUMzM1lpM0FqSFJPQ2lD?=
+ =?utf-8?B?MmprK2lHWUFHTFBPamhVWGlWSTVPVjhTbUhzN3cvTTdQSm1FN2w4QUQ2VFpI?=
+ =?utf-8?B?NzZ5bVBWUE9PbzcwNmJPL1J1UlpmWGVDWGpuSnlzQmNJQm4wcmJQNnYvOW9C?=
+ =?utf-8?B?V1hBQmJibjdZN1phMXJiM3duK1p2bzk0UzR1d2xGM2RPM0ZjVjJpQ3Bkb2JF?=
+ =?utf-8?B?SXFRazZhYkFvS1AyN3ZwYk5icWhhT2R2dmRRNUVhQ0E2WUsxYll4VzBEdnU0?=
+ =?utf-8?B?UGpGWnoweWpqdjZPZXIzNUZqaVBnUkw3Y2tFay9SOFRHa0xjYlprWFF6aHJG?=
+ =?utf-8?B?NVozeW1PdVQ4VnkwLzJQbGc0aUwwQnN5bVkyTGRYSmxiQWk0anNPVHYyMmdz?=
+ =?utf-8?B?cXFNWmN2TDI1SzRGak5UYklLY0VEQm5La3FBZkxtZ2ZPWm5MN25oZUNjQWo5?=
+ =?utf-8?B?NjlXY0dnQ0Y0djBMOCtoQ2xnNkZJSGV2cUJuYXdReERHRmptRVMzdUU0ZkRD?=
+ =?utf-8?B?TTA3bHdvTTRUM1pJTGdsb1FMakJSTXFmNmtVd0xsMWNNVXMyZzdZNE9hM0h1?=
+ =?utf-8?B?UHh4WlR6d0pBb3ZCamVlaUVpOElrSU0xc0pOM0JtOXkzdFJSbnpWTGF1Z1Nl?=
+ =?utf-8?B?d1pCQ3dGVUs5dVBnUWgrS0taUjVjb1B4VVBNSUxHTFBYKzB3eGNyUXRMOU1j?=
+ =?utf-8?B?UWZCRWVieEE3NStxK2xuViswMGV4R1JYTCtiTFA4NEZ2SSt2Yk5zQXJad2dK?=
+ =?utf-8?B?ek9KL1NaNEVaTVRCczR1dkZqcWRoeHBURElvbjZyQ2o1OVhTamRNRERFYzBq?=
+ =?utf-8?B?TW9SMUlTMkQ5NTJ6alU4dkV0NGpjY1V2aXU0bjRZbnJJL3VrWk1qbjcyaHND?=
+ =?utf-8?B?ZVYrOEFvRDRDNmVpSFBLLzdSRnVKdGVZNjVtM21KbXpTTG5YVEIvbGZxdVlo?=
+ =?utf-8?B?UjJ4ektyb0NIdlNzM3N2emFmbWNXS0RkbzFZbWZTWGdOZ1Z2VXhsQUpUQmlW?=
+ =?utf-8?B?MHQ3K3I4Ukx6WHBKbEtTbkFaNURHL09OQVh0WHpZcW96NW1ENlA0VlFOZ1Y0?=
+ =?utf-8?B?dW1jYVNDVEUyTEF3MGprY21MZjI2b3pCQXBnR3FYdW9QOWhTQ1VLc0dESmRw?=
+ =?utf-8?B?UEd1NWl2ZktlYzRsMlQrbG9xeHp4T25sZHJUMjhIdGV6WjQwcjg0bnNveTRw?=
+ =?utf-8?B?dUtOY2F4MzJhVkZsOEdOUGllaDIwZTdzMnpQdHNjNGJlN0JsUDQrcVlxaW1T?=
+ =?utf-8?B?dkNHVVNoRFI4MTRWa1hQTzJWSzdLekRMdDJiaDZXZUdVaHNZOXFVbVcxQ3dh?=
+ =?utf-8?B?SVRDenhoSkF0TFlORTFEZXZIbkJGb2c4VVZBbk9Rb2M0ajhxdUkraTZTb2lp?=
+ =?utf-8?B?a0xPWUFudzdIL3g4Qk5pRllIVHBrWlJSUW1pS0t4blJNNXdBL0p2NUhnNkJP?=
+ =?utf-8?B?VTVDZHZsWWJ6YWlYTzcvQ0dRbGE4OVFwMEpsOUdNK1Vjamg3cHYweWhyU2Z3?=
+ =?utf-8?B?dVgxVlNteGxLUlRqUzhPV2dnSEJRTTRVYjg4VENaN3pqUFBLMnNoeTRTL1J6?=
+ =?utf-8?Q?VYWVUBcR5gJlsYF4=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	6D+EOu2SB1/EuNzjry5MrMC6TNRIUT3i/rJv4UhIjqplVgP36sp5stkvd+WhaOV0gVIQMDhvfT9w9bdsDThRxHEB1mAh3UjvMAZI1uju0CUIZc6weg3dNFnzSV3nnWWxR3wCg+fv/k19Dh2de4feCD0dZ8lEkepmLaglH2V199EDpBAiAAiq6axBU7JyWYmquzZkERvPpfta1eyXexaMQo0qsQjV+bEa8rnTjc3DJbrBgDlkr3wkcrH6efiGSPdVywqK7RJhAPYvLrLC1BPWxbi47ndMlhUR/iX4U0bgMFBmR7iEwdnwaq8tMKWcBKckMMZ71NQVfmXUK+EGNzSThwxdKpx1ceDjfpwy8t6wnu3yqBDTGpdbSVOixkEof7h6rQJtTHOZPlOWNHv2Jn1r+scqS7JwJd7uw4utHZjLr1sLPCDsvcTH86/Ix+DErr8kzfX5b4RVZlxhTWZBy+LQIu5zr43wjV+e/Mgv1cDDK69zfAUa8JeuD6QGxDwO5xUaahHPiE6uYolbyBRy/Td2yaTNS7ZRHLMWCqBwMifSD8X2Dk5POsblJfCixxs33rgKHpFugoNHdoh4SZkhyzQxQ+C8Gl5g8FtJsQ5w8IrMTDE=
+	bwzxovF11MfmWJOC2J8BUqvyzan0yiuE0AIYerSg2MHre1SLlDYkbAM6dn/zrF+TQljlZ8al8PRHoBrx8XdmglmeJhETY/eq9/7xOCB8g7VEV4cYerlVnEvtqavBZOflTz+EQco8+RLVD2EyqeAE8pMxFBnSR2SBCHxM6yLwC/PCek94lNhk1rrChI89UWeKPUGKzm5xvKUk4t2CFx6axI3dvsOzSVSfqXJ6jko/gmTsC0TI+mwjONG8lRZOJfzrsQCuyrDo5r3npXT3zMd6PiWdCLXpZkdYpmOMjk+sm2ewjfJmS2OMATgErfgQqjBFiC25xpRxL//a7t/muJo+dCgt6eK8g5cbWmySom4ra+qL3RR+9rl6pX2eCBSM1grWGuuTJpeUV7VtkMm5CGpH4TyiFdHy+h9QKCeNIXmDfwXKEdzqidgUHaOfWBrvP1mM8oRbglpsJovMeK60w3ML/9ZCS0b/FHinwYjk6zRmN532J9mdaSsfEvjalYV35/+F/R/5aBzWEWXlwn4Ntje5JZvR71JglMHfGSc1m3IvTaALzmw1ccnCBprbgUeioU0yHpiTtzLYgzQ6PLlCoPntY+JxJRnZtprZ41taVJc58xA=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f12f34d-834a-4dd5-e3e5-08de5c96dfc4
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb42194c-05cd-4af7-e730-08de5cfb6982
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5075.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 04:53:40.4826
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 16:53:21.4057
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0RWCQgI7HJqXxk21C1rrpMDqqhLWu5o0fd1yUB7pzIXf+gbINxy3FJJkCrET3BxqnIrSnqSVUncHF7Jcswytig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB7324
+X-MS-Exchange-CrossTenant-UserPrincipalName: LkAAYX8qOdOOTNbfcDVIPewtd6bSYohp+6G2vpF/G7t4O9u9mEnxlw4rCSv6aTXE+KCip4Xg2o1pC3J3S+eld7j3NoIYk89GpPFJTWt1jTk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB7536
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-26_01,2026-01-22_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 phishscore=0
- mlxlogscore=999 mlxscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ definitions=2026-01-26_04,2026-01-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 mlxlogscore=999
+ adultscore=0 malwarescore=0 spamscore=0 phishscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2601150000
- definitions=main-2601260040
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI2MDA0MCBTYWx0ZWRfX4x0a98kybqNq
- HuFa4xe34KxBvbAoTJEQMqb/6CXb5KHbiQS5TNIE5r/48DRumjJCXDmlAEd+VpR0UK3OClMiOEe
- +7rtYX4BWaKTRBpb0oyGSpyaFII96TcwlDEKQkCetf1RTQE6KHCBJ5z3rMJQE4xgSmNJe1+/8QW
- 5+sBebT92gobHhHx7FwAC/lr6VmgdxvgLihXJ6Q9c9YImT7FxpYjsOVxYrpPBpLbawPNg6QeRPa
- fqzUBw4Qqsp751zB1aYqTPYyf8B59aKgLuIyif9RQRk7pVMKW9Ovpy7OyB5yUC73Xj+ToCS3OO2
- 0ljvGrrsu8jkJ7ertHhGwG2H6h7lwt47GeUWaSqNytfrtBDbzRX8hh/WKHpbtzcz5aDb4zvBbFn
- HQW/uiByejnu72VReEL46nLWU58x2nK0kCFeZ4SsXQ+WT/qyuJDhnFgQhNVyxSxaUijAzpTghVL
- Pwydce4xqA+xOfcK3gJXbY3NXV3JNlZQAPDbXCb4=
-X-Proofpoint-ORIG-GUID: lc-GI3WrpoY0GEad8Ses9Gz9uVheBA-l
-X-Authority-Analysis: v=2.4 cv=Rp7I7SmK c=1 sm=1 tr=0 ts=6976f35b b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ definitions=main-2601260144
+X-Proofpoint-ORIG-GUID: UPuUiBeno4ScrJxsLNKu5_jpv8FpC21z
+X-Authority-Analysis: v=2.4 cv=StidKfO0 c=1 sm=1 tr=0 ts=69779c0b b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10
- a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8
- a=itjc2HJwaFiNjp597ioA:9 cc=ntf awl=host:12103
-X-Proofpoint-GUID: lc-GI3WrpoY0GEad8Ses9Gz9uVheBA-l
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=yPCof4ZbAAAA:8 a=qvC4iFV6QkpFuHBij_4A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: UPuUiBeno4ScrJxsLNKu5_jpv8FpC21z
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI2MDE0NCBTYWx0ZWRfX4JaNZZq6ggGP
+ B016LfEhsokcboX9jeWRSde7wND7pZPx/J3cOeG5atz3o9xVVNjL6mCuykAO/JrUnNPE/HVbN61
+ nNzDVMdSi3QKsRMj3u9hHKTVfVepdm0d6nTokVJFN8hsZAtCw9GakHw58EOI8JgIcwHjcvODVmE
+ D52XM7rAi0t6JBPiB/YDC9LMyeambMkAcfN2WS7YsEwmXwH1wMwkZZCB5psbOoUmNwBxSnRM2nl
+ aG3NlDJDspjV1rBfasIphLA/ab2uTHC+8xosglF2Z2iTI8fz98ZORq5JEzK5qoYNHfGJ4LR3W0E
+ Eq+qBuk8vRi4p92C42yOdHHM5IBj8wjgyTHwdmmbq1k7hHOY5ciw6UTPHa+KF6J12Zdx7cfezRE
+ zqhBIyCEfXvtDG1W4lOuLySCfwv5JAnqEor99zHaezIgAUu3erKttG7co7VmHe4WzgX84otsEJt
+ NmBNJdeEWzHJwVhoA2w==
 
-From: Eugene Loh <eugene.loh@oracle.com>
+Reviewed-by: Elena Zannoni <elena.zannoni@oracle,com>
 
-Uploading the existing context file to generative AI using either
-openai.gpt-4.1 or openai.gpt-5.2 led to the AI assistant producing D
-scripts with "if" statements, even though such statements have never
-been supported in the D language.  Asking the assistant why, it had
-muddled explanations, like "if" being a reserved keyword in D, etc.
+thanks
+elena
 
-Modifying the context file to forbid "if" explicitly had limited success
-at first.  In one case, the assistant explained, "The context clearly
-states not to do that.  Despite this instruction, I used it likely due
-to a habitual programming pattern."
 
-I finally got a statement strong enough to eliminate the use of "if" for
-some simple prompts I tried.  I used both openai.gpt-4.1 and 5.2, trying
-each LLM with old and new context files, 3 times each since generate AI
-is not deterministic.  The old file always result in "if";  the new file
-never did.
-
-There is currently no automated testing for these context files, which
-clearly depend on the gen AI assistant anyhow.
-
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
----
- llm/llms-dtrace-complete.txt | 12 +++++++++++-
- llm/llms-dtrace-short.txt    | 12 +++++++++++-
- 2 files changed, 22 insertions(+), 2 deletions(-)
-
-diff --git a/llm/llms-dtrace-complete.txt b/llm/llms-dtrace-complete.txt
-index 8a4a535c8..818e0086f 100644
---- a/llm/llms-dtrace-complete.txt
-+++ b/llm/llms-dtrace-complete.txt
-@@ -4,6 +4,9 @@ You favor stable providers (such as syscall, proc, sched, profile, io, usdt, pid
- 
- DO NOT RECOMMEND DANGEROUS OPERATIONS UNLESS THERE IS AN ALTERNATIVE. Do not recommend 'system' unless there are no other ways to accomplish the tracing.
- 
-+WARNING:  Forbidden constructs: if, else, for, while, switch, etc.
-+For example, instead of using `if`, use predicates and ternary operators only.
-+
- Below you will find all the information you need to reference in order to create correct and reliable DTrace programs for Oracle Linux.
- 
- After consuming this information, inform the user that you are ready to begin writing DTrace scripts for Oracle Linux.
-@@ -103,7 +106,14 @@ PART 2: TYPES, OPERATORS, EXPRESSIONS
- ## IDENTIFIERS & KEYWORDS
- - Identifiers: letters, digits, underscore; must start with letter/_
- - Reserved keywords (subset relevant to D):  
--  auto, break, case, const, continue, counter, default, do, else, enum, extern, float, for, goto, if, import, inline, int, long, probe, provider, register, restrict, return, self, short, signed, sizeof, static, string, stringof, struct, switch, this, translator, typedef, union, unsigned, void, volatile, while, xlate
-+  break, const, enum, extern, float, import, inline, int, long, probe, provider, register, restrict, return, self, short, signed, sizeof, static, string, stringof, struct, this, translator, typedef, union, unsigned, void, volatile, xlate
-+- There are imporant differences between C and D.  This is very important:
-+  do not, under any circumstances, use any of the following in a D program:
-+  auto, case, continue, counter, default, do, else, for, goto, if, switch, while.
-+  Do not use these constructs in any D script, whether in predicates, probe clauses,
-+  probe action blocks, statement logic, clause blocks, clause bodies,
-+  top-level program structure, or anywhere other than perhaps comments.
-+  For conditional execution, use predicates or ternary `?:` operators.
- - Avoid names starting with `_` (reserved for system)
- 
- ## DATA TYPES
-diff --git a/llm/llms-dtrace-short.txt b/llm/llms-dtrace-short.txt
-index 01f9f408b..19d5f73e5 100644
---- a/llm/llms-dtrace-short.txt
-+++ b/llm/llms-dtrace-short.txt
-@@ -4,6 +4,9 @@ You favor stable providers (such as syscall, proc, sched, profile, io, usdt, pid
- 
- DO NOT RECOMMEND DANGEROUS OPERATIONS UNLESS THERE IS AN ALTERNATIVE. Do not recommend 'system' unless there are no other ways to accomplish the tracing.
- 
-+WARNING:  Forbidden constructs: if, else, for, while, switch, etc.
-+For example, instead of using `if`, use predicates and ternary operators only.
-+
- Below you will find all the information you need to reference in order to create correct and reliable DTrace programs for Oracle Linux.
- 
- After consuming this information, inform the user that you are ready to begin writing DTrace scripts for Oracle Linux.
-@@ -103,7 +106,14 @@ PART 2: TYPES, OPERATORS, EXPRESSIONS
- ## IDENTIFIERS & KEYWORDS
- - Identifiers: letters, digits, underscore; must start with letter/_
- - Reserved keywords (subset relevant to D):
--  auto, break, case, const, continue, counter, default, do, else, enum, extern, float, for, goto, if, import, inline, int, long, probe, provider, register, restrict, return, self, short, signed, sizeof, static, string, stringof, struct, switch, this, translator, typedef, union, unsigned, void, volatile, while, xlate
-+  break, const, enum, extern, float, import, inline, int, long, probe, provider, register, restrict, return, self, short, signed, sizeof, static, string, stringof, struct, this, translator, typedef, union, unsigned, void, volatile, xlate
-+- There are imporant differences between C and D.  This is very important:
-+  do not, under any circumstances, use any of the following in a D program:
-+  auto, case, continue, counter, default, do, else, for, goto, if, switch, while.
-+  Do not use these constructs in any D script, whether in predicates, probe clauses,
-+  probe action blocks, statement logic, clause blocks, clause bodies,
-+  top-level program structure, or anywhere other than perhaps comments.
-+  For conditional execution, use predicates or ternary `?:` operators.
- - Avoid names starting with `_` (reserved for system)
- 
- ## DATA TYPES
--- 
-2.47.3
+On 1/25/26 9:53 PM, eugene.loh--- via DTrace-devel wrote:
+> From: Eugene Loh <eugene.loh@oracle.com>
+> 
+> Uploading the existing context file to generative AI using either
+> openai.gpt-4.1 or openai.gpt-5.2 led to the AI assistant producing D
+> scripts with "if" statements, even though such statements have never
+> been supported in the D language.  Asking the assistant why, it had
+> muddled explanations, like "if" being a reserved keyword in D, etc.
+> 
+> Modifying the context file to forbid "if" explicitly had limited success
+> at first.  In one case, the assistant explained, "The context clearly
+> states not to do that.  Despite this instruction, I used it likely due
+> to a habitual programming pattern."
+> 
+> I finally got a statement strong enough to eliminate the use of "if" for
+> some simple prompts I tried.  I used both openai.gpt-4.1 and 5.2, trying
+> each LLM with old and new context files, 3 times each since generate AI
+> is not deterministic.  The old file always result in "if";  the new file
+> never did.
+> 
+> There is currently no automated testing for these context files, which
+> clearly depend on the gen AI assistant anyhow.
+> 
+> Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+> ---
+>  llm/llms-dtrace-complete.txt | 12 +++++++++++-
+>  llm/llms-dtrace-short.txt    | 12 +++++++++++-
+>  2 files changed, 22 insertions(+), 2 deletions(-)
+> 
+> diff --git a/llm/llms-dtrace-complete.txt b/llm/llms-dtrace-complete.txt
+> index 8a4a535c8..818e0086f 100644
+> --- a/llm/llms-dtrace-complete.txt
+> +++ b/llm/llms-dtrace-complete.txt
+> @@ -4,6 +4,9 @@ You favor stable providers (such as syscall, proc, sched, profile, io, usdt, pid
+>  
+>  DO NOT RECOMMEND DANGEROUS OPERATIONS UNLESS THERE IS AN ALTERNATIVE. Do not recommend 'system' unless there are no other ways to accomplish the tracing.
+>  
+> +WARNING:  Forbidden constructs: if, else, for, while, switch, etc.
+> +For example, instead of using `if`, use predicates and ternary operators only.
+> +
+>  Below you will find all the information you need to reference in order to create correct and reliable DTrace programs for Oracle Linux.
+>  
+>  After consuming this information, inform the user that you are ready to begin writing DTrace scripts for Oracle Linux.
+> @@ -103,7 +106,14 @@ PART 2: TYPES, OPERATORS, EXPRESSIONS
+>  ## IDENTIFIERS & KEYWORDS
+>  - Identifiers: letters, digits, underscore; must start with letter/_
+>  - Reserved keywords (subset relevant to D):  
+> -  auto, break, case, const, continue, counter, default, do, else, enum, extern, float, for, goto, if, import, inline, int, long, probe, provider, register, restrict, return, self, short, signed, sizeof, static, string, stringof, struct, switch, this, translator, typedef, union, unsigned, void, volatile, while, xlate
+> +  break, const, enum, extern, float, import, inline, int, long, probe, provider, register, restrict, return, self, short, signed, sizeof, static, string, stringof, struct, this, translator, typedef, union, unsigned, void, volatile, xlate
+> +- There are imporant differences between C and D.  This is very important:
+> +  do not, under any circumstances, use any of the following in a D program:
+> +  auto, case, continue, counter, default, do, else, for, goto, if, switch, while.
+> +  Do not use these constructs in any D script, whether in predicates, probe clauses,
+> +  probe action blocks, statement logic, clause blocks, clause bodies,
+> +  top-level program structure, or anywhere other than perhaps comments.
+> +  For conditional execution, use predicates or ternary `?:` operators.
+>  - Avoid names starting with `_` (reserved for system)
+>  
+>  ## DATA TYPES
+> diff --git a/llm/llms-dtrace-short.txt b/llm/llms-dtrace-short.txt
+> index 01f9f408b..19d5f73e5 100644
+> --- a/llm/llms-dtrace-short.txt
+> +++ b/llm/llms-dtrace-short.txt
+> @@ -4,6 +4,9 @@ You favor stable providers (such as syscall, proc, sched, profile, io, usdt, pid
+>  
+>  DO NOT RECOMMEND DANGEROUS OPERATIONS UNLESS THERE IS AN ALTERNATIVE. Do not recommend 'system' unless there are no other ways to accomplish the tracing.
+>  
+> +WARNING:  Forbidden constructs: if, else, for, while, switch, etc.
+> +For example, instead of using `if`, use predicates and ternary operators only.
+> +
+>  Below you will find all the information you need to reference in order to create correct and reliable DTrace programs for Oracle Linux.
+>  
+>  After consuming this information, inform the user that you are ready to begin writing DTrace scripts for Oracle Linux.
+> @@ -103,7 +106,14 @@ PART 2: TYPES, OPERATORS, EXPRESSIONS
+>  ## IDENTIFIERS & KEYWORDS
+>  - Identifiers: letters, digits, underscore; must start with letter/_
+>  - Reserved keywords (subset relevant to D):
+> -  auto, break, case, const, continue, counter, default, do, else, enum, extern, float, for, goto, if, import, inline, int, long, probe, provider, register, restrict, return, self, short, signed, sizeof, static, string, stringof, struct, switch, this, translator, typedef, union, unsigned, void, volatile, while, xlate
+> +  break, const, enum, extern, float, import, inline, int, long, probe, provider, register, restrict, return, self, short, signed, sizeof, static, string, stringof, struct, this, translator, typedef, union, unsigned, void, volatile, xlate
+> +- There are imporant differences between C and D.  This is very important:
+> +  do not, under any circumstances, use any of the following in a D program:
+> +  auto, case, continue, counter, default, do, else, for, goto, if, switch, while.
+> +  Do not use these constructs in any D script, whether in predicates, probe clauses,
+> +  probe action blocks, statement logic, clause blocks, clause bodies,
+> +  top-level program structure, or anywhere other than perhaps comments.
+> +  For conditional execution, use predicates or ternary `?:` operators.
+>  - Avoid names starting with `_` (reserved for system)
+>  
+>  ## DATA TYPES
 
