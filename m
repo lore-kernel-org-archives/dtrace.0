@@ -1,80 +1,87 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE5430FC3E
-	for <dtrace@lists.linux.dev>; Tue,  3 Feb 2026 22:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6364320CBE
+	for <dtrace@lists.linux.dev>; Tue,  3 Feb 2026 23:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770157903; cv=fail; b=jMzhkNT4MgouJdsFJfikiruIk1zrDophar6KwNPoGnnp4taHemIvhW6kBK017qkNCCOjxTsKovKN5ETKHu10+r8zNa3B1FsxVgxzaIT0sVi5lW78Cq6GTdnZiJYt/eK2Sas7EbrLJoFsQYPOP9O5PgZGqV6Lq0r3YOgPzz3ooqs=
+	t=1770162846; cv=fail; b=XunE+xvjN5hDX0cf9rVi04wCrJVxopreAJAa3SWaSBip2/bwLBsCkozgPwNCiumUnyjwVEeDPBhEb19Ddsazg6MtcAh+Xam1opyoJF5EIkFbIHRbEonSnPA9XC3DpVmrEndDLemX57SRAVN+NvCNGeREDMrDLTkT1XePP173DMM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770157903; c=relaxed/simple;
-	bh=2UsI/GTUE8iifpKVVsHUM4+Y3l6MPSvIBrPBQ9lRigs=;
-	h=Date:From:To:Subject:Message-ID:Content-Type:Content-Disposition:
-	 MIME-Version; b=BnWWD953rv1incQwGLmYgASmcHI0Ol6hpfT0KzKlGhih6mdc4CqjYIA68VRjoEnRxOOd25kBliTN04gApUNSp7UduQ63yV0qCAPQWUQKCGw5dlbRR+QetO/4GuTI9ZBNtLKMDXk0KjQAkV3YCyx+RWFT1u4k1rENiVdd+a36vbI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Y/fVKTKQ; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=XJDeX1HS; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1770162846; c=relaxed/simple;
+	bh=bjxYA2WbaMCBZ4DtD3ds7USb9CqGov3LPhnOmBApzrs=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=f3pl5zqdXej/axEPS2PbEnQHYARXGV0o4pBEeUOPaikQgD61svO8KUXsv+B7WrfG6HE3VXJxgrB5BIyeQzVS7n/35Bgwm1h1ZIKZ5hiav8JEX1EeF6Shy/3siz31UElyJeXv2xqckKR0/Qlado+e1TQN5P4HI7FYdMw+El7+rlM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=QOizSr4c; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=I83Hh/jG; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Y/fVKTKQ";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="XJDeX1HS"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 613IuEOQ1423481
-	for <dtrace@lists.linux.dev>; Tue, 3 Feb 2026 22:31:40 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="QOizSr4c";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="I83Hh/jG"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 613IuFOb318462
+	for <dtrace@lists.linux.dev>; Tue, 3 Feb 2026 23:54:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-type:date:from:message-id:mime-version:subject:to; s=
-	corp-2025-04-25; bh=w6Lsn8IBCrYw5JZOQDyr9aLSvD9+vHH3Pbo+AwGwwTQ=; b=
-	Y/fVKTKQ3/TRP3bnbdTOiyXZQSzPZAQTNR1H72KUZ1YIln0L1nD7qnrssb94mOWH
-	TA4b8oon0Exn3zI5Hf9dObLMihQ8TTpHp1CpsXpBgzGl8gk1+GhuI/FnuVq050cC
-	zbBzlV9m6qDDDzcEAugGfd8whwkeqZ6xyzrVOWet18q0zfDv0/Fpuh4pcXOmbNNF
-	vPu49Yn4VQxTKwOpyTF2XuddGgcVtEPWSFJPM3W3UljN7t2YS+88UttYHcgCQpOr
-	xBr+kACAJyEfbagJHaJVa8KB0qcDX2xQP9v9NbDUhLFZrgUoL/N+AE++SAVlsuXG
-	NNrAvylQXf3UsznvTipKkw==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4c3jsqgv4d-1
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=wHidio8ZFOEzjHCOYcHx6G9F1KpS5aRJ7AE1hDZXB9s=; b=
+	QOizSr4c2wC6DnjB9ajr1k7eW5lS8NFGqgmZwSKwphtSlVk0GkBOUajPtWOquLST
+	ozBJir97w9J7J3pRs35c/l4vn1u1JVmSdcmeaTDpEwnhHAz5NxqwtdeofZlc/X/E
+	oWcNTBRR9yBFXwQ1JDG3tDo2/8vtnyVYqn4pZYn944/5myYkgTMv/+aMXnEi7ySm
+	JtcNGHHTUrz3BA3j+I8hg/NGJHuVybcdi+npcVmG/iQMRD92bzF4OLHbXS/JPeUH
+	NtX6sJzMEBKV3gchv9ZAQw8Gn/bse/kwAIlVNmWFmR2OWNmrycuTtnpzd0fPk2re
+	3NjZ2Y2BeIe3TzLSWft4sQ==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4c3k7uguv6-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 03 Feb 2026 22:31:39 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 613MNZmn001250
-	for <dtrace@lists.linux.dev>; Tue, 3 Feb 2026 22:31:39 GMT
-Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010051.outbound.protection.outlook.com [52.101.46.51])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4c186ah4p4-2
+	for <dtrace@lists.linux.dev>; Tue, 03 Feb 2026 23:54:03 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 613NLd2f002081
+	for <dtrace@lists.linux.dev>; Tue, 3 Feb 2026 23:54:02 GMT
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013031.outbound.protection.outlook.com [40.93.201.31])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4c186n4jen-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 03 Feb 2026 22:31:39 +0000
+	for <dtrace@lists.linux.dev>; Tue, 03 Feb 2026 23:54:02 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nIFJa7p3hyEUPGB+0vm0vDkQ+sRdZiz3BByqMEKe209m4iIc9712Fpek2dC4tMcHd/XZf734NmKlFU+FYWkAqhrFrEI0o5K9tGquC/yNHVPdBgf759KC50m9iS+Vy6BVxmSilChGl8xxQrSPw8dVVhIYhIL5tE/yzhbCx/nAedYBqpfhMSNvmQsNPbkYCKYYOU2g0C+O3Yr3l3OwNunYmp6rd+jdu+sXX1nnR1/8vbxd2neihOzgEa+tjj5sS9nF+d8HYRyo7pTiuaInA5XZP3PEUpkcRK2kkkR48+uTr4F3xyqXzeiZn9EZNxQ7Xvos+MlglTVJNWcCkU7ckG6umg==
+ b=YnurmFqF8IPg6BzK3guYHHbdNf552lEIy2K2LWoPLA2F5Lr4rv2MMMNu7yzVVR+GeLqbYjrmSbOoIEHRZuYJYI84IVFzKZqyVMNgAtoCAG0mb4dWIctV1eHaUar6SmzlFeMn1P1eucO0AyXsuRWWwoCe0jcDo74xvKR0R5y4VpPv13piLyVbI7fje9hhlWhAJWcQtPcCllSpJH+RYeYJxnggZ+AE4aalpaBb//+2Bi21jJGitZWhqL7C2w8KOvQZs6ZSP8Pu3/EUePqR0l95/k+iswiQ0wyr/uY5iQYjfK18FT/pYvJuvnEfbq0t7R4/jvJv2QJL1veTMXFXunWg6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w6Lsn8IBCrYw5JZOQDyr9aLSvD9+vHH3Pbo+AwGwwTQ=;
- b=Dr/Rm1xtWLa2Bh1lBgav4kg3PLFb4jZ+9Uf0AYU9dm47Ccx7asI/1jSOz/gr9MHv2/6FJg5neaYxVtsBKAAH+fJGOR/WhNHcDqPZQHn69X+RBaoheS/a1wumI3/gArS67UyThW+E7XdEaYnqlbw0nA0/lzxPxW33nwsUVC8cBUAw+VcDV9oHCSLxAjepVFj40IzcwTfK6nxeK/TfWEHpHB4Mt0NI0XFjzsuZk8HYk9/XsaLRFqTROP7EJNzwGZISGwI4RJfe47LreL1p1G/A5VOmSIYOZFcLXGFNW4bSzyv64Ch3/5lqdcHoUNkYSzqYE2bUG5h276XSpv6a5+Cw3w==
+ bh=wHidio8ZFOEzjHCOYcHx6G9F1KpS5aRJ7AE1hDZXB9s=;
+ b=Z9N9eeAsTwfvXUvjgbtYM2ZbCfX3KvMYmN8E1/cDH401XSX3xuvWrXfGaIKL3+LN+3GbsMd7h+Lloyrqq7CkW4fp/3LMohglViTemSK2okD+N1fTzOuPqROcveO57ivIYTcWtSvc2XMnnJk/7S9XJyZmxktt8zUCaoKykFnP/XC1iVlUMoVvqGhUw1Z+ZPOkvpRreZ3zCKTHDfHYOsixulWtC/8Vg1DQeYXEMwtRb0lmsqHxTT2NNVnP8QeZExdfde8eyeZ+gjJ/qY2uELnZ9kr3QU1cQBJfQq9KazbIHB7NApvMHRyOtY6m2al/vSMHDhzV/MVaOYZbEsOa5p777w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w6Lsn8IBCrYw5JZOQDyr9aLSvD9+vHH3Pbo+AwGwwTQ=;
- b=XJDeX1HSRZS3dhjDP6F4M4dBxnrD7vX9eW/7kTlWs3120Vg651k+wQMJffrCXkcIIwgEixMMN35DMeAkQ4QtJKeN0sdYI9gO2MoFhcsPn8g1fHczX90rg+gboqy4sOkPVHwuNMme1/MPwY7FJ0vpcsZTi3W9nqwmRO64a/c7M70=
-Received: from DS0PR10MB7522.namprd10.prod.outlook.com (2603:10b6:8:15e::16)
- by SJ0PR10MB4704.namprd10.prod.outlook.com (2603:10b6:a03:2db::12) with
+ bh=wHidio8ZFOEzjHCOYcHx6G9F1KpS5aRJ7AE1hDZXB9s=;
+ b=I83Hh/jGcFQ/r27sx6qP6GqMse30TQS8AgLTV30c7aqHAyL4LWopDQLl6jSghm+MYkVRLT3BLY50XJZ2PkynktE9O+8aqdUEfdKyRbEk8gw1FNTf4Z5RL6LhAaU7lLIBwBof5grVI+2VAlp4QmfvVTTWH5vKq1UcYa49n+SmQVk=
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
+ by SA1PR10MB997557.namprd10.prod.outlook.com (2603:10b6:806:4b1::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.12; Tue, 3 Feb
- 2026 22:31:36 +0000
-Received: from DS0PR10MB7522.namprd10.prod.outlook.com
- ([fe80::9668:955e:1688:ea7a]) by DS0PR10MB7522.namprd10.prod.outlook.com
- ([fe80::9668:955e:1688:ea7a%6]) with mapi id 15.20.9587.010; Tue, 3 Feb 2026
- 22:31:36 +0000
-Date: Tue, 3 Feb 2026 17:31:31 -0500
-From: Kris Van Hees <kris.van.hees@oracle.com>
-To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH] usdt, stapsdt: fix arguument handling for multi-location
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.13; Tue, 3 Feb
+ 2026 23:53:59 +0000
+Received: from CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::c47b:6cdc:87b1:aa6b]) by CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::c47b:6cdc:87b1:aa6b%6]) with mapi id 15.20.9587.010; Tue, 3 Feb 2026
+ 23:53:59 +0000
+Message-ID: <a1d50720-a420-9171-d1b5-c3deb4f746a7@oracle.com>
+Date: Tue, 3 Feb 2026 18:53:57 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH] usdt, stapsdt: fix arguument handling for multi-location
  probes
-Message-ID: <aYJ3Q3oBklx1lGAQ@kvh-deb-bpf.us.oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-ClientProxiedBy: BL1PR13CA0261.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::26) To DS0PR10MB7522.namprd10.prod.outlook.com
- (2603:10b6:8:15e::16)
+Content-Language: en-US
+To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
+        dtrace-devel@oss.oracle.com
+References: <aYJ3Q3oBklx1lGAQ@kvh-deb-bpf.us.oracle.com>
+From: Eugene Loh <eugene.loh@oracle.com>
+In-Reply-To: <aYJ3Q3oBklx1lGAQ@kvh-deb-bpf.us.oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PH7P220CA0076.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:32c::16) To CO6PR10MB5636.namprd10.prod.outlook.com
+ (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -82,327 +89,388 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR10MB7522:EE_|SJ0PR10MB4704:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2176df2a-3f27-460d-661e-08de6373fdaa
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|SA1PR10MB997557:EE_
+X-MS-Office365-Filtering-Correlation-Id: a5fe2796-98e5-42ad-603c-08de637f7fc1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|13003099007|7142099003;
+	BCL:0;ARA:13230040|366016|1800799024|376014|13003099007|7142099003;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?YfzpwnL/pTyjIEkNtw7kuMZglPGQ49ZatP4mEX6fbLBmwUfwrwvwx5Jwujke?=
- =?us-ascii?Q?xL8+PovmVKIwcMbCEZiGeeyLaCYhq+IfpKJxJFku9uYCEcwAp4CM3TYPAhHR?=
- =?us-ascii?Q?eYc3Vc2aOyF5Iw90P2hBYOatZfhI4MLCMDnUe+gEcM4fjDl8NRrNm4MG82m5?=
- =?us-ascii?Q?MDDeJsLLOQpvPS7qAp2Kbb2WWFnuCol1B8PdgRP94AkUF0/L2+6tPKaIGMfz?=
- =?us-ascii?Q?9++6FOh0BYvyMWp7jgnwuN+FXfYlckRtr73SpdUF0Z+jLGjlMjQAc1sM8kY5?=
- =?us-ascii?Q?fu38Tg7eOOmdaiQdy5ZmF8YtoYLyIupHoJ3HdyjYH1oLNin1u80sqlL8OJAM?=
- =?us-ascii?Q?w91E8XNfWj9rTAqn5hDfsF0YESZPPl6wfT0dfR4fsikTrApf0wBu1GDQhp5r?=
- =?us-ascii?Q?Zkg2IcBhZ4UPqPo9nUCdvDi0vx/2RBf3LPD904BdBvlPWWHLccaVaKc2oT8O?=
- =?us-ascii?Q?qnNya8AlJ3CXyCr6WLuw8bjrlYtfVrMQjsBx28X/sx2uof8kBiryrgPuxOAO?=
- =?us-ascii?Q?ClrKiXsqfGdg+MiO1kJ4SbDzf9coY/etuEOnwbkePhiRU3CqsPcOTAEyd0Xv?=
- =?us-ascii?Q?qm+iC9UMcww6HpYq9ch5JRv/QjaH21BXV9lOLyWEkAPah88apI5ydbhvAvZP?=
- =?us-ascii?Q?3DUEKGHOyH8PcVsPxea7gvy8d7JZZ+XWQBuASkKULRx1SMFeiV1ERmPXuoQV?=
- =?us-ascii?Q?K28Z9M9vtl+3pIQsDgvncfba0CC1cijZTYaAUj1oytxQ9gMWS4ggt1yINKzq?=
- =?us-ascii?Q?wlkPPDiV4J+8MfQZrqYgN7ZJUdNIAQT32gAiW+xRsqjhOgpfjCXUj2G1Cs4R?=
- =?us-ascii?Q?iIQctPag90PbVEr8B4IAQ17YgItQxdVdqzt+PGP6GZ/Mu7HoDpF7OyZNnCAe?=
- =?us-ascii?Q?JNFK17f1hBAY7VpYHC9v/vcpfaG3oLzVfszQVmPTtVA/7hiQrJBrUbKViVIr?=
- =?us-ascii?Q?C2VS4ozCDR2pb26b0N/6zGcBEoavTLbmAOD4CB+RFgDu9JoYZ1VzivRURqf/?=
- =?us-ascii?Q?uJjXVboG4gzqtOG7Ou/CFaLNvvcR9HbXFPDOyLmNEoVe7F9OKZFN7l+Ibp3W?=
- =?us-ascii?Q?gr9yJl9oMNheTcxj19l9G1yUD3U2ikUqC6IW2kSShEtKbt49TL1TkbibQi81?=
- =?us-ascii?Q?3FrrW+2O604mJ+p7eTUAUR06hQxLtZk8LnFWKYMzEzzxrTp3QVOfdhrmKN++?=
- =?us-ascii?Q?EdmWBUG5MyBTFcFNQnOdrgrSp4ujn0fkk+VW3H5DVJb5UHvqvkwoOUrgWTly?=
- =?us-ascii?Q?yH+dbejH2UZCpz0aqSnEeEACxwPH/h6EXEeFx55gVaW6kq54uFa7Q65Rh+Jc?=
- =?us-ascii?Q?3Trg5Rf+obX93Etl5PaLskK4Pe4/7IotW9Nh+dPRcgUEbLJnDSDf/rEypHMK?=
- =?us-ascii?Q?vJn/q3bXqBowSP/H0kO9l4V02oFFuWatQxQUCurIW0Ku84og1lm6VGm+8QzF?=
- =?us-ascii?Q?3rjvbIEgsYhLzdMoXXvKQbHHquOwI3Qgan0FG68SqvLHRgVXi3+oU6RFJ5Xz?=
- =?us-ascii?Q?ISFz/Zvy10UK2LohN/7r5OwWgXiBqWwB1YhvZeEd9kLq0wVZDFqDCDBbFZCL?=
- =?us-ascii?Q?G1YES9snBmX9D/q0UGw=3D?=
+	=?utf-8?B?bnJwL0VuOUE1WHlsSFFEanZOczhQTTNaS014Z1VWTlBpeGJZdHczOFNOWTgw?=
+ =?utf-8?B?UTNtWUlTWnNPc2srMUppNDIzNVlVaU1GM0VNYVBZVnYvZDFXOGttUGc0SFFY?=
+ =?utf-8?B?cU5kRlNIMlRoNG40cGgwVW5zaXZDV3liUzVtOXJYVlM3MnJYUE43S0Q0RnBP?=
+ =?utf-8?B?Vk9mUWR5YWpxd3dyNDMxcmR2bEx3R3FyWmZRU1ZpaVhZLzJNaWx0dFhobGNE?=
+ =?utf-8?B?SWZKSndxbkU2dmZVRXdwYWdCUHFCMkNIMkFWL2RpWmtGdXR6RXZtenZhQWhs?=
+ =?utf-8?B?RFF6Y0p0T3ovWDBkZHM5ZzlkL2phUmhaMWliakhSSXhjSmIyTEE4dml1aDAz?=
+ =?utf-8?B?TmhYbHZ2aE5SNzZYY1lDMTlsc2g4V2lkWW5GK2pCWUJKdml3NjBiR3ROOFQw?=
+ =?utf-8?B?T1Zod25mdDNIT09oa1pqMmE5SXBoUllXa3NjQXh0N3kwOU5oOS9ZbXZCWElO?=
+ =?utf-8?B?SjQ2dWhSbU9kdW1zd044aEdvblNFVitvT0tFSFhES3pMUy9OLzFvNjVCNFVR?=
+ =?utf-8?B?VVBydzkyMmI4NldJTHBLMXJSSmJiSzcvRmpJTXAwVTNsNWNSRFpFRWdTaGNL?=
+ =?utf-8?B?eDFmWXU5TlNSYWJkK012U2xRWHlMTUVyK00wOWxRbWJEOG1kT3piUWRJOUVy?=
+ =?utf-8?B?THU5UGlHdTJvM0xhZmpONkdnSDZkWWxYaVNxMjRDYXJQbTRNZGNGeWNLK2Q4?=
+ =?utf-8?B?RUV4TTlwSnlXWmtNTHVVT1lyaHFqTzgzZnlCdUJUU0laUEh5RUZpSmsrRW1H?=
+ =?utf-8?B?eGNOR1pzaVlZZlVROGJMSjArZnlYYzk0VWxaMG51VXNKdHk4RURiN1NTN0dB?=
+ =?utf-8?B?cEhITm50RCs5cm84cFJWWFhhWVF2dDNQTTI1RTZlS0ZBNzVZcjlLTUFhcUsz?=
+ =?utf-8?B?K2xVSndkUFpLWFJUZzNjNzJ0NWZrY2JWUHhXb3o3V0xGWTByS05CTWlERHE4?=
+ =?utf-8?B?elA1Y3p3VmFkVWVvdFZGK3NNNXQ0OEsva3pLRXI3bEJvTy94R0xrTTROME11?=
+ =?utf-8?B?d2xGaU4yb1BWa1BRT3NZbDF2cTZCMUpudFZubzcwcklzTERDdnhwUWhKamtK?=
+ =?utf-8?B?Ky9aVSs0cVAzdGFqeDFPU0djUmJpU3RUM08wZ1hNTlQxMlpPRGtmMjVFVjIx?=
+ =?utf-8?B?L2VSeCtaZVU0Uk04TUkwUlBZMzgyTFBxL0p6eHV0b2ZnWEV4MWNuay9XUy82?=
+ =?utf-8?B?Z3phbU1DRlJwM25IM2NDSGUvQkFZZkhKaC93RUFrVU1ZT0k4WHlsc05uOUQw?=
+ =?utf-8?B?RnhuakhRYzdZSkxKOGhjV3pqMXIyTFJzanN1aW8wRjQ1SEh6cDU0Y2VKa0tN?=
+ =?utf-8?B?RWtUVGJ2Y1VtcndWOEp6ZVFPeWZNc1RMYi9yTHdrY0R2Qkk3azVZSHJPQVR0?=
+ =?utf-8?B?a0hUMElLblZLN0FLVU12VTRHZWFXRWJQbllLaE4yUVdZbHczWHgyd2UwZlNi?=
+ =?utf-8?B?Ti9XUC9sclJjOGFLdGVRN042Q3BZbFJHMVF1UkZzNVBOZ1dxQWZmQjNpRE1C?=
+ =?utf-8?B?SXQrVlcwNEQ2dkhFZFNVVTdXRzM5WGdaUFQydkNpMEZlL29KTVlmMzZ0NE96?=
+ =?utf-8?B?azdZQ1NUUTdZNWNiMlNPaWpPaEp4UlRWZEpLVm1ZcDJ3TXRaTmRZem5CU3lI?=
+ =?utf-8?B?Y05zRFBmYTNJK3ludk5YTWZYR2lXaG5pbDd5dGtUdkVJYVFnZU1HN3UwZnpt?=
+ =?utf-8?B?V0p6YVU2NjY3U0tsN1gyTlFuSWZudFFaeWxBQ3o4Q0RQUkNFSTFNK2Q1MkRx?=
+ =?utf-8?B?SDRVNDVJbVlWTFdVYlRpVHVUNFVva1Ira2hmMkRlWnBZMFpYam9RenQvL24y?=
+ =?utf-8?B?WFJXNUFsVzE4ZmNla2hjSFNXQm4vSE9JbjRXVkNnbGNyY240ZFJkZEd2S1Zl?=
+ =?utf-8?B?MDlhQXNnc1pvRCtzaEYreXN2YU1UQk9wNW9PUStOTU9qbXQ2WC9NK2pEdzZR?=
+ =?utf-8?B?alNnSEJwazZkbXZ4Zmo5Qll2Q2dPTUdUMTloRWhaK091OVZWVVkvN2d2SmVz?=
+ =?utf-8?B?eVcxWEkxZk1qbjd6czNDVXo0L1N4T0ljMGJaWHVFWExlWENVRi9wbHBkbzhh?=
+ =?utf-8?B?TGJPQlVRMjQrUGd0MU5iaDNoQlpYclM4WklnNFJtcTh6bnMwYVFVSEdPMHV0?=
+ =?utf-8?Q?bu0pi8Lpm1NeYUBBwFrmgDgk2?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR10MB7522.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(13003099007)(7142099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(13003099007)(7142099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?8CX/FdQw9jd0EWUd15dmrBMLkXMqYFV+Ut0iYJxhsNYWrzfgYIlFZq6pFbKn?=
- =?us-ascii?Q?1HEGmzYdrV8zFcFOwRF5gQf+llRhgbXSbpWnHzuxAgX8KE53T+nLu8KraAac?=
- =?us-ascii?Q?5RaNKhgfrLn2sd0S39F7M52jdjMwO/t2ir+OMJN5ZOeRER3PFoGK6GTSKBFD?=
- =?us-ascii?Q?Cfw7Q/D9uRb9VtUWyY8TRzcmxd+e0oaKtdPMeYVhqdMd+IVr4mNkqqpfela5?=
- =?us-ascii?Q?BgjBaXpgzbQaGw3N/UhacisVDY2VygUwlRrlxHYXHMnAjfeiatECyJWM4yVK?=
- =?us-ascii?Q?JFPLPUX55mtTJeH/GpvnOo/8Ij2Tag2VhvJ7/Md5xue8/Ak6PuTACOoSwT/v?=
- =?us-ascii?Q?OpeKrOZMRvlXjLcooUSByKvvFBufQKIwlReIx+c+F6tv0BlGLv8esqTb4TO/?=
- =?us-ascii?Q?cmUZ5KeCQJgfciJotyxXo5/gDrJqezLGlfKlJ9MOhxiMGl8frkGHH4PKrEyl?=
- =?us-ascii?Q?d64oyz1kZ0qzsIMB/yIeHbYYziCepULyaUVcTCwdAZGTOfO8JFBGqTbrblwk?=
- =?us-ascii?Q?o82Ogn4mEJDy3os8VDh1+ZvT2qkmTjNLSz903Zp+NgSxr7OMj94OQETLPA/P?=
- =?us-ascii?Q?FGT5r31LfpEp8blcACFqr3nY0fqTFti30MnKQTkMC+7x83sHaAYaZCQKKxBd?=
- =?us-ascii?Q?ruyl8vbhZtpieCgtHthyOsuJv016XM2LotUEZAvahJQQlmmhOK0uL86VzQwL?=
- =?us-ascii?Q?juhe7SUB2J5XciWWP5Cc8u0AAM4RLMbR0//ZmgYErtNbVQwfBeZPCGVnArEv?=
- =?us-ascii?Q?98tM4wWaUnet1f0VL9ZUvJ0IqWwhsxD5hMSrdpJsDJhjhUrgVYTwaj7rhQ2s?=
- =?us-ascii?Q?sMjy/eC9p+cPHTll7ffvP7vR+CPnlysodXw6VczZOiHwwDQAjH94zgL3XJdt?=
- =?us-ascii?Q?8Urf6mKPb9T3HkC5x1JOXHn8ywLgKDvjXeTIOk7D93M+If6fEwYcE/nK6YJh?=
- =?us-ascii?Q?aeG126BxMcfZf/QMYy/az3GjgZ38aytYG/oN4WO/qri/vU4MLhrZl7ycxb42?=
- =?us-ascii?Q?DzOvejaVY51/764sE4V/Zifp86p59FBmr055K1Ai9PfZIwOHYovj2t0l0UFD?=
- =?us-ascii?Q?1NzVYvS3r88lxeoqHzOss2VI/sHDg7KBPayCjPSE4VSb/JRFN1uliBZiKosE?=
- =?us-ascii?Q?i2iASBhMeIOnzb9h4RcM3HSjIO0LkUrgvaKVHct6NbvzJQw0NwncPRRYKQOM?=
- =?us-ascii?Q?0QZpAT0rn3Lyl5wfpGzep2K96f2qQWnnrL2ScxGB2YVr7QStKRvbccaqVMRU?=
- =?us-ascii?Q?ghW6NksUOdKL2bqio0+hh/q1PRMOa/RU4ua5yvYJXtoy4YXXykfXjxfOENp9?=
- =?us-ascii?Q?XskYZNDlwS3wlnmDRS7n8qFyaPx3YrxetlhWM6bNj/eFVd7r3npw2ENT2YVL?=
- =?us-ascii?Q?Ae5mG2M3hM/RNtXTS60acUK/M5i3AdDyqo5t79ozhEyMtpu8fnIfV4ZQ9qPz?=
- =?us-ascii?Q?pzJYnPdkAmtp9M01KaZDaGem15/hKzWVV09mqG+Xri26XhhD3+iRSnnyior6?=
- =?us-ascii?Q?TjNK+z/Cr3mPnYJwZdJz6gKmiIxroNIk5DAFuzLIiXFuTAXBsSRazWiLot76?=
- =?us-ascii?Q?b2YE1iQtJaMtm67kyKVm5XtwrDMeOtk8pS6N5fDVWqxV9wSsqHWhXmupORtq?=
- =?us-ascii?Q?mgA6xt8X4iQebuvMxvCkieQaaSNQz/0tSzpINR1/H4UtEl18m+oYWG2eghGw?=
- =?us-ascii?Q?a2m96SNkfgclauoe1P6VbLpFbhcuCD5/bWTCaVT0cKnA1PjuDDphmVoIdWdM?=
- =?us-ascii?Q?YGIJ45WRv53um8FhNvj0kLQvIzoCI3g=3D?=
+	=?utf-8?B?bHI2NDJiSUNtYUZpWHAzdWJxcG03ZmJ6VWVPKzBVazNHdE40N20yUDAxbFRn?=
+ =?utf-8?B?dXp6NHloOXFLREJ5Y2FyVWZDbW9Uc0xzd1dyRXVxcW9NN09JVjY1bWhBSXJH?=
+ =?utf-8?B?OHhEVHVGdTB4elhDZmZuQTUyc0JZUEtYUWNjTkpCNFlyZkp2VXFkVWs0WDEv?=
+ =?utf-8?B?ck0zUjVCQ2FTMmdKUWFiOXJPN3VWUkkxVy9nTGs2TzZqT2pncXhpOHE3TnAx?=
+ =?utf-8?B?b0dabEN1K2pCNkM0QjBkRUk2MFlkYzBrY3NqK0lDc1JoZXRad2dxN1ZHOVhB?=
+ =?utf-8?B?RW55ei9IcmdBQm5rd0tFc2M2SlZqbzZybHFNUkw4THVHcTVHZ21PR1kzdWxn?=
+ =?utf-8?B?MnQzaXorWWYvdDdGZmszQm1wM0tDVXJGaml0Z3NIaTVneGY2bzVzck9VTEJF?=
+ =?utf-8?B?UWV1NEJVbVFUcUphR1hpd1hQWG5Jc20zaFRLdTd3R2E0NEhvV2FOYy81emlx?=
+ =?utf-8?B?REVGdjJLSlkxRGkvU0Yzc3hCT0ttaWpvN3VpUlcwQ0dkSTJrL3V2MWhkMHhn?=
+ =?utf-8?B?TXRXa1oyODRydXBLYWNUT0U1MVlsakplaVVidmFJd3kvOWdBZHozRTd5Wi9D?=
+ =?utf-8?B?MlRNV2VXS0JSNlUzUWUzaDQ1WE01eGI2bHg4WEEvbG9jVVlqY2llNjJBelJs?=
+ =?utf-8?B?NUJjMXVKL2cxWFl5VkZ2TCttQ2R1YXRrTzdWQ3R3ZVJvM0xxR0JrL1dVNVh2?=
+ =?utf-8?B?My9wSmFrdWg3VHErUm9mUWFnV29HcTdrVjEwZHNjR3dDVnNobXNwZUZpbzJH?=
+ =?utf-8?B?bTZnaGVWSVFlbEVvVy9tckNBdy83QUQ1QlRYTEJscjRlMDBpL3lEdVBKT21a?=
+ =?utf-8?B?ZXJQSDBUd1IrQ3c1WTZYTElib3czVmN0MjZmcXJLaGpEUnV6ZGxWVGxKS1dZ?=
+ =?utf-8?B?Q0JFUkRxa0lpOWVlOVVxRVpUWnBZVHBoamZTQmNMVXdDTTdFcHdDakI3bFhj?=
+ =?utf-8?B?SDI4di9JS2lQSTg0b0FjSkdaQ2gxcTZ4K0lmUlc5WUJ4M2xUWmpWTjgxejRn?=
+ =?utf-8?B?bUJDZEM1MEUxd3B4Zlp0Vi9oSnVPUmpZMGg0UVZMOUh3NVFxS3VhMHlpSjRa?=
+ =?utf-8?B?Y0VONnhtZG04N2h5WmZhekNWeDIva3ZKdTF6Z2JqR1pNN3liTjZlcHRVbHhx?=
+ =?utf-8?B?Q1I3TDJXaENLL09PTUJ3YjUwc2s5YitCYVBUSUQ1elo4ZXo4SUxSQVd3eC83?=
+ =?utf-8?B?Q0hZWnI3YXY5eUJ3cm1IenpKQUlCdXRPTzhqTzhwOTVJYUM0QisvaXgrVmFt?=
+ =?utf-8?B?T2xUU0N2d2daQndxOG1jTDUreVYvaE13NVoxMkc0WUNFQ3RUTmg3ZDdJRjZl?=
+ =?utf-8?B?ZUF0V3ZzZi9vd2gvMlR0VnRaOWErdVlkY1ZEY1o2dFhzRHJ6K25zY1d4SWhQ?=
+ =?utf-8?B?aTNpVVU5QkVyamZiSHpWWU12WWtEYXEySTM4dnRNbjlmd2FKSjJyK01VZmFw?=
+ =?utf-8?B?eUFMQWJyNGZZalE1Q1BQU0Z6cGgyUk5Vb0ljL2tSamJLWDVTeHFoWUFnUnFL?=
+ =?utf-8?B?RFNQaEN4bGVLU3Nyc1h0UnVVd1lDdVg1b08wSUZERkxBcGhraUNNc1IvRnM2?=
+ =?utf-8?B?SElHcWRYSHoxcXdDZzV4ekYzTFduUEhHT2twWVV4a3dsYWdmRStTblBDaDhX?=
+ =?utf-8?B?dDRYZXhGWURQZkQ1SFVoRFdpTG5iWVVnV0lORVRlUG0rWkh5ekVTMVpFRTUz?=
+ =?utf-8?B?ME85dWd1UE8wKzltcVRWcWdkWUFqNGJaTFNlTHlZRVJDTHBJVkEyeDA0RU44?=
+ =?utf-8?B?bjZSZVNZK21BVFRhUnVKUEdicXJ6L01PMCtWc2M0WGRtbW92MWkzclFCMlg0?=
+ =?utf-8?B?V1hRMGY2Q0JUZmsxd0V1eU9XSzFrUGxLSDRDMnFpdVNNSjQ5bElNYTRQWk9l?=
+ =?utf-8?B?ZUxteUd0bzNHbzFnTFJMaEhHSjdRVDJHa2xYQXdqNTdDRkNEeUl0ZWJSdnNL?=
+ =?utf-8?B?aEFJdWFibTEzMVdDN1FRWW91TXRuNTFmdE5UMXlOdDh3LzdnWlhHNTlRK0lJ?=
+ =?utf-8?B?dlpnS3lxS1lhYk44ZWU5ejF5VytkL1FpaW1TSW1OL0dBN1hsVk5QZDcwZXFm?=
+ =?utf-8?B?MytvY3NObXZiM2pqQmlzUy9Ob3JzSndxMVJZejQ0SFFTbUVPN3h3ZmVWZ2dy?=
+ =?utf-8?B?VUVVdExCTDJFN2xjcTJ6eXlRWlNwbytKNjZ3RW5SSElPeGNkM1BudmFqcDZX?=
+ =?utf-8?B?UTBjbUI0ZE9FZzdkK1RUUzZIYTBrcTlWWFJ2ME5JSUFtVGNxQ0l0azhNL3pV?=
+ =?utf-8?B?NS8rMnUzTWJEcnJpby9KU0pid0JGMHMzelk2d1VjbkV3M2kybW9tQllkNHVT?=
+ =?utf-8?B?RXBUR0tTZ2lGQWxQa3VIYWhERWQveklZaWpyeGY1NjJ5TCt0d1NKZz09?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	dSbS9rFdshoeZTYgnVKf9Ule3cAkOtlwvQ9q84PoovUKF71r6TdUBnxWuKkVg/+c+xX4vOKcv8TSBe6oU9Uf6aGnj3ItGnZ9nd8Dqbd4+uDiIuZt4kHpvwsrPjm1q0TC9NQJA3PQFHClZmVqxUxD7m+JNwLfdydQm/wVr2La4h8Lvqbe575JJ7xMAgV2GzOSQa3nHqrT5cLtcLBYqUJiN15cKJZHqNUT2xWz8Pxk8Fdu5K0MuVhIEGpgrXdhm+QXgi6BKbTUuH9uL4ofICPfmDcZ+0scKTu6iyxSAS/SegmgMeO/1u0UAF3kQ0FtETCNIipVluBGbMLxtRRRkvUVu1xn7tNVBKs+nveW6A8//tO9LtkRN5M9SuZpS36w1yuEi9R9Al+v3GhRGKPuFeS+MJUwncn2Qbp/hyYwk+qHZftoA8xntZdtOKyEjrftx/jYsRJtLOq39bx8/zT3QzYZcV4Vs3AM5oocS5n2qWynhDqbxw5h32EfJNSvn24whoeh6b7FkWxImQO5uFoG6KzfCNw/yjcxJBMRnayL2tTiujVgcaRUlMRTGtDjiD1X+GMCI5CWqhVkWqY/3/6fLDxQGunk1Ej2NZ0A+oCCDOzsD60=
+	b8iX2ylVHYto7hTcVMEXkpKaPKHy0w6DPoF/jFuR+ANF/Tbp0mn+svN2I0g3QymqcDIlldyhMOx5ma4OyuKAsl2poNaXmcQ6Rxe0iRaUHFOfpPB1m0heVLJkRQ+Dhu9+XbaOxtMdHWR6tgiYdUNtD/j11SC49fFLoGXo0LOxhgoAUArtYkW4KXjmB0sQMuBFqo5rOILTRjXq9gWEOD3ObN0mL3E27ai5goG8JCmbcNODfO8YK7PGGismWuq+GJcuohUC7LjtBm459JIbBBm/EyuFN8lDSZdcFMmsdaIeNfqRFWBsgPz9dUHaZXS4nhWFqqv9MgeiYb75mNd37uVU1MiGoM3JHtlJxouGM8j5zVdsgHKYmmWo+h8d5vQEqsR/2FhYlObE7OiZgmXlkjYNUmd4+EMcg8ueoafrDer+9vtb9F1IFLViawdY1pLyxH6nfzj0ztA3MzQVpQrJMB4Lmjja5daO3inRm0swi2+bAhlaZ8mEm0TcTKmRZiL9kYZgo4Jm3BSrBU2SSnTlK6sHW7IJ+n/Kbe/xYZHuW7QR96Wh+EMCpiX8sql/6nKTTU/bZ3WdCIq8p04EsrMSudDb/kRb7Sk1rka4OALCWrSfvwo=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2176df2a-3f27-460d-661e-08de6373fdaa
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR10MB7522.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5fe2796-98e5-42ad-603c-08de637f7fc1
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2026 22:31:36.2480
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2026 23:53:59.0547
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xV6fuTugm8In0/woDttU1NwfpiCIRzumg1pqM1yT7hAWaZRr+Q2RWhXkY0OM2EE4VSrLnY9s4d3Tdr7KsVOKiaqzBr2HKfbUElbNPVygVwI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4704
+X-MS-Exchange-CrossTenant-UserPrincipalName: pMUlYuN1xOTgf/2bqHN+A5hes6iNfdyM/9VtsYnbO9H9R2yhg9UyNBnUyPAl5BszblImK4CzsAawdmdL438Mrw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB997557
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-03_06,2026-02-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- mlxscore=0 adultscore=0 phishscore=0 bulkscore=0 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2601150000 definitions=main-2602030177
-X-Authority-Analysis: v=2.4 cv=Db0aa/tW c=1 sm=1 tr=0 ts=6982774c cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
+ definitions=2026-02-03_07,2026-02-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0
+ malwarescore=0 mlxscore=0 adultscore=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2601150000 definitions=main-2602030188
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAzMDE4OCBTYWx0ZWRfXyszPl4TxJNKN
+ 8kFOIZp2JpO4DizwHx3qFBty5x3F+AFQPvZqW1FOXQ1Y/C2IbzppBnpsXprgu3lcZJ+/TymIWHI
+ LrRWfcOh23ysHyMPqaNloMjKdQ9gFQxTcGHbnWu6kFP8yYcax+odAmI6YbsTNiYceKpQtAPBIL5
+ X3pjrP07iRhD+uhu7heVkE7mxC4OT1E0jMjpTNEGemiHV7Idkmk2+38r3XselvfwyAwXsok4kMF
+ vA60r7LCskLF41Ref40H1IfXw63s/JueGniOvm8LgG9TfSnX9ntUZ/zuOloXsjLfsEea3mSpsZZ
+ U3QxiqcooQkrBjplqj/aORjOUGpY/3WzY2mxpsFt/DjgjTm9eELPwV/yVQuMqUFirxuThQlhZSw
+ vPRe81DGA+I7PLJ4Wvqfo0vlOx5a80VxB3oWRBrXLfLND/tl/A00p3dYO4+Jb5ODgKSi9/VIiuI
+ K2AGoUJv0zWoDFsZiJvJRWJxkgSMTBLXWUFglZdU=
+X-Proofpoint-GUID: 5vFosi-l2KdTVs5mGqnqWlWUMSQII8X2
+X-Authority-Analysis: v=2.4 cv=Z7Dh3XRA c=1 sm=1 tr=0 ts=69828a9b b=1 cx=c_pps
+ a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=HzLeVaNsDn8A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=yPCof4ZbAAAA:8 a=03kTC6tBYgzzdIcB37UA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: he7cQOH3Yf6dCyp_byqiNL675JrJLUEC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAzMDE3NyBTYWx0ZWRfXwdHdc3untNlE
- 4aZ5HB6QBb+uX+vyMWIGEup2g3C3JpJe6IpOa+4d2lEJugu2deICDdBKS2qOSZwTKjqJ3ZEMx6y
- wWMjZ1JvsAaa7gQKwQkFDeEtyJJgF5wOwZ3uhclAd2aenVvD6FTCOnZ3hv9bpCE5ClhAkvBgDVN
- cZuxvoWSbWIQbks3Jcae6jKnS/49GgCFMY+BNPBwLvNGwMu8o+F+XnUrq3jHihv/5ZD1A/outnp
- DWLuJmtRfYe23l07h/ik33uE6EXned0vgSpQSlVLTsapwQbIK9dZo7r8ZN7OiPRVztmemaHfbEN
- uxXvethOdn8Waf1JFHnYW7Ma/6sTVlGklEUCEOgy5ggxnhwL9UKLlK7bzc8jotxxTAP8SxoCxob
- HufXdXiWf93x9TAfDDoVA61namN3yBqom7YMaukM4L6QjtHc9iadUHeZ1ichJSMbXSy4JWMeDMz
- +Udw8+O9bDbdQIJkqPQ==
-X-Proofpoint-GUID: he7cQOH3Yf6dCyp_byqiNL675JrJLUEC
+ a=yPCof4ZbAAAA:8 a=ivjqQoigMlVgDZ1Y4eYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ cc=ntf awl=host:12104
+X-Proofpoint-ORIG-GUID: 5vFosi-l2KdTVs5mGqnqWlWUMSQII8X2
 
-When a USDT probe has multiple call sites in the same function, only one
-of the probe programs retrieves the argument values correctly.  The
-probe argument data is collected for the first underlying probe, and then
-skipped for any subsequent underlying probes.
+s/arguument/argument/ in subject line.
 
-Since it is not guaranteed that the argument description is identical for
-all underlying probes (although it is almost always that way), we need to
-process the argument description string for each underlying probe.
+The commit message should include "Orabug:".
 
-Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
----
- libdtrace/dt_pid.c                            |  9 ++-
- libdtrace/dt_prov_uprobe.c                    | 10 +--
- test/unittest/usdt/tst.multiloc.r             |  3 +
- test/unittest/usdt/tst.multiloc.sh            | 67 +++++++++++++++++++
- .../usdt/tst.stapsdt-notes-bug38922360.r      |  3 +
- .../usdt/tst.stapsdt-notes-bug38922360.sh     | 52 ++++++++++++++
- 6 files changed, 134 insertions(+), 10 deletions(-)
- create mode 100644 test/unittest/usdt/tst.multiloc.r
- create mode 100755 test/unittest/usdt/tst.multiloc.sh
- create mode 100644 test/unittest/usdt/tst.stapsdt-notes-bug38922360.r
- create mode 100755 test/unittest/usdt/tst.stapsdt-notes-bug38922360.sh
+Since this is right up against a release, should this patch update the 
+changelog and NEWS?  Or, a separate patch?
 
-diff --git a/libdtrace/dt_pid.c b/libdtrace/dt_pid.c
-index 6f93123f..a379a0fe 100644
---- a/libdtrace/dt_pid.c
-+++ b/libdtrace/dt_pid.c
-@@ -1350,9 +1350,16 @@ dt_stapsdt_parse(dtrace_hdl_t *dtp, dt_proc_t *dpr, dtrace_probedesc_t *pdp,
- 		if (strcmp(pdp->prb, "*") != 0 &&
- 		    (strlen(pdp->prb) > 0 && strcmp(pdp->prb, prbname) != 0))
- 			continue;
--		if (prb + strlen(prb) + 1 < dbuf + doff + nhdr.n_descsz)
-+		if (prb + strlen(prb) + 1 < dbuf + doff + nhdr.n_descsz) {
-+			char	*p;
-+
- 			psp.pps_sargv = prb + strlen(prb) + 1;
- 
-+			for (p = psp.pps_sargv; (p = strchr(p, '@')) != NULL;
-+			     p++)
-+				psp.pps_nargc++;
-+		}
-+
- 		psp.pps_type = DTPPT_STAPSDT;
- 		psp.pps_prv = prvname;
- 		psp.pps_mod = mod;
-diff --git a/libdtrace/dt_prov_uprobe.c b/libdtrace/dt_prov_uprobe.c
-index 6d1c0f65..e575b072 100644
---- a/libdtrace/dt_prov_uprobe.c
-+++ b/libdtrace/dt_prov_uprobe.c
-@@ -1659,15 +1659,7 @@ static int probe_info_stap(dtrace_hdl_t *dtp, const dt_probe_t *prp,
- 	if (!upp || upp->sargv == NULL)
- 		goto done;
- 
--	/* First count the arguments. */
--	for (p = upp->sargv; p != NULL; argc++) {
--		p = strchr(p, '@');
--		if (p++ == NULL)
--			break;
--	}
--
--	/* Record number of arguments, and allocate descriptors. */
--	upp->sargc = argc;
-+	argc = upp->sargc;
- 	if (argc == 0)
- 		goto done;
- 
-diff --git a/test/unittest/usdt/tst.multiloc.r b/test/unittest/usdt/tst.multiloc.r
-new file mode 100644
-index 00000000..06b0c94d
---- /dev/null
-+++ b/test/unittest/usdt/tst.multiloc.r
-@@ -0,0 +1,3 @@
-+test:main:args main
-+test:main:args main
-+
-diff --git a/test/unittest/usdt/tst.multiloc.sh b/test/unittest/usdt/tst.multiloc.sh
-new file mode 100755
-index 00000000..aa8ea2e5
---- /dev/null
-+++ b/test/unittest/usdt/tst.multiloc.sh
-@@ -0,0 +1,67 @@
-+#!/bin/bash
-+#
-+# Oracle Linux DTrace.
-+# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
-+# Licensed under the Universal Permissive License v 1.0 as shown at
-+# http://oss.oracle.com/licenses/upl.
-+
-+# This test covers USDT probes firing from multiple locations in the same
-+# function, verifying that argument data is correct.
-+
-+if [ $# != 1 ]; then
-+	echo expected one argument: '<'dtrace-path'>'
-+	exit 2
-+fi
-+
-+dtrace=$1
-+CC=/usr/bin/gcc
-+CFLAGS="-I${PWD}/test/unittest/usdt"
-+
-+DIRNAME="$tmpdir/usdt-multiloc.$$.$RANDOM"
-+mkdir -p $DIRNAME
-+cd $DIRNAME
-+
-+cat > test.c <<EOF
-+#include <sys/sdt.h>
-+
-+int
-+main(int argc, char **argv)
-+{
-+	DTRACE_PROBE1(test_prov, args, __func__);
-+	DTRACE_PROBE1(test_prov, args, __func__);
-+}
-+EOF
-+
-+cat > prov.d <<EOF
-+provider test_prov {
-+	probe args(char *);
-+};
-+EOF
-+
-+${CC} ${CFLAGS} -c test.c
-+if [ $? -ne 0 ]; then
-+	echo "failed to compile test.c" >& 2
-+	exit 1
-+fi
-+$dtrace $dt_flags -G -s prov.d test.o
-+if [ $? -ne 0 ]; then
-+	echo "failed to create DOF" >& 2
-+	exit 1
-+fi
-+${CC} ${LDFLAGS} -o test test.o prov.o
-+if [ $? -ne 0 ]; then
-+	echo "failed to link final executable" >& 2
-+	exit 1
-+fi
-+
-+$dtrace $dt_flags -c './test arg1val' -qs /dev/stdin <<EOF
-+test_prov\$target:::args
-+{
-+	printf("%s:%s:%s %s\n", probemod, probefunc, probename,
-+	       copyinstr(arg0));
-+}
-+
-+EOF
-+status=$?
-+
-+exit $status
-diff --git a/test/unittest/usdt/tst.stapsdt-notes-bug38922360.r b/test/unittest/usdt/tst.stapsdt-notes-bug38922360.r
-new file mode 100644
-index 00000000..06b0c94d
---- /dev/null
-+++ b/test/unittest/usdt/tst.stapsdt-notes-bug38922360.r
-@@ -0,0 +1,3 @@
-+test:main:args main
-+test:main:args main
-+
-diff --git a/test/unittest/usdt/tst.stapsdt-notes-bug38922360.sh b/test/unittest/usdt/tst.stapsdt-notes-bug38922360.sh
-new file mode 100755
-index 00000000..4678a415
---- /dev/null
-+++ b/test/unittest/usdt/tst.stapsdt-notes-bug38922360.sh
-@@ -0,0 +1,52 @@
-+#!/bin/bash
-+#
-+# Oracle Linux DTrace.
-+# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
-+# Licensed under the Universal Permissive License v 1.0 as shown at
-+# http://oss.oracle.com/licenses/upl.
-+
-+# This test covers stapsdt probes fired by the STAP_PROBEn macros, verifying
-+# that argument data is processed correctly when the same probe is used in
-+# multiple locations.
-+
-+if [ $# != 1 ]; then
-+	echo expected one argument: '<'dtrace-path'>'
-+	exit 2
-+fi
-+
-+dtrace=$1
-+CC=/usr/bin/gcc
-+CFLAGS="-I${PWD}/test/unittest/usdt"
-+
-+DIRNAME="$tmpdir/usdt-notes-bug38922360.$$.$RANDOM"
-+mkdir -p $DIRNAME
-+cd $DIRNAME
-+
-+cat > test.c <<EOF
-+#include <sdt_notes.h>
-+
-+int
-+main(int argc, char **argv)
-+{
-+	STAP_PROBE1(test_prov, args, __func__);
-+	STAP_PROBE1(test_prov, args, __func__);
-+}
-+EOF
-+
-+${CC} ${CFLAGS} -o test test.c
-+if [ $? -ne 0 ]; then
-+	echo "failed to compile test.c" >& 2
-+	exit 1
-+fi
-+
-+$dtrace -c './test arg1val' -qs /dev/stdin <<EOF
-+test_prov\$target:::args
-+{
-+	printf("%s:%s:%s %s\n", probemod, probefunc, probename,
-+	       copyinstr(arg0));
-+}
-+
-+EOF
-+status=$?
-+
-+exit $status
--- 
-2.43.7
+The tests define CC, but I thought we were getting away from that with 
+commit aa63660a7cfc ("test: allow overriding CC, OBJCOPY, OBJDUMP, NM, 
+...").  And, yes, there has been some slippage in that department.
 
+Typically, CFLAGS picks up $test_cppflags.  I didn't bother to check if 
+we want that here.
+
+Not a big deal, but test/unittest/usdt/tst.multiloc.sh has an 
+unnecessary blank line in the D script.
+
+I quickly tried the test on one system (fwiw OL9 5.15 x86).  I didn't 
+bother to investigate, but I got:
+
+test/unittest/usdt/tst.stapsdt-notes-bug38922360.sh: Running timeout 
+--signal=TERM 41 test/unittest/usdt/tst.stapsdt-notes-bug38922360.sh 
+/home/euloh/z20240321-systemwide-usdt/zdir-src20240611/dtrace-user/build/dtrace
+FAIL: expected results differ.
+
+-- @@stderr --
+dtrace: error in dt_clause_0 for probe ID 5067 
+(test_prov2322957:test:main:args): invalid address (0x402010) at BPF pc 252
+dtrace: error in dt_clause_0 for probe ID 5067 
+(test_prov2322957:test:main:args): invalid address (0x402010) at BPF pc 252
+Diff against expected:
+--- test/unittest/usdt/tst.stapsdt-notes-bug38922360.r  2026-02-03 
+15:07:41.656410179 -0800
++++ /tmp/runtest.18439/test.out 2026-02-03 15:41:13.250649966 -0800
+@@ -1,3 +1,4 @@
+-test:main:args main
+-test:main:args main
+
++-- @@stderr --
++dtrace: error in dt_clause_0 for probe ID 5067 
+(test_prov2322957:test:main:args): invalid address ({ptr}) at BPF pc NNN
++dtrace: error in dt_clause_0 for probe ID 5067 
+(test_prov2322957:test:main:args): invalid address ({ptr}) at BPF pc NNN
+
+On 2/3/26 17:31, Kris Van Hees wrote:
+> When a USDT probe has multiple call sites in the same function, only one
+> of the probe programs retrieves the argument values correctly.  The
+> probe argument data is collected for the first underlying probe, and then
+> skipped for any subsequent underlying probes.
+>
+> Since it is not guaranteed that the argument description is identical for
+> all underlying probes (although it is almost always that way), we need to
+> process the argument description string for each underlying probe.
+>
+> Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+> ---
+>   libdtrace/dt_pid.c                            |  9 ++-
+>   libdtrace/dt_prov_uprobe.c                    | 10 +--
+>   test/unittest/usdt/tst.multiloc.r             |  3 +
+>   test/unittest/usdt/tst.multiloc.sh            | 67 +++++++++++++++++++
+>   .../usdt/tst.stapsdt-notes-bug38922360.r      |  3 +
+>   .../usdt/tst.stapsdt-notes-bug38922360.sh     | 52 ++++++++++++++
+>   6 files changed, 134 insertions(+), 10 deletions(-)
+>   create mode 100644 test/unittest/usdt/tst.multiloc.r
+>   create mode 100755 test/unittest/usdt/tst.multiloc.sh
+>   create mode 100644 test/unittest/usdt/tst.stapsdt-notes-bug38922360.r
+>   create mode 100755 test/unittest/usdt/tst.stapsdt-notes-bug38922360.sh
+>
+> diff --git a/libdtrace/dt_pid.c b/libdtrace/dt_pid.c
+> index 6f93123f..a379a0fe 100644
+> --- a/libdtrace/dt_pid.c
+> +++ b/libdtrace/dt_pid.c
+> @@ -1350,9 +1350,16 @@ dt_stapsdt_parse(dtrace_hdl_t *dtp, dt_proc_t *dpr, dtrace_probedesc_t *pdp,
+>   		if (strcmp(pdp->prb, "*") != 0 &&
+>   		    (strlen(pdp->prb) > 0 && strcmp(pdp->prb, prbname) != 0))
+>   			continue;
+> -		if (prb + strlen(prb) + 1 < dbuf + doff + nhdr.n_descsz)
+> +		if (prb + strlen(prb) + 1 < dbuf + doff + nhdr.n_descsz) {
+> +			char	*p;
+> +
+>   			psp.pps_sargv = prb + strlen(prb) + 1;
+>   
+> +			for (p = psp.pps_sargv; (p = strchr(p, '@')) != NULL;
+> +			     p++)
+> +				psp.pps_nargc++;
+> +		}
+> +
+>   		psp.pps_type = DTPPT_STAPSDT;
+>   		psp.pps_prv = prvname;
+>   		psp.pps_mod = mod;
+> diff --git a/libdtrace/dt_prov_uprobe.c b/libdtrace/dt_prov_uprobe.c
+> index 6d1c0f65..e575b072 100644
+> --- a/libdtrace/dt_prov_uprobe.c
+> +++ b/libdtrace/dt_prov_uprobe.c
+> @@ -1659,15 +1659,7 @@ static int probe_info_stap(dtrace_hdl_t *dtp, const dt_probe_t *prp,
+>   	if (!upp || upp->sargv == NULL)
+>   		goto done;
+>   
+> -	/* First count the arguments. */
+> -	for (p = upp->sargv; p != NULL; argc++) {
+> -		p = strchr(p, '@');
+> -		if (p++ == NULL)
+> -			break;
+> -	}
+> -
+> -	/* Record number of arguments, and allocate descriptors. */
+> -	upp->sargc = argc;
+> +	argc = upp->sargc;
+>   	if (argc == 0)
+>   		goto done;
+>   
+> diff --git a/test/unittest/usdt/tst.multiloc.r b/test/unittest/usdt/tst.multiloc.r
+> new file mode 100644
+> index 00000000..06b0c94d
+> --- /dev/null
+> +++ b/test/unittest/usdt/tst.multiloc.r
+> @@ -0,0 +1,3 @@
+> +test:main:args main
+> +test:main:args main
+> +
+> diff --git a/test/unittest/usdt/tst.multiloc.sh b/test/unittest/usdt/tst.multiloc.sh
+> new file mode 100755
+> index 00000000..aa8ea2e5
+> --- /dev/null
+> +++ b/test/unittest/usdt/tst.multiloc.sh
+> @@ -0,0 +1,67 @@
+> +#!/bin/bash
+> +#
+> +# Oracle Linux DTrace.
+> +# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
+> +# Licensed under the Universal Permissive License v 1.0 as shown at
+> +# http://oss.oracle.com/licenses/upl.
+> +
+> +# This test covers USDT probes firing from multiple locations in the same
+> +# function, verifying that argument data is correct.
+> +
+> +if [ $# != 1 ]; then
+> +	echo expected one argument: '<'dtrace-path'>'
+> +	exit 2
+> +fi
+> +
+> +dtrace=$1
+> +CC=/usr/bin/gcc
+> +CFLAGS="-I${PWD}/test/unittest/usdt"
+> +
+> +DIRNAME="$tmpdir/usdt-multiloc.$$.$RANDOM"
+> +mkdir -p $DIRNAME
+> +cd $DIRNAME
+> +
+> +cat > test.c <<EOF
+> +#include <sys/sdt.h>
+> +
+> +int
+> +main(int argc, char **argv)
+> +{
+> +	DTRACE_PROBE1(test_prov, args, __func__);
+> +	DTRACE_PROBE1(test_prov, args, __func__);
+> +}
+> +EOF
+> +
+> +cat > prov.d <<EOF
+> +provider test_prov {
+> +	probe args(char *);
+> +};
+> +EOF
+> +
+> +${CC} ${CFLAGS} -c test.c
+> +if [ $? -ne 0 ]; then
+> +	echo "failed to compile test.c" >& 2
+> +	exit 1
+> +fi
+> +$dtrace $dt_flags -G -s prov.d test.o
+> +if [ $? -ne 0 ]; then
+> +	echo "failed to create DOF" >& 2
+> +	exit 1
+> +fi
+> +${CC} ${LDFLAGS} -o test test.o prov.o
+> +if [ $? -ne 0 ]; then
+> +	echo "failed to link final executable" >& 2
+> +	exit 1
+> +fi
+> +
+> +$dtrace $dt_flags -c './test arg1val' -qs /dev/stdin <<EOF
+> +test_prov\$target:::args
+> +{
+> +	printf("%s:%s:%s %s\n", probemod, probefunc, probename,
+> +	       copyinstr(arg0));
+> +}
+> +
+> +EOF
+> +status=$?
+> +
+> +exit $status
+> diff --git a/test/unittest/usdt/tst.stapsdt-notes-bug38922360.r b/test/unittest/usdt/tst.stapsdt-notes-bug38922360.r
+> new file mode 100644
+> index 00000000..06b0c94d
+> --- /dev/null
+> +++ b/test/unittest/usdt/tst.stapsdt-notes-bug38922360.r
+> @@ -0,0 +1,3 @@
+> +test:main:args main
+> +test:main:args main
+> +
+> diff --git a/test/unittest/usdt/tst.stapsdt-notes-bug38922360.sh b/test/unittest/usdt/tst.stapsdt-notes-bug38922360.sh
+> new file mode 100755
+> index 00000000..4678a415
+> --- /dev/null
+> +++ b/test/unittest/usdt/tst.stapsdt-notes-bug38922360.sh
+> @@ -0,0 +1,52 @@
+> +#!/bin/bash
+> +#
+> +# Oracle Linux DTrace.
+> +# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
+> +# Licensed under the Universal Permissive License v 1.0 as shown at
+> +# http://oss.oracle.com/licenses/upl.
+> +
+> +# This test covers stapsdt probes fired by the STAP_PROBEn macros, verifying
+> +# that argument data is processed correctly when the same probe is used in
+> +# multiple locations.
+> +
+> +if [ $# != 1 ]; then
+> +	echo expected one argument: '<'dtrace-path'>'
+> +	exit 2
+> +fi
+> +
+> +dtrace=$1
+> +CC=/usr/bin/gcc
+> +CFLAGS="-I${PWD}/test/unittest/usdt"
+> +
+> +DIRNAME="$tmpdir/usdt-notes-bug38922360.$$.$RANDOM"
+> +mkdir -p $DIRNAME
+> +cd $DIRNAME
+> +
+> +cat > test.c <<EOF
+> +#include <sdt_notes.h>
+> +
+> +int
+> +main(int argc, char **argv)
+> +{
+> +	STAP_PROBE1(test_prov, args, __func__);
+> +	STAP_PROBE1(test_prov, args, __func__);
+> +}
+> +EOF
+> +
+> +${CC} ${CFLAGS} -o test test.c
+> +if [ $? -ne 0 ]; then
+> +	echo "failed to compile test.c" >& 2
+> +	exit 1
+> +fi
+> +
+> +$dtrace -c './test arg1val' -qs /dev/stdin <<EOF
+> +test_prov\$target:::args
+> +{
+> +	printf("%s:%s:%s %s\n", probemod, probefunc, probename,
+> +	       copyinstr(arg0));
+> +}
+> +
+> +EOF
+> +status=$?
+> +
+> +exit $status
