@@ -1,57 +1,57 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534C73890E8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160EA3659F8
 	for <dtrace@lists.linux.dev>; Wed,  4 Mar 2026 08:01:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772611294; cv=none; b=nB2NEl9DTt616W32hQA5k+0FrQJPnhOyHKAX/X7gPRk6ZFrUWGM0EAX4A4gD3pEjGv3yoEukKOAvMU6QU6xbW14giNqGY5QAEN0xlU7CsIqN8ADYd3UNhDrqxh50z/wXf7HhMZ+TrUlbeUc0ojm4j6c/1tGGhumuwzuPzeJSpOA=
+	t=1772611295; cv=none; b=jmVoV0tNNMBvH7/7m1kNJOUe0rPVob2EWJlXAA/Ks6UgoSY7hqHlly/LMVIqYOXWToEWPwmkFFkbAgxuCzP/45mkEOyu7yxpHoJKse5sVQYoFWmC5f96it7rgvfvdF6wYaYmY4+0VizKXLORy+FiGJXUEnsSo0pN92V9BdmLzYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772611294; c=relaxed/simple;
-	bh=DfnjVWZ1SIsFNZKP3m6vIRt7YZkROcrARTUSoYK2vVU=;
+	s=arc-20240116; t=1772611295; c=relaxed/simple;
+	bh=TYlETgVYxCKMvxyD38KN6mEEoeiODMWrPm3YH4HIo/Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GXqVNuPf7nFKk7EGe9QHzv5bhAiZCyCCeLA2x+zDHTskhyaueZunefk/RaatWrtBdsVvjiYwhq4Nk3MbvF8ePSiLp818l7Y+fK3iAd7Y6ImW+1h52m7kJNG+8tpPwt7yPwMYTl+Sn+6atV6aIq5esdBrf6pLVIxT8BYRIDKrip8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=nxIqyLNy; arc=none smtp.client-ip=205.220.177.32
+	 MIME-Version; b=Xv1fEsYuhMRMVIlBebjE2OhigBM3HYXQU8M6S1ZbdSfCSp79mPqEaNAS13Sx/9Cd8GLhZvZ3FAoyQNMZ2n7kCedkd6lazB7Ktxm17yChzvkmy6xggPB+/bR0hY0R4n4iPQ2Czt6jvnavUsjgDV46bwJxFWegMeyVMHTg+iHnYOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=LouQARMK; arc=none smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="nxIqyLNy"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6247hF2N2303813
-	for <dtrace@lists.linux.dev>; Wed, 4 Mar 2026 08:01:32 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="LouQARMK"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6247aUxD3540036
+	for <dtrace@lists.linux.dev>; Wed, 4 Mar 2026 08:01:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=v/Wur
-	q1045iHvQBhfHRs/P0KJYlxdiZL9kvtJgiYHDA=; b=nxIqyLNy0zBovKcF7BQn6
-	BoS8oWUW4G2ckg3LMJ7P3KPGVhg4zwaOORe39wmJBhFyw7NvwQ7WD6T9vwW1qCO6
-	e0A0HgfikyxRdyzQ+ndRBjLCkq36/ms0tE92YZt5OiYCyTsin3HDiK2DPCXP2YeG
-	QlcYCEYmnos1gCDrc7IjoVDH/3KZ1+Ewng+3gmO0xLL4RzzXV4lvZEv0KBkpEfrG
-	rpeArrm2B6CiCEx6eN2KHg3I3ZMhKiYuzIClfaqYTifbYmRr3P9Ka6rCpLbhz5RI
-	qq1eDrcMmXAmn8m24zydnx0k/oM1EpXRM817KnpBNcGVB5NbtaK4LdOCGYvrbVGC
-	g==
+	:mime-version:references:subject:to; s=corp-2025-04-25; bh=kSRa9
+	xR/q91DBAIWYg4feHxD94fzcuHHes0PwM/XkAo=; b=LouQARMKXwJ0O3/AHtP43
+	HGxtnvWSqAOFJMRWmYqc9sNOjcZf9BBuhQ72Tu/oT9Ls0T1uVCFB0SuAzJ65dDzf
+	/G5dk8NJub1euinxh7p3qJUyeG5BGHkxSTEaGtYl+so4D2ZmI+kXkCXATYBdmL1x
+	65qmgorcJTN2IDJqihQEMUN08mK/LujlGkR1gywjKCl+9qnMtPU+IyBQLDBnRg3U
+	HPttOJWW5B6BK71oXzO4pEje46g21ZnDzEfBrKJGK18M2w1sDs2WPci+9bLyrFU8
+	QC0kC52aD2iq0h3c7hjhd5hqUlbaWYKQsc13acXhtKUZti1ADQD7e88Ums3PvP/8
+	A==
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cpgkjr0sv-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cpgge81b8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <dtrace@lists.linux.dev>; Wed, 04 Mar 2026 08:01:32 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 6246jgii001680
-	for <dtrace@lists.linux.dev>; Wed, 4 Mar 2026 08:01:31 GMT
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 6246TKeK001384
+	for <dtrace@lists.linux.dev>; Wed, 4 Mar 2026 08:01:32 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ckptfs2yb-1
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ckptfs30c-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 04 Mar 2026 08:01:31 +0000
+	for <dtrace@lists.linux.dev>; Wed, 04 Mar 2026 08:01:32 +0000
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 62481RYj023337
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 62481RYm023337
 	for <dtrace@lists.linux.dev>; Wed, 4 Mar 2026 08:01:31 GMT
 Received: from bpf.uk.oracle.com (dhcp-10-154-62-133.vpn.oracle.com [10.154.62.133])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4ckptfs2t1-5;
-	Wed, 04 Mar 2026 08:01:30 +0000
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4ckptfs2t1-6;
+	Wed, 04 Mar 2026 08:01:31 +0000
 From: Alan Maguire <alan.maguire@oracle.com>
 To: dtrace@lists.linux.dev
 Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
-Subject: [PATCH v5 4/9] test: add systemwide stapsdt note test using absolute path
-Date: Wed,  4 Mar 2026 08:01:20 +0000
-Message-ID: <20260304080125.649031-5-alan.maguire@oracle.com>
+Subject: [PATCH v5 5/9] test: add systemwide stapsdt note test for library
+Date: Wed,  4 Mar 2026 08:01:21 +0000
+Message-ID: <20260304080125.649031-6-alan.maguire@oracle.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20260304080125.649031-1-alan.maguire@oracle.com>
 References: <20260304080125.649031-1-alan.maguire@oracle.com>
@@ -69,51 +69,65 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwa
  spamscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2602130000
  definitions=main-2603040063
-X-Authority-Analysis: v=2.4 cv=GvtPO01C c=1 sm=1 tr=0 ts=69a7e6dc b=1 cx=c_pps
+X-Proofpoint-GUID: dO21fXK1KlYLI61FUFqnLX-i32L5OI0S
+X-Authority-Analysis: v=2.4 cv=YLSSCBGx c=1 sm=1 tr=0 ts=69a7e6dd b=1 cx=c_pps
  a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
  a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=3I1J8UUJPc9JN9BFgKH3:22 a=yPCof4ZbAAAA:8 a=JEC0fJkXhVgF0k8_IpoA:9 cc=ntf
+ a=BqU2WV_vvsyTyxaotp0D:22 a=yPCof4ZbAAAA:8 a=GktFRiQuDf5q_9bFk3EA:9 cc=ntf
  awl=host:13812
-X-Proofpoint-ORIG-GUID: NzOQjbrxaQfTy4xT7FQP1LIqzsRhybeu
-X-Proofpoint-GUID: NzOQjbrxaQfTy4xT7FQP1LIqzsRhybeu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDA2MyBTYWx0ZWRfX7Y+V1aqN825u
- Sb22Sar6uv/3XGS64yTiaQwdNRY4wgRoPq2M9i6Bd5/GNNbxEd2hKlBuvczfVTqRWppmDaoZ2Uo
- 0tLUWD7DxAFL4ahbv+eTyFSUXXEvU4MJwh/+IR5AmF8HLvJyfbzsUdfyDilGjqNHiqEhVJQuxPt
- WFcqtqd4RtxFXwDM7VkH3F38buUgEWwURa6huIzcPlmMwkAFmwcUlj+RZE1N6diHPo1HiPFT3sN
- Ht5BZVPBurX/30HDa+UKpqoaLREtO1E6yplXRD4U+7Om1vrXf55ZAR9B3C1BJqWbV96eWlmyJDj
- r0xlqQWzBIv+zNwU3KsyybI4DrIRRUZDpjjcYoVNjburr+RxKC9lC8kcxNj0XO4ZRG5qf0mAF3j
- l4woEDdtcXs/JXzqU0MWqMDodKDnGWuvZomFQ6gzecdsDvDPA13garJjeNwOyHDQQvwc+9XAYty
- er3Y8B00Ph3GuADsYFV+2nWTnjNBZCygJtVEdyFg=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDA2MyBTYWx0ZWRfXy4DUk+rLzMKr
+ 8/bT8XiIhEQHk51C8a9C4MKfgoIHamrZr/yA60Akhq7B3KfjmqWYKVXs4JJ4russ+gy2Qe06Cxr
+ mTFQ2F2jZl3g7M4uxGNKwbcV1Ap4LQ8tRVE12yLaKZGFzfSCrTAIjnRgcinFkz9gzGWDzWfxsj6
+ TPvtL91mw9UhYuBeltcKIUFLxzBLdK35FKZkpYQDBdsx8mq/s8P8IMMIN+ftKD0Mv8dty2UzbO8
+ 9mLp1uwPPiTd+clsZavwkmhQUUtck0YF85DxmuvY/kBjKPjpmfieRds8WtCPaKkZ5+CwMXWIt/v
+ rC0nSqvmKrg6t2tTR7pVb894kmUDGLX02b8M3iF+4G80m38n7l0/pXrf1eXfkIozm2EkcBXVbR7
+ m4Zk4+PBFUsVCLG6OkA9Ah7w2gq5o9a68g5YkTRPCwXlBm11IX7ftnC8X22yzBFtVgXz7cx8EMW
+ CwzvQy0Ql8jQxUIIu6Ok4m1XNzlcl45IJdWlq3yU=
+X-Proofpoint-ORIG-GUID: dO21fXK1KlYLI61FUFqnLX-i32L5OI0S
 
 Add test verifying that systemwide stapsdt probe firing
-is detected and we retrieve arguments correctly where
-the specified module path is an absolute path.
+is detected and we retrieve arguments correctly for
+a shared library.  Do this for program with library
+that is started before, during (via -c) and two after
+(using system) to ensure we see probe firings in all cases.
+
+Count probe firings uniquely per pid for each probe until
+we see last one; then print probe arguments.
 
 Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 ---
- .../tst.stapsdt-notes-systemwide-abspath.r    |  5 ++
- .../tst.stapsdt-notes-systemwide-abspath.sh   | 89 +++++++++++++++++++
- 2 files changed, 94 insertions(+)
- create mode 100644 test/unittest/usdt/tst.stapsdt-notes-systemwide-abspath.r
- create mode 100755 test/unittest/usdt/tst.stapsdt-notes-systemwide-abspath.sh
+ .../usdt/tst.stapsdt-notes-systemwide-lib.r   |  14 ++
+ .../usdt/tst.stapsdt-notes-systemwide-lib.sh  | 215 ++++++++++++++++++
+ 2 files changed, 229 insertions(+)
+ create mode 100644 test/unittest/usdt/tst.stapsdt-notes-systemwide-lib.r
+ create mode 100755 test/unittest/usdt/tst.stapsdt-notes-systemwide-lib.sh
 
-diff --git a/test/unittest/usdt/tst.stapsdt-notes-systemwide-abspath.r b/test/unittest/usdt/tst.stapsdt-notes-systemwide-abspath.r
+diff --git a/test/unittest/usdt/tst.stapsdt-notes-systemwide-lib.r b/test/unittest/usdt/tst.stapsdt-notes-systemwide-lib.r
 new file mode 100644
-index 00000000..679d835c
+index 00000000..c85121c4
 --- /dev/null
-+++ b/test/unittest/usdt/tst.stapsdt-notes-systemwide-abspath.r
-@@ -0,0 +1,5 @@
-+test:args:2:./test:val:18
-+test:args:2:./test:val:18
-+test:args:2:./test:val:18
-+test:args:2:./test:val:18
++++ b/test/unittest/usdt/tst.stapsdt-notes-systemwide-lib.r
+@@ -0,0 +1,14 @@
++libstapsdttest.so:zero
++libstapsdttest.so:one:1
++libstapsdttest.so:two:2:3
++libstapsdttest.so:three:4:5:7
++libstapsdttest.so:four:7:8:9:10
++libstapsdttest.so:five:11:12:13:14:15
++libstapsdttest.so:six:16:17:18:19:20:21
++libstapsdttest.so:seven:22:23:24:25:26:27:28
++libstapsdttest.so:eight:29:30:31:32:33:34:35:36
++libstapsdttest.so:nine:37:38:39:40:41:42:43:44:45
++libstapsdttest.so:ten:46:47:48:49:50:51:52:53:54:55
++libstapsdttest.so:eleven:56:57:58:59:60:61:62:63:64:65
++libstapsdttest.so:twelve:67:68:69:70:71:72:73:74:75:76
 +
-diff --git a/test/unittest/usdt/tst.stapsdt-notes-systemwide-abspath.sh b/test/unittest/usdt/tst.stapsdt-notes-systemwide-abspath.sh
+diff --git a/test/unittest/usdt/tst.stapsdt-notes-systemwide-lib.sh b/test/unittest/usdt/tst.stapsdt-notes-systemwide-lib.sh
 new file mode 100755
-index 00000000..fe36df90
+index 00000000..d1ac0af8
 --- /dev/null
-+++ b/test/unittest/usdt/tst.stapsdt-notes-systemwide-abspath.sh
-@@ -0,0 +1,89 @@
++++ b/test/unittest/usdt/tst.stapsdt-notes-systemwide-lib.sh
+@@ -0,0 +1,215 @@
 +#!/bin/bash
 +#
 +# Oracle Linux DTrace.
@@ -121,8 +135,9 @@ index 00000000..fe36df90
 +# Licensed under the Universal Permissive License v 1.0 as shown at
 +# http://oss.oracle.com/licenses/upl.
 +
-+# This test covers stapsdt probes fired by the STAP_PROBEn macros,
-+# testing various argument forms (constant, register, deref etc).
++# This test covers all stapsdt probes fired by the STAP_PROBEn macros.
++# Arguments values are checked only for first 10 arguments because
++# there is support for arg0 ... arg9 only at this moment.
 +
 +if [ $# != 1 ]; then
 +	echo expected one argument: '<'dtrace-path'>'
@@ -137,9 +152,35 @@ index 00000000..fe36df90
 +mkdir -p $DIRNAME
 +cd $DIRNAME
 +
-+cat > test.c <<EOF
-+#include <unistd.h>
++cat > libstapsdttest.c <<EOF
 +#include <sdt_notes.h>
++
++void
++libfn(int argc, char **argv)
++{
++	if (argc == 0 && argv == 0)
++		return;
++	STAP_PROBE(test_prov, zero);
++	STAP_PROBE1(test_prov, one, argc);
++	STAP_PROBE2(test_prov, two, 2, 3);
++	STAP_PROBE3(test_prov, three, 4, 5, 7);
++	STAP_PROBE4(test_prov, four, 7, 8, 9, 10);
++	STAP_PROBE5(test_prov, five, 11, 12, 13, 14, 15);
++	STAP_PROBE6(test_prov, six, 16, 17, 18, 19, 20, 21);
++	STAP_PROBE7(test_prov, seven, 22, 23, 24, 25, 26, 27, 28);
++	STAP_PROBE8(test_prov, eight, 29, 30, 31, 32, 33, 34, 35, 36);
++	STAP_PROBE9(test_prov, nine, 37, 38, 39, 40, 41, 42, 43, 44, 45);
++	STAP_PROBE10(test_prov, ten, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55);
++	STAP_PROBE11(test_prov, eleven, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66);
++	STAP_PROBE12(test_prov, twelve, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78);
++}
++EOF
++
++cat > test.c <<EOF
++
++#include <unistd.h>
++
++extern void libfn(int argc, char **argv);
 +
 +int
 +main(int argc, char **argv)
@@ -147,54 +188,153 @@ index 00000000..fe36df90
 +	int i;
 +
 +	for (i = 0; i < 20; i++) {
-+		STAP_PROBE4(test_prov, args, argc, argv[0], argv[1] + 4, 18);
++		libfn(argc, argv);
 +		sleep(1);
 +	}
 +	return 0;
 +}
 +EOF
 +
-+${CC} ${CFLAGS} -o test test.c
++${CC} ${CFLAGS} -c -fpic libstapsdttest.c
++${CC} -shared -o libstapsdttest.so libstapsdttest.o
++${CC} -L. ${CFLAGS} -o test test.c -lstapsdttest
 +if [ $? -ne 0 ]; then
 +	echo "failed to compile test.c" >& 2
 +	exit 1
 +fi
-+export TESTPROG="$(pwd)/test"
++
++export LD_LIBRARY_PATH=.:${LD_LIBRARY_PATH}
 +
 +# Launch one program before DTrace starts
 +
-+./test arg1val &
++./test &
 +
 +sleep 1
 +
 +# Launch another with dtrace -c
-+$dtrace -w -c './test arg1val' -qs /dev/stdin <<EOF
++$dtrace -w -c './test' -qs /dev/stdin <<EOF
 +
 +BEGIN
 +{
-+	pids = 0;
++	donecount = 0;
 +	afters = 0;
-+}
-+
-+test_prov*:$TESTPROG::args
-+/ !done[pid] /
-+{
-+	printf("%s:%s:%li:%s:%s:%li\n", basename(probemod), probename,
-+	       arg0, copyinstr(arg1), copyinstr(arg2), arg3);
-+	done[pid] = 1;  
-+	pids++;
 +}
 +
 +/* And launch two more with system() */
 +profile:::tick-1s
 +/ afters < 2 /
 +{
-+	system("./test arg1val &");
-+	afters++;
++        system("./test &");
++        afters++;
++}
++
++test_prov*:libstapsdttest.so::*
++/ !done[probename, pid] && fired[probename] < 4 /
++{
++	fired[probename]++;
++	done[probename, pid] = 1;
++}
++
++test_prov*:libstapsdttest.so::zero
++/ fired[probename] == 4 /
++{
++	printf("%s:%s\n", probemod, probename);
++	fired[probename]++;
++	donecount++;
++}
++
++test_prov*:libstapsdttest.so::one
++/ fired[probename] == 4 /
++{
++	printf("%s:%s:%li\n", probemod, probename, arg0);
++	fired[probename]++;
++	donecount++;
++}
++
++test_prov*:libstapsdttest.so::two
++/ fired[probename] == 4 /
++{
++	printf("%s:%s:%li:%li\n", probemod, probename, arg0, arg1);
++	fired[probename]++;
++	donecount++;
++}
++
++test_prov*:libstapsdttest.so::three
++/ fired[probename] == 4 /
++{
++	printf("%s:%s:%li:%li:%li\n", probemod, probename, arg0, arg1,
++	       arg2);
++	fired[probename]++;
++	donecount++;
++}
++
++test_prov*:libstapsdttest.so::four
++/ fired[probename] == 4 /
++{
++	printf("%s:%s:%li:%li:%li:%li\n", probemod, probename, arg0, arg1,
++	       arg2, arg3);
++	fired[probename]++;
++	donecount++;
++}
++
++test_prov*:libstapsdttest.so::five
++/ fired[probename] == 4 /
++{
++	printf("%s:%s:%li:%li:%li:%li:%li\n", probemod, probename,
++	       arg0, arg1, arg2, arg3, arg4);
++	fired[probename]++;
++	donecount++;
++}
++
++test_prov*:libstapsdttest.so::six
++/ fired[probename] == 4 /
++{
++	printf("%s:%s:%li:%li:%li:%li:%li:%li\n", probemod, probename,
++	       arg0, arg1, arg2, arg3, arg4, arg5);
++	fired[probename]++;
++	donecount++;
++}
++
++test_prov*:libstapsdttest.so::seven
++/ fired[probename] == 4 /
++{
++	printf("%s:%s:%li:%li:%li:%li:%li:%li:%li\n", probemod, probename,
++	       arg0, arg1, arg2, arg3, arg4, arg5, arg6);
++	fired[probename]++;
++	donecount++;
++}
++
++test_prov*:libstapsdttest.so::eight
++/ fired[probename] == 4 /
++{
++	printf("%s:%s:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probename,
++	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
++	fired[probename]++;
++	donecount++;
++}
++
++test_prov*:libstapsdttest.so::nine
++/ fired[probename] == 4/
++{
++	printf("%s:%s:%li:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probename,
++	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
++	fired[probename]++;
++	donecount++;
++}
++
++test_prov*:libstapsdttest.so::ten,
++test_prov*:libstapsdttest.so::eleven,
++test_prov*:libstapsdttest.so::twelve
++/ fired[probename] == 4 /
++{
++	printf("%s:%s:%li:%li:%li:%li:%li:%li:%li:%li:%li:%li\n", probemod, probename,
++	       arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
++	fired[probename]++;
++	donecount;
 +}
 +
 +profile:::tick-1s
-+/ pids == 4 && afters == 2 /
++/ donecount == 12 && afters == 2 /
 +{
 +	exit(0);
 +}
