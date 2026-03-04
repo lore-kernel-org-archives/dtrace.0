@@ -1,57 +1,57 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58E33890F8
-	for <dtrace@lists.linux.dev>; Wed,  4 Mar 2026 08:01:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC486384258
+	for <dtrace@lists.linux.dev>; Wed,  4 Mar 2026 08:01:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772611297; cv=none; b=X9RxuCDNyQ69ZW0vJhMXk5mZJ2aqvmBYqODwiHV4nGmqy2JZEqJ8JAEEWSSXqgHKMyQp6bPkrqlwPKOIY/ADhHZ1OZ0Fk5M28DNz1lsVCYRZJayKamRN4PInmPZQt4IjGVNZMVRxqHgQjwFBk2gGEu653blHr/ShAVEnQpsBkaM=
+	t=1772611299; cv=none; b=NLJAHdYoIpJiKl+X4MDm6yaRa5lEmLAQ9AsmkT49ajiu/Zw5m5nuLClX6iqvDV0wiClY+NH96xiV5O9F5LHpyKs7Xf0BiG8uCZUPho7Lricu1iBGuC8joitEMTq8jGISilZzZFP28EBfscuBocoDhGRAtbUXdLe6W2QRb8H3AJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772611297; c=relaxed/simple;
-	bh=d69JIeEjBNj4DOPdgGmc7KIMG3r+IidGALqygAHK0xg=;
+	s=arc-20240116; t=1772611299; c=relaxed/simple;
+	bh=nsfLcDNOBB1EsCNf0FfbMORSVipg1+/DOn7t+Npe4m4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cyBBeKwozcgeete40287F0kBZor7DBD1EWxdVzGW3gqMcsVHerl27YFWwzvrw0z0tNhSCZQmVx36/VDttXbtU/WcaCf46TAZpASjusxrGof/yAofmc11BXhkz2vDie2OSHHtlgDZJDrCd1x2jIW9lhVdPpEEdqKysHpYK82pAXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=E0iM41eH; arc=none smtp.client-ip=205.220.177.32
+	 MIME-Version; b=Dsrm4PIscA+wAuMCLBviVS3DANu9CzvvpNr6DdKlikyPNxf3HaQuogLxPBdHnamXkjhbPacu+rP7Eze33agDTiLCfmDZXIzayZZbS+4yKchLSkEruuAIs6UwxgQoueoc5yaxMqmWe9i+BgcnDMjMXBz48G4L+T+6VqtDIwCdV/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=SFqzCYKp; arc=none smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="E0iM41eH"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6247acxu3540323
-	for <dtrace@lists.linux.dev>; Wed, 4 Mar 2026 08:01:35 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="SFqzCYKp"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6247mXvB2028758
+	for <dtrace@lists.linux.dev>; Wed, 4 Mar 2026 08:01:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=cU2jY
-	STB3Fae8wbX2k7MOURnClCA2ooBEA3FS0eyXwM=; b=E0iM41eHeQu1RK45Z2dLr
-	jb4XztHYaIFO+JGsOUhhhJUurC5mpZzqRQsKDR/Wi97a3SwbpK4lwuDjnRe5cdgm
-	6nzbpZlBksZVqQWCxeD+HlB4EJuQJqC4TjayajUa95znj7Q1JNIoCkWZMjqrc1z5
-	9RYIeFdz0sz++sM4Rkl24cXdUpoOvbk6bDhdDPf+nH+JPdjfNyKf2gheUoMn8lS7
-	Va/sj0mZas5gAPW66fHWsuaBK+ugnIJrsXvxwzoC0Zox53MfpDCcyjNvX6FEXcvS
-	d9W5jl6i2rl4iNaLTF1bimHgPiv3tEW7iK+cG02VVnc7b/5fWMYL3cdXi/YMI0Mq
-	w==
+	:mime-version:references:subject:to; s=corp-2025-04-25; bh=4wEH+
+	kkXiByPa9dMM4wmM8N5Xc6ggJqOQ51Yr84YS9c=; b=SFqzCYKpioXfDOKVgfFnl
+	JV4meFOA8mS14TRAvkil7Soe6xmKSQiUO8jx9JAvw7GFqz6frOBqU3yS8/2iQupz
+	E+fZoYHbdaWvF9+WnfBIAwXr3mhAxepq2EbMi2vo0bIDZqgfGzR0vbGO75YidedA
+	JaQw8D90Yjw0/1KowiKSwB9jRMC2G23gANeVFRcd1hs0b3ilL6VxDzzg+rIbyyR8
+	c0rrWGukgh+uoJNAfK+a04bk635h0aWx9CHAw6ISkZSC+bdtRRUb3NXR7gclHT77
+	1vPBXuvQpE24M9SiUF03G0vKMVJPvV42qAYO+KNbj+Cq6nILlk5SMFuXSOkHgqF9
+	g==
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cpgge81be-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cpgnqg0mq-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 04 Mar 2026 08:01:34 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Wed, 04 Mar 2026 08:01:36 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 6246hlSn001521
-	for <dtrace@lists.linux.dev>; Wed, 4 Mar 2026 08:01:34 GMT
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 6246oT3J001413
+	for <dtrace@lists.linux.dev>; Wed, 4 Mar 2026 08:01:36 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ckptfs31r-1
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ckptfs339-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 04 Mar 2026 08:01:34 +0000
+	for <dtrace@lists.linux.dev>; Wed, 04 Mar 2026 08:01:36 +0000
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 62481RYs023337
-	for <dtrace@lists.linux.dev>; Wed, 4 Mar 2026 08:01:33 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 62481RZ0023337
+	for <dtrace@lists.linux.dev>; Wed, 4 Mar 2026 08:01:35 GMT
 Received: from bpf.uk.oracle.com (dhcp-10-154-62-133.vpn.oracle.com [10.154.62.133])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4ckptfs2t1-8;
-	Wed, 04 Mar 2026 08:01:33 +0000
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4ckptfs2t1-10;
+	Wed, 04 Mar 2026 08:01:35 +0000
 From: Alan Maguire <alan.maguire@oracle.com>
 To: dtrace@lists.linux.dev
 Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
-Subject: [PATCH v5 7/9] stapsdt: add test for listing systemwide probes in absolute path object
-Date: Wed,  4 Mar 2026 08:01:23 +0000
-Message-ID: <20260304080125.649031-8-alan.maguire@oracle.com>
+Subject: [PATCH v5 9/9] documentation: update stapsdt docs to describe wildcard support
+Date: Wed,  4 Mar 2026 08:01:25 +0000
+Message-ID: <20260304080125.649031-10-alan.maguire@oracle.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20260304080125.649031-1-alan.maguire@oracle.com>
 References: <20260304080125.649031-1-alan.maguire@oracle.com>
@@ -69,140 +69,169 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwa
  spamscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2602130000
  definitions=main-2603040063
-X-Proofpoint-GUID: vFSiov2V22XxSvF0I-Y0SEANVDqrbbmn
-X-Authority-Analysis: v=2.4 cv=YLSSCBGx c=1 sm=1 tr=0 ts=69a7e6de b=1 cx=c_pps
+X-Proofpoint-GUID: CDpN4yMPhkgXjEH6M6-YHyNKBWMG8ioa
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDA2MyBTYWx0ZWRfX76BViyDtUVSo
+ gg8lUJ9TVZaSfrEmuXcwPH3gpGFDD4tI+5FXnQofRtzOGeguG9yVwZanIMgEOJDf7ofAyhWWqEE
+ ErGzrnS8QHa7QNHYgMqM90PmVA6jsPMCxKrwtHglFT2AWxwuQxvj+2IfoigIUmbPN3HC5mKeT6p
+ 6LHjZRn81l3NXXBIi0Grt1SSWvM2kp4CblEP6HmPFYFvKLdnM/yg+FNb5wN4WXyN9vL52QiWl1G
+ oMs+ozeB+HOoCQFEotmH4BYj9DODrH21pFbTvFokiiXsv49KJUhx9Jg1goxNcYphXWcR6tsXACs
+ p80kaWcNkqVt68/0ChqtwdN7QMsF9fI/y/OvneRW+sPf/92MpiYLlYwSjFxa5T+BVPQpRpQ3hPA
+ nFLBX72j5ZbDDcURKQuLVAoQYHOJhb/pRkUIm4bKxcj8HBapQUIg2eomYz16UD43w0tvCCyn1qs
+ syPwipoPCefiGY7wLSA/jppFJOSuWLCJR1UjkOCQ=
+X-Proofpoint-ORIG-GUID: CDpN4yMPhkgXjEH6M6-YHyNKBWMG8ioa
+X-Authority-Analysis: v=2.4 cv=HfsZjyE8 c=1 sm=1 tr=0 ts=69a7e6e0 b=1 cx=c_pps
  a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
  a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=BqU2WV_vvsyTyxaotp0D:22 a=yPCof4ZbAAAA:8 a=gfbp12JJLI_0ST-XH08A:9 cc=ntf
- awl=host:13812
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDA2MyBTYWx0ZWRfX9RsjZ8AtJc9b
- GQPdLei+5ntOwi9zi0TUFsC88pQpyJL8gFykmncdjRkBCv53+05W4DxtkrvYA9UGXPSScPOR7JB
- eJu9WEnBqkp6LAvS9A4Hd6yJ5S8UNpEX2P34trFAiFaOZhzSRsRdnK3fy9H33glO1gqAShwSazx
- WbcF5xqLbOUrEOpUrYQGo2tV2Y8kFaTTNcbe4AEPHgPQLyoRyszSZVkKVXj2NOG2C/1Qnh1eF1S
- IG3UZ4yst0npWHd7guIjARrMw14Zc3NE/kc/PY4E+GSkjkTox//ebJJaqvu5O77zVlq+Hf3qVcE
- zR3PdItKwhuvI6G6GoFNPnogn/M4gb9LAM3voT9U9JUVMa0sC/LkV+cQfM5wjWcfu2znHDXj6I5
- iK699apuQbPLz8kvOFrvB/PLowD7Zu4thiUxhe4Y8mmJ/QvP6x0JPYZWgrpNxShPJcw/eJ/owzb
- sRpRhKRWEprBUL5nk/gLn5J17X5ASU+pwfAyItNg=
-X-Proofpoint-ORIG-GUID: vFSiov2V22XxSvF0I-Y0SEANVDqrbbmn
+ a=o5oIOnhZENCTenyL_yNV:22 a=NEAV23lmAAAA:8 a=yPCof4ZbAAAA:8
+ a=ZHZ1eBgCrRVMDcHVjPQA:9 cc=ntf awl=host:13812
 
-Verify using an absolute path for listing succeeds for -l and -lv.
+We now have a limited form of wildcard support; document it.
 
 Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 ---
- .../tst.stapsdt-notes-systemwide-l-abspath.sh | 48 +++++++++++++++++++
- ...tst.stapsdt-notes-systemwide-lv-abspath.sh | 48 +++++++++++++++++++
- 2 files changed, 96 insertions(+)
- create mode 100755 test/unittest/usdt/tst.stapsdt-notes-systemwide-l-abspath.sh
- create mode 100755 test/unittest/usdt/tst.stapsdt-notes-systemwide-lv-abspath.sh
+ .../reference/dtrace_providers_stapsdt.md     | 91 ++++++++++++++++++-
+ 1 file changed, 86 insertions(+), 5 deletions(-)
 
-diff --git a/test/unittest/usdt/tst.stapsdt-notes-systemwide-l-abspath.sh b/test/unittest/usdt/tst.stapsdt-notes-systemwide-l-abspath.sh
-new file mode 100755
-index 00000000..878e8502
---- /dev/null
-+++ b/test/unittest/usdt/tst.stapsdt-notes-systemwide-l-abspath.sh
-@@ -0,0 +1,48 @@
-+#!/bin/bash
-+#
-+# Oracle Linux DTrace.
-+# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
-+# Licensed under the Universal Permissive License v 1.0 as shown at
-+# http://oss.oracle.com/licenses/upl.
+diff --git a/doc/userguide/reference/dtrace_providers_stapsdt.md b/doc/userguide/reference/dtrace_providers_stapsdt.md
+index cb6ce71f..9bbeb060 100644
+--- a/doc/userguide/reference/dtrace_providers_stapsdt.md
++++ b/doc/userguide/reference/dtrace_providers_stapsdt.md
+@@ -29,9 +29,29 @@ library source code as follows:
+ #define _SDT_HAS_SEMAPHORES 1
+ #include <sys/sdt.h>
+ 
++/* This complicated declaration of semaphores is needed to ensure that
++ * they work correctly; the kernel manages the semaphore count.
++ * The first three definitions simplify semaphore definiton and use;
++ * after these are defined, new semaphores are added by adding
++ *
++ * SEMA_DEFINE(provider_probename_semaphore);
++ *
++ * and used to guard probes with
++ *
++ * if (SEMA_ENABLED(provider_probename_semaphore)) ...
++ */
++#define SEC(name) __attribute__((section(name), used))
++#define SEMA_DEFINE(name)						\
++	__extension__ unsigned short name __attribute__((unused))	\
++	SEC(".probes")
++#define SEMA_ENABLED(name)                                      \
++        __builtin_expect (name, 0)
 +
-+# This test covers stapsdt probes fired by the STAP_PROBEn macros,
-+# testing listing probes.
++SEMA_DEFINE(myprovider_myprobe_semaphore);
 +
-+if [ $# != 1 ]; then
-+	echo expected one argument: '<'dtrace-path'>'
-+	exit 2
-+fi
+ unsigned short myprovider_myprobe_semaphore = 0;
+ 
+-        if (myprovider_myprobe_semaphore) {
++        if (SEMA_ENABED(myprovider_myprobe)) {
+             STAP_PROBEn(myprovider, myprobe, ...);
+         }
+ ```
+@@ -52,12 +72,25 @@ DTrace will pass semaphore details to the kernel for reference counting.)
+ The `stapsdt` provider also supports probes created dynamically via `libstapsdt`.
+ See [https://github.com/linux-usdt/libstapsdt](https://github.com/linux-usdt/libstapsdt).
+ 
+-In your D scripts, the provider name must have the pid for your process
++In your D scripts, two forms of provider specification are supported.
 +
-+dtrace=$1
-+CC=/usr/bin/gcc
-+CFLAGS="-I${PWD}/test/unittest/usdt"
++In the first, the provider name must have the pid for your process
+ appended.  For the provider shown above, you might have `myprovider12345` for
+-pid 12345.  No wildcard may be used, but a symbolic value like `$target` may.
++pid 12345.  A symbolic value like `$target` may be used also.
 +
-+DIRNAME="$tmpdir/usdt-notes.$$.$RANDOM"
-+mkdir -p $DIRNAME
-+cd $DIRNAME
++In the second approach, a wildcard may be used, but it must be used
++in combination with the path or name of binary or library.  In the case
++where only a binary or library name is specified, DTrace will use
++PATH or LD_LIBRARY_PATH to find the absolute path and add instrumentation.
++Probes are added on a file basis, so it is vital to specify the correct
++file that contains the probe;  unlike in the per-process case we need to
++know if a probe is delivered in a library or in a program for example.
+ 
+ In your D scripts, the `stapsdt` module name may be `a.out`, just as with
+ the [`pid` provider](dtrace_providers_pid.md#dt_ref_pidprobes_prov).
++However as noted above, for a wildcarded pid a filename discoverable
++via PATH or LD_LIBRARY_PATH must be specified so that DTrace can find
++the file to instrument.
+ 
+ In probe names, two consecutive underscores \(`__`\) become a dash \(`-`\)
+ just as with USDT probe names.  For example, if a probe is defined in source
+@@ -73,12 +106,19 @@ might place in application or library source code:
+ #define _SDT_HAS_SEMAPHORES 1
+ #include <sys/sdt.h>
+ 
+-unsigned short myprovider_myprobe_semaphore = 0;
++#define SEC(name) __attribute__((section(name), used))
++#define SEMA_DEFINE(name)                                               \
++	__extension__ unsigned short name __attribute__((unused))       \
++	SEC(".probes")
++#define SEMA_ENABLED(name)                                      \
++	__builtin_expect (name, 0)
 +
-+cat > test.c <<EOF
-+#include <sdt_notes.h>
++SEMA_DEFINE(myprovider_myprobe_semaphore);
+ 
+ int
+ main(int argc, char **argv)
+ {
+-    if (myprovider_myprobe_semaphore) {
++    if (SEMA_ENABLED(myprovider_myprobe_semaphore)) {
+         printf("the probe is enabled\n");
+         [... do something expensive to prepare probe arguments? ...]
+         STAP_PROBE3(myprovider, myprobe, argc, argv[0], 18);
+@@ -147,6 +187,13 @@ Displaying notes found in: .note.stapsdt
+     Arguments: -4@-4(%rbp) 8@%rax -4@$18
+ ```
+ 
++Alternatively we can list the probes in the object via DTrace
++provided we know the provider name:
 +
-+int
-+main(int argc, char **argv)
-+{
-+	STAP_PROBE(test_prov, zero);
-+	STAP_PROBE1(test_prov, one, argc);
-+	STAP_PROBE2(test_prov, two, 2, 3);
-+	STAP_PROBE4(test_prov, args, argc, argv[0], argv[1] + 4, 18);
++```
++$ dtrace -lm 'myprovider*:/path2/a.out'
++```
++
+ Notice that the instrumented source code includes the header file
+ `<sys/sdt.h>`.  On Oracle Linux, this file is installed
+ by the RPM package `systemtap-sdt-devel`, but the package also
+@@ -154,6 +201,40 @@ installs `/usr/bin/dtrace`.  So be sure to have `/usr/sbin`
+ in front of `/usr/bin` in your path, or explicitly specify
+ `/usr/sbin/dtrace` whenever you want to use `dtrace`.
+ 
++We can also specify systemwide probes for tracing; for example when
++Python 3 is built `--with-dtrace` we can do the following to show the top 5
++function-entry calls system-wide:
++
++```
++$ sudo dtrace -qn 'python*:libpython3.6m.so::function-entry {
++	@c[execname,stringof(arg0),stringof(arg1)] = count();
 +}
-+EOF
++END {
++	trunc(@c, 5);
++	printf("%10s %35s %20s %10s\n", "PROG", "FILE", "FUNC", "COUNT");
++	printa("%10s %35s %20s %@10d\n", @c);
++}'
++^C
++      PROG                                FILE                 FUNC      COUNT
++     tuned   /usr/lib64/python3.6/threading.py             __exit__          5
++     tuned   /usr/lib64/python3.6/threading.py     _acquire_restore          5
++     tuned   /usr/lib64/python3.6/threading.py            _is_owned          5
++     tuned   /usr/lib64/python3.6/threading.py        _release_save          5
++     tuned   /usr/lib64/python3.6/threading.py                 wait         10
++```
 +
-+${CC} ${CFLAGS} -o test test.c
-+if [ $? -ne 0 ]; then
-+	echo "failed to compile test.c" >& 2
-+	exit 1
-+fi
++So we see the top 5 functions called were all called by `tuned`.
 +
-+TEST_PROG=$(pwd)/test
++We specified `libpython.3.6m.so` because that is where the probes are
++defined; in some cases they are in the python3 program itself, and cavets
++mentioned above about identifying whether probes are in a library or a
++program (in this case libypthon3.6.m.so or python3.6) apply.  To determine
++probe location we can use `dtrace -lm` as described above.
 +
-+$dtrace -lm test_prov\*:$TEST_PROG
-+status=$?
++DTrace will expand the paths of programs and libraries using
++PATH and LD_LIBRARY_PATH respectively; the absolute path can
++also be used if needed.
 +
-+exit $status
-diff --git a/test/unittest/usdt/tst.stapsdt-notes-systemwide-lv-abspath.sh b/test/unittest/usdt/tst.stapsdt-notes-systemwide-lv-abspath.sh
-new file mode 100755
-index 00000000..d0ff3e84
---- /dev/null
-+++ b/test/unittest/usdt/tst.stapsdt-notes-systemwide-lv-abspath.sh
-@@ -0,0 +1,48 @@
-+#!/bin/bash
-+#
-+# Oracle Linux DTrace.
-+# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
-+# Licensed under the Universal Permissive License v 1.0 as shown at
-+# http://oss.oracle.com/licenses/upl.
-+
-+# This test covers stapsdt probes fired by the STAP_PROBEn macros,
-+# testing listing probes.
-+
-+if [ $# != 1 ]; then
-+	echo expected one argument: '<'dtrace-path'>'
-+	exit 2
-+fi
-+
-+dtrace=$1
-+CC=/usr/bin/gcc
-+CFLAGS="-I${PWD}/test/unittest/usdt"
-+
-+DIRNAME="$tmpdir/usdt-notes.$$.$RANDOM"
-+mkdir -p $DIRNAME
-+cd $DIRNAME
-+
-+cat > test.c <<EOF
-+#include <sdt_notes.h>
-+
-+int
-+main(int argc, char **argv)
-+{
-+	STAP_PROBE(test_prov, zero);
-+	STAP_PROBE1(test_prov, one, argc);
-+	STAP_PROBE2(test_prov, two, argc, argv[0][0]);
-+	STAP_PROBE4(test_prov, args, argc, argv[0], argv[1] + 4, 18);
-+}
-+EOF
-+
-+${CC} ${CFLAGS} -o test test.c
-+if [ $? -ne 0 ]; then
-+	echo "failed to compile test.c" >& 2
-+	exit 1
-+fi
-+
-+TEST_PROG=$(pwd)/test
-+
-+$dtrace -lvm test_prov\*:$TEST_PROG
-+status=$?
-+
-+exit $status
+ ## stapsdt Stability <a id="dt_ref_stapsdtstab_prov">
+ 
+ The `stapsdt` provider uses DTrace's stability mechanism to describe its stabilities.
 -- 
 2.43.5
 
