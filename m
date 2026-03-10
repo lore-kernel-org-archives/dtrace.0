@@ -1,86 +1,78 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139D92EB5B8
-	for <dtrace@lists.linux.dev>; Thu,  5 Mar 2026 19:47:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B053C944F
+	for <dtrace@lists.linux.dev>; Tue, 10 Mar 2026 19:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772740078; cv=fail; b=nHbVzXFw4cboOfr3+8xZBd2mR5p+7O0FKz+KxwfN6kySZWnWu5W8XHf6MUFsiFrevYZYPddAcOdF+WEWhZefkgREFnOFU0DgbsYW5krFFFjkSFqeGe5Yep68m95q4rTJde3MUrFl4BoqvKpKwl8PbQD8tZS3DsFHA95JdSpBZJM=
+	t=1773169604; cv=fail; b=EuHF771NRiTwzU9Y5uEjn8/K8tn8ddacCPnvOqB42mY1DER6fNPK4MD77Xga0gntnkNj/P7RCDABumpcwRX8yevq9fgnZ+OwsZ2QN611KmKfNnUsv4tu3sNz9dEkcatYNo70pyjZN3LQhJ9aQUNI4Rtm0stICTqjhvhpXePN/GY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772740078; c=relaxed/simple;
-	bh=4KbN4Y/hBIbnfVrIoOsngTSfM6uovzVXv/lQkzRP+/4=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=oBxuSBqDdu/uUrzdTJ/ncdTt2zP+8MtQYDFMYdiXFeejHn6Rp2L64ubneRRZW5vR0iGLBMt2bAF8y2/tQeJCeNFRUY4FRzVWru9gcFvc9PcXCui068XyXvIR0qh/6T7o0DqhcaXmO52SXrMKTcubnS8XnhIHiSS8x7WVYitVOM0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=JNWP9eqC; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=FX+DrE7n; arc=fail smtp.client-ip=205.220.177.32
+	s=arc-20240116; t=1773169604; c=relaxed/simple;
+	bh=o7ffT0Ig5FFS0HMkPtHwGucwVPGjID26qWttFTXXZrw=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=dfuMy3JwCKoEfFvbdIMZBVBAu4723TCX0wbAfM+EX9XWtK3H4KWQcWGTiPkMhKO/46XkWcb5WnsLj2joZiZquaXmAlEXzi/igTmLRLxZoaWyQce9BVCXGO0JecQ7b6zfZTdjL76WhgwMwiO3xP7jJsHRpHi7Yc9h1+/NkMJPKq0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ZTqeowt4; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=zStWEe9j; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JNWP9eqC";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="FX+DrE7n"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 625JcQPJ1603469
-	for <dtrace@lists.linux.dev>; Thu, 5 Mar 2026 19:47:56 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZTqeowt4";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="zStWEe9j"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62AIo1uK2345132
+	for <dtrace@lists.linux.dev>; Tue, 10 Mar 2026 19:06:42 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=Z+9of1hWhJRccyd8GyNewXe9iBM6AkfKSAJ3wI+3P/4=; b=
-	JNWP9eqCc6Ob/nFD+GmPGMOl1Vix4BCEizy679GKshwKhT2Wn4RWl9rcp9XJ63no
-	ILEgnAXtZT463s6XL7tI7sR/U5wD97/e1A7qCPJOv2jTq5/ESK83DfE1YWEaP1KY
-	mLKjmqdewdh3Qm/OiDONmxGmXVM0g538VXe5xssJRsRuS8VMfVnaYoRXQQyWBDZj
-	yoQcugOAx7dv9NqnR78e5q1PUvmGCG6be0r5DKIxHQp2J6xnw0ZdUD5A92oh8N4m
-	vB/N/eBQjbLnuBu0VrKqSdoGm+2fyKBvL4CP1MuUakve0y3cVV/INnjDHeDldIjM
-	D1dV3Tqz55SmGlMSjEHGBw==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cqg5t00ht-1
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=corp-2025-04-25; bh=lqhQuILjsTY3yGGL
+	TI7DHOqTDXhwtJ4tyUo1QwqMBpg=; b=ZTqeowt40yZ3JF0N+wb16xG2ZWaGKOJb
+	wqRkSJSU2e0AqMrqEQc7m52qr9I7lfoGhc1EXn+/ZvBiPAErjGo9enuL/QhrcCUR
+	6xzkyxTIkRu2V7IfJjfkYgyRKZlxOKMS+tYUtEH+n6pMeT2A6/pQH0dtoRvi4klI
+	bY3fkiE2Q0e8Nif7STvQ20gvyUpHQtuuiazj5rfnZJXAkjHfdvN6s1fOiXNP+0nv
+	MrRnHdTEsjb8k7vsg5EqSDwYTXZRyj9bS5GO5UsCtqzejXx8MWXr9Es3vdMMl8ML
+	54cV2uTu9+DXmy6ZDYSjWF5NKXoXZl9s88cPQYS1sZwQ13jmi3x5XQ==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4csks2kh9c-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 05 Mar 2026 19:47:55 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 625J5JBB029878
-	for <dtrace@lists.linux.dev>; Thu, 5 Mar 2026 19:47:54 GMT
-Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011050.outbound.protection.outlook.com [52.101.57.50])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4ckptdp2nm-2
+	for <dtrace@lists.linux.dev>; Tue, 10 Mar 2026 19:06:41 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 62AHYRUB014886
+	for <dtrace@lists.linux.dev>; Tue, 10 Mar 2026 19:06:40 GMT
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010059.outbound.protection.outlook.com [52.101.61.59])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4crafessxv-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 05 Mar 2026 19:47:54 +0000
+	for <dtrace@lists.linux.dev>; Tue, 10 Mar 2026 19:06:40 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O5qXpfnFomZqmqgEoZi2riV92lI1lSWpC6gsUCjGBmnG4lSi60B3fqwVOtwWM1zAYjVy6WEK+UXvtqvJSOFIMo0A7l+HXOyzQc4RrVrgCFalogq/gFYoQ4OcRfIRkcqG8y2mpm/0lDeOkEyUoa00SWWaeG7b6Aj3lWfakkVboR0F8p6SpcPo6yQ7E2HUcsMoWEx1tTmI8gHBeZeJr0mcKeeCtHgeBaXdW4Z/1cC9g8K6hRDighchZdrmeVJ80GJREriA8hz4ts1wPYsCxOBATqxCHAegFi2WtAMm07Ult1bn2RbweHKlvrLBg6HUeTWFrn5UW2aYDTH6IkeC5utRCA==
+ b=Z2PhSXASAgcY2flQ84AK+mpsExl/IFQJfQLyjWEriOH8lxmePqVhFThj5efxE35t9Nt4Qt3j9yd6CCebkjEYiMXx10e+llkyFixPf2C2AwrgVixWF5IkcTU0KzCNrazWp4prgd+37LL3BQ0QX9ez/l8gWIbwRQdtEVAP+3nssBzkst2BCJcqkq4LJAm4n2UFSZnv+z4grFTb1os8fQ5wMfhvECaXpQ6UC8InoefK8u9YIF6d6MuBEoAFocsOxXGAl5cWUxHstBg5R53tsBXGaKOEPXM+sgFZZ3fGw1q3WR+oCv8nylB6psrTP7Fjkase+Y/YZKPXFfvRxoXiBEL4tw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z+9of1hWhJRccyd8GyNewXe9iBM6AkfKSAJ3wI+3P/4=;
- b=E9t+scZrNyETekrSBWVUydGR2Kx66LodABm6bXXHZjw2cyZAoZdM4KBsaqIYNlekYaXtTpvqozmFSdkpHjaRTtJuuz0EMAS58yvEELPBG2k8gnyvh3TgzmPgMYTCC5FuysKeXCZSGBtC7DiuTKH2mLbPDy7SrvKI24nm10sRr53J4Y+nSovzCY2e7hAiRQiJN6AYboAhPAiQUvvJg4Tb+gMtIhLXFP5IVKJ0YyXBUawT3K0gxhJOC8WDmho5tzF8VMVc0+Fvdymv1rKnTpbYSvQCbYDW2QozKXDxo/5AQ0RZZUj6MmcrTX07QWlZwqSht5XuJuZY9aKrIYhiqWNkzg==
+ bh=lqhQuILjsTY3yGGLTI7DHOqTDXhwtJ4tyUo1QwqMBpg=;
+ b=Ny3qkeHVODM6hg7tg8+PWkJPnOrJWG0TZFgFNvt1fUzse9B8pbo+I5oquXRIcBe5Thb6Ge14INdKD3FO6D5/8YG8JaJKYQYwaZJMC3z9y7fAwM/ZkDd+eQQKowvBS2JLL8CNsJ69fzILOjDj5+1XEKguguj+rAq1xXXNQpLKrfmU6dVJAa8H0d5t1xphv01SVJNym6JZ3ZTmFAp+eok1OOyX/vfwZvNXqC4RQi2qvdrR9u2MUuizdrY6r/HuffSSQwE7i48/LThjkV33EgqpKO597rA4MyBWWq34sUo9hxEn1x3RHFIZbnkQ0h8M+JIU5+Hq3o/n8vcGOAWMEVXZ9A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z+9of1hWhJRccyd8GyNewXe9iBM6AkfKSAJ3wI+3P/4=;
- b=FX+DrE7nh9ZEe7kZHDdZGgC4Y/ySWlDgmEhXbG4dEzl/rQeHIZJ4T7BWenyq3+QqO5NUR5iOOYSlNyvb+x0S4SPHXRMsa6CRGYZKHggInND/Hwlz8rSZ8WLZ9aVC6QEEBNh37tVbN8Sq7i2wh22AdZvS1WNpc5f+yj2Z1T62Ja4=
+ bh=lqhQuILjsTY3yGGLTI7DHOqTDXhwtJ4tyUo1QwqMBpg=;
+ b=zStWEe9jeX1nKVsJGN12aGKtoKohg0V3xSV64+ln2FugWMBLl2x6rp5lo1rOy3H3WQJLx1q3WkdnN2PBi96fLD1xHUbJGmp4FumczC3rfgf2AeFFqMSQ6OvWwRj9xnYzj2ig54CNy2461tbbgzDbUllJX8GlQpi/Ogl5ostyLh8=
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
- by DM4PR10MB7401.namprd10.prod.outlook.com (2603:10b6:8:188::11) with
+ by CH0PR10MB7410.namprd10.prod.outlook.com (2603:10b6:610:190::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.18; Thu, 5 Mar
- 2026 19:47:51 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Tue, 10 Mar
+ 2026 19:06:35 +0000
 Received: from CO6PR10MB5636.namprd10.prod.outlook.com
  ([fe80::c47b:6cdc:87b1:aa6b]) by CO6PR10MB5636.namprd10.prod.outlook.com
- ([fe80::c47b:6cdc:87b1:aa6b%4]) with mapi id 15.20.9678.016; Thu, 5 Mar 2026
- 19:47:51 +0000
-Message-ID: <e66491bb-7d6d-b1f3-995d-030b4913ba30@oracle.com>
-Date: Thu, 5 Mar 2026 14:47:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [DTrace-devel] [PATCH v2] license: add overlooked license
- statement in bpf/GNUmakefile
-Content-Language: en-US
-To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
-        dtrace-devel@oss.oracle.com
-References: <DS0PR10MB7522ED177548E81381CDE410C27DA@DS0PR10MB7522.namprd10.prod.outlook.com>
-From: Eugene Loh <eugene.loh@oracle.com>
-In-Reply-To: <DS0PR10MB7522ED177548E81381CDE410C27DA@DS0PR10MB7522.namprd10.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: IA4P220CA0012.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:558::17) To CO6PR10MB5636.namprd10.prod.outlook.com
+ ([fe80::c47b:6cdc:87b1:aa6b%4]) with mapi id 15.20.9700.010; Tue, 10 Mar 2026
+ 19:06:34 +0000
+From: eugene.loh@oracle.com
+To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
+Subject: [PATCH] Remove spurious references to Oracle
+Date: Tue, 10 Mar 2026 15:06:31 -0400
+Message-Id: <20260310190631.15858-1-eugene.loh@oracle.com>
+X-Mailer: git-send-email 2.18.4
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CH0PR04CA0056.namprd04.prod.outlook.com
+ (2603:10b6:610:77::31) To CO6PR10MB5636.namprd10.prod.outlook.com
  (2603:10b6:303:14b::20)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -89,113 +81,434 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|DM4PR10MB7401:EE_
-X-MS-Office365-Filtering-Correlation-Id: 471e3082-6c20-4c76-47f7-08de7af015e3
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:EE_|CH0PR10MB7410:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2fbf7998-af47-4935-85a0-08de7ed825ee
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|366016|18002099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
-	EyszhZtFGnv/CwIif70DzoZ5aLc+4+1Fs02KLNvQlkk+ZAHTr9mNnjgRZzJRV/meJsx2FjguAOljiXcztnzothFwMYxJCscDIb0YT8tC++ut9xF4j8+oxe5TjRswDFfcji7fACq8AkcEuqbQPlbNO29hAtmCVPO1Fl2f9HgMGhUqY8FIbXw1f6FFo1brEn9LkeP6Th3TmVL5kXEHbkL6brd0N0LNtNNB0h+VyKgG0FGJvQf6afjpYeDxxUEfDU7wQhtl1/72nf4G0BAzVrEb7Uitzqe+o/IFMdNP+dU6Cp+ferxGG6xTRpB3aCoTdytZR44c6j3WkQUZxe6KlmJ5YJOmyqhouxmzo6NzxnJrBz9vkq6t2K/s/f13TMl6HFN0G7QT3kfCVd1Q4+/elLs84RdPbiMeJY38nKnboD8c2pNoP+g/BJFMS7izjTAF25ryddbJeyyvEyrESPmsy3FeIshEVLA51fBGmLCjE/IAAAvyvXCbyFXqIwqnKb7QUUAmNwekhK1nlU3DsHsvxHCfzOEUqS+x4PySoFR7GYo40Vab1ezWVoDfwQnL/grS/mtAN2EnzryflFqQxn0iG0B749RUFQnZkeAdotaQvROtF0NLzmKL1v/kTjQ0u5W0Tln78LAEVw4oKzB01rib/vzdfnhTFM0DbEuM/aIruw1NmuDH9AWZ32yK5uk+0m1f5JfMzQI6Dpso7nGTTtnuoB1O+wZ+gTNngrh8GoIc4G461Hg=
+	Bh49mEnDNxUOn80VOG8nsMfG7d97dQLobvA/uE5grvdSsXAvcc046ua4mLMX/4yfmHVvisixed3+yUyPaHbF/lal48vQjOAp0ReswpFIA2IVLyvLwdeaL4JAiB/Tf+hzXf02EMq10P4gbJUBS/g4j4tJThL2GilGr+/lHN9K7hG0P7tT+1CDgJLR9Y4zPd1eZiJIs+ro/RGQC3t89rZGW8UYWa8qihPJ7EuV8G8oTW8xZkUFBJqE86p2zcKFmu5YeyE091cZwY8+bmJGPv8p+i28fIxTZh2LjSqYv67cBDdDWHAW1WGu2L+KBjKxBBwHWYyDhXZkeF7OUsQxsSQ92qGiR530TC3b4+ORVqNEyYpeWsMdLTe4mbMbK3/hXA5ID3uUjSKcBHTWx2SMDlkZ9IJu6FD+e2VkJf1K0smDYwaRPVVjX/6cPItVGnBBOzQi4qAhjWnwg0oOKuHhPF2hSIt8NnfdcCLQClIP++oG3LaByvWwyjsmxOwrtvU7V/jrnKSHvKX0bSiGo8qEA5z+gQ4hkOFe8etVWF3Jq+3/ZQRmJrHL7y2UxJ2c0HJecKYmmPHNrLCOrylwcwR+6TWGtkRKLT8XTU7UVMxOda+J9F96yZawr500IgiVh2rxng2xU51wzud09FZEs59Xrl3So8PvBfcs4RaHvxydps7jfLXxTZmSM6geDnWeXAPOj4/pgtYqU+KwPZNSG1+wQShJi47J7B43rylgR646EDn2j6c=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5636.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(18002099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K1R4OVR2SXQ3RENpQkJhUmJYb2xWOHJ2RzBUVEx4NnNPNnJzdThvUExEVGJ2?=
- =?utf-8?B?dzhmSG1xZjd3bEV6UHN6b2prMVRlelBkZnZLeEp4MkVTT3YrN0lXRUxIREpP?=
- =?utf-8?B?Q1huMGh1MFRBcVVDbmszRWQzd2s3cGREUlVqYVJBU0U2emNwL1lXVlFTTmg0?=
- =?utf-8?B?eDZqVHlxZkJJR3ZuZEtrNUd0MG1kZkFMVDhNWHByWHc1VVc4SUlwaUxvTVd0?=
- =?utf-8?B?TUp0U0JhamtqN3Y3TGp1YTdRenVmVEEwajM4b0RITEI3N1ZwTFcrb21hRmNT?=
- =?utf-8?B?NjRqdzRnWkxWVGk0NHlyaGV5NGhsUW9USm1BdE5MUHhmUVdZSHN6QmxFWHlo?=
- =?utf-8?B?ZkpROSsxUmR2TzVlNnZCbjd1TllLaVNVOEU3aUdTRU5ldTg4WDNIM09HS3p6?=
- =?utf-8?B?VWdrVHJYMHlkMHVKS2J3Y1E0VmNXakpKS3lRV0J2clJ4clJOa2dkNXpyNks3?=
- =?utf-8?B?aGdIditnOHJDMEJMQ1B4YmgzSG5oeWNvSDl6M2FwQ2ZMUHJ3Q2s4S2xFR0Iv?=
- =?utf-8?B?WEc3NFJsQ0FDNE1Fb29xL1QxdDcwdkIycGU1a0RYby9wNHFuWjdTaWxwNEg3?=
- =?utf-8?B?dUJ1SzF2cEx3TStjZnNJcldCeTBGVTlpekd6LzRFNWNreDFOR2FpeDZyYVVK?=
- =?utf-8?B?RHRsWnNDY1Fhdm5uWGpuNFVIN2Nya1IrWkZESGNjN2QzeWxSRzRpY3NsZEhC?=
- =?utf-8?B?akh3RXUzNU5TUTVCNzV2clhpM0lnWGRtYnlWS0tlWDBZRDNwZW4xK3U2V1p6?=
- =?utf-8?B?SndDUXBMZWNidGdHUEFGZzNDUEpHYnkyYzhZUzZybjZrT3J6VnR1VTlPU3dn?=
- =?utf-8?B?WitCUTJMM0FISFZTQWNqL3FPM3pYRi9VeTczclZhUytaQStWZm5BZjlhWFc0?=
- =?utf-8?B?QjIrSWJjV0ZDYVlrcmN3MWR2ZWJ1NnRZYi93YWNSWjBGUTZLeHBYYjJqRVU5?=
- =?utf-8?B?Ujg0Y2NUQk1Zcy9XTGxqMGR2NXJpZndrZ1FObmx2ZW5VZThCNzV4QnNzV0tj?=
- =?utf-8?B?aDZEVTVJRUpvVjNzL1dXMnFKci9zRHBuK3pubit4YjQ5U05vQkpLaE5hNjJq?=
- =?utf-8?B?NXJKVmR2R0pFcXdhN1B3M2RzUG5kSXJGYm5uRU9DK2dHdFlmK25xaHBVc2kx?=
- =?utf-8?B?eEtJemlqUVR4VmxZblNIanpndVhtczVYcFZmVFk1TW1Ra3RwTlo1d0NacnIz?=
- =?utf-8?B?VEZ0ckQ2Z0VoVGpCR0pscFNEQk9TL0tPRWJOZkdyVUREdEsrT2V0Zi9PajlY?=
- =?utf-8?B?RjlMTFBNLzZudzhFcXVZc0tva1VLeFNDSWdmTVMwNUxvdGNRU0ppdmVZR0Jt?=
- =?utf-8?B?K2hrK0hObDJiYnRoS010TXNKNEQ2SktGazBjVU9OZVdydHpLa2FUZXlZU1Ni?=
- =?utf-8?B?UTlLU1g2TWZmYXhXVksyeGloWGNYL2RiL1ptSnQrOXdoWTZ4U0grNit2bG80?=
- =?utf-8?B?aTBIaXRPS1lsRG81bXc4S20xSi9rY3I0L0h2R3pBVWYzNHBha1ZPSmM0azhQ?=
- =?utf-8?B?TmIwQk9GVExoczY3SmRYbTgrSmtWaXQzV29QNm1PSmx2d0VRZUJYbEVETXJR?=
- =?utf-8?B?d0krajBPcm5vSi8xR1dCSVhqRUo4Q2hOaU1VSWsyVloyM0xwbUE2VWsyWm84?=
- =?utf-8?B?V1A2RGFDeUd6SVM1cmZGVU82SFA1cGFmbFBzZ2RMY2pGbHZCN2pMRVdEcC9r?=
- =?utf-8?B?a0FPcWVTMmNNMWlqeDh5aGZFVGVWY1pFOXh0QnRsY0lzYU5WQ3kwTU5WeExO?=
- =?utf-8?B?eWtFZnVQWHhHVE5icUxLc0d3Ui94N3V0aW9QSjN6T2ZkR2taRUNGR3J5VlFx?=
- =?utf-8?B?U3pqYnhkZmRFaGd5UENwZmk4Z3dwY1M0azBSUTlpM3ltSDVlS0RoSHJ3L2ZS?=
- =?utf-8?B?ZUpaQVRKV2s1M0pOc3dLcWpVRXptUWVza2hjYTB0M0FVQUNFYWVnZUZBMk1u?=
- =?utf-8?B?QUU3NmVFYTdxMEhBR3dmSFBydlRIN2F4TWV5YWNVVnVoalFrbktyTUFFMFBR?=
- =?utf-8?B?Z0MxTHlkNU85WTc4T1BSL2M1WVZKaHlIMWU1YnRvQ1doWXhkMDFwQUo3a0g2?=
- =?utf-8?B?amNpK3UrWld3UWZra01mbVlJMmlJbi8zZzFoSERUOVo5UnVVZDQrZDRCd3kz?=
- =?utf-8?B?S1RKbUQybmQzSXp3d1RWR0pHc1ZNbXdOajZIcjZ6eDRnb2d3MFBiQ3JqbEhS?=
- =?utf-8?B?MU1XUHg5RklvTXN4alg3cXZvU2Q0Vm5MRGRoY1ZHNmtKZHFGdVFsdy9NTWJv?=
- =?utf-8?B?aFpkdHUxVGVSQmJLWWRhVGMza2VIcVBtVThUQnM5YjdsQllrb0lYVjV5RHZ4?=
- =?utf-8?B?MlNzUFFXemVlNkV5MXhGM21hMVMrNlZWVXpFanJxUkFaOUxMaFduZz09?=
+	=?utf-8?B?L3loTWVVbTZwVjZNc2ZhRWpBRlFZV2FvUkpnQWVoaUV0b1hmZjErTDF4RFlW?=
+ =?utf-8?B?c2ZhRldzK2NReGdObnBPOUYwb0RCSGwwcDBzdGtoeXdpWlhBWmZIT1RUQ0pC?=
+ =?utf-8?B?c2luK2lJZDZGM1BCM2NOUzR5Y1JkSTQwcmpjSjMrR0M4SlBvMGMxcEI3Rzl3?=
+ =?utf-8?B?dWpxdy8rR0tqOW91YW5QY3FWRFQyek9wcDM4V2JJRGJBYWtvQW1qRU1Femo5?=
+ =?utf-8?B?TUt1LzBVd1dUbFZsa05Yc0VvQXUwWHJ1QjZ3WTNFQmhiUkQwMXNFZ0kyMUR1?=
+ =?utf-8?B?Q3NpQThLVUY4SUY3RkNjMjZKa3lBeWNzVFRVMEZlTW1WcUxwOE5oU3puZGpV?=
+ =?utf-8?B?M2NiV2ROYlRXdm5GaEZPVjRlWmM0S2JyNFVlOWM5WVZ5VnlEdFNtRXg1U3pL?=
+ =?utf-8?B?T3J6eFMwWFl4NWttT2NYdjhGczlFUWl5S0RCRmIxTjNOei9kZ0tYaFBjaDZH?=
+ =?utf-8?B?QzN2MHlNdXR4MzFVWkV5NG90RGc1ZCtuaGpaSDhuVlcvL0IvdnpzclNZTitK?=
+ =?utf-8?B?UHB5dVpwazRKUWhiZzZOdzFhOGJNa2loQzl2djA3WUVJbUxQMEF6REY4RmlT?=
+ =?utf-8?B?UmhnSDZxSGR3emF2R1RZaVlyT056UE9MOE1QTlk1ZG1QSGpmRW1xaDZKVDF2?=
+ =?utf-8?B?WHlrT0hCa3NsV28yRFJnNWV5TUplbm54Uno0MEFzNkNOYXZpNE92d21ZZjBY?=
+ =?utf-8?B?WWErQk9DZ1MvNWJiTXFCOURwYXFLQW1rQW9CYVBJUFlVYkJ2QTV2UC8xREFv?=
+ =?utf-8?B?TzdNL3FSc084QlUxWEh0YkY1aGw4aXJwVS9RbWdSNTBhZFpQT3B3ODhqWHIv?=
+ =?utf-8?B?NGlhZzJ2c3RvTVdkbGwxanJXTGFLc09Id2gycjBNcWtpQUJaSVI5akFnT1JY?=
+ =?utf-8?B?eE5RZ2Z6MDJqSmp1RVFIZDBIQ01PNjNWSUQ5RWxFTTdtK1NJRGJZU1FHY3Yy?=
+ =?utf-8?B?VHlnTXFLeTFMS1p3NG9DSUwxQ3NxRHk4cU50VkRZMzJsVVNSM2RGTExLZSt6?=
+ =?utf-8?B?Y09DdjkwU3JTQ3FWWlNtSFlkaFRkRlBiNldnc3lKMzFOOEo0Z0dIWThHTllX?=
+ =?utf-8?B?d0s0Y0pKZGVPMm9NQ2tralJ6dU84UE9sV0lNV1RnR2JHR1FwSkJ6Vk1MOVJO?=
+ =?utf-8?B?RXg3UG91bmdKTmdNQ2pjRjNqLzY4RUpCUS9EZ2RGVjkycm5tVDNQMVFqU29s?=
+ =?utf-8?B?WlZsekJHeHUxWGROUW9iS29lZ1RBazRHTjR2bkhCQkJTNy80NTltdE4rYnFr?=
+ =?utf-8?B?K1ZjWmRST2VRN2dJSlBkaW1sRUt0Qm16MzNxRklBQktlQkkya1VIZXFQWGRl?=
+ =?utf-8?B?dm5Db1FJVXdscmJUdm1WNmdGUStuOGxPZERQaTlwQXREUzAxYWszRlFxUUtR?=
+ =?utf-8?B?L0RUcHh1cFNJQU9OZ0JKRmRlbXpSNkcvM3Vmb0RZMmlvOHROL3NzT2ovcXhy?=
+ =?utf-8?B?NDhGNXByM09ySXlPSmpjNlBnZnRBalZOcjh6RFR0V3RvLzNmaVNCYk0wRzBy?=
+ =?utf-8?B?cVRVMmdZSU13UlVVQytmeERINFVaa01wYjBldjZzNjcrbzJtYTR0OFNsbEx4?=
+ =?utf-8?B?SUVxaFpEc3liWUFoTUpkeXJKNmtsZVZWZXpHRzJUa2thL1ZXU25JV0F4QXll?=
+ =?utf-8?B?ZkpMRFQ1YU51N0lnWjVjNm1oSS9RVXAyVUpsR2UwdmRkZGJXMFAzcWZ2aUNQ?=
+ =?utf-8?B?cE1mc3ZIUVZ2MmVzMUNGNVl2UUV4MnhRVW5sUWlPZUJBb2E5SzB0R1hEbklU?=
+ =?utf-8?B?ZTRQaDgzRWloQm1XVzY5V3dvb0xTWmhaZ2VyaFZhdDlvdlFwRFUvNm9Tckov?=
+ =?utf-8?B?dU00OGFOYWZOczFET3VqUzVlYS9WeUdSZ0JFRjhvYnh3b2VjWkEzSE5jenJH?=
+ =?utf-8?B?WXQ2NUJQS2N0NVhQNUZXMjlKNzJWWEdhVmFQNjFqOWRkdzd5dkpYT0Rnc2Fy?=
+ =?utf-8?B?SE44enNDRVZXbEpkQ1VaUHoyZmd3ajc0ZVBWcnFwMUswV3VpYW1NOUFqTE45?=
+ =?utf-8?B?eXRQcHViUC96VkJwd0Q2WjVzMWF0UnI2T3VZaitoOEZSVDc1cktvNUhQT09Z?=
+ =?utf-8?B?RHhNWXEzTWk1SVpvMUF1MkZROVl1cHA1aWpVSVc2ajZSVUxuQVNiMlFQeXJI?=
+ =?utf-8?B?V3IzRzhzT3dJZVdMMnJpdERhZ1lQaXVEdTZ6c2s0TjBvQzhuQmhMcWR3Wmgr?=
+ =?utf-8?B?dCt6dmduWkVQTVhJWFlmeURxaEZXSkFJaFh1NGU1YXlIYjUyb1BIS2QwWC9C?=
+ =?utf-8?B?cHAzbnYxRVdMcjJSdGVRSFVKMXd2VEprUU9iTjgrcnR2VHJGTEZsL0FkSU5q?=
+ =?utf-8?B?NlZ1dWU1YnNQVFlEK1V6SFJrb0x3b2RWYjMwN3l6aGVJTUsxeHBnZz09?=
+X-Exchange-RoutingPolicyChecked:
+	b6I37A5/1b10kg+aNz+o5aUC5s/PtFxzk4oaL/YrjHT4FrLb2uvyWesDLgQVEZC4KoLh5zaklzbxdwkAAMczoEh8GKzxqlX1OuWGipzOzUN+aHhYAAmcanm5KEnMmTM7wRiFDw+1ONH2GsfScU+SHW9LvTthCFoekG9B8ScqK/5Hx5Lk36URVBLEgaIZUAhuBFLCDADKP3GfgUFcePN0Ha2bsTJyPL8Y6uxYiFREb7TCv25zYQgsS6TngbFoTM5EVR9/zfuoz4BRFe9qxiRtxlbOrvu6t6G0RtQmYjPiecXGAQTSpCBmtnv7TxVrNzIQZSQv6i9e94B7/ds3vxMR0Q==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	QlhuzBVAC/l0OHp1qk3LD4+gIWyaKbyxMtE3fKU84n30WtKkYP78CszAS1+iwIpRRFc/cVB0H8mj96ifA7FQvp6z0Yiebv9KjzGv4pKSCG77XV8m9bpry30a96LDMYrnniQVbR3bU2dQT74H987yHE1QEBkMAATgKSuSlNNzyA/0giFQAcFi8WN+Cb8X8FFP2GLxMjEzExeA2+EQ1jVmykr95h3uXxuzwEMxj66vyMPsm6CaJcXlpb24chi3cc07TZC+Yw/E6XYCujc8fmnAQAGcQ4bz8AtW+4s52KCXE30nTy+pH8x+KqrNgH5XB55Akpb2hlgrgwzYxG0Q70WqyfrP1l6KH++rf2M6paE2P7V6h/GKQSWhDz5tQ+WYeofhku2kUUE6QvWYDwsrexfyqMhsfn3ZVyX1Jpyb/I66hxm2d6y+CYpCHAEBY27cBgQNx+SDjiuOpfafhpELAHhSmcFPRAXXEa+X9/4HSXRe9NK5S4U6xdL9LlA+yV7yGld0iWYC0ZWaHdQibMCgP4OkKJiNghLF8r2PIy+tgjc+CPwijl+ZwFdwa4z9/XNzJS/pJCIFdSZ5QEO1+MNfxzXlXI4RO/fiyATNKXyy7jRDFwQ=
+	UkWmxl2XBHMLd5aFVO3dkKaFu/iMrt6J1BdNGwi6amQpNgBNwcs9klOCaCcNcsGoKI4x+dgEIESUan6uURdPfvpjJVOQhZQV7odLnovKqCe9WVal1CZa+Dn0tJ+549j8zzsnc5BamHsN/RnqrwYqFZcMgjatyMbn/0MbLGqf9ne2jQquJ7FXChNETSVgUA4k7iL3lGkabKuzcBjgIMlLcCdM1IiNtcDuSJPVTvESsL6tQAXfv49wiflJ6PZmgVNcOLSm2v40JSy102897EFSG05VqUzfr72M8E8RKA1hIfPoEb5SafcSXqi8S/foTOn3QWIJTlsTAADRsIaaH/aiWVfdnVno4vWZn07/oh8CB9/8zPSdOmy40n1KHJ/itpBAtmDUFIsHfPsDtDi7rsTa3YuktUkx1HrLEo7HbXnJ1ks3BMnFsg7NBKNu5nlCZbZSSvhuxQxcviyBOfiIpN6CECgyCy4bNeaVj6+8D/7xvueZThO0/OGDYOiZDtXbWE+/vuIYi/ZZhPJBhOS+ITU+vXaJEPeZKxfr5FPIKPRxCgOwQKc3rDAI+BMGaLpFcb3skL7LcT6R5eDt5GdniXIv87vE5XvkUuRv9a/nA3ZDsm0=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 471e3082-6c20-4c76-47f7-08de7af015e3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2fbf7998-af47-4935-85a0-08de7ed825ee
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5636.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 19:47:51.2927
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 19:06:34.9282
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s9PBpSEDh+DnyHZ+N1lBMwZXvtZSH7ZGQNyAShZULo0r3M1xahfMrWFwSX/K4Ig5ak56zwgLsJ5wdmOMzpuquA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB7401
+X-MS-Exchange-CrossTenant-UserPrincipalName: C967+qt83HovSZcQbtYsq6yBJ0Xt1nHL8VUKAAXecEVujP9gTIlVufMFrrXcdD29qus6O0buSFQcuas9mmqgdw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB7410
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-05_05,2026-03-04_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
- phishscore=0 bulkscore=0 mlxscore=0 adultscore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2602130000 definitions=main-2603050164
-X-Proofpoint-GUID: tUbrxcT7irmoh1nslt5pUDrCa6DKE2B3
-X-Authority-Analysis: v=2.4 cv=YLWSCBGx c=1 sm=1 tr=0 ts=69a9ddeb b=1 cx=c_pps
- a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+ definitions=2026-03-10_04,2026-03-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 phishscore=0
+ mlxscore=0 spamscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2602130000
+ definitions=main-2603100166
+X-Proofpoint-ORIG-GUID: 4m_8OfyePPAcnAZovc1ABwa1tHlszXUE
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEwMDE2NiBTYWx0ZWRfX4sf8nERFiixh
+ x8Bvh3Al/BRYO+QPU1phbVTrzO8KsgTMWhSlSzzQkCfLgdDIoAaOHq5ZMMALzyDPinS4hQY0nXl
+ BV8RxkcGV2lpr8w2sxDepHXiEjZTufT45rB0qEeMTny0CArCevOGmbbO0eKMcY5ZNBaYoklZtOH
+ WMUQj0TqRZP+9f3xG6dq8lzDlpppZkjCUnotgpUCFKaKW9A26OyTRVZuRs9IWIkIYzREOa1Lzpm
+ N3h6nF6Fowi9O54JjUcIVXR5jZXLI4+DuGz6QPuQI8WgYTztZ1bio2OY6RV7yvBV75G2XdUkupF
+ nNJ+znW5W+1UU8G4Yjakvqp0C2NEQJ7vPB/EJuKxPyL3BypgtIcOtwZusUTVw5d/ITYmhCcR0GE
+ QkgCK6EtG3L2AYXuiHB4K49dx3Y1i12ekYegNIx4xPhlMIs3FlcFuFIm4UglxhV66EnTxSFFtd0
+ +k1x3DiBGCGQPyABDF7ir8OW57ERFgg96eFr1pA8=
+X-Authority-Analysis: v=2.4 cv=S4vUAYsP c=1 sm=1 tr=0 ts=69b06bc1 b=1 cx=c_pps
+ a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=Yq5XynenixoA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=x4eqshVgHu-cdnggieHk:22 a=yPCof4ZbAAAA:8
- a=o-RUtwAiAMg1WUuiRWEA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: tUbrxcT7irmoh1nslt5pUDrCa6DKE2B3
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDE2NSBTYWx0ZWRfX7CYngRTBof5f
- ZytiKRhCSgNGC/+Bju+ZYdPaaD9dJRz7n9kHa9769v/XouhG74PIcKONcO56j7AaF9uZ6BjAI5r
- 43en3jTbwfRHPcERdFsbyj5RJZOWqQJ49Z//S3AmSCjc9CGJpLav3eODKN2rtLOSyFezaf24Vg1
- 1ztV4IItO7lBD3G92ARV6ZSGlcyuqlgpx+WIhEiSuMBkcRZKny8wXVxBvh8ocaXX9x18AunahR4
- 7fWefA5NNWTqC/Ww6skLGE8CoyRZ/mnB9RGh5G0Spto98lygXVj2sI6YpOXF7dJ217JuqaHFT0U
- ijtZG2gT+OTTxCl3xOqd4JcliAc+fti4dcA3XQpdATPUVYZc5+tjNJoHI8/QRfIFne/4H2IQxZ3
- UlKVKdgr1zx0nObJdcbzkveXaIRzjk41/97/HtawBptaQqH5SfbZSuK72N1/B/PEzoT+BWMrX5Y
- our4feZSBZuQ9Y1Nu8g==
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=x0eKOSpe3m1H3M0S9YoZ:22 a=yPCof4ZbAAAA:8
+ a=hTr97slKLSIXUDr1u74A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 cc=ntf
+ awl=host:12273
+X-Proofpoint-GUID: 4m_8OfyePPAcnAZovc1ABwa1tHlszXUE
 
-Reviewed-by: Eugene Loh <eugene.loh@oracle.com>
+From: Eugene Loh <eugene.loh@oracle.com>
 
-On 3/5/26 14:33, Kris Van Hees via DTrace-devel wrote:
-> Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
-> ---
->   bpf/GNUmakefile | 5 +++++
->   1 file changed, 5 insertions(+)
->
-> diff --git a/bpf/GNUmakefile b/bpf/GNUmakefile
-> index 4a27e08b8..51ed7df6e 100644
-> --- a/bpf/GNUmakefile
-> +++ b/bpf/GNUmakefile
-> @@ -1,3 +1,8 @@
-> +# Oracle Linux DTrace.
-> +# Copyright (c) 2020, Oracle and/or its affiliates. All rights reserved.
-> +# Licensed under the Universal Permissive License v 1.0 as shown at
-> +# http://oss.oracle.com/licenses/upl.
-> +
->   %:
->   	$(MAKE) -C .. $@
->   
+Another file to clean up at some point would be cmd/dtrace.8.
+
+Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
+---
+ README                                        |  2 +-
+ doc/tutorial/1.IntroducingDTrace.md           |  4 +-
+ .../2.TracingOperatingSystemBehavior.md       | 44 +++++++++----------
+ .../3.TracingUserSpaceApplications.md         | 16 +++----
+ libdtrace/dt_prov_io.c                        |  2 +-
+ libdtrace/dt_prov_profile.c                   |  2 +-
+ llm/README.md                                 |  4 +-
+ llm/llms-dtrace-complete.txt                  |  8 ++--
+ llm/llms-dtrace-short.txt                     |  8 ++--
+ test/unittest/options/tst.strip.sh            |  2 +-
+ 10 files changed, 46 insertions(+), 46 deletions(-)
+
+diff --git a/README b/README
+index c7f704ed7..3dd487695 100644
+--- a/README
++++ b/README
+@@ -1,4 +1,4 @@
+-Linux DTrace v2.0 for Oracle Unbreakable Enterprise Kernel 6.
++Linux DTrace v2.0.
+ ------------
+ 
+ This is the official Linux port of the advanced tracing tool DTrace.
+diff --git a/doc/tutorial/1.IntroducingDTrace.md b/doc/tutorial/1.IntroducingDTrace.md
+index 3236edf82..dffca17f7 100644
+--- a/doc/tutorial/1.IntroducingDTrace.md
++++ b/doc/tutorial/1.IntroducingDTrace.md
+@@ -60,7 +60,7 @@ you can choose which method best suits your needs.
+ 
+ DTrace is a comprehensive dynamic tracing facility that was first
+ developed for use on the Solaris operating system (now known as
+-Oracle Solaris) and subsequently ported to Oracle Linux.
++Oracle Solaris) and subsequently ported to Linux.
+ You can use
+ DTrace to explore the operation of your system to better
+ understand how it works, to track down performance problems across
+@@ -126,7 +126,7 @@ For more information about using DTrace, see the
+ 
+ ### About DTrace Providers
+ 
+-Here are the providers in the Oracle Linux implementation of DTrace:
++Here are the providers in the Linux implementation of DTrace:
+ 
+ ```
+            kernel       user space
+diff --git a/doc/tutorial/2.TracingOperatingSystemBehavior.md b/doc/tutorial/2.TracingOperatingSystemBehavior.md
+index b3445ab6d..edfc89c01 100644
+--- a/doc/tutorial/2.TracingOperatingSystemBehavior.md
++++ b/doc/tutorial/2.TracingOperatingSystemBehavior.md
+@@ -9,8 +9,8 @@ investigate what is happening in the operating system.
+ The `proc` probes enable you to trace process creation and termination,
+ execution of new program images, and signal processing on a system. See
+ [Proc Provider](../userguide/reference/dtrace_providers_proc.md)
+-in the
+-[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
++in
++[Using DTrace for System Tracing](../userguide/index.md)
+ for a description of the `proc` probes and their arguments.
+ 
+ #### Example: Monitoring the System as Programs Are Executed (execcalls.d)
+@@ -122,8 +122,8 @@ to copy arg2 bytes and then add a NUL terminating character after those bytes,
+ which are possibly already NUL-terminated.
+ See
+ [Pointers and Address Spaces](../userguide/reference/dtrace-ref-PointersandScalarArrays.md#pointers_and_address_spaces)
+-in the
+-[Oracle Linux: DTrace Reference Guide](../userguide/index.md).
++in
++[Using DTrace for System Tracing](../userguide/index.md).
+ 
+ ```
+ # dtrace -q -s syscalls.d
+@@ -149,8 +149,8 @@ Use a conversion specifier such as `%-4d`.
+ 
+ See
+ [printf](../userguide/reference/function_printf.md)
+-in the
+-[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
++in
++[Using DTrace for System Tracing](../userguide/index.md)
+ for a description of the function.
+ 
+ The process ID and user ID are available as the variables
+@@ -291,8 +291,8 @@ Replace the `trace()` call in
+ 
+ See
+ [Profile Provider](../userguide/reference/dtrace_providers_profile.md)
+-in the
+-[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
++in
++[Using DTrace for System Tracing](../userguide/index.md)
+ for a description of the probes.
+ 
+ #### Solution to Exercise and Example: Using tick Probes
+@@ -713,8 +713,8 @@ is determined by examining the `pr_pid` member of the `psinfo_t` data
+ structure that is pointed to by the `args[0]` probe argument.
+ For more information about the arguments to `proc` probes, see
+ [Proc Provider](../userguide/reference/dtrace_providers_proc.md)
+-in the
+-[Oracle Linux: DTrace Reference Guide](../userguide/index.md).
++in
++[Using DTrace for System Tracing](../userguide/index.md).
+ 
+ The program uses the value of the child process ID to initialize
+ globally unique associative array entries, such as `p_pid[childpid]`.
+@@ -845,8 +845,8 @@ minimum value, standard deviation, and summation of the data being gathered,
+ respectively.
+ See
+ [Aggregations](../userguide/reference/aggregation.md)
+-in the
+-[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
++in
++[Using DTrace for System Tracing](../userguide/index.md)
+ for descriptions of aggregation functions.
+ 
+ DTrace indexes the results of an aggregation by using a tuple
+@@ -1107,8 +1107,8 @@ See
+ [`fds`](../userguide/reference/dtrace_builtin_variable_reference.md#dt_ref_var_fds)
+ and
+ [`fileinfo_t`](../userguide/reference/dtrace_providers_io.md#dt_ref_iofile_prov)
+-in the
+-[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
++in
++[Using DTrace for System Tracing](../userguide/index.md)
+ for more information.
+ 
+ The [`trunc()`](../userguide/reference/function_trunc.md) function
+@@ -1133,8 +1133,8 @@ number or `"total"`.
+ 
+   See
+   [Sched Provider](../userguide/reference/dtrace_providers_sched.md)
+-  in the
+-  [Oracle Linux: DTrace Reference Guide](../userguide/index.md)
++  in
++  [Using DTrace for System Tracing](../userguide/index.md)
+   for a description of the `sched:::on-cpu`
+   probe.
+ 
+@@ -1226,8 +1226,8 @@ Use the `lquantize()` and `quantize()` functions to display
+ linear and power-of-two frequency distributions of data.
+ See
+ [Aggregations](../userguide/reference/aggregation.md)
+-in the
+-[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
++in
++[Using DTrace for System Tracing](../userguide/index.md)
+ for a description of aggregation functions.
+ 
+ #### Example: Displaying the Distribution of Read Sizes Resulting From a Command
+@@ -1312,15 +1312,15 @@ function is used to display the results of the aggregation.
+ 
+ See
+ [IO Provider](../userguide/reference/dtrace_providers_io.md)
+-in the
+-[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
++in
++[Using DTrace for System Tracing](../userguide/index.md)
+ for a description of the arguments to the
+ `io:::start` and `io:::done` probes.
+ 
+ See
+ [printa](../userguide/reference/function_printa.md)
+-in the
+-[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
++in
++[Using DTrace for System Tracing](../userguide/index.md)
+ for a description of the function.
+ 
+ After running the program for approximately a minute, type
+diff --git a/doc/tutorial/3.TracingUserSpaceApplications.md b/doc/tutorial/3.TracingUserSpaceApplications.md
+index 1d9bf69f2..1121a583f 100644
+--- a/doc/tutorial/3.TracingUserSpaceApplications.md
++++ b/doc/tutorial/3.TracingUserSpaceApplications.md
+@@ -293,21 +293,21 @@ For more information on how to use the `pid` provider to trace
+ user function entry and return or on specific instruction offsets,
+ see
+ [Pid Provider](../userguide/reference/dtrace_providers_pid.md)
+-in the
+-[Oracle Linux: DTrace Reference Guide](../userguide/index.md).
++in
++[Using DTrace for System Tracing](../userguide/index.md).
+ 
+ ### Adding USDT Probes to an Application
+ 
+ In this section, we practice adding USDT probes to an application.
+ For background information and other details, see
+ [Adding USDT Probes to Application Code](../userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md#dt_ref_usdt_probe_add_prov)
+-in the
+-[Oracle Linux: DTrace Reference Guide](../userguide/index.md).
++in
++[Using DTrace for System Tracing](../userguide/index.md).
+ 
+ To get started, you will need to create a `.d` file, as described in
+ [Defining USDT Providers and Probes](../userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md#dt_ref_usdtprobes_prov)
+-in the
+-[Oracle Linux: DTrace Reference Guide](../userguide/index.md).
++in
++[Using DTrace for System Tracing](../userguide/index.md).
+ 
+ >Note:
+ >
+@@ -431,8 +431,8 @@ and a false value if the associated probe is not enabled.
+ Next, you will need to modify the `makefile` file.
+ For step-by-step instructions, See
+ [Building Applications With USDT Probes](../userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md#dt_ref_usdt_build_prov)
+-in the
+-[Oracle Linux: DTrace Reference Guide](../userguide/index.md).
++in
++[Using DTrace for System Tracing](../userguide/index.md).
+ 
+ #### Exercise: Directing makefile to Re-Create the dprime.h File
+ 
+diff --git a/libdtrace/dt_prov_io.c b/libdtrace/dt_prov_io.c
+index db768bb72..7e2238564 100644
+--- a/libdtrace/dt_prov_io.c
++++ b/libdtrace/dt_prov_io.c
+@@ -591,7 +591,7 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+ done:
+ 	/*
+ 	 * Note: DTrace does not currently support the use of fileinfo_t with
+-	 * io probes.  In Oracle Linux, there is no information about the file
++	 * io probes.  In Linux, there is no information about the file
+ 	 * where the I/O request originated at the point where the io probes
+ 	 * fire.
+ 	 */
+diff --git a/libdtrace/dt_prov_profile.c b/libdtrace/dt_prov_profile.c
+index 60da094a2..de7e02120 100644
+--- a/libdtrace/dt_prov_profile.c
++++ b/libdtrace/dt_prov_profile.c
+@@ -224,7 +224,7 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
+ 	 * TODO: For profile-n probes:
+ 	 *     dctx->mst->argv[2] = elapsed nsecs
+ 	 * The documentation does not say elapsed since when?
+-	 * From the legacy port to Oracle Linux, in dtrace/profile_dev.c,
++	 * From the legacy port to Linux, in dtrace/profile_dev.c,
+ 	 * in profile_prof_fn(), it appears that we have a per-CPU variable
+ 	 * that tracks the expected time of the next profile probe.
+ 	 * Each time the probe fires, we compute arg2 = time - expected
+diff --git a/llm/README.md b/llm/README.md
+index 2992bf7bc..117783f92 100644
+--- a/llm/README.md
++++ b/llm/README.md
+@@ -2,7 +2,7 @@
+ 
+ ## Overview
+ These files provide structured **context packs** (`llms-txt` format) for use with large language models (LLMs) such as GPT-4 or Claude.
+-They teach the model how to write **correct, safe, and complete DTrace programs** for Oracle Linux.
++They teach the model how to write **correct, safe, and complete DTrace programs** for Linux.
+ 
+ The goal is to let engineers and administrators generate working D scripts in natural language — without having to memorize the entire D language syntax.
+ 
+@@ -39,7 +39,7 @@ The goal is to let engineers and administrators generate working D scripts in na
+ 
+     -   In ChatGPT, Claude, or another interface that supports file context, click the “+” icon and upload `llms-dtrace-short.txt`.
+ 
+-    -   The model will automatically ingest the reference and understand how to write runnable DTrace programs for Oracle Linux.
++    -   The model will automatically ingest the reference and understand how to write runnable DTrace programs for Linux.
+ 
+ 3.  **Start asking questions in natural language**
+ 
+diff --git a/llm/llms-dtrace-complete.txt b/llm/llms-dtrace-complete.txt
+index 818e0086f..07275cb9d 100644
+--- a/llm/llms-dtrace-complete.txt
++++ b/llm/llms-dtrace-complete.txt
+@@ -1,4 +1,4 @@
+-You are a senior systems engineer with deep expertise in writing DTrace programs for Oracle Linux. You understand that DTrace is one of the most powerful tools for diagnosing complex system behavior, and you will always provide complete, correct scripts that compile and run cleanly. Every answer must include the full text of a runnable D program, with appropriate shebangs, predicates, and comments where helpful.
++You are a senior systems engineer with deep expertise in writing DTrace programs for Linux. You understand that DTrace is one of the most powerful tools for diagnosing complex system behavior, and you will always provide complete, correct scripts that compile and run cleanly. Every answer must include the full text of a runnable D program, with appropriate shebangs, predicates, and comments where helpful.
+ 
+ You favor stable providers (such as syscall, proc, sched, profile, io, usdt, pid) and safe idioms that avoid invalid memory access or unnecessary output. You use predicates to filter load, aggregations instead of unbounded per-event prints, and you always include an ERROR clause when relevant. Your answers are precise, professional, and free of placeholders or half-solutions.
+ 
+@@ -7,15 +7,15 @@ DO NOT RECOMMEND DANGEROUS OPERATIONS UNLESS THERE IS AN ALTERNATIVE. Do not rec
+ WARNING:  Forbidden constructs: if, else, for, while, switch, etc.
+ For example, instead of using `if`, use predicates and ternary operators only.
+ 
+-Below you will find all the information you need to reference in order to create correct and reliable DTrace programs for Oracle Linux.
++Below you will find all the information you need to reference in order to create correct and reliable DTrace programs for Linux.
+ 
+-After consuming this information, inform the user that you are ready to begin writing DTrace scripts for Oracle Linux.
++After consuming this information, inform the user that you are ready to begin writing DTrace scripts for Linux.
+ 
+ DTRACE (ORACLE LINUX) — LLMS.TXT FORMAT
+ PART 1: PROGRAM STRUCTURE, PROBE DESCRIPTIONS, PREDICATES, STATEMENTS
+ 
+ ## GOAL
+-Provide a compact, machine-optimized reference so an LLM can generate correct DTrace D programs for Oracle Linux.
++Provide a compact, machine-optimized reference so an LLM can generate correct DTrace D programs for Linux.
+ 
+ ## PROGRAM STRUCTURE
+ A D program is a set of probe clauses; each clause may include an optional predicate and a statement block.
+diff --git a/llm/llms-dtrace-short.txt b/llm/llms-dtrace-short.txt
+index 19d5f73e5..7430f4ba5 100644
+--- a/llm/llms-dtrace-short.txt
++++ b/llm/llms-dtrace-short.txt
+@@ -1,4 +1,4 @@
+-You are a senior systems engineer with deep expertise in writing DTrace programs for Oracle Linux. You understand that DTrace is one of the most powerful tools for diagnosing complex system behavior, and you will always provide complete, correct scripts that compile and run cleanly. Every answer must include the full text of a runnable D program, with appropriate shebangs, predicates, and comments where helpful.
++You are a senior systems engineer with deep expertise in writing DTrace programs for Linux. You understand that DTrace is one of the most powerful tools for diagnosing complex system behavior, and you will always provide complete, correct scripts that compile and run cleanly. Every answer must include the full text of a runnable D program, with appropriate shebangs, predicates, and comments where helpful.
+ 
+ You favor stable providers (such as syscall, proc, sched, profile, io, usdt, pid) and safe idioms that avoid invalid memory access or unnecessary output. You use predicates to filter load, aggregations instead of unbounded per-event prints, and you always include an ERROR clause when relevant. Your answers are precise, professional, and free of placeholders or half-solutions.
+ 
+@@ -7,15 +7,15 @@ DO NOT RECOMMEND DANGEROUS OPERATIONS UNLESS THERE IS AN ALTERNATIVE. Do not rec
+ WARNING:  Forbidden constructs: if, else, for, while, switch, etc.
+ For example, instead of using `if`, use predicates and ternary operators only.
+ 
+-Below you will find all the information you need to reference in order to create correct and reliable DTrace programs for Oracle Linux.
++Below you will find all the information you need to reference in order to create correct and reliable DTrace programs for Linux.
+ 
+-After consuming this information, inform the user that you are ready to begin writing DTrace scripts for Oracle Linux.
++After consuming this information, inform the user that you are ready to begin writing DTrace scripts for Linux.
+ 
+ DTRACE (ORACLE LINUX) — LLMS.TXT FORMAT
+ PART 1: PROGRAM STRUCTURE, PROBE DESCRIPTIONS, PREDICATES, STATEMENTS
+ 
+ ## GOAL
+-Provide a compact, machine-optimized reference so an LLM can generate correct DTrace D programs for Oracle Linux.
++Provide a compact, machine-optimized reference so an LLM can generate correct DTrace D programs for Linux.
+ 
+ ## PROGRAM STRUCTURE
+ A D program is a set of probe clauses; each clause may include an optional predicate and a statement block.
+diff --git a/test/unittest/options/tst.strip.sh b/test/unittest/options/tst.strip.sh
+index d25f76af3..a6762cfb9 100755
+--- a/test/unittest/options/tst.strip.sh
++++ b/test/unittest/options/tst.strip.sh
+@@ -64,7 +64,7 @@ fi
+ $objdump >& out.default.txt
+ 
+ # Check results.  One can imagine a more stringent check -- like
+-# seeing if the string "Oracle D 2.0" appears in the default case
++# seeing if particular strings appear in the default case
+ # but not in the stripped case -- but here we settle for the stripped
+ # case simply being smaller than the default case.
+ 
+-- 
+2.47.3
+
