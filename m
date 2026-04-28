@@ -1,33 +1,33 @@
 Received: from mail.esperi.org.uk (icebox.esperi.org.uk [81.187.191.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F434A35
-	for <dtrace@lists.linux.dev>; Tue, 28 Apr 2026 20:52:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0FD37104F
+	for <dtrace@lists.linux.dev>; Tue, 28 Apr 2026 20:55:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.187.191.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777409531; cv=none; b=q16fGtYIaaqj06rwu7aK3y/44QzLXrS+7uOjxA527ntvzansBCvnvhQ36a5muad882fbnqzVORvnmjTRNRRRZrWPPQny7UaOMzcTii/ercjIRtOolCBMLOIHoclhj2Dkq4RXLdIjWer8xOpzQOFJnHLH+ru7YLLATZBtxMDApmY=
+	t=1777409702; cv=none; b=Kt1Tf3iFuDppT9WvN02qtiQzh9ASlqWgvysGn0/fTSjvTRWw5oBJApnefVGXrtjWHCzoAs+8f1p41hEKOnJzRn9O3xKrrKzsE7noR884gj3JuiOHWgCuT/0m53LJTvvKjCxyywQGd5hvlBmBHzAZizGjokkhXseGeEJ3Jhi8RT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777409531; c=relaxed/simple;
-	bh=qouNh6UcUG4S/e0/ShThRuxY9m7r8+NyPiSnzhYERmI=;
+	s=arc-20240116; t=1777409702; c=relaxed/simple;
+	bh=7iMMLvauderGIXzaaW5+ZBkd7NqUJuZHozOK1T+nSnM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=c00geRBj9ymepxdc7BucZkUvRjhFal5dMCfFa8PbR1OLOXhGRFnbO5lVlSaTO/NnNh+hUYh90MvsBjbBaOfBKRKOAXaSZWb87YhcUDvE6gA7n0VswXQQ3T3n+gXpWRxaN3AyeKS2bHCY7yNmI2GUlNCDUqOU7QRzfKdfnp8qUN0=
+	 MIME-Version:Content-Type; b=jzOV4w820u5hzg4b2APilPBCaUOLESDypUKJv9u2wTqKqeDIPJyFRZV76tBn+4D78qcEcQkA1690rw4dGVFabEa9OfDT9On3TD2KstJnniif8fcloPwaMd8va6C0DMHlaL8cMe/Bv0OIqVMJiikVTDW/joI5hocJO/HhFYGdaLw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=esperi.org.uk; spf=pass smtp.mailfrom=esperi.org.uk; arc=none smtp.client-ip=81.187.191.129
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=esperi.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=esperi.org.uk
 Received: from loom (nix@sidle.srvr.nix [192.168.14.8])
-	by mail.esperi.org.uk (8.17.2/8.17.2) with ESMTPS id 63SKq4hx015856
+	by mail.esperi.org.uk (8.17.2/8.17.2) with ESMTPS id 63SKsuXC015965
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Tue, 28 Apr 2026 21:52:05 +0100
+	Tue, 28 Apr 2026 21:54:57 +0100
 From: Nick Alcock <nix@esperi.org.uk>
 To: Kris Van Hees <kris.van.hees@oracle.com>
 Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH 5/6] fbt: retrieve function return value using helper
-In-Reply-To: <3dc679a2ee099ae4e555e093422b17b6@oracle.com> (Kris Van Hees's
-	message of "Tue, 28 Apr 2026 19:05:27 +0000")
-References: <3dc679a2ee099ae4e555e093422b17b6@oracle.com>
+Subject: Re: [PATCH 6/6] uprobe: fix memory leak
+In-Reply-To: <ba06591b830e45ae2b15da9533867812@oracle.com> (Kris Van Hees's
+	message of "Tue, 28 Apr 2026 19:05:29 +0000")
+References: <ba06591b830e45ae2b15da9533867812@oracle.com>
 Emacs: a learning curve that you can use as a plumb line.
-Date: Tue, 28 Apr 2026 21:52:04 +0100
-Message-ID: <87jytqreob.fsf@esperi.org.uk>
+Date: Tue, 28 Apr 2026 21:54:56 +0100
+Message-ID: <87fr4erejj.fsf@esperi.org.uk>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -38,22 +38,13 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-DCC-wuwien-Metrics: loom 1290; Body=3 Fuz1=3 Fuz2=3 rep=17%
 
-On 28 Apr 2026, Kris Van Hees outgrape:
-
-> We were causing BPF verifier errors when trying to access the return value
-> of some functions due to incorrect calculation of the offset to read from.
-> Rather than implementing the more complex logic needed to calculate the
-> proper offset of the return value, we can just use the bpf_get_func_ret()
-> BPF helper.  This does not impose a performance decrease because that
-> helper gets inlined by the BPF verifier.
-
-Presumably we are a suitable probe type? ... yes, we are.
+On 28 Apr 2026, Kris Van Hees verbalised:
 
 > Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
 
 Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
 
-Looks much nicer.
+(all seems to line up.)
 
 -- 
 NULL && (void)
