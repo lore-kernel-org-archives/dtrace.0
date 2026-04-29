@@ -1,35 +1,35 @@
-Received: from out-18.smtp.github.com (out-18.smtp.github.com [192.30.252.201])
+Received: from out-8.smtp.github.com (out-8.smtp.github.com [192.30.252.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A823B47E2
-	for <dtrace@lists.linux.dev>; Tue, 28 Apr 2026 21:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.30.252.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4041E32D6
+	for <dtrace@lists.linux.dev>; Wed, 29 Apr 2026 20:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.30.252.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777412173; cv=none; b=RhGZzUgQTn/lRjo37/SkqExjgz0NvlT1rUau4L23BP21uzDQGrvsenDllaEWURquIOQITPbDzW5FkFEGc57GAZVrYqZ8qSpbCw4oVy3vvt8xesrla1iH3upHbNQNjjHZdBXqG7vnXpHq4EblZD+2yNttjY039O02ymkryYbUYWY=
+	t=1777492885; cv=none; b=hwLY0G1Wrd/9mbD8dBtTXzJuGM4og4EYLI1upbJ/FF4CZQd91qTm1Qap6gPHSRNSn9BXTl5Sknf0fixncH7xsTNnPBjjgGxALNf9NK5nAet3KGoj8VEv9wmIiXCzZaLSelqEP7rqWpifk3GC/ZjrscypalPgQpjtDiZifOwKNeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777412173; c=relaxed/simple;
-	bh=7tfywdYr9XUeussGAmSgiZyRyib8tY0z/enRJj35fl4=;
-	h=Date:From:To:Message-ID:Subject:Mime-Version:Content-Type; b=K0vul6X5QgN1JSnbwDBRGHQ3Uj6tkR8XRmKbOKGYlbrK13yLT7xgb127ksggOZGoYzKbLoovZB7krb8kz0jZZrFxXpN2y5DGn/JewNVEOMwH059XPYW7HTglWrdb73fSYk+V95UgwxGpqTpD6Gmu2+YtaB5Tb5pK3j3IDMI4yP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=github.com; spf=pass smtp.mailfrom=github.com; dkim=pass (1024-bit key) header.d=github.com header.i=@github.com header.b=T1wD4SEm; arc=none smtp.client-ip=192.30.252.201
+	s=arc-20240116; t=1777492885; c=relaxed/simple;
+	bh=Zyvce1RjPYWVpsf9pvF0/pCXORJ+/VvqjOQ3iTyFYuM=;
+	h=Date:From:To:Message-ID:Subject:Mime-Version:Content-Type; b=fEUwH1h0Bp8Uub2qpF1j1Wzh18KwEfjk5JIPQSmYS9tO45mSWPsjHyLyTSwy+84rY2bwVYSm0PqIk4Pu8hvTjjR7qAZ9qEasy6abbBoE0IWBG3H78XHAd0YCqzTHhPv9FtGwDqjnYsqnW233XWZoMDtALo5LrqymODq0TgL1hf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=github.com; spf=pass smtp.mailfrom=github.com; dkim=pass (1024-bit key) header.d=github.com header.i=@github.com header.b=KF6RPo1m; arc=none smtp.client-ip=192.30.252.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=github.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=github.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=github.com header.i=@github.com header.b="T1wD4SEm"
+	dkim=pass (1024-bit key) header.d=github.com header.i=@github.com header.b="KF6RPo1m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=github.com;
-	s=pf2023; t=1777412171;
-	bh=eNLiR1V8Le4Ddn+f/LyW9J++L5gY7ol/ump8n5IQg2g=;
+	s=pf2023; t=1777492883;
+	bh=h9dX7U3bJWcg5FHTd1MxIdNRhwW/+XaxGiDmklmdE5k=;
 	h=Date:From:To:Subject:List-Unsubscribe:From;
-	b=T1wD4SEmRmDFPh0Gk9C2YDn6TpnUKxxofEDuMfnzotGfSRmRHLd/bHolIv1Lfccws
-	 5KleTEtGIFhZNXqOahKEgx0yuGCpISPhAS/nNy4A2TKsQ04T4Jok5LhdVZD8QPgOWE
-	 1C9SlZ9wQmOX0ZCv+DH3QLdrza+dKL2M85dbsYes=
-Received: from github.com (hubbernetes-node-333094a.va3-iad.github.net [10.48.209.71])
-	by smtp.github.com (Postfix) with ESMTPA id B49D5181117
-	for <dtrace@lists.linux.dev>; Tue, 28 Apr 2026 14:36:11 -0700 (PDT)
-Date: Tue, 28 Apr 2026 14:36:11 -0700
+	b=KF6RPo1mtlj5GuzqgBSmboKylqixxoEoPZHsMvntA6dtrjVngCRNYlYOsOhYLGf94
+	 XmNxG2L3XoEBbJ5ZRp58Tbf6Bmsf4ifOJ7YFOev25+f6DLr2ML3aP3zEkW/zKPwucJ
+	 Wi4VTnjP2rZH7vc8jUtHOykLLTpLG48rKnHnV/ks=
+Received: from github.com (hubbernetes-node-41dd4cd.va3-iad.github.net [10.48.221.100])
+	by smtp.github.com (Postfix) with ESMTPA id 20081781128
+	for <dtrace@lists.linux.dev>; Wed, 29 Apr 2026 13:01:23 -0700 (PDT)
+Date: Wed, 29 Apr 2026 13:01:23 -0700
 From: Kris Van Hees <noreply@github.com>
 To: dtrace@lists.linux.dev
-Message-ID: <oracle/dtrace/push/refs/heads/dev-queue/a00035-505124@github.com>
-Subject: [oracle/dtrace] 1b367f: uprobe: fix memory leak
+Message-ID: <oracle/dtrace/push/refs/heads/dev-queue/505124-d3fd10@github.com>
+Subject: [oracle/dtrace] 47928b: uprobe: fix memory leak
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -44,10 +44,10 @@ X-Auto-Response-Suppress: All
 
   Branch: refs/heads/dev-queue
   Home:   https://github.com/oracle/dtrace
-  Commit: 1b367f0f0b601d5996a83d6be6c1f544f8b90f01
-      https://github.com/oracle/dtrace/commit/1b367f0f0b601d5996a83d6be6c1f544f8b90f01
+  Commit: 47928b7beb2f1804577d3429754dacb7939bb18c
+      https://github.com/oracle/dtrace/commit/47928b7beb2f1804577d3429754dacb7939bb18c
   Author: Kris Van Hees <kris.van.hees@oracle.com>
-  Date:   2026-04-28 (Tue, 28 Apr 2026)
+  Date:   2026-04-29 (Wed, 29 Apr 2026)
 
   Changed paths:
     M libdtrace/dt_prov_uprobe.c
@@ -60,10 +60,10 @@ Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
 Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
 
 
-  Commit: e6025d2758eaeeba5e5f2ece3b702bd3e077a0a7
-      https://github.com/oracle/dtrace/commit/e6025d2758eaeeba5e5f2ece3b702bd3e077a0a7
+  Commit: c99827553e77a127b2d94b55e2e6f356948190af
+      https://github.com/oracle/dtrace/commit/c99827553e77a127b2d94b55e2e6f356948190af
   Author: Kris Van Hees <kris.van.hees@oracle.com>
-  Date:   2026-04-28 (Tue, 28 Apr 2026)
+  Date:   2026-04-29 (Wed, 29 Apr 2026)
 
   Changed paths:
     M libdtrace/dt_btf.c
@@ -77,10 +77,10 @@ Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
 Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
 
 
-  Commit: 3988539235df2ed9364115704dfb6e40d021b310
-      https://github.com/oracle/dtrace/commit/3988539235df2ed9364115704dfb6e40d021b310
+  Commit: 47e40f1a1754a4562911cd9bc7e3ec78529d3b49
+      https://github.com/oracle/dtrace/commit/47e40f1a1754a4562911cd9bc7e3ec78529d3b49
   Author: Kris Van Hees <kris.van.hees@oracle.com>
-  Date:   2026-04-28 (Tue, 28 Apr 2026)
+  Date:   2026-04-29 (Wed, 29 Apr 2026)
 
   Changed paths:
     M libdtrace/dt_btf.c
@@ -101,10 +101,10 @@ Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
 Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
 
 
-  Commit: 76fef5fa3ad26cd49bfdf44ceb3340d7786b3de1
-      https://github.com/oracle/dtrace/commit/76fef5fa3ad26cd49bfdf44ceb3340d7786b3de1
+  Commit: d846ba88e5142d212fb13244a02e5311e904d58b
+      https://github.com/oracle/dtrace/commit/d846ba88e5142d212fb13244a02e5311e904d58b
   Author: Kris Van Hees <kris.van.hees@oracle.com>
-  Date:   2026-04-28 (Tue, 28 Apr 2026)
+  Date:   2026-04-29 (Wed, 29 Apr 2026)
 
   Changed paths:
     M libdtrace/dt_btf.c
@@ -122,10 +122,10 @@ Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
 Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
 
 
-  Commit: 3cb31b76656452927ada5b1e1d135887e78857ac
-      https://github.com/oracle/dtrace/commit/3cb31b76656452927ada5b1e1d135887e78857ac
+  Commit: 208b194ea51ac4bad2afeb218638b0df05f4ac64
+      https://github.com/oracle/dtrace/commit/208b194ea51ac4bad2afeb218638b0df05f4ac64
   Author: Kris Van Hees <kris.van.hees@oracle.com>
-  Date:   2026-04-28 (Tue, 28 Apr 2026)
+  Date:   2026-04-29 (Wed, 29 Apr 2026)
 
   Changed paths:
     M libdtrace/dt_prov_fbt.c
@@ -144,10 +144,10 @@ Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
 Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
 
 
-  Commit: 5051249e1bd0553d17eacd1ae486775a62c51ebd
-      https://github.com/oracle/dtrace/commit/5051249e1bd0553d17eacd1ae486775a62c51ebd
+  Commit: d3fd1018dc550b01dff15d90adad64c97d3fc616
+      https://github.com/oracle/dtrace/commit/d3fd1018dc550b01dff15d90adad64c97d3fc616
   Author: Kris Van Hees <kris.van.hees@oracle.com>
-  Date:   2026-04-28 (Tue, 28 Apr 2026)
+  Date:   2026-04-29 (Wed, 29 Apr 2026)
 
   Changed paths:
     M libdtrace/dt_prov_fbt.c
@@ -169,6 +169,6 @@ Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
 Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
 
 
-Compare: https://github.com/oracle/dtrace/compare/a000357c8746...5051249e1bd0
+Compare: https://github.com/oracle/dtrace/compare/5051249e1bd0...d3fd1018dc55
 
 To unsubscribe from these emails, change your notification settings at https://github.com/oracle/dtrace/settings/notifications
