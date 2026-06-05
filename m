@@ -1,58 +1,57 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1A43CBE6B
-	for <dtrace@lists.linux.dev>; Fri,  5 Jun 2026 22:12:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F0A30566F
+	for <dtrace@lists.linux.dev>; Fri,  5 Jun 2026 22:12:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780697545; cv=none; b=fpgYed44+lGHlGvmd2aBwgRBdNme2jSc2QVj/Yi42Zh3JQKqKgPcSVIQj+HRxK9GVGzCuyGrqC/a+cLcu8CSIVujoNt85lJep5WZsRxOSEHZFJZQ0Dca/HdcUXk55/xgJ8X1h8qW/SGraXTPsoFCgyb+n7b5YyZWxaQNVx5j3XE=
+	t=1780697545; cv=none; b=VKGm1cj6ka7W3c2xEuiMyrvv2TkUvX9z/kKP0jcXVm76enM97MVL1TZfiW3CCoocdyOOIvi6uBiBMyNOsFk7yamo6T4XZYodE2Z4mmOxUX+0l+AjTEd3x2CNXphmgJi9Fl5B8I6AaK/mGzPZCdduSX4tfCcNW41dY+wKqZ+8Mw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780697545; c=relaxed/simple;
-	bh=baT8y36eFcFd6rTaqmAtqzwun5KW6pJmJqIcdSOkIZ8=;
+	bh=QM9KIt1OeFzGYbP4NbAsO34ZfwpZmUWjHjjH8dXSdf0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mTGYdM1j//UX6wubZrRHBUjzf6KvEfr0xvCA6RI0UhTX+tUOZz8IvtpW2YpCAJ6CkBwF+HXv1Av0GySnGkCMmRzbn7fqz/mlhaJECKvFnG7rvUzUwU+F/ImUBUahC28aXVVsjoee5JKLRYMnSUQq5y58ssiGL1tOXgCQ6YvC0aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=qJPtTeOj; arc=none smtp.client-ip=205.220.165.32
+	 MIME-Version; b=GVOyCptWOF9UVkWWWGYNgOO34mwdI75TXhC7InYxP12N6JAPDaIYkPCUbk26NHl1YXFlmDpvyCAyEs4BMBJmEd6KnJHIkdwFd73Avp6FvHJgoPFObDAFzgqmrUKwXv8W/dW5Jq5vsLkxv+J4iaCZkO3fPWdPkhUTL5ADQ/i/fqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=sbf9tYay; arc=none smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="qJPtTeOj"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="sbf9tYay"
 Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 655IXXij2381442;
-	Fri, 5 Jun 2026 22:12:23 GMT
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 655IXScr2381019
+	for <dtrace@lists.linux.dev>; Fri, 5 Jun 2026 22:12:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=0/pyd
-	d4dKKmaLderHdTrhP1rbC1mtDsoG+ekw7xLArU=; b=qJPtTeOjwrcMMMJXjzyJB
-	/XFuEyez2tKmDHmvOhitR5bQ6XvWFEXKO6e/mViF31PvbMosDE5ovhwwCL/NjCRu
-	YhlSyOByRcvXv3GGEwkFqY/kBBobGKrd8uE2PR+9JuUCryj4il3X4sq8LCTLM81X
-	DWke+E9jD8aa+O9AsCONd6POPreihcSiySDos5/hp2V0jNyfKYg4MkRrWeETLWiG
-	vTK7IPfDrQ3C8mqLANoR28540+lLmUG+teTW4slvF28XiPA69ofWAxoSc5v6yVpy
-	gYyT1TO/HopxSfaeUWqAkwzHiq57zlYmIFLfB0Hnir0WSLwWtpUuBESkFg40P+GM
-	g==
+	:mime-version:references:subject:to; s=corp-2025-04-25; bh=62kGZ
+	y2AegPIWx9lP+H3F/FlYMltIbnvMPchF/GbSMk=; b=sbf9tYayB47P/hjLvdqq0
+	H7oP6vHRXbsWEdQLtmtMiVCAxO8miKIvwlxCMG2QxOfmv1OEemEO5B7x3iYPQgi9
+	MOCTqOyDSK/LPXBK0BUqYDLIbV3e8PmFQjeV3/LEcNQc7c5Klu/YxEcDX7zuDRgz
+	pkc0rUgZBSGajpfQS0Jp8u5Q7isOXCpYwnuMIxo+HzzfmOW0Jdzto8lIeXz/RBNX
+	Yz5q4eP74sGTImmijxuQh+YJyV1WYVElg0BYQ2htBJBoS8wM1bOEMamhd390Xh2t
+	QWLLtAfyD3PBSmHhVv5LRJdbqm7QYntShNhRaZGxpNN4T5elrmzS/moAUzqOF2gZ
+	Q==
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4efptbty4b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 05 Jun 2026 22:12:22 +0000 (GMT)
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4efptbty4c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <dtrace@lists.linux.dev>; Fri, 05 Jun 2026 22:12:23 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 655MAP89033010;
-	Fri, 5 Jun 2026 22:12:21 GMT
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 655MARIb033230
+	for <dtrace@lists.linux.dev>; Fri, 5 Jun 2026 22:12:22 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ek326nvvv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 05 Jun 2026 22:12:21 +0000 (GMT)
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ek326nvwr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <dtrace@lists.linux.dev>; Fri, 05 Jun 2026 22:12:22 +0000 (GMT)
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 655MCIun039322;
-	Fri, 5 Jun 2026 22:12:21 GMT
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 655MCIuq039322
+	for <dtrace@lists.linux.dev>; Fri, 5 Jun 2026 22:12:22 GMT
 Received: from bpf.uk.oracle.com (dhcp-10-154-53-60.vpn.oracle.com [10.154.53.60])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4ek326nvu6-3;
-	Fri, 05 Jun 2026 22:12:20 +0000 (GMT)
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4ek326nvu6-4;
+	Fri, 05 Jun 2026 22:12:21 +0000 (GMT)
 From: Alan Maguire <alan.maguire@oracle.com>
 To: dtrace@lists.linux.dev
-Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>,
-        OpenAI Codex <codex@openai.com>
-Subject: [PATCH 2/6] libdtrace: do not taint scalar alloca member loads
-Date: Fri,  5 Jun 2026 23:12:13 +0100
-Message-ID: <20260605221217.1211791-3-alan.maguire@oracle.com>
+Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
+Subject: [PATCH 3/6] dtrace: add 'probeoff' variable to record relative offset of probes
+Date: Fri,  5 Jun 2026 23:12:14 +0100
+Message-ID: <20260605221217.1211791-4-alan.maguire@oracle.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20260605221217.1211791-1-alan.maguire@oracle.com>
 References: <20260605221217.1211791-1-alan.maguire@oracle.com>
@@ -67,163 +66,157 @@ X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-05_04,2026-06-05_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxlogscore=987 phishscore=0 malwarescore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=999 phishscore=0 malwarescore=0 mlxscore=0 suspectscore=0
  bulkscore=0 lowpriorityscore=0 spamscore=0 classifier=spam adjust=0
  reason=mlx scancount=1 engine=8.19.0-2605130000 definitions=main-2606050219
 X-Authority-Analysis: v=2.4 cv=I6dVgtgg c=1 sm=1 tr=0 ts=6a2349c7 b=1 cx=c_pps
  a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
  a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=x0eKOSpe3m1H3M0S9YoZ:22 a=yPCof4ZbAAAA:8 a=LG5T7v2SAAAA:8
- a=U_gbk2aEUc9IbmRI1f8A:9 a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22
- cc=ntf awl=host:12313
-X-Proofpoint-GUID: ayiLPo3N-qYI6YOZj2Kav0yWe-ec4BDb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDIxOSBTYWx0ZWRfX+psZZ5I/S8Wc
- k97Fe3kWahWGubpRmV3n5vVQzHUiUTE84dSR52l6BvsrVXE/3rvJUzqlLAn3nqpw2s7Cz4kKjvS
- qjMeZ6VNTJ61u5c5N929945kGvMUbJJPkn2CCBu9O+EHfY1olNy18BcPsMkXymO+e8wgOeZICH7
- GabRbFbdipX25fKd6smhiSpHsF4jPb7JCQMW/p1b31VZM44QEiSRv9K+jF8SqBYLXcfTnFV0vTF
- toHOfesJQ8OeaFS+B968qxTVSlYnbIungNkSyVpJY6U1f1mrixFkjmsy81ZRccdBJmfQCea7cM/
- O5o2z4acs/WjttMoK57HrGTBDYi0RIM22OV6EEuaFWfCManiXmBezVOxUr2nVR2JsCKiNnrmKi4
- g6OK/70WWFB0uzoow6a69MYinVUhbOfPsxpJ3ygXbTGViy6MMwHs8pylxRIbIYAjdHyWHMMgtWt
- hR8zBsr1vOiyfH2+C4cKQqepORVv/JZLIRYiJf/M=
-X-Proofpoint-ORIG-GUID: ayiLPo3N-qYI6YOZj2Kav0yWe-ec4BDb
+ a=x0eKOSpe3m1H3M0S9YoZ:22 a=yPCof4ZbAAAA:8 a=kbG2aKVCqpdHdf6kI4MA:9
+ a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:12313
+X-Proofpoint-GUID: Xudz_53YxpJORSO-Fsu0vRltKaE00Er6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDIxOSBTYWx0ZWRfX1GPpbWKipkSk
+ G0MCMHCRh9R7Il+suf03mBlwDfAkKdbpN/EiNxwxu4VFoVUu2vZA1a/1k+xWFyY+wlbAoA7gAdF
+ HC/U5etiGF0zXC8lm3Gfh9yOhldyuHXIJo09uhis0ZWs0bt/rIRxhr95UctvIhldvD9eLdu87yd
+ ZrIOau4cdVDxA6j8EPkD/Hd0JhcVJYleUsqlzR4YxGE4lTE4gdFUTTxrTHKN/4peFS83bLXIoJI
+ 5GfgOmzFpwKe8C5sn/f3QfmpT+k5H8CdazEY9Cui2IR1jx0wbFUFezlNexNb6ZacFQpX4ZNqHkF
+ FOO3msW8HEKSH+8Fup1pQhfyLTlptvqdFKKLFDhqY7uVW3T+K4NaelZ2HGrx9tMtN4JJcUWOOOY
+ 3eJ3LIeBePfLbExt1ERVKuN71QE5nUHOf3CnyAkKk4x7yEDeaH8ZN2qm31Yc1vJ5kSzIAoV3bTF
+ BXZXda1PVUdbLO64rudganJL//RIeEJ3yEbicckM=
+X-Proofpoint-ORIG-GUID: Xudz_53YxpJORSO-Fsu0vRltKaE00Er6
 
-Member access on an alloca-backed struct propagated DT_NF_ALLOCA from the
-base expression unconditionally.  This is correct when the result still
-denotes  storage inside the alloca buffer, but wrong for scalar member
-loads: after the load, the result is an ordinary scalar value.
+Record probe offset in machine state and make it accesible
+via 'probeoff' variable.  Having this is valuable as it will
+allow dynamic computation of runtime variable offsets by giving
+us the base address of a library.  For example, we can determine
+the base address of the python libpython3 library via:
 
-This caused values such as copyin(...)->myint to be treated later as
-scratch offsets, producing bogus pointer-like values and bad reads.
+python$target:::function-entry
+{
+	base_addr = uregs[R_PC] - probeoff;
+...
 
-Only propagate alloca taint for member expressions that remain
-by reference.  Preserve address-taking of alloca-backed members,
-and update store codegen so writes to scalar memebers inside alloca
-storage still bounds-check and convert the alloca offset correctly.
+This will handle ASLR and will work for specific targets and
+system-wide probes.
 
-Add a regression test for assigning a scalar member loaded from
-alloca-backed storage to a normal scalar variable.
+Since uregs[R_PC] will give us the runtime address of the python
+probe, subtracting probeoff will give us the relative address used
+at attach time.  For example if 0x7ff925cd7f0d is the uregs
+program counter value and 0xd7f0d is the probeoff value, we now
+know the library base address is 0x7ff925c00000.
+
+Once we have this, dynamic resolution of variables becomes easy
+because we just need the symbol table offset for the variable
+and we can add the library base address computed as above.
 
 Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-Assisted-by: OpenAI Codex (GPT-5) <codex@openai.com>
 ---
- libdtrace/dt_cg.c                             |  9 ++---
- libdtrace/dt_parser.c                         | 15 ++++++--
- .../tst.alloca-struct-scalar-load-taint.d     | 35 +++++++++++++++++++
- 3 files changed, 52 insertions(+), 7 deletions(-)
- create mode 100644 test/unittest/funcs/alloca/tst.alloca-struct-scalar-load-taint.d
+ bpf/get_bvar.c               | 7 +++++++
+ include/dtrace/dif_defines.h | 1 +
+ libdtrace/dt_cg.c            | 5 +++++
+ libdtrace/dt_dctx.h          | 2 ++
+ libdtrace/dt_open.c          | 2 ++
+ libdtrace/dt_prov_uprobe.c   | 8 ++++++++
+ 6 files changed, 25 insertions(+)
 
+diff --git a/bpf/get_bvar.c b/bpf/get_bvar.c
+index 99a6503d..2b53b7d1 100644
+--- a/bpf/get_bvar.c
++++ b/bpf/get_bvar.c
+@@ -203,6 +203,13 @@ noinline uint64_t dt_bvar_probedesc(const dt_dctx_t *dctx, uint32_t idx)
+ 	}
+ }
+ 
++noinline uint64_t dt_bvar_probeoff(const dt_dctx_t *dctx)
++{
++	dt_mstate_t	*mst = dctx->mst;
++
++	return mst->proff;
++}
++
+ noinline uint64_t dt_bvar_stackdepth(const dt_dctx_t *dctx)
+ {
+ 	uint32_t	bufsiz = (uint32_t) (uint64_t) (&STKSIZ);
+diff --git a/include/dtrace/dif_defines.h b/include/dtrace/dif_defines.h
+index a18614d2..edb98f06 100644
+--- a/include/dtrace/dif_defines.h
++++ b/include/dtrace/dif_defines.h
+@@ -163,6 +163,7 @@
+ #define DIF_VAR_ERRNO		0x0120
+ #define DIF_VAR_CURCPU		0x0121
+ #define DIF_VAR_EXECARGS	0x0122
++#define DIF_VAR_PROBEOFF	0x0123
+ 
+ #define DIF_SUBR_RAND			0
+ #define DIF_SUBR_MUTEX_OWNED		1
 diff --git a/libdtrace/dt_cg.c b/libdtrace/dt_cg.c
-index 0859e9cb..e97e9abc 100644
+index e97e9abc..1bd73e11 100644
 --- a/libdtrace/dt_cg.c
 +++ b/libdtrace/dt_cg.c
-@@ -3788,13 +3788,15 @@ dt_cg_store(dt_node_t *src, dt_irlist_t *dlp, dt_regset_t *drp, dt_node_t *dst)
+@@ -288,6 +288,11 @@ dt_cg_tramp_prologue_act(dt_pcb_t *pcb, dt_activity_t act)
+ 	emit(dlp,  BPF_ALU64_IMM(BPF_ADD, BPF_REG_0, roundup(sizeof(dt_mstate_t), 8)));
+ 	emit(dlp,  BPF_STORE(BPF_DW, BPF_REG_9, DCTX_BUF, BPF_REG_0));
  
++	/*
++	 *	dctx.mst->proff = 0;
++	 */
++	emit(dlp,  BPF_STORE_IMM(BPF_DW, BPF_REG_7, DMST_PROFF, 0));
++
  	/*
- 	 * If we're storing into a writable lvalue that is a dereference of an
--	 * alloca pointer or if we are storing into a writable alloca lvalue,
--	 * we need to do bounds-checking and turn the offset value into a real
--	 * pointer.
-+	 * alloca pointer, a member of an alloca pointer, or if we are storing
-+	 * into a writable alloca lvalue, we need to do bounds-checking and
-+	 * turn the offset value into a real pointer.
+ 	 *	mem = buf + roundup(dtp->dt_maxreclen, 8);
+ 	 *				// add %r0, roundup(dtp->dt_maxreclen,
+diff --git a/libdtrace/dt_dctx.h b/libdtrace/dt_dctx.h
+index 5bf21345..797c8fd2 100644
+--- a/libdtrace/dt_dctx.h
++++ b/libdtrace/dt_dctx.h
+@@ -30,6 +30,7 @@ typedef struct dt_mstate {
+ 	uint32_t	tag;		/* Tag (for future use) */
+ 	uint32_t	scratch_top;	/* Current top of scratch space */
+ 	int32_t		syscall_errno;	/* syscall errno */
++	uint64_t	proff;		/* Probe offset */
+ 	uint64_t	specsize;	/* speculation size */
+ 	uint64_t	scalarizer;	/* used to scalarize pointers */
+ 	uint64_t	fault;		/* DTrace fault flags */
+@@ -44,6 +45,7 @@ typedef struct dt_mstate {
+ #define DMST_STID		offsetof(dt_mstate_t, stid)
+ #define DMST_TAG		offsetof(dt_mstate_t, tag)
+ #define DMST_SCRATCH_TOP	offsetof(dt_mstate_t, scratch_top)
++#define DMST_PROFF		offsetof(dt_mstate_t, proff)
+ #define DMST_ERRNO		offsetof(dt_mstate_t, syscall_errno)
+ #define DMST_SPECSIZE		offsetof(dt_mstate_t, specsize)
+ #define DMST_SCALARIZER		offsetof(dt_mstate_t, scalarizer)
+diff --git a/libdtrace/dt_open.c b/libdtrace/dt_open.c
+index 30b8758d..ca00788a 100644
+--- a/libdtrace/dt_open.c
++++ b/libdtrace/dt_open.c
+@@ -240,6 +240,8 @@ static const dt_ident_t _dtrace_globals[] = {
+ 	DT_ATTR_STABCMN, DT_VERS_1_0, &dt_idops_type, "string" },
+ { "probeprov", DT_IDENT_SCALAR, 0, DIF_VAR_PROBEPROV,
+ 	DT_ATTR_STABCMN, DT_VERS_1_0, &dt_idops_type, "string" },
++{ "probeoff", DT_IDENT_SCALAR, 0, DIF_VAR_PROBEOFF,
++	DT_ATTR_STABCMN, DT_VERS_2_0, &dt_idops_type, "uint64_t" },
+ { "progenyof", DT_IDENT_FUNC, 0, DIF_SUBR_PROGENYOF,
+ 	DT_ATTR_STABCMN, DT_VERS_1_0,
+ 	&dt_idops_func, "int(pid_t)" },
+diff --git a/libdtrace/dt_prov_uprobe.c b/libdtrace/dt_prov_uprobe.c
+index b1b852ce..d53b1e43 100644
+--- a/libdtrace/dt_prov_uprobe.c
++++ b/libdtrace/dt_prov_uprobe.c
+@@ -1392,6 +1392,14 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
  	 */
- 	if (dst->dn_flags & DT_NF_WRITABLE && dst->dn_flags & DT_NF_LVALUE &&
- 	    ((dst->dn_op == DT_TOK_DEREF &&
- 	      dst->dn_child->dn_flags & DT_NF_ALLOCA) ||
-+	     ((dst->dn_op == DT_TOK_DOT || dst->dn_op == DT_TOK_PTR) &&
-+	      dst->dn_left->dn_flags & DT_NF_ALLOCA) ||
- 	     dst->dn_flags & DT_NF_ALLOCA)) {
- 		assert(!(dst->dn_flags & DT_NF_BITFIELD));
+ 	dt_cg_tramp_copy_regs(pcb);
  
-@@ -7496,7 +7498,6 @@ dt_cg_node(dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp)
- 			 * pointer, bounds-check the pointer reference.
- 			 */
- 			if (dnp->dn_left->dn_flags & DT_NF_ALLOCA) {
--				assert(dnp->dn_flags & DT_NF_ALLOCA);
- 				dt_cg_alloca_access_check(dlp, drp, dnp->dn_reg,
- 							  DT_ISIMM, size);
- 				dt_cg_alloca_ptr(dlp, drp, dnp->dn_reg,
-diff --git a/libdtrace/dt_parser.c b/libdtrace/dt_parser.c
-index e71c0985..3e1351d2 100644
---- a/libdtrace/dt_parser.c
-+++ b/libdtrace/dt_parser.c
-@@ -3179,7 +3179,6 @@ dt_cook_op1(dt_node_t *dnp, uint_t idflags)
- 		if ((cp->dn_flags & DT_NF_USERLAND) &&
- 		    (kind == CTF_K_POINTER || (dnp->dn_flags & DT_NF_REF)))
- 			dnp->dn_flags |= DT_NF_USERLAND;
--		break;
- 
- 		/* Dereferenced pointers cannot be alloca pointers any more.  */
- 		dnp->dn_flags &= ~(DT_NF_ALLOCA | DT_NF_NONASSIGN);
-@@ -3251,6 +3250,11 @@ dt_cook_op1(dt_node_t *dnp, uint_t idflags)
- 			 cp->dn_op == DT_TOK_DEREF &&
- 			 (cp->dn_child->dn_flags & DT_NF_ALLOCA))
- 			dt_cook_taint_alloca(dnp, NULL, cp->dn_child);
-+		else if (cp->dn_kind == DT_NODE_OP2 &&
-+			 (cp->dn_op == DT_TOK_DOT ||
-+			  cp->dn_op == DT_TOK_PTR) &&
-+			 (cp->dn_left->dn_flags & DT_NF_ALLOCA))
-+			dt_cook_taint_alloca(dnp, NULL, cp->dn_left);
- 		break;
- 
- 	case DT_TOK_SIZEOF:
-@@ -4049,8 +4053,13 @@ asgn_common:
- 		if (lp->dn_flags & DT_NF_WRITABLE)
- 			dnp->dn_flags |= DT_NF_WRITABLE;
- 
--		/* Transfer alloca taint. */
--		if (lp->dn_flags & DT_NF_ALLOCA)
-+		/*
-+		 * Only propagate alloca taint when the member access still
-+		 * denotes storage inside the alloca buffer.  Scalar members
-+		 * are loaded from the alloca buffer and yield ordinary values.
-+		 */
-+		if ((lp->dn_flags & DT_NF_ALLOCA) &&
-+		    (dnp->dn_flags & DT_NF_REF))
- 			dt_cook_taint_alloca(dnp, NULL, lp);
- 
- 		if (xflags && (kind == CTF_K_POINTER ||
-diff --git a/test/unittest/funcs/alloca/tst.alloca-struct-scalar-load-taint.d b/test/unittest/funcs/alloca/tst.alloca-struct-scalar-load-taint.d
-new file mode 100644
-index 00000000..8aa071be
---- /dev/null
-+++ b/test/unittest/funcs/alloca/tst.alloca-struct-scalar-load-taint.d
-@@ -0,0 +1,35 @@
-+/*
-+ * Oracle Linux DTrace.
-+ * Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
-+ * Licensed under the Universal Permissive License v 1.0 as shown at
-+ * http://oss.oracle.com/licenses/upl.
-+ */
++	/*
++	 * Record the uprobe instrumentation offset in the probe context.
++	 * This is the same object-relative offset passed to perf_event_open()
++	 * as attr.probe_offset.
++	 */
++	dt_cg_xsetx(dlp, NULL, DT_LBL_NONE, BPF_REG_0, upp->off);
++	emit(dlp, BPF_STORE(BPF_DW, BPF_REG_7, DMST_PROFF, BPF_REG_0));
 +
-+/*
-+ * ASSERTION: Loading a scalar struct member from alloca()ed storage does not
-+ *	      taint the scalar value as an alloca() pointer.
-+ *
-+ * SECTION: Actions and Subroutines/alloca()
-+ */
-+
-+#pragma D option quiet
-+
-+struct foo {
-+	int	c;
-+} *ptr;
-+
-+BEGIN
-+{
-+	ptr = alloca(sizeof(struct foo));
-+	ptr->c = 12;
-+
-+	depth = ptr->c;
-+	depth = 13;
-+
-+	exit(depth == 13 ? 0 : 1);
-+}
-+
-+ERROR
-+{
-+	exit(1);
-+}
+ 	/*
+ 	 * pid probes.
+ 	 *
 -- 
 2.43.5
 
