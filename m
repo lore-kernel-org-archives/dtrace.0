@@ -1,76 +1,77 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2FB3F39F2
-	for <dtrace@lists.linux.dev>; Fri, 12 Jun 2026 16:22:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D143F20EC
+	for <dtrace@lists.linux.dev>; Fri, 12 Jun 2026 16:22:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781281343; cv=fail; b=Xkg9Q8ihQLi3kMZ69VDFYchDqFKQpZpXNi0+d/IYMNEhi0drVeKLgBkw1mvL6QbZjCPB1emJkqhBGP82FNzylE5JO6gN9vCAd2oJIoBSWHggCKkGZ/SUnIXUprDM1IkMtsiXrTdPiOm9u6Suf/26ducXoBjdGbGjR7XdiDoG9Fc=
+	t=1781281345; cv=fail; b=iIIn9OTXlpdknWHzDalG2q63OermLSM3tXzrHKlTkjkn5JnXlnoai0bC1wqjIvRFfqYysaHXI923kPHl1vu9eZntb+tKrSwRC9tWScjP4FOiovMx9EqMJpVAshGNCHA88OMs25MCjIX+0P64ndBd0z5lAIy9nfYL4R07QaPMTC0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781281343; c=relaxed/simple;
-	bh=i4LZ85UoyPfkHftOQ02JqLobWsMr3bg6UIVwmvCwd84=;
-	h=Date:Message-ID:From:To:Subject:Content-Type:MIME-Version; b=cBViBkCavJpgd1OdfaJRR7zd0N29QcysQxGUwzJiJSkxkbAFXkTxzKHVHPO1quVaw4goaxQwtJs0yY5cUpFriC10Ibaf0iD+SlhlHOUM7DRnNP8F/feCMq0AglM7ffNYW4sH1PbTATJCAu14YINbeV9irxPL2Y53jT+yvyl0o8Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=TE10HGog; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ajLLBdCM; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1781281345; c=relaxed/simple;
+	bh=0GDW+5+1S9vgrR0hRCKE7InMGRi+wC4Gm21BA5Kf1Gg=;
+	h=Date:Message-ID:From:To:Subject:Content-Type:MIME-Version; b=cU44ML61fj2CaPy1ISI0FBHUFYodChC20V4J00Jz5pg0WUhhytMhKslB4BYCpyOnldn+jEIqUboRJrE7ttOaq7iOHZ0aBicVAkz56SIM9ENWCO6fymNu/zTXQeiHOXEjJ65lVBdeE3zkMZNAOM96wrieLd4Zd6UKbTnc2Eca7rQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Ww99HqxN; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=wKpC80Dy; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="TE10HGog";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ajLLBdCM"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Ww99HqxN";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="wKpC80Dy"
 Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65C7Nktu1153367
-	for <dtrace@lists.linux.dev>; Fri, 12 Jun 2026 16:22:18 GMT
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65C7Nktv1153367
+	for <dtrace@lists.linux.dev>; Fri, 12 Jun 2026 16:22:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	content-type:date:from:message-id:mime-version:subject:to; s=
-	corp-2025-04-25; bh=4Or02hOdS1uvvvQHbgPMrhZH64zaB511K1xtmJv8l4U=; b=
-	TE10HGogjhcnJJKFGzm0xXuuSkoQwuIRb22aTSPRqvv2g/omxN/q/O/7bmre3zGx
-	1xs4F6QzB+ennr9USLAB2BBnoU/qkzrlhDPQd6RleHJ3Cnv4+SYxGWfYT2+mmKO1
-	mFEelrRlnAhS5U3VIBEwtlZQDM4Od6MR2nC2nrF2dFQMHh9kLlZmyZDCvaYDxetW
-	vzVN+AaI8DA5ActIjd9SKk8NPEv5A5i12l30Rx87Zn88NuSG94S8N+pPCs3ZaVPB
-	yC8FQW9ZCoUKlxTxzneO/g7Yt6jiMAwUielvzm7L6L5P764RCuXQvQsWMmv/76cx
-	9i49LIBnC5wIzEEI7zSZ7A==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4eqe76u7xm-1
+	corp-2025-04-25; bh=ScNi5GUJ3fyZ3IJvZEfEzQXQB/l/R6XRGc2fb1ViJRk=; b=
+	Ww99HqxNQ+KeZcfODl5uOa74Md84fN3T33PG5E4plu0Yh6UKW26keClcEsYux+yq
+	z+IwSTRXwbc/rYGJmjnoTOlVvZkH+2Oo3Wt167l2rIqop7g+msZ1nvfwNJeZeUxn
+	TgSPMBeky28gnoLCI8ukzu5d0b87F9CuQ9Ncz/Ekd7lVsXpTcy4Lc0Qf/YtZ+pFM
+	uvYdGsqsaQwH33pwFIPeiWTgrhUB103dMyIz1vkBCl1h8bEGzbC40rOwYbzzg2S3
+	EdBBeXNFKRcVfbAGneL1xphw968uQ0nTbM0opdi+mOShnQ5SJ5J0JngDcPV+wWJg
+	zTZ6Ke7CwvNJJ6TEvs6Ejw==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4eqe76u7xp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 12 Jun 2026 16:22:18 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 65CGINqs011786
-	for <dtrace@lists.linux.dev>; Fri, 12 Jun 2026 16:22:17 GMT
-Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11013069.outbound.protection.outlook.com [40.93.196.69])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4erh9wt1yf-4
+	for <dtrace@lists.linux.dev>; Fri, 12 Jun 2026 16:22:19 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 65CGD69C014463
+	for <dtrace@lists.linux.dev>; Fri, 12 Jun 2026 16:22:19 GMT
+Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11013018.outbound.protection.outlook.com [40.93.196.18])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4erh0u2q04-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 12 Jun 2026 16:22:17 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Fri, 12 Jun 2026 16:22:19 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GISFq8U1heD35OihjfdN5EiddEkxpI2YqAdQfqbU1GnktiLV+s76GwjQ+lD+jzYZgrbU5HuaLo2BsyYC+TGEhX0L1fhz7ZQHHJUSEX+8TCBv/0pG02JGhj+W8RpOUe6JdpTGKijMVI1Jm0Gf8gr5GsYGgyjP+GUtN983L+I5dsaiJVtGFL9R0kAuz2aZffCyKH7GKRa6+LeZmVvN8zHRHFnwI+T3Wk+AFMPsWET6NG5vs5nYyNlWvLkQYfUR8fgE3Gq/GxpbOxyY9/1gQMW64oq/FYqgd+bHKZgHZdU2hUYB0LSpq7kFvHwOOYAgoiAOM+NM6SMl4b7eIt5L+jSWWg==
+ b=dqilD/kmLKThM55CWNxrhkZsmXxjTixDJMcd4EAx5qmYCQUgZ5PwXLR/IZR1CBnSyCIUjBd2utLlRCeenNDofeUDp2iosgFQx2J7sGazchV/d7z+Qnai9QiIUFdb/T80botCvq5oQiSNiOdB9JFO26AO+1JW7ZJlCv6FoRZ4FJR/oLFVM+tpPrtc7liZ8ldDkTFrnfIpJ0tTI8SEnya0YcxWKstsJInoKLZmnu61zGM6TpDXLdXfudki1T8AGKTerQ7N5tIrhDSIIXIHkoLo8bdpyVA7orGs0iNd3wk8sDPAHS9+ril0rpwy7z1F+nKdhiTDvJBbqk8ALJYzBtIT5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4Or02hOdS1uvvvQHbgPMrhZH64zaB511K1xtmJv8l4U=;
- b=MK2W98phTF8O3kCO07TyAjn/CAHKNSNE82J+uROQi7ZWZOAK1G0keY6Qa+V2pw+HVYt06keFMI9Du9HMFRvK0jnmJL14ZZ/kH6y9ncccg6eplMY/cGpAxPS2ACnjL8LHw5BX/8lMHnOX0q96ZEFtD3KEXfegg1y9Ee88QoxpDUeBl+wTlK4y6eRFkBMg/uztlIywFO/AwsgXWfk4z5lDnPFX/48PyrQMrkZQAG1i+uBAVmV4j6U0knXqQ5rkW/uTmP1E8NYDuFkD8vF4lYLKaXidXglal16h7nQ+MeHaG3SXp1QBlDJapFqYFAO8TJBreMrScoXg2zxIfIWBs8CH4w==
+ bh=ScNi5GUJ3fyZ3IJvZEfEzQXQB/l/R6XRGc2fb1ViJRk=;
+ b=KbnNtHEhON1B/w9DV0MRCVND3djzKkWwFLHR+jyPeGTIXGO5hdcLrAYkOQyGETVCvsN0x43uyP8zjGjCq0ZGH+8x8zhfXu00lrVyU7tM2tWYrmgwANKnpaOxgtFa1ECkO9AZnAa8z2giHnb5RYDYI9o1gVV3+C8NzrgzWduJURyuWetMcFXDvqHg0Q1+AX85R1P/jjQ2D9T4FbgFwAMpTuEPkbyCU+tDLQ+JoA/bqLhfPYDkxFTozof182nAfryz3VtnWpcSQHp86SNDPe/uE8BDqHSWuMA+BMg8H4N0EYIBCwT/aW2kxQN5O/bIEfOoqffI0fQc823XTONw+uw7ow==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4Or02hOdS1uvvvQHbgPMrhZH64zaB511K1xtmJv8l4U=;
- b=ajLLBdCMdt5g0OaJlANy2/cYSSmW4F4ZiKTumYtuZy/tZMShTioALfKwFpZt4+L8IG7o44zRl8aXIQs/DjprMu9+/STGORSdH/Lo59TxBmLmS14G6XeEXhj1SPHNPAmYxCSt+9mseXY/UiR8zqZBaPDaYrSQ2/dbopQTgWAx7IA=
+ bh=ScNi5GUJ3fyZ3IJvZEfEzQXQB/l/R6XRGc2fb1ViJRk=;
+ b=wKpC80DyYRF2VoUcthZ4ryfIjvQs1NA/malKETr9dLPTT54MAG/AH2q4zVbfMA5VmozJQnr/hsYIFtFR0ZSG3ft8gAl8qqwnRxa+k3qyP+xmC/ro3mtNt4t98qCy6U73JgVYsH5Ukzu6OWQmuNZvENY272RsdN4pzigMvu5hs70=
 Received: from PH0PR10MB5514.namprd10.prod.outlook.com (2603:10b6:510:106::17)
  by SN4PR10MB5637.namprd10.prod.outlook.com (2603:10b6:806:208::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.14; Fri, 12 Jun
- 2026 16:22:14 +0000
+ 2026 16:22:15 +0000
 Received: from PH0PR10MB5514.namprd10.prod.outlook.com
  ([fe80::7a08:b55e:b242:9a61]) by PH0PR10MB5514.namprd10.prod.outlook.com
  ([fe80::7a08:b55e:b242:9a61%4]) with mapi id 15.21.0113.013; Fri, 12 Jun 2026
- 16:22:14 +0000
-Date: Fri, 12 Jun 2026 16:22:10 +0000
-Message-ID: <90cf70060f02619a3f06ca5ac66df954@oracle.com>
+ 16:22:15 +0000
+Date: Fri, 12 Jun 2026 16:22:12 +0000
+Message-ID: <3d00e8f823076a7190b21c2167fac9ab@oracle.com>
 From: Kris Van Hees <kris.van.hees@oracle.com>
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH 3/6] usdt_parser: fix parser pipe I/O error handling
+Subject: [PATCH 4/6] dtprobed: harden helper ioctl validation
 Content-Type: text/plain
-X-ClientProxiedBy: DS7P220CA0001.NAMP220.PROD.OUTLOOK.COM (2603:10b6:8:1ca::6)
- To PH0PR10MB5514.namprd10.prod.outlook.com (2603:10b6:510:106::17)
+X-ClientProxiedBy: DS1PR04CA0028.namprd04.prod.outlook.com
+ (2603:10b6:8:243::11) To PH0PR10MB5514.namprd10.prod.outlook.com
+ (2603:10b6:510:106::17)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -79,320 +80,203 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH0PR10MB5514:EE_|SN4PR10MB5637:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1f51fd68-2191-4451-d9a6-08dec89ec348
+X-MS-Office365-Filtering-Correlation-Id: c99823fc-090e-4ab7-032d-08dec89ec440
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|18002099003|56012099006|3023799007;
+	BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|18002099003|6133799003|56012099006|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	atqTv+8nJ065k729R6jDlM3QoHDf4GpUwn1IpBsrWdI9rGnbyVm0B4k8qHajDoMfO+xgQNhlFgcaH6efKqixU+ppBwuEkTKzZVgGNxG3zWZrtgvCOCfrNvA0K5BUzKkOrD1oUAOagEHLqrP1GdXmakcfSxcwmAPl3vge7S2+sgTjxVrYFX6dRp9qchy6CGh4/uW25rt/L58vQv1X7FLYyUOM0XGbMNrXESgseNMFNh2qu4dEF4zZxSXZOfZ8NtHZ/6D99tVlSVYEfz2X1mKukueH2uKOyD6iBi/DV7hIeTFbIsgSe63BvwPyCv2wrM/pkxgwuy27bK0mQJV8lR3IQu6uLU6npcjrEtxyhuP1TNrvx1XKXmGWg4p1iwnqx+rkui6nywiM2xSr+Whm2Gw2uMTOOQXjUIrPHXRNnP9gyZI7MfpstgAGzb0iUlf5KTxzuUTMnKkYaR9gspwTEoDHs0rq/bFbrwAbEyPIpmN0nj98ZOpSslJ9Hl63Uay++9aoHilAJSkrsv9CQ3UlsILMpHfDa4nMrOIs/GfPaa2hhf2IKyqm305w9b8ohZAlhHTAgaBa+1epl9zl1sa1N2lW1pUCXtJKUa8d1lZoEqQlO7xl4L3vWsBN2JAw+aj+xkzhUTBOyHLvh9qB5E3xEH8f7Eh32mfrOLbdmGxoOh5dDPSxsfrkHHc6e1TB9KhQyHYK
+	oQq/h8CSlqQtgErhLAjSUmuLg6BOb0kybVixSmhKDsU7OErYAdDxtHe4jpYbuLd6I7/y0swH+gffSjzSOnH9B6m+fBAZqkum4tcpUuQJZpcxx2PltCFkioJVmGgqXv07Wr/oy5Jqf1uTtCXPTTA8A/RyRega+x6jUOevJYShQcrCKiVjrt5XReO7SmgaStxedzk7jqGuWJsh3wSFQeKDAZA7PkXbp31WAFBP29AhlAyWux/CT2Nj27mmNoDpauvSQ7gbwz5kJV4sE8Sez5RxkHAxn4wG/eS2xZMGl79+7EX2/BCz/aIvTotf3AXHU70iYEAx39uRcMSaU7TMrjTuvU2rJJB0LaWPFFWxaAZO6EO86RDiAwPovpxGMPZDiG1sh8B0JTmMEaYfeY7X9aMGQhO/UoMm7cnpV+lSVyctZMaDSO1j2Ff7j2bktLw+zY8oHeS/sdhWviw0U6MImS3heoObdmjFnsFZcM4MYFJvFrOn+LHR1r5usTtBKUeKefnoDJystwbJr2iy50zTVPItQr3nFIc4qBM0LbuUZWxT1YLImbk011tCM9x64qfszD8qO5fABPnoar76Eu00jP1+odBn50HmHq0ZCh16gIelVTMKLnzHb2L6+4+B4pbeuSd1bfQjh01U9C14XSWXBjR+hIMSecDxYZLRiYpxJIXoxxMfVByIEy/qR2T5GEVUme92
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5514.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(18002099003)(56012099006)(3023799007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5514.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(18002099003)(6133799003)(56012099006)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Jw+OfJ1l5Mkj5p+6kb2wonB9QyHcEF9zoM78uYkHdzcIpZ/bGC9K7JEISoLO?=
- =?us-ascii?Q?bTkmjjvajzyesoLc8sM9nbvH7FWMc8qvsBivv6C6I8RSj4RRT5EtSqyfZcbq?=
- =?us-ascii?Q?jbQyS4LgkN/S9/kLRZ/bjGBTkmltYh/8qjUKYcEIvG42yS628r+IGqm1Qfan?=
- =?us-ascii?Q?Pcd3C9jZnhReolyufbm/5UcWiOt8oErArVqFDTbP7Hd21ICm2d10zmdeCHuz?=
- =?us-ascii?Q?L0+YiolZI6W/LcjBjqAFePMvnSVBxA4vVYo1jtslVH+7kYkdOmFWbKMAMyQ/?=
- =?us-ascii?Q?U+Z3uFzfByqWXj5KGUSlyPh/hilsiX0YWzcRy0e8DrdlTV/uQeAQ7JebZivd?=
- =?us-ascii?Q?au5Rbu0LB9qgt/HuQujT2s23WUNfz8ps6GpCNjqCzBBI0Km05Z1bAwQ/c0NO?=
- =?us-ascii?Q?2iPYuqYT6LZtuTrSHPwzVLH7c0zgONUv+2Iqx5KFgkj7O3M1thLurbycfLgO?=
- =?us-ascii?Q?lJnRnAhlwv/Ynm7fKCYhRmZrjQDV+gHVf1uRl3QtR8TZLR8FJEp4bho3233/?=
- =?us-ascii?Q?X8QG/SHBoVs3e7JStemS7p4Jd628USaQ+23YPIb13xJas+2aGb89Itq3GUGe?=
- =?us-ascii?Q?7lDz3xQYV+jY/dcZdMwySSx6/HRo7TDsBikwy/fOyCXyr7YQzCOn/J2KYRXb?=
- =?us-ascii?Q?0xQ18JW8y8QJbgR6hC97mbgRo66dSBpeGc8QXsTv+SXSpUZ9vGw0B/seuThD?=
- =?us-ascii?Q?6mWEB75l7HW5oQ7msYVK4hxtsO6nGue96pV3o5PhUWYIBI7YAMze1tBRY6WC?=
- =?us-ascii?Q?g2Nl9ibBkVoVPiKFRmFqVbXVz732G7Cd1qzj56PdYr19FzOR+Q6f1RrLEpTu?=
- =?us-ascii?Q?4Yqs45GrFSJBkJiGhspY83CEAPwDkLyZcoL+PC7IvTtG8rP+jNAmGEG2tb1A?=
- =?us-ascii?Q?3t9TeHq6xZi/NicUZIEHrelwONs6PkbrhbAD62HsRHx1/m8it/h476GyVrwM?=
- =?us-ascii?Q?IbcW129AdRJGIMeo3XEvoi7pV+FNQThcvklzMYZjJUdyLegsARGLHbuiqO2W?=
- =?us-ascii?Q?8jI5bR8mMIYq82kQpAAFnY51Fi4iumD6tOFJTuV67sO4Z0o4AxxPl/oRqxnK?=
- =?us-ascii?Q?JUqKxSxNnYBfmL9I+RN4owayF3hOvd9hjG3EC9Z+OS1cZx18AzT2HMWo8xj5?=
- =?us-ascii?Q?JOpfLJ/EmA1RYhw9ZAWoiP1tFcvxrQj607Ng8F5TKnEO+91D474kvsgIIF8d?=
- =?us-ascii?Q?hfZUZX/iPOrbQIgySlKZm3UeU0NpKxJuy7PdNI22CpaWL/IPS4ueBk78AbyN?=
- =?us-ascii?Q?r5zjo4hwikcH+jt+vdoCe6BY9AxLTSIwaXOM/b6wrwjqsHw5x/6T03f04qzO?=
- =?us-ascii?Q?oQUsqWKN7SniKXDLmIe7kO0gxVqZ/aJcWfNV4xlbcXgWafRe6dsiHVJ0RHEq?=
- =?us-ascii?Q?/rm0u6RpG2p2w1Xm58/FG12A9QiVYtSxH3JbS+vhqzgoBrgLvq98JWZHgquj?=
- =?us-ascii?Q?EgbShpOqwDbhzNP09HmV6/LActszIF38yLD1GEO5uMV0YnjKKbc7eCIHvM29?=
- =?us-ascii?Q?fd4vQJq6CBwWH3JsvlgXVUZnOkKjvrl5VeiQSQtD6Z0CpNKuF4ZAOS4qRk8L?=
- =?us-ascii?Q?U7KMUG+f+7p7UbF1V49Xrq8MByE2UOi63KgazOrsOTBS1wyP5XYBcrmvlwWz?=
- =?us-ascii?Q?UiYk22k+s8y2mpyu7wYLBlMhxmYHRqcoqnhR0lG84+H/WhSQC1zMpYtlSf+9?=
- =?us-ascii?Q?cee+tcwnVbvDRAz+rbt+oRAUk6GxnOh26m9YCAWvelKtqnRDtHZDq0EM4aE8?=
- =?us-ascii?Q?MnVwrL0bLaoSPBNdaFmMNsfR2qvFuuc=3D?=
+	=?us-ascii?Q?nkSQ3UCAjwqgYxFCiDCpLC/3WT+GRRccBEWJVvARDY65siCkMwO9kr7PysGm?=
+ =?us-ascii?Q?xzgkWnB6zuec3Y3OeYuUd90nzE1qSz7b9YUYe1qYLD2ZY54iUMpX4TvacdtF?=
+ =?us-ascii?Q?O4LuLl6NdwjLr/CrC9aH83xEnFGTGEhuX3e8qTecPEyoSCgPZw8wu8lnOEAX?=
+ =?us-ascii?Q?6RBGxfVuW4cFpF7pEgg7wCXHHXvxRifqNsgXPaq4r5CzqkOvlmOjlcDhS2lZ?=
+ =?us-ascii?Q?cTf8nYIvSE8e6QnkiPpJtIIQrVtqeujyer+K3oCFaPSXSH7eeRT0FYwktUr9?=
+ =?us-ascii?Q?ivC1gQZLxcI8of3Zqraqv0GbOWNbFbMxi5FljkFEcdPumb44Cl//tZMcruL7?=
+ =?us-ascii?Q?DyM1QbLykYOorfBv5pZ1d0SeSl0F4F1vdeigNm5m7CO/HyobVD30xpwHcMDs?=
+ =?us-ascii?Q?PdeIaAwXtAexgjrDNYRhUULQ0Vug+DQX5sfuYpMRLGlhW8W58ri9XdBWIAlA?=
+ =?us-ascii?Q?RT5odtJablaUy3AuXKluSigqg3IO33Par/TQRiua+xTC8jMoqnj1me6TsQOj?=
+ =?us-ascii?Q?XY1QxE6NaQ2HEhIvqZ8wvZyKW7XXC6Osv9sX33xTNh0XTYvLoPyBfKrpP0Vs?=
+ =?us-ascii?Q?4DF0LlI1VGMKSY5RDuQlJrBSAYHB6IO6ZcYgP/lnE1isjJHY0itAbvZ+2dPQ?=
+ =?us-ascii?Q?xeP0iLiy8XbLKWFLL1zGoBjduJlvyhCtBfRsGmy32VYKlPrzKXWx2T0aNHEe?=
+ =?us-ascii?Q?0NO5ARWuEstJ5wiAYBp/ydEHMzFVL71bXWaBq4vPg3ucXBEvNdEv9rNIj9Yb?=
+ =?us-ascii?Q?o71PnEDnMbID8q4KzmzfXd2wVFcmOy/vCsByp668xDa+v7G8R1eTJ8ifYLq5?=
+ =?us-ascii?Q?eMgm66RnYVLqk6ouSIFJZv16g67K9B/em+cSYBrsF8VHdSLi1QgptKy/jk/+?=
+ =?us-ascii?Q?MR3nC8ruUG3MZiOOKDRCOk3vD81j1ygI1kMTAQm+9M2792HYf8G8uwxH2hHc?=
+ =?us-ascii?Q?yZMY4q2LPlFF3pC9fKzY5aORYIOzf1D5c/sVCmBUkfU4mlKXtPmquWIarGod?=
+ =?us-ascii?Q?ddejrfvOabdQkeh5RancrthZnA/xD45nWO+MxVBedPCw7cVNGG9T7C7p+CTk?=
+ =?us-ascii?Q?TPFsV9mGGgfJzdHG0M1UeMNoAYsn/hGw6HQxrnoqO/rCLU1go7amr++EesXl?=
+ =?us-ascii?Q?t0NQC54BYmsWRW40xx0IT8+rQYJdR1Apskmc0u9kBYfKAXoIBbqPTNq6I+Jn?=
+ =?us-ascii?Q?jE18tDikTho89izdSLrvQdtXd3HqnKiBvms9/lZJFbBrpw2/rz6yQdI2Ln8f?=
+ =?us-ascii?Q?VpieMkouloIzRM0lttBu4lT7MdIuo6h7wDnyL5tXXcMzswiWpJOVBAoUixaE?=
+ =?us-ascii?Q?TO27ltUgY2xRYXfCGLH3KodFAPivbedPvDkQi4bvrgtaRXAEQSfhSBH9OsOa?=
+ =?us-ascii?Q?m5jIrVOy1TJayhkIlekp7CnU50uSPa7Xh3xzNWg5BvYplW6Yn1aXD7xCvsri?=
+ =?us-ascii?Q?V25gd/9y5P3rEvO199vw+bFfIWKTr7IN1fmtO68oKqvP5eWOTyRWAv/M9R9s?=
+ =?us-ascii?Q?jdOo48OyRUWekr4Ftd1Rf09tFeZf7x0zKIotg0GQA+Y0bjFlZ2q4mzx0CbMj?=
+ =?us-ascii?Q?rOnZnJH6kdb8EtP7aK/wG1fKV3+erL5xvUaP0upx+lAw/TluUCavEeplJCoh?=
+ =?us-ascii?Q?v+QG9D42iRSq3Xq+6sklblzpHL/zkxtP646bz1rP/IkDivPNHOSk3l7GHll9?=
+ =?us-ascii?Q?0K4TMbWcHdRDOVVeTPqYKiP9GVZseOR7Y81sGB+u25zz4DPM92gBLLYGvcIm?=
+ =?us-ascii?Q?K+WNVrSojrQNTcDqHks2G42SyRjGtxY=3D?=
 X-Exchange-RoutingPolicyChecked:
-	E47t/VBcVwxpyFElJrIlhfAyGVlKpFW8SGranCE8OTuKYhSXEPkROYtRkCZ1+Jz72dqdRzw7AhaT+sWD+XuFsbi6T/tU6sBBtKhQmF52+1za4FUeQgeSNjFoFqwHDUnqoYFeXK7zXNCM7YbAfyP3FnrD6mgRZjlftyGNIGWqx1mRzGToHEVHqKJxFpBYO33ePYffLkHdnbkGr1HEJzQMlAZrwt5g9/3IWtGajvoLolOkc3NDe16IgnJhsz+FD+N2gUTMXi/tPGbHRGFd08mpMOQVefgSqVHL8wTW2sN4191PpqJIzu2MZ8mn9n1IRi8T/h+sCHmU7zxMK7tdZWw6kA==
+	PFshf7TJrpmNqFxhGAJR2KNNQHeh1auEUUT0OOpAuCXztTg40K/5dVEzEhjJPa5iYEm663HhsXfcDYJWiLtVLW+H5LEW0iWBXaZwfzOYpRskSrPriveEMEVEV41O/Y03ouqFiMTsmHjUEsH6iNmaM4kTO0o1j9zs3T9khCyVLP2eBti0XDh5X04RtxL35/FD0ZDntS5cF7WOhJAKx6OreYXmVU2XuCtdxVpLd+Ql5W0SpiGFHujpYYajyMrSPZxrUYGN2AVjkfpW0bN84TC3JXJo+9hkg1zLY5iXFnBJ3Sxs+yaAqpkH4kCRZNaaB9o1JQA+Ko4aEI+oLBmDL4b8EA==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	OTtFwQ3QVfKi4KwwIfE5/KsvIUxRFQpyoMUzi2cW6XFK7xUyGL1C8u5/ffBHppPi+G5EOS19/XNKSri7fwlzAiWY6JXoX/XvTiRAXc8uS1fDgltqedvrlCvWv5Wmck5eC4Gl4ZmO88tO0oO2CFPnvhVQdMAYDLXAodbsZXNmI0xonRLC6eQODIqbURjkwq1tqH1xYkX7qufYfvKDjKlPCa1W1WiSEYoB5MyB89Aroh7j4Cs1givqpAP6jDRSVW54GTjVyksZL5h78YEClpg0x22BGxldNSfltAvTREY4/TDccKMO1U8y9OIEDVHHG/2003PLQuVH2iY+6+jQGw97OL+5ovDLSVgCijNlE6oSrPNtJXkAZEHF1cw6PKrdYQFoDAy2ztn9NozNfxEqci4ZkifBcqi2V7mxTDji6EwN1sSqsck6cNky/mHXeIFhUd1WEUBXAzaJpn1Um3GbkEFDpDwbd+LJSJOYPCXe9xVl/TtwjLg10nA/isEkYkwSQI7lQss7VUpRfbcC3gViig/Eaan+HgFigVxg0/R8HYK5n1pQ4LrdrTpxlVWrfy646i9IXR8euP8z06B/8dh1xn+8tFAmJsG+Cgr614WARWSv6vg=
+	pWURWE/ePhynbU+dsu78Y4oyq5A1GH0mWt7YhBM+WcmkejH2f/c07/s0/1sz05dduaVCQ+Vop7f+odOplNsoJMFVnMJqD9sAq6oWtCzklrIK/QX47bAvlX/6LczjfQdms/yfwjHOMMJogt2EcQGt+KKIiGOlebTnOF5+2AOSH5ZqQOrkNbWwa2Y7UF8S/ImvcD7He6AWe2hiYwujDo/5Ob1GLrACaAEB7GhXqr7sFpOwAKMsGSm+QU3jBVMmyT8+fsBl2PsxyxXi5/i8ZqAqkA3hKjqjbRe3mw2bY7kVpXgjSSdB+tWml7iZPPMgdAEfrO1SUihHGOAvbSepefzMenN2b4om0nuaPv5Bd+sErqkqxbJNhtAU9GDfYcWUqMRjvFR7Q+PNGQrOKvKDsTH73zuAeXaW7bCnVahMUbK25LxxUGSz9MkvtoxjG7zohZy2423lX+SZG9J03XNF9k0XHSW8hvX7f7OQnZhk/TYGg+VLEOf97ua5OUzZpawhO9y5JOq4jDEVkB5mFYKvJRQJRF8goRf2UJveoEl661hfkY2al13EYWCyNcg917K1gYKOEhQkUfeUYAVgEo7dALCzCqAcRPUDAGsSCmbD3iTQy+4=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f51fd68-2191-4451-d9a6-08dec89ec348
+X-MS-Exchange-CrossTenant-Network-Message-Id: c99823fc-090e-4ab7-032d-08dec89ec440
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5514.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2026 16:22:14.0915
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2026 16:22:15.7073
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RuTd6vm9opvSeC9XNz5zwunh9Q5+w6uEcu4Y64Qt/iiQkTLY6kNpi6Jt25ttMfKBFbot4J8bdfo6h14fPwL/vvQdRK0LPO7DphtxdTzRL5c=
+X-MS-Exchange-CrossTenant-UserPrincipalName: aTsSa+TzyQDLJ2FX2iyufnuYKV4JUPdE1SUde1B7hTu6k2u9RyyFTIfCBUt/vYvSaKQJHngvnXQctHVlm7+IG90S7rAoxPoyIrZoiUFsX2c=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR10MB5637
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-12_01,2026-06-12_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- mlxscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0 adultscore=0
- spamscore=0 phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2606040000 definitions=main-2606120151
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjEyMDE1MSBTYWx0ZWRfX+zR/idit2K4X
- VMXXKB78d+b9+jpBjLPnFqt6mxh5mSzHR6oqqOCGffDLrnRa7gIYJAKONBDWto/20qyQg8QhKcc
- RWze6i90q3lyiCIYzFU/vnD7xhTd1L+lulfk+G3zyNxcvXm0/Nfy
-X-Proofpoint-GUID: 9GAo7VB1mAAsHKSa0Mfo8hDScwr18gun
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjEyMDE1MSBTYWx0ZWRfX5ngugc5DKHL6
- t2+QwKs2+SOKVvEabYFwkK1yPjAe4e4I7Zn60VNdf21/lZ0WMdNPsE4ptTQdZjMtNFv5Bu7jD7y
- a9zAPWLBv23kEUP3gwNxJ9cMoaxo6XeGVFHJgGD2+usU0DrGYk0PilFXr1j9juLM8/vSQQCAcS0
- +4LIeiLr4N6WCB/SK+0NTHbaGp2bV3i/V0dmPho5ZD9rXzYBk3T27Hzi4aBoXuJ+XDBP3K5H0MF
- 2ej1BwKHT6NOlPU9Fq63LDvdV9Ja3Tbadavw1aOJCeiSXh6Ra0SbV19fPvxZ6mUv+QonWU2c2pt
- dfY84+iXoULutpdVSRminzKq4zSNoudmjmx8pd46C8/H60yuLnIq9JeS78PNwvJ63UCgyJ5E85l
- +Tacm59HTZrbqlZ38VsMLtRg/7ifLxi/GaJUr4BHCfZpz3qF0YRKmf6Ct4GPV76CSH0cHHLwGWN
- sMInTMirTMOsaSAkZgg==
-X-Proofpoint-ORIG-GUID: 9GAo7VB1mAAsHKSa0Mfo8hDScwr18gun
-X-Authority-Analysis: v=2.4 cv=dtTrzVg4 c=1 sm=1 tr=0 ts=6a2c323a b=1 cx=c_pps
- a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ spamscore=0 mlxlogscore=999 mlxscore=0 adultscore=0 lowpriorityscore=0
+ malwarescore=0 bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2606040000 definitions=main-2606120150
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjEyMDE1MSBTYWx0ZWRfXzp7xLuVlU1xH
+ mwKSRLPwPPD4H1pDzgKFlUVgiy0W6N5LFnvcW9eC/y1IcCcx2Yqd9Ru6GZEOCPyRgU1HsF1lxA/
+ RjnwsUepiuvs2XMorODnGLlZL412ddBojK0/uiEnZMkr+22c/gkw
+X-Proofpoint-GUID: HtFrWiy1v2ABrwdq2g1JUHw6diwZhnIN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjEyMDE1MSBTYWx0ZWRfX/qSImmyn4Nyk
+ qBNJ1Wk6zJpd+CrIYpMBQBro5GlKpLo+rkznCk8farRZ7tM+wrz0Y1huwIdHZaUsgz1MQBTgfPn
+ EoGvFiZgfneGHmYdKWykoz/dBbhpXp74K4K/s6yhdsusb/YrbyHpPMIr04BNqK+SP0f5i/wmz2p
+ rqYmo5PfZv82ukcHxsGmWL0XBqcD8HGaPlL6m6DyP1lByglGKxTtnX5WdGcSxIEkIU4btDVc8hZ
+ dGyP/PkWZ1LMmbBCIkE2Ja7EGyMCKgSHRGBzQLC24AQiG1p9XCP3uVGj1CHpnWIq+1pWRT861Ec
+ F84hp/hTTC+fcZNspsZHjco1pAGDo9CR8FCSHU866+fnC5aLpWENIjCyWB53f18NUtX/rfeXCh9
+ 4IudYw2rMain9mXhjrW+0lGdgkv+aXt6H/SKNyDV5RE9zORnlCEd4LyT+gvijN/CGyBzYbF/EU8
+ Nd+C8YL8XGntOZk3LZA==
+X-Proofpoint-ORIG-GUID: HtFrWiy1v2ABrwdq2g1JUHw6diwZhnIN
+X-Authority-Analysis: v=2.4 cv=dtTrzVg4 c=1 sm=1 tr=0 ts=6a2c323b cx=c_pps
+ a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=FelO9ux0wxsA:10
  a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=EIcjfB9IiI4px24ztqRk:22 a=yPCof4ZbAAAA:8 a=AMuSwi9o_gtNlSW0J5IA:9
+ a=EIcjfB9IiI4px24ztqRk:22 a=yPCof4ZbAAAA:8 a=rZkm9kGGNdRJZiFjjp0A:9
 
-Use ssize_t for read() and write() return values, return negative errno
-from usdt_parser_write_one() to match its callers, and cap the reply
-size advertised by the jailed parser before allocating host memory.
+Reject unterminated fixed-size module names and module names that would
+be unsafe as pathname components before using helper data.  Reuse the same
+component-safety predicate used when composing probe specs, and handle
+userdata allocation failure before dereferencing it.
 
+Orabug: 39374493
 Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
 ---
- dtprobed/dtprobed.c          |  8 +++-
- libcommon/usdt_parser.c      |  2 +-
- libcommon/usdt_parser.h      | 13 +++++-
- libcommon/usdt_parser_host.c | 84 +++++++++++++++++++++++++++++++++---
- 4 files changed, 95 insertions(+), 12 deletions(-)
+ dtprobed/dof_stash.c | 27 +++++++++++++++------------
+ dtprobed/dof_stash.h |  2 ++
+ dtprobed/dtprobed.c  | 22 ++++++++++++++++++++++
+ 3 files changed, 39 insertions(+), 12 deletions(-)
 
-diff --git a/dtprobed/dtprobed.c b/dtprobed/dtprobed.c
-index 81b28e6d..9ce941ee 100644
---- a/dtprobed/dtprobed.c
-+++ b/dtprobed/dtprobed.c
-@@ -935,10 +935,14 @@ process_dof(pid_t pid, int out, int in, dev_t dev, ino_t inum, dev_t exec_dev,
- 	dt_list_t accum = {0};
- 
- 	do {
-+		int parser_err;
-+
- 		errmsg = "DOF parser write failed";
--		while ((errno = usdt_parser_host_write(out, dh, data)) == EAGAIN);
--		if (errno != 0)
-+		while ((parser_err = usdt_parser_host_write(out, dh, data)) == -EAGAIN);
-+		if (parser_err != 0) {
-+			errno = parser_err < 0 ? -parser_err : parser_err;
- 			goto err;
-+		}
- 
- 		/*
- 		 * Wait for parsed reply.  If it fails, try once more; possibly
-diff --git a/libcommon/usdt_parser.c b/libcommon/usdt_parser.c
-index 1dc2fffb..18808b9a 100644
---- a/libcommon/usdt_parser.c
-+++ b/libcommon/usdt_parser.c
-@@ -71,7 +71,7 @@ usdt_copyin(int in, char *buf_, size_t sz)
- 	memset(buf, 0, sz);
- 
- 	for (i = 0; i < sz; ) {
--		size_t ret;
-+		ssize_t ret;
- 
- 		ret = read(in, buf + i, sz - i);
- 
-diff --git a/libcommon/usdt_parser.h b/libcommon/usdt_parser.h
-index 99fc3033..a8298cbf 100644
---- a/libcommon/usdt_parser.h
-+++ b/libcommon/usdt_parser.h
-@@ -178,6 +178,15 @@ typedef struct dof_parsed {
- #define DIT_ARGS_NATIVE_HEADSZ	offsetof(dof_parsed_t, nargs.args)
- #define DIT_ARGS_XLAT_HEADSZ	offsetof(dof_parsed_t, xargs.args)
- #define DIT_ARGS_MAP_HEADSZ	offsetof(dof_parsed_t, argmap.argmap)
-+#define DIT_BASE_HEADSZ		offsetof(dof_parsed_t, provider)
-+#define DIT_EOF_HEADSZ		DIT_BASE_HEADSZ
-+
-+/*
-+ * This is the maximum message size for dof_parsed_t (header + extra data).
-+ * Parser replies are derived from one parser input block, which is already
-+ * capped at DOF_MAXSZ.
-+ */
-+#define DIT_MAX_SIZE		DOF_MAXSZ
- 
- /*
-  * Host-side: in usdt_parser_host.c.
-@@ -187,7 +196,7 @@ typedef struct dof_parsed {
- /*
-  * Write the USDT definitions data to the parser pipe OUT.
-  *
-- * Returns 0 on success or a positive errno value on error.
-+ * Returns 0 on success or a negative errno value on error.
-  */
- int usdt_parser_host_write(int out, const dof_helper_t *dh,
- 			   const usdt_data_t *data);
-@@ -250,7 +259,7 @@ int usdt_parse_notes(int out, dof_helper_t *dhp, usdt_data_t *data);
- /*
-  * Write something to the parser pipe OUT.
-  *
-- * Returns 0 on success or a positive errno value on error.
-+ * Returns 0 on success or a negative errno value on error.
-  */
- int usdt_parser_write_one(int out, const void *buf, size_t size);
- 
-diff --git a/libcommon/usdt_parser_host.c b/libcommon/usdt_parser_host.c
-index 80dcf10f..939c66e7 100644
---- a/libcommon/usdt_parser_host.c
-+++ b/libcommon/usdt_parser_host.c
-@@ -18,7 +18,7 @@
- /*
-  * Write BUF to the parser pipe OUT.
-  *
-- * Returns 0 on success or a positive errno value on error.
-+ * Returns 0 on success or a negative errno value on error.
-  */
- int
- usdt_parser_write_one(int out, const void *buf_, size_t size)
-@@ -27,7 +27,7 @@ usdt_parser_write_one(int out, const void *buf_, size_t size)
- 	char *buf = (char *) buf_;
- 
- 	for (i = 0; i < size; ) {
--		size_t ret;
-+		ssize_t ret;
- 
- 		ret = write(out, buf + i, size - i);
- 		if (ret < 0) {
-@@ -35,7 +35,7 @@ usdt_parser_write_one(int out, const void *buf_, size_t size)
- 			case EINTR:
- 				continue;
- 			default:
--				return errno;
-+				return -errno;
- 			}
- 		}
- 
-@@ -45,10 +45,72 @@ usdt_parser_write_one(int out, const void *buf_, size_t size)
- 	return 0;
+diff --git a/dtprobed/dof_stash.c b/dtprobed/dof_stash.c
+index 4c7a95cd..891d7a69 100644
+--- a/dtprobed/dof_stash.c
++++ b/dtprobed/dof_stash.c
+@@ -230,6 +230,17 @@ make_provpid_name(const char *prov, pid_t pid)
+ 	return ret;
  }
  
-+static int
-+usdt_parser_validate_reply(dof_parsed_t *reply)
++/*
++ * Ban "." and ".." as probe description components. Components are also not
++ * allowed to contain any '/' character.
++ */
++int
++is_component_unsafe(const char *s)
 +{
-+	size_t	min_size;
-+	size_t	payload_size;
-+	const char *payload;
-+
-+	switch (reply->type) {
-+	case DIT_PROVIDER:
-+		min_size = DIT_PROVIDER_HEADSZ + 1;
-+		payload = reply->provider.name;
-+		break;
-+	case DIT_PROBE:
-+		min_size = DIT_PROBE_HEADSZ + 1;
-+		payload = reply->probe.name;
-+		break;
-+	case DIT_TRACEPOINT:
-+		min_size = DIT_TRACEPOINT_HEADSZ + 1;
-+		payload = reply->tracepoint.args;
-+		break;
-+	case DIT_ERR:
-+		min_size = DIT_ERR_HEADSZ + 1;
-+		payload = reply->err.err;
-+		break;
-+	case DIT_ARGS_NATIVE:
-+		min_size = DIT_ARGS_NATIVE_HEADSZ + 1;
-+		payload = reply->nargs.args;
-+		break;
-+	case DIT_ARGS_XLAT:
-+		min_size = DIT_ARGS_XLAT_HEADSZ + 1;
-+		payload = reply->xargs.args;
-+		break;
-+	case DIT_ARGS_MAP:
-+		min_size = DIT_ARGS_MAP_HEADSZ + 1;
-+		payload = NULL;
-+		break;
-+	case DIT_EOF:
-+		min_size = DIT_EOF_HEADSZ;
-+		payload = NULL;
-+		break;
-+	default:
-+		errno = EPROTO;
-+		return -1;
-+	}
-+
-+	if (reply->size < min_size) {
-+		errno = EPROTO;
-+		return -1;
-+	}
-+
-+	if (payload == NULL)
-+		return 0;
-+
-+	payload_size = reply->size - (payload - (const char *)reply);
-+	if (memchr(payload, '\0', payload_size) == NULL) {
-+		errno = EPROTO;
-+		return -1;
-+	}
-+
-+	return 0;
++	return strcmp(s, ".") == 0 || strcmp(s, "..") == 0 ||
++	       strchr(s, '/') != NULL;
 +}
 +
  /*
-  * Write the DOF to the parser pipe OUT.
-  *
-- * Returns 0 on success or a positive errno value on error.
-+ * Returns 0 on success or a negative errno value on error.
+  * Compose a full probespec's name from pieces.
   */
- int
- usdt_parser_host_write(int out, const dof_helper_t *dh, const usdt_data_t *data)
-@@ -118,7 +180,7 @@ usdt_parser_host_read(int in, int timeout)
- 	 * longer than expected is better than no read at all.
+@@ -240,19 +251,11 @@ make_probespec_name(const char *prov, const char *mod, const char *fn,
+ 	char *ret;
+ 
+ 	/*
+-	 * Ban "." and ".." as probe description components, as well as any
+-	 * components with a '/' character.  Since the components are used in
+-	 * the creation of paths that will be written to, any of these cases
+-	 * can be unsafe.
++	 * Since probe description components are used in the creation of paths
++	 * that will be written to, make sure their content is safe.
  	 */
- 	for (i = 0, sz = offsetof(dof_parsed_t, type); i < sz;) {
--		size_t ret;
-+		ssize_t ret;
- 		struct timespec start, end;
- 		int no_adjustment = 0;
- 		long timeout_msec = timeout * MILLISEC;
-@@ -151,10 +213,16 @@ usdt_parser_host_read(int in, int timeout)
- 		/*
- 		 * Fix up the size once it's received.  Might be large enough
- 		 * that we've done the initial size read...
-+		 * The size is bound to avoid memory starvation.
- 		 */
- 		if (i < offsetof(dof_parsed_t, type) &&
--		    i + ret >= offsetof(dof_parsed_t, type))
-+		    i + ret >= offsetof(dof_parsed_t, type)) {
- 			sz = reply->size;
-+			if (sz < DIT_BASE_HEADSZ || sz > DIT_MAX_SIZE) {
-+				errno = EPROTO;
-+				goto err;
-+			}
+-	if (strcmp(prov, ".") == 0 || strcmp(prov, "..") == 0 ||
+-	    strchr(prov, '/') != NULL ||
+-	    strcmp(mod, ".") == 0 || strcmp(mod, "..") == 0 ||
+-	    strchr(mod, '/') != NULL ||
+-	    strcmp(fn, ".") == 0 || strcmp(fn, "..") == 0 ||
+-	    strchr(fn, '/') != NULL ||
+-	    strcmp(prb, ".") == 0 || strcmp(prb, "..") == 0 ||
+-	    strchr(prb, '/') != NULL)
++	if (is_component_unsafe(prov) || is_component_unsafe(mod) ||
++	    is_component_unsafe(fn) || is_component_unsafe(prb))
+ 		return NULL;
+ 
+ 	if (asprintf(&ret, "%s:%s:%s:%s", prov, mod, fn, prb) < 0) {
+diff --git a/dtprobed/dof_stash.h b/dtprobed/dof_stash.h
+index 32b5eb52..e72671af 100644
+--- a/dtprobed/dof_stash.h
++++ b/dtprobed/dof_stash.h
+@@ -21,6 +21,8 @@ typedef struct dof_parsed_list {
+ 
+ int dof_stash_init(const char *statedir);
+ 
++int is_component_unsafe(const char *s);
++
+ int dof_stash_push_parsed(dt_list_t *accum, dof_parsed_t *parsed);
+ int dof_stash_write_parsed(pid_t pid, dev_t dev, ino_t ino, dt_list_t *accum);
+ void dof_stash_free(dt_list_t *accum);
+diff --git a/dtprobed/dtprobed.c b/dtprobed/dtprobed.c
+index 9ce941ee..c85a6617 100644
+--- a/dtprobed/dtprobed.c
++++ b/dtprobed/dtprobed.c
+@@ -668,6 +668,16 @@ helper_ioctl(fuse_req_t req, int cmd, void *arg,
+ 	int gen;
+ 	usdt_data_t data;
+ 
++	/* If userdata == NULL, we were not able to allocate memory for it. */
++	if (userdata == NULL) {
++		fuse_log(FUSE_LOG_ERR, "%i: dtprobed: %s\n", pid,
++				 "out of memory allocating userdata\n");
++		if (fuse_reply_err(req, ENOMEM) < 0)
++			fuse_log(FUSE_LOG_ERR, "%i: dtprobed: %s\n", pid,
++				 "cannot send error to ioctl caller\n");
++		return;
++	}
++
+ 	/*
+ 	 * We can just ignore FUSE_IOCTL_COMPAT: the 32-bit and 64-bit versions
+ 	 * of the DOF structures are intentionally identical.
+@@ -729,7 +739,19 @@ helper_ioctl(fuse_req_t req, int cmd, void *arg,
+ 				 errmsg, sizeof(dof_helper_t), in_bufsz);
+ 			goto fuse_err;
+ 		}
++
+ 		memcpy(&userdata->dh, in_buf, sizeof(dof_helper_t));
++		if (memchr(userdata->dh.dofhp_mod, 0, DTRACE_MODNAMELEN) == NULL) {
++			fuse_log(FUSE_LOG_ERR, "%i: dtprobed: "
++				 "unterminated module name\n", pid);
++			goto fuse_err;
++		}
++		if (is_component_unsafe(userdata->dh.dofhp_mod)) {
++			fuse_log(FUSE_LOG_ERR, "%i: dtprobed: "
++				 "unsafe characters in module name %s\n",
++				 pid, userdata->dh.dofhp_mod);
++			goto fuse_err;
 +		}
  
- 		/* Allocate more room if needed for the reply.  */
- 		if (sz > sizeof(dof_parsed_t)) {
-@@ -171,10 +239,12 @@ usdt_parser_host_read(int in, int timeout)
- 		i += ret;
- 	}
- 
-+	if (usdt_parser_validate_reply(reply) < 0)
-+		goto err;
-+
- 	return reply;
- 
- err:
- 	free(reply);
- 	return NULL;
- }
--
+ 		in.iov_base = (void *) userdata->dh.dofhp_dof;
+ 		in.iov_len = sizeof(dof_hdr_t);
 -- 
 2.47.3
 
