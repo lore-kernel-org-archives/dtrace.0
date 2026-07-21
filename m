@@ -1,57 +1,57 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBCE14C955A
-	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27BD3988F9
+	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784647502; cv=none; b=swT/ijIBgb38SsfXzmefbMcJFAnkUah2+0r0jHmRUrxdYZN5Hoc78Tce6/hUikcxixsEb4EqGzlSmdEKYzZ3zExY5YhRY85dSRXqDTeC6UXYNsmB3Vt7Zj3JQegy4+aWicsUmltWFA+f3xWGcKjQ/TchO7vgYVUrHBJFx4u+074=
+	t=1784647502; cv=none; b=P3cf2oWz+kLyRA+1OkOhCZtVBE3w3BEcBGJ2LeOGhUJosTo45tN8Tud1SZeGDqKuODVIYlaF6uIF5kExNBBQLM/H3p+u5F3qZkGFrBZyc41XVY7fM6J3nWLZGKRjbyxiRuxylfBig9DDeErT1KA48rfv68tI3AW9ZsJhINiI4oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784647502; c=relaxed/simple;
-	bh=734cuEZokbKf7YEE5sJ9gcFZ1Yh/jcnRs5+ks9pFFnc=;
+	bh=qW4gYJi7YD4pNwukQjYPDcf9GgiuJfJ8wizNJ6jRz9w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XzjRj1QfoYJbtob3flIedu4KnTo7RDhGbrlIAOMWfXDC7bkHz2U3bwpU+9i/joV4p5ZhlfcD4akLT2Nv4M8bexbIQMaRQUxcnSBuA6hw8ApVoezIDB619u5792cvzkTs25gIPdivs54Dsq6vv6LTbH7JX5qjk9WkboH7GfYcc08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=I53hj+ob; arc=none smtp.client-ip=205.220.177.32
+	 MIME-Version; b=ej8qO2zWpzXmKAfdoLnpcPzpfh4Qt/M36DFcJ0JXWSamhi2yEJXUzRM8khG6H0JFNepPgABUDPSJkgVxEF9m/2q3StG0Gp3yKFKdzsO9qVi/srvuq0G8pJ+aKTF7Caa24BG6JfT+FRW9NhPmZ0B6IPmxyOUt9AcucSi5w8Xz5Qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=aQxPIroa; arc=none smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="I53hj+ob"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66LEb7nS362969
-	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:25:00 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="aQxPIroa"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66LEeerV522653
+	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:25:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=qakc1
-	Dy8qz1lMbRXm1Ynp6i7AwbwbJEQjmyFjDmf/KA=; b=I53hj+obbgsivPJbrARt1
-	uHtItDH4uS8Wxvq9FlSymdcMV7dbuTwXT8bnPaHcxdDyLpjAsFZamP3z7q08f62k
-	hx6NNXMXUKC2Tr0WvbJ2dmwcN0PgxDZRwGSJ4P+k4Z4D2+MCQp3JkYIyhbYxjmea
-	1G8g27n4YnYyuhebhDbcdUN8L8xnsn6wPRSOCu6K/YunmdcYJNiQpTcoXAZEZg+M
-	pWbRvaIFxGuvqOLy3bNuRBEUQsWeh/QapF5KQwzQ+yrJbxNGp/TXcUHh+KFsP9yl
-	okoqhWfCgnCEpVHcHHp/fPmpC8sNUIinVXsQerGwdSQpEsnyKfkA2p1zBHbumTQ+
-	w==
+	:mime-version:references:subject:to; s=corp-2025-04-25; bh=Gq1vn
+	kzQyZ2k5auEEeTKVH4JPy0BaH3hdBkDuNfH17Y=; b=aQxPIroaG2U9CCS8G5daJ
+	QbaSc9wUvPkAln6CI11kOBoEP7E5uTOgcdTO2Z8bw+VcitK4dS57FtAzVgI0VHxg
+	Xr4oR4dQyjCAzY4auZk/fa5ydTIoS+GGXy1GU+OBePqvhXHUtn0w4DF8F+rKn7EO
+	rcd5Q40k/pvOc/e3tjDsvhJdD2ZeY0xYEKguU9oHn9htuu1LvauZbz8sSXrg4Tc7
+	UzU8rtYq5WdjRMLzL1yHSepFrkxPmb/q3M1KPNifH2bOOS4bO+CrTbjmHenqOW3R
+	gHYQ5AM3mpaDGTMZLkPKrUUvArtY/LIaR8uA7b1z2KKSW1gk0m/XHi4tB+Zq3iRO
+	A==
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fg1n3kncc-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fg1sqkqbx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:25:01 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 66LFIk20036379
+	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:24:59 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ffyxpw2e5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:24:59 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 66LFIiN3036189
-	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:24:58 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ffyxpw2df-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:24:58 +0000 (GMT)
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 66LFOrpR020536
-	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:24:58 GMT
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 66LFOrpU020536
+	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:24:59 GMT
 Received: from bpf.uk.oracle.com (dhcp-10-154-48-223.vpn.oracle.com [10.154.48.223])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4ffyxpw29w-6;
-	Tue, 21 Jul 2026 15:24:58 +0000 (GMT)
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4ffyxpw29w-7;
+	Tue, 21 Jul 2026 15:24:59 +0000 (GMT)
 From: Alan Maguire <alan.maguire@oracle.com>
 To: dtrace@lists.linux.dev
 Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
-Subject: [PATCH v3 5/7] dtrace.spec: add python bindings packaging
-Date: Tue, 21 Jul 2026 16:24:49 +0100
-Message-ID: <20260721152452.184842-6-alan.maguire@oracle.com>
+Subject: [PATCH v3 6/7] runtest.sh: Export PYTHONPATH when running tests in-tree
+Date: Tue, 21 Jul 2026 16:24:50 +0100
+Message-ID: <20260721152452.184842-7-alan.maguire@oracle.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20260721152452.184842-1-alan.maguire@oracle.com>
 References: <20260721152452.184842-1-alan.maguire@oracle.com>
@@ -70,106 +70,53 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  adultscore=0 bulkscore=0 mlxlogscore=999 phishscore=0 classifier=spam
  adjust=0 reason=mlx scancount=1 engine=8.19.0-2606160000
  definitions=main-2607210162
-X-Proofpoint-GUID: Bpo-a-oXliTNVMqM3Z0Q2G9f7Tjy2MI5
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIxMDE2MyBTYWx0ZWRfXyxwrTHDjbjBV
- MPipbEx/qBzP49ECkEPQ5zKXwnIfOasqIbouvC7ixLPYQMdIlB/PTw2DlnVb9kRj11LVAXujzn3
- XKxbD5q3v8/5sxPRxTxizr/m0LvNHuJ7qI3xT4TlHyUDSISZiNgL
-X-Proofpoint-ORIG-GUID: Bpo-a-oXliTNVMqM3Z0Q2G9f7Tjy2MI5
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIxMDE2MyBTYWx0ZWRfX8c+H2x19PAUT
- Nfx8/FYWSmm7sJAfYcr1+05pM+8xbMWFfpy73i5f3G2jLMg4ObTL6tBPrk1SxQsio+DeeKlNlrB
- IPHGDKUPxZi+d84chNyPdP/qCTQLItygvUzUNIeyVBPguNF9GYlaC6CDaBVaoiOugF8VpaDt/1O
- jCu5Szl3KpY1heHgYockg13uN+n2F26UBBWD5k31BBCioFPne/YjUdBr0P2p+hWbPXOvXPxE0v/
- eF7IHuu6HWbHVnCDgJP9kUW8oHWK7QWVFfV08ADcwHwUi8BfT3sVvbGsoEs2z9APjMgu9f7EKIY
- 9kJhyf+MmOEpq2EIr+TuSPKtiDhiPuypZSrZQboZZ+puznXg6IxJIrcOv0fPQox0kud+SmK6oYP
- B9DjAU/wPqtxECFhUa1Sik1ER9ib1jFlfh7vGCE9Z2Bg2RotqgcU+elMs1WQW3pwIqxDAWK0Zjt
- s2w3N+468Xu8awu6gWVysksF7tlNI20Z2juEynxU=
-X-Authority-Analysis: v=2.4 cv=PryjqQM3 c=1 sm=1 tr=0 ts=6a5f8f4b b=1 cx=c_pps
+X-Proofpoint-ORIG-GUID: oixm0vQ9eO0rl1gvrhWm4w5fnnk4qAzc
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIxMDE2MyBTYWx0ZWRfX2rTu96X9oN61
+ 6N8PvOGWR+BoxZABppuNLPnTXadKucZbUXwYNYMUV0zQRcRWsPzM5S45g1dCE43MGovU8fSuC8u
+ UYXo0dRi5zoKx/B9PQPpgpJu5Jayw1X6gAji7Qk5kQ2U31w0J4+KqxBBic/QTZ8+p10ndlE7+he
+ 94tZ0DKXuO36N2cMZwRf1YhvD+5HJ0Di9Z1K828hH2r0wKtufd/Qh7CIELpmmgPmWcYWm4UIPm0
+ q+3THJHC3RP4/R5jF/LkR1/tdoeSmlgKanTaJX+zdqur6Vlj+I2vWSCK4VS2H6ReJaNRFE0r6xL
+ QkyNEqeZtVouoWgF2F/5i8MREdRZAU3QlpeBXx4QJQAjZRGD7+/PPUABG/rlph+ZfFt3EiE5YPz
+ eyLnxsA6P2FhrcIpBLwjdUitq7GcwwyQUoLCKUjCybAawLwCNzwviEjkjH9nXaNAykpA7l2OowK
+ Vw3Mrj8YicWBLghPvwykhmodyZFTbx9n6SJlE6/0=
+X-Authority-Analysis: v=2.4 cv=auyCzyZV c=1 sm=1 tr=0 ts=6a5f8f4d b=1 cx=c_pps
  a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
  a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=o5oIOnhZENCTenyL_yNV:22 a=yPCof4ZbAAAA:8 a=xca6tUrTAD3QlTKMASUA:9
+ a=x0eKOSpe3m1H3M0S9YoZ:22 a=yPCof4ZbAAAA:8 a=XaNk8tykWZnhEcX8sLUA:9
  a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:12218
+X-Proofpoint-GUID: oixm0vQ9eO0rl1gvrhWm4w5fnnk4qAzc
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIxMDE2MyBTYWx0ZWRfX+VWToaFFhasY
+ hAjGfPD52jZNoDG+fkIPi3rZP7hcZlLuoNxelqX5tWnya85yc+NRfH2a6EkLCqu+5h/R2snjCQK
+ 5mROy3eNgm+W/+WwmnjUTKq07dpg70MeKuYzqxcOnrdje56wgESR
 
-Version is derived from libdtrace version.
+This will allow us to test python bindings when built, but not
+installed.
 
 Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 ---
- dtrace.spec | 29 +++++++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
+ runtest.sh | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/dtrace.spec b/dtrace.spec
-index d72baf9d..a16cb62a 100644
---- a/dtrace.spec
-+++ b/dtrace.spec
-@@ -40,12 +40,18 @@
- # Build DTrace without LTO.
- %global _lto_cflags %{nil}
+diff --git a/runtest.sh b/runtest.sh
+index 9f06a499..c0ccffc6 100755
+--- a/runtest.sh
++++ b/runtest.sh
+@@ -552,6 +552,7 @@ export LANGUAGE=C
  
-+%bcond_without python
-+
- BuildRequires: rpm
- Name:         dtrace
- License:      Universal Permissive License (UPL), Version 1.0
- Group:        Development/Tools
- Requires:     cpp elfutils-libelf zlib libpcap libpfm
- BuildRequires: glibc-headers bison flex zlib-devel elfutils-libelf-devel
-+
-+%if %{with python}
-+BuildRequires: python3-devel python3-setuptools
-+%endif
- BuildRequires: systemd systemd-devel glibc-static %{glibc32} wireshark
- BuildRequires: libpcap-devel valgrind-devel libpfm-devel libbpf-devel
- %if "%{?dist}" == ".el7"
-@@ -128,6 +134,18 @@ Group:	      Development/System
- %description testsuite
- The DTrace testsuite.
+ if [[ -z $USE_INSTALLED ]]; then
+     dtrace="$(pwd)/build*/dtrace"
++    PYTHONPATH="$(pwd)/build/bindings/python${PYTHONPATH:+:$PYTHONPATH}"
+     test_libdir="$(pwd)/build/dlibs"
+     test_ldflags="-L$(pwd)/build"
+     test_cppflags="-I$(pwd)/include -I$(pwd)/uts/common -I$(pwd)/build -I$(pwd)/libdtrace -DARCH_$arch"
+@@ -562,6 +563,7 @@ if [[ -z $USE_INSTALLED ]]; then
+     dtprobed_flags="-n $helper_device -s${tmpdir}/run/dtrace -F"
+     export DTRACE_DOF_INIT_DEVNAME="/dev/$helper_device"
+     export DTRACE_OPT_DOFSTASHPATH="${tmpdir}/run/dtrace"
++    export PYTHONPATH
  
-+%if %{with python}
-+%package -n python3-dtrace
-+Summary:      Python bindings for libdtrace
-+Requires:     python3
-+Requires:     %{name}%{?_isa} = %{version}-%{release}
-+Group:        Development/Libraries
-+
-+%description -n python3-dtrace
-+Python extension module providing access to libdtrace.
-+
-+%endif
-+
- Installed in /usr/lib64/dtrace/testsuite.
- 
- 'make check' here is just like 'make check' in the source tree, except that
-@@ -137,7 +155,7 @@ it always tests the installed DTrace.
- %setup -q
- 
- %build
--make -j $(getconf _NPROCESSORS_ONLN) %{bpfc} %{maybe_use_fuse2}
-+make -j $(getconf _NPROCESSORS_ONLN) %{bpfc} %{maybe_use_fuse2} %{?with_python:WITH_PYTHON=y PYTHON=%{__python3}}
- 
- # Force off debuginfo splitting.  We have no debuginfo in dtrace proper,
- # and the testsuite requires debuginfo for proper operation.
-@@ -152,7 +170,7 @@ make -j $(getconf _NPROCESSORS_ONLN) %{bpfc} %{maybe_use_fuse2}
- mkdir -p $RPM_BUILD_ROOT/usr/sbin
- make DESTDIR=$RPM_BUILD_ROOT VERSION=%{version} \
-      HDRPREFIX="$RPM_BUILD_ROOT/usr/include" \
--     install install-test
-+     install install-test %{?with_python:install-python}      PYTHON=%{__python3}
- 
- %if "%{?dist}" == ".el7"
- sed -i '/^ProtectSystem=/d; /^ProtectControlGroups=/d; /^RuntimeDirectory/d;' $RPM_BUILD_ROOT/usr/lib/systemd/system/dtprobed.service
-@@ -230,6 +248,13 @@ systemctl start dtprobed || :
- %{_includedir}/sys/dtrace.h
- %{_includedir}/sys/dtrace_types.h
- 
-+
-+%if %{with python}
-+%files -n python3-dtrace
-+%defattr(-,root,root,-)
-+%{python3_sitearch}/dtrace*.so
-+%doc bindings/python/README.md
-+%endif
- %files testsuite
- %defattr(-,root,root,-)
- %{_libdir}/dtrace/testsuite
+     if [[ -z $(eval echo $dtrace) ]]; then
+     	echo "No dtraces available." >&2
 -- 
 2.43.5
 
