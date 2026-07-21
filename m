@@ -1,118 +1,192 @@
-Received: from outbound.st.icloud.com (st-2001j-snip4-11.eps.apple.com [57.103.76.123])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B018449B03
-	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 06:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.76.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5562C3988F9
+	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784615291; cv=none; b=hsMz6ZB9TlMj69SHlzSICtaffeb2kIN0rkwJm6ueh6XurO8R/QNr+rrCpNeq89hAqy6F1jafVzZ8MBVR40chkR1Emqq6I96aFOTmPgnHO2gdUWKhb/JyoIFGa0GJTs4wkSz+H8RWw+kluEAd+SXdvT9mVUBg98DKlEjuG/lp700=
+	t=1784647497; cv=none; b=LZNkL2w3z8UNmo+rWyY+7/7/YqHM2RQxU3JD4WAnon+LWDIMZSrUN2vNRrWpbvJUHZ/y91FVl3n+apKJ8diDVoFlxKKzvVoXJooeRYl4nq/GMnw7sWqVJdnGC6FNu5gBrTFu3SuxGdl0yl9ClJuyrjGTNawYHLpTRz7W7S33h84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784615291; c=relaxed/simple;
-	bh=CdGEQ2w8cAQyrlciLwNFy2aoI+UiDHIc7ZZiZ3Tm+KQ=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=CiZzy0tepNWwsKbcHtds/ZiG25TOt8qdD1A88ies3DgTxn5P1Zw8pSjRRlQ0KVgSSMagaNUuDIbRxa2jPO02Q6TSDmjXP5dsg/agrsZVucENzG6/N2TxOmLhvzfnAHr9R3H9jjy/VJwb55N0YlxXMhg3nuLaXQ7WC2EhVw5wTSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=me.com; spf=pass smtp.mailfrom=me.com; dkim=pass (2048-bit key) header.d=me.com header.i=@me.com header.b=T2urw46Z; arc=none smtp.client-ip=57.103.76.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=me.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=me.com
+	s=arc-20240116; t=1784647497; c=relaxed/simple;
+	bh=qq3sf3BLnyat+uh4KKm7qeZmSIplInOu5h3OJ/Jai1s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vh2S79Vi2m3H0yGphTZiXFMqEjB6rHYTVBShYeU2rjso8XEu5P5sv8I2qs6p2z0il4muT4V23rgKTDaWb6dUHlLi0DGCeyOzZpYnDaC19w4JE/j17rr7pf6824M9/IBznYm4oJa1KEZW0i4kM0y3lLPKuklJVAJAi1ELrnjSLDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=oZo/ApXJ; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=me.com header.i=@me.com header.b="T2urw46Z"
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-20-percent-2 (Postfix) with ESMTPS id 80E1818000AD;
-	Tue, 21 Jul 2026 06:28:06 +0000 (UTC)
-X-ICL-RepId: 019f835c-36a7-740c-a059-fa949c4f5d4f
-X-ICL-Out-Info: HUtFAUMHWwJACUgATUQeDx5WFlZNRAJCTQFKHVwPWBxEDlYKWRcOVk1dF1wPdwZXXloXXk1RDw8dXFZQAlpLQBMEShMFUgddTVYNRw9YHlwUFwtHQ14IXh9MHB0OWAYSAE0KDjYGWQVeCVYDQwU2EhRdRV4IGQhdHRkVWgkKV3Q2DkpyWHNdHzYOSXZAA1kLNRRBAl8ERgU2ejtxXnZSBjIPTXMAUkVRH1RGExlOG1dNUBtfAkIP
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai; t=1784615289; x=1787207289; bh=oglpmgUotUZoJ4d/zESsSbji1RbChh/tme270vOn8aI=; h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To:x-icloud-hme; b=T2urw46ZU1SSf26oAcsoyGrgorvn5vl6/xoOD+HTAbdVEuhkHaWGSkmM6TciXessUC3xOouICVTiHYEOUuQfftbTklxEOkoSVf5MYsNylvuCeU9nKUbzYc2zni0cIod7h0Nui2U4r/HUqvfPEruElOyXJBZhrsyRM5nZRuS4WYyGMOr4tYppG8LjE9LAKBPduLaiLI5L5WEolI9CA5JbL7afq+mxEeruW+E/0fesYj6HHw7WYBA8kcsVBmJAmBrjY7wmG6ZNvlZmHJN+KhNOS2SkydSkxBLpTSsQDU3Lz1om/E4MqbcjQ/tE1nMDf2V55rbwWnpvIRxTjPafpVxEew==
-Received: from smtpclient.apple (unknown [17.42.251.67])
-	by p00-icloudmta-asmtp-us-east-1a-20-percent-2 (Postfix) with ESMTPSA id 771441800108;
-	Tue, 21 Jul 2026 06:28:05 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="oZo/ApXJ"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66LEe8RZ330441
+	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:24:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=8PW6kq2r5G8RIwP/6mmqlWM8zWlqR
+	YXfpVxy/JA3RCM=; b=oZo/ApXJdcdNcF2Hfs858GhN4JQqsw/zgRinWI5mhz0qP
+	YgTBlGf+G6CMNzHhBuNAKezAzwB55/j63GaliBc6Y9A9OgW5nt1d2yIOjv4K1A6n
+	2D2HxU/TRc7JEgTgqZwdSrJIYYyk07RdDhpROvAZ1LOALF+oC6lXJHhuAl4IhGAM
+	KEep23R9KAt/Iue0bq+qRJFBKHLzmZrqXUI516Ma+JTBmc28zaTb8wANH05RkW7h
+	dMN2iyCfHe2zIzssaLJJ7RYwOnu3iN+7pzsSKQ+YfQvQeir/lDo7Lvgfr6grMdn/
+	WwFzo37R7qgETQcYPjBWAAArAd62yzQBe3eOD39EA==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fg21q3nm1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:24:55 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 66LFIk1t036379
+	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:24:54 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ffyxpw2ak-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:24:54 +0000 (GMT)
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 66LFOrpC020536
+	for <dtrace@lists.linux.dev>; Tue, 21 Jul 2026 15:24:53 GMT
+Received: from bpf.uk.oracle.com (dhcp-10-154-48-223.vpn.oracle.com [10.154.48.223])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4ffyxpw29w-1;
+	Tue, 21 Jul 2026 15:24:53 +0000 (GMT)
+From: Alan Maguire <alan.maguire@oracle.com>
+To: dtrace@lists.linux.dev
+Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
+Subject: [PATCH v3 0/7] Add python bindings for libdtrace interfaces
+Date: Tue, 21 Jul 2026 16:24:44 +0100
+Message-ID: <20260721152452.184842-1-alan.maguire@oracle.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
 List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3895.100.17\))
-Subject: Re: [PATCH 0/3] Fix DTrace on modern kernels and in containers
-From: Jacob Carlborg <doob@me.com>
-In-Reply-To: <al5N7owh36AfStjS@oracle.com>
-Date: Tue, 21 Jul 2026 08:27:53 +0200
-Cc: dtrace@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <FF72A5D6-F71E-429E-9123-7FCCB3A94B65@me.com>
-References: <20260720133100.77573-1-doob@me.com> <al5N7owh36AfStjS@oracle.com>
-To: Kris Van Hees <kris.van.hees@oracle.com>
-X-Mailer: Apple Mail (2.3895.100.17)
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIxMDA2NSBTYWx0ZWRfX/6Z/MsIfO7Bh
- 4RYrrMWZdQPUfzmRTyZjMZYBkRHFuXHk1W+74nI4SRcF+cMFfYmavNLIV7VhxzQTd5OWIux7A8u
- CN2Ujs4S6V7Qpdv3MoAVKKMNYVBohK98lumXwW12AoD3y1kClYgnl4HiKrtV2qnvd+JICz+/rkr
- zIBQvAhCKJxOqVq7dy1LuSXb5tk0vADexYVZSVsal86sk1VouqgBugfDOX+zOWFzxwa8/muKhpF
- c3I3PiuQGNupaSlzDLo5f3CJoRJcwdhsn3+6wedwoD2Eio/iPUcsJOKl5wMhAYmFpAO9WHyBKKH
- 9CCnnYztjM+THiitnwh
-X-Proofpoint-GUID: zERQUStYiG_zSNCmPsnMWG1w18I_14Va
-X-Proofpoint-ORIG-GUID: zERQUStYiG_zSNCmPsnMWG1w18I_14Va
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-21_03,2026-07-20_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 spamscore=0 suspectscore=0 mlxscore=0 malwarescore=0
+ adultscore=0 bulkscore=0 mlxlogscore=999 phishscore=0 classifier=spam
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2606160000
+ definitions=main-2607210162
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIxMDE2MyBTYWx0ZWRfX8I1Qc3C8KbmP
+ 8dFwkZPSrwiQx5lA361FHN6l1xyEyQPl4OHyyCwzOvgNaqVY7E/wjvAyFqbraEMmSANV0bfOfiZ
+ RndKsL3yZlK7Rg75UCibZpLkHzg+Hgwi1J32aYbPnvah/eY0Rtu+8riS6lpy3r1Aen62iGhM/7i
+ abf+JjqNLnYY7yPwjcp1vZ9RTpgHWje1t8h5sRJHYnjSQVJB1+TVzNfORoV1WvfVVz4YbdAFdKn
+ c4rR0whqr2HOcPm9vmPOE9vDRd4hPZg4t6RyuQMT+ja7c9rB57xHpRr4ntezV0vMHdRi77S4POO
+ 52OZ911+PTTlGjzfGY/BBwyWlMGgrlAhPW7g36RKzfBsM1V4EGtItJLVPeT1owIynXpC1CVL/Ki
+ Bm+UfMccIIwD/OGmqD4nMqH1Jyjwu0nW14Upnz7h0ppdKnkxszaFvySpnukwnhpcaPuh46/9eCV
+ 7JJ+Ex+WDfZmCB72Qozk9t8Hkd2QGlOqTyvoZNJw=
+X-Proofpoint-GUID: vHGcWAq-hfnfW76MCBzzAvqs-_6QrBdl
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIxMDE2MyBTYWx0ZWRfX8HQk4i5EcTMI
+ f4BermbeqQN0KBrnXI7NQkoR36BKjXgd6UdWNty+ecZnY/sEUvcos5WZyGx3OsCoefiazPWlLqz
+ 372UNIuOAXN3B2VUde71x0vsKsRShtHdKzN4CRPSmtrr92jDYO4b
+X-Authority-Analysis: v=2.4 cv=ALkdLnG8 c=1 sm=1 tr=0 ts=6a5f8f47 b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
+ a=7Gl3-_t3PgB9XO-mQDs3:22 a=E6ctDJ_QUnxlkTKZDt8A:9 a=5yU3S35YU4bGjq-dph-N:22
+ a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:12218
+X-Proofpoint-ORIG-GUID: vHGcWAq-hfnfW76MCBzzAvqs-_6QrBdl
 
-Another thing that is not working due to containers/namespaces is this =
-common filter pattern: =E2=80=9C/pid =3D=3D $target/=E2=80=9C. It has =
-the same problem that `pid` and `$target` are evaluated in different PID =
-namespaces. But I thought that was better to leave for a separate =
-thread.
+Having python bindings for libdtrace interfaces to compile, run
+and collect information from DTrace programs is valuable because
+it could help integration into metric collection frameworks like
+PCP.  This series adds python bindings for DTrace (patch 4)
+and provides tests for them (patch 7).  The support is
+similar to what cmd/dtrace.c can do; compile a program,
+enable probes, run it and collect data.  Support is also
+added to grab or create processes as is done by
+dtrace -p, -c options.  Aggregation snapshot walk is also
+supported, with aggregation values filled out as raw values,
+ints, lists of function names for stack keys and dicts for
+quantized aggregations.
 
---
-/Jacob Carlborg
+For detailed description/usage see the README in patch 4 and the
+tests.
 
-> On 20 Jul 2026, at 18:33, Kris Van Hees <kris.van.hees@oracle.com> =
-wrote:
->=20
-> Thanks for reporting these issues and sending patches.  It ceetainly =
-highlights
-> an area where our testing is lacking, i.e. containers and related =
-namespace
-> issues.  That will need some attention as well.
->=20
->=20
-> On Mon, Jul 20, 2026 at 03:30:57PM +0200, Jacob Carlborg wrote:
->> Hi, I've created three patches for the issues I've encountered when =
-trying to
->> get DTrace to work in my environments. One environment is on my local =
-computer
->> running macOS ARM64 using Docker through OrbStack. The other is our =
-Kubernetes
->> cluster
->>=20
->> Hi, I've created three patches for the issues I've encountered when =
-trying to
->> get DTrace to work in my environments. One environment is on my local =
-computer
->> running macOS ARM64 using Docker through OrbStack. The other is our =
-Kubernetes
->> cluster in the cloud. The first two issues are differences in the =
-Linux kernel
->> compared to what DTrace expects. The third issue is container =
-related.
->>=20
->> The OrbStack environment is running version 7.0.11 of the Linux =
-kernel. The
->> Kubernetes cluster is running 6.12.85.
->>=20
->> I'll be honest, the analysis of the issues and the patches are all =
-done by an
->> AI. I've verified everything manually myself.
->>=20
->> Jacob Carlborg (3):
->>  libdtrace: resolve BTF type tags when importing BTF into CTF
->>  libdtrace: derive io provider dev_name from the device model
->>  libdtrace: match BEGIN/END PID in the tracer's own PID namespace
->>=20
->> libdtrace/dt_btf.c         | 20 ++++++++++++-
->> libdtrace/dt_prov_dtrace.c | 58 =
-++++++++++++++++++++++++++++++++++----
->> libdtrace/io.d.in          | 17 +++++++++--
->> 3 files changed, 86 insertions(+), 9 deletions(-)
->>=20
->> --
->> 2.50.1 (Apple Git-155)
->>=20
->>=20
->>=20
+In order to support an environment where we have multiple handles
+per process, some prep work is required.  Patch 1 fixes some issues
+with multiple handle use, while patch 2 improves sharing for
+vmlinux BTF (and CTF generated from it if needed) which multiple
+handles in a process image will benefit from.  The upper bound
+of per-process handles is now limited by the maximum number of
+BPF programs attachable to a uprobe which is 64 (BPF_TRACE_MAX_PROGS)
+which is encountered with attaches to the BEGIN probe.
+
+Patch 3 makes available some of the functions used in calculating
+stddev() values which is useful for the python bindings since they
+do not use the print callbacks to do this.
+
+Patch 4 is the cpython bindings themselves; the README.md describes
+their usage.  Patch 5 packages them and patches 6 and 7 facilitate
+testing them.
+
+Changes since v2:
+
+- Fixed some handle lifetime issues and related potential segfaults
+  in error paths (patch 4)
+- Fixed up packaging to derive python package version from DTrace
+  version (patch 5)
+
+Changes since v1:
+
+- Fixed multi-handle issues (patches 1/2)
+- Improved aggregation representation of stacks, added stddev and
+  *quantize representations (patch 4)
+- Expanded tests to cover multi-handle, aggregation value validation
+  (patch 7)
+
+Alan Maguire (7):
+  libdtrace: Support multiple DTrace handles per process
+  libdtrace: share vmlinux BTF/CTF globally to support faster startup
+  libdtrace: Refactor math functions into dt_math.h
+  python: Add cpython bindings for libdtrace
+  dtrace.spec: add python bindings packaging
+  runtest.sh: Export PYTHONPATH when running tests in-tree
+  test: add tests for python bindings
+
+ GNUmakefile                               |    2 +
+ bindings/Build                            |   35 +
+ bindings/python/README.md                 |  167 ++
+ bindings/python/pyproject.toml            |    3 +
+ bindings/python/setup.py                  |   66 +
+ bindings/python/src/pydtrace_module.c     | 1932 +++++++++++++++++++++
+ configure                                 |    4 +-
+ dtrace.spec                               |   29 +-
+ libdtrace/dt_aggregate.c                  |    1 +
+ libdtrace/dt_bpf.c                        |    6 +-
+ libdtrace/dt_btf.c                        |   61 +-
+ libdtrace/dt_btf.h                        |    1 +
+ libdtrace/dt_consume.c                    |  340 +---
+ libdtrace/dt_impl.h                       |    3 +-
+ libdtrace/dt_math.h                       |  358 ++++
+ libdtrace/dt_open.c                       |    5 +-
+ libdtrace/dt_printf.c                     |    1 +
+ libdtrace/dt_prov_dtrace.c                |    6 +-
+ runtest.sh                                |    2 +
+ test/unittest/python/tst.aggr-actions.sh  |  133 ++
+ test/unittest/python/tst.aggr-change.sh   |   75 +
+ test/unittest/python/tst.aggr-stack.sh    |   61 +
+ test/unittest/python/tst.aggr.sh          |   58 +
+ test/unittest/python/tst.exit.sh          |   64 +
+ test/unittest/python/tst.multi-session.sh |   58 +
+ test/unittest/python/tst.proc-create.sh   |   56 +
+ test/unittest/python/tst.proc-exit.sh     |   57 +
+ test/unittest/python/tst.proc-grab.sh     |   81 +
+ 28 files changed, 3309 insertions(+), 356 deletions(-)
+ create mode 100644 bindings/Build
+ create mode 100644 bindings/python/README.md
+ create mode 100644 bindings/python/pyproject.toml
+ create mode 100644 bindings/python/setup.py
+ create mode 100644 bindings/python/src/pydtrace_module.c
+ create mode 100644 libdtrace/dt_math.h
+ create mode 100755 test/unittest/python/tst.aggr-actions.sh
+ create mode 100755 test/unittest/python/tst.aggr-change.sh
+ create mode 100755 test/unittest/python/tst.aggr-stack.sh
+ create mode 100755 test/unittest/python/tst.aggr.sh
+ create mode 100755 test/unittest/python/tst.exit.sh
+ create mode 100755 test/unittest/python/tst.multi-session.sh
+ create mode 100755 test/unittest/python/tst.proc-create.sh
+ create mode 100755 test/unittest/python/tst.proc-exit.sh
+ create mode 100755 test/unittest/python/tst.proc-grab.sh
+
+-- 
+2.43.5
 
