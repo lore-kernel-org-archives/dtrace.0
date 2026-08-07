@@ -1,92 +1,133 @@
-Received: from out-24.smtp.github.com (out-24.smtp.github.com [192.30.252.207])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94AE33AA195
-	for <dtrace@lists.linux.dev>; Fri,  7 Aug 2026 01:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.30.252.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7DC246788
+	for <dtrace@lists.linux.dev>; Fri,  7 Aug 2026 02:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786066941; cv=none; b=dTmVqid3zactIZKJOC1ftvXW/NlNBbXHssLgoHdybnhWKxYHlWcMk4+rb9Wa3BCA2AuBQKsAMxBVGuZE6hEEE6NH8bTEWTwCxKvNJypWmo6u7Jyc4a5NPpe11UfYZvm6EUPN4/nKd6Bg4750dCF3BpXxNWqRL+wfWh8UeQ/Lw0U=
+	t=1786070038; cv=none; b=OJfNw7P/UO9WHqa3c4HwWV/F6jT1JwGqAr804IOu5Git/PvqdR8LGoC1YlgFkhSk7kSusrm5WAFEBA7/aUVOVMM5fvSgw7uTGQmnfY3vsekIIiiAv4EJsyDvaOCp0P7aLJV/ZaWlqA6wdRI7guXEYr6MA+VkPb86d7b7D5MteH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786066941; c=relaxed/simple;
-	bh=DZtvAhmsp1nA3nFhLedUuso4mgv761VO2kSPIf7OhOs=;
-	h=Date:From:To:Message-ID:Subject:Mime-Version:Content-Type; b=nx8aSjG8W9OYUdxsZkeuhwV7dUKg09vMMSamTjkpA1+db+oSmHTWxwdb6SHJYePYKY2Htcz3dvHgbkD4Z9vBq/bfwOizkZzSxynbrMEz98pzZkKrTE3O+CZL4rxLKY/OVyU6hNCxhIxZuG7qA1QI5Ov/t6OFln+/EhFsvcR6lgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=github.com; spf=pass smtp.mailfrom=github.com; dkim=pass (1024-bit key) header.d=github.com header.i=@github.com header.b=T/eSbsKB; arc=none smtp.client-ip=192.30.252.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=github.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=github.com
+	s=arc-20240116; t=1786070038; c=relaxed/simple;
+	bh=8PGa+y+wE6LJqRaPLF2tQwhpcV4RGZp+GawwOxuMCLk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F9X/5oXzd0KqowABkiJVmEuMCCV2lchwN+t9petEDjO9LamneyXgg/KVMgOuH4xzxTt8TWVU+WE6tzrb4fyw+OAwR8OjeK7RaoNfQeCRfbIxGGqTJQPNWnka5SnhI8QEtvIiARjlt1/En/MdZZVCv/VvJXmJClmcZKaNf8+NshI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WRE/mXpN; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=github.com header.i=@github.com header.b="T/eSbsKB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=github.com;
-	s=pf2023; t=1786066932;
-	bh=Gqdayx8PAvaOFYWfVcMxLrNT/DkwacuRBwnQ+TOz8Kw=;
-	h=Date:From:To:Subject:List-Unsubscribe:From;
-	b=T/eSbsKBwMGPhEC0vvYbuYBo5gZ/9xBUYWJFfi0/ML53VUxqd0FeXLcLJ/7iiyjeE
-	 hbKOavsemH1QzoL35b5SofUX0dYivoXwyfkmBIqhFgHsvL4Qjfb//cUXa1FvnaW67Y
-	 ChALW9QrG72M4u6CbK8Y/XO5F2ypx0NLIaLgf7Zk=
-Received: from github.com (hubbernetes-node-a4604df.ac4-iad.github.net [10.52.210.76])
-	by smtp.github.com (Postfix) with ESMTPA id 20DEBA061D
-	for <dtrace@lists.linux.dev>; Thu,  6 Aug 2026 18:42:12 -0700 (PDT)
-Date: Thu, 06 Aug 2026 18:42:12 -0700
-From: Kris Van Hees <noreply@github.com>
-To: dtrace@lists.linux.dev
-Message-ID: <oracle/dtrace/push/refs/heads/dev-queue/cfac68-30c9c2@github.com>
-Subject: [oracle/dtrace] f208e7: llm: define dtrace skill for debugging
- workflows
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WRE/mXpN"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-384930ca5e2so3115660a91.3
+        for <dtrace@lists.linux.dev>; Thu, 06 Aug 2026 19:33:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786070037; x=1786674837; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=trdUNXd6P6DKT9PxxU64QygWdStSWjomF1nEXn7dbGg=;
+        b=WRE/mXpNFgEILJStH6toEATQLav7q1TuNzHEcgJJuQwP+SbDoqQxasJEkYYJ9BCGz3
+         kRa/1LFPLywgU+o3+4gQAm+vmaBfDCLJy6fd88/7u7t29zC/3yt/6NKhGokURVhdmWK3
+         CToTjK9I6CgrEDHnP9X8Wq42f6GoxUMNFX4IEDaJaxXwVr6FiVuqZwltPilZBS98Jm1k
+         XDUpSXpIrrROamxg4TUcSZYr8XXnCMCD8wXK9GUyBdbNr4k2my/LDCGhxvYQ849lefHM
+         bstiy2bLKXrRAYPTiHYGyEY6C1iJifU8H9hPySJe7pCWj/cnvtQTEJA1Deh1wUrI8SaX
+         pyfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786070037; x=1786674837;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=trdUNXd6P6DKT9PxxU64QygWdStSWjomF1nEXn7dbGg=;
+        b=C3nDmc18KhfFcXNdUT8y38Wxy5xoZfPq5XXvafHrs9+AsBeb4czITbQFS7Y+2XDE8J
+         vjrmWIgeHQPcze4ObomkKi7vLLcQ8v7wOLKvSL9TZ37MgKDygVJVHikVOlSTa+l/yUy/
+         LRXpmZsXIcRlkTm9+Nb6FnGoXAGoKjvEZ8sQZi7l7fCIwsHwNk+PQ0J4d9Ia0sKAzmL6
+         YOFO3IdwyE1xQ3Q5d1OqPl0UY54nrVVTf5BA0zmpVNUyCvMlPA75a/7QWUbvhdupcED8
+         FoQJb0kyIpg/lA6bhOf0Fdt0Vz56hXJhR5I0XHfSnQ/UA4t0f/K0gUSweBHwgJ+0nwdC
+         M+jg==
+X-Forwarded-Encrypted: i=1; AHgh+RpWnzMNks+hd61L/QWPMninuqJfyjE9AsTOELGmsnVcNTmpyVZJgakpxFBL7zqI9bzryYwPwPY=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzGgP7WBJ40QZrOqT+obi2U3R4ANpLytZSqYGN6Lq/Ze3A3BuC3
+	7Rl92KbOBJQvL9pQge6PTJbqItwPTxhAFKeG2RCcZ94rJYing2sw8XZR
+X-Gm-Gg: AR+sD12dNNmFq9hHxEzBGVOIzQTlB9E7T5/ylzQ1TO2VOr7pnMTLqET+zj48kh4kvcV
+	p0u5K2WFL6brZ+JO+FfKCyCkHhlq+fj1l7Ymsba7BbdZNE4fF4FRNPHyOOZE5wio/8X8CT2gQ4I
+	7NffcSpWXDfSU1kHILLoTJ8yIOM2wEPa9+7gHp3NKdoOKjXYsPaArZVdgRFWQTupG9x1GP5nthy
+	Azb6pSoDVa7ANhRMNaCVSCXYWKV+OaVPQiwCgh1oi9s0fEwVAcYZ6gLOfaN8qGY71SOB78z7ete
+	6aLAUHuhe3rad5Yz0SBv4q7w3FlKLinyva8Zt3wtSO9pEY4AZQJMmZVY/5r/Ogx0iX2P5n5ZzB3
+	vYZjwYqTD75l5trDLXvzyrcCADJNBSGAFsmEq3x5frrML1VeOZeXL3OpPHHyAEprs118Qcd9kl+
+	A/Sr9NvpFFYE0glbr53cFE+CKtkIsLh8fG3PtZHzHKWW22zObiV1qDGZyBWS1Tag6l1HZHGwrt7
+	vyiIR3NIzTu
+X-Received: by 2002:a17:90b:2f03:b0:381:a766:efc9 with SMTP id 98e67ed59e1d1-3903c53404amr20820427a91.7.1786070036703;
+        Thu, 06 Aug 2026 19:33:56 -0700 (PDT)
+Received: from osman.mioffice.cn ([43.224.245.178])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3926254ee45sm163254a91.2.2026.08.06.19.33.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2026 19:33:56 -0700 (PDT)
+From: Zhan Xusheng <zhanxusheng1024@gmail.com>
+X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
+To: Kris Van Hees <kris.van.hees@oracle.com>
+Cc: Greg Marsden <greg.marsden@oracle.com>,
+	dtrace@lists.linux.dev,
+	dtrace-devel@oss.oracle.com,
+	zhanxusheng@xiaomi.com
+Subject: [PATCH] llm: fix newline escape in the SKILL.md script skeleton
+Date: Fri,  7 Aug 2026 10:33:49 +0800
+Message-ID: <20260807023349.1133517-1-zhanxusheng@xiaomi.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
 List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GitHub-Recipient-Address: dtrace@lists.linux.dev
-X-Auto-Response-Suppress: All
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-  Branch: refs/heads/dev-queue
-  Home:   https://github.com/oracle/dtrace
-  Commit: f208e7d23b6ce61c83e398c6e19a8b5909908068
-      https://github.com/oracle/dtrace/commit/f208e7d23b6ce61c83e398c6e19a8b5909908068
-  Author: Kris Van Hees <kris.van.hees@oracle.com>
-  Date:   2026-08-07 (Fri, 07 Aug 2026)
+The skeleton's BEGIN and ERROR clauses use "\\n" where "\n" is meant.
+In a D string literal that is an escaped backslash followed by 'n', so
+printf() emits a stray backslash instead of a newline.
 
-  Changed paths:
-    A llm/SKILL.md
+Agents copy the skeleton verbatim, and "\\n" is a valid literal, so the
+'dtrace -e' check prescribed in the same file does not catch it.
 
-  Log Message:
-  -----------
-  llm: define dtrace skill for debugging workflows
+Every other D snippet in the tree uses a single backslash.
 
-Add llm/SKILL.md as a reusable DTrace skill for agentic coding frameworks that support SKILLs.
+Assisted-by: Kiro:claude-opus-4.8
+Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
+---
+Not tested under DTrace; this is purely a string-literal escape.
+Applies to devel (30c9c22).
 
-Tune the skill for incident response, root-cause analysis, and latency triage.
+One thing I left alone: the skeleton's ERROR clause prints probeprov/
+probemod/probefunc/probename, but those describe the probe that is
+currently firing, which inside an ERROR clause is dtrace:::ERROR itself
+rather than the probe that faulted.
+doc/userguide/reference/dtrace_providers_dtrace.md gives the culprit as
+arg1 (its EPID) and the fault type as arg4, and
+examples/language_features/001intro-ERROR-probe.d sidesteps this by
+printing a static message.  Should the skeleton use arg1/arg4?
 
-Require complete runnable scripts and verification before final output to reduce user trial-and-error during investigations.
+Also minor: the "Target one process" pattern needs -p PID or -c CMD,
+which the suggested "sudo dtrace -s script.d" does not provide.
 
-Signed-off-by: Greg Marsden <greg.marsden@oracle.com>
-Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
+ llm/SKILL.md | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/llm/SKILL.md b/llm/SKILL.md
+index e5e2f3e..a6ff502 100644
+--- a/llm/SKILL.md
++++ b/llm/SKILL.md
+@@ -66,7 +66,7 @@ probe-descriptions
+ 
+ dtrace:::BEGIN
+ {
+-    printf("Tracing started...\\n");
++    printf("Tracing started...\n");
+ }
+ 
+ /* tracing clauses */
+@@ -78,7 +78,7 @@ dtrace:::END
+ 
+ dtrace:::ERROR
+ {
+-    printf("DTrace error at %s:%s:%s:%s\\n", probeprov, probemod, probefunc, probename);
++    printf("DTrace error at %s:%s:%s:%s\n", probeprov, probemod, probefunc, probename);
+ }
+ ```
+ 
+-- 
+2.43.0
 
-  Commit: 30c9c220f8e024707787d21a8db00c94cdd11796
-      https://github.com/oracle/dtrace/commit/30c9c220f8e024707787d21a8db00c94cdd11796
-  Author: Kris Van Hees <kris.van.hees@oracle.com>
-  Date:   2026-08-07 (Fri, 07 Aug 2026)
-
-  Changed paths:
-    M llm/README.md
-
-  Log Message:
-  -----------
-  llm: document skill usage for agentic coding frameworks
-
-Update llm/README.md to describe how SKILL.md is used by an agentic coding framework capable of loading SKILLs.
-
-Add a link explaining what SKILLs are and document the validation flow users can expect when scripts are generated.
-
-Signed-off-by: Greg Marsden <greg.marsden@oracle.com>
-Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
-
-
-Compare: https://github.com/oracle/dtrace/compare/cfac68647e44...30c9c220f8e0
-
-To unsubscribe from these emails, change your notification settings at https://github.com/oracle/dtrace/settings/notifications
