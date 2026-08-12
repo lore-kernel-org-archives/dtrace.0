@@ -1,57 +1,57 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575F132F764
-	for <dtrace@lists.linux.dev>; Wed, 12 Aug 2026 13:22:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50ED4367291
+	for <dtrace@lists.linux.dev>; Wed, 12 Aug 2026 13:22:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786540945; cv=none; b=mkYpa13jziWvdUgxdyCkr1g5VGfw1HtA5BxiN73ot1NZWh+ZlaRSGgBJL8obqBj7LeDvKvDwHzKP4/9kgYpdzdQrRegCCN1PSF2hw+99qYqGlVJqtgzK5FiMkoPE+Dy4pD9uBvXoPL/EW36Hmma9wdq4hkUw9wCwq4q1d2F/8TY=
+	t=1786540945; cv=none; b=mWkbrPcEMI2hcsJwP+bz2rqGIUTZll81VZ+hEmWtjH3BhI5fZFgnItD4aIcloZTL8wEXGPk7NOqt7hmc+gJb/KnuvwnmOg7wn6dTjLFI2yjECGGV2pJSnYXtvt0vuxMkULWUJWMxuxXX7gGGVsFcpOJDnnMuV3RTO7CIhOv70wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786540945; c=relaxed/simple;
-	bh=qW4gYJi7YD4pNwukQjYPDcf9GgiuJfJ8wizNJ6jRz9w=;
+	bh=JF5NO7FEqajzkifTrY66YDnJrAGybttydL9urL1wL0k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GQboycD4IWIsSnbaKyRcODzYwbQQttV3UL/qsF6MeJgx+H9azWr+N+kJA836Kppt17fosi6HyDxTcLQXegYvV996pcpXIO5PPS0wyg+G2cS5zC/dJHwCrc/HC9VkmLP3d8aSkDocugBGcsDb7C8zdv40av1QPjwFOjCsMrh0/qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=n8xt9BH+; arc=none smtp.client-ip=205.220.165.32
+	 MIME-Version:Content-Type; b=A0qKc+j2J5Wi8/NsEd8k9X9fFywiicb080yY8O2VWAygdvM1HSoi+YfVFMHdKri13MhVI5cV8G0Pwq4mcmOsawNzXbOzV7Mvf5G2bgqtkgiaIsUCeIT6OZluEBI5Mt4P8PiolSAm7NoIYtogv0rbvg6OR9Nxn8dp2TYqwooqwbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=aUS/RVcn; arc=none smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="n8xt9BH+"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67BLdvY13332836
-	for <dtrace@lists.linux.dev>; Wed, 12 Aug 2026 13:22:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=Gq1vn
-	kzQyZ2k5auEEeTKVH4JPy0BaH3hdBkDuNfH17Y=; b=n8xt9BH+Hw90Z7eBeQRdX
-	kZyvcEEtrRplnTr8EoM8dJJTJLL8oUwXbiRrnQzdy2TevjisbsoFzZxGwFMrgdue
-	OE+HTkumysqdq52CZTnmB5e3rHfz+0XMocR+b6DRsDox1fxTp/IORWphBLIsgxwm
-	zJgB/ksb/RMXWE4owaUwVXaZSxOMTbkkhU4hAVMU9MPg2ge4PtE4T8bJFD5i93f8
-	kG6F6pDoy9EkAmG+6Jp12x2CTZmaPa+5j3lKiLs8NSMPgbNQrck/T2K54oohA58q
-	d9eVEDUk9+BQBydemuFs+o/1ptWUiptpZR16fc+FN9sp8G9fFX9jN8z+mzCZpgqF
-	Q==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fwvk6epq6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 12 Aug 2026 13:22:22 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67CDKkU3002943
-	for <dtrace@lists.linux.dev>; Wed, 12 Aug 2026 13:22:21 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4fwtwsse61-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 12 Aug 2026 13:22:21 +0000 (GMT)
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 67CDMEBu010792
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="aUS/RVcn"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67BLdHiZ3269524
 	for <dtrace@lists.linux.dev>; Wed, 12 Aug 2026 13:22:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=6HjtwfdYu6hgPQOyIcTDcO9CX9PJJgHllYIgVtKpXJ4=; b=
+	aUS/RVcnikBb/2DxeP+FdsnPAfMMceqz03Oq1Sg0z4BRZeNd8rmfHao0DSVxuTFc
+	smhNiIl1v4IXulEpt7rjK6/raC/KdnjjhflP8uwRqnI0iiHHczU4rwJTwyNMd7D8
+	kMz2rYGSkQf2H2+BAll6xSsY0uukRPLlruRBBn1C5JOHkfyf5MCPx6261qPxyGNi
+	odM8hJ0HESHyJPfvvSlhQeLsXRXnMNmNICSysRxfeK65rRP77cgZhAqsVpCRoodk
+	lvAEGPqdl4Cx1WWgVjEYQQ9it5BhCCLfDGgrENrgp2SYdhuwLPrycc7/+Cs6EsFH
+	OLNESMLvvGUYFp21FEay1A==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fww0sxp7r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <dtrace@lists.linux.dev>; Wed, 12 Aug 2026 13:22:20 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67CDKdPq002180
+	for <dtrace@lists.linux.dev>; Wed, 12 Aug 2026 13:22:19 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4fwtwsse4x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <dtrace@lists.linux.dev>; Wed, 12 Aug 2026 13:22:18 +0000 (GMT)
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 67CDMEBo010792
+	for <dtrace@lists.linux.dev>; Wed, 12 Aug 2026 13:22:18 GMT
 Received: from bpf.uk.oracle.com (dhcp-10-154-57-125.vpn.oracle.com [10.154.57.125])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4fwtwsse20-7;
-	Wed, 12 Aug 2026 13:22:20 +0000 (GMT)
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4fwtwsse20-5;
+	Wed, 12 Aug 2026 13:22:18 +0000 (GMT)
 From: Alan Maguire <alan.maguire@oracle.com>
 To: dtrace@lists.linux.dev
 Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
-Subject: [PATCH v4 6/9] runtest.sh: Export PYTHONPATH when running tests in-tree
-Date: Wed, 12 Aug 2026 14:22:07 +0100
-Message-ID: <20260812132212.527871-7-alan.maguire@oracle.com>
+Subject: [PATCH v4 4/9] python: Add cpython bindings for libdtrace
+Date: Wed, 12 Aug 2026 14:22:05 +0100
+Message-ID: <20260812132212.527871-5-alan.maguire@oracle.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20260812132212.527871-1-alan.maguire@oracle.com>
 References: <20260812132212.527871-1-alan.maguire@oracle.com>
@@ -61,6 +61,7 @@ List-Id: <dtrace.lists.linux.dev>
 List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
@@ -69,53 +70,2444 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
  mlxlogscore=999 phishscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0
  mlxscore=0 malwarescore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.19.0-2606160000 definitions=main-2608120109
-X-Authority-Analysis: v=2.4 cv=GaknWwXL c=1 sm=1 tr=0 ts=6a7c738e b=1 cx=c_pps
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDEwOSBTYWx0ZWRfXzSenKaAgZx/2
+ D1Le6srojw9RX/e2eMXkbhrjN1UeHtf0YWYUbIQJrnU4NZ0KANEKQjAvs78M3RsA24CuEtmLO7j
+ bo1Gx4OahAPvQx0oaqbn38cax7VVxdxbEBP74y/PAK8jiHKbcIqd
+X-Proofpoint-ORIG-GUID: GmLf1RiFUVWcXoVNcBeQ3aiXeNw0gj-g
+X-Proofpoint-GUID: GmLf1RiFUVWcXoVNcBeQ3aiXeNw0gj-g
+X-Authority-Analysis: v=2.4 cv=FcAHAp+6 c=1 sm=1 tr=0 ts=6a7c738c b=1 cx=c_pps
  a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=RD47p0oAkeU5bO7t-o6f:22 a=yPCof4ZbAAAA:8 a=XaNk8tykWZnhEcX8sLUA:9
- a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:13509
-X-Proofpoint-ORIG-GUID: 9ojvwi5mYfqs0jNbS9CtrrEgRFvVE3qM
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDEwOCBTYWx0ZWRfX5clcTelmObwd
- lyRy0s+36kX/WTpdwBcorMatZn6Iwd+Dr9m5lBKo4jtZ8S1ctqc21q9XkysPh8FmyfzZDpRTRA8
- VH0od/iwF3QIOFkjCOxIcjDndMgOrrrV2CM78t6Dh4EPFpgNfcfP
-X-Proofpoint-GUID: 9ojvwi5mYfqs0jNbS9CtrrEgRFvVE3qM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDEwOCBTYWx0ZWRfX3htZx1xn49p7
- 40dfWRGxfs65zwDSjzd0hR9BC6pNYl2bEkSSx1T7PBxJafWcartdeAH6hQiPHVkzkaoEy2EZO8d
- sHWvsZ5qrjXIM3wyakpD6wZxJL0QcsuFVlPn67VEeHp0PjQLRZgb0SzPdJbgd90xlal1ff+tm9G
- /Zi7TgQfIK3qut+a3zZP0dY09E/GLP0eQcCi8wJhN5MDicVl61HxGx77G3RWQUDvTmDUJEyptNF
- 0Xpw2TOn/MtABIwZ8r9pk6irSTnb0Hqkr0ht2SZeON68FZaA7kiX5BOq2T+XC0A6VcYgXY/Zgei
- ajd5iWGFwkZcxe9HOIdGQGkZRXjKYph1i6nyOOG2QxySXuVKHujBiKdBsJHkPeIOZEc0+HkagBP
- 9J5/Vj5r5NHf6tndHqgiXdEHk7GywUtOnosbaqQ3ydU2FcIV4Ig3y9OZtPPIXb1G2fr5y24gQ6o
- Xf5AnloddbDeE/pGvzIQLlQjgnHVC8/UnMzPq1B4=
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=7Gl3-_t3PgB9XO-mQDs3:22 a=yPCof4ZbAAAA:8
+ a=iKz3j0_d-knGK9i7CyYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=O8hF6Hzn-FEA:10 a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf
+ awl=host:13509
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDEwOSBTYWx0ZWRfXwN4KJv12LGtW
+ 0+1NiMKUjlrh89dHYdcFaVg5a8BkHrxBcG/c/hIHhwopzCCTLTrHXtg1yhvRPyf0Ua0Q4BjyL35
+ nu1PKWmz4r22ziA9VhnFtioOyHanf+wPffsMu1eBTy8sx6tgstHjUiKKcr+7Ng3z7fiaWotiseT
+ +qghZoa/SHKKLTt9+aKMsXqb+M4t79nedC3XbHLU29gdrP5ww+ALCwHlQWVHtPDPTe6ZOrePaL9
+ R8wxEQR5RTbngdeyx+O5em5TYS55M4fOJ7+Rr/ALGAWHroN+Gbs1qdZ79Do7H37Re1OegQPQwVU
+ VJrI1D5I4SH8ZPQCql1f0VuqhZ2x0jsljeR59RKaVQHg3U8SjGBUImVoof/ZpzsQLrUT5zDIR0n
+ f2PpCAfaE08iiYr1CicLi4xDvi4Cd12faAD5CAbJkhb6t0p4aJ98O96PZFOKUphTE1XcSInSIDN
+ Z1RHToSHbVz9QJ9qo/z48jLoBPfyJQB5BCKwka7c=
 
-This will allow us to test python bindings when built, but not
-installed.
+This set of bindings allows interaction with DTrace programs
+from python using libdtrace interfaces under the hood.
+
+The process is to
+
+1. Instantiate a PyDTraceSession
+2. Compile a program string via session.compile()
+3. Enable probes via session.enable(program)
+4. Control execution via session.go(), session.work(), session.stop()
+5. Consume data: use session.work() to retrieve probe data
+
+For example to run DTrace for 5 seconds, collecting systemcalls
+aggregated by executable name and system call:
+
+from dtrace import DTraceSession
+import time
+
+DURATION=5
+
+PROGRAM = r"""
+ syscall:::entry
+ {
+  @counts[execname, probefunc] = count();
+ }
+"""
+
+with DTraceSession() as dt:
+    prog = dt.compile(PROGRAM)
+    info = dt.enable(prog)
+    dt.go()
+    end = time.monotonic() + DURATION
+    print(f"Enabled program; matched {info['matches']} probes.")
+    try:
+        while time.monotonic() < end:
+            time.sleep(0.1)       # reduce CPU burn when idle
+    except KeyboardInterrupt:
+        print(f"Exiting...\n")
+    finally:
+        dt.work()
+        dt.stop()
+        # Snapshot aggregations and display results
+        dt.agg_snap()
+        for record in dt.agg_walk("valrev"):
+            print(f"{record['keys'][0]:<40} {record['keys'][1]:<40} {record['value']:<10}")
+
+$ sudo python3 syscall.py
+Enabled program; matched 367 probes.
+python3                        pselect6                       50
+ruby                           futex                          34
+
+Python bindings are built by default, but specifying --without-python
+to ./configure avoids building them.
+
+Aggregation keys are represented as a list; if a key is a stack()
+or ustack(), it is represented as an ordered list of symbols
+from root to leaf.
+
+Aggregation values are represented as integers for the most part;
+quantized aggregation values are represented as a dict keyed by bucket.
+
+See bindings/python/README.md for more details.
 
 Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+Assisted-by: OpenAI Codex CLI
 ---
- runtest.sh | 2 ++
- 1 file changed, 2 insertions(+)
+ GNUmakefile                           |    2 +
+ bindings/Build                        |   35 +
+ bindings/python/README.md             |  167 +++
+ bindings/python/pyproject.toml        |    3 +
+ bindings/python/setup.py              |   67 +
+ bindings/python/src/pydtrace_module.c | 1997 +++++++++++++++++++++++++
+ configure                             |    4 +-
+ 7 files changed, 2274 insertions(+), 1 deletion(-)
+ create mode 100644 bindings/Build
+ create mode 100644 bindings/python/README.md
+ create mode 100644 bindings/python/pyproject.toml
+ create mode 100644 bindings/python/setup.py
+ create mode 100644 bindings/python/src/pydtrace_module.c
 
-diff --git a/runtest.sh b/runtest.sh
-index 9f06a499..c0ccffc6 100755
---- a/runtest.sh
-+++ b/runtest.sh
-@@ -552,6 +552,7 @@ export LANGUAGE=C
+diff --git a/GNUmakefile b/GNUmakefile
+index 10530f3c..a2f906cb 100644
+--- a/GNUmakefile
++++ b/GNUmakefile
+@@ -106,6 +106,8 @@ INSTPKGCONFIGDIR = $(DESTDIR)$(PKGCONFIGDIR)
+ TESTDIR = $(LIBDIR)/dtrace/testsuite
+ INSTTESTDIR = $(DESTDIR)$(TESTDIR)
+ WITH_SYSTEMD = y
++WITH_PYTHON = y
++PYTHON ?= python3
+ TARGETS =
  
- if [[ -z $USE_INSTALLED ]]; then
-     dtrace="$(pwd)/build*/dtrace"
-+    PYTHONPATH="$(pwd)/build/bindings/python${PYTHONPATH:+:$PYTHONPATH}"
-     test_libdir="$(pwd)/build/dlibs"
-     test_ldflags="-L$(pwd)/build"
-     test_cppflags="-I$(pwd)/include -I$(pwd)/uts/common -I$(pwd)/build -I$(pwd)/libdtrace -DARCH_$arch"
-@@ -562,6 +563,7 @@ if [[ -z $USE_INSTALLED ]]; then
-     dtprobed_flags="-n $helper_device -s${tmpdir}/run/dtrace -F"
-     export DTRACE_DOF_INIT_DEVNAME="/dev/$helper_device"
-     export DTRACE_OPT_DOFSTASHPATH="${tmpdir}/run/dtrace"
-+    export PYTHONPATH
+ DTRACE ?= $(objdir)/dtrace
+diff --git a/bindings/Build b/bindings/Build
+new file mode 100644
+index 00000000..16b82df5
+--- /dev/null
++++ b/bindings/Build
+@@ -0,0 +1,35 @@
++# Python bindings integration
++
++PYTHON_SRC_DIR := bindings/python
++PYTHON_BINDINGS_OUT := $(objdir)/bindings/python
++PYTHON_BINDINGS_STAMP := $(PYTHON_BINDINGS_OUT)/.built
++PYTHON_SITEARCH ?= $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_path("platlib"))')
++
++ifeq ($(WITH_PYTHON),y)
++TARGETS += bindings-python
++PHONIES += bindings-python install-python
++
++bindings-python: $(PYTHON_BINDINGS_STAMP)
++
++$(PYTHON_BINDINGS_STAMP): $(objdir)/libdtrace.so \
++	$(wildcard $(PYTHON_SRC_DIR)/src/*.c) \
++	$(PYTHON_SRC_DIR)/setup.py \
++	$(PYTHON_SRC_DIR)/pyproject.toml
++	$(call describe-target,PYTHON,$(PYTHON_BINDINGS_OUT))
++	mkdir -p $(PYTHON_BINDINGS_OUT)
++	cd $(PYTHON_SRC_DIR) && \
++		DTRACE_OBJDIR="$(abspath $(objdir))" $(PYTHON) setup.py build_ext \
++	    --build-lib $(abspath $(PYTHON_BINDINGS_OUT)) \
++	    --build-temp $(abspath $(PYTHON_BINDINGS_OUT))/temp
++	touch $@
++
++install:: install-python
++
++install-python: $(PYTHON_BINDINGS_STAMP)
++	$(call describe-install-target,$(PYTHON_SITEARCH),$(notdir $(wildcard $(PYTHON_BINDINGS_OUT)/dtrace*.so)))
++	mkdir -p $(DESTDIR)$(PYTHON_SITEARCH)
++	install -m 755 $(PYTHON_BINDINGS_OUT)/dtrace*.so $(DESTDIR)$(PYTHON_SITEARCH)
++endif
++
++clean::
++	rm -rf $(PYTHON_BINDINGS_OUT)
+diff --git a/bindings/python/README.md b/bindings/python/README.md
+new file mode 100644
+index 00000000..0dd7bbd3
+--- /dev/null
++++ b/bindings/python/README.md
+@@ -0,0 +1,167 @@
++# Python bindings for libdtrace
++
++This directory contains Python bindings for the `libdtrace` consumer API. The
++extension allows Python applications to compile D programs, enable and control
++tracing, and inspect aggregation results (including associative arrays) without
++shelling out to the `dtrace` CLI.
++
++## Requirements
++
++- Python 3.6 or newer
++- libdtrace
++- A working C compiler toolchain and Python development headers
++
++## Building and installing
++
++```bash
++# Build dtrace first (from repository root)
++$ make
++$ sudo make install
++```
++
++Alternatively you can install using pip:
++
++```
++# Install the bindings into your current Python environment
++$ cd bindings/python
++$ python3 -m pip install --upgrade build
++$ python3 -m pip install -e .
++```
++
++## Quick start
++
++```python
++from dtrace import DTraceSession
++
++program = """
++#pragma D option quiet
++syscall::open*:entry
++{
++    @counts[execname] = count();
++}
++"""
++
++with DTraceSession() as dt:
++    compiled = dt.compile(program)
++    dt.enable(compiled)
++    dt.go()
++    # ... run workload here ...
++    dt.work()
++    dt.agg_snap()
++    for entry in dt.agg_walk():
++        print(entry["keys"], entry["samples"], entry["value"])
++```
++
++## API Guide
++
++### Sessions and lifecycle
++
++`dtrace.DTraceSession` is the entry point. Sessions implement the context
++manager protocol so the recommended pattern is:
++
++```python
++from dtrace import DTraceSession
++
++with DTraceSession() as dt:
++    ...
++```
++
++Upon construction the binding calls `dtrace_open()`/`dtrace_init()` and installs
++its default buffer sizing (`aggsize`/`bufsize`). The session must remain open
++for the lifetime of any compiled programs or grabbed processes. If you create a
++session without a context manager, remember to call `close()` when finished.
++
++Use `setopt(option, value=None)` to tune libdtrace options before enabling a
++program. Any value is converted to a string; passing `None` clears an option.
++
++### Compiling and enabling programs
++
++`compile(program, cflags=0, argv=None, spec=DTRACE_PROBESPEC_NAME)` wraps
++`dtrace_program_strcompile()` and returns a `DTraceProgram` object bound to the
++session. The optional `argv` sequence is encoded to UTF-8 and supplied as the
++compiler argument vector. Each compiled program must be passed into
++`enable(program)` which returns a dictionary summarising the probe attributes
++(`aggregations`, `recgens`, `matches`, `speculations`, `descattr`, `stmtattr`).
++
++### Running the tracing loop
++
++Invoke `go(cflags=0)` to transition the session into a running state. Typical
++loops alternate between driving the consumer and handling results:
++
++```python
++dt.go()
++while dt.status() == dtrace.DTRACE_STATUS_OKAY:
++    status, probes = dt.work(return_records=True)
++    # inspect `probes`, drive workload, or break once done
++
++dt.stop()
++```
++
++`status()` wraps `dtrace_status()` but also reports synthetic values tracked by
++the binding when the traced processes exit or when an `exit()` action fires.
++`go()` may be followed by `update()` to re-scan loaded kernel modules if probes
++are added dynamically, and `stop()` can be called manually to halt collection.
++
++`work(return_records=False)` executes `dtrace_work()`. Its return value is a
++`(status, probes)` tuple where `status` is one of the exported
++`DTRACE_STATUS_*` constants and `probes` is a list of dictionaries describing
++each consumed probe firing. By default only the status is returned; passing
++`return_records=True` captures full probe metadata plus a list of record
++descriptors (size, action, alignment, raw bytes, and any libdtrace metadata).
++If you are just dealing with aggregations, there is no need to return records;
++aggregation snapshot walk is all you will need.
++
++### Aggregations and snapshots
++
++`agg_snap()` issues `dtrace_aggregate_snap()` to freeze the aggregation buffer;
++`agg_walk(mode="values")` walks that snapshot using the selected ordering mode
++(`"default"`, `"values"`, `"valrev"`, `"keys"`, etc.) and returns a list of
++entries. Each entry is a dictionary with:
++
++- `keys`: ordered list of aggregation keys.
++- `samples`: raw sample count collected for the entry.
++- `normal`: the normalisation factor applied to the aggregate (1 if unused).
++- `value`: the converted aggregate value.
++- `raw`: the raw byte payload backing `value`.
++
++Stacks produced by `stack()`, `ustack()`, or `jstack()` actions are converted to
++Python lists ordered from root to leaf (the binding inserts the deepest frame at
++the end of the list). Quantization actions (`quantize`, `lquantize`,
++`llquantize`) are represented as dictionaries mapping bucket identifiers to
++counts, already divided by any aggregation normaliser. Buckets use the same
++numeric semantics as libdtrace (e.g., powers-of-two for `quantize` or explicit
++boundaries for `lquantize`).
++
++The raw data remains available in `entry["raw"]` when you need the original
++binary layout, for example to re-run libdtrace helpers.
++
++### Process control helpers
++
++The binding exposes libdtrace process control for coordinated tracing:
++
++- `proc_create(args)` forks a new traced process, using the provided argument
++  list. It returns a `DTraceProc` wrapper that keeps the underlying handle.
++- `proc_grab_pid(pid)` attaches to an existing process by pid.
++- `proc_continue(proc)` resumes a previously created or grabbed process and
++  marks it as live so the session can detect when all traced processes exit.
++- `proc_release(proc)` releases libdtrace’s hold on the process once finished.
++
++`DTraceProc` currently exposes `getpid()` to query the grabbed pid. The session
++tracks how many processes are created or grabbed so that when the last one
++exits the consumer loop observes `DTRACE_STATUS_EXITED` and stops automatically.
++
++### Detecting completion or stop conditions
++
++The binding raises `DTraceError` when libdtrace reports failures. To detect a
++graceful stop, inspect either `status()` or the first element of the tuple
++returned by `work()`. When libdtrace reports `DTRACE_STATUS_STOPPED` or
++`DTRACE_STATUS_FILLED`, you can drain remaining data, call `agg_snap()`/
++`agg_walk()` if needed, and then `close()` the session. A session observing a
++`DTRACEACT_EXIT` record records the exit status internally, and a stopped state
++is reported even if `dtrace_status()` still returns `DTRACE_STATUS_OKAY`, so
++applications can rely on `status()` reflecting exits from traced processes.
++
++When running under a context manager, exiting the `with` block closes the
++session automatically, regardless of whether tracing finished normally or due
++to `stop()`.
++
+diff --git a/bindings/python/pyproject.toml b/bindings/python/pyproject.toml
+new file mode 100644
+index 00000000..7b959378
+--- /dev/null
++++ b/bindings/python/pyproject.toml
+@@ -0,0 +1,3 @@
++[build-system]
++requires = ["setuptools>=64", "wheel"]
++build-backend = "setuptools.build_meta"
+diff --git a/bindings/python/setup.py b/bindings/python/setup.py
+new file mode 100644
+index 00000000..331e67df
+--- /dev/null
++++ b/bindings/python/setup.py
+@@ -0,0 +1,67 @@
++import os
++import subprocess
++from pathlib import Path
++from typing import List
++
++from setuptools import Extension, setup
++
++ROOT = Path(__file__).resolve().parents[2]
++OBJDIR = Path(os.environ.get("DTRACE_OBJDIR", ROOT / "build"))
++
++def project_version() -> str:
++    """Return the DTrace version used by the top-level build."""
++    version = os.environ.get("DTRACE_VERSION")
++    if version:
++        return version
++
++    return subprocess.check_output(
++        [str(ROOT / "libdtrace" / "mkvers"), "-vcurrent=t",
++         str(ROOT / "libdtrace" / "versions.list")],
++        universal_newlines=True,
++    ).strip()
++
++# Default include directories assume an in-tree build of libdtrace.
++default_include_dirs = [
++    str(ROOT / "include"),
++    str(ROOT / "libdtrace"),
++    str(ROOT / "uts" / "common"),
++    str(ROOT / "include" / "dtrace"),
++    str(OBJDIR),
++]
++
++default_library_dirs: List[str] = []
++if OBJDIR.exists():
++    default_library_dirs.append(str(OBJDIR))
++
++extra_include = os.environ.get("DTRACE_INCLUDE_DIRS")
++if extra_include:
++    default_include_dirs.extend(p for p in extra_include.split(os.pathsep) if p)
++
++extra_library = os.environ.get("DTRACE_LIBRARY_DIRS")
++if extra_library:
++    default_library_dirs.extend(p for p in extra_library.split(os.pathsep) if p)
++
++extra_link_args = os.environ.get("DTRACE_EXTRA_LINK_ARGS", "").split()
++extra_compile_args = os.environ.get("DTRACE_EXTRA_COMPILE_ARGS", "").split()
++
++ext_modules = [
++    Extension(
++        "dtrace",
++        sources=["src/pydtrace_module.c"],
++        include_dirs=default_include_dirs,
++        libraries=["dtrace"],
++        library_dirs=default_library_dirs,
++        extra_compile_args=extra_compile_args,
++        extra_link_args=extra_link_args,
++    )
++]
++
++setup(
++    name="dtrace",
++    version=project_version(),
++    description="Python bindings for libdtrace",
++    author="Oracle Linux DTrace maintainers",
++    license="UPL",
++    python_requires=">=3.6",
++    ext_modules=ext_modules,
++)
+diff --git a/bindings/python/src/pydtrace_module.c b/bindings/python/src/pydtrace_module.c
+new file mode 100644
+index 00000000..ac361307
+--- /dev/null
++++ b/bindings/python/src/pydtrace_module.c
+@@ -0,0 +1,1997 @@
++/*
++ * Python bindings for libdtrace.
++ *
++ * This module exposes a thin object oriented wrapper around libdtrace so that
++ * Python applications can compile, enable, and control tracing programs while
++ * also consuming aggregation results as native Python objects.
++ *
++ * Oracle Linux DTrace is licensed under the Universal Permissive License v 1.0.
++ */
++
++#define PY_SSIZE_T_CLEAN
++#include <Python.h>
++
++#include <stdio.h>
++#include <stdint.h>
++#include <stdlib.h>
++#include <string.h>
++#include <math.h>
++#include <sys/param.h>
++#include <sys/types.h>
++#include <pthread.h>
++
++#include <dtrace.h>
++#include "dt_aggregate.h"
++#include "dt_math.h"
++
++#ifndef UNUSED
++#define UNUSED(x) ((void)(x))
++#endif
++
++typedef struct {
++	PyObject_HEAD
++	dtrace_hdl_t *dtp;
++	FILE *fp;
++	int pids;      /* pid()s _create()ed or grab()bed */
++	int pids_live; /* _continue()d active processes */
++	int status;    /* EXITed or STOPPED */
++	int exit_status;
++	int closed;
++} PyDTraceSession;
++
++typedef struct {
++	PyObject_HEAD
++	PyDTraceSession *session;
++	dtrace_prog_t *prog;
++} PyDTraceProgram;
++
++typedef struct {
++	PyObject_HEAD
++	PyDTraceSession *session;
++	struct dtrace_proc *proc;
++} PyDTraceProc;
++
++static PyObject *PyExc_DTraceError = NULL;
++
++/* ------------------------------------------------------------------------- */
++/* Utility helpers                                                           */
++/* ------------------------------------------------------------------------- */
++
++static int
++ensure_open(PyDTraceSession *self)
++{
++	if (self->closed || self->dtp == NULL) {
++		PyErr_SetString(PyExc_DTraceError, "DTrace session is closed");
++		return -1;
++	}
++
++	return 0;
++}
++
++static PyObject *
++raise_dtrace_error_with_code(dtrace_hdl_t *dtp, int error, const char *ctx)
++{
++	const char *msg =
++		dtp != NULL ? dtrace_errmsg(dtp, error) : "unknown error";
++
++	if (ctx != NULL)
++		PyErr_Format(PyExc_DTraceError, "%s: %s", ctx, msg);
++	else
++		PyErr_SetString(PyExc_DTraceError, msg);
++
++	return NULL;
++}
++
++static PyObject *
++raise_dtrace_error(PyDTraceSession *self, const char *ctx)
++{
++	int error = dtrace_errno(self->dtp);
++	return raise_dtrace_error_with_code(self->dtp, error, ctx);
++}
++
++static int
++dict_set_ulong(PyObject *dict, const char *key, unsigned long value)
++{
++	PyObject *obj = PyLong_FromUnsignedLong(value);
++	int rc;
++
++	if (obj == NULL)
++		return -1;
++
++	rc = PyDict_SetItemString(dict, key, obj);
++	Py_DECREF(obj);
++	return rc;
++}
++
++/* ------------------------------------------------------------------------- */
++/* Aggregation walk context                                                  */
++/* ------------------------------------------------------------------------- */
++
++typedef struct {
++	PyObject *list;
++	PyDTraceSession *session;
++} agg_walk_ctx_t;
++
++typedef struct {
++	PyObject *probes;
++	PyObject *current_probe;
++	PyObject *records;
++	PyDTraceSession *session;
++	int capture;
++	int aborted;
++} work_ctx_t;
++
++static inline uint64_t
++read_uint(const void *addr, size_t size)
++{
++	switch (size) {
++	case 1:
++		return *((const uint8_t *)addr);
++	case 2:
++		return *((const uint16_t *)addr);
++	case 4:
++		return *((const uint32_t *)addr);
++	case 8:
++		return *((const uint64_t *)addr);
++	default:
++		return 0;
++	}
++}
++
++static inline int64_t
++read_sint(const void *addr, size_t size)
++{
++	switch (size) {
++	case 1:
++		return *((const int8_t *)addr);
++	case 2:
++		return *((const int16_t *)addr);
++	case 4:
++		return *((const int32_t *)addr);
++	case 8:
++		return *((const int64_t *)addr);
++	default:
++		return 0;
++	}
++}
++
++static PyObject *
++bytes_or_string_from_buffer(const char *addr, size_t size)
++{
++	if (size == 0)
++		return PyBytes_FromStringAndSize("", 0);
++
++	if (addr[size - 1] == '\0') {
++		size_t n = strnlen(addr, size);
++		return PyUnicode_DecodeUTF8(addr, (Py_ssize_t)n, "replace");
++	}
++
++	return PyBytes_FromStringAndSize(addr, (Py_ssize_t)size);
++}
++
++static const char *
++agg_action_label(uint16_t action)
++{
++	switch (action) {
++	case DT_AGG_AVG:
++		return "avg";
++	case DT_AGG_COUNT:
++		return "count";
++	case DT_AGG_LLQUANTIZE:
++		return "llquantize";
++	case DT_AGG_LQUANTIZE:
++		return "lquantize";
++	case DT_AGG_MAX:
++		return "max";
++	case DT_AGG_MIN:
++		return "min";
++	case DT_AGG_QUANTIZE:
++		return "quantize";
++	case DT_AGG_STDDEV:
++		return "stddev";
++	case DT_AGG_SUM:
++		return "sum";
++	default:
++		return "unknown";
++	}
++}
++
++static inline PyObject *
++quant_dict_add(PyObject *dict, long long bucket, long long count)
++{
++	PyObject *key = PyLong_FromLongLong(bucket);
++	PyObject *val;
++
++	if (key == NULL)
++		return NULL;
++
++	val = PyLong_FromLongLong(count);
++	if (val == NULL) {
++		Py_DECREF(key);
++		return NULL;
++	}
++
++	if (PyDict_SetItem(dict, key, val) < 0) {
++		Py_DECREF(key);
++		Py_DECREF(val);
++		return NULL;
++	}
++
++	Py_DECREF(key);
++	Py_DECREF(val);
++	return dict;
++}
++
++static PyObject *
++convert_quantize(const int64_t *data, size_t nbins, uint64_t normal)
++{
++	PyObject *dict = PyDict_New();
++
++	if (dict == NULL)
++		return NULL;
++
++	if (normal == 0)
++		normal = 1;
++
++	for (size_t i = 0; i < nbins; i++) {
++		int64_t count = data[i];
++
++		if (count == 0)
++			continue;
++
++		count /= (int64_t)normal;
++		if (count == 0)
++			continue;
++
++		if (quant_dict_add(dict, DTRACE_QUANTIZE_BUCKETVAL((uint64_t)i),
++				   count) == NULL) {
++			Py_DECREF(dict);
++			return NULL;
++		}
++	}
++
++	return dict;
++}
++
++static PyObject *
++convert_lquantize(const int64_t *data, uint64_t sig, size_t size,
++		  uint64_t normal)
++{
++	uint16_t levels = DTRACE_LQUANTIZE_LEVELS(sig);
++	uint16_t step = DTRACE_LQUANTIZE_STEP(sig);
++	int32_t base = DTRACE_LQUANTIZE_BASE(sig);
++	size_t expected;
++	PyObject *dict;
++
++	if (normal == 0)
++		normal = 1;
++
++	expected = (size_t)(levels + 2) * sizeof(uint64_t);
++	if (size != expected)
++		return PyBytes_FromStringAndSize((const char *)data,
++						 (Py_ssize_t)size);
++
++	dict = PyDict_New();
++	if (dict == NULL)
++		return NULL;
++
++	for (uint16_t i = 0; i < levels + 2; i++) {
++		int64_t count = data[i];
++		long long bucket;
++
++		if (count == 0)
++			continue;
++
++		count /= (int64_t)normal;
++		if (count == 0)
++			continue;
++
++		if (i == 0)
++			bucket = base - 1;
++		else if (i == levels + 1)
++			bucket = base + (long long)levels * step;
++		else
++			bucket = base + (long long)(i - 1) * step;
++
++		if (quant_dict_add(dict, bucket, count) == NULL) {
++			Py_DECREF(dict);
++			return NULL;
++		}
++	}
++
++	return dict;
++}
++
++static PyObject *
++convert_llquantize(const int64_t *data, uint64_t sig, size_t size,
++		   uint64_t normal)
++{
++	int factor = DTRACE_LLQUANTIZE_FACTOR(sig);
++	int lmag = DTRACE_LLQUANTIZE_LMAG(sig);
++	int hmag = DTRACE_LLQUANTIZE_HMAG(sig);
++	int steps = DTRACE_LLQUANTIZE_STEPS(sig);
++	int steps_factor = steps / factor;
++	int bin0;
++	size_t nbins;
++	PyObject *dict;
++
++	if (normal == 0)
++		normal = 1;
++
++	bin0 = 1 + (hmag - lmag + 1) * (steps - steps_factor);
++	nbins = (size_t)(hmag - lmag + 1) * (steps - steps_factor) * 2 + 3;
++
++	if (size != nbins * sizeof(uint64_t))
++		return PyBytes_FromStringAndSize((const char *)data,
++						 (Py_ssize_t)size);
++
++	dict = PyDict_New();
++	if (dict == NULL)
++		return NULL;
++
++	for (size_t i = 0; i < nbins; i++) {
++		int64_t count = data[i];
++		long long bucket;
++
++		if (count == 0)
++			continue;
++
++		count /= (int64_t)normal;
++		if (count == 0)
++			continue;
++
++		if (i == 0)
++			bucket = -(long long)powl((double)factor,
++						  (double)(hmag + 1));
++		else if (i == nbins - 1)
++			bucket = (long long)powl((double)factor,
++						 (double)(hmag + 1));
++		else if (i == (size_t)bin0) {
++			bucket = 0;
++		} else {
++			int left = (int)i - bin0;
++			int is_neg = left < 0;
++			int steps_rem = is_neg ? bin0 - (int)i : left;
++			long long scale;
++			int mag = lmag;
++
++			if (steps_rem == 0) {
++				bucket = 0;
++				goto have_bucket;
++			}
++
++			if (lmag == 0 && steps > factor) {
++				for (int val = 2;
++				     val <= factor && steps_rem > 0; val++) {
++					steps_rem -= steps_factor;
++					if (steps_rem == 0) {
++						bucket = is_neg ? -val : val;
++						goto have_bucket;
++					}
++				}
++				mag++;
++			}
++
++			scale = (long long)(powl((double)factor,
++						 (double)(mag + 1)) /
++					    (double)steps);
++
++			while (mag <= hmag) {
++				for (int step = steps_factor + 1; step <= steps;
++				     step++) {
++					steps_rem--;
++					if (steps_rem == 0) {
++						bucket = step * scale;
++						if (is_neg)
++							bucket = -bucket;
++						goto have_bucket;
++					}
++				}
++				scale *= factor;
++				mag++;
++			}
++
++			bucket = is_neg ? -(long long)powl((double)factor,
++							   (double)(hmag + 1))
++					: (long long)powl((double)factor,
++							  (double)(hmag + 1));
++		}
++
++	have_bucket:
++		if (quant_dict_add(dict, bucket, count) == NULL) {
++			Py_DECREF(dict);
++			return NULL;
++		}
++	}
++
++	return dict;
++}
++
++static PyObject *
++convert_quantized(const dtrace_recdesc_t *rec, caddr_t base, uint64_t normal,
++		  const dtrace_aggdata_t *aggdata)
++{
++	caddr_t addr = base + rec->dtrd_offset;
++	size_t size = rec->dtrd_size;
++	const int64_t *data = (const int64_t *)addr;
++	const dtrace_aggdesc_t *agg = aggdata ? aggdata->dtada_desc : NULL;
++	uint64_t sig = agg ? agg->dtagd_sig : 0;
++
++	switch (rec->dtrd_action) {
++	case DT_AGG_QUANTIZE:
++		if (size % sizeof(uint64_t) != 0)
++			return PyBytes_FromStringAndSize((const char *)addr,
++							 (Py_ssize_t)size);
++		return convert_quantize(data, size / sizeof(uint64_t), normal);
++	case DT_AGG_LQUANTIZE:
++		if (sig == 0)
++			return PyBytes_FromStringAndSize((const char *)addr,
++							 (Py_ssize_t)size);
++		return convert_lquantize(data, sig, size, normal);
++	case DT_AGG_LLQUANTIZE:
++		if (sig == 0)
++			return PyBytes_FromStringAndSize((const char *)addr,
++							 (Py_ssize_t)size);
++		return convert_llquantize(data, sig, size, normal);
++	default:
++		break;
++	}
++
++	return PyBytes_FromStringAndSize((const char *)addr, (Py_ssize_t)size);
++}
++
++static PyObject *
++convert_record_value(PyDTraceSession *session, const dtrace_recdesc_t *rec,
++		     caddr_t base, uint64_t normal,
++		     const dtrace_aggdata_t *aggdata)
++{
++	caddr_t addr = base + rec->dtrd_offset;
++	size_t size = rec->dtrd_size;
++	const uint64_t *words = (const uint64_t *)addr;
++	uint32_t depth = 0, tgid = 0;
++	char buf[PATH_MAX * 2];
++	PyObject *sym;
++	uint64_t pc;
++	int len;
++
++	switch (rec->dtrd_action) {
++	case DT_AGG_AVG: {
++		if (size < sizeof(int64_t) * 2)
++			return PyFloat_FromDouble(0.0);
++
++		const int64_t *data = (const int64_t *)addr;
++		if (data[0] == 0)
++			return PyFloat_FromDouble(0.0);
++
++		long double avg = (long double)data[1] / (long double)normal /
++				  (long double)data[0];
++		return PyFloat_FromDouble((double)avg);
++	}
++
++	case DT_AGG_SUM:
++	case DT_AGG_MIN:
++	case DT_AGG_MAX:
++	case DT_AGG_COUNT: {
++		int64_t value = read_sint(addr, size);
++		value /= (int64_t)normal;
++		return PyLong_FromLongLong(value);
++	}
++
++	case DT_AGG_STDDEV: {
++		uint64_t stddev = dt_stddev((uint64_t *)addr, normal);
++
++		return PyLong_FromUnsignedLongLong(stddev);
++	}
++	case DT_AGG_QUANTIZE:
++	case DT_AGG_LQUANTIZE:
++	case DT_AGG_LLQUANTIZE:
++		return convert_quantized(rec, base, normal, aggdata);
++
++	case DTRACEACT_JSTACK:
++	case DTRACEACT_USTACK:
++	case DTRACEACT_STACK: {
++		depth = *(uint32_t *)words;
++		uint32_t frames =
++			depth < rec->dtrd_size / sizeof(uint64_t)
++				? depth
++				: (uint32_t)(rec->dtrd_size / sizeof(uint64_t));
++		PyObject *list = PyList_New((Py_ssize_t)0);
++		if (list == NULL)
++			return NULL;
++
++		if (rec->dtrd_action != DTRACEACT_STACK)
++			tgid = ((uint32_t *)words)[3];
++		for (uint32_t i = 0; i < frames; i++) {
++			pc = words[i + 2];
++
++			if (pc == 0)
++				break;
++			len = rec->dtrd_action != DTRACEACT_STACK
++				      ? dtrace_uaddr2str(session->dtp, tgid, pc,
++							 buf, sizeof(buf))
++				      : dtrace_addr2str(session->dtp, pc, buf,
++							sizeof(buf));
++			if (len < 0) {
++				Py_DECREF(list);
++				return raise_dtrace_error(session,
++							  "dtrace_addr2str");
++			}
++			PyObject *frame = PyUnicode_FromString(buf);
++			if (frame == NULL) {
++				Py_DECREF(list);
++				return NULL;
++			}
++			if (PyList_Insert(list, 0, frame) < 0) {
++				Py_DECREF(frame);
++				Py_DECREF(list);
++				return NULL;
++			}
++			Py_DECREF(frame);
++		}
++		return list;
++	}
++	case DTRACEACT_SYM:
++	case DTRACEACT_MOD: {
++		pc = words[0];
++		dtrace_syminfo_t dts;
++
++		if (dtrace_lookup_by_addr(session->dtp, pc, NULL, &dts) == 0) {
++			if (rec->dtrd_action == DTRACEACT_SYM)
++				snprintf(buf, sizeof(buf), "%s`%s", dts.object,
++					 dts.name);
++			else
++				snprintf(buf, sizeof(buf), "%s", dts.object);
++		} else {
++			snprintf(buf, sizeof(buf), "0x%llx",
++				 (unsigned long long)pc);
++		}
++		sym = PyUnicode_FromString(buf);
++		if (sym == NULL)
++			return NULL;
++		return sym;
++	}
++	case DTRACEACT_UADDR: {
++		tgid = ((uint32_t *)words)[0];
++		pc = words[1];
++		len = dtrace_uaddr2str(session->dtp, tgid, pc, buf,
++				       sizeof(buf));
++		if (len < 0)
++			return raise_dtrace_error(session, "dtrace_addr2str");
++		sym = PyUnicode_FromString(buf);
++		if (sym == NULL)
++			return NULL;
++		return sym;
++	}
++	/*
++	 * These two functions require grabbing pid lock etc, no interfaces yet
++	 * in libdtrace for this.
++	 */
++	case DTRACEACT_USYM:
++	case DTRACEACT_UMOD:
++	default:
++		break;
++	}
++
++	switch (size) {
++	case 1:
++	case 2:
++	case 4:
++	case 8: {
++		int64_t value = read_sint(addr, size);
++		value /= (int64_t)normal;
++		return PyLong_FromLongLong(value);
++	}
++	default:
++		return bytes_or_string_from_buffer((const char *)addr, size);
++	}
++}
++
++static inline int
++key_requires_format(dtrace_actkind_t action)
++{
++	switch (action) {
++	case DTRACEACT_STACK:
++	case DTRACEACT_USTACK:
++	case DTRACEACT_JSTACK:
++	case DTRACEACT_SYM:
++	case DTRACEACT_USYM:
++	case DTRACEACT_MOD:
++	case DTRACEACT_UMOD:
++	case DTRACEACT_UADDR:
++		return 1;
++	default:
++		return 0;
++	}
++}
++
++static PyObject *
++convert_aggdata(PyDTraceSession *session, agg_walk_ctx_t *ctx,
++		const dtrace_aggdata_t *aggdata)
++{
++	const dtrace_aggdesc_t *agg = aggdata->dtada_desc;
++	const dtrace_recdesc_t *counter_rec =
++		&agg->dtagd_drecs[DT_AGGDATA_COUNTER];
++	const dtrace_recdesc_t *value_rec =
++		&agg->dtagd_drecs[DT_AGGDATA_RECORD];
++	PyObject *entry = PyDict_New();
++
++	if (entry == NULL)
++		return NULL;
++
++	PyObject *name = agg->dtagd_name != NULL
++				 ? PyUnicode_FromString(agg->dtagd_name)
++				 : Py_None;
++	if (name == NULL)
++		goto error;
++	if (name == Py_None)
++		Py_INCREF(Py_None);
++	if (PyDict_SetItemString(entry, "name", name) < 0) {
++		Py_DECREF(name);
++		goto error;
++	}
++	Py_DECREF(name);
++
++	PyObject *aggid = PyLong_FromLong(agg->dtagd_varid);
++	if (aggid == NULL)
++		goto error;
++	if (PyDict_SetItemString(entry, "id", aggid) < 0) {
++		Py_DECREF(aggid);
++		goto error;
++	}
++	Py_DECREF(aggid);
++
++	PyObject *action =
++		PyUnicode_FromString(agg_action_label(value_rec->dtrd_action));
++	if (action == NULL)
++		goto error;
++	if (PyDict_SetItemString(entry, "action", action) < 0) {
++		Py_DECREF(action);
++		goto error;
++	}
++	Py_DECREF(action);
++
++	PyObject *keys = PyList_New(0);
++	if (keys == NULL)
++		goto error;
++
++	for (uint_t i = 1; i < agg->dtagd_nkrecs; i++) {
++		const dtrace_recdesc_t *rec = &agg->dtagd_krecs[i];
++		PyObject *item = convert_record_value(
++			session, rec, aggdata->dtada_key, 0, aggdata);
++
++		if (item == NULL) {
++			Py_DECREF(keys);
++			goto error;
++		}
++
++		if (PyList_Append(keys, item) < 0) {
++			Py_DECREF(item);
++			Py_DECREF(keys);
++			goto error;
++		}
++		Py_DECREF(item);
++	}
++
++	if (PyDict_SetItemString(entry, "keys", keys) < 0) {
++		Py_DECREF(keys);
++		goto error;
++	}
++	Py_DECREF(keys);
++
++	uint64_t samples =
++		read_uint(aggdata->dtada_data + counter_rec->dtrd_offset,
++			  counter_rec->dtrd_size);
++	PyObject *samples_obj = PyLong_FromUnsignedLongLong(samples);
++	if (samples_obj == NULL)
++		goto error;
++	if (PyDict_SetItemString(entry, "samples", samples_obj) < 0) {
++		Py_DECREF(samples_obj);
++		goto error;
++	}
++	Py_DECREF(samples_obj);
++
++	uint64_t normal = agg->dtagd_normal ? agg->dtagd_normal : 1;
++	PyObject *normal_obj = PyLong_FromUnsignedLongLong(normal);
++	if (normal_obj == NULL)
++		goto error;
++	if (PyDict_SetItemString(entry, "normal", normal_obj) < 0) {
++		Py_DECREF(normal_obj);
++		goto error;
++	}
++	Py_DECREF(normal_obj);
++
++	PyObject *value = convert_record_value(
++		session, value_rec, aggdata->dtada_data, normal, aggdata);
++	if (value == NULL)
++		goto error;
++	if (PyDict_SetItemString(entry, "value", value) < 0) {
++		Py_DECREF(value);
++		goto error;
++	}
++	Py_DECREF(value);
++
++	PyObject *raw = PyBytes_FromStringAndSize(
++		(const char *)(aggdata->dtada_data + value_rec->dtrd_offset),
++		(Py_ssize_t)value_rec->dtrd_size);
++	if (raw == NULL)
++		goto error;
++	if (PyDict_SetItemString(entry, "raw", raw) < 0) {
++		Py_DECREF(raw);
++		goto error;
++	}
++	Py_DECREF(raw);
++
++	return entry;
++
++error:
++	Py_DECREF(entry);
++	return NULL;
++}
++
++static int
++agg_walk_callback(const dtrace_aggdata_t *aggdata, void *arg)
++{
++	agg_walk_ctx_t *ctx = (agg_walk_ctx_t *)arg;
++	PyObject *entry = convert_aggdata(ctx->session, ctx, aggdata);
++
++	if (entry == NULL)
++		return DTRACE_AGGWALK_ERROR;
++
++	if (PyList_Append(ctx->list, entry) < 0) {
++		Py_DECREF(entry);
++		return DTRACE_AGGWALK_ERROR;
++	}
++
++	Py_DECREF(entry);
++	return DTRACE_AGGWALK_NEXT;
++}
++
++/* ------------------------------------------------------------------------- */
++/* PyDTraceProgram                                                           */
++/* ------------------------------------------------------------------------- */
++
++static void
++PyDTraceProgram_dealloc(PyDTraceProgram *self)
++{
++	if (self->session)
++		Py_XDECREF(self->session);
++	PyObject_Del(self);
++}
++
++static PyTypeObject PyDTraceProgramType;
++
++static PyObject *
++PyDTraceProgram_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
++{
++	UNUSED(args);
++	UNUSED(kwds);
++	PyDTraceProgram *self = (PyDTraceProgram *)type->tp_alloc(type, 0);
++	if (self != NULL) {
++		self->session = NULL;
++		self->prog = NULL;
++	}
++	return (PyObject *)self;
++}
++
++static PyMethodDef PyDTraceProgram_methods[] = {{NULL, NULL, 0, NULL}};
++
++static PyTypeObject PyDTraceProgramType = {
++	PyVarObject_HEAD_INIT(NULL, 0).tp_name = "dtrace.DTraceProgram",
++	.tp_basicsize = sizeof(PyDTraceProgram),
++	.tp_flags = Py_TPFLAGS_DEFAULT,
++	.tp_new = PyDTraceProgram_new,
++	.tp_dealloc = (destructor)PyDTraceProgram_dealloc,
++	.tp_methods = PyDTraceProgram_methods,
++};
++
++/* ------------------------------------------------------------------------- */
++/* PyDTraceSession                                                           */
++/* ------------------------------------------------------------------------- */
++
++static void
++PyDTraceSession_dealloc(PyDTraceSession *self)
++{
++	if (self->dtp != NULL && !self->closed) {
++		Py_BEGIN_ALLOW_THREADS dtrace_close(self->dtp);
++		Py_END_ALLOW_THREADS
++	}
++	self->dtp = NULL;
++	if (self->fp)
++		fclose(self->fp);
++	self->closed = 1;
++	PyObject_Del(self);
++}
++
++static PyObject *
++PyDTraceSession_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
++{
++	UNUSED(args);
++	UNUSED(kwds);
++	PyDTraceSession *self = (PyDTraceSession *)type->tp_alloc(type, 0);
++	if (self != NULL) {
++		self->dtp = NULL;
++		self->closed = 1;
++	}
++	return (PyObject *)self;
++}
++
++static void
++prochandler(pid_t pid, const char *msg, void *arg)
++{
++	PyDTraceSession *self = arg;
++
++	if (pid < 0 && self->pids_live) {
++		self->pids_live--;
++		if (self->pids_live == 0)
++			dtrace_stop(self->dtp);
++	}
++}
++
++static int
++PyDTraceSession_init(PyDTraceSession *self, PyObject *args, PyObject *kwds)
++{
++	static char *kwlist[] = {"version", "flags", NULL};
++	int version = DTRACE_VERSION;
++	unsigned int flags = 0;
++	int err = 0;
++
++	if (!PyArg_ParseTupleAndKeywords(args, kwds, "|Ii", kwlist, &version,
++					 &flags))
++		return -1;
++
++	self->dtp = dtrace_open(version, flags, &err);
++	if (self->dtp == NULL)
++		return raise_dtrace_error_with_code(NULL, err, "dtrace_open") ==
++				       NULL
++			       ? -1
++			       : -1;
++
++	self->fp = fopen("/dev/null", "a");
++	if (dtrace_init(self->dtp) != 0) {
++		raise_dtrace_error(self, "dtrace_init");
++		dtrace_close(self->dtp);
++		fclose(self->fp);
++		self->dtp = NULL;
++		self->fp = NULL;
++		return -1;
++	}
++	if (dtrace_handle_proc(self->dtp, &prochandler, self) != 0 ||
++	    dtrace_setopt(self->dtp, "aggsize", "4m") != 0 ||
++	    dtrace_setopt(self->dtp, "bufsize", "4m") != 0) {
++		raise_dtrace_error(self, "dtrace_setopt");
++		dtrace_close(self->dtp);
++		fclose(self->fp);
++		self->dtp = NULL;
++		self->fp = NULL;
++		return -1;
++	}
++	self->closed = 0;
++	return 0;
++}
++
++static PyObject *
++PyDTraceSession_close(PyDTraceSession *self, PyObject *Py_UNUSED(args))
++{
++	if (!self->closed && self->dtp != NULL) {
++		Py_BEGIN_ALLOW_THREADS dtrace_close(self->dtp);
++		Py_END_ALLOW_THREADS fclose(self->fp);
++		self->dtp = NULL;
++		self->fp = NULL;
++		self->closed = 1;
++	}
++
++	Py_RETURN_NONE;
++}
++
++static PyObject *
++PyDTraceSession_enter(PyDTraceSession *self, PyObject *Py_UNUSED(args))
++{
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	Py_INCREF(self);
++	return (PyObject *)self;
++}
++
++static PyObject *
++PyDTraceSession_exit(PyDTraceSession *self, PyObject *args)
++{
++	UNUSED(args);
++
++	if (!self->closed && self->dtp != NULL) {
++		Py_BEGIN_ALLOW_THREADS dtrace_close(self->dtp);
++		Py_END_ALLOW_THREADS if (self->fp) fclose(self->fp);
++		self->dtp = NULL;
++		self->fp = NULL;
++		self->closed = 1;
++	}
++
++	Py_RETURN_FALSE;
++}
++
++static PyObject *
++PyDTraceSession_setopt(PyDTraceSession *self, PyObject *args, PyObject *kwds)
++{
++	static char *kwlist[] = {"option", "value", NULL};
++	const char *opt = NULL;
++	PyObject *value_obj = Py_None;
++	PyObject *value_str = NULL;
++	const char *cvalue = NULL;
++
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	if (!PyArg_ParseTupleAndKeywords(args, kwds, "s|O", kwlist, &opt,
++					 &value_obj))
++		return NULL;
++
++	if (value_obj == Py_None) {
++		cvalue = NULL;
++	} else {
++		PyObject *string_obj = PyObject_Str(value_obj);
++		if (string_obj == NULL)
++			return NULL;
++		value_str = PyUnicode_AsEncodedString(string_obj, "utf-8",
++						      "replace");
++		Py_DECREF(string_obj);
++		if (value_str == NULL)
++			return NULL;
++		cvalue = PyBytes_AS_STRING(value_str);
++	}
++
++	if (dtrace_setopt(self->dtp, opt, cvalue) != 0) {
++		Py_XDECREF(value_str);
++		return raise_dtrace_error(self, "dtrace_setopt");
++	}
++
++	Py_XDECREF(value_str);
++	Py_RETURN_NONE;
++}
++
++/*
++ * Need a lock because compilation uses global state; we would like to remove
++ * this eventually.
++ */
++pthread_mutex_t compile_lock = PTHREAD_MUTEX_INITIALIZER;
++
++static PyObject *
++PyDTraceSession_compile(PyDTraceSession *self, PyObject *args, PyObject *kwds)
++{
++	static char *kwlist[] = {"program", "cflags", "argv", "spec", NULL};
++	const char *source = NULL;
++	unsigned int cflags = 0;
++	PyObject *argv_obj = NULL;
++	int spec = DTRACE_PROBESPEC_NAME;
++	PyObject *argv_seq = NULL;
++	char **argv = NULL;
++	PyObject **encoded = NULL;
++	Py_ssize_t argc = 0;
++	dtrace_prog_t *prog = NULL;
++	PyDTraceProgram *wrapper = NULL;
++
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	if (!PyArg_ParseTupleAndKeywords(args, kwds, "s|IOi", kwlist, &source,
++					 &cflags, &argv_obj, &spec))
++		return NULL;
++
++	if (argv_obj != NULL && argv_obj != Py_None) {
++		argv_seq = PySequence_Fast(
++			argv_obj, "argv must be a sequence of strings");
++		if (argv_seq == NULL)
++			return NULL;
++
++		argc = PySequence_Fast_GET_SIZE(argv_seq);
++		if (argc > 0) {
++			Py_ssize_t i;
++
++			argv = PyMem_Calloc((size_t)argc + 1, sizeof(char *));
++			encoded =
++				PyMem_Calloc((size_t)argc, sizeof(PyObject *));
++			if (argv == NULL || encoded == NULL) {
++				PyMem_Free(argv);
++				PyMem_Free(encoded);
++				Py_DECREF(argv_seq);
++				return PyErr_NoMemory();
++			}
++
++			for (i = 0; i < argc; i++) {
++				PyObject *item =
++					PySequence_Fast_GET_ITEM(argv_seq, i);
++				PyObject *string_obj = PyObject_Str(item);
++				if (string_obj == NULL) {
++					Py_DECREF(argv_seq);
++					goto compile_error;
++				}
++				encoded[i] = PyUnicode_AsEncodedString(
++					string_obj, "utf-8", "replace");
++				Py_DECREF(string_obj);
++				if (encoded[i] == NULL) {
++					Py_DECREF(argv_seq);
++					goto compile_error;
++				}
++				argv[i] = PyBytes_AS_STRING(encoded[i]);
++			}
++			argv[i] = NULL;
++		}
++	}
++
++	pthread_mutex_lock(&compile_lock);
++	prog = dtrace_program_strcompile(self->dtp, source,
++					 (dtrace_probespec_t)spec, cflags,
++					 (int)argc, argv);
++	pthread_mutex_unlock(&compile_lock);
++
++	Py_XDECREF(argv_seq);
++
++	if (prog == NULL) {
++		for (Py_ssize_t i = 0; i < argc; i++)
++			Py_XDECREF(encoded[i]);
++		PyMem_Free(encoded);
++		PyMem_Free(argv);
++		return raise_dtrace_error(self, "dtrace_program_strcompile");
++	}
++
++	wrapper = (PyDTraceProgram *)PyObject_CallObject(
++		(PyObject *)&PyDTraceProgramType, NULL);
++	if (wrapper == NULL) {
++		for (Py_ssize_t i = 0; i < argc; i++)
++			Py_XDECREF(encoded[i]);
++		PyMem_Free(encoded);
++		PyMem_Free(argv);
++		return NULL;
++	}
++
++	Py_INCREF(self);
++	wrapper->session = self;
++	wrapper->prog = prog;
++
++	for (Py_ssize_t i = 0; i < argc; i++)
++		Py_XDECREF(encoded[i]);
++	PyMem_Free(encoded);
++	PyMem_Free(argv);
++
++	return (PyObject *)wrapper;
++
++compile_error:
++	for (Py_ssize_t i = 0; i < argc; i++)
++		Py_XDECREF(encoded[i]);
++	PyMem_Free(encoded);
++	PyMem_Free(argv);
++	return NULL;
++}
++
++static PyObject *
++PyDTraceSession_enable(PyDTraceSession *self, PyObject *args, PyObject *kwds)
++{
++	static char *kwlist[] = {"program", NULL};
++	PyDTraceProgram *program = NULL;
++	dtrace_proginfo_t info;
++	PyObject *result = NULL;
++	PyObject *attr = NULL;
++
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!", kwlist,
++					 &PyDTraceProgramType, &program))
++		return NULL;
++
++	if (program->session != self) {
++		PyErr_SetString(PyExc_ValueError,
++				"program was created by a different session");
++		return NULL;
++	}
++
++	memset(&info, 0, sizeof(info));
++
++	if (dtrace_program_exec(self->dtp, program->prog, &info) != 0)
++		return raise_dtrace_error(self, "dtrace_program_exec");
++
++	result = PyDict_New();
++	if (result == NULL)
++		return NULL;
++
++	if (dict_set_ulong(result, "aggregations", info.dpi_aggregates) < 0)
++		goto enable_error;
++
++	if (dict_set_ulong(result, "recgens", info.dpi_recgens) < 0)
++		goto enable_error;
++
++	if (dict_set_ulong(result, "matches", info.dpi_matches) < 0)
++		goto enable_error;
++
++	if (dict_set_ulong(result, "speculations", info.dpi_speculations) < 0)
++		goto enable_error;
++
++	attr = PyDict_New();
++	if (attr == NULL)
++		goto enable_error;
++
++	if (dict_set_ulong(attr, "name", info.dpi_descattr.dtat_name) < 0)
++		goto enable_error;
++
++	if (dict_set_ulong(attr, "data", info.dpi_descattr.dtat_data) < 0)
++		goto enable_error;
++
++	if (dict_set_ulong(attr, "class", info.dpi_descattr.dtat_class) < 0)
++		goto enable_error;
++
++	if (PyDict_SetItemString(result, "descattr", attr) < 0)
++		goto enable_error;
++	Py_DECREF(attr);
++	attr = NULL;
++
++	attr = PyDict_New();
++	if (attr == NULL)
++		goto enable_error;
++
++	if (dict_set_ulong(attr, "name", info.dpi_stmtattr.dtat_name) < 0)
++		goto enable_error;
++
++	if (dict_set_ulong(attr, "data", info.dpi_stmtattr.dtat_data) < 0)
++		goto enable_error;
++
++	if (dict_set_ulong(attr, "class", info.dpi_stmtattr.dtat_class) < 0)
++		goto enable_error;
++
++	if (PyDict_SetItemString(result, "stmtattr", attr) < 0)
++		goto enable_error;
++	Py_DECREF(attr);
++	attr = NULL;
++
++	return result;
++
++enable_error:
++	Py_XDECREF(attr);
++	Py_DECREF(result);
++	return NULL;
++}
++
++static PyObject *
++PyDTraceSession_go(PyDTraceSession *self, PyObject *args, PyObject *kwds)
++{
++	static char *kwlist[] = {"cflags", NULL};
++	unsigned int cflags = 0;
++	int rc;
++
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	if (!PyArg_ParseTupleAndKeywords(args, kwds, "|I", kwlist, &cflags))
++		return NULL;
++
++	Py_BEGIN_ALLOW_THREADS rc = dtrace_go(self->dtp, cflags);
++	Py_END_ALLOW_THREADS
++
++		if (rc != 0) return raise_dtrace_error(self, "dtrace_go");
++
++	Py_RETURN_NONE;
++}
++
++static PyObject *
++PyDTraceSession_stop(PyDTraceSession *self, PyObject *Py_UNUSED(args))
++{
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	if (dtrace_stop(self->dtp) != 0)
++		return raise_dtrace_error(self, "dtrace_stop");
++
++	Py_RETURN_NONE;
++}
++
++static PyObject *
++PyDTraceSession_update(PyDTraceSession *self, PyObject *Py_UNUSED(args))
++{
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	if (dtrace_update(self->dtp) != 0)
++		return raise_dtrace_error(self, "dtrace_update");
++
++	Py_RETURN_NONE;
++}
++
++static PyObject *
++PyDTraceSession_status(PyDTraceSession *self, PyObject *Py_UNUSED(args))
++{
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	int status = dtrace_status(self->dtp);
++	if (status == DTRACE_STATUS_ERROR)
++		return raise_dtrace_error(self, "dtrace_status");
++	/*
++	 * We maintain some local status too for forced exit (see consume_rec()
++	 * below)
++	 */
++	if (status == DTRACE_STATUS_OKAY && self->status)
++		status = self->status;
++	return PyLong_FromLong(status);
++}
++
++static int
++consume_rec(const dtrace_probedata_t *data, const dtrace_recdesc_t *rec,
++	    void *arg)
++{
++	work_ctx_t *ctx = arg;
++	PyDTraceSession *self = ctx->session;
++	dtrace_actkind_t act;
++	uintptr_t addr;
++
++	if (!rec)
++		return DTRACE_CONSUME_NEXT;
++
++	act = rec->dtrd_action;
++	addr = (uintptr_t)data->dtpda_data;
++
++	switch (act) {
++	case DTRACEACT_EXIT:
++		self->exit_status = *(uint32_t *)addr;
++		self->status = DTRACE_STATUS_EXITED;
++		return DTRACE_CONSUME_NEXT;
++	default:
++		if (!ctx->capture || ctx->current_probe == NULL)
++			return DTRACE_CONSUME_THIS;
++
++		PyObject *record = PyDict_New();
++		PyObject *records = ctx->records;
++
++		if (record == NULL || records == NULL)
++			goto error;
++
++		PyObject *action = PyLong_FromUnsignedLong(act);
++		PyObject *size = PyLong_FromUnsignedLong(rec->dtrd_size);
++		PyObject *offset = PyLong_FromUnsignedLong(rec->dtrd_offset);
++		PyObject *alignment =
++			PyLong_FromUnsignedLong(rec->dtrd_alignment);
++		PyObject *arg_obj = PyLong_FromUnsignedLongLong(rec->dtrd_arg);
++		PyObject *raw = PyBytes_FromStringAndSize(
++			(const char *)(data->dtpda_data + rec->dtrd_offset),
++			rec->dtrd_size);
++
++		if (action == NULL || size == NULL || offset == NULL ||
++		    alignment == NULL || arg_obj == NULL || raw == NULL)
++			goto error_record;
++
++		if (PyDict_SetItemString(record, "action", action) < 0)
++			goto error_record;
++		if (PyDict_SetItemString(record, "size", size) < 0)
++			goto error_record;
++		if (PyDict_SetItemString(record, "offset", offset) < 0)
++			goto error_record;
++		if (PyDict_SetItemString(record, "alignment", alignment) < 0)
++			goto error_record;
++		if (PyDict_SetItemString(record, "arg", arg_obj) < 0)
++			goto error_record;
++		if (PyDict_SetItemString(record, "data", raw) < 0)
++			goto error_record;
++
++		Py_DECREF(action);
++		Py_DECREF(size);
++		Py_DECREF(offset);
++		Py_DECREF(alignment);
++		Py_DECREF(arg_obj);
++		Py_DECREF(raw);
++
++		if (PyList_Append(records, record) < 0)
++			goto error_record;
++		Py_DECREF(record);
++
++		return DTRACE_CONSUME_THIS;
++
++	error_record:
++		Py_XDECREF(action);
++		Py_XDECREF(size);
++		Py_XDECREF(offset);
++		Py_XDECREF(alignment);
++		Py_XDECREF(arg_obj);
++		Py_XDECREF(raw);
++		Py_XDECREF(record);
++
++	error:
++		ctx->aborted = 1;
++		return DTRACE_CONSUME_ABORT;
++	}
++}
++
++static int
++consume_probe(const dtrace_probedata_t *data, void *arg)
++{
++	work_ctx_t *ctx = arg;
++
++	if (!ctx->capture)
++		return DTRACE_CONSUME_THIS;
++
++	PyObject *probe = PyDict_New();
++	PyObject *records = PyList_New(0);
++	PyObject *stid =
++		PyLong_FromUnsignedLong((unsigned long)data->dtpda_stid);
++	PyObject *cpu = PyLong_FromUnsignedLong(data->dtpda_cpu);
++	PyObject *flow = PyLong_FromLong(data->dtpda_flow);
++	PyObject *indent = PyLong_FromLong(data->dtpda_indent);
++	PyObject *prefix = NULL;
++
++	if (probe == NULL || records == NULL || stid == NULL || cpu == NULL ||
++	    flow == NULL || indent == NULL)
++		goto error;
++
++	if (PyDict_SetItemString(probe, "stid", stid) < 0)
++		goto error;
++	if (PyDict_SetItemString(probe, "cpu", cpu) < 0)
++		goto error;
++	if (PyDict_SetItemString(probe, "flow", flow) < 0)
++		goto error;
++	if (PyDict_SetItemString(probe, "indent", indent) < 0)
++		goto error;
++	if (PyDict_SetItemString(probe, "records", records) < 0)
++		goto error;
++
++	if (data->dtpda_prefix != NULL) {
++		prefix = PyUnicode_FromString(data->dtpda_prefix);
++		if (prefix == NULL)
++			goto error;
++		if (PyDict_SetItemString(probe, "prefix", prefix) < 0)
++			goto error;
++	}
++
++	if (data->dtpda_ddesc != NULL) {
++		PyObject *argc = PyLong_FromLong(data->dtpda_ddesc->dtdd_nrecs);
++		PyObject *user_data = PyLong_FromUnsignedLongLong(
++			data->dtpda_ddesc->dtdd_uarg);
++
++		if (argc == NULL || user_data == NULL)
++			goto error;
++		if (PyDict_SetItemString(probe, "argc", argc) < 0) {
++			Py_DECREF(argc);
++			Py_DECREF(user_data);
++			goto error;
++		}
++		Py_DECREF(argc);
++		if (PyDict_SetItemString(probe, "user_data", user_data) < 0) {
++			Py_DECREF(user_data);
++			goto error;
++		}
++		Py_DECREF(user_data);
++	}
++
++	if (data->dtpda_pdesc != NULL) {
++		const dtrace_probedesc_t *pdesc = data->dtpda_pdesc;
++		PyObject *info = PyDict_New();
++		PyObject *id = PyLong_FromUnsignedLong(pdesc->id);
++
++		if (info == NULL || id == NULL)
++			goto error;
++		if (PyDict_SetItemString(info, "id", id) < 0) {
++			Py_DECREF(id);
++			Py_DECREF(info);
++			goto error;
++		}
++		Py_DECREF(id);
++
++		if (pdesc->prv != NULL) {
++			PyObject *prv = PyUnicode_FromString(pdesc->prv);
++			if (prv == NULL) {
++				Py_DECREF(info);
++				goto error;
++			}
++			if (PyDict_SetItemString(info, "provider", prv) < 0) {
++				Py_DECREF(prv);
++				Py_DECREF(info);
++				goto error;
++			}
++			Py_DECREF(prv);
++		}
++
++		if (pdesc->mod != NULL) {
++			PyObject *mod = PyUnicode_FromString(pdesc->mod);
++			if (mod == NULL) {
++				Py_DECREF(info);
++				goto error;
++			}
++			if (PyDict_SetItemString(info, "module", mod) < 0) {
++				Py_DECREF(mod);
++				Py_DECREF(info);
++				goto error;
++			}
++			Py_DECREF(mod);
++		}
++
++		if (pdesc->fun != NULL) {
++			PyObject *fun = PyUnicode_FromString(pdesc->fun);
++			if (fun == NULL) {
++				Py_DECREF(info);
++				goto error;
++			}
++			if (PyDict_SetItemString(info, "function", fun) < 0) {
++				Py_DECREF(fun);
++				Py_DECREF(info);
++				goto error;
++			}
++			Py_DECREF(fun);
++		}
++
++		if (pdesc->prb != NULL) {
++			PyObject *prb = PyUnicode_FromString(pdesc->prb);
++			if (prb == NULL) {
++				Py_DECREF(info);
++				goto error;
++			}
++			if (PyDict_SetItemString(info, "name", prb) < 0) {
++				Py_DECREF(prb);
++				Py_DECREF(info);
++				goto error;
++			}
++			Py_DECREF(prb);
++		}
++
++		if (PyDict_SetItemString(probe, "probe", info) < 0) {
++			Py_DECREF(info);
++			goto error;
++		}
++		Py_DECREF(info);
++	}
++
++	if (PyList_Append(ctx->probes, probe) < 0)
++		goto error;
++
++	ctx->current_probe = probe;
++	ctx->records = records;
++
++	Py_DECREF(stid);
++	Py_DECREF(cpu);
++	Py_DECREF(flow);
++	Py_DECREF(indent);
++	Py_DECREF(records);
++	Py_XDECREF(prefix);
++	Py_DECREF(probe);
++
++	return DTRACE_CONSUME_THIS;
++
++error:
++	ctx->aborted = 1;
++	Py_XDECREF(probe);
++	Py_XDECREF(records);
++	Py_XDECREF(stid);
++	Py_XDECREF(cpu);
++	Py_XDECREF(flow);
++	Py_XDECREF(indent);
++	Py_XDECREF(prefix);
++	return DTRACE_CONSUME_ABORT;
++}
++
++static PyObject *
++PyDTraceSession_work(PyDTraceSession *self, PyObject *args, PyObject *kwds)
++{
++	static char *kwlist[] = {"return_records", NULL};
++	PyObject *captures = Py_False;
++	work_ctx_t ctx = {0};
++	PyObject *status_obj = NULL;
++	PyObject *result = NULL;
++	int status;
++
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	if (!PyArg_ParseTupleAndKeywords(args, kwds, "|O", kwlist, &captures))
++		return NULL;
++
++	ctx.capture = PyObject_IsTrue(captures);
++	if (ctx.capture < 0)
++		return NULL;
++
++	ctx.session = self;
++
++	if (ctx.capture) {
++		ctx.probes = PyList_New(0);
++		if (ctx.probes == NULL)
++			return NULL;
++	}
++
++	status = dtrace_work(self->dtp, self->fp, consume_probe, consume_rec,
++			     &ctx);
++
++	if (status == DTRACE_WORKSTATUS_ERROR || (ctx.capture && ctx.aborted)) {
++		Py_XDECREF(ctx.probes);
++		return raise_dtrace_error(self, "dtrace_work");
++	}
++
++	if (status == DTRACE_STATUS_OKAY && self->pids > 0 &&
++	    self->pids_live == 0)
++		status = DTRACE_STATUS_EXITED;
++
++	status_obj = PyLong_FromLong(status);
++	if (status_obj == NULL) {
++		Py_XDECREF(ctx.probes);
++		return NULL;
++	}
++
++	if (ctx.probes == NULL) {
++		ctx.probes = PyList_New(0);
++		if (ctx.probes == NULL) {
++			Py_DECREF(status_obj);
++			return NULL;
++		}
++	}
++
++	result = PyTuple_Pack(2, status_obj, ctx.probes);
++	Py_DECREF(status_obj);
++	Py_DECREF(ctx.probes);
++	return result;
++}
++
++static PyObject *
++PyDTraceSession_agg_snap(PyDTraceSession *self, PyObject *Py_UNUSED(args))
++{
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	if (dtrace_aggregate_snap(self->dtp) != 0)
++		return raise_dtrace_error(self, "dtrace_aggregate_snap");
++
++	Py_RETURN_NONE;
++}
++
++static PyObject *
++PyDTraceSession_agg_clear(PyDTraceSession *self, PyObject *Py_UNUSED(args))
++{
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	dtrace_aggregate_clear(self->dtp);
++	Py_RETURN_NONE;
++}
++
++static dtrace_aggregate_walk_f *
++resolve_agg_walk(const char *mode)
++{
++	if (mode == NULL || strcmp(mode, "default") == 0)
++		return dtrace_aggregate_walk;
++	if (strcmp(mode, "keys") == 0)
++		return dtrace_aggregate_walk_keysorted;
++	if (strcmp(mode, "values") == 0)
++		return dtrace_aggregate_walk_valsorted;
++	if (strcmp(mode, "keyrev") == 0)
++		return dtrace_aggregate_walk_keyrevsorted;
++	if (strcmp(mode, "valrev") == 0)
++		return dtrace_aggregate_walk_valrevsorted;
++	if (strcmp(mode, "keyvar") == 0)
++		return dtrace_aggregate_walk_keyvarsorted;
++	if (strcmp(mode, "valvar") == 0)
++		return dtrace_aggregate_walk_valvarsorted;
++	if (strcmp(mode, "keyvarrev") == 0)
++		return dtrace_aggregate_walk_keyvarrevsorted;
++	if (strcmp(mode, "valvarrev") == 0)
++		return dtrace_aggregate_walk_valvarrevsorted;
++	return NULL;
++}
++
++static PyObject *
++PyDTraceSession_agg_walk(PyDTraceSession *self, PyObject *args, PyObject *kwds)
++{
++	static char *kwlist[] = {"mode", NULL};
++	const char *mode = "values";
++	dtrace_aggregate_walk_f *walker = NULL;
++	agg_walk_ctx_t ctx;
++	int rc;
++
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	if (!PyArg_ParseTupleAndKeywords(args, kwds, "|s", kwlist, &mode))
++		return NULL;
++
++	walker = resolve_agg_walk(mode);
++	if (walker == NULL) {
++		PyErr_SetString(PyExc_ValueError,
++				"unknown aggregation walk mode");
++		return NULL;
++	}
++
++	ctx.list = PyList_New(0);
++	if (ctx.list == NULL)
++		return NULL;
++	ctx.session = self;
++
++	rc = walker(self->dtp, agg_walk_callback, &ctx);
++	if (rc != 0) {
++		Py_DECREF(ctx.list);
++		return raise_dtrace_error(self, "dtrace_aggregate_walk");
++	}
++
++	return ctx.list;
++}
++
++/* ------------------------------------------------------------------------- */
++/* PyDTraceProc                                                              */
++/* ------------------------------------------------------------------------- */
++
++static PyObject *
++PyDTraceProc_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
++{
++	UNUSED(args);
++	UNUSED(kwds);
++	PyDTraceProc *self = (PyDTraceProc *)type->tp_alloc(type, 0);
++	if (self != NULL) {
++		self->session = NULL;
++		self->proc = NULL;
++	}
++	return (PyObject *)self;
++}
++
++static void
++PyDTraceProc_dealloc(PyDTraceProc *self)
++{
++	if (self->session) {
++		if (self->proc && self->session->dtp)
++			dtrace_proc_release(self->session->dtp, self->proc);
++
++		Py_XDECREF(self->session);
++	}
++	PyObject_Del(self);
++}
++
++static PyObject *
++PyDTraceProc_getpid(PyDTraceProc *self, PyObject *Py_UNUSED(args))
++{
++	int pid;
++
++	if (self->session == NULL || self->session->closed ||
++	    self->session->dtp == NULL || self->proc == NULL) {
++		PyErr_SetString(PyExc_DTraceError,
++				"DTrace process handle is released");
++		return NULL;
++	}
++
++	pid = dtrace_proc_getpid(self->session->dtp, self->proc);
++
++	return PyLong_FromLong(pid);
++}
++
++static PyMethodDef PyDTraceProc_methods[] = {
++	{"getpid", (PyCFunction)PyDTraceProc_getpid, METH_NOARGS, "Get pid."},
++	{NULL, NULL, 0, NULL}};
++
++static PyTypeObject PyDTraceProcType = {
++	PyVarObject_HEAD_INIT(NULL, 0).tp_name = "dtrace.DTraceProc",
++	.tp_basicsize = sizeof(PyDTraceProc),
++	.tp_flags = Py_TPFLAGS_DEFAULT,
++	.tp_new = PyDTraceProc_new,
++	.tp_dealloc = (destructor)PyDTraceProc_dealloc,
++	.tp_methods = PyDTraceProc_methods,
++};
++
++#define PROC_CREATE_ARGC_MAX 32
++
++static PyObject *
++PyDTraceSession_proc_create(PyDTraceSession *self, PyObject *args,
++			    PyObject *kwds)
++{
++	static char *kwlist[] = {"args", NULL};
++	PyObject *arglist = NULL;
++	PyObject *encoded[PROC_CREATE_ARGC_MAX] = {};
++	char *argvlist[PROC_CREATE_ARGC_MAX + 1];
++	struct dtrace_proc *proc = NULL;
++	PyDTraceProc *retproc;
++	PyObject *ret = NULL;
++	Py_ssize_t i, size;
++
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!", kwlist, &PyList_Type,
++					 &arglist))
++		return NULL;
++	size = PyList_Size(arglist);
++	if (size < 1) {
++		PyErr_SetString(PyExc_ValueError,
++				"empty arglist for proc_create");
++		return NULL;
++	}
++	if (size >= PROC_CREATE_ARGC_MAX) {
++		PyErr_SetString(PyExc_ValueError,
++				"too many arguments for proc_create");
++		return NULL;
++	}
++	for (i = 0; i < size; i++) {
++		PyObject *item = PyList_GetItem(arglist, i);
++
++		if (!PyUnicode_Check(item)) {
++			PyErr_SetString(PyExc_ValueError,
++					"non-string in argument list");
++			goto error;
++		}
++		encoded[i] = PyUnicode_AsUTF8String(item);
++		if (encoded[i] == NULL)
++			goto error;
++		argvlist[i] = PyBytes_AS_STRING(encoded[i]);
++	}
++	argvlist[i] = NULL;
++	proc = dtrace_proc_create(self->dtp, argvlist[0], argvlist, 0);
++	if (proc == NULL)
++		goto error_raise;
++
++	ret = PyDTraceProcType.tp_alloc(&PyDTraceProcType, 0);
++	if (ret == NULL) {
++		dtrace_proc_release(self->dtp, proc);
++		goto error;
++	}
++	self->pids++;
++	retproc = (PyDTraceProc *)ret;
++	retproc->session = self;
++	Py_INCREF(self);
++	retproc->proc = proc;
++	for (i = 0; i < size; i++)
++		Py_DECREF(encoded[i]);
++
++	return ret;
++
++error_raise:
++	ret = raise_dtrace_error(self, "dtrace_proc_create");
++error:
++	while (i-- > 0)
++		Py_XDECREF(encoded[i]);
++	return ret;
++}
++
++static PyObject *
++PyDTraceSession_proc_grab_pid(PyDTraceSession *self, PyObject *args,
++			      PyObject *kwds)
++{
++	static char *kwlist[] = {"pid", NULL};
++	struct dtrace_proc *proc = NULL;
++	PyDTraceProc *retproc;
++	PyObject *ret;
++	int pid;
++
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	if (!PyArg_ParseTupleAndKeywords(args, kwds, "i", kwlist, &pid))
++		return NULL;
++
++	proc = dtrace_proc_grab_pid(self->dtp, pid, 0);
++	if (!proc)
++		return raise_dtrace_error(self, "dtrace_proc_grab_pid");
++	ret = PyDTraceProcType.tp_alloc(&PyDTraceProcType, 0);
++	if (ret == NULL) {
++		dtrace_proc_release(self->dtp, proc);
++		return ret;
++	}
++	self->pids++;
++	retproc = (PyDTraceProc *)ret;
++	retproc->session = self;
++	Py_INCREF(self);
++	retproc->proc = proc;
++
++	return ret;
++}
++
++static PyObject *
++PyDTraceSession_proc_continue(PyDTraceSession *self, PyObject *args,
++			      PyObject *kwds)
++{
++	static char *kwlist[] = {"proc", NULL};
++	PyDTraceProc *proc = NULL;
++
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!", kwlist,
++					 &PyDTraceProcType, &proc))
++		return NULL;
++	if (proc->session != self) {
++		PyErr_SetString(PyExc_ValueError,
++				"proc was created by a different session");
++		return NULL;
++	}
++
++	if (proc->proc == NULL) {
++		PyErr_SetString(PyExc_DTraceError,
++				"DTrace process handle is released");
++		return NULL;
++	}
++
++	dtrace_proc_continue(self->dtp, proc->proc);
++	self->pids_live++;
++
++	Py_RETURN_NONE;
++}
++
++static PyObject *
++PyDTraceSession_proc_release(PyDTraceSession *self, PyObject *args,
++			     PyObject *kwds)
++{
++	static char *kwlist[] = {"proc", NULL};
++	PyDTraceProc *proc;
++
++	if (ensure_open(self) < 0)
++		return NULL;
++
++	if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!", kwlist,
++					 &PyDTraceProcType, &proc))
++		return NULL;
++
++	if (proc->session != self) {
++		PyErr_SetString(PyExc_ValueError,
++				"proc was created by a different session");
++		return NULL;
++	}
++
++	if (proc->proc == NULL) {
++		PyErr_SetString(PyExc_DTraceError,
++				"DTrace process handle is already released");
++		return NULL;
++	}
++
++	dtrace_proc_release(self->dtp, proc->proc);
++	proc->proc = NULL;
++
++	Py_RETURN_NONE;
++}
++
++static PyMethodDef PyDTraceSession_methods[] = {
++	{"close", (PyCFunction)PyDTraceSession_close, METH_NOARGS,
++	 "Close the session."},
++	{"__enter__", (PyCFunction)PyDTraceSession_enter, METH_NOARGS,
++	 "Context manager entry."},
++	{"__exit__", (PyCFunction)PyDTraceSession_exit, METH_VARARGS,
++	 "Context manager exit."},
++	{"setopt", (PyCFunction)PyDTraceSession_setopt,
++	 METH_VARARGS | METH_KEYWORDS, "Set a DTrace option."},
++	{"compile", (PyCFunction)PyDTraceSession_compile,
++	 METH_VARARGS | METH_KEYWORDS, "Compile a program from a string."},
++	{"enable", (PyCFunction)PyDTraceSession_enable,
++	 METH_VARARGS | METH_KEYWORDS, "Enable a compiled program."},
++	{"go", (PyCFunction)PyDTraceSession_go, METH_VARARGS | METH_KEYWORDS,
++	 "Start tracing."},
++	{"stop", (PyCFunction)PyDTraceSession_stop, METH_NOARGS,
++	 "Stop tracing."},
++	{"update", (PyCFunction)PyDTraceSession_update, METH_NOARGS,
++	 "Update module cache."},
++	{"status", (PyCFunction)PyDTraceSession_status, METH_NOARGS,
++	 "Retrieve tracing status."},
++	{"work", (PyCFunction)PyDTraceSession_work,
++	 METH_VARARGS | METH_KEYWORDS, "Do consumer loop work."},
++	{"agg_snap", (PyCFunction)PyDTraceSession_agg_snap, METH_NOARGS,
++	 "Snapshot aggregation buffers."},
++	{"agg_clear", (PyCFunction)PyDTraceSession_agg_clear, METH_NOARGS,
++	 "Clear aggregation buffers."},
++	{"agg_walk", (PyCFunction)PyDTraceSession_agg_walk,
++	 METH_VARARGS | METH_KEYWORDS, "Return aggregation results."},
++	{"proc_create", (PyCFunction)PyDTraceSession_proc_create,
++	 METH_VARARGS | METH_KEYWORDS, "Create process with args for tracing."},
++	{"proc_grab_pid", (PyCFunction)PyDTraceSession_proc_grab_pid,
++	 METH_VARARGS | METH_KEYWORDS, "Grab pid."},
++	{"proc_continue", (PyCFunction)PyDTraceSession_proc_continue,
++	 METH_VARARGS | METH_KEYWORDS, "Continue proc execution."},
++	{"proc_release", (PyCFunction)PyDTraceSession_proc_release,
++	 METH_VARARGS | METH_KEYWORDS, "Relase proc."},
++	{NULL, NULL, 0, NULL}};
++
++static PyTypeObject PyDTraceSessionType = {
++	PyVarObject_HEAD_INIT(NULL, 0).tp_name = "dtrace.DTraceSession",
++	.tp_basicsize = sizeof(PyDTraceSession),
++	.tp_flags = Py_TPFLAGS_DEFAULT,
++	.tp_new = PyDTraceSession_new,
++	.tp_init = (initproc)PyDTraceSession_init,
++	.tp_dealloc = (destructor)PyDTraceSession_dealloc,
++	.tp_methods = PyDTraceSession_methods,
++};
++
++/* ------------------------------------------------------------------------- */
++/* Module definition                                                         */
++/* ------------------------------------------------------------------------- */
++
++static struct PyModuleDef pydtrace_module = {
++	PyModuleDef_HEAD_INIT,
++	.m_name = "dtrace",
++	.m_doc = "Python bindings for libdtrace.",
++	.m_size = -1,
++};
++
++PyMODINIT_FUNC
++PyInit_dtrace(void)
++{
++	PyObject *m;
++
++	if (PyType_Ready(&PyDTraceSessionType) < 0)
++		return NULL;
++	if (PyType_Ready(&PyDTraceProgramType) < 0)
++		return NULL;
++	if (PyType_Ready(&PyDTraceProcType) < 0)
++		return NULL;
++
++	m = PyModule_Create(&pydtrace_module);
++	if (m == NULL)
++		return NULL;
++
++	PyExc_DTraceError = PyErr_NewException("dtrace.DTraceError",
++					       PyExc_RuntimeError, NULL);
++	if (PyExc_DTraceError == NULL) {
++		Py_DECREF(m);
++		return NULL;
++	}
++
++	Py_INCREF(&PyDTraceSessionType);
++	if (PyModule_AddObject(m, "DTraceSession",
++			       (PyObject *)&PyDTraceSessionType) < 0) {
++		Py_DECREF(&PyDTraceSessionType);
++		Py_DECREF(m);
++		return NULL;
++	}
++
++	Py_INCREF(&PyDTraceProgramType);
++	if (PyModule_AddObject(m, "DTraceProgram",
++			       (PyObject *)&PyDTraceProgramType) < 0) {
++		Py_DECREF(&PyDTraceProgramType);
++		Py_DECREF(m);
++		return NULL;
++	}
++
++	Py_INCREF(&PyDTraceProcType);
++	if (PyModule_AddObject(m, "DTraceProc", (PyObject *)&PyDTraceProcType) <
++	    0) {
++		Py_DECREF(&PyDTraceProcType);
++		Py_DECREF(m);
++		return NULL;
++	}
++
++	Py_INCREF(PyExc_DTraceError);
++	if (PyModule_AddObject(m, "DTraceError", PyExc_DTraceError) < 0) {
++		Py_DECREF(PyExc_DTraceError);
++		Py_DECREF(m);
++		return NULL;
++	}
++
++	if (PyModule_AddIntConstant(m, "DTRACE_VERSION", DTRACE_VERSION) < 0) {
++		Py_DECREF(m);
++		return NULL;
++	}
++
++	if (PyModule_AddIntConstant(m, "DTRACE_C_CPP", DTRACE_C_CPP) < 0 ||
++	    PyModule_AddIntConstant(m, "DTRACE_C_ZDEFS", DTRACE_C_ZDEFS) < 0) {
++		Py_DECREF(m);
++		return NULL;
++	}
++
++	if (PyModule_AddIntConstant(m, "DTRACE_STATUS_NONE",
++				    DTRACE_STATUS_NONE) < 0) {
++		Py_DECREF(m);
++		return NULL;
++	}
++	if (PyModule_AddIntConstant(m, "DTRACE_STATUS_OKAY",
++				    DTRACE_STATUS_OKAY) < 0) {
++		Py_DECREF(m);
++		return NULL;
++	}
++	if (PyModule_AddIntConstant(m, "DTRACE_STATUS_EXITED",
++				    DTRACE_STATUS_EXITED) < 0) {
++		Py_DECREF(m);
++		return NULL;
++	}
++	if (PyModule_AddIntConstant(m, "DTRACE_STATUS_FILLED",
++				    DTRACE_STATUS_FILLED) < 0) {
++		Py_DECREF(m);
++		return NULL;
++	}
++	if (PyModule_AddIntConstant(m, "DTRACE_STATUS_STOPPED",
++				    DTRACE_STATUS_STOPPED) < 0) {
++		Py_DECREF(m);
++		return NULL;
++	}
++	if (PyModule_AddIntConstant(m, "DTRACE_WORKSTATUS_DONE",
++				    DTRACE_WORKSTATUS_DONE) < 0) {
++		Py_DECREF(m);
++		return NULL;
++	}
++	if (PyModule_AddIntConstant(m, "DTRACE_WORKSTATUS_OKAY",
++				    DTRACE_WORKSTATUS_OKAY) < 0) {
++		Py_DECREF(m);
++		return NULL;
++	}
++
++	return m;
++}
+diff --git a/configure b/configure
+index 403b1a09..1927b17f 100755
+--- a/configure
++++ b/configure
+@@ -112,6 +112,7 @@ EOF
+         make help-overrides-header help-overrides-option
+         cat >&2 <<'EOF'
+ --with-systemd=[yes/no]		Install the systemd unit files (default: yes)
++--with-python=[yes/no]		Build the Python bindings (default: yes)
+ EOF
+         echo >&2
+         make help-overrides
+@@ -199,6 +200,8 @@ for option in "$@"; do
+         --kernel-obj-suffix=*) write_make_var KERNELBLDNAME "$option";;
+         --with-systemd|--with-systemd=y*) write_make_var WITH_SYSTEMD "y";;
+         --with-systemd=n*|--without-systemd) write_make_var WITH_SYSTEMD "";;
++        --with-python|--with-python=y*) write_make_var WITH_PYTHON "y";;
++        --with-python=n*|--without-python) write_make_var WITH_PYTHON "";;
+         HAVE_ELF_GETSHDRSTRNDX=*) write_config_var ELF_GETSHDRSTRNDX "$option";;
+         --with-libctf=*) write_config_var LIBCTF "$option";;
+         HAVE_LIBCTF=*) write_config_var LIBCTF "$option";;
+@@ -245,4 +248,3 @@ cat build/.config/*.h > build/config.h
+ cat build/.config/*.mk > build/config.mk
  
-     if [[ -z $(eval echo $dtrace) ]]; then
-     	echo "No dtraces available." >&2
+ exit 0
+-
 -- 
 2.43.5
 
