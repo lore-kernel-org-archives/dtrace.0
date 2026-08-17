@@ -1,361 +1,4012 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C2A3A451F
-	for <dtrace@lists.linux.dev>; Thu, 13 Aug 2026 21:02:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786654936; cv=fail; b=jKu7Dc5V5wot94Smh5Tu660F4NtVLPY2gdPXYCSiQxoXgOm3gnPSv1aF82QrpsRmvk5zmlqVi2ntVfM46wJGjGImzJ1j5NqoQvhtcIPRNmStBb9Rksgg6rOWE5tqGIUHyeUwktNvT42J80LiaTC8G5IMXyxcK8hFqo2Slg9a480=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786654936; c=relaxed/simple;
-	bh=ghxfkDdHlPedMmC9/SB9TJeeJNvzTwTnYncNNuYl+qk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=axiJuCeSLFKZpMOJl98+BVoUgptYzPK/ToGCROUk5kIeA2mkHsAFL5AGW9aOnj1hVO5ROWi/r779Fy2782tyZldDrq1gpC54ICjUCOUM9raSiPmuKNHh9VS1hRfx/N2Vbf2kNc96CnNWGR6kr9caDmVuZt1a4lgZyNHHezSfItw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=RShenooq; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=OS+Di3AQ; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA1C212554
+	for <dtrace@lists.linux.dev>; Mon, 17 Aug 2026 13:00:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786971652; cv=none; b=aWrjkI1g5nlWT9u4KlnzYc9Y1i/06NXdg5Fs4tcWnDEOz3vcRZDyF7ULqFlQlzx01C9jO4WHGcQ+4HoknjRl+3zK0PKC3nY9bIwIT1xCipqoxeehYKEgYt2QtGyEiEhVs0XYuFcnGyAyBrhdFz25su4CZO21CJBGzHpw1ZJmoKs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786971652; c=relaxed/simple;
+	bh=P+wnnO2eCUc+uI/ASSWa9lS1Vn4nVqG+ae655d4JmEU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=idezUbMpbTHev+gLgkEBQWW9RJm9fM6Qje9YYLGdg/SujlQ2b67zI8vvpewAsPXMaELjjWUSYi6crZxG0kc1BLFqC0vdDDoCqBkXtC91SSFcrg+FP/p9eQsHYW2jQx6CuGktZK5N7yCns23n39hEKuJ9oQX2EF+E3+S8USEXT44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Ic19LeqH; arc=none smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="RShenooq";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="OS+Di3AQ"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67DK2N023195498
-	for <dtrace@lists.linux.dev>; Thu, 13 Aug 2026 21:02:09 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Ic19LeqH"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67GKaZlC2982020
+	for <dtrace@lists.linux.dev>; Mon, 17 Aug 2026 13:00:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=6gIgbyNMmBedaFdkiL8ChewhiVIa49EoE0tEpwoE7wY=; b=
-	RShenooqSAR1qQlj9TYu70C1jzx/i9OxYRsvQfsnXM+0u9868Q33P4t7pLD2tIYi
-	e6Xr2NbHdTFTIEgztXGt4jeqe3jr1U3Y59wJNC1s2rluS/0AvyhP2Wwju/y6oUCa
-	U7zmLhJpjyZlvju4boQ5sF/QT2PzMQf19cfaliMTQP57JeYhuCYByqDjD2cFrDup
-	qEmce4vSWJ3FnHrRoo+7RTZk4H63Zc6pIiGoOx3bCILVgDyY6ClXU4GgdHrbeoXt
-	bSfdvTDo8hBk/Dqii78dLg9XcQIjO1ysSpI/Crs9GPGbgjODAM/lJUavUVZsq42f
-	snMjDMOJ/sAbqT8whEixQg==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fwvfy2yne-1
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=aoNmgKxbYJFYJbH2+f7TavyVijwjm
+	whHcWMGNy3qZ4Y=; b=Ic19LeqHF1ycpL6W6SFnOSEKNHuaOHukhQ0PN72IQUKo6
+	lZXKeKUzBSUADT+9I0IGmGxm7YjMcPEqSzEych4XcDSuQP9nQrDjncHplRNMoH0T
+	wabEIOhGHMw6A3TsXmaxX5QtgW6Tl+N2bzdItCGCMDMronv7xjTiKIS7Q5NeDlYX
+	TcqjqBSOfVXboWIPkryTRzIyR5rv/HqS/zAmmLLknAbTWvi6KzFa3eZR/zaqeG33
+	y+qoJ06gF6KPLsJk45Z3CHJ7Lcl3LcwGR/eoUeyMKM2r9le6vXw2naZNiRYEYnQn
+	AFWpjLroWSh/NV6Ug1U6zDNE0er2ESmZZ5hQP0x1Q==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4g2gns2767-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Thu, 13 Aug 2026 21:02:08 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67DL0pkI030176
-	for <dtrace@lists.linux.dev>; Thu, 13 Aug 2026 21:02:08 GMT
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010039.outbound.protection.outlook.com [52.101.56.39])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4fwtwtkjdd-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <dtrace@lists.linux.dev>; Thu, 13 Aug 2026 21:02:08 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xcbg6PV/PCdpYTjWm+hgNV0UuVH4qSkJuo/s2ATAmXmPKOBfveqT93ynPlXwLdMDTihJuKbIToYaJYTtIiFMZeC4Eb2OZhFdlt1GazzEQdNuBbLvecxjhqnK3tCtmlQHxhgmFcFUfsZiyGHJn+G0rqvzA4aLLoQ8NUDPOiqmA2OC92nlI5dV9LEe7VfIDG59log30bcnEyWCa/ADcIVF/eCvW3FG9sBpfe+36vFI+5tNDUV569pyUvlV+RY8Jjj9Btdi64Ghp9KubRZlWsC2eEpMmHj4/sg13Yje0OGW91nRWYNJbPfsCeHiooNcHzMAHXp/WNgQA0HHeu5XIgzDqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6gIgbyNMmBedaFdkiL8ChewhiVIa49EoE0tEpwoE7wY=;
- b=kHl0/wSg6FSzlZcU/B4p5TmxPA+Hcu65imW8bTDzpBHy8uQy5QDifLz4xcm7fcGxivI1aGHNpMSpce3EakUmitI7BzzY2+lsdZ5UyGMyPgnH6uMEk6VBvTyLWOiRDOYO1A6CTPEij1ZM/qB9qbGjmIOzu2EZCpumexDNvW7EmijXXeznrp6GUG6dwqVjbNZKH9NhnSoNVhtQ3NAc3F/6mYe7zgDUNcCXY7hcptZKutMFffgtAPuGB+df4Y0IZ+Gi5Jmv4KD0mGkK119dGHlp//VU6xfPlzFikRv2XlFIJIxRzf9yhWdRiWs5ICB+YYUyLi/S07i1biRUvfStvLOZfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6gIgbyNMmBedaFdkiL8ChewhiVIa49EoE0tEpwoE7wY=;
- b=OS+Di3AQTdkZF1VyyNnDF2nqnbMgn9oGT0GMowf+/Pn9WL0mIEewFOBNzkBJxIsG6IYDOSqJr+L35I4FO6cNh7hRpVaT3aDCThaTsN38erJ0gMCTCtGAWeKmL/LSQjcmID6fSOHy3NMtdiP0Qw72f9Aasv5sHTSG2tbRY+y/2hA=
-Received: from DM6PR10MB2476.namprd10.prod.outlook.com (2603:10b6:5:ae::24) by
- DS7PR10MB5022.namprd10.prod.outlook.com (2603:10b6:5:3a3::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.315.14; Thu, 13 Aug 2026 21:02:06 +0000
-Received: from DM6PR10MB2476.namprd10.prod.outlook.com
- ([fe80::7c07:98d9:2030:e537]) by DM6PR10MB2476.namprd10.prod.outlook.com
- ([fe80::7c07:98d9:2030:e537%5]) with mapi id 15.21.0315.014; Thu, 13 Aug 2026
- 21:02:02 +0000
-Date: Thu, 13 Aug 2026 21:01:14 +0000
-From: Kris Van Hees <kris.van.hees@oracle.com>
-To: Alan Maguire <alan.maguire@oracle.com>
-Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH v4 0/9] Add python, PCP support via libdtrace interfaces
-Message-ID: <an4wmo2RQQ3DwUjN@kvh-deb-bpf>
-References: <20260812132212.527871-1-alan.maguire@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260812132212.527871-1-alan.maguire@oracle.com>
-X-ClientProxiedBy: CH2PR16CA0025.namprd16.prod.outlook.com
- (2603:10b6:610:50::35) To DM6PR10MB2476.namprd10.prod.outlook.com
- (2603:10b6:5:ae::24)
+	for <dtrace@lists.linux.dev>; Mon, 17 Aug 2026 13:00:44 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67HD08Iu000995
+	for <dtrace@lists.linux.dev>; Mon, 17 Aug 2026 13:00:43 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4g2ejb8tvk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <dtrace@lists.linux.dev>; Mon, 17 Aug 2026 13:00:43 +0000 (GMT)
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 67HD0gum008268
+	for <dtrace@lists.linux.dev>; Mon, 17 Aug 2026 13:00:42 GMT
+Received: from bpf.uk.oracle.com (dhcp-10-154-49-191.vpn.oracle.com [10.154.49.191])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 4g2ejb8tk5-1;
+	Mon, 17 Aug 2026 13:00:41 +0000 (GMT)
+From: Alan Maguire <alan.maguire@oracle.com>
+To: dtrace@lists.linux.dev
+Cc: dtrace-devel@oss.oracle.com, Alan Maguire <alan.maguire@oracle.com>
+Subject: [PATCH] dlibs: Update io.d for 7.2
+Date: Mon, 17 Aug 2026 14:00:36 +0100
+Message-ID: <20260817130036.2783102-1-alan.maguire@oracle.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
 List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR10MB2476:EE_|DS7PR10MB5022:EE_
-X-MS-Office365-Filtering-Correlation-Id: f9aa4be0-eb84-4f92-ca3e-08def97e1f5c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|18002099003|22082099003|56012099006|3023799007|6133799003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	ppVudZxOOdCXqG2f5Ykdx/BaQgZmRqX21MseWxGLpxpnOyBgp4t1e/Ls6H9Pf/Dy+c7CdE34E/aGHADLH+FxWifhf15bVsslKAXcsrbgt0TChJHoAdjI6Gc9dMux9Mj3KEBrjFAH1GIzCSbjkuA1PLkojqz56w53DGOFW+1wEbqsYBRCqX6o2T3u9NdIHxXIjJ/xP4MrS2e6hcrqFI5XuzjZi7aeXGFTDaGHLUg+8ycEvcg3e/2tjiaae5ZIiA6dv0TsUuhBY11CbZh8Jph1dFFNXMOG7YqH0D2ewGSrUPwG/i0EdmERK9yN85tw8YlPtRgQ5z9GJwFv9PBdvt5Ax7OTXfw1OrhbCugwvTY9WGULJGY46ERTGVa9JL/cNu4EZP9CFRCkTiDWAx0D8+qYsTqHYk541JRs+KXPIwtLDnkSz86jpjoF7z9AtYxL3x1GOgHzbjIoccuib2C8WmLhZnZZxXvCALcDVSM/FUlIU+7zCPiN7SG+CIpmhYjFFbrMfgGhpT7VTpMjMesqhTTDc5EJ7c4mFAkAHMXYbP/7MIPInF1V+Wh4jrX/EpoJp7A0kZUO4FV5QSuFM0+4vf2xyfDrJE/FOAltTnpH7XOcjic5h5NU3TA1BENd8KrU2BWz807hvz1GYdj+aQgPglBtKrO5Y/uBFI/LQaKesF+i9y0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB2476.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(18002099003)(22082099003)(56012099006)(3023799007)(6133799003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RnlpaUJzVmtadm5aOHZLZGVjcFJPdVYzTUhZQzB3MzNNRys4eGFHOXJXWmZX?=
- =?utf-8?B?K2IzK1p4UmFkUHhKR1hMNlVQZzU0WnZVc01KcndjZXBOeHdqZkFWZ0dJSjRC?=
- =?utf-8?B?QUVwVjF0c3VWajlaZjZsaTM4OU4wRE1MaFdOVGg0Qi9UZHMzOXpUcGNkaDBS?=
- =?utf-8?B?ckI4YndyaGZ0WjlwaWJ5dStwSDdVMTJiVGkxUm5RdU51cFZ0S0hkdXNPU2ZO?=
- =?utf-8?B?eXRWeXpQZWpyWmxEZlNMOFlaNTVFNWlFdW1MQWQ1VHBPb2VkY0dMSFpSTjRa?=
- =?utf-8?B?NVU5aHgyYU4vb0VYdTVmZzlPdzNzdnB5ajZza2NwczYxSGpod2xEQlFiVEwx?=
- =?utf-8?B?Y0tPOHJZYWdUQTRxelk0ODlrNG5kdWI4KzlHS3NTSmRjeFNvM2d3SCtGNUtS?=
- =?utf-8?B?Yzg2KzdXN0NZNDlvZmhsalMvZW5SdUFBY1dGQTZjRStXclNrSCs4SHdOUURu?=
- =?utf-8?B?TmQ1QnF3N1RTaU0vS0o2a3F3ZkpjYVM2bWVtenZ3blhLMGVpM0c1NDhGMjV4?=
- =?utf-8?B?VmxRSCtZdDRzeFJoK3ZUNTd1UjRQdnZLdW5vbENRM0ZjaE9DZ21ZaVI1Ny90?=
- =?utf-8?B?TEhmc0VxSkdWbjNVb3hjcnc4MDVCU0FyOVdRS2hFNnVVdUIvWURLV0xHOFJy?=
- =?utf-8?B?QU1ZNUpuWWY5eWxLQUQyKytyN3kvTUpMNHZsbnNPT1hudEc4eldGUlpLZmNz?=
- =?utf-8?B?WTQvcUZiU1phM3NpeGQ1UkJiaU1MeWpWYytKb3ROSWNpVE1YeDVUL1NMNHQr?=
- =?utf-8?B?QjZ1OUZlTGl6ZXRtZ25hSFgzWEpRRUJXVU4zZEphRE9iSDkrc1ZuUC9LWjFl?=
- =?utf-8?B?NlBtMGVMeW5saEFmZ0N3Y0VlVlBXTExMSnhIRjNZQm9KWjFNNm9wSHA1eUZW?=
- =?utf-8?B?Q09BaDRmNGtob3JJeFhWZ2cxRzVWOEFYb1RvS2ltb1lzQzh1bFZOZlpjNzB3?=
- =?utf-8?B?MDlmTEJXd3V2MTMxL0Q4UE44bU55b3ZnaytNbHhSSzdnRjNPQVZzNzkwL2JE?=
- =?utf-8?B?SHdoeThtcVI5QWlhNGxiODdIRUpldjA2L1pLS29RankvWmtKVXNxbFkvQ0sv?=
- =?utf-8?B?emlwRG85dlhHQnZ6S1NrTzVTdkZwb051V1FrQ3FhTTNQd2E0TFRYN3poQkw5?=
- =?utf-8?B?Tm9GdEg0TVN4bENGOUZGbkdnWjA1R3BuWlFydFNtZ3F2NjBWQ3V1SGY2Rm5C?=
- =?utf-8?B?NFh3d1ZWTUNYUDJ4RlVmcnRER3Z0anExT0JEamNYZGMyYTJXSlorbE8vMkJN?=
- =?utf-8?B?LzVqNVlPd0lza3YrTFdaSk9rVHhJek1JaXhyOFVTMHIwOXNvZURkWE05MWM1?=
- =?utf-8?B?am9ma2NMdjlZdVk1QzJ1Q1Nrd2pCbWMxeEJXTGF4SjlBWGt6a1IyV25nMmNl?=
- =?utf-8?B?d1VPRXlDU3VodGFMTkdkVlZEdDc1cTFlYzhrV0ZjTFdJUWdtVFFhZWtZNm5U?=
- =?utf-8?B?UmdCWjdLTzFzbTQ4bnE1U3N6TXBlSVhMWEZmYjhuaEc3S2NCUnpFb2RFN3BK?=
- =?utf-8?B?SDNGOU1Nbjhnbmc5M0dLQ2pYaU14em5EQ2xHZXQ4MDYwaUNRQ3dpbUZTTjNY?=
- =?utf-8?B?Y3FyQlZZeW9USnR4b2l5NFY5M21tL0QvUjZvZVVXb0V4TDErYytjV2JIQlpG?=
- =?utf-8?B?bFlPRVJJbDRUNXpUTTduOGw0ZWszR1EvcHBOVDNXR003cGlGaUVVbHpzSTN2?=
- =?utf-8?B?ZE5keVo4M3RPblJDUkJ5RmlJYlg0bE5Jc0wxUXlhYWJwcEpDalBlUjdMVlhu?=
- =?utf-8?B?alpSNkpMVDdqK0ZKalhlRkl5QytzOTQxZzk4UE4vR0QyUzRUWkRKbHZJZGc0?=
- =?utf-8?B?QTBQWXo2NSttcFBWU3RXeWNrL3JYcEFSTElWOHdlck4rdEd6YUl4UG5GRXBs?=
- =?utf-8?B?N0NiUTFLZ3kzSyt6dU9Fa0p4eW9PL3F4SE1XN2srb3BiOWFxblBwczRlMkdP?=
- =?utf-8?B?ZkMrNUg1c1l2VXFzdVZuR2RJTjhGOVdHSDNmRmpHbHBtRVR3OUFGbkVJS2xu?=
- =?utf-8?B?NGx5QVhnNGhmWk52RlFEYmcwUFIzWkEvdCswN1FHbkJuQkJIZEdQYXlNY2VP?=
- =?utf-8?B?M1oyaUpMcis1RDk3U0x6alhTZXVieTNMT2h1WnU2bkF4UUZUQkRlZjRFelRC?=
- =?utf-8?B?a0JGa0EyNHRrUGUraFlnN2NSZllZUXcwMHhOb081Z3RtTFROZkdjdGNqUFQ2?=
- =?utf-8?B?dTl2RW5PZ1pjbWRVcnluYmYzdlBpK09TMzhRZXBydW4wSUlqcGtnbms1dENp?=
- =?utf-8?B?SGlRWEVnL2lGV0dUUnluL0NzYkpVOVNkam1PYmFaaFlTOEJVTk90L1dnNDBl?=
- =?utf-8?B?Z3FWZGttKzdnd3QrWExTN214TVY0bjd5NXE3RDZRVHNtcXVqQzQ1c3N5VHhx?=
- =?utf-8?Q?5ZnB7yZimW3bdKFA=3D?=
-X-Exchange-RoutingPolicyChecked:
-	Ds+Y24hhvYoicYiQkU+cr8xA09c3BFgqCr0IfFVTDnXEgfVAlhCrjzVHG8Xe6ToFeKaylGzfMhcCVRuTi5kB7Uot5YzRihQDieU4FoWRwcRBq0ryvpbzb/OARO1STFpmaALIhKfIG2CTQm0aGODyxBKWjTzoKAbKamMelHNTOlA4fDu9hTJKsMwOyUqMRAMApQhwmUWize93TUgPB2AoTJo0BT6gx+qiT4LdiHZuKhkeBZp6XzgIi0sWW07nPO4egUo+LGj4dGNThpeI+egpW5SGqQX5pwLYKhhO1SbwWlSgvF+28QkOz4x8DP55RyrRMJ6wbxAfhIfdXR1UJ8E4pw==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	WQTxccTYsQMZ/6XSf2qBxbFwpbNRV0+sqOdm1/A1485R/dS++cBR4Sk5BYZRZVtbGCQB2y0fgla4Kn4RcYJ+JV/4mHBsyDH9bIB0WsMYeUfrhaqbHdkjFg75LEEJMshir4ucaVKzCxrGsCBqHxq+pMl6aEvvnTAClb2JWcvciL79KEnJwpq1CHxSLKiOm9xD9NLKrNWGKSpUUdr4JUCvfhzCZ4ocI3/LvB5SSZN6w7FR4X/rBKt8qSFopXr++VSpsuAeQLA76G+NDhX0/rZ4ZOX02xGhKA+DBp4sb1MEvOLv27h6igDJeaoZZTbhFaHKMZ+xY1hQNQq3OhQdvcwPfU+9LLmhbRJdTsr9CrNjqmRKHQ0N3kiMN0rQcVYpnCaOTUs9qANyYASBmZOYstv1tjOiCa+WRLUAQORIqZDKnhs3yVGHHVxl5vxezhRyJZlzuUYfhoikqyi51u1DE/scES9ljara7MxZ7MsxKKkcatlGdDlii9h1QhYzR8nmU2BucVpWprAigZ+ZQjFXKHJZ4Fc9CBYEZ0g5ndqarNacM4Zh/eVa9dAezavI634ydsqsbD+0enLtF1PigulFptMnAfwS/BxW5/S1dxL9SIiOnnA=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9aa4be0-eb84-4f92-ca3e-08def97e1f5c
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB2476.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 21:02:02.2005
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EtfkDLj5rZlbFr8uYUGvtQivoWVe2oQucmw22L79Da2rBb1L8aFITi8yWswVEOlM83LM8VNXgg8wkWmoXJaJx0YOJMMZrrvsQovcjlDjGSA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5022
+Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-13_06,2026-08-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
- phishscore=0 malwarescore=0 adultscore=0 bulkscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2606160000 definitions=main-2608130153
-X-Proofpoint-GUID: AIvMp6TS8f3cVfn5MZVYisztXfBGG0gu
-X-Authority-Analysis: v=2.4 cv=K/sS2SWI c=1 sm=1 tr=0 ts=6a7e30d0 b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Sv0fKeRqtYgA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=3I1J8UUJPc9JN9BFgKH3:22 a=oMMYMnFE5O6HsP98Hd8A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=5yU3S35YU4bGjq-dph-N:22
- a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:12098
-X-Proofpoint-ORIG-GUID: AIvMp6TS8f3cVfn5MZVYisztXfBGG0gu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEzMDE1MiBTYWx0ZWRfX8GxjLayL3zAC
- VBHDmPdAWkqf4/HzRA6Ys04a3zxc0F2QC7KNdE3F28dEaPW+2HluSPD7aTFw0I+dZVnp96wlkfl
- Adj0B8GazDoEbUzvHBwAajS4bFOPm1lk0h9XpKEmN5vvG5ZYYcveaC8Hc1GU9mAW2kqO7wNvNI7
- 7f8YlGd/RbH7oJ8rRUPbu4Y/YKA3lAPQ3/K+O1LreVRpuLWO7zDoOMF/LSrW8tuhFh3wwB5J/eB
- ML2crxDHZ3eCcrfpKAW8Ly/eMLV1t3mYswkNPM7JfmIpQlTLJdvQJkV75JYeK0lRawUHZbtlkxL
- JHLWOR+bLR0zwaIwad5Rf43UNkyGQGDLN6H6COrsvtTsHUkY9aU2JKm4LiG2eIkpiHJhErP+4H5
- UGkU5l75LyyviBBjiM8Bx965pYsZ1qdVp0SNaFYqIO4/Wz5c6+rknrsB72GGQP2ExMVm20SeXET
- jWyU/c10PtBZFzt8fIJoYUC1mgjcohQlMeJPzrMk=
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEzMDE1MiBTYWx0ZWRfX3oysDWDLMzHa
- Qq/SDHZvw1k8dWfi6tsMrNNB0k7No+yHkuI//IJt+c3j7Lq50GNB+B0/4/xrgGzWYdPJBoADcsQ
- SgBl8NOoXGhxjWEssyVkje7pHGEgnFx2de7E5HvG8gZ4ORYdXCvB
+ definitions=2026-08-17_01,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ malwarescore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0
+ phishscore=0 mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2606160000 definitions=main-2608170099
+X-Proofpoint-GUID: qfdtmQ_ij64jAzyb_bVX8bAjL5T_wFec
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE3MDA5OSBTYWx0ZWRfX+Cp9VqtJu8ks
+ ELead+7zdaRSD10wDf7phx2odYuYglnOXuieIyd0GOllgI8S0wkP9UVIjoQmQZZBE+2EkSIYi14
+ 4DCxA/CXN+65hgmKboDzbQeVszBlww2sqsvL8DRAJ5wwPocHvypV
+X-Proofpoint-ORIG-GUID: qfdtmQ_ij64jAzyb_bVX8bAjL5T_wFec
+X-Authority-Analysis: v=2.4 cv=a8UAM0SF c=1 sm=1 tr=0 ts=6a8305fc b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+ a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
+ a=7Gl3-_t3PgB9XO-mQDs3:22 a=07d9gI8wAAAA:8 a=yPCof4ZbAAAA:8 a=0bqIlqdCAAAA:8
+ a=j3JqPz20Rf5AhvZmzakA:9 a=QogHRH0Q-Ad_pdJF:21 a=WmVTiCyuxqgg3mnwYu6p:22
+ a=e2CUPOnPG4QKp8I52DXD:22 a=ih7515GBs-TgGETs_sNp:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE3MDA5OSBTYWx0ZWRfX4V5dolF3To4y
+ ueMulZZGwqTCKawNnMC3QYyFWHKRFuJ3+mWPvU2WNTjGArRcUfRRkoJXi9WnMZzckPAwOCVo6pI
+ hNCgUgIHgLTRBe5cBpIW6759eonFNVi/cY1R3y1AieEpRtC53feJU172r7Hwzn1oqRXdwf9BXAm
+ Jp/MrUpuaOIVqR3Mfwbkp2JBKraEmRa+9UEoCXTU963n30aA0n9H/kPLThdc+WagxVCejZfwdaF
+ eXrjruVpMRsyuaZ9parFIzuBJ6+xjADiC4sgrqLl9VqO4W63ixgpeNXaC/n62uQLrMZrjsxODl/
+ bIBxF51xKRZoM8WLaLAG0liIivC6a0XUgUwiE3Z5BN+kNh7zooipSHshkvY1fp1tJj1SJ0ZGAQT
+ PUyp3ZiQrnL+IN73GksBI2RlMViaSE6pZF/nyquSYIOEErhp2VYfTAU6MTn9LuOL2qY7DIQ9FVF
+ N0kR5Z3DiFIxEG/sApg==
 
-As a preliminary review, here is what Codex has to say about the series.
-I run every posted series through it as a first level of review, and to
-evaluate how valid its findings are.
+The b_end_io field was removed in Linux 7.2 [1]; update io.d
+translator accordingly and provide a translator set for 7.2.
 
-Here goes:
+[1] https://lwn.net/Articles/1078068/
 
-• Found four issues in the nine commits:
+Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+---
+ dlibs/aarch64/7.2/errno.d    | 275 ++++++++++++++++++++++++++++++
+ dlibs/aarch64/7.2/io.d       | 234 ++++++++++++++++++++++++++
+ dlibs/aarch64/7.2/ip.d       | 316 +++++++++++++++++++++++++++++++++++
+ dlibs/aarch64/7.2/lockstat.d |  14 ++
+ dlibs/aarch64/7.2/net.d      |  59 +++++++
+ dlibs/aarch64/7.2/pcap.d     |  35 ++++
+ dlibs/aarch64/7.2/procfs.d   | 305 +++++++++++++++++++++++++++++++++
+ dlibs/aarch64/7.2/regs.d     |  78 +++++++++
+ dlibs/aarch64/7.2/sched.d    |  38 +++++
+ dlibs/aarch64/7.2/signal.d   | 108 ++++++++++++
+ dlibs/aarch64/7.2/tcp.d      | 274 ++++++++++++++++++++++++++++++
+ dlibs/aarch64/7.2/udp.d      |  72 ++++++++
+ dlibs/aarch64/7.2/unistd.d   |  36 ++++
+ dlibs/x86_64/7.2/errno.d     | 275 ++++++++++++++++++++++++++++++
+ dlibs/x86_64/7.2/io.d        | 235 ++++++++++++++++++++++++++
+ dlibs/x86_64/7.2/ip.d        | 316 +++++++++++++++++++++++++++++++++++
+ dlibs/x86_64/7.2/lockstat.d  |  14 ++
+ dlibs/x86_64/7.2/net.d       |  59 +++++++
+ dlibs/x86_64/7.2/pcap.d      |  35 ++++
+ dlibs/x86_64/7.2/procfs.d    | 305 +++++++++++++++++++++++++++++++++
+ dlibs/x86_64/7.2/regs.d      |  94 +++++++++++
+ dlibs/x86_64/7.2/sched.d     |  38 +++++
+ dlibs/x86_64/7.2/signal.d    | 108 ++++++++++++
+ dlibs/x86_64/7.2/tcp.d       | 274 ++++++++++++++++++++++++++++++
+ dlibs/x86_64/7.2/udp.d       |  72 ++++++++
+ dlibs/x86_64/7.2/unistd.d    |  36 ++++
+ 26 files changed, 3705 insertions(+)
+ create mode 100644 dlibs/aarch64/7.2/errno.d
+ create mode 100644 dlibs/aarch64/7.2/io.d
+ create mode 100644 dlibs/aarch64/7.2/ip.d
+ create mode 100644 dlibs/aarch64/7.2/lockstat.d
+ create mode 100644 dlibs/aarch64/7.2/net.d
+ create mode 100644 dlibs/aarch64/7.2/pcap.d
+ create mode 100644 dlibs/aarch64/7.2/procfs.d
+ create mode 100644 dlibs/aarch64/7.2/regs.d
+ create mode 100644 dlibs/aarch64/7.2/sched.d
+ create mode 100644 dlibs/aarch64/7.2/signal.d
+ create mode 100644 dlibs/aarch64/7.2/tcp.d
+ create mode 100644 dlibs/aarch64/7.2/udp.d
+ create mode 100644 dlibs/aarch64/7.2/unistd.d
+ create mode 100644 dlibs/x86_64/7.2/errno.d
+ create mode 100644 dlibs/x86_64/7.2/io.d
+ create mode 100644 dlibs/x86_64/7.2/ip.d
+ create mode 100644 dlibs/x86_64/7.2/lockstat.d
+ create mode 100644 dlibs/x86_64/7.2/net.d
+ create mode 100644 dlibs/x86_64/7.2/pcap.d
+ create mode 100644 dlibs/x86_64/7.2/procfs.d
+ create mode 100644 dlibs/x86_64/7.2/regs.d
+ create mode 100644 dlibs/x86_64/7.2/sched.d
+ create mode 100644 dlibs/x86_64/7.2/signal.d
+ create mode 100644 dlibs/x86_64/7.2/tcp.d
+ create mode 100644 dlibs/x86_64/7.2/udp.d
+ create mode 100644 dlibs/x86_64/7.2/unistd.d
 
-  - P1 — --without python RPM builds still force Python bindings.
-    dtrace.spec:174 and :190 use %{?with_python:...}; %bcond_without python
-    defines that macro even when its value is 0. Thus a Python-disabled build
-    still runs WITH_PYTHON=y/install-python, despite omitting Python build
-    requirements. Use %if %{with python} around those arguments.
+diff --git a/dlibs/aarch64/7.2/errno.d b/dlibs/aarch64/7.2/errno.d
+new file mode 100644
+index 00000000..f54fafe1
+--- /dev/null
++++ b/dlibs/aarch64/7.2/errno.d
+@@ -0,0 +1,275 @@
++
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
++ * Use is subject to license terms.
++ */
++
++inline int EPERM = 1;
++#pragma D binding "1.0" EPERM
++inline int ENOENT = 2;
++#pragma D binding "1.0" ENOENT
++inline int ESRCH = 3;
++#pragma D binding "1.0" ESRCH
++inline int EINTR = 4;
++#pragma D binding "1.0" EINTR
++inline int EIO = 5;
++#pragma D binding "1.0" EIO
++inline int ENXIO = 6;
++#pragma D binding "1.0" ENXIO
++inline int E2BIG = 7;
++#pragma D binding "1.0" E2BIG
++inline int ENOEXEC = 8;
++#pragma D binding "1.0" ENOEXEC
++inline int EBADF = 9;
++#pragma D binding "1.0" EBADF
++inline int ECHILD = 10;
++#pragma D binding "1.0" ECHILD
++inline int EAGAIN = 11;
++#pragma D binding "1.0" EAGAIN
++inline int ENOMEM = 12;
++#pragma D binding "1.0" ENOMEM
++inline int EACCES = 13;
++#pragma D binding "1.0" EACCES
++inline int EFAULT = 14;
++#pragma D binding "1.0" EFAULT
++inline int ENOTBLK = 15;
++#pragma D binding "1.0" ENOTBLK
++inline int EBUSY = 16;
++#pragma D binding "1.0" EBUSY
++inline int EEXIST = 17;
++#pragma D binding "1.0" EEXIST
++inline int EXDEV = 18;
++#pragma D binding "1.0" EXDEV
++inline int ENODEV = 19;
++#pragma D binding "1.0" ENODEV
++inline int ENOTDIR = 20;
++#pragma D binding "1.0" ENOTDIR
++inline int EISDIR = 21;
++#pragma D binding "1.0" EISDIR
++inline int EINVAL = 22;
++#pragma D binding "1.0" EINVAL
++inline int ENFILE = 23;
++#pragma D binding "1.0" ENFILE
++inline int EMFILE = 24;
++#pragma D binding "1.0" EMFILE
++inline int ENOTTY = 25;
++#pragma D binding "1.0" ENOTTY
++inline int ETXTBSY = 26;
++#pragma D binding "1.0" ETXTBSY
++inline int EFBIG = 27;
++#pragma D binding "1.0" EFBIG
++inline int ENOSPC = 28;
++#pragma D binding "1.0" ENOSPC
++inline int ESPIPE = 29;
++#pragma D binding "1.0" ESPIPE
++inline int EROFS = 30;
++#pragma D binding "1.0" EROFS
++inline int EMLINK = 31;
++#pragma D binding "1.0" EMLINK
++inline int EPIPE = 32;
++#pragma D binding "1.0" EPIPE
++inline int EDOM = 33;
++#pragma D binding "1.0" EDOM
++inline int ERANGE = 34;
++#pragma D binding "1.0" ERANGE
++inline int EDEADLK = 35;
++#pragma D binding "1.0" EDEADLK
++inline int ENAMETOOLONG = 36;
++#pragma D binding "1.0" ENAMETOOLONG
++inline int ENOLCK = 37;
++#pragma D binding "1.0" ENOLCK
++inline int ENOSYS = 38;
++#pragma D binding "1.0" ENOSYS
++inline int ENOTEMPTY = 39;
++#pragma D binding "1.0" ENOTEMPTY
++inline int ELOOP = 40;
++#pragma D binding "1.0" ELOOP
++inline int EWOULDBLOCK = 11;
++#pragma D binding "1.0" EWOULDBLOCK
++inline int ENOMSG = 42;
++#pragma D binding "1.0" ENOMSG
++inline int EIDRM = 43;
++#pragma D binding "1.0" EIDRM
++inline int ECHRNG = 44;
++#pragma D binding "1.0" ECHRNG
++inline int EL2NSYNC = 45;
++#pragma D binding "1.0" EL2NSYNC
++inline int EL3HLT = 46;
++#pragma D binding "1.0" EL3HLT
++inline int EL3RST = 47;
++#pragma D binding "1.0" EL3RST
++inline int ELNRNG = 48;
++#pragma D binding "1.0" ELNRNG
++inline int EUNATCH = 49;
++#pragma D binding "1.0" EUNATCH
++inline int ENOCSI = 50;
++#pragma D binding "1.0" ENOCSI
++inline int EL2HLT = 51;
++#pragma D binding "1.0" EL2HLT
++inline int EBADE = 52;
++#pragma D binding "1.0" EBADE
++inline int EBADR = 53;
++#pragma D binding "1.0" EBADR
++inline int EXFULL = 54;
++#pragma D binding "1.0" EXFULL
++inline int ENOANO = 55;
++#pragma D binding "1.0" ENOANO
++inline int EBADRQC = 56;
++#pragma D binding "1.0" EBADRQC
++inline int EBADSLT = 57;
++#pragma D binding "1.0" EBADSLT
++inline int EDEADLOCK = 35;
++#pragma D binding "1.0" EDEADLOCK
++inline int EBFONT = 59;
++#pragma D binding "1.0" EBFONT
++inline int ENOSTR = 60;
++#pragma D binding "1.0" ENOSTR
++inline int ENODATA = 61;
++#pragma D binding "1.0" ENODATA
++inline int ETIME = 62;
++#pragma D binding "1.0" ETIME
++inline int ENOSR = 63;
++#pragma D binding "1.0" ENOSR
++inline int ENONET = 64;
++#pragma D binding "1.0" ENONET
++inline int ENOPKG = 65;
++#pragma D binding "1.0" ENOPKG
++inline int EREMOTE = 66;
++#pragma D binding "1.0" EREMOTE
++inline int ENOLINK = 67;
++#pragma D binding "1.0" ENOLINK
++inline int EADV = 68;
++#pragma D binding "1.0" EADV
++inline int ESRMNT = 69;
++#pragma D binding "1.0" ESRMNT
++inline int ECOMM = 70;
++#pragma D binding "1.0" ECOMM
++inline int EPROTO = 71;
++#pragma D binding "1.0" EPROTO
++inline int EMULTIHOP = 72;
++#pragma D binding "1.0" EMULTIHOP
++inline int EDOTDOT = 73;
++#pragma D binding "1.0" EDOTDOT
++inline int EBADMSG = 74;
++#pragma D binding "1.0" EBADMSG
++inline int EOVERFLOW = 75;
++#pragma D binding "1.0" EOVERFLOW
++inline int ENOTUNIQ = 76;
++#pragma D binding "1.0" ENOTUNIQ
++inline int EBADFD = 77;
++#pragma D binding "1.0" EBADFD
++inline int EREMCHG = 78;
++#pragma D binding "1.0" EREMCHG
++inline int ELIBACC = 79;
++#pragma D binding "1.0" ELIBACC
++inline int ELIBBAD = 80;
++#pragma D binding "1.0" ELIBBAD
++inline int ELIBSCN = 81;
++#pragma D binding "1.0" ELIBSCN
++inline int ELIBMAX = 82;
++#pragma D binding "1.0" ELIBMAX
++inline int ELIBEXEC = 83;
++#pragma D binding "1.0" ELIBEXEC
++inline int EILSEQ = 84;
++#pragma D binding "1.0" EILSEQ
++inline int ERESTART = 85;
++#pragma D binding "1.0" ERESTART
++inline int ESTRPIPE = 86;
++#pragma D binding "1.0" ESTRPIPE
++inline int EUSERS = 87;
++#pragma D binding "1.0" EUSERS
++inline int ENOTSOCK = 88;
++#pragma D binding "1.0" ENOTSOCK
++inline int EDESTADDRREQ = 89;
++#pragma D binding "1.0" EDESTADDRREQ
++inline int EMSGSIZE = 90;
++#pragma D binding "1.0" EMSGSIZE
++inline int EPROTOTYPE = 91;
++#pragma D binding "1.0" EPROTOTYPE
++inline int ENOPROTOOPT = 92;
++#pragma D binding "1.0" ENOPROTOOPT
++inline int EPROTONOSUPPORT = 93;
++#pragma D binding "1.0" EPROTONOSUPPORT
++inline int ESOCKTNOSUPPORT = 94;
++#pragma D binding "1.0" ESOCKTNOSUPPORT
++inline int EOPNOTSUPP = 95;
++#pragma D binding "1.0" EOPNOTSUPP
++inline int EPFNOSUPPORT = 96;
++#pragma D binding "1.0" EPFNOSUPPORT
++inline int EAFNOSUPPORT = 97;
++#pragma D binding "1.0" EAFNOSUPPORT
++inline int EADDRINUSE = 98;
++#pragma D binding "1.0" EADDRINUSE
++inline int EADDRNOTAVAIL = 99;
++#pragma D binding "1.0" EADDRNOTAVAIL
++inline int ENETDOWN = 100;
++#pragma D binding "1.0" ENETDOWN
++inline int ENETUNREACH = 101;
++#pragma D binding "1.0" ENETUNREACH
++inline int ENETRESET = 102;
++#pragma D binding "1.0" ENETRESET
++inline int ECONNABORTED = 103;
++#pragma D binding "1.0" ECONNABORTED
++inline int ECONNRESET = 104;
++#pragma D binding "1.0" ECONNRESET
++inline int ENOBUFS = 105;
++#pragma D binding "1.0" ENOBUFS
++inline int EISCONN = 106;
++#pragma D binding "1.0" EISCONN
++inline int ENOTCONN = 107;
++#pragma D binding "1.0" ENOTCONN
++inline int ESHUTDOWN = 108;
++#pragma D binding "1.0" ESHUTDOWN
++inline int ETOOMANYREFS = 109;
++#pragma D binding "1.0" ETOOMANYREFS
++inline int ETIMEDOUT = 110;
++#pragma D binding "1.0" ETIMEDOUT
++inline int ECONNREFUSED = 111;
++#pragma D binding "1.0" ECONNREFUSED
++inline int EHOSTDOWN = 112;
++#pragma D binding "1.0" EHOSTDOWN
++inline int EHOSTUNREACH = 113;
++#pragma D binding "1.0" EHOSTUNREACH
++inline int EALREADY = 114;
++#pragma D binding "1.0" EALREADY
++inline int EINPROGRESS = 115;
++#pragma D binding "1.0" EINPROGRESS
++inline int ESTALE = 116;
++#pragma D binding "1.0" ESTALE
++inline int EUCLEAN = 117;
++#pragma D binding "1.0" EUCLEAN
++inline int ENOTNAM = 118;
++#pragma D binding "1.0" ENOTNAM
++inline int ENAVAIL = 119;
++#pragma D binding "1.0" ENAVAIL
++inline int EISNAM = 120;
++#pragma D binding "1.0" EISNAM
++inline int EREMOTEIO = 121;
++#pragma D binding "1.0" EREMOTEIO
++inline int EDQUOT = 122;
++#pragma D binding "1.0" EDQUOT
++inline int ENOMEDIUM = 123;
++#pragma D binding "1.0" ENOMEDIUM
++inline int EMEDIUMTYPE = 124;
++#pragma D binding "1.0" EMEDIUMTYPE
++inline int ECANCELED = 125;
++#pragma D binding "1.0" ECANCELED
++inline int ENOKEY = 126;
++#pragma D binding "1.0" ENOKEY
++inline int EKEYEXPIRED = 127;
++#pragma D binding "1.0" EKEYEXPIRED
++inline int EKEYREVOKED = 128;
++#pragma D binding "1.0" EKEYREVOKED
++inline int EKEYREJECTED = 129;
++#pragma D binding "1.0" EKEYREJECTED
++inline int EOWNERDEAD = 130;
++#pragma D binding "1.0" EOWNERDEAD
++inline int ENOTRECOVERABLE = 131;
++#pragma D binding "1.0" ENOTRECOVERABLE
++inline int ERFKILL = 132;
++#pragma D binding "1.0" ERFKILL
++inline int EHWPOISON = 133;
++#pragma D binding "1.0" EHWPOISON
++inline int ENOTSUP = 95;
++#pragma D binding "1.0" ENOTSUP
+diff --git a/dlibs/aarch64/7.2/io.d b/dlibs/aarch64/7.2/io.d
+new file mode 100644
+index 00000000..1b92c0cb
+--- /dev/null
++++ b/dlibs/aarch64/7.2/io.d
+@@ -0,0 +1,234 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2012, 2024, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#pragma D depends_on module vmlinux
++#pragma D depends_on provider sched
++
++typedef char	*caddr_t;
++
++typedef struct bufinfo {
++	int b_flags;			/* buffer status */
++	size_t b_bcount;		/* number of bytes */
++	caddr_t b_addr;			/* buffer address */
++	uint64_t b_lblkno;		/* block # on device */
++	uint64_t b_blkno;		/* expanded block # on device */
++	size_t b_resid;			/* # of bytes not transferred */
++	size_t b_bufsize;		/* size of allocated buffer */
++	caddr_t b_iodone;		/* I/O completion routine */
++	int b_error;			/* expanded error field */
++	dev_t b_edev;			/* extended device */
++} bufinfo_t;
++
++inline int B_BUSY = 0x000001;
++#pragma D binding "1.0" B_BUSY
++inline int B_DONE = 0x000002;
++#pragma D binding "1.0" B_DONE
++inline int B_ERROR = 0x000004;
++#pragma D binding "1.0" B_ERROR
++inline int B_PAGEIO = 0x000010;
++#pragma D binding "1.0" B_PAGEIO
++inline int B_PHYS = 0x000020;
++#pragma D binding "1.0" B_PHYS
++inline int B_READ = 0x000040;
++#pragma D binding "1.0" B_READ
++inline int B_WRITE = 0x000100;
++#pragma D binding "1.0" B_WRITE
++inline int B_ASYNC = 0x000400;
++#pragma D binding "1.0" B_ASYNC
++
++#pragma D binding "1.0" translator
++translator bufinfo_t < struct buffer_head *B > {
++	b_flags = (int)arg1 & 0x01 ? B_WRITE : B_READ;
++	b_addr = B->b_data;
++	b_bcount = B->b_size;
++	b_lblkno = B->b_blocknr;
++	b_blkno = B->b_blocknr;
++	b_resid = 0;
++	b_bufsize = B->b_size;
++	b_iodone = (caddr_t)0;		/* b_end_io removed in 7.2 */
++	b_error = 0;			/* b_state ?? */
++	b_edev = B->b_bdev->bd_dev;
++};
++
++/*
++ * From linux/blk_types.h.
++ */
++
++/* bit # in bi_flags */
++inline int BIO_USER_MAPPED = 6;
++
++/* bit mask in bi_rw */
++inline int REQ_WRITE = 0x01;
++
++inline int REQ_SYNC = 0x800;
++
++
++
++
++
++
++
++#pragma D binding "1.6.3" translator
++translator bufinfo_t < struct bio *B > {
++	b_flags = ((int)B->bi_opf & REQ_WRITE ? B_WRITE : B_READ) |
++		((int)B->bi_opf & REQ_SYNC ? 0 : B_ASYNC) |
++		((int)B->bi_flags & (1 << BIO_USER_MAPPED) ? B_PAGEIO : B_PHYS);
++	b_addr = 0;
++	b_bcount = B->bi_iter.bi_size;
++	b_lblkno = B->bi_iter.bi_sector;
++	b_blkno = B->bi_iter.bi_sector;
++	b_resid = 0;
++	b_bufsize = B->bi_iter.bi_size;
++	b_iodone = (caddr_t)B->bi_end_io;
++	b_error = 0;
++	b_edev = B->bi_bdev == NULL ? 0 : B->bi_bdev->bd_dev;
++};
++
++typedef struct devinfo {
++	int dev_major;			/* major number */
++	int dev_minor;			/* minor number */
++	int dev_instance;		/* instance number */
++	string dev_name;		/* name of device */
++	string dev_statname;		/* name of device + instance/minor */
++	string dev_pathname;		/* pathname of device */
++} devinfo_t;
++
++
++
++#pragma D binding "1.0" translator
++translator devinfo_t < struct buffer_head *B > {
++	dev_major = getmajor(B->b_bdev->bd_dev);
++	dev_minor = getminor(B->b_bdev->bd_dev);
++	dev_instance = 0;		/* not used? */
++	dev_name = B->b_bdev->bd_disk->part0->bd_device.parent
++	    ? B->b_bdev->bd_disk->part0->bd_device.parent->driver->name
++		? stringof(B->b_bdev->bd_disk->part0->bd_device.parent->driver->name)
++		: "<none>"
++	    : B->b_bdev->bd_disk->part0->bd_device.driver->name
++		? stringof(B->b_bdev->bd_disk->part0->bd_device.driver->name)
++		: "<none>";
++	dev_statname = (B->b_bdev->__bd_flags.counter & 255) == 0
++			? stringof(B->b_bdev->bd_disk->disk_name)
++			: strjoin(stringof(B->b_bdev->bd_disk->disk_name),
++				  lltostr(B->b_bdev->__bd_flags.counter & 255));
++	dev_pathname = strjoin(
++			"/dev/",
++			B->b_bdev->__bd_flags.counter & 255 == 0
++			    ? stringof(B->b_bdev->bd_disk->disk_name)
++			    : strjoin(stringof(B->b_bdev->bd_disk->disk_name),
++				      lltostr(B->b_bdev->__bd_flags.counter & 255))
++		       );
++};
++
++#pragma D binding "1.6.3" translator
++translator devinfo_t < struct bio *B > {
++	dev_major = B->bi_bdev == NULL ? 0 : getmajor(B->bi_bdev->bd_dev);
++	dev_minor = B->bi_bdev == NULL ? 0 : getminor(B->bi_bdev->bd_dev);
++	dev_instance = 0;
++	dev_name = B->bi_bdev == NULL
++			? "nfs"
++			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
++					getmajor(B->bi_bdev->bd_dev) % 255
++				   ]->name);
++	dev_statname = B->bi_bdev == NULL ? "nfs" :
++	    (B->bi_bdev->__bd_flags.counter & 255) == 0 ? stringof(B->bi_bdev->bd_disk->disk_name) :
++	    strjoin(stringof(B->bi_bdev->bd_disk->disk_name), lltostr(B->bi_bdev->__bd_flags.counter & 255));
++	dev_pathname = B->bi_bdev == NULL ? "<nfs>" : "<unknown>";
++};
++
++typedef struct fileinfo {
++	string fi_name;			/* name (basename of fi_pathname) */
++	string fi_dirname;		/* directory (dirname of fi_pathname) */
++	string fi_pathname;		/* full pathname */
++	loff_t fi_offset;		/* offset within file */
++	string fi_fs;			/* filesystem */
++	string fi_mount;		/* mount point of file system */
++	int fi_oflags;			/* open(2) flags for file descriptor */
++} fileinfo_t;
++
++#pragma D binding "1.0" translator
++translator fileinfo_t < struct buffer_head *B > {
++	fi_name = "<unknown>";
++	fi_dirname = "<unknown>";
++	fi_pathname = "<unknown>";
++	fi_offset = 0;
++	fi_fs = "<unknown>";
++	fi_mount = "<unknown>";
++	fi_oflags = 0;
++};
++
++inline int O_ACCMODE = 0003;
++#pragma D binding "1.1" O_ACCMODE
++inline int O_RDONLY = 00;
++#pragma D binding "1.1" O_RDONLY
++inline int O_WRONLY = 01;
++#pragma D binding "1.1" O_WRONLY
++inline int O_RDWR = 02;
++#pragma D binding "1.1" O_RDWR
++inline int O_CREAT = 00000100;
++#pragma D binding "1.1" O_CREAT
++inline int O_EXCL = 00000200;
++#pragma D binding "1.1" O_EXCL
++inline int O_NOCTTY = 00000400;
++#pragma D binding "1.1" O_NOCTTY
++inline int O_TRUNC = 00001000;
++#pragma D binding "1.1" O_TRUNC
++inline int O_APPEND = 00002000;
++#pragma D binding "1.1" O_APPEND
++inline int O_NONBLOCK = 00004000;
++#pragma D binding "1.1" O_NONBLOCK
++inline int O_NDELAY = 00004000;
++#pragma D binding "1.1" O_NDELAY
++inline int O_SYNC = (04000000|010000);
++#pragma D binding "1.1" O_SYNC
++
++inline int O_ASYNC = 020000;
++#pragma D binding "1.1" O_ASYNC
++inline int O_DIRECTORY = 040000;
++#pragma D binding "1.1" O_DIRECTORY
++inline int O_NOFOLLOW = 0100000;
++#pragma D binding "1.1" O_NOFOLLOW
++inline int O_CLOEXEC = 02000000;
++#pragma D binding "1.1" O_CLOEXEC
++inline int O_DSYNC = 010000;
++#pragma D binding "1.1" O_DSYNC
++inline int O_RSYNC = (04000000|010000);
++#pragma D binding "1.1" O_RSYNC
++
++#pragma D binding "1.1" translator
++translator fileinfo_t < struct file *F > {
++	fi_name = F == NULL
++			? "<none>"
++			: stringof(F->f_path.dentry->d_name.name);
++	fi_dirname = F == NULL
++			? "<none>"
++			: dirname(d_path(&(F->f_path)));
++	fi_pathname = F == NULL
++			? "<none>"
++			: d_path(&(F->f_path));
++	fi_offset = F == NULL
++			? 0
++			: F->f_pos;
++	fi_fs = F == NULL
++			? "<none>"
++			: stringof(F->f_path.mnt->mnt_sb->s_type->name);
++	fi_mount = F == NULL
++			? "<none>"
++			: "<unknown>";
++	fi_oflags = F == NULL
++			? 0
++			: F->f_flags;
++};
++
++inline fileinfo_t fds[int fd] = xlate <fileinfo_t> (
++				 fd >= 0 && fd < curthread->files->fdt->max_fds
++					? curthread->files->fdt->fd[fd]
++					: NULL
++				);
++
++#pragma D attributes Stable/Stable/Common fds
++#pragma D binding "1.1" fds
+diff --git a/dlibs/aarch64/7.2/ip.d b/dlibs/aarch64/7.2/ip.d
+new file mode 100644
+index 00000000..95520b4a
+--- /dev/null
++++ b/dlibs/aarch64/7.2/ip.d
+@@ -0,0 +1,316 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2007, 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#pragma D depends_on module vmlinux
++#pragma D depends_on library net.d
++#pragma D depends_on library procfs.d
++#pragma D depends_on provider ip
++
++inline int IPPROTO_IP		=	0;
++inline int IPPROTO_ICMP		=	1;
++inline int IPPROTO_IGMP		=	2;
++inline int IPPROTO_IPIP		=	4;
++inline int IPPROTO_TCP		=	6;
++inline int IPPROTO_EGP		=	8;
++inline int IPPROTO_PUP		=	12;
++inline int IPPROTO_UDP		=	17;
++inline int IPPROTO_IDP		=	22;
++inline int IPPROTO_TP		=	29;
++inline int IPPROTO_DCCP		=	33;
++inline int IPPROTO_IPV6		=	41;
++inline int IPPROTO_RSVP		=	46;
++inline int IPPROTO_GRE		=	47;
++inline int IPPROTO_ESP		=	50;
++inline int IPPROTO_AH		=	51;
++inline int IPPROTO_OSPF		=	89;
++inline int IPPROTO_MTP		=	92;
++inline int IPPROTO_BEETPH	=	94;
++inline int IPPROTO_ENCAP	=	98;
++inline int IPPROTO_PIM		=	103;
++inline int IPPROTO_COMP		=	108;
++inline int IPPROTO_SCTP		=	132;
++inline int IPPROTO_UDPLITE	=	136;
++inline int IPPROTO_RAW		=	255;
++inline int IPPROTO_MAX		=	256;
++inline int IPPROTO_HOPOPTS	=	0;
++inline int IPPROTO_ROUTING	=	43;
++inline int IPPROTO_FRAGMENT	=	44;
++inline int IPPROTO_ICMPV6	=	58;
++inline int IPPROTO_NONE		=	59;
++inline int IPPROTO_DSTOPTS	=	60;
++inline int IPPROTO_MH		=	135;
++
++inline int TCP_MIN_HEADER_LENGTH =	20;
++
++/*
++ * ipinfo contains common IP info for both IPv4 and IPv6.
++ */
++typedef struct ipinfo {
++	uint8_t ip_ver;			/* IP version (4, 6) */
++	uint32_t ip_plength;		/* payload length */
++	string ip_saddr;		/* source address */
++	string ip_daddr;		/* destination address */
++} ipinfo_t;
++
++/*
++ * ifinfo contains network interface info.
++ */
++typedef struct ifinfo {
++	string if_name;			/* interface name */
++	int8_t if_local;		/* is delivered locally */
++	netstackid_t if_ipstack;	/* netns pointer on Linux */
++	uintptr_t if_addr;		/* pointer to raw struct net_device */
++} ifinfo_t;
++
++/*
++ * ipv4info is a translated version of the IPv4 header (with raw pointer).
++ * These values are NULL if the packet is not IPv4.
++ */
++typedef struct ipv4info {
++	uint8_t ipv4_ver;		/* IP version (4) */
++	uint8_t ipv4_ihl;		/* header length, bytes */
++	uint8_t ipv4_tos;		/* type of service field */
++	uint16_t ipv4_length;		/* length (header + payload) */
++	uint16_t ipv4_ident;		/* identification */
++	uint8_t ipv4_flags;		/* IP flags */
++	uint16_t ipv4_offset;		/* fragment offset */
++	uint8_t ipv4_ttl;		/* time to live */
++	uint8_t ipv4_protocol;		/* next level protocol */
++	string ipv4_protostr;		/* next level protocol, as string */
++	uint16_t ipv4_checksum;		/* header checksum */
++	ipaddr_t ipv4_src;		/* source address */
++	ipaddr_t ipv4_dst;		/* destination address */
++	string ipv4_saddr;		/* source address, string */
++	string ipv4_daddr;		/* destination address, string */
++	struct iphdr *ipv4_hdr;		/* pointer to raw header */
++} ipv4info_t;
++
++/*
++ * ipv6info is a translated version of the IPv6 header (with raw pointer).
++ * These values are NULL if the packet is not IPv6.
++ */
++typedef struct ipv6info {
++	uint8_t ipv6_ver;		/* IP version (6) */
++	uint8_t ipv6_tclass;		/* traffic class */
++	uint32_t ipv6_flow;		/* flow label */
++	uint16_t ipv6_plen;		/* payload length */
++	uint8_t ipv6_nexthdr;		/* next header protocol */
++	string ipv6_nextstr;		/* next header protocol, as string */
++	uint8_t ipv6_hlim;		/* hop limit */
++	in6_addr_t *ipv6_src;		/* source address */
++	in6_addr_t *ipv6_dst;		/* destination address */
++	string ipv6_saddr;		/* source address, string */
++	string ipv6_daddr;		/* destination address, string */
++	struct ipv6hdr *ipv6_hdr;	/* pointer to raw header */
++} ipv6info_t;
++
++/*
++ * void_ip_t is a void pointer to either an IPv4 or IPv6 header.  It has
++ * its own type name so that a translator can be determined.
++ */
++typedef uintptr_t void_ip_t;
++
++/*
++ * __dtrace_tcp_void_ip_t is used by the translator to take either the
++ * non-NULL void_ip_t * passed in or, if it is NULL, uses arg3 (struct tcp *)
++ * from the tcp:::send probe to translate to an ipinfo_t.
++ * This allows us to present the consumer with header data based on the
++ * struct tcp * when IP information is not yet present (for TCP send).
++ */
++typedef void * __dtrace_tcp_void_ip_t;
++
++#pragma D binding "1.5" translator
++translator pktinfo_t < struct sk_buff *s > {
++	pkt_addr = (uintptr_t)s;
++};
++
++#pragma D binding "1.5" translator
++translator csinfo_t < struct sock *s > {
++	cs_addr = (uintptr_t)s;
++};
++
++#pragma D binding "1.5" translator
++translator ipinfo_t < struct iphdr *I > {
++	ip_ver = 4;
++        ip_plength = I != NULL ? (ntohs(I->tot_len) - I->ihl << 2) : 0;
++	ip_saddr = I != NULL ? inet_ntoa(&I->saddr) : "<unknown>";
++	ip_daddr = I != NULL ? inet_ntoa(&I->daddr) : "<unknown>";
++};
++
++#pragma D binding "1.5" translator
++translator ipinfo_t < struct ipv6hdr *I > {
++	ip_ver = 6;
++	ip_plength = I != NULL ? ntohs(I->payload_len) : 0;
++	ip_saddr = I != NULL ? inet_ntoa6(&I->saddr) : "<unknown>";
++	ip_daddr = I != NULL ? inet_ntoa6(&I->daddr) : "<unknown>";
++};
++
++#pragma D binding "1.5" translator
++translator ipinfo_t < void_ip_t *I > {
++	ip_ver = I != NULL ? *(uint8_t *)I >> 4 : 0;
++	ip_plength = I != NULL ? (*(uint8_t *)I >> 4 == 4 ?
++	    (ntohs(((struct iphdr *)I)->tot_len) - ((*(uint8_t *)I & 0xf) << 2)) :
++	    *(uint8_t *)I >> 4 == 6 ?
++	    ntohs(((struct ipv6hdr *)I)->payload_len) : 0) : 0;
++	ip_saddr = I != NULL ? (*(uint8_t *)I >> 4 == 4 ?
++	    inet_ntoa(&((struct iphdr *)I)->saddr) : *(uint8_t *)I >> 4 == 6 ?
++	    inet_ntoa6(&((struct ipv6hdr *)I)->saddr) : "<unknown>") :
++	    "<unknown>";
++	ip_daddr = I != NULL ? (*(uint8_t *)I >> 4 == 4 ?
++	    inet_ntoa(&((struct iphdr *)I)->daddr) : *(uint8_t *)I >> 4 == 6 ?
++	    inet_ntoa6(&((struct ipv6hdr *)I)->daddr) : "<unknown>") :
++	    "<unknown>";
++};
++
++/*
++ * In some cases where the ipinfo_t * is NULL we wish to construct IP info
++ * using the struct tcp_sock * (arg3).  In order to map local IP to source
++ * or destination IP address appropriately we need to check if the associated
++ * data is inbound (NET_PROBE_INBOUND in arg6) or outbound (NET_PROBE_OUTBOUND);
++ * the value is stored in arg6.  If inbound, we map the local IP address to
++ * ip_daddr (destination), and if outbound it is mapped to ip_saddr.
++ */
++#pragma D binding "1.5" translator
++translator ipinfo_t < __dtrace_tcp_void_ip_t *I > {
++	/*
++	 * General strategy used is to rely on the IP header I if it is
++	 * non-null; otherwise we try to reconstruct IP values from arg3
++	 * (a struct tcp_sock *).
++	 */
++	ip_ver = I != NULL ? *(uint8_t *)I >> 4 :
++	    arg3 != NULL &&
++	    ((struct sock *)arg3)->__sk_common.skc_family == AF_INET ? 4 :
++	    arg3 != NULL &&
++	    ((struct sock *)arg3)->__sk_common.skc_family== AF_INET6 ? 6 : 0;
++	/*
++	 * For ip_plength we fall back to using TCP skb data from the tcp_skb_cb
++	 * to determine payload length.
++	 */
++	ip_plength = I != NULL && *(uint8_t *)I >> 4 == 4 ?
++	    ntohs(((struct iphdr *)I)->tot_len) - ((*(uint8_t *)I & 0xf) << 2) :
++	    I != NULL && *(uint8_t *)I >> 4 == 6 ?
++	    ntohs(((struct ipv6hdr *)I)->payload_len) :
++	    arg0 != NULL ?
++	    ((struct tcp_skb_cb *)&(((struct sk_buff *)arg0)->cb[0]))->end_seq -
++	    ((struct tcp_skb_cb *)&(((struct sk_buff *)arg0)->cb[0]))->seq :
++	    0;
++	/*
++	 * For source/destination addresses, we again try to use the IP header I
++	 * if available.  If I is NULL, we utilize arg3 (struct tcp_sock *)
++	 * but the problem here is that it stores local and remote IP addresses
++	 * _not_ source and destination.  So we need to know if traffic is
++	 * inbound or outbound. If inbound, IP source address is remote
++	 * socket address (skc_daddr) and destination IP address is local socket
++	 * address (skc_rcv_saddr).  If outbound, IP source address is local
++	 * socket address and IP destination address is remote socket address.
++	 */
++	ip_saddr = I != NULL && *(uint8_t *)I >> 4 == 4 ?
++	    inet_ntoa(&((struct iphdr *)I)->saddr) :
++	    I != NULL && *(uint8_t *)I >> 4 == 6 ?
++	    inet_ntoa6(&((struct ipv6hdr *)I)->saddr) :
++	    arg3 != NULL &&
++	    ((struct sock *)arg3)->__sk_common.skc_family== AF_INET ?
++	    inet_ntoa(arg6 == NET_PROBE_INBOUND ?
++	    &((struct sock *)arg3)->__sk_common.skc_daddr :
++	    &((struct sock *)arg3)->__sk_common.skc_rcv_saddr) :
++	    arg3 != NULL &&
++	    ((struct sock *)arg3)->__sk_common.skc_family == AF_INET6 ?
++	    inet_ntoa6(arg6 == NET_PROBE_INBOUND ?
++	    &((struct sock *)arg3)->__sk_common.skc_v6_daddr :
++	    &((struct sock *)arg3)->__sk_common.skc_v6_rcv_saddr) :
++	    "<unknown>";
++	ip_daddr = I != NULL && *(uint8_t *)I >> 4 == 4 ?
++	    inet_ntoa(&((struct iphdr *)I)->daddr) :
++	    I != NULL && *(uint8_t *)I >> 4 == 6 ?
++	    inet_ntoa6(&((struct ipv6hdr *)I)->daddr) :
++	    arg3 != NULL &&
++	    ((struct sock *)arg3)->__sk_common.skc_family== AF_INET ?
++	    inet_ntoa(arg6 == NET_PROBE_INBOUND ?
++	    &((struct sock *)arg3)->__sk_common.skc_rcv_saddr :
++	    &((struct sock *)arg3)->__sk_common.skc_daddr) :
++	    arg3 != NULL &&
++	    ((struct sock *)arg3)->__sk_common.skc_family== AF_INET6 ?
++	    inet_ntoa6(arg6 == NET_PROBE_INBOUND ?
++	    &((struct sock *)arg3)->__sk_common.skc_v6_rcv_saddr :
++	    &((struct sock *)arg3)->__sk_common.skc_v6_daddr) :
++	    "<unknown>";
++};
++
++#pragma D binding "1.5" translator
++translator ifinfo_t < struct net_device *N > {
++	if_name = N != NULL ? stringof(N->name) : "<unknown>";
++	if_ipstack = (N != NULL && sizeof(N->nd_net) > 0) ?
++	    ((uint64_t)N->nd_net.net) : 0;
++	if_local = (N == NULL);	/* is delivered locally */
++	if_addr = (uintptr_t)N;	/* pointer to raw struct net_device ptr */
++};
++
++#pragma D binding "1.5" translator
++translator ipv4info_t < struct iphdr *I > {
++	ipv4_ver = I != NULL ? 4 : 0;
++	ipv4_ihl = I != NULL ? ((*(uint8_t *)I & 0xf) << 2) : 0;
++	ipv4_tos = I != NULL ? I->tos : 0;
++	ipv4_length = I != NULL ? ntohs(I->tot_len) : 0;
++	ipv4_ident = I != NULL ? ntohs(I->id) : 0;
++	ipv4_flags = I != NULL ? ntohs(I->frag_off) >> 12 : 0;
++	ipv4_offset = I != NULL ? ntohs(I->frag_off) & 0x0fff : 0;
++	ipv4_ttl = I != NULL ? I->ttl : 0;
++	ipv4_protocol = I != NULL ? I->protocol : 0;
++	ipv4_protostr = I == NULL ? "<null>" :
++	    I->protocol == IPPROTO_TCP     ? "TCP"    :
++	    I->protocol == IPPROTO_UDP     ? "UDP"    :
++	    I->protocol == IPPROTO_IP      ? "IP"     :
++	    I->protocol == IPPROTO_ICMP    ? "ICMP"   :
++	    I->protocol == IPPROTO_IGMP    ? "IGMP"   :
++	    I->protocol == IPPROTO_EGP     ? "EGP"    :
++	    I->protocol == IPPROTO_IPV6    ? "IPv6"   :
++	    I->protocol == IPPROTO_ROUTING ? "ROUTE"  :
++	    I->protocol == IPPROTO_ESP     ? "ESP"    :
++	    I->protocol == IPPROTO_AH      ? "AH"     :
++	    I->protocol == IPPROTO_ICMPV6  ? "ICMPv6" :
++	    I->protocol == IPPROTO_OSPF    ? "OSPF"   :
++	    I->protocol == IPPROTO_SCTP    ? "SCTP"   :
++	    I->protocol == IPPROTO_RAW     ? "RAW"    :
++	    lltostr((uint64_t)I->protocol);
++	ipv4_checksum = I != NULL ? ntohs(I->check) : 0;
++	ipv4_src = I != NULL ? I->saddr : 0;
++	ipv4_dst = I != NULL ? I->daddr : 0;
++	ipv4_saddr = I != NULL ? inet_ntoa(&I->saddr) : "<null>";
++	ipv4_daddr = I != NULL ? inet_ntoa(&I->daddr) : "<null>";
++	ipv4_hdr = I;
++};
++
++#pragma D binding "1.5" translator
++translator ipv6info_t < struct ipv6hdr *I > {
++	ipv6_ver = I != NULL ? ((*(uint8_t *)I) >> 4) : 0;
++	ipv6_tclass = I != NULL ? ((ntohl(*(uint32_t *)I) & 0x0fffffff) >> 20) : 0;
++	ipv6_flow = I != NULL ? (ntohl(*(uint32_t *)I) & 0x000fffff) : 0;
++	ipv6_plen = I != NULL ? ntohs(I->payload_len) : 0;
++	ipv6_nexthdr = I != NULL ? I->nexthdr : 0;
++	ipv6_nextstr = I == NULL ? "<null>" :
++	    I->nexthdr == IPPROTO_TCP	?	"TCP"		:
++	    I->nexthdr == IPPROTO_UDP	?	"UDP"		:
++	    I->nexthdr == IPPROTO_IP	?	"IP"		:
++	    I->nexthdr == IPPROTO_ICMP	?	"ICMP"		:
++	    I->nexthdr == IPPROTO_IGMP	?	"IGMP"		:
++	    I->nexthdr == IPPROTO_EGP	?	"EGP"		:
++	    I->nexthdr == IPPROTO_IPV6	?	"IPv6"		:
++	    I->nexthdr == IPPROTO_ROUTING ?	"ROUTE"		:
++	    I->nexthdr == IPPROTO_ESP	?	"ESP"		:
++	    I->nexthdr == IPPROTO_AH	?	"AH"		:
++	    I->nexthdr == IPPROTO_ICMPV6 ?	"ICMPv6"	:
++	    I->nexthdr == IPPROTO_OSPF ?	"OSPF"		:
++	    I->nexthdr == IPPROTO_SCTP	?	"SCTP"		:
++	    I->nexthdr == IPPROTO_RAW	?	"RAW"		:
++	    lltostr((uint64_t)I->nexthdr);
++	ipv6_hlim = I != NULL ? I->hop_limit : 0;
++	ipv6_src = I != NULL ? &I->saddr : NULL;
++	ipv6_dst = I != NULL ? &I->daddr : 0;
++	ipv6_saddr = I != NULL ? inet_ntoa6(&I->saddr) : "<null>";
++	ipv6_daddr = I != NULL ? inet_ntoa6(&I->daddr) : "<null>";
++	ipv6_hdr = I;
++};
+diff --git a/dlibs/aarch64/7.2/lockstat.d b/dlibs/aarch64/7.2/lockstat.d
+new file mode 100644
+index 00000000..cb8b4bd9
+--- /dev/null
++++ b/dlibs/aarch64/7.2/lockstat.d
+@@ -0,0 +1,14 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#pragma D depends_on module vmlinux
++#pragma D depends_on provider lockstat
++
++inline int RW_WRITER = 0x00;
++#pragma D binding "1.6.4" RW_WRITER
++inline int RW_READER = 0x01;
++#pragma D binding "1.6.4" RW_READER
+diff --git a/dlibs/aarch64/7.2/net.d b/dlibs/aarch64/7.2/net.d
+new file mode 100644
+index 00000000..f14013b9
+--- /dev/null
++++ b/dlibs/aarch64/7.2/net.d
+@@ -0,0 +1,59 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2007, 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/* These are needed for inet_ntop() DTrace function. */
++inline int AF_INET              =       2;
++inline int AF_INET6             =       10;
++
++/* These are needed for link_ntop() DTrace function. */
++inline int ARPHRD_ETHER         =       1;
++inline int ARPHRD_INFINIBAND    =       32;
++
++/*
++ * The conninfo_t structure should be used by all application protocol
++ * providers as the first arguments to indicate some basic information about
++ * the connection. This structure may be augmented to accommodate the
++ * particularities of additional protocols in the future.
++ */
++typedef struct conninfo {
++	string	ci_local;		/* local host address */
++	string	ci_remote;		/* remote host address */
++	string	ci_protocol;		/* protocol (ipv4, ipv6, etc) */
++} conninfo_t;
++
++/*
++ * For compatibility with Solaris.  Here the netstackid will be the pointer to
++ * the net namespace (nd_net in struct net_device).
++ */
++typedef uint64_t	netstackid_t;
++typedef __be32		ipaddr_t;
++typedef struct in6_addr	in6_addr_t;
++
++/*
++ * pktinfo is where packet ID info can be made available for deeper analysis if
++ * packet IDs become supported by the kernel in the future.
++ */
++typedef struct pktinfo {
++	uintptr_t	pkt_addr;
++} pktinfo_t;
++
++/*
++ * csinfo is where connection state info is made available.
++ */
++typedef struct csinfo {
++	uintptr_t	cs_addr;
++	uint64_t	cs_cid;
++} csinfo_t;
++
++/*
++ * We use these values to determine if a probe point is associated with sending
++ * (outbound) or receiving (inbound) or a state-relate probe (i.e. neither
++ * inbound our outbound).
++ */
++inline int NET_PROBE_OUTBOUND =		0x00;
++inline int NET_PROBE_INBOUND =		0x01;
++inline int NET_PROBE_STATE =		0x02;
+diff --git a/dlibs/aarch64/7.2/pcap.d b/dlibs/aarch64/7.2/pcap.d
+new file mode 100644
+index 00000000..21a8e74a
+--- /dev/null
++++ b/dlibs/aarch64/7.2/pcap.d
+@@ -0,0 +1,35 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2016, 2023, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#pragma D depends_on module vmlinux
++#pragma D depends_on provider ip
++
++/*
++ * In general, PCAP_<type> names are chosen to match DL_<type> DLPI
++ * datalink types.
++ */
++
++/*
++ * Network-related capture types.  Raw DLT_* values can be used for those
++ * not present here; see /usr/include/pcap/bpf.h for the full list.
++ */
++
++inline int PCAP_NULL = 0;
++#pragma D binding "1.12" PCAP_NULL
++inline int PCAP_ETHER = 1;
++#pragma D binding "1.12" PCAP_ETHER
++inline int PCAP_WIFI = 105;
++#pragma D binding "1.12" PCAP_WIFI
++inline int PCAP_PPP = 9;
++#pragma D binding "1.12" PCAP_PPP
++/* PCAP_IP can signify IPv4 or IPv6 header follows. */
++inline int PCAP_IP = 12;
++#pragma D binding "1.12" PCAP_IP
++
++/* InfiniBand-related capture types. */
++inline int PCAP_IPOIB = 242;
++#pragma D binding "1.12" PCAP_IPOIB
+diff --git a/dlibs/aarch64/7.2/procfs.d b/dlibs/aarch64/7.2/procfs.d
+new file mode 100644
+index 00000000..3b8b0681
+--- /dev/null
++++ b/dlibs/aarch64/7.2/procfs.d
+@@ -0,0 +1,305 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2012, 2022, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * This file defines the standard set of inlines and translators to be made
++ * available for all D programs to use to examine process model state.
++ */
++
++#pragma D depends_on module vmlinux
++#pragma D depends_on library sched.d
++
++typedef time64_t time_t;
++
++typedef struct timestruc {
++	time_t tv_sec;
++	long tv_nsec;
++} timestruc_t;
++
++typedef struct lwpsinfo {
++	int pr_flag;			/* lwp flags (DEPRECATED) */
++	int pr_lwpid;			/* lwp id */
++	uintptr_t pr_addr;		/* internal address of lwp */
++	uintptr_t pr_wchan;		/* wait addr for sleeping lwp */
++	char pr_stype;			/* sync event type */
++	char pr_state;			/* numeric lwp state */
++	char pr_sname;			/* printable char for pr_state */
++	char pr_nice;			/* nice for cpu usage */
++	short pr_syscall;		/* syscall number */
++	char pr_oldpri;			/* priority */
++	char pr_cpu;			/* CPU usage */
++	int pr_pri;			/* priority */
++	ushort_t pr_pctcpu;		/* % of recent cpu time */
++	ushort_t pr_pad;
++	timestruc_t pr_start;		/* lwp start time */
++	timestruc_t pr_time;		/* usr+sys cpu time */
++	char pr_clname[8];		/* scheduling class name */
++	char pr_name[16];		/* name */
++	processorid_t pr_onpro;		/* processor last ran on */
++	processorid_t pr_bindpro;	/* processor bound to */
++	psetid_t pr_bindpset;		/* processor set */
++	int pr_lgrp;			/* lwp home lgroup */
++	int pr_filler[4];
++} lwpsinfo_t;
++
++typedef id_t taskid_t;
++typedef id_t dprojid_t;
++typedef id_t poolid_t;
++typedef id_t zoneid_t;
++
++/*
++ * Translate from the kernel's task_struct structure to a Solaris proc(4)
++ * psinfo_t struct.
++ * We do not provide support for pr_size, pr_rssize, pr_pctcpu, and pr_pctmem.
++ * We also do not fill in pr_lwp (the lwpsinfo_t for the representative LWP)
++ * because we do not have the ability to select and stop any representative.
++ * Also, for the moment, pr_wstat, pr_time, and pr_ctime are not supported,
++ * but these could be supported by DTrace in the future using subroutines.
++ * Note that any member added to this translator should also be added to the
++ * kthread_t-to-psinfo_t translator, below.
++ */
++typedef struct psinfo {
++	int pr_flag;			/* process flags (DEPRECATED) */
++	int pr_nlwp;			/* number of active lwps (Linux: 1) */
++	pid_t pr_pid;			/* unique process id */
++	pid_t pr_ppid;			/* process id of parent */
++	pid_t pr_pgid;			/* pid of process group leader */
++	pid_t pr_sid;			/* session id */
++	uid_t pr_uid;			/* real user id */
++	uid_t pr_euid;			/* effective user id */
++	uid_t pr_gid;			/* real group id */
++	uid_t pr_egid;			/* effective group id */
++	uintptr_t pr_addr;		/* address of process */
++	size_t pr_size;			/* size of process image (in KB) */
++	size_t pr_rssize;		/* resident set sie (in KB) */
++	size_t pr_pad1;
++	struct tty_struct *pr_ttydev;	/* controlling tty (or -1) */
++	ushort_t pr_pctcpu;		/* % of recent cpu time used */
++	ushort_t pr_pctmem;		/* % of recent memory used */
++	timestruc_t pr_start;		/* process start time */
++	timestruc_t pr_time;		/* usr+sys cpu time for process */
++	timestruc_t pr_ctime;		/* usr+sys cpu time for children */
++	char pr_fname[16];		/* name of exec'd file */
++	string pr_psargs;		/* initial chars of arg list */
++	int pr_wstat;			/* if zombie, wait() status */
++	int pr_argc;			/* initial argument count */
++	uintptr_t pr_argv;		/* address of initial arg vector */
++	uintptr_t pr_envp;		/* address of initial env vector */
++	char pr_dmodel;			/* data model */
++	char pr_pad2[3];
++	taskid_t pr_taskid;		/* task id */
++	dprojid_t pr_projid;		/* project id */
++	int pr_nzomb;			/* number of zombie lwps (Linux: 0) */
++	poolid_t pr_poolid;		/* pool id */
++	zoneid_t pr_zoneid;		/* zone id */
++	id_t pr_contract;		/* process contract */
++	int pr_filler[1];
++	lwpsinfo_t pr_lwp;
++} psinfo_t;
++
++inline char PR_MODEL_ILP32 = 1;
++#pragma D binding "1.0" PR_MODEL_ILP32
++inline char PR_MODEL_LP64 = 2;
++#pragma D binding "1.0" PR_MODEL_LP64
++
++ 
++ 
++inline	int PIDTYPE_PID = 0;
++#pragma D binding "1.0" PIDTYPE_PID
++inline	int PIDTYPE_TGID = 1;
++#pragma D binding "1.0" PIDTYPE_TGID
++inline	int PIDTYPE_PGID = 2;
++#pragma D binding "1.0" PIDTYPE_PGID
++inline	int PIDTYPE_SID = 3;
++#pragma D binding "1.0" PIDTYPE_SID
++
++ 
++ 
++ 
++ 
++ 
++ 
++ 
++#pragma D binding "1.0" translator
++translator psinfo_t < struct task_struct *T > {
++	pr_nlwp = 1;
++	pr_pid = T->tgid;
++	pr_ppid = T->real_parent->tgid;
++	pr_pgid = T->signal->pids[PIDTYPE_PGID]->numbers[0].nr;
++	pr_sid = T->signal->pids[PIDTYPE_SID]->numbers[0].nr;
++	pr_uid = T->cred->uid.val;
++	pr_euid = T->cred->euid.val;
++	pr_gid = T->cred->gid.val;
++	pr_egid = T->cred->egid.val;
++	pr_addr = (uintptr_t)T;
++
++	pr_ttydev = T->signal->tty ? T->signal->tty
++				   : (struct tty_struct *)-1;
++
++	pr_fname = T->comm;
++	pr_psargs = T == curthread ? execargs
++				   : "<unknown>";
++	pr_wstat = 0;
++/*
++	pr_argc = get_psinfo(T)->__psinfo(argc);
++	pr_argv = (uintptr_t)get_psinfo(T)->__psinfo(argv);
++	pr_envp = (uintptr_t)get_psinfo(T)->__psinfo(envp);
++ */
++
++	pr_dmodel = PR_MODEL_LP64;
++
++	pr_taskid = 0;
++	pr_projid = 0;
++	pr_nzomb = 0;
++	pr_poolid = 0;
++	pr_zoneid = 0;
++	pr_contract = 0;
++};
++
++inline int PR_STOPPED = 0x00000001;
++#pragma D binding "1.0" PR_STOPPED
++inline int PR_ISTOP = 0x00000002;
++#pragma D binding "1.0" PR_ISTOP
++inline int PR_DSTOP = 0x00000004;
++#pragma D binding "1.0" PR_DSTOP
++inline int PR_IDLE = 0x10000000;
++#pragma D binding "1.0" PR_IDLE
++
++inline char SSLEEP = 1;
++#pragma D binding "1.0" SSLEEP
++inline char SRUN = 2;
++#pragma D binding "1.0" SRUN
++inline char SZOMB = 3;
++#pragma D binding "1.0" SZOMB
++inline char SSTOP = 4;
++#pragma D binding "1.0" SSTOP
++inline char SIDL = 5;
++#pragma D binding "1.0" SIDL
++inline char SONPROC = 6;
++#pragma D binding "1.0" SONPROC
++inline char SWAIT = 7;
++#pragma D binding "1.0" SWAIT
++
++/*
++ * Translate from the kernel's task_struct structure to a Solaris proc(4)
++ * lwpsinfo_t.
++ * We do not provide support for pr_nice, pr_oldpri, pr_cpu, or pr_pctcpu.
++ * Also, for the moment, pr_start and pr_time are not supported, but these
++ * could be supported by DTrace in the future using subroutines.
++ */
++#pragma D binding "1.0" translator
++translator lwpsinfo_t < struct task_struct *T > {
++	pr_flag = (T->__state & 0x00000004) ? PR_STOPPED : 0;
++/*
++	pr_flag = ((T->t_state == TS_STOPPED) ? (PR_STOPPED |
++	    ((!(T->t_schedflag & TS_PSTART)) ? PR_ISTOP : 0)) :
++	    ((T->t_proc_flag & TP_PRVSTOP) ? PR_STOPPED | PR_ISTOP : 0)) |
++	    ((T == T->t_procp->p_agenttp) ? PR_AGENT : 0) |
++	    ((!(T->t_proc_flag & TP_TWAIT)) ? PR_DETACH : 0) |
++	    ((T->t_proc_flag & TP_DAEMON) ? PR_DAEMON : 0) |
++	    ((T->t_procp->p_pidflag & CLDNOSIGCHLD) ? PR_NOSIGCHLD : 0) |
++	    ((T->t_procp->p_pidflag & CLDWAITPID) ? PR_WAITPID : 0) |
++	    ((T->t_procp->p_proc_flag & P_PR_FORK) ? PR_FORK : 0) |
++	    ((T->t_procp->p_proc_flag & P_PR_RUNLCL) ? PR_RLC : 0) |
++	    ((T->t_procp->p_proc_flag & P_PR_KILLCL) ? PR_KLC : 0) |
++	    ((T->t_procp->p_proc_flag & P_PR_ASYNC) ? PR_ASYNC : 0) |
++	    ((T->t_procp->p_proc_flag & P_PR_BPTADJ) ? PR_BPTADJ : 0) |
++	    ((T->t_procp->p_proc_flag & P_PR_PTRACE) ? PR_PTRACE : 0) |
++	    ((T->t_procp->p_flag & SMSACCT) ? PR_MSACCT : 0) |
++	    ((T->t_procp->p_flag & SMSFORK) ? PR_MSFORK : 0) |
++	    ((T->t_procp->p_flag & SVFWAIT) ? PR_VFORKP : 0) |
++	    (((T->t_procp->p_flag & SSYS) ||
++	    (T->t_procp->p_as == &`kas)) ? PR_ISSYS : 0) |
++	    ((T == T->t_cpu->cpu_idle_thread) ? PR_IDLE : 0);
++*/
++
++	pr_lwpid = T->pid;
++	pr_addr = (uintptr_t)T;
++	pr_wchan = NULL;
++	pr_stype = 0;
++
++	pr_state = (T->__state & 0x00000001) ? SSLEEP :
++		   (T->__state & 0x00000002) ? SSLEEP :
++		   (T->__state & 0x00000004) ? SSTOP :
++		   (T->__state & 0x00000008) ? SSTOP :
++		   (T->__state & 0x00000020) ? SZOMB :
++		   (T->__state & 0x00000010) ? SZOMB :
++		   (T->__state & 0x00000080) ? SZOMB :
++		   (T->__state & 0x00000100) ? SWAIT :
++		   (T->__state & 0x00000200) ? SWAIT : SRUN;
++	pr_sname = (T->__state & 0x00000001) ? 'S' :
++		   (T->__state & 0x00000002) ? 'S' :
++		   (T->__state & 0x00000004) ? 'T' :
++		   (T->__state & 0x00000008) ? 'T' :
++		   (T->__state & 0x00000020) ? 'Z' :
++		   (T->__state & 0x00000010) ? 'Z' :
++		   (T->__state & 0x00000080) ? 'Z' :
++		   (T->__state & 0x00000100) ? 'W' :
++		   (T->__state & 0x00000200) ? 'W' : 'R';
++
++	pr_pri = T->prio;
++	pr_name = T->comm;
++	pr_onpro = ((struct thread_info *)T->stack)->cpu;
++};
++
++inline psinfo_t *curpsinfo = xlate <psinfo_t *> (curthread);
++#pragma D attributes Stable/Stable/Common curpsinfo
++#pragma D binding "1.0" curpsinfo
++
++inline lwpsinfo_t *curlwpsinfo = xlate <lwpsinfo_t *> (curthread);
++#pragma D attributes Stable/Stable/Common curlwpsinfo
++#pragma D binding "1.0" curlwpsinfo
++
++inline string cwd = d_path(&(curthread->fs->pwd));
++#pragma D attributes Stable/Stable/Common cwd
++#pragma D binding "1.0" cwd
++
++inline string root = d_path(&(curthread->fs->root));
++#pragma D attributes Stable/Stable/Common root
++#pragma D binding "1.0" root
++
++inline int CLD_EXITED = 1;
++#pragma D binding "1.0" CLD_EXITED
++inline int CLD_KILLED = 2;
++#pragma D binding "1.0" CLD_KILLED
++inline int CLD_DUMPED = 3;
++#pragma D binding "1.0" CLD_DUMPED
++inline int CLD_TRAPPED = 4;
++#pragma D binding "1.0" CLD_TRAPPED
++inline int CLD_STOPPED = 5;
++#pragma D binding "1.0" CLD_STOPPED
++inline int CLD_CONTINUED = 6;
++#pragma D binding "1.0" CLD_CONTINUED
++
++/*
++ * Below we provide some inline definitions to simplify converting from
++ * a struct pid * to a pid_t.  structpid2pid is a DTrace-ized version of
++ * pid_vnr().
++ */
++ /*
++inline	struct pid_namespace *pid_namespace[struct pid *p] = p != NULL ?
++	p->numbers[p->level].ns : NULL;
++
++inline	int pid_namespace_level[struct pid *p] = p != NULL && pid_namespace[p] ?
++	pid_namespace[p]->level : 0;
++
++m4_dnl 4.19 and above use thread_pid for this.
++define_for_kernel([[__task_pid]], [[ m4_dnl
++	(m4_kver(4, 19, 0), [[task->thread_pid]])]], m4_dnl
++	[[task->pids[PIDTYPE_PID].pid]]) m4_dnl
++
++inline	struct pid *task_pid[struct task_struct *task] =
++	task != NULL ? __task_pid : NULL;
++
++inline	int current_namespace_level = pid_namespace_level[task_pid[curthread]];
++
++inline	pid_t structpid2pid[struct pid *p] =
++	p != NULL && current_namespace_level <= p->level &&
++	((struct upid *)&(p->numbers[current_namespace_level]))->ns ==
++	pid_namespace[task_pid[curthread]] ?
++	((struct upid *)&(p->numbers[current_namespace_level]))->nr : 0;
++*/
+diff --git a/dlibs/aarch64/7.2/regs.d b/dlibs/aarch64/7.2/regs.d
+new file mode 100644
+index 00000000..e47f8cfc
+--- /dev/null
++++ b/dlibs/aarch64/7.2/regs.d
+@@ -0,0 +1,78 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++inline int R_X0 = 0 ;
++#pragma D binding "1.0" R_X0
++inline int R_X1 = 1 ;
++#pragma D binding "1.0" R_X1
++inline int R_X2 = 2 ;
++#pragma D binding "1.0" R_X2
++inline int R_X3 = 3 ;
++#pragma D binding "1.0" R_X3
++inline int R_X4 = 4 ;
++#pragma D binding "1.0" R_X4
++inline int R_X5 = 5 ;
++#pragma D binding "1.0" R_X5
++inline int R_X6 = 6 ;
++#pragma D binding "1.0" R_X6
++inline int R_X7 = 7 ;
++#pragma D binding "1.0" R_X7
++inline int R_X8 = 8 ;
++#pragma D binding "1.0" R_X8
++inline int R_X9 = 9 ;
++#pragma D binding "1.0" R_X9
++inline int R_X10 = 10 ;
++#pragma D binding "1.0" R_X10
++inline int R_X11 = 11 ;
++#pragma D binding "1.0" R_X11
++inline int R_X12 = 12 ;
++#pragma D binding "1.0" R_X12
++inline int R_X13 = 13 ;
++#pragma D binding "1.0" R_X13
++inline int R_X14 = 14 ;
++#pragma D binding "1.0" R_X14
++inline int R_X15 = 15 ;
++#pragma D binding "1.0" R_X15
++inline int R_X16 = 16 ;
++#pragma D binding "1.0" R_X16
++inline int R_X17 = 17 ;
++#pragma D binding "1.0" R_X17
++inline int R_X18 = 18 ;
++#pragma D binding "1.0" R_X18
++inline int R_X19 = 19 ;
++#pragma D binding "1.0" R_X19
++inline int R_X20 = 20 ;
++#pragma D binding "1.0" R_X20
++inline int R_X21 = 21 ;
++#pragma D binding "1.0" R_X21
++inline int R_X22 = 22 ;
++#pragma D binding "1.0" R_X22
++inline int R_X23 = 23 ;
++#pragma D binding "1.0" R_X23
++inline int R_X24 = 24 ;
++#pragma D binding "1.0" R_X24
++inline int R_X25 = 25 ;
++#pragma D binding "1.0" R_X25
++inline int R_X26 = 26 ;
++#pragma D binding "1.0" R_X26
++inline int R_X27 = 27 ;
++#pragma D binding "1.0" R_X27
++inline int R_X28 = 28 ;
++#pragma D binding "1.0" R_X28
++inline int R_X29 = 29 ;
++#pragma D binding "1.0" R_X29
++inline int R_X30 = 30 ;
++#pragma D binding "1.0" R_X30
++
++inline int R_SP = 31 ;
++#pragma D binding "1.0" R_SP
++inline int R_PC = 32 ;
++#pragma D binding "1.0" R_PC
++inline int R_PSTATE = 33 ;
++#pragma D binding "1.0" R_PSTATE
++
++inline int R_FP = R_X29;
++#pragma D binding "1.0" R_FP
+diff --git a/dlibs/aarch64/7.2/sched.d b/dlibs/aarch64/7.2/sched.d
+new file mode 100644
+index 00000000..271d84e0
+--- /dev/null
++++ b/dlibs/aarch64/7.2/sched.d
+@@ -0,0 +1,38 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2012, 2019, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#pragma D depends_on module vmlinux
++
++typedef id_t		processorid_t;
++typedef id_t		psetid_t;
++typedef id_t		chipid_t;
++typedef id_t		lgrp_id_t;
++
++typedef struct cpuinfo {
++	processorid_t	cpu_id;
++	psetid_t	cpu_pset;
++	chipid_t	cpu_chip;
++	lgrp_id_t	cpu_lgrp;
++} cpuinfo_t;
++
++typedef cpuinfo_t	*cpuinfo_t_p;
++
++inline processorid_t cpu = curcpu->cpu_id;
++#pragma D attributes Stable/Stable/Common cpu
++#pragma D binding "1.0" cpu
++
++inline psetid_t pset = curcpu->cpu_pset;
++#pragma D attributes Stable/Stable/Common pset
++#pragma D binding "1.0" pset
++
++inline chipid_t chip = curcpu->cpu_chip;
++#pragma D attributes Stable/Stable/Common chip
++#pragma D binding "1.0" chip
++
++inline lgrp_id_t lgrp = curcpu->cpu_lgrp;
++#pragma D attributes Stable/Stable/Common lgrp
++#pragma D binding "1.0" lgrp
+diff --git a/dlibs/aarch64/7.2/signal.d b/dlibs/aarch64/7.2/signal.d
+new file mode 100644
+index 00000000..c72dfd4c
+--- /dev/null
++++ b/dlibs/aarch64/7.2/signal.d
+@@ -0,0 +1,108 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
++ * Use is subject to license terms.
++ *
++ */
++inline int SIGSYS = 31;
++#pragma D binding "1.0" SIGSYS
++
++inline int SIGTERM = 15;
++#pragma D binding "1.0" SIGTERM
++
++inline int SIGTSTP = 20;
++#pragma D binding "1.0" SIGTSTP
++
++inline int SIGVTALRM = 26;
++#pragma D binding "1.0" SIGVTALRM
++
++inline int SIGBUS = 7;
++#pragma D binding "1.0" SIGBUS
++
++inline int SIGPIPE = 13;
++#pragma D binding "1.0" SIGPIPE
++
++inline int SIGSTKFLT = 16;
++#pragma D binding "1.0" SIGSTKFLT
++
++inline int SIGTRAP = 5;
++#pragma D binding "1.0" SIGTRAP
++
++inline int SIGHUP = 1;
++#pragma D binding "1.0" SIGHUP
++
++inline int SIGFPE = 8;
++#pragma D binding "1.0" SIGFPE
++
++inline int SIGURG = 23;
++#pragma D binding "1.0" SIGURG
++
++inline int SIGIO = 29;
++#pragma D binding "1.0" SIGIO
++
++inline int SIGKILL = 9;
++#pragma D binding "1.0" SIGKILL
++
++inline int SIGWINCH = 28;
++#pragma D binding "1.0" SIGWINCH
++
++inline int SIGXFSZ = 25;
++#pragma D binding "1.0" SIGXFSZ
++
++inline int SIGINT = 2;
++#pragma D binding "1.0" SIGINT
++
++inline int SIGTTOU = 22;
++#pragma D binding "1.0" SIGTTOU
++
++inline int SIGTTIN = 21;
++#pragma D binding "1.0" SIGTTIN
++
++inline int SIGCHLD = 17;
++#pragma D binding "1.0" SIGCHLD
++
++inline int SIGIOT = 6;
++#pragma D binding "1.0" SIGIOT
++
++inline int SIGCONT = 18;
++#pragma D binding "1.0" SIGCONT
++
++inline int SIGQUIT = 3;
++#pragma D binding "1.0" SIGQUIT
++
++inline int SIGABRT = 6;
++#pragma D binding "1.0" SIGABRT
++
++inline int SIGPROF = 27;
++#pragma D binding "1.0" SIGPROF
++
++inline int SIGXCPU = 24;
++#pragma D binding "1.0" SIGXCPU
++
++inline int SIGSTOP = 19;
++#pragma D binding "1.0" SIGSTOP
++
++inline int SIGPWR = 30;
++#pragma D binding "1.0" SIGPWR
++
++inline int SIGILL = 4;
++#pragma D binding "1.0" SIGILL
++
++inline int SIGUSR1 = 10;
++#pragma D binding "1.0" SIGUSR1
++
++inline int SIGPOLL = 29;
++#pragma D binding "1.0" SIGPOLL
++
++inline int SIGCLD = 17;
++#pragma D binding "1.0" SIGCLD
++
++inline int SIGSEGV = 11;
++#pragma D binding "1.0" SIGSEGV
++
++inline int SIGUSR2 = 12;
++#pragma D binding "1.0" SIGUSR2
++
++inline int SIGALRM = 14;
++#pragma D binding "1.0" SIGALRM
++
+diff --git a/dlibs/aarch64/7.2/tcp.d b/dlibs/aarch64/7.2/tcp.d
+new file mode 100644
+index 00000000..8f87aa57
+--- /dev/null
++++ b/dlibs/aarch64/7.2/tcp.d
+@@ -0,0 +1,274 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2010, 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#pragma D depends_on module vmlinux
++#pragma D depends_on library net.d
++#pragma D depends_on library ip.d
++#pragma D depends_on provider tcp
++
++inline int TH_FIN =	0x01;
++inline int TH_SYN =	0x02;
++inline int TH_RST =	0x04;
++inline int TH_PSH =	0x08;
++inline int TH_ACK =	0x10;
++inline int TH_URG =	0x20;
++inline int TH_ECE =	0x40;
++inline int TH_CWR =	0x80;
++
++inline int TCP_STATE_IDLE = 		0x00;
++inline int TCP_STATE_ESTABLISHED =	0x01;
++inline int TCP_STATE_SYN_SENT =		0x02;
++inline int TCP_STATE_SYN_RECEIVED =	0x03;
++inline int TCP_STATE_FIN_WAIT_1 =	0x04;
++inline int TCP_STATE_FIN_WAIT_2 =	0x05;
++inline int TCP_STATE_TIME_WAIT =	0x06;
++inline int TCP_STATE_CLOSED =		0x07;
++inline int TCP_STATE_CLOSE_WAIT =	0x08;
++inline int TCP_STATE_LAST_ACK =		0x09;
++inline int TCP_STATE_LISTEN =		0x0a;
++inline int TCP_STATE_CLOSING =		0x0b;
++
++/*
++ * Convert a TCP state value to a string.
++ */
++inline string tcp_state_string[int state] =
++	state == TCP_STATE_CLOSED ? "state-closed" :
++	state == TCP_STATE_IDLE ? "state-idle" :
++	state == TCP_STATE_LISTEN ? "state-listen" :
++	state == TCP_STATE_SYN_SENT ? "state-syn-sent" :
++	state == TCP_STATE_SYN_RECEIVED ? "state-syn-received" :
++	state == TCP_STATE_ESTABLISHED ? "state-established" :
++	state == TCP_STATE_CLOSE_WAIT ? "state-close-wait" :
++	state == TCP_STATE_FIN_WAIT_1 ? "state-fin-wait-1" :
++	state == TCP_STATE_CLOSING ? "state-closing" :
++	state == TCP_STATE_LAST_ACK ? "state-last-ack" :
++	state == TCP_STATE_FIN_WAIT_2 ? "state-fin-wait-2" :
++	state == TCP_STATE_TIME_WAIT ? "state-time-wait" :
++	"<unknown>";
++#pragma D binding "1.6.3" tcp_state_string
++
++/*
++ * tcpinfo is the TCP header fields.
++ */
++typedef struct tcpinfo {
++	uint16_t tcp_sport;		/* source port */
++	uint16_t tcp_dport;		/* destination port */
++	uint32_t tcp_seq;		/* sequence number */
++	uint32_t tcp_ack;		/* acknowledgment number */
++	uint8_t tcp_offset;		/* data offset, in bytes */
++	uint8_t tcp_flags;		/* flags */
++	uint16_t tcp_window;		/* window size */
++	uint16_t tcp_checksum;		/* checksum */
++	uint16_t tcp_urgent;		/* urgent data pointer */
++	uintptr_t tcp_hdr;		/* raw TCP header */
++} tcpinfo_t;
++
++/*
++ * tcpsinfo contains stable TCP details from tcp_t.
++ */
++typedef struct tcpsinfo {
++	uintptr_t tcps_addr;
++	int tcps_local;			/* is delivered locally, boolean */
++	uint16_t tcps_lport;		/* local port */
++	uint16_t tcps_rport;		/* remote port */
++	string tcps_laddr;		/* local address, as a string */
++	string tcps_raddr;		/* remote address, as a string */
++	int tcps_state;			/* TCP state */
++	uint32_t tcps_iss;		/* Initial sequence # sent */
++	uint32_t tcps_suna;		/* sequence # sent but unacked */
++	uint32_t tcps_snxt;		/* next sequence # to send */
++	uint32_t tcps_rnxt;		/* next sequence # expected */
++	uint32_t tcps_swnd;		/* send window size */
++	int32_t tcps_snd_ws;		/* send window scaling */
++	uint32_t tcps_rwnd;		/* receive window size */
++	int32_t tcps_rcv_ws;		/* receive window scaling */
++	uint32_t tcps_cwnd;		/* congestion window */
++	uint32_t tcps_cwnd_ssthresh;	/* threshold for congestion avoidance */
++	uint32_t tcps_sack_snxt;	/* next SACK seq # for retransmission */
++	uint32_t tcps_rto;		/* round-trip timeout, msec */
++	uint32_t tcps_mss;		/* max segment size */
++	int tcps_retransmit;		/* retransmit send event, boolean */
++	uint32_t tcps_rtt;		/* smoothed avg round-trip time, msec */
++	uint32_t tcps_rtt_sd;		/* standard deviation of RTT */
++	uint32_t tcps_irs;		/* Initial recv sequence # */
++} tcpsinfo_t;
++
++/*
++ * tcplsinfo provides the old tcp state for state changes.
++ */
++typedef struct tcplsinfo {
++	int tcps_state;		/* previous TCP state */
++} tcplsinfo_t;
++
++#pragma D binding "1.6.3" translator
++translator tcpinfo_t < struct tcphdr *T > {
++	tcp_sport = T ? ntohs(T->source) : 0;
++	tcp_dport = T ? ntohs(T->dest) : 0;
++	tcp_seq = T ? ntohl(T->seq) : 0;
++	tcp_ack = T ? ntohl(T->ack_seq) : 0;
++	tcp_offset = T ? (*(uint8_t *)(T + 12) & 0xf0) >> 2 : 0;
++	tcp_flags = T ? *((uint8_t *)T + 13) : 0;
++	tcp_window = T ? ntohs(T->window) : 0;
++	tcp_checksum = T ? ntohs(T->check) : 0;
++	tcp_urgent = T ? ntohs(T->urg_ptr) : 0;
++	tcp_hdr = (uintptr_t)T;
++};
++
++/* timewait sockets and inet connection sockets do not populate all fields
++ * and are not classified as full sockets; this inline helps translators
++ * spot them and act appropriately.
++ */
++inline int tcp_fullsock[struct tcp_sock *sk] =
++	(((struct sock_common *)sk)->skc_state != TCP_STATE_SYN_RECEIVED &&
++	 ((struct sock_common *)sk)->skc_state != TCP_STATE_TIME_WAIT);
++/*
++ * In the main we simply translate from the "struct [tcp_]sock *" to
++ * a tcpsinfo_t *.  However there are a few exceptions:
++ *
++ * - tcps_state for state-change is arg5.  The reason is that in some
++ * state transitions sock->sk_state does not reflect the actual TCP
++ * connection state.  For example the TIME_WAIT state is handled in
++ * Linux by creating a separate timewait socket and the state of the
++ * original socket is CLOSED.  In some other cases we also need to
++ * instrument state transition _prior_ to the update of sk_state.  To do
++ * all of this we rely on arg5 to hold the new state. arg6 is set to
++ * NET_PROBE_STATE to quickly identify state-change probes.
++ * - we sometimes need to retrieve local/remote port/address settings from
++ * TCP and IP headers directly, for example prior to the address/port
++ * being committed to the socket.  To do this effectively we need to know
++ * if the packet data is inbound (in which case the local IP/port are the
++ * destination) or outbound (in which case the local IP/port are the source).
++ * arg6 is set to 0 for outbound traffic and 1 for inbound so we use these
++ * to reconstruct the address/port info where necessary.  arg2 used for IP
++ * information while arg4 contains the TCP header, so it is used for port data.
++ * NET_PROBE_INBOUND is defined as 1, NET_PROBE_OUTBOUND as 0 in net.d.
++ */
++#pragma D binding "1.6.3" translator
++translator tcpsinfo_t < struct tcp_sock *T > {
++	tcps_addr = (uintptr_t)T;
++	tcps_local =
++	    T && ((struct sock *)T)->__sk_common.skc_family == AF_INET ?
++	    (((struct sock *)T)->__sk_common.skc_rcv_saddr ==
++	    ((struct sock *)T)->__sk_common.skc_daddr) :
++	    T && ((struct sock *)T)->__sk_common.skc_family == AF_INET6 ?
++	    (((uint32_t *)&((struct sock *)T)->__sk_common.skc_v6_rcv_saddr)[0]
++	    ==
++	    ((uint32_t *)&((struct sock *)T)->__sk_common.skc_v6_daddr)[0] &&
++	    ((uint32_t *)&((struct sock *)T)->__sk_common.skc_v6_rcv_saddr)[1]
++            ==
++            ((uint32_t *)&((struct sock *)T)->__sk_common.skc_v6_daddr)[1] &&
++	    ((uint32_t *)&((struct sock *)T)->__sk_common.skc_v6_rcv_saddr)[2]
++            ==
++            ((uint32_t *)&((struct sock *)T)->__sk_common.skc_v6_daddr)[2] &&
++	    ((uint32_t *)&((struct sock *)T)->__sk_common.skc_v6_rcv_saddr)[3])
++	    : 0;
++	tcps_lport = T && ((struct inet_sock *)T)->inet_sport != 0 &&
++	    tcp_fullsock[T] ?
++	    ntohs(((struct inet_sock *)T)->inet_sport) :
++	    (T && ((struct inet_sock *)T)->inet_sport == 0) ?
++	    ((struct sock *)T)->__sk_common.skc_num :
++	    arg4 != NULL ?
++	    ntohs(arg6 == NET_PROBE_INBOUND ?
++		  ((struct tcphdr *)arg4)->dest :
++		  ((struct tcphdr *)arg4)->source) :
++	    0;
++	tcps_rport = T && ((struct sock *)T)->__sk_common.skc_dport != 0 ?
++	    ntohs(((struct sock *)T)->__sk_common.skc_dport) :
++	    arg4 != NULL ?
++	    ntohs(arg6 == NET_PROBE_INBOUND ?
++		  ((struct tcphdr *)arg4)->source :
++		  ((struct tcphdr *)arg4)->dest) :
++	    0;
++	tcps_laddr =
++	    T && ((struct sock *)T)->__sk_common.skc_family == AF_INET ?
++	    inet_ntoa(&((struct sock *)T)->__sk_common.skc_rcv_saddr) :
++	    T && ((struct sock *)T)->__sk_common.skc_family == AF_INET6 ?
++	    inet_ntoa6(&((struct sock *)T)->__sk_common.skc_v6_rcv_saddr) :
++	    arg2 != NULL && (*(uint8_t *)arg2 >> 4) == 4 ?
++	    inet_ntoa(&((struct iphdr *)arg2)->daddr) :
++	    arg2 != NULL && (*(uint8_t *)arg2 >> 4) == 6 ?
++	    inet_ntoa6(&((struct ipv6hdr *)arg2)->daddr) :
++	    "<unknown>";
++	tcps_raddr =
++	    T && ((struct sock *)T)->__sk_common.skc_family == AF_INET ?
++	    inet_ntoa(&((struct sock *)T)->__sk_common.skc_daddr) :
++	    T && ((struct sock *)T)->__sk_common.skc_family == AF_INET6 ?
++	    inet_ntoa6(&((struct sock *)T)->__sk_common.skc_v6_daddr) :
++	    arg2 != NULL && (*(uint8_t *)arg2 >> 4) == 4 ?
++	    inet_ntoa(&((struct iphdr *)arg2)->saddr) :
++	    arg2 != NULL && (*(uint8_t *)arg2 >> 4) == 6 ?
++	    inet_ntoa6(&((struct ipv6hdr *)arg2)->saddr) :
++	    "<unknown>";
++	/* For state-change we probe right before state has changed, but
++	 * provider definition wants new state in tcps_state; for
++	 * state-change probes the trampoline stores it in arg5.
++	 */
++	tcps_state = arg6 == NET_PROBE_STATE ? arg5 :
++	    T ? ((struct sock *)T)->__sk_common.skc_state : 0;
++	tcps_iss = T ?
++	    T->snd_una - (uint32_t)T->bytes_acked : 0;
++	tcps_suna = T ? T->snd_una : 0;
++	tcps_snxt = T ? T->snd_nxt : 0;
++	tcps_rnxt = T ? T->rcv_nxt : 0;
++	tcps_swnd = T ? T->snd_wnd : 0;
++	tcps_snd_ws = T ? T->rx_opt.snd_wscale : 0;
++	tcps_rwnd = T ? T->rcv_wnd : 0;
++	tcps_rcv_ws = T ? T->rx_opt.rcv_wscale : 0;
++	tcps_cwnd = T ? T->snd_cwnd : 0;
++	tcps_cwnd_ssthresh = T ? T->snd_ssthresh : 0;
++	tcps_sack_snxt = (T && T->sacked_out == 0) ? T->snd_una :
++	    (T && T->highest_sack == NULL) ? T->snd_nxt :
++	    (T && T->highest_sack != NULL) ?
++	    ((struct tcp_skb_cb *)&((T->highest_sack->cb[0])))->seq : 0;
++	tcps_rto = T ? T->inet_conn.icsk_rto : 0;
++	tcps_mss = T ? T->mss_cache : 0;
++	tcps_retransmit = T && arg0 ?
++	    (((struct tcp_skb_cb *)&(((struct sk_buff *)arg0)->cb[0]))->end_seq
++	    < T->snd_nxt - 1) : 0;
++	tcps_rtt = T ? (T->srtt_us >> 3)/1000 : 0;
++	tcps_rtt_sd = T ? (T->mdev_us >> 2)/1000 : 0;
++	tcps_irs = T && T->bytes_received > 0 ?
++	    T->rcv_nxt - (uint32_t)T->bytes_received : 0;
++};
++
++/* state-change trampoline stores new state in arg5; at time of firing,
++ * state has not been updated, so last state is in tcp_sock state.
++ */
++#pragma D binding "1.6.3" translator
++translator tcplsinfo_t < int I > {
++	tcps_state = arg3 ? ((struct sock *)arg3)->__sk_common.skc_state : 0;
++};
++
++/* Use struct tcp_sock * to fill out tcp header info where we do not have
++ * an sk_buff with struct tcphdr * available; currently only used for
++ * the tcp:::accept-established case where the struct sk_buff * is not
++ * available on < 5.10 kernels.
++ */
++typedef void * __dtrace_tcp_void_tcp_t;
++
++#pragma D binding "1.6.3" translator
++translator tcpinfo_t < __dtrace_tcp_void_tcp_t *T > {
++	tcp_sport = T ? ntohs(((struct tcphdr *)T)->source) :
++		    arg3 ? ((struct sock *)arg3)->__sk_common.skc_dport :
++		    0;
++	tcp_dport = T ? ntohs(((struct tcphdr *)T)->dest) :
++		    arg3 ? ntohs(((struct inet_sock *)arg3)->inet_sport) :
++		    0;
++	tcp_seq = T ? ntohl(((struct tcphdr *)T)->seq) :
++		  arg3 ? ((struct tcp_sock *)arg3)->rcv_nxt :
++		  0;
++	tcp_ack = T ? ntohl(((struct tcphdr *)T)->ack_seq) :
++		  arg3 ? ((struct tcp_sock *)arg3)->snd_nxt :
++		  0;
++	tcp_offset = T ? (*(uint8_t *)(T + 12) & 0xf0) >> 2 : 0;
++	tcp_flags = T ? *((uint8_t *)T + 13) : TH_ACK;
++	tcp_window = T ? ntohs(((struct tcphdr *)T)->window) :
++		     arg3 ? ((struct tcp_sock *)arg3)->rcv_wnd :
++		     0;
++	tcp_checksum = T ? ntohs(((struct tcphdr *)T)->check) : 0;
++	tcp_hdr = (uintptr_t)T;
++};
+diff --git a/dlibs/aarch64/7.2/udp.d b/dlibs/aarch64/7.2/udp.d
+new file mode 100644
+index 00000000..8b2a2408
+--- /dev/null
++++ b/dlibs/aarch64/7.2/udp.d
+@@ -0,0 +1,72 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2010, 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#pragma D depends_on module vmlinux
++#pragma D depends_on library net.d
++#pragma D depends_on library ip.d
++#pragma D depends_on provider udp
++
++/*
++ * udpinfo is the UDP header fields.
++ */
++typedef struct udpinfo {
++	uint16_t udp_sport;		/* source port */
++	uint16_t udp_dport;		/* destination port */
++	uint16_t udp_length;		/* total length */
++	uint16_t udp_checksum;          /* headers + data checksum */
++	struct udphdr *udp_hdr;		/* raw UDP header */
++} udpinfo_t;
++
++/*
++ * udpsinfo contains stable UDP details from udp_t.
++ */
++typedef struct udpsinfo {
++	uintptr_t udps_addr;
++	uint16_t udps_lport;		/* local port */
++	uint16_t udps_rport;		/* remote port */
++	string udps_laddr;		/* local address, as a string */
++	string udps_raddr;		/* remote address, as a string */
++} udpsinfo_t;
++
++#pragma D binding "1.6.3" translator
++translator udpinfo_t < struct udphdr *U > {
++	udp_sport = ntohs(U->source);
++	udp_dport = ntohs(U->dest);
++	udp_length = ntohs(U->len);
++	udp_checksum = ntohs(U->check);
++	udp_hdr = U;
++};
++
++#pragma D binding "1.6.3" translator
++translator udpsinfo_t < struct udp_sock *S > {
++	/*
++	 * We source udp info from other args but retain the sock arg here
++	 * as it may be used in the future.
++	 */
++	udps_addr = (uintptr_t)S;
++	udps_lport = arg4 ?
++	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
++	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
++	udps_rport = arg4 ?
++	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
++	    ntohs(((struct udphdr *)arg4)->source)) : 0;
++	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
++            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
++	    &((struct iphdr *)arg2)->daddr) :
++	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
++	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
++	    &((struct ipv6hdr *)arg2)->daddr) :
++	    "<unknown>";
++	udps_raddr =
++	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
++            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
++	    &((struct iphdr *)arg2)->saddr) :
++	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
++	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
++	    &((struct ipv6hdr *)arg2)->saddr) :
++	    "<unknown>";
++};
+diff --git a/dlibs/aarch64/7.2/unistd.d b/dlibs/aarch64/7.2/unistd.d
+new file mode 100644
+index 00000000..c38bbed4
+--- /dev/null
++++ b/dlibs/aarch64/7.2/unistd.d
+@@ -0,0 +1,36 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++inline int DTRACEFLT_UNKNOWN = 0;	/* Unknown fault */
++#pragma D binding "1.0" DTRACEFLT_UNKNOWN
++
++inline int DTRACEFLT_BADADDR = 1;	/* Bad address */
++#pragma D binding "1.0" DTRACEFLT_BADADDR
++
++inline int DTRACEFLT_BADALIGN = 2;	/* Bad alignment */
++#pragma D binding "1.0" DTRACEFLT_BADALIGN
++
++inline int DTRACEFLT_ILLOP = 3;		/* Illegal operation */
++#pragma D binding "1.0" DTRACEFLT_ILLOP
++
++inline int DTRACEFLT_DIVZERO = 4;	/* Divide-by-zero */
++#pragma D binding "1.0" DTRACEFLT_DIVZERO
++
++inline int DTRACEFLT_NOSCRATCH = 5;	/* Out of scratch space */
++#pragma D binding "1.0" DTRACEFLT_NOSCRATCH
++
++inline int DTRACEFLT_KPRIV = 6;		/* Illegal kernel access */
++#pragma D binding "1.0" DTRACEFLT_KPRIV
++
++inline int DTRACEFLT_UPRIV = 7;		/* Illegal user access */
++#pragma D binding "1.0" DTRACEFLT_UPRIV
++
++inline int DTRACEFLT_TUPOFLOW = 8;	/* Tuple stack overflow */
++#pragma D binding "1.0" DTRACEFLT_TUPOFLOW
++
++inline int DTRACEFLT_BADSTACK = 9;	/* Bad stack */
++#pragma D binding "1.4.1" DTRACEFLT_BADSTACK
+diff --git a/dlibs/x86_64/7.2/errno.d b/dlibs/x86_64/7.2/errno.d
+new file mode 100644
+index 00000000..f54fafe1
+--- /dev/null
++++ b/dlibs/x86_64/7.2/errno.d
+@@ -0,0 +1,275 @@
++
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
++ * Use is subject to license terms.
++ */
++
++inline int EPERM = 1;
++#pragma D binding "1.0" EPERM
++inline int ENOENT = 2;
++#pragma D binding "1.0" ENOENT
++inline int ESRCH = 3;
++#pragma D binding "1.0" ESRCH
++inline int EINTR = 4;
++#pragma D binding "1.0" EINTR
++inline int EIO = 5;
++#pragma D binding "1.0" EIO
++inline int ENXIO = 6;
++#pragma D binding "1.0" ENXIO
++inline int E2BIG = 7;
++#pragma D binding "1.0" E2BIG
++inline int ENOEXEC = 8;
++#pragma D binding "1.0" ENOEXEC
++inline int EBADF = 9;
++#pragma D binding "1.0" EBADF
++inline int ECHILD = 10;
++#pragma D binding "1.0" ECHILD
++inline int EAGAIN = 11;
++#pragma D binding "1.0" EAGAIN
++inline int ENOMEM = 12;
++#pragma D binding "1.0" ENOMEM
++inline int EACCES = 13;
++#pragma D binding "1.0" EACCES
++inline int EFAULT = 14;
++#pragma D binding "1.0" EFAULT
++inline int ENOTBLK = 15;
++#pragma D binding "1.0" ENOTBLK
++inline int EBUSY = 16;
++#pragma D binding "1.0" EBUSY
++inline int EEXIST = 17;
++#pragma D binding "1.0" EEXIST
++inline int EXDEV = 18;
++#pragma D binding "1.0" EXDEV
++inline int ENODEV = 19;
++#pragma D binding "1.0" ENODEV
++inline int ENOTDIR = 20;
++#pragma D binding "1.0" ENOTDIR
++inline int EISDIR = 21;
++#pragma D binding "1.0" EISDIR
++inline int EINVAL = 22;
++#pragma D binding "1.0" EINVAL
++inline int ENFILE = 23;
++#pragma D binding "1.0" ENFILE
++inline int EMFILE = 24;
++#pragma D binding "1.0" EMFILE
++inline int ENOTTY = 25;
++#pragma D binding "1.0" ENOTTY
++inline int ETXTBSY = 26;
++#pragma D binding "1.0" ETXTBSY
++inline int EFBIG = 27;
++#pragma D binding "1.0" EFBIG
++inline int ENOSPC = 28;
++#pragma D binding "1.0" ENOSPC
++inline int ESPIPE = 29;
++#pragma D binding "1.0" ESPIPE
++inline int EROFS = 30;
++#pragma D binding "1.0" EROFS
++inline int EMLINK = 31;
++#pragma D binding "1.0" EMLINK
++inline int EPIPE = 32;
++#pragma D binding "1.0" EPIPE
++inline int EDOM = 33;
++#pragma D binding "1.0" EDOM
++inline int ERANGE = 34;
++#pragma D binding "1.0" ERANGE
++inline int EDEADLK = 35;
++#pragma D binding "1.0" EDEADLK
++inline int ENAMETOOLONG = 36;
++#pragma D binding "1.0" ENAMETOOLONG
++inline int ENOLCK = 37;
++#pragma D binding "1.0" ENOLCK
++inline int ENOSYS = 38;
++#pragma D binding "1.0" ENOSYS
++inline int ENOTEMPTY = 39;
++#pragma D binding "1.0" ENOTEMPTY
++inline int ELOOP = 40;
++#pragma D binding "1.0" ELOOP
++inline int EWOULDBLOCK = 11;
++#pragma D binding "1.0" EWOULDBLOCK
++inline int ENOMSG = 42;
++#pragma D binding "1.0" ENOMSG
++inline int EIDRM = 43;
++#pragma D binding "1.0" EIDRM
++inline int ECHRNG = 44;
++#pragma D binding "1.0" ECHRNG
++inline int EL2NSYNC = 45;
++#pragma D binding "1.0" EL2NSYNC
++inline int EL3HLT = 46;
++#pragma D binding "1.0" EL3HLT
++inline int EL3RST = 47;
++#pragma D binding "1.0" EL3RST
++inline int ELNRNG = 48;
++#pragma D binding "1.0" ELNRNG
++inline int EUNATCH = 49;
++#pragma D binding "1.0" EUNATCH
++inline int ENOCSI = 50;
++#pragma D binding "1.0" ENOCSI
++inline int EL2HLT = 51;
++#pragma D binding "1.0" EL2HLT
++inline int EBADE = 52;
++#pragma D binding "1.0" EBADE
++inline int EBADR = 53;
++#pragma D binding "1.0" EBADR
++inline int EXFULL = 54;
++#pragma D binding "1.0" EXFULL
++inline int ENOANO = 55;
++#pragma D binding "1.0" ENOANO
++inline int EBADRQC = 56;
++#pragma D binding "1.0" EBADRQC
++inline int EBADSLT = 57;
++#pragma D binding "1.0" EBADSLT
++inline int EDEADLOCK = 35;
++#pragma D binding "1.0" EDEADLOCK
++inline int EBFONT = 59;
++#pragma D binding "1.0" EBFONT
++inline int ENOSTR = 60;
++#pragma D binding "1.0" ENOSTR
++inline int ENODATA = 61;
++#pragma D binding "1.0" ENODATA
++inline int ETIME = 62;
++#pragma D binding "1.0" ETIME
++inline int ENOSR = 63;
++#pragma D binding "1.0" ENOSR
++inline int ENONET = 64;
++#pragma D binding "1.0" ENONET
++inline int ENOPKG = 65;
++#pragma D binding "1.0" ENOPKG
++inline int EREMOTE = 66;
++#pragma D binding "1.0" EREMOTE
++inline int ENOLINK = 67;
++#pragma D binding "1.0" ENOLINK
++inline int EADV = 68;
++#pragma D binding "1.0" EADV
++inline int ESRMNT = 69;
++#pragma D binding "1.0" ESRMNT
++inline int ECOMM = 70;
++#pragma D binding "1.0" ECOMM
++inline int EPROTO = 71;
++#pragma D binding "1.0" EPROTO
++inline int EMULTIHOP = 72;
++#pragma D binding "1.0" EMULTIHOP
++inline int EDOTDOT = 73;
++#pragma D binding "1.0" EDOTDOT
++inline int EBADMSG = 74;
++#pragma D binding "1.0" EBADMSG
++inline int EOVERFLOW = 75;
++#pragma D binding "1.0" EOVERFLOW
++inline int ENOTUNIQ = 76;
++#pragma D binding "1.0" ENOTUNIQ
++inline int EBADFD = 77;
++#pragma D binding "1.0" EBADFD
++inline int EREMCHG = 78;
++#pragma D binding "1.0" EREMCHG
++inline int ELIBACC = 79;
++#pragma D binding "1.0" ELIBACC
++inline int ELIBBAD = 80;
++#pragma D binding "1.0" ELIBBAD
++inline int ELIBSCN = 81;
++#pragma D binding "1.0" ELIBSCN
++inline int ELIBMAX = 82;
++#pragma D binding "1.0" ELIBMAX
++inline int ELIBEXEC = 83;
++#pragma D binding "1.0" ELIBEXEC
++inline int EILSEQ = 84;
++#pragma D binding "1.0" EILSEQ
++inline int ERESTART = 85;
++#pragma D binding "1.0" ERESTART
++inline int ESTRPIPE = 86;
++#pragma D binding "1.0" ESTRPIPE
++inline int EUSERS = 87;
++#pragma D binding "1.0" EUSERS
++inline int ENOTSOCK = 88;
++#pragma D binding "1.0" ENOTSOCK
++inline int EDESTADDRREQ = 89;
++#pragma D binding "1.0" EDESTADDRREQ
++inline int EMSGSIZE = 90;
++#pragma D binding "1.0" EMSGSIZE
++inline int EPROTOTYPE = 91;
++#pragma D binding "1.0" EPROTOTYPE
++inline int ENOPROTOOPT = 92;
++#pragma D binding "1.0" ENOPROTOOPT
++inline int EPROTONOSUPPORT = 93;
++#pragma D binding "1.0" EPROTONOSUPPORT
++inline int ESOCKTNOSUPPORT = 94;
++#pragma D binding "1.0" ESOCKTNOSUPPORT
++inline int EOPNOTSUPP = 95;
++#pragma D binding "1.0" EOPNOTSUPP
++inline int EPFNOSUPPORT = 96;
++#pragma D binding "1.0" EPFNOSUPPORT
++inline int EAFNOSUPPORT = 97;
++#pragma D binding "1.0" EAFNOSUPPORT
++inline int EADDRINUSE = 98;
++#pragma D binding "1.0" EADDRINUSE
++inline int EADDRNOTAVAIL = 99;
++#pragma D binding "1.0" EADDRNOTAVAIL
++inline int ENETDOWN = 100;
++#pragma D binding "1.0" ENETDOWN
++inline int ENETUNREACH = 101;
++#pragma D binding "1.0" ENETUNREACH
++inline int ENETRESET = 102;
++#pragma D binding "1.0" ENETRESET
++inline int ECONNABORTED = 103;
++#pragma D binding "1.0" ECONNABORTED
++inline int ECONNRESET = 104;
++#pragma D binding "1.0" ECONNRESET
++inline int ENOBUFS = 105;
++#pragma D binding "1.0" ENOBUFS
++inline int EISCONN = 106;
++#pragma D binding "1.0" EISCONN
++inline int ENOTCONN = 107;
++#pragma D binding "1.0" ENOTCONN
++inline int ESHUTDOWN = 108;
++#pragma D binding "1.0" ESHUTDOWN
++inline int ETOOMANYREFS = 109;
++#pragma D binding "1.0" ETOOMANYREFS
++inline int ETIMEDOUT = 110;
++#pragma D binding "1.0" ETIMEDOUT
++inline int ECONNREFUSED = 111;
++#pragma D binding "1.0" ECONNREFUSED
++inline int EHOSTDOWN = 112;
++#pragma D binding "1.0" EHOSTDOWN
++inline int EHOSTUNREACH = 113;
++#pragma D binding "1.0" EHOSTUNREACH
++inline int EALREADY = 114;
++#pragma D binding "1.0" EALREADY
++inline int EINPROGRESS = 115;
++#pragma D binding "1.0" EINPROGRESS
++inline int ESTALE = 116;
++#pragma D binding "1.0" ESTALE
++inline int EUCLEAN = 117;
++#pragma D binding "1.0" EUCLEAN
++inline int ENOTNAM = 118;
++#pragma D binding "1.0" ENOTNAM
++inline int ENAVAIL = 119;
++#pragma D binding "1.0" ENAVAIL
++inline int EISNAM = 120;
++#pragma D binding "1.0" EISNAM
++inline int EREMOTEIO = 121;
++#pragma D binding "1.0" EREMOTEIO
++inline int EDQUOT = 122;
++#pragma D binding "1.0" EDQUOT
++inline int ENOMEDIUM = 123;
++#pragma D binding "1.0" ENOMEDIUM
++inline int EMEDIUMTYPE = 124;
++#pragma D binding "1.0" EMEDIUMTYPE
++inline int ECANCELED = 125;
++#pragma D binding "1.0" ECANCELED
++inline int ENOKEY = 126;
++#pragma D binding "1.0" ENOKEY
++inline int EKEYEXPIRED = 127;
++#pragma D binding "1.0" EKEYEXPIRED
++inline int EKEYREVOKED = 128;
++#pragma D binding "1.0" EKEYREVOKED
++inline int EKEYREJECTED = 129;
++#pragma D binding "1.0" EKEYREJECTED
++inline int EOWNERDEAD = 130;
++#pragma D binding "1.0" EOWNERDEAD
++inline int ENOTRECOVERABLE = 131;
++#pragma D binding "1.0" ENOTRECOVERABLE
++inline int ERFKILL = 132;
++#pragma D binding "1.0" ERFKILL
++inline int EHWPOISON = 133;
++#pragma D binding "1.0" EHWPOISON
++inline int ENOTSUP = 95;
++#pragma D binding "1.0" ENOTSUP
+diff --git a/dlibs/x86_64/7.2/io.d b/dlibs/x86_64/7.2/io.d
+new file mode 100644
+index 00000000..09784dbc
+--- /dev/null
++++ b/dlibs/x86_64/7.2/io.d
+@@ -0,0 +1,235 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2012, 2024, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#pragma D depends_on module vmlinux
++#pragma D depends_on provider sched
++
++typedef char	*caddr_t;
++
++typedef struct bufinfo {
++	int b_flags;			/* buffer status */
++	size_t b_bcount;		/* number of bytes */
++	caddr_t b_addr;			/* buffer address */
++	uint64_t b_lblkno;		/* block # on device */
++	uint64_t b_blkno;		/* expanded block # on device */
++	size_t b_resid;			/* # of bytes not transferred */
++	size_t b_bufsize;		/* size of allocated buffer */
++	caddr_t b_iodone;		/* I/O completion routine */
++	int b_error;			/* expanded error field */
++	dev_t b_edev;			/* extended device */
++} bufinfo_t;
++
++inline int B_BUSY = 0x000001;
++#pragma D binding "1.0" B_BUSY
++inline int B_DONE = 0x000002;
++#pragma D binding "1.0" B_DONE
++inline int B_ERROR = 0x000004;
++#pragma D binding "1.0" B_ERROR
++inline int B_PAGEIO = 0x000010;
++#pragma D binding "1.0" B_PAGEIO
++inline int B_PHYS = 0x000020;
++#pragma D binding "1.0" B_PHYS
++inline int B_READ = 0x000040;
++#pragma D binding "1.0" B_READ
++inline int B_WRITE = 0x000100;
++#pragma D binding "1.0" B_WRITE
++inline int B_ASYNC = 0x000400;
++#pragma D binding "1.0" B_ASYNC
++
++#pragma D binding "1.0" translator
++translator bufinfo_t < struct buffer_head *B > {
++	b_flags = (int)arg1 & 0x01 ? B_WRITE : B_READ;
++	b_addr = B->b_data;
++	b_bcount = B->b_size;
++	b_lblkno = B->b_blocknr;
++	b_blkno = B->b_blocknr;
++	b_resid = 0;
++	b_bufsize = B->b_size;
++	b_iodone = (caddr_t)0;		/* b_end_io removed in 7.2 */
++	b_error = 0;			/* b_state ?? */
++	b_edev = B->b_bdev->bd_dev;
++};
++
++/*
++ * From linux/blk_types.h.
++ */
++
++/* bit # in bi_flags */
++inline int BIO_USER_MAPPED = 6;
++
++/* bit mask in bi_rw */
++inline int REQ_WRITE = 0x01;
++
++inline int REQ_SYNC = 0x800;
++
++
++
++
++
++
++
++#pragma D binding "1.6.3" translator
++translator bufinfo_t < struct bio *B > {
++	b_flags = ((int)B->bi_opf & REQ_WRITE ? B_WRITE : B_READ) |
++		((int)B->bi_opf & REQ_SYNC ? 0 : B_ASYNC) |
++		((int)B->bi_flags & (1 << BIO_USER_MAPPED) ? B_PAGEIO : B_PHYS);
++	b_addr = 0;
++	b_bcount = B->bi_iter.bi_size;
++	b_lblkno = B->bi_iter.bi_sector;
++	b_blkno = B->bi_iter.bi_sector;
++	b_resid = 0;
++	b_bufsize = B->bi_iter.bi_size;
++	b_iodone = (caddr_t)B->bi_end_io;
++	b_error = 0;
++	b_edev = B->bi_bdev == NULL ? 0 : B->bi_bdev->bd_dev;
++};
++
++typedef struct devinfo {
++	int dev_major;			/* major number */
++	int dev_minor;			/* minor number */
++	int dev_instance;		/* instance number */
++	string dev_name;		/* name of device */
++	string dev_statname;		/* name of device + instance/minor */
++	string dev_pathname;		/* pathname of device */
++} devinfo_t;
++
++
++
++#pragma D binding "1.0" translator
++translator devinfo_t < struct buffer_head *B > {
++	dev_major = getmajor(B->b_bdev->bd_dev);
++	dev_minor = getminor(B->b_bdev->bd_dev);
++	dev_instance = 0;		/* not used? */
++	dev_name = B->b_bdev->bd_disk->part0->bd_device.parent
++	    ? B->b_bdev->bd_disk->part0->bd_device.parent->driver->name
++		? stringof(B->b_bdev->bd_disk->part0->bd_device.parent->driver->name)
++		: "<none>"
++	    : B->b_bdev->bd_disk->part0->bd_device.driver->name
++		? stringof(B->b_bdev->bd_disk->part0->bd_device.driver->name)
++		: "<none>";
++	dev_statname = (B->b_bdev->__bd_flags.counter & 255) == 0
++			? stringof(B->b_bdev->bd_disk->disk_name)
++			: strjoin(stringof(B->b_bdev->bd_disk->disk_name),
++				  lltostr(B->b_bdev->__bd_flags.counter & 255));
++	dev_pathname = strjoin(
++			"/dev/",
++			B->b_bdev->__bd_flags.counter & 255 == 0
++			    ? stringof(B->b_bdev->bd_disk->disk_name)
++			    : strjoin(stringof(B->b_bdev->bd_disk->disk_name),
++				      lltostr(B->b_bdev->__bd_flags.counter & 255))
++		       );
++};
++
++#pragma D binding "1.6.3" translator
++translator devinfo_t < struct bio *B > {
++	dev_major = B->bi_bdev == NULL ? 0 : getmajor(B->bi_bdev->bd_dev);
++	dev_minor = B->bi_bdev == NULL ? 0 : getminor(B->bi_bdev->bd_dev);
++	dev_instance = 0;
++	dev_name = B->bi_bdev == NULL
++			? "nfs"
++			: stringof(((struct blk_major_name **)&vmlinux`major_names)[
++					getmajor(B->bi_bdev->bd_dev) % 255
++				   ]->name);
++	dev_statname = B->bi_bdev == NULL ? "nfs" :
++	    (B->bi_bdev->__bd_flags.counter & 255) == 0 ? stringof(B->bi_bdev->bd_disk->disk_name) :
++	    strjoin(stringof(B->bi_bdev->bd_disk->disk_name), lltostr(B->bi_bdev->__bd_flags.counter & 255));
++	dev_pathname = B->bi_bdev == NULL ? "<nfs>" : "<unknown>";
++};
++
++typedef struct fileinfo {
++	string fi_name;			/* name (basename of fi_pathname) */
++	string fi_dirname;		/* directory (dirname of fi_pathname) */
++	string fi_pathname;		/* full pathname */
++	loff_t fi_offset;		/* offset within file */
++	string fi_fs;			/* filesystem */
++	string fi_mount;		/* mount point of file system */
++	int fi_oflags;			/* open(2) flags for file descriptor */
++} fileinfo_t;
++
++#pragma D binding "1.0" translator
++translator fileinfo_t < struct buffer_head *B > {
++	fi_name = "<unknown>";
++	fi_dirname = "<unknown>";
++	fi_pathname = "<unknown>";
++	fi_offset = 0;
++	fi_fs = "<unknown>";
++	fi_mount = "<unknown>";
++	fi_oflags = 0;
++};
++
++inline int O_ACCMODE = 0003;
++#pragma D binding "1.1" O_ACCMODE
++inline int O_RDONLY = 00;
++#pragma D binding "1.1" O_RDONLY
++inline int O_WRONLY = 01;
++#pragma D binding "1.1" O_WRONLY
++inline int O_RDWR = 02;
++#pragma D binding "1.1" O_RDWR
++inline int O_CREAT = 00000100;
++#pragma D binding "1.1" O_CREAT
++inline int O_EXCL = 00000200;
++#pragma D binding "1.1" O_EXCL
++inline int O_NOCTTY = 00000400;
++#pragma D binding "1.1" O_NOCTTY
++inline int O_TRUNC = 00001000;
++#pragma D binding "1.1" O_TRUNC
++inline int O_APPEND = 00002000;
++#pragma D binding "1.1" O_APPEND
++inline int O_NONBLOCK = 00004000;
++#pragma D binding "1.1" O_NONBLOCK
++inline int O_NDELAY = 00004000;
++#pragma D binding "1.1" O_NDELAY
++inline int O_SYNC = (04000000|010000);
++#pragma D binding "1.1" O_SYNC
++inline int O_FSYNC = (04000000|010000);
++#pragma D binding "1.1" O_FSYNC
++inline int O_ASYNC = 020000;
++#pragma D binding "1.1" O_ASYNC
++inline int O_DIRECTORY = 0200000;
++#pragma D binding "1.1" O_DIRECTORY
++inline int O_NOFOLLOW = 0400000;
++#pragma D binding "1.1" O_NOFOLLOW
++inline int O_CLOEXEC = 02000000;
++#pragma D binding "1.1" O_CLOEXEC
++inline int O_DSYNC = 010000;
++#pragma D binding "1.1" O_DSYNC
++inline int O_RSYNC = (04000000|010000);
++#pragma D binding "1.1" O_RSYNC
++
++#pragma D binding "1.1" translator
++translator fileinfo_t < struct file *F > {
++	fi_name = F == NULL
++			? "<none>"
++			: stringof(F->f_path.dentry->d_name.name);
++	fi_dirname = F == NULL
++			? "<none>"
++			: dirname(d_path(&(F->f_path)));
++	fi_pathname = F == NULL
++			? "<none>"
++			: d_path(&(F->f_path));
++	fi_offset = F == NULL
++			? 0
++			: F->f_pos;
++	fi_fs = F == NULL
++			? "<none>"
++			: stringof(F->f_path.mnt->mnt_sb->s_type->name);
++	fi_mount = F == NULL
++			? "<none>"
++			: "<unknown>";
++	fi_oflags = F == NULL
++			? 0
++			: F->f_flags;
++};
++
++inline fileinfo_t fds[int fd] = xlate <fileinfo_t> (
++				 fd >= 0 && fd < curthread->files->fdt->max_fds
++					? curthread->files->fdt->fd[fd]
++					: NULL
++				);
++
++#pragma D attributes Stable/Stable/Common fds
++#pragma D binding "1.1" fds
+diff --git a/dlibs/x86_64/7.2/ip.d b/dlibs/x86_64/7.2/ip.d
+new file mode 100644
+index 00000000..95520b4a
+--- /dev/null
++++ b/dlibs/x86_64/7.2/ip.d
+@@ -0,0 +1,316 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2007, 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#pragma D depends_on module vmlinux
++#pragma D depends_on library net.d
++#pragma D depends_on library procfs.d
++#pragma D depends_on provider ip
++
++inline int IPPROTO_IP		=	0;
++inline int IPPROTO_ICMP		=	1;
++inline int IPPROTO_IGMP		=	2;
++inline int IPPROTO_IPIP		=	4;
++inline int IPPROTO_TCP		=	6;
++inline int IPPROTO_EGP		=	8;
++inline int IPPROTO_PUP		=	12;
++inline int IPPROTO_UDP		=	17;
++inline int IPPROTO_IDP		=	22;
++inline int IPPROTO_TP		=	29;
++inline int IPPROTO_DCCP		=	33;
++inline int IPPROTO_IPV6		=	41;
++inline int IPPROTO_RSVP		=	46;
++inline int IPPROTO_GRE		=	47;
++inline int IPPROTO_ESP		=	50;
++inline int IPPROTO_AH		=	51;
++inline int IPPROTO_OSPF		=	89;
++inline int IPPROTO_MTP		=	92;
++inline int IPPROTO_BEETPH	=	94;
++inline int IPPROTO_ENCAP	=	98;
++inline int IPPROTO_PIM		=	103;
++inline int IPPROTO_COMP		=	108;
++inline int IPPROTO_SCTP		=	132;
++inline int IPPROTO_UDPLITE	=	136;
++inline int IPPROTO_RAW		=	255;
++inline int IPPROTO_MAX		=	256;
++inline int IPPROTO_HOPOPTS	=	0;
++inline int IPPROTO_ROUTING	=	43;
++inline int IPPROTO_FRAGMENT	=	44;
++inline int IPPROTO_ICMPV6	=	58;
++inline int IPPROTO_NONE		=	59;
++inline int IPPROTO_DSTOPTS	=	60;
++inline int IPPROTO_MH		=	135;
++
++inline int TCP_MIN_HEADER_LENGTH =	20;
++
++/*
++ * ipinfo contains common IP info for both IPv4 and IPv6.
++ */
++typedef struct ipinfo {
++	uint8_t ip_ver;			/* IP version (4, 6) */
++	uint32_t ip_plength;		/* payload length */
++	string ip_saddr;		/* source address */
++	string ip_daddr;		/* destination address */
++} ipinfo_t;
++
++/*
++ * ifinfo contains network interface info.
++ */
++typedef struct ifinfo {
++	string if_name;			/* interface name */
++	int8_t if_local;		/* is delivered locally */
++	netstackid_t if_ipstack;	/* netns pointer on Linux */
++	uintptr_t if_addr;		/* pointer to raw struct net_device */
++} ifinfo_t;
++
++/*
++ * ipv4info is a translated version of the IPv4 header (with raw pointer).
++ * These values are NULL if the packet is not IPv4.
++ */
++typedef struct ipv4info {
++	uint8_t ipv4_ver;		/* IP version (4) */
++	uint8_t ipv4_ihl;		/* header length, bytes */
++	uint8_t ipv4_tos;		/* type of service field */
++	uint16_t ipv4_length;		/* length (header + payload) */
++	uint16_t ipv4_ident;		/* identification */
++	uint8_t ipv4_flags;		/* IP flags */
++	uint16_t ipv4_offset;		/* fragment offset */
++	uint8_t ipv4_ttl;		/* time to live */
++	uint8_t ipv4_protocol;		/* next level protocol */
++	string ipv4_protostr;		/* next level protocol, as string */
++	uint16_t ipv4_checksum;		/* header checksum */
++	ipaddr_t ipv4_src;		/* source address */
++	ipaddr_t ipv4_dst;		/* destination address */
++	string ipv4_saddr;		/* source address, string */
++	string ipv4_daddr;		/* destination address, string */
++	struct iphdr *ipv4_hdr;		/* pointer to raw header */
++} ipv4info_t;
++
++/*
++ * ipv6info is a translated version of the IPv6 header (with raw pointer).
++ * These values are NULL if the packet is not IPv6.
++ */
++typedef struct ipv6info {
++	uint8_t ipv6_ver;		/* IP version (6) */
++	uint8_t ipv6_tclass;		/* traffic class */
++	uint32_t ipv6_flow;		/* flow label */
++	uint16_t ipv6_plen;		/* payload length */
++	uint8_t ipv6_nexthdr;		/* next header protocol */
++	string ipv6_nextstr;		/* next header protocol, as string */
++	uint8_t ipv6_hlim;		/* hop limit */
++	in6_addr_t *ipv6_src;		/* source address */
++	in6_addr_t *ipv6_dst;		/* destination address */
++	string ipv6_saddr;		/* source address, string */
++	string ipv6_daddr;		/* destination address, string */
++	struct ipv6hdr *ipv6_hdr;	/* pointer to raw header */
++} ipv6info_t;
++
++/*
++ * void_ip_t is a void pointer to either an IPv4 or IPv6 header.  It has
++ * its own type name so that a translator can be determined.
++ */
++typedef uintptr_t void_ip_t;
++
++/*
++ * __dtrace_tcp_void_ip_t is used by the translator to take either the
++ * non-NULL void_ip_t * passed in or, if it is NULL, uses arg3 (struct tcp *)
++ * from the tcp:::send probe to translate to an ipinfo_t.
++ * This allows us to present the consumer with header data based on the
++ * struct tcp * when IP information is not yet present (for TCP send).
++ */
++typedef void * __dtrace_tcp_void_ip_t;
++
++#pragma D binding "1.5" translator
++translator pktinfo_t < struct sk_buff *s > {
++	pkt_addr = (uintptr_t)s;
++};
++
++#pragma D binding "1.5" translator
++translator csinfo_t < struct sock *s > {
++	cs_addr = (uintptr_t)s;
++};
++
++#pragma D binding "1.5" translator
++translator ipinfo_t < struct iphdr *I > {
++	ip_ver = 4;
++        ip_plength = I != NULL ? (ntohs(I->tot_len) - I->ihl << 2) : 0;
++	ip_saddr = I != NULL ? inet_ntoa(&I->saddr) : "<unknown>";
++	ip_daddr = I != NULL ? inet_ntoa(&I->daddr) : "<unknown>";
++};
++
++#pragma D binding "1.5" translator
++translator ipinfo_t < struct ipv6hdr *I > {
++	ip_ver = 6;
++	ip_plength = I != NULL ? ntohs(I->payload_len) : 0;
++	ip_saddr = I != NULL ? inet_ntoa6(&I->saddr) : "<unknown>";
++	ip_daddr = I != NULL ? inet_ntoa6(&I->daddr) : "<unknown>";
++};
++
++#pragma D binding "1.5" translator
++translator ipinfo_t < void_ip_t *I > {
++	ip_ver = I != NULL ? *(uint8_t *)I >> 4 : 0;
++	ip_plength = I != NULL ? (*(uint8_t *)I >> 4 == 4 ?
++	    (ntohs(((struct iphdr *)I)->tot_len) - ((*(uint8_t *)I & 0xf) << 2)) :
++	    *(uint8_t *)I >> 4 == 6 ?
++	    ntohs(((struct ipv6hdr *)I)->payload_len) : 0) : 0;
++	ip_saddr = I != NULL ? (*(uint8_t *)I >> 4 == 4 ?
++	    inet_ntoa(&((struct iphdr *)I)->saddr) : *(uint8_t *)I >> 4 == 6 ?
++	    inet_ntoa6(&((struct ipv6hdr *)I)->saddr) : "<unknown>") :
++	    "<unknown>";
++	ip_daddr = I != NULL ? (*(uint8_t *)I >> 4 == 4 ?
++	    inet_ntoa(&((struct iphdr *)I)->daddr) : *(uint8_t *)I >> 4 == 6 ?
++	    inet_ntoa6(&((struct ipv6hdr *)I)->daddr) : "<unknown>") :
++	    "<unknown>";
++};
++
++/*
++ * In some cases where the ipinfo_t * is NULL we wish to construct IP info
++ * using the struct tcp_sock * (arg3).  In order to map local IP to source
++ * or destination IP address appropriately we need to check if the associated
++ * data is inbound (NET_PROBE_INBOUND in arg6) or outbound (NET_PROBE_OUTBOUND);
++ * the value is stored in arg6.  If inbound, we map the local IP address to
++ * ip_daddr (destination), and if outbound it is mapped to ip_saddr.
++ */
++#pragma D binding "1.5" translator
++translator ipinfo_t < __dtrace_tcp_void_ip_t *I > {
++	/*
++	 * General strategy used is to rely on the IP header I if it is
++	 * non-null; otherwise we try to reconstruct IP values from arg3
++	 * (a struct tcp_sock *).
++	 */
++	ip_ver = I != NULL ? *(uint8_t *)I >> 4 :
++	    arg3 != NULL &&
++	    ((struct sock *)arg3)->__sk_common.skc_family == AF_INET ? 4 :
++	    arg3 != NULL &&
++	    ((struct sock *)arg3)->__sk_common.skc_family== AF_INET6 ? 6 : 0;
++	/*
++	 * For ip_plength we fall back to using TCP skb data from the tcp_skb_cb
++	 * to determine payload length.
++	 */
++	ip_plength = I != NULL && *(uint8_t *)I >> 4 == 4 ?
++	    ntohs(((struct iphdr *)I)->tot_len) - ((*(uint8_t *)I & 0xf) << 2) :
++	    I != NULL && *(uint8_t *)I >> 4 == 6 ?
++	    ntohs(((struct ipv6hdr *)I)->payload_len) :
++	    arg0 != NULL ?
++	    ((struct tcp_skb_cb *)&(((struct sk_buff *)arg0)->cb[0]))->end_seq -
++	    ((struct tcp_skb_cb *)&(((struct sk_buff *)arg0)->cb[0]))->seq :
++	    0;
++	/*
++	 * For source/destination addresses, we again try to use the IP header I
++	 * if available.  If I is NULL, we utilize arg3 (struct tcp_sock *)
++	 * but the problem here is that it stores local and remote IP addresses
++	 * _not_ source and destination.  So we need to know if traffic is
++	 * inbound or outbound. If inbound, IP source address is remote
++	 * socket address (skc_daddr) and destination IP address is local socket
++	 * address (skc_rcv_saddr).  If outbound, IP source address is local
++	 * socket address and IP destination address is remote socket address.
++	 */
++	ip_saddr = I != NULL && *(uint8_t *)I >> 4 == 4 ?
++	    inet_ntoa(&((struct iphdr *)I)->saddr) :
++	    I != NULL && *(uint8_t *)I >> 4 == 6 ?
++	    inet_ntoa6(&((struct ipv6hdr *)I)->saddr) :
++	    arg3 != NULL &&
++	    ((struct sock *)arg3)->__sk_common.skc_family== AF_INET ?
++	    inet_ntoa(arg6 == NET_PROBE_INBOUND ?
++	    &((struct sock *)arg3)->__sk_common.skc_daddr :
++	    &((struct sock *)arg3)->__sk_common.skc_rcv_saddr) :
++	    arg3 != NULL &&
++	    ((struct sock *)arg3)->__sk_common.skc_family == AF_INET6 ?
++	    inet_ntoa6(arg6 == NET_PROBE_INBOUND ?
++	    &((struct sock *)arg3)->__sk_common.skc_v6_daddr :
++	    &((struct sock *)arg3)->__sk_common.skc_v6_rcv_saddr) :
++	    "<unknown>";
++	ip_daddr = I != NULL && *(uint8_t *)I >> 4 == 4 ?
++	    inet_ntoa(&((struct iphdr *)I)->daddr) :
++	    I != NULL && *(uint8_t *)I >> 4 == 6 ?
++	    inet_ntoa6(&((struct ipv6hdr *)I)->daddr) :
++	    arg3 != NULL &&
++	    ((struct sock *)arg3)->__sk_common.skc_family== AF_INET ?
++	    inet_ntoa(arg6 == NET_PROBE_INBOUND ?
++	    &((struct sock *)arg3)->__sk_common.skc_rcv_saddr :
++	    &((struct sock *)arg3)->__sk_common.skc_daddr) :
++	    arg3 != NULL &&
++	    ((struct sock *)arg3)->__sk_common.skc_family== AF_INET6 ?
++	    inet_ntoa6(arg6 == NET_PROBE_INBOUND ?
++	    &((struct sock *)arg3)->__sk_common.skc_v6_rcv_saddr :
++	    &((struct sock *)arg3)->__sk_common.skc_v6_daddr) :
++	    "<unknown>";
++};
++
++#pragma D binding "1.5" translator
++translator ifinfo_t < struct net_device *N > {
++	if_name = N != NULL ? stringof(N->name) : "<unknown>";
++	if_ipstack = (N != NULL && sizeof(N->nd_net) > 0) ?
++	    ((uint64_t)N->nd_net.net) : 0;
++	if_local = (N == NULL);	/* is delivered locally */
++	if_addr = (uintptr_t)N;	/* pointer to raw struct net_device ptr */
++};
++
++#pragma D binding "1.5" translator
++translator ipv4info_t < struct iphdr *I > {
++	ipv4_ver = I != NULL ? 4 : 0;
++	ipv4_ihl = I != NULL ? ((*(uint8_t *)I & 0xf) << 2) : 0;
++	ipv4_tos = I != NULL ? I->tos : 0;
++	ipv4_length = I != NULL ? ntohs(I->tot_len) : 0;
++	ipv4_ident = I != NULL ? ntohs(I->id) : 0;
++	ipv4_flags = I != NULL ? ntohs(I->frag_off) >> 12 : 0;
++	ipv4_offset = I != NULL ? ntohs(I->frag_off) & 0x0fff : 0;
++	ipv4_ttl = I != NULL ? I->ttl : 0;
++	ipv4_protocol = I != NULL ? I->protocol : 0;
++	ipv4_protostr = I == NULL ? "<null>" :
++	    I->protocol == IPPROTO_TCP     ? "TCP"    :
++	    I->protocol == IPPROTO_UDP     ? "UDP"    :
++	    I->protocol == IPPROTO_IP      ? "IP"     :
++	    I->protocol == IPPROTO_ICMP    ? "ICMP"   :
++	    I->protocol == IPPROTO_IGMP    ? "IGMP"   :
++	    I->protocol == IPPROTO_EGP     ? "EGP"    :
++	    I->protocol == IPPROTO_IPV6    ? "IPv6"   :
++	    I->protocol == IPPROTO_ROUTING ? "ROUTE"  :
++	    I->protocol == IPPROTO_ESP     ? "ESP"    :
++	    I->protocol == IPPROTO_AH      ? "AH"     :
++	    I->protocol == IPPROTO_ICMPV6  ? "ICMPv6" :
++	    I->protocol == IPPROTO_OSPF    ? "OSPF"   :
++	    I->protocol == IPPROTO_SCTP    ? "SCTP"   :
++	    I->protocol == IPPROTO_RAW     ? "RAW"    :
++	    lltostr((uint64_t)I->protocol);
++	ipv4_checksum = I != NULL ? ntohs(I->check) : 0;
++	ipv4_src = I != NULL ? I->saddr : 0;
++	ipv4_dst = I != NULL ? I->daddr : 0;
++	ipv4_saddr = I != NULL ? inet_ntoa(&I->saddr) : "<null>";
++	ipv4_daddr = I != NULL ? inet_ntoa(&I->daddr) : "<null>";
++	ipv4_hdr = I;
++};
++
++#pragma D binding "1.5" translator
++translator ipv6info_t < struct ipv6hdr *I > {
++	ipv6_ver = I != NULL ? ((*(uint8_t *)I) >> 4) : 0;
++	ipv6_tclass = I != NULL ? ((ntohl(*(uint32_t *)I) & 0x0fffffff) >> 20) : 0;
++	ipv6_flow = I != NULL ? (ntohl(*(uint32_t *)I) & 0x000fffff) : 0;
++	ipv6_plen = I != NULL ? ntohs(I->payload_len) : 0;
++	ipv6_nexthdr = I != NULL ? I->nexthdr : 0;
++	ipv6_nextstr = I == NULL ? "<null>" :
++	    I->nexthdr == IPPROTO_TCP	?	"TCP"		:
++	    I->nexthdr == IPPROTO_UDP	?	"UDP"		:
++	    I->nexthdr == IPPROTO_IP	?	"IP"		:
++	    I->nexthdr == IPPROTO_ICMP	?	"ICMP"		:
++	    I->nexthdr == IPPROTO_IGMP	?	"IGMP"		:
++	    I->nexthdr == IPPROTO_EGP	?	"EGP"		:
++	    I->nexthdr == IPPROTO_IPV6	?	"IPv6"		:
++	    I->nexthdr == IPPROTO_ROUTING ?	"ROUTE"		:
++	    I->nexthdr == IPPROTO_ESP	?	"ESP"		:
++	    I->nexthdr == IPPROTO_AH	?	"AH"		:
++	    I->nexthdr == IPPROTO_ICMPV6 ?	"ICMPv6"	:
++	    I->nexthdr == IPPROTO_OSPF ?	"OSPF"		:
++	    I->nexthdr == IPPROTO_SCTP	?	"SCTP"		:
++	    I->nexthdr == IPPROTO_RAW	?	"RAW"		:
++	    lltostr((uint64_t)I->nexthdr);
++	ipv6_hlim = I != NULL ? I->hop_limit : 0;
++	ipv6_src = I != NULL ? &I->saddr : NULL;
++	ipv6_dst = I != NULL ? &I->daddr : 0;
++	ipv6_saddr = I != NULL ? inet_ntoa6(&I->saddr) : "<null>";
++	ipv6_daddr = I != NULL ? inet_ntoa6(&I->daddr) : "<null>";
++	ipv6_hdr = I;
++};
+diff --git a/dlibs/x86_64/7.2/lockstat.d b/dlibs/x86_64/7.2/lockstat.d
+new file mode 100644
+index 00000000..cb8b4bd9
+--- /dev/null
++++ b/dlibs/x86_64/7.2/lockstat.d
+@@ -0,0 +1,14 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#pragma D depends_on module vmlinux
++#pragma D depends_on provider lockstat
++
++inline int RW_WRITER = 0x00;
++#pragma D binding "1.6.4" RW_WRITER
++inline int RW_READER = 0x01;
++#pragma D binding "1.6.4" RW_READER
+diff --git a/dlibs/x86_64/7.2/net.d b/dlibs/x86_64/7.2/net.d
+new file mode 100644
+index 00000000..f14013b9
+--- /dev/null
++++ b/dlibs/x86_64/7.2/net.d
+@@ -0,0 +1,59 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2007, 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/* These are needed for inet_ntop() DTrace function. */
++inline int AF_INET              =       2;
++inline int AF_INET6             =       10;
++
++/* These are needed for link_ntop() DTrace function. */
++inline int ARPHRD_ETHER         =       1;
++inline int ARPHRD_INFINIBAND    =       32;
++
++/*
++ * The conninfo_t structure should be used by all application protocol
++ * providers as the first arguments to indicate some basic information about
++ * the connection. This structure may be augmented to accommodate the
++ * particularities of additional protocols in the future.
++ */
++typedef struct conninfo {
++	string	ci_local;		/* local host address */
++	string	ci_remote;		/* remote host address */
++	string	ci_protocol;		/* protocol (ipv4, ipv6, etc) */
++} conninfo_t;
++
++/*
++ * For compatibility with Solaris.  Here the netstackid will be the pointer to
++ * the net namespace (nd_net in struct net_device).
++ */
++typedef uint64_t	netstackid_t;
++typedef __be32		ipaddr_t;
++typedef struct in6_addr	in6_addr_t;
++
++/*
++ * pktinfo is where packet ID info can be made available for deeper analysis if
++ * packet IDs become supported by the kernel in the future.
++ */
++typedef struct pktinfo {
++	uintptr_t	pkt_addr;
++} pktinfo_t;
++
++/*
++ * csinfo is where connection state info is made available.
++ */
++typedef struct csinfo {
++	uintptr_t	cs_addr;
++	uint64_t	cs_cid;
++} csinfo_t;
++
++/*
++ * We use these values to determine if a probe point is associated with sending
++ * (outbound) or receiving (inbound) or a state-relate probe (i.e. neither
++ * inbound our outbound).
++ */
++inline int NET_PROBE_OUTBOUND =		0x00;
++inline int NET_PROBE_INBOUND =		0x01;
++inline int NET_PROBE_STATE =		0x02;
+diff --git a/dlibs/x86_64/7.2/pcap.d b/dlibs/x86_64/7.2/pcap.d
+new file mode 100644
+index 00000000..21a8e74a
+--- /dev/null
++++ b/dlibs/x86_64/7.2/pcap.d
+@@ -0,0 +1,35 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2016, 2023, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#pragma D depends_on module vmlinux
++#pragma D depends_on provider ip
++
++/*
++ * In general, PCAP_<type> names are chosen to match DL_<type> DLPI
++ * datalink types.
++ */
++
++/*
++ * Network-related capture types.  Raw DLT_* values can be used for those
++ * not present here; see /usr/include/pcap/bpf.h for the full list.
++ */
++
++inline int PCAP_NULL = 0;
++#pragma D binding "1.12" PCAP_NULL
++inline int PCAP_ETHER = 1;
++#pragma D binding "1.12" PCAP_ETHER
++inline int PCAP_WIFI = 105;
++#pragma D binding "1.12" PCAP_WIFI
++inline int PCAP_PPP = 9;
++#pragma D binding "1.12" PCAP_PPP
++/* PCAP_IP can signify IPv4 or IPv6 header follows. */
++inline int PCAP_IP = 12;
++#pragma D binding "1.12" PCAP_IP
++
++/* InfiniBand-related capture types. */
++inline int PCAP_IPOIB = 242;
++#pragma D binding "1.12" PCAP_IPOIB
+diff --git a/dlibs/x86_64/7.2/procfs.d b/dlibs/x86_64/7.2/procfs.d
+new file mode 100644
+index 00000000..3b8b0681
+--- /dev/null
++++ b/dlibs/x86_64/7.2/procfs.d
+@@ -0,0 +1,305 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2012, 2022, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++/*
++ * This file defines the standard set of inlines and translators to be made
++ * available for all D programs to use to examine process model state.
++ */
++
++#pragma D depends_on module vmlinux
++#pragma D depends_on library sched.d
++
++typedef time64_t time_t;
++
++typedef struct timestruc {
++	time_t tv_sec;
++	long tv_nsec;
++} timestruc_t;
++
++typedef struct lwpsinfo {
++	int pr_flag;			/* lwp flags (DEPRECATED) */
++	int pr_lwpid;			/* lwp id */
++	uintptr_t pr_addr;		/* internal address of lwp */
++	uintptr_t pr_wchan;		/* wait addr for sleeping lwp */
++	char pr_stype;			/* sync event type */
++	char pr_state;			/* numeric lwp state */
++	char pr_sname;			/* printable char for pr_state */
++	char pr_nice;			/* nice for cpu usage */
++	short pr_syscall;		/* syscall number */
++	char pr_oldpri;			/* priority */
++	char pr_cpu;			/* CPU usage */
++	int pr_pri;			/* priority */
++	ushort_t pr_pctcpu;		/* % of recent cpu time */
++	ushort_t pr_pad;
++	timestruc_t pr_start;		/* lwp start time */
++	timestruc_t pr_time;		/* usr+sys cpu time */
++	char pr_clname[8];		/* scheduling class name */
++	char pr_name[16];		/* name */
++	processorid_t pr_onpro;		/* processor last ran on */
++	processorid_t pr_bindpro;	/* processor bound to */
++	psetid_t pr_bindpset;		/* processor set */
++	int pr_lgrp;			/* lwp home lgroup */
++	int pr_filler[4];
++} lwpsinfo_t;
++
++typedef id_t taskid_t;
++typedef id_t dprojid_t;
++typedef id_t poolid_t;
++typedef id_t zoneid_t;
++
++/*
++ * Translate from the kernel's task_struct structure to a Solaris proc(4)
++ * psinfo_t struct.
++ * We do not provide support for pr_size, pr_rssize, pr_pctcpu, and pr_pctmem.
++ * We also do not fill in pr_lwp (the lwpsinfo_t for the representative LWP)
++ * because we do not have the ability to select and stop any representative.
++ * Also, for the moment, pr_wstat, pr_time, and pr_ctime are not supported,
++ * but these could be supported by DTrace in the future using subroutines.
++ * Note that any member added to this translator should also be added to the
++ * kthread_t-to-psinfo_t translator, below.
++ */
++typedef struct psinfo {
++	int pr_flag;			/* process flags (DEPRECATED) */
++	int pr_nlwp;			/* number of active lwps (Linux: 1) */
++	pid_t pr_pid;			/* unique process id */
++	pid_t pr_ppid;			/* process id of parent */
++	pid_t pr_pgid;			/* pid of process group leader */
++	pid_t pr_sid;			/* session id */
++	uid_t pr_uid;			/* real user id */
++	uid_t pr_euid;			/* effective user id */
++	uid_t pr_gid;			/* real group id */
++	uid_t pr_egid;			/* effective group id */
++	uintptr_t pr_addr;		/* address of process */
++	size_t pr_size;			/* size of process image (in KB) */
++	size_t pr_rssize;		/* resident set sie (in KB) */
++	size_t pr_pad1;
++	struct tty_struct *pr_ttydev;	/* controlling tty (or -1) */
++	ushort_t pr_pctcpu;		/* % of recent cpu time used */
++	ushort_t pr_pctmem;		/* % of recent memory used */
++	timestruc_t pr_start;		/* process start time */
++	timestruc_t pr_time;		/* usr+sys cpu time for process */
++	timestruc_t pr_ctime;		/* usr+sys cpu time for children */
++	char pr_fname[16];		/* name of exec'd file */
++	string pr_psargs;		/* initial chars of arg list */
++	int pr_wstat;			/* if zombie, wait() status */
++	int pr_argc;			/* initial argument count */
++	uintptr_t pr_argv;		/* address of initial arg vector */
++	uintptr_t pr_envp;		/* address of initial env vector */
++	char pr_dmodel;			/* data model */
++	char pr_pad2[3];
++	taskid_t pr_taskid;		/* task id */
++	dprojid_t pr_projid;		/* project id */
++	int pr_nzomb;			/* number of zombie lwps (Linux: 0) */
++	poolid_t pr_poolid;		/* pool id */
++	zoneid_t pr_zoneid;		/* zone id */
++	id_t pr_contract;		/* process contract */
++	int pr_filler[1];
++	lwpsinfo_t pr_lwp;
++} psinfo_t;
++
++inline char PR_MODEL_ILP32 = 1;
++#pragma D binding "1.0" PR_MODEL_ILP32
++inline char PR_MODEL_LP64 = 2;
++#pragma D binding "1.0" PR_MODEL_LP64
++
++ 
++ 
++inline	int PIDTYPE_PID = 0;
++#pragma D binding "1.0" PIDTYPE_PID
++inline	int PIDTYPE_TGID = 1;
++#pragma D binding "1.0" PIDTYPE_TGID
++inline	int PIDTYPE_PGID = 2;
++#pragma D binding "1.0" PIDTYPE_PGID
++inline	int PIDTYPE_SID = 3;
++#pragma D binding "1.0" PIDTYPE_SID
++
++ 
++ 
++ 
++ 
++ 
++ 
++ 
++#pragma D binding "1.0" translator
++translator psinfo_t < struct task_struct *T > {
++	pr_nlwp = 1;
++	pr_pid = T->tgid;
++	pr_ppid = T->real_parent->tgid;
++	pr_pgid = T->signal->pids[PIDTYPE_PGID]->numbers[0].nr;
++	pr_sid = T->signal->pids[PIDTYPE_SID]->numbers[0].nr;
++	pr_uid = T->cred->uid.val;
++	pr_euid = T->cred->euid.val;
++	pr_gid = T->cred->gid.val;
++	pr_egid = T->cred->egid.val;
++	pr_addr = (uintptr_t)T;
++
++	pr_ttydev = T->signal->tty ? T->signal->tty
++				   : (struct tty_struct *)-1;
++
++	pr_fname = T->comm;
++	pr_psargs = T == curthread ? execargs
++				   : "<unknown>";
++	pr_wstat = 0;
++/*
++	pr_argc = get_psinfo(T)->__psinfo(argc);
++	pr_argv = (uintptr_t)get_psinfo(T)->__psinfo(argv);
++	pr_envp = (uintptr_t)get_psinfo(T)->__psinfo(envp);
++ */
++
++	pr_dmodel = PR_MODEL_LP64;
++
++	pr_taskid = 0;
++	pr_projid = 0;
++	pr_nzomb = 0;
++	pr_poolid = 0;
++	pr_zoneid = 0;
++	pr_contract = 0;
++};
++
++inline int PR_STOPPED = 0x00000001;
++#pragma D binding "1.0" PR_STOPPED
++inline int PR_ISTOP = 0x00000002;
++#pragma D binding "1.0" PR_ISTOP
++inline int PR_DSTOP = 0x00000004;
++#pragma D binding "1.0" PR_DSTOP
++inline int PR_IDLE = 0x10000000;
++#pragma D binding "1.0" PR_IDLE
++
++inline char SSLEEP = 1;
++#pragma D binding "1.0" SSLEEP
++inline char SRUN = 2;
++#pragma D binding "1.0" SRUN
++inline char SZOMB = 3;
++#pragma D binding "1.0" SZOMB
++inline char SSTOP = 4;
++#pragma D binding "1.0" SSTOP
++inline char SIDL = 5;
++#pragma D binding "1.0" SIDL
++inline char SONPROC = 6;
++#pragma D binding "1.0" SONPROC
++inline char SWAIT = 7;
++#pragma D binding "1.0" SWAIT
++
++/*
++ * Translate from the kernel's task_struct structure to a Solaris proc(4)
++ * lwpsinfo_t.
++ * We do not provide support for pr_nice, pr_oldpri, pr_cpu, or pr_pctcpu.
++ * Also, for the moment, pr_start and pr_time are not supported, but these
++ * could be supported by DTrace in the future using subroutines.
++ */
++#pragma D binding "1.0" translator
++translator lwpsinfo_t < struct task_struct *T > {
++	pr_flag = (T->__state & 0x00000004) ? PR_STOPPED : 0;
++/*
++	pr_flag = ((T->t_state == TS_STOPPED) ? (PR_STOPPED |
++	    ((!(T->t_schedflag & TS_PSTART)) ? PR_ISTOP : 0)) :
++	    ((T->t_proc_flag & TP_PRVSTOP) ? PR_STOPPED | PR_ISTOP : 0)) |
++	    ((T == T->t_procp->p_agenttp) ? PR_AGENT : 0) |
++	    ((!(T->t_proc_flag & TP_TWAIT)) ? PR_DETACH : 0) |
++	    ((T->t_proc_flag & TP_DAEMON) ? PR_DAEMON : 0) |
++	    ((T->t_procp->p_pidflag & CLDNOSIGCHLD) ? PR_NOSIGCHLD : 0) |
++	    ((T->t_procp->p_pidflag & CLDWAITPID) ? PR_WAITPID : 0) |
++	    ((T->t_procp->p_proc_flag & P_PR_FORK) ? PR_FORK : 0) |
++	    ((T->t_procp->p_proc_flag & P_PR_RUNLCL) ? PR_RLC : 0) |
++	    ((T->t_procp->p_proc_flag & P_PR_KILLCL) ? PR_KLC : 0) |
++	    ((T->t_procp->p_proc_flag & P_PR_ASYNC) ? PR_ASYNC : 0) |
++	    ((T->t_procp->p_proc_flag & P_PR_BPTADJ) ? PR_BPTADJ : 0) |
++	    ((T->t_procp->p_proc_flag & P_PR_PTRACE) ? PR_PTRACE : 0) |
++	    ((T->t_procp->p_flag & SMSACCT) ? PR_MSACCT : 0) |
++	    ((T->t_procp->p_flag & SMSFORK) ? PR_MSFORK : 0) |
++	    ((T->t_procp->p_flag & SVFWAIT) ? PR_VFORKP : 0) |
++	    (((T->t_procp->p_flag & SSYS) ||
++	    (T->t_procp->p_as == &`kas)) ? PR_ISSYS : 0) |
++	    ((T == T->t_cpu->cpu_idle_thread) ? PR_IDLE : 0);
++*/
++
++	pr_lwpid = T->pid;
++	pr_addr = (uintptr_t)T;
++	pr_wchan = NULL;
++	pr_stype = 0;
++
++	pr_state = (T->__state & 0x00000001) ? SSLEEP :
++		   (T->__state & 0x00000002) ? SSLEEP :
++		   (T->__state & 0x00000004) ? SSTOP :
++		   (T->__state & 0x00000008) ? SSTOP :
++		   (T->__state & 0x00000020) ? SZOMB :
++		   (T->__state & 0x00000010) ? SZOMB :
++		   (T->__state & 0x00000080) ? SZOMB :
++		   (T->__state & 0x00000100) ? SWAIT :
++		   (T->__state & 0x00000200) ? SWAIT : SRUN;
++	pr_sname = (T->__state & 0x00000001) ? 'S' :
++		   (T->__state & 0x00000002) ? 'S' :
++		   (T->__state & 0x00000004) ? 'T' :
++		   (T->__state & 0x00000008) ? 'T' :
++		   (T->__state & 0x00000020) ? 'Z' :
++		   (T->__state & 0x00000010) ? 'Z' :
++		   (T->__state & 0x00000080) ? 'Z' :
++		   (T->__state & 0x00000100) ? 'W' :
++		   (T->__state & 0x00000200) ? 'W' : 'R';
++
++	pr_pri = T->prio;
++	pr_name = T->comm;
++	pr_onpro = ((struct thread_info *)T->stack)->cpu;
++};
++
++inline psinfo_t *curpsinfo = xlate <psinfo_t *> (curthread);
++#pragma D attributes Stable/Stable/Common curpsinfo
++#pragma D binding "1.0" curpsinfo
++
++inline lwpsinfo_t *curlwpsinfo = xlate <lwpsinfo_t *> (curthread);
++#pragma D attributes Stable/Stable/Common curlwpsinfo
++#pragma D binding "1.0" curlwpsinfo
++
++inline string cwd = d_path(&(curthread->fs->pwd));
++#pragma D attributes Stable/Stable/Common cwd
++#pragma D binding "1.0" cwd
++
++inline string root = d_path(&(curthread->fs->root));
++#pragma D attributes Stable/Stable/Common root
++#pragma D binding "1.0" root
++
++inline int CLD_EXITED = 1;
++#pragma D binding "1.0" CLD_EXITED
++inline int CLD_KILLED = 2;
++#pragma D binding "1.0" CLD_KILLED
++inline int CLD_DUMPED = 3;
++#pragma D binding "1.0" CLD_DUMPED
++inline int CLD_TRAPPED = 4;
++#pragma D binding "1.0" CLD_TRAPPED
++inline int CLD_STOPPED = 5;
++#pragma D binding "1.0" CLD_STOPPED
++inline int CLD_CONTINUED = 6;
++#pragma D binding "1.0" CLD_CONTINUED
++
++/*
++ * Below we provide some inline definitions to simplify converting from
++ * a struct pid * to a pid_t.  structpid2pid is a DTrace-ized version of
++ * pid_vnr().
++ */
++ /*
++inline	struct pid_namespace *pid_namespace[struct pid *p] = p != NULL ?
++	p->numbers[p->level].ns : NULL;
++
++inline	int pid_namespace_level[struct pid *p] = p != NULL && pid_namespace[p] ?
++	pid_namespace[p]->level : 0;
++
++m4_dnl 4.19 and above use thread_pid for this.
++define_for_kernel([[__task_pid]], [[ m4_dnl
++	(m4_kver(4, 19, 0), [[task->thread_pid]])]], m4_dnl
++	[[task->pids[PIDTYPE_PID].pid]]) m4_dnl
++
++inline	struct pid *task_pid[struct task_struct *task] =
++	task != NULL ? __task_pid : NULL;
++
++inline	int current_namespace_level = pid_namespace_level[task_pid[curthread]];
++
++inline	pid_t structpid2pid[struct pid *p] =
++	p != NULL && current_namespace_level <= p->level &&
++	((struct upid *)&(p->numbers[current_namespace_level]))->ns ==
++	pid_namespace[task_pid[curthread]] ?
++	((struct upid *)&(p->numbers[current_namespace_level]))->nr : 0;
++*/
+diff --git a/dlibs/x86_64/7.2/regs.d b/dlibs/x86_64/7.2/regs.d
+new file mode 100644
+index 00000000..12ce3ac9
+--- /dev/null
++++ b/dlibs/x86_64/7.2/regs.d
+@@ -0,0 +1,94 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++inline int R_TRAPNO = 25;
++#pragma D binding "1.0" R_TRAPNO
++inline int R_GS = 24;
++#pragma D binding "1.0" R_GS
++inline int R_FS = 23;
++#pragma D binding "1.0" R_FS
++inline int R_ES = 22;
++#pragma D binding "1.0" R_ES
++inline int R_DS = 21;
++#pragma D binding "1.0" R_DS
++
++inline int R_SS = 20;
++#pragma D binding "1.0" R_SS
++inline int R_RSP = 19;
++#pragma D binding "1.0" R_RSP
++inline int R_RFL = 18;
++#pragma D binding "1.0" R_RFL
++inline int R_CS = 17;
++#pragma D binding "1.0" R_CS
++inline int R_RIP = 16;
++#pragma D binding "1.0" R_RIP
++inline int R_ERR = 15;
++#pragma D binding "1.0" R_ERR
++inline int R_RDI = 14;
++#pragma D binding "1.0" R_RDI
++inline int R_RSI = 13;
++#pragma D binding "1.0" R_RSI
++inline int R_RDX = 12;
++#pragma D binding "1.0" R_RDX
++inline int R_RCX = 11;
++#pragma D binding "1.0" R_RCX
++inline int R_RAX = 10;
++#pragma D binding "1.0" R_RAX
++inline int R_R8 = 9;
++#pragma D binding "1.0" R_R8
++inline int R_R9 = 8;
++#pragma D binding "1.0" R_R9
++inline int R_R10 = 7;
++#pragma D binding "1.0" R_R10
++inline int R_R11 = 6;
++#pragma D binding "1.0" R_R11
++inline int R_RBX = 5;
++#pragma D binding "1.0" R_RBX
++inline int R_RBP = 4;
++#pragma D binding "1.0" R_RBP
++inline int R_R12 = 3;
++#pragma D binding "1.0" R_R12
++inline int R_R13 = 2;
++#pragma D binding "1.0" R_R13
++inline int R_R14 = 1;
++#pragma D binding "1.0" R_R14
++inline int R_R15 = 0;
++#pragma D binding "1.0" R_R15
++
++inline int R_EBX = R_RBX;
++#pragma D binding "1.0" R_EBX
++inline int R_ECX = R_RCX;
++#pragma D binding "1.0" R_ECX
++inline int R_EDX = R_RDX;
++#pragma D binding "1.0" R_EDX
++inline int R_ESI = R_RSI;
++#pragma D binding "1.0" R_ESI
++inline int R_EDI = R_RDI;
++#pragma D binding "1.0" R_EDI
++inline int R_EBP = R_RBP;
++#pragma D binding "1.0" R_EBP
++inline int R_EAX = R_RAX;
++#pragma D binding "1.0" R_EAX
++inline int R_EIP = R_RIP;
++#pragma D binding "1.0" R_EIP
++inline int R_EFL = R_RFL;
++#pragma D binding "1.0" R_EFL
++inline int R_ESP = R_RSP;
++#pragma D binding "1.0" R_ESP
++
++inline int R_PC = R_EIP;
++#pragma D binding "1.0" R_PC
++inline int R_FP = R_EBP;
++#pragma D binding "1.0" R_FP
++inline int R_SP = R_ESP;
++#pragma D binding "1.0" R_SP
++inline int R_PS = R_EFL;
++#pragma D binding "1.0" R_PS
++inline int R_R0 = R_EAX;
++#pragma D binding "1.0" R_R0
++inline int R_R1 = R_EBX;
++#pragma D binding "1.0" R_R1
+diff --git a/dlibs/x86_64/7.2/sched.d b/dlibs/x86_64/7.2/sched.d
+new file mode 100644
+index 00000000..271d84e0
+--- /dev/null
++++ b/dlibs/x86_64/7.2/sched.d
+@@ -0,0 +1,38 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2012, 2019, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#pragma D depends_on module vmlinux
++
++typedef id_t		processorid_t;
++typedef id_t		psetid_t;
++typedef id_t		chipid_t;
++typedef id_t		lgrp_id_t;
++
++typedef struct cpuinfo {
++	processorid_t	cpu_id;
++	psetid_t	cpu_pset;
++	chipid_t	cpu_chip;
++	lgrp_id_t	cpu_lgrp;
++} cpuinfo_t;
++
++typedef cpuinfo_t	*cpuinfo_t_p;
++
++inline processorid_t cpu = curcpu->cpu_id;
++#pragma D attributes Stable/Stable/Common cpu
++#pragma D binding "1.0" cpu
++
++inline psetid_t pset = curcpu->cpu_pset;
++#pragma D attributes Stable/Stable/Common pset
++#pragma D binding "1.0" pset
++
++inline chipid_t chip = curcpu->cpu_chip;
++#pragma D attributes Stable/Stable/Common chip
++#pragma D binding "1.0" chip
++
++inline lgrp_id_t lgrp = curcpu->cpu_lgrp;
++#pragma D attributes Stable/Stable/Common lgrp
++#pragma D binding "1.0" lgrp
+diff --git a/dlibs/x86_64/7.2/signal.d b/dlibs/x86_64/7.2/signal.d
+new file mode 100644
+index 00000000..c72dfd4c
+--- /dev/null
++++ b/dlibs/x86_64/7.2/signal.d
+@@ -0,0 +1,108 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
++ * Use is subject to license terms.
++ *
++ */
++inline int SIGSYS = 31;
++#pragma D binding "1.0" SIGSYS
++
++inline int SIGTERM = 15;
++#pragma D binding "1.0" SIGTERM
++
++inline int SIGTSTP = 20;
++#pragma D binding "1.0" SIGTSTP
++
++inline int SIGVTALRM = 26;
++#pragma D binding "1.0" SIGVTALRM
++
++inline int SIGBUS = 7;
++#pragma D binding "1.0" SIGBUS
++
++inline int SIGPIPE = 13;
++#pragma D binding "1.0" SIGPIPE
++
++inline int SIGSTKFLT = 16;
++#pragma D binding "1.0" SIGSTKFLT
++
++inline int SIGTRAP = 5;
++#pragma D binding "1.0" SIGTRAP
++
++inline int SIGHUP = 1;
++#pragma D binding "1.0" SIGHUP
++
++inline int SIGFPE = 8;
++#pragma D binding "1.0" SIGFPE
++
++inline int SIGURG = 23;
++#pragma D binding "1.0" SIGURG
++
++inline int SIGIO = 29;
++#pragma D binding "1.0" SIGIO
++
++inline int SIGKILL = 9;
++#pragma D binding "1.0" SIGKILL
++
++inline int SIGWINCH = 28;
++#pragma D binding "1.0" SIGWINCH
++
++inline int SIGXFSZ = 25;
++#pragma D binding "1.0" SIGXFSZ
++
++inline int SIGINT = 2;
++#pragma D binding "1.0" SIGINT
++
++inline int SIGTTOU = 22;
++#pragma D binding "1.0" SIGTTOU
++
++inline int SIGTTIN = 21;
++#pragma D binding "1.0" SIGTTIN
++
++inline int SIGCHLD = 17;
++#pragma D binding "1.0" SIGCHLD
++
++inline int SIGIOT = 6;
++#pragma D binding "1.0" SIGIOT
++
++inline int SIGCONT = 18;
++#pragma D binding "1.0" SIGCONT
++
++inline int SIGQUIT = 3;
++#pragma D binding "1.0" SIGQUIT
++
++inline int SIGABRT = 6;
++#pragma D binding "1.0" SIGABRT
++
++inline int SIGPROF = 27;
++#pragma D binding "1.0" SIGPROF
++
++inline int SIGXCPU = 24;
++#pragma D binding "1.0" SIGXCPU
++
++inline int SIGSTOP = 19;
++#pragma D binding "1.0" SIGSTOP
++
++inline int SIGPWR = 30;
++#pragma D binding "1.0" SIGPWR
++
++inline int SIGILL = 4;
++#pragma D binding "1.0" SIGILL
++
++inline int SIGUSR1 = 10;
++#pragma D binding "1.0" SIGUSR1
++
++inline int SIGPOLL = 29;
++#pragma D binding "1.0" SIGPOLL
++
++inline int SIGCLD = 17;
++#pragma D binding "1.0" SIGCLD
++
++inline int SIGSEGV = 11;
++#pragma D binding "1.0" SIGSEGV
++
++inline int SIGUSR2 = 12;
++#pragma D binding "1.0" SIGUSR2
++
++inline int SIGALRM = 14;
++#pragma D binding "1.0" SIGALRM
++
+diff --git a/dlibs/x86_64/7.2/tcp.d b/dlibs/x86_64/7.2/tcp.d
+new file mode 100644
+index 00000000..8f87aa57
+--- /dev/null
++++ b/dlibs/x86_64/7.2/tcp.d
+@@ -0,0 +1,274 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2010, 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#pragma D depends_on module vmlinux
++#pragma D depends_on library net.d
++#pragma D depends_on library ip.d
++#pragma D depends_on provider tcp
++
++inline int TH_FIN =	0x01;
++inline int TH_SYN =	0x02;
++inline int TH_RST =	0x04;
++inline int TH_PSH =	0x08;
++inline int TH_ACK =	0x10;
++inline int TH_URG =	0x20;
++inline int TH_ECE =	0x40;
++inline int TH_CWR =	0x80;
++
++inline int TCP_STATE_IDLE = 		0x00;
++inline int TCP_STATE_ESTABLISHED =	0x01;
++inline int TCP_STATE_SYN_SENT =		0x02;
++inline int TCP_STATE_SYN_RECEIVED =	0x03;
++inline int TCP_STATE_FIN_WAIT_1 =	0x04;
++inline int TCP_STATE_FIN_WAIT_2 =	0x05;
++inline int TCP_STATE_TIME_WAIT =	0x06;
++inline int TCP_STATE_CLOSED =		0x07;
++inline int TCP_STATE_CLOSE_WAIT =	0x08;
++inline int TCP_STATE_LAST_ACK =		0x09;
++inline int TCP_STATE_LISTEN =		0x0a;
++inline int TCP_STATE_CLOSING =		0x0b;
++
++/*
++ * Convert a TCP state value to a string.
++ */
++inline string tcp_state_string[int state] =
++	state == TCP_STATE_CLOSED ? "state-closed" :
++	state == TCP_STATE_IDLE ? "state-idle" :
++	state == TCP_STATE_LISTEN ? "state-listen" :
++	state == TCP_STATE_SYN_SENT ? "state-syn-sent" :
++	state == TCP_STATE_SYN_RECEIVED ? "state-syn-received" :
++	state == TCP_STATE_ESTABLISHED ? "state-established" :
++	state == TCP_STATE_CLOSE_WAIT ? "state-close-wait" :
++	state == TCP_STATE_FIN_WAIT_1 ? "state-fin-wait-1" :
++	state == TCP_STATE_CLOSING ? "state-closing" :
++	state == TCP_STATE_LAST_ACK ? "state-last-ack" :
++	state == TCP_STATE_FIN_WAIT_2 ? "state-fin-wait-2" :
++	state == TCP_STATE_TIME_WAIT ? "state-time-wait" :
++	"<unknown>";
++#pragma D binding "1.6.3" tcp_state_string
++
++/*
++ * tcpinfo is the TCP header fields.
++ */
++typedef struct tcpinfo {
++	uint16_t tcp_sport;		/* source port */
++	uint16_t tcp_dport;		/* destination port */
++	uint32_t tcp_seq;		/* sequence number */
++	uint32_t tcp_ack;		/* acknowledgment number */
++	uint8_t tcp_offset;		/* data offset, in bytes */
++	uint8_t tcp_flags;		/* flags */
++	uint16_t tcp_window;		/* window size */
++	uint16_t tcp_checksum;		/* checksum */
++	uint16_t tcp_urgent;		/* urgent data pointer */
++	uintptr_t tcp_hdr;		/* raw TCP header */
++} tcpinfo_t;
++
++/*
++ * tcpsinfo contains stable TCP details from tcp_t.
++ */
++typedef struct tcpsinfo {
++	uintptr_t tcps_addr;
++	int tcps_local;			/* is delivered locally, boolean */
++	uint16_t tcps_lport;		/* local port */
++	uint16_t tcps_rport;		/* remote port */
++	string tcps_laddr;		/* local address, as a string */
++	string tcps_raddr;		/* remote address, as a string */
++	int tcps_state;			/* TCP state */
++	uint32_t tcps_iss;		/* Initial sequence # sent */
++	uint32_t tcps_suna;		/* sequence # sent but unacked */
++	uint32_t tcps_snxt;		/* next sequence # to send */
++	uint32_t tcps_rnxt;		/* next sequence # expected */
++	uint32_t tcps_swnd;		/* send window size */
++	int32_t tcps_snd_ws;		/* send window scaling */
++	uint32_t tcps_rwnd;		/* receive window size */
++	int32_t tcps_rcv_ws;		/* receive window scaling */
++	uint32_t tcps_cwnd;		/* congestion window */
++	uint32_t tcps_cwnd_ssthresh;	/* threshold for congestion avoidance */
++	uint32_t tcps_sack_snxt;	/* next SACK seq # for retransmission */
++	uint32_t tcps_rto;		/* round-trip timeout, msec */
++	uint32_t tcps_mss;		/* max segment size */
++	int tcps_retransmit;		/* retransmit send event, boolean */
++	uint32_t tcps_rtt;		/* smoothed avg round-trip time, msec */
++	uint32_t tcps_rtt_sd;		/* standard deviation of RTT */
++	uint32_t tcps_irs;		/* Initial recv sequence # */
++} tcpsinfo_t;
++
++/*
++ * tcplsinfo provides the old tcp state for state changes.
++ */
++typedef struct tcplsinfo {
++	int tcps_state;		/* previous TCP state */
++} tcplsinfo_t;
++
++#pragma D binding "1.6.3" translator
++translator tcpinfo_t < struct tcphdr *T > {
++	tcp_sport = T ? ntohs(T->source) : 0;
++	tcp_dport = T ? ntohs(T->dest) : 0;
++	tcp_seq = T ? ntohl(T->seq) : 0;
++	tcp_ack = T ? ntohl(T->ack_seq) : 0;
++	tcp_offset = T ? (*(uint8_t *)(T + 12) & 0xf0) >> 2 : 0;
++	tcp_flags = T ? *((uint8_t *)T + 13) : 0;
++	tcp_window = T ? ntohs(T->window) : 0;
++	tcp_checksum = T ? ntohs(T->check) : 0;
++	tcp_urgent = T ? ntohs(T->urg_ptr) : 0;
++	tcp_hdr = (uintptr_t)T;
++};
++
++/* timewait sockets and inet connection sockets do not populate all fields
++ * and are not classified as full sockets; this inline helps translators
++ * spot them and act appropriately.
++ */
++inline int tcp_fullsock[struct tcp_sock *sk] =
++	(((struct sock_common *)sk)->skc_state != TCP_STATE_SYN_RECEIVED &&
++	 ((struct sock_common *)sk)->skc_state != TCP_STATE_TIME_WAIT);
++/*
++ * In the main we simply translate from the "struct [tcp_]sock *" to
++ * a tcpsinfo_t *.  However there are a few exceptions:
++ *
++ * - tcps_state for state-change is arg5.  The reason is that in some
++ * state transitions sock->sk_state does not reflect the actual TCP
++ * connection state.  For example the TIME_WAIT state is handled in
++ * Linux by creating a separate timewait socket and the state of the
++ * original socket is CLOSED.  In some other cases we also need to
++ * instrument state transition _prior_ to the update of sk_state.  To do
++ * all of this we rely on arg5 to hold the new state. arg6 is set to
++ * NET_PROBE_STATE to quickly identify state-change probes.
++ * - we sometimes need to retrieve local/remote port/address settings from
++ * TCP and IP headers directly, for example prior to the address/port
++ * being committed to the socket.  To do this effectively we need to know
++ * if the packet data is inbound (in which case the local IP/port are the
++ * destination) or outbound (in which case the local IP/port are the source).
++ * arg6 is set to 0 for outbound traffic and 1 for inbound so we use these
++ * to reconstruct the address/port info where necessary.  arg2 used for IP
++ * information while arg4 contains the TCP header, so it is used for port data.
++ * NET_PROBE_INBOUND is defined as 1, NET_PROBE_OUTBOUND as 0 in net.d.
++ */
++#pragma D binding "1.6.3" translator
++translator tcpsinfo_t < struct tcp_sock *T > {
++	tcps_addr = (uintptr_t)T;
++	tcps_local =
++	    T && ((struct sock *)T)->__sk_common.skc_family == AF_INET ?
++	    (((struct sock *)T)->__sk_common.skc_rcv_saddr ==
++	    ((struct sock *)T)->__sk_common.skc_daddr) :
++	    T && ((struct sock *)T)->__sk_common.skc_family == AF_INET6 ?
++	    (((uint32_t *)&((struct sock *)T)->__sk_common.skc_v6_rcv_saddr)[0]
++	    ==
++	    ((uint32_t *)&((struct sock *)T)->__sk_common.skc_v6_daddr)[0] &&
++	    ((uint32_t *)&((struct sock *)T)->__sk_common.skc_v6_rcv_saddr)[1]
++            ==
++            ((uint32_t *)&((struct sock *)T)->__sk_common.skc_v6_daddr)[1] &&
++	    ((uint32_t *)&((struct sock *)T)->__sk_common.skc_v6_rcv_saddr)[2]
++            ==
++            ((uint32_t *)&((struct sock *)T)->__sk_common.skc_v6_daddr)[2] &&
++	    ((uint32_t *)&((struct sock *)T)->__sk_common.skc_v6_rcv_saddr)[3])
++	    : 0;
++	tcps_lport = T && ((struct inet_sock *)T)->inet_sport != 0 &&
++	    tcp_fullsock[T] ?
++	    ntohs(((struct inet_sock *)T)->inet_sport) :
++	    (T && ((struct inet_sock *)T)->inet_sport == 0) ?
++	    ((struct sock *)T)->__sk_common.skc_num :
++	    arg4 != NULL ?
++	    ntohs(arg6 == NET_PROBE_INBOUND ?
++		  ((struct tcphdr *)arg4)->dest :
++		  ((struct tcphdr *)arg4)->source) :
++	    0;
++	tcps_rport = T && ((struct sock *)T)->__sk_common.skc_dport != 0 ?
++	    ntohs(((struct sock *)T)->__sk_common.skc_dport) :
++	    arg4 != NULL ?
++	    ntohs(arg6 == NET_PROBE_INBOUND ?
++		  ((struct tcphdr *)arg4)->source :
++		  ((struct tcphdr *)arg4)->dest) :
++	    0;
++	tcps_laddr =
++	    T && ((struct sock *)T)->__sk_common.skc_family == AF_INET ?
++	    inet_ntoa(&((struct sock *)T)->__sk_common.skc_rcv_saddr) :
++	    T && ((struct sock *)T)->__sk_common.skc_family == AF_INET6 ?
++	    inet_ntoa6(&((struct sock *)T)->__sk_common.skc_v6_rcv_saddr) :
++	    arg2 != NULL && (*(uint8_t *)arg2 >> 4) == 4 ?
++	    inet_ntoa(&((struct iphdr *)arg2)->daddr) :
++	    arg2 != NULL && (*(uint8_t *)arg2 >> 4) == 6 ?
++	    inet_ntoa6(&((struct ipv6hdr *)arg2)->daddr) :
++	    "<unknown>";
++	tcps_raddr =
++	    T && ((struct sock *)T)->__sk_common.skc_family == AF_INET ?
++	    inet_ntoa(&((struct sock *)T)->__sk_common.skc_daddr) :
++	    T && ((struct sock *)T)->__sk_common.skc_family == AF_INET6 ?
++	    inet_ntoa6(&((struct sock *)T)->__sk_common.skc_v6_daddr) :
++	    arg2 != NULL && (*(uint8_t *)arg2 >> 4) == 4 ?
++	    inet_ntoa(&((struct iphdr *)arg2)->saddr) :
++	    arg2 != NULL && (*(uint8_t *)arg2 >> 4) == 6 ?
++	    inet_ntoa6(&((struct ipv6hdr *)arg2)->saddr) :
++	    "<unknown>";
++	/* For state-change we probe right before state has changed, but
++	 * provider definition wants new state in tcps_state; for
++	 * state-change probes the trampoline stores it in arg5.
++	 */
++	tcps_state = arg6 == NET_PROBE_STATE ? arg5 :
++	    T ? ((struct sock *)T)->__sk_common.skc_state : 0;
++	tcps_iss = T ?
++	    T->snd_una - (uint32_t)T->bytes_acked : 0;
++	tcps_suna = T ? T->snd_una : 0;
++	tcps_snxt = T ? T->snd_nxt : 0;
++	tcps_rnxt = T ? T->rcv_nxt : 0;
++	tcps_swnd = T ? T->snd_wnd : 0;
++	tcps_snd_ws = T ? T->rx_opt.snd_wscale : 0;
++	tcps_rwnd = T ? T->rcv_wnd : 0;
++	tcps_rcv_ws = T ? T->rx_opt.rcv_wscale : 0;
++	tcps_cwnd = T ? T->snd_cwnd : 0;
++	tcps_cwnd_ssthresh = T ? T->snd_ssthresh : 0;
++	tcps_sack_snxt = (T && T->sacked_out == 0) ? T->snd_una :
++	    (T && T->highest_sack == NULL) ? T->snd_nxt :
++	    (T && T->highest_sack != NULL) ?
++	    ((struct tcp_skb_cb *)&((T->highest_sack->cb[0])))->seq : 0;
++	tcps_rto = T ? T->inet_conn.icsk_rto : 0;
++	tcps_mss = T ? T->mss_cache : 0;
++	tcps_retransmit = T && arg0 ?
++	    (((struct tcp_skb_cb *)&(((struct sk_buff *)arg0)->cb[0]))->end_seq
++	    < T->snd_nxt - 1) : 0;
++	tcps_rtt = T ? (T->srtt_us >> 3)/1000 : 0;
++	tcps_rtt_sd = T ? (T->mdev_us >> 2)/1000 : 0;
++	tcps_irs = T && T->bytes_received > 0 ?
++	    T->rcv_nxt - (uint32_t)T->bytes_received : 0;
++};
++
++/* state-change trampoline stores new state in arg5; at time of firing,
++ * state has not been updated, so last state is in tcp_sock state.
++ */
++#pragma D binding "1.6.3" translator
++translator tcplsinfo_t < int I > {
++	tcps_state = arg3 ? ((struct sock *)arg3)->__sk_common.skc_state : 0;
++};
++
++/* Use struct tcp_sock * to fill out tcp header info where we do not have
++ * an sk_buff with struct tcphdr * available; currently only used for
++ * the tcp:::accept-established case where the struct sk_buff * is not
++ * available on < 5.10 kernels.
++ */
++typedef void * __dtrace_tcp_void_tcp_t;
++
++#pragma D binding "1.6.3" translator
++translator tcpinfo_t < __dtrace_tcp_void_tcp_t *T > {
++	tcp_sport = T ? ntohs(((struct tcphdr *)T)->source) :
++		    arg3 ? ((struct sock *)arg3)->__sk_common.skc_dport :
++		    0;
++	tcp_dport = T ? ntohs(((struct tcphdr *)T)->dest) :
++		    arg3 ? ntohs(((struct inet_sock *)arg3)->inet_sport) :
++		    0;
++	tcp_seq = T ? ntohl(((struct tcphdr *)T)->seq) :
++		  arg3 ? ((struct tcp_sock *)arg3)->rcv_nxt :
++		  0;
++	tcp_ack = T ? ntohl(((struct tcphdr *)T)->ack_seq) :
++		  arg3 ? ((struct tcp_sock *)arg3)->snd_nxt :
++		  0;
++	tcp_offset = T ? (*(uint8_t *)(T + 12) & 0xf0) >> 2 : 0;
++	tcp_flags = T ? *((uint8_t *)T + 13) : TH_ACK;
++	tcp_window = T ? ntohs(((struct tcphdr *)T)->window) :
++		     arg3 ? ((struct tcp_sock *)arg3)->rcv_wnd :
++		     0;
++	tcp_checksum = T ? ntohs(((struct tcphdr *)T)->check) : 0;
++	tcp_hdr = (uintptr_t)T;
++};
+diff --git a/dlibs/x86_64/7.2/udp.d b/dlibs/x86_64/7.2/udp.d
+new file mode 100644
+index 00000000..8b2a2408
+--- /dev/null
++++ b/dlibs/x86_64/7.2/udp.d
+@@ -0,0 +1,72 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2010, 2025, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++#pragma D depends_on module vmlinux
++#pragma D depends_on library net.d
++#pragma D depends_on library ip.d
++#pragma D depends_on provider udp
++
++/*
++ * udpinfo is the UDP header fields.
++ */
++typedef struct udpinfo {
++	uint16_t udp_sport;		/* source port */
++	uint16_t udp_dport;		/* destination port */
++	uint16_t udp_length;		/* total length */
++	uint16_t udp_checksum;          /* headers + data checksum */
++	struct udphdr *udp_hdr;		/* raw UDP header */
++} udpinfo_t;
++
++/*
++ * udpsinfo contains stable UDP details from udp_t.
++ */
++typedef struct udpsinfo {
++	uintptr_t udps_addr;
++	uint16_t udps_lport;		/* local port */
++	uint16_t udps_rport;		/* remote port */
++	string udps_laddr;		/* local address, as a string */
++	string udps_raddr;		/* remote address, as a string */
++} udpsinfo_t;
++
++#pragma D binding "1.6.3" translator
++translator udpinfo_t < struct udphdr *U > {
++	udp_sport = ntohs(U->source);
++	udp_dport = ntohs(U->dest);
++	udp_length = ntohs(U->len);
++	udp_checksum = ntohs(U->check);
++	udp_hdr = U;
++};
++
++#pragma D binding "1.6.3" translator
++translator udpsinfo_t < struct udp_sock *S > {
++	/*
++	 * We source udp info from other args but retain the sock arg here
++	 * as it may be used in the future.
++	 */
++	udps_addr = (uintptr_t)S;
++	udps_lport = arg4 ?
++	    (arg5 == NET_PROBE_OUTBOUND ? ntohs(((struct udphdr *)arg4)->source) :
++	    ntohs(((struct udphdr *)arg4)->dest)) : 0;
++	udps_rport = arg4 ?
++	    (probename == "send" ? ntohs(((struct udphdr *)arg4)->dest) :
++	    ntohs(((struct udphdr *)arg4)->source)) : 0;
++	udps_laddr = arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
++            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->saddr :
++	    &((struct iphdr *)arg2)->daddr) :
++	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
++	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->saddr :
++	    &((struct ipv6hdr *)arg2)->daddr) :
++	    "<unknown>";
++	udps_raddr =
++	    arg2 && *(uint8_t *)arg2 >> 4 == 4 ?
++            inet_ntoa(arg5 == NET_PROBE_OUTBOUND ? &((struct iphdr *)arg2)->daddr :
++	    &((struct iphdr *)arg2)->saddr) :
++	    arg2 && *(uint8_t *)arg2 >> 4 == 6 ?
++	    inet_ntoa6(arg5 == NET_PROBE_OUTBOUND ? &((struct ipv6hdr *)arg2)->daddr :
++	    &((struct ipv6hdr *)arg2)->saddr) :
++	    "<unknown>";
++};
+diff --git a/dlibs/x86_64/7.2/unistd.d b/dlibs/x86_64/7.2/unistd.d
+new file mode 100644
+index 00000000..c38bbed4
+--- /dev/null
++++ b/dlibs/x86_64/7.2/unistd.d
+@@ -0,0 +1,36 @@
++/*
++ * Oracle Linux DTrace.
++ * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
++
++inline int DTRACEFLT_UNKNOWN = 0;	/* Unknown fault */
++#pragma D binding "1.0" DTRACEFLT_UNKNOWN
++
++inline int DTRACEFLT_BADADDR = 1;	/* Bad address */
++#pragma D binding "1.0" DTRACEFLT_BADADDR
++
++inline int DTRACEFLT_BADALIGN = 2;	/* Bad alignment */
++#pragma D binding "1.0" DTRACEFLT_BADALIGN
++
++inline int DTRACEFLT_ILLOP = 3;		/* Illegal operation */
++#pragma D binding "1.0" DTRACEFLT_ILLOP
++
++inline int DTRACEFLT_DIVZERO = 4;	/* Divide-by-zero */
++#pragma D binding "1.0" DTRACEFLT_DIVZERO
++
++inline int DTRACEFLT_NOSCRATCH = 5;	/* Out of scratch space */
++#pragma D binding "1.0" DTRACEFLT_NOSCRATCH
++
++inline int DTRACEFLT_KPRIV = 6;		/* Illegal kernel access */
++#pragma D binding "1.0" DTRACEFLT_KPRIV
++
++inline int DTRACEFLT_UPRIV = 7;		/* Illegal user access */
++#pragma D binding "1.0" DTRACEFLT_UPRIV
++
++inline int DTRACEFLT_TUPOFLOW = 8;	/* Tuple stack overflow */
++#pragma D binding "1.0" DTRACEFLT_TUPOFLOW
++
++inline int DTRACEFLT_BADSTACK = 9;	/* Bad stack */
++#pragma D binding "1.4.1" DTRACEFLT_BADSTACK
+-- 
+2.47.3
 
-  - P1 — Dynamic PMDA aggregation instances cannot recover after disappearing.
-    pcp/pmdadtrace.python:560 removes the instance from the PMDA indom and ID
-    map but leaves _data_instances[instance]. When that aggregation key returns,
-    pcp/pmdadtrace.python:541 returns early, so it is never re-added and fetches
-    yield no value. Remove the name-map entry too, or restore its indom/ID
-    mapping.
-
-  - P2 — Changing the PMDA domain as the installation instructions require has
-    no effect. pcp/pmdadtrace.python:1219 parses domain= from Install, but pcp/
-    pmdadtrace.python:1228 instantiates the PMDA with hard-coded 487. A
-    collision workaround described in the README leaves pmcd and metric PMIDs on
-    different domains. Pass domain instead.
-
-  - P2 — The multiple-session regression test does not close the sessions it
-    creates. test/unittest/python/tst.multi-session.sh:50 loops over j but
-    always closes dts[i], excludes the final session, and leaves the others
-    open. It therefore fails to test the close/refcount lifecycle that the
-    preceding BTF-sharing commit changes.
-
-
-On Wed, Aug 12, 2026 at 02:22:01PM +0100, Alan Maguire wrote:
-> Having python bindings for libdtrace interfaces to compile, run
-> and collect information from DTrace programs is valuable because
-> it could help integration into metric collection frameworks like
-> PCP.  This series adds python bindings for DTrace (patch 4)
-> and provides tests for them (patch 7).  The support is
-> similar to what cmd/dtrace.c can do; compile a program,
-> enable probes, run it and collect data.  Support is also
-> added to grab or create processes as is done by
-> dtrace -p, -c options.  Aggregation snapshot walk is also
-> supported, with aggregation values filled out as raw values,
-> ints, lists of function names for stack keys and dicts for
-> quantized aggregations.
-> 
-> For detailed description/usage see the README in patch 4 and the
-> tests.
-> 
-> Patch 8 then provides a consumer of python support - a Performance
-> Co-Pilot (PCP) Performance Metric Data Agent (PMDA) which enables
-> flexible metric collection via DTrace scripts.  See the README.md
-> in patch 8 for more details.
-> 
-> In order to support an environment where we have multiple handles
-> per process, some prep work is required.  Patch 1 fixes some issues
-> with multiple handle use, while patch 2 improves sharing for
-> vmlinux BTF (and CTF generated from it if needed) which multiple
-> handles in a process image will benefit from.  The upper bound
-> of per-process handles is now limited by the maximum number of
-> BPF programs attachable to a uprobe which is 64 (BPF_TRACE_MAX_PROGS)
-> which is encountered with attaches to the BEGIN probe.
-> 
-> Patch 3 makes available some of the functions used in calculating
-> stddev() values which is useful for the python bindings since they
-> do not use the print callbacks to do this.
-> 
-> Patch 4 is the cpython bindings themselves; the README.md describes
-> their usage.  Patch 5 packages them and patches 6 and 7 facilitate
-> testing them.
-> 
-> Patch 8 then builds the PCP PMDA using the python bindings while
-> patch 9 packages them in a pcp-pmda-dtrace package.
-> 
-> Changes since v3:
-> 
-> - Fixed up issues identified by Kris around custom BTF path (patch 2)
-> - Added PCP patches 8/9
-> 
-> Changes since v2:
-> 
-> - Fixed some handle lifetime issues and related potential segfaults
->   in error paths (patch 4)
-> - Fixed up packaging to derive python package version from DTrace
->   version (patch 5)
-> 
-> Changes since v1:
-> 
-> - Fixed multi-handle issues (patches 1/2)
-> - Improved aggregation representation of stacks, added stddev and
->   *quantize representations (patch 4)
-> 
-> Alan Maguire (9):
->   libdtrace: Support multiple DTrace handles per process
->   libdtrace: share vmlinux BTF/CTF globally to support faster startup
->   libdtrace: Refactor math functions into dt_math.h
->   python: Add cpython bindings for libdtrace
->   dtrace.spec: add python bindings packaging
->   runtest.sh: Export PYTHONPATH when running tests in-tree
->   test: add tests for python bindings
->   dtrace: Add a PCP PMDA to expose DTrace data as metrics
->   dtrace.spec: Add optional PCP PMDA packaging pcp-pmda-dtrace
-> 
->  GNUmakefile                                   |    2 +
->  bindings/Build                                |   35 +
->  bindings/python/README.md                     |  167 ++
->  bindings/python/pyproject.toml                |    3 +
->  bindings/python/setup.py                      |   67 +
->  bindings/python/src/pydtrace_module.c         | 1997 +++++++++++++++++
->  configure                                     |    4 +-
->  dtrace.spec                                   |   58 +-
->  libdtrace/dt_aggregate.c                      |    1 +
->  libdtrace/dt_bpf.c                            |    6 +-
->  libdtrace/dt_btf.c                            |   79 +-
->  libdtrace/dt_btf.h                            |    1 +
->  libdtrace/dt_consume.c                        |  340 +--
->  libdtrace/dt_impl.h                           |    7 +-
->  libdtrace/dt_math.h                           |  358 +++
->  libdtrace/dt_open.c                           |    5 +-
->  libdtrace/dt_printf.c                         |    1 +
->  libdtrace/dt_prov_dtrace.c                    |    6 +-
->  pcp/Build                                     |   56 +
->  pcp/Install                                   |   37 +
->  pcp/README.md                                 |  260 +++
->  pcp/Remove                                    |   27 +
->  pcp/autostart.d/.gitkeep                      |    0
->  pcp/dtrace.conf                               |   12 +
->  pcp/examples/packet_drop_reasons.d            |   14 +
->  pcp/examples/packet_drop_reasons.json         |    8 +
->  pcp/examples/syscall_counts.d                 |   11 +
->  pcp/examples/syscall_counts.json              |    8 +
->  pcp/pmdadtrace.python                         | 1232 ++++++++++
->  runtest.sh                                    |    2 +
->  test/unittest/python/tst.aggr-actions.sh      |  133 ++
->  test/unittest/python/tst.aggr-change.sh       |   75 +
->  test/unittest/python/tst.aggr-stack.sh        |   61 +
->  test/unittest/python/tst.aggr.sh              |   58 +
->  test/unittest/python/tst.exit.sh              |   64 +
->  test/unittest/python/tst.multi-session-end.sh |   75 +
->  test/unittest/python/tst.multi-session.sh     |   58 +
->  test/unittest/python/tst.proc-create.sh       |   56 +
->  test/unittest/python/tst.proc-exit.sh         |   57 +
->  test/unittest/python/tst.proc-grab.sh         |   81 +
->  40 files changed, 5165 insertions(+), 357 deletions(-)
->  create mode 100644 bindings/Build
->  create mode 100644 bindings/python/README.md
->  create mode 100644 bindings/python/pyproject.toml
->  create mode 100644 bindings/python/setup.py
->  create mode 100644 bindings/python/src/pydtrace_module.c
->  create mode 100644 libdtrace/dt_math.h
->  create mode 100644 pcp/Build
->  create mode 100755 pcp/Install
->  create mode 100644 pcp/README.md
->  create mode 100755 pcp/Remove
->  create mode 100644 pcp/autostart.d/.gitkeep
->  create mode 100644 pcp/dtrace.conf
->  create mode 100644 pcp/examples/packet_drop_reasons.d
->  create mode 100644 pcp/examples/packet_drop_reasons.json
->  create mode 100644 pcp/examples/syscall_counts.d
->  create mode 100644 pcp/examples/syscall_counts.json
->  create mode 100755 pcp/pmdadtrace.python
->  create mode 100755 test/unittest/python/tst.aggr-actions.sh
->  create mode 100755 test/unittest/python/tst.aggr-change.sh
->  create mode 100755 test/unittest/python/tst.aggr-stack.sh
->  create mode 100755 test/unittest/python/tst.aggr.sh
->  create mode 100755 test/unittest/python/tst.exit.sh
->  create mode 100755 test/unittest/python/tst.multi-session-end.sh
->  create mode 100755 test/unittest/python/tst.multi-session.sh
->  create mode 100755 test/unittest/python/tst.proc-create.sh
->  create mode 100755 test/unittest/python/tst.proc-exit.sh
->  create mode 100755 test/unittest/python/tst.proc-grab.sh
-> 
-> -- 
-> 2.43.5
-> 
