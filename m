@@ -1,218 +1,251 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from out-2.smtp.github.com (out-2.smtp.github.com [192.30.252.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A413E35A3B1
-	for <dtrace@lists.linux.dev>; Fri, 28 Aug 2026 19:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787944229; cv=fail; b=hC2iusAi+mRWxYHzZvXumYBcV+eLzvca3gi0rQSqfhRilz5rvXp2BaA6XADLcszSIJb8+rJBNGLVDHgpKJYGbpGjyo5OEqcWRZiz39cKB0AwB+Bds/aVUyRW7S1tgc+JUvRmXhyf94oGBwlDgBCIGdhWBTEocLhkqAyrY/m9dyU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787944229; c=relaxed/simple;
-	bh=NMEH7/zbAKTDQ35n7Jp8F/5olRitGA2A6zalrx5ryUw=;
-	h=Date:Message-ID:From:To:Subject:Content-Type:MIME-Version; b=G0BFEmXNCQQR+Io5cdrzrNKzlqd2dylPyfLVN0FIhB+zT48I3hpsrAmizKBiJZPa9SfSU8xr5W2i9YyAD6F8NxvvJ4L/iftQlg86DGYCWSrTMQb9GioLWd5+jUlC47mh7NK8ayeCjc66BcpsYu2jB3Cf5GyLca1DosuGkgrXzrk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=B5g89AU3; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Ntr8hgEw; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A944D3783AC
+	for <dtrace@lists.linux.dev>; Fri, 28 Aug 2026 19:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.30.252.193
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787946686; cv=none; b=WPOu3L7BVrM/J+dh5LHtAPRbXuL4wdyXOxOdqG7Yc+8NJwv7xuY0ympkbE32t75Eus8EamGynkOtuLeV2MQ/f2YJEOU0elbpcVKqSGgpdJbQgLqr7NQkzocFMqpqdWAxYmHzKLARNsD4qo25mFk8eXT2r+muoTWOE0SpJOCw8Rs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787946686; c=relaxed/simple;
+	bh=JZubXo3VA0IVZGZGdCwsjy1bJDijWVd5sCobgGiY1QE=;
+	h=Date:From:To:Message-ID:Subject:Mime-Version:Content-Type; b=sGZQhDiYG9ltUabIWd/+FcbKCgcYi4uCeKAquwunxCfYAn55rvoY3CsfmsdpvxUOEPaP3A/cd8ik5nB8rSBnuqGU42SF1pw5L6ddzRnj/TsC+wBmszmwhzS/Tz56KPK4cOHeQsYWh9zq0yg3gRBkP4CJZy9oaHcGy3F0drDj+QE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=github.com; spf=pass smtp.mailfrom=github.com; dkim=pass (1024-bit key) header.d=github.com header.i=@github.com header.b=Un6/epCJ; arc=none smtp.client-ip=192.30.252.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=github.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=github.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="B5g89AU3";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Ntr8hgEw"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67SHK2Kg3147326
-	for <dtrace@lists.linux.dev>; Fri, 28 Aug 2026 19:10:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-type:date:from:message-id:mime-version:subject:to; s=
-	corp-2025-04-25; bh=BRly6pJC8BKYVLa7Se7esZpkXw3iIPPlNqRFJpKJWa0=; b=
-	B5g89AU32zOL0hXsrfBZFZGp1Jsyzot1DtVzBiq78/Bf7Vl/ASLVdyqbFd4oVAjk
-	rA/wdthqN3OZPScFI3yn4ry4YRebF/CGc4UGM1y+4JKQjOvdz6emGpx/MXE8PC7I
-	eCL5DqTeLZDzidWfQuE1RpAfsaaxPCDjTdCDtybRFVlwCNcPCKJSioYVG5TByp9U
-	WI9XTjdEPXvQy48stVFzC6nGAiyd3wSpjLrK3WJc43VLah68ERGCXFrDg67UrkAl
-	Y0sf18YcAIfMQDU+mLh++wOLPrEVk/l9YtJPbQXpW86vcfdb7q+nAtNbIrQfxctB
-	sb/j9tmqoR7OnaJn0X+EiA==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4g72j22fca-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 28 Aug 2026 19:10:26 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67SJA7xN015276
-	for <dtrace@lists.linux.dev>; Fri, 28 Aug 2026 19:10:25 GMT
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010071.outbound.protection.outlook.com [52.101.61.71])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4g850yxwss-9
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <dtrace@lists.linux.dev>; Fri, 28 Aug 2026 19:10:25 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Bnjn3eSJQ+nijUSOwW37NuKTcuToHLJttMV2vRaYOhXL344bdMAnaYeNYjgeac9Oz7YXOgSj5X7/l0wilPRPcqvim6bYg45PERXiqeg+BeZ3yI/5w30bVcfl+Gv01EsCfEHCbZzIKfedmSkASnBGB7wEQBNZhzPrdOBt69FKK5W5eyFpmqc6RVhqmu15aKLQ5jCSEAeCnNfVyFINtGv9VatGrDUDMDfqm0YtdZMnhSPQI8v5QKFhjdA7iogtNp+ekgTz+Z4CWq9jgsnnJnnWfYkqx4DJxe6ZEbGaNJFZN9pJzCaId7uA4HnZXgerbgclV00ObjFH33XCptTLqcWuKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BRly6pJC8BKYVLa7Se7esZpkXw3iIPPlNqRFJpKJWa0=;
- b=Hh4zPWvsnJcPMwKRVnK9JsTm/85YXm8j3mWHVUgAMFwJo+hiKIGEYbpxyNxjps4JdWPvzKE5cgJI2nlRJWVuqVISP4/vWPaM6biN2gEafzs1DwsjmE8cj0+Crd09p7DEIGaCOM6Gah4drq0a75gQ500E8xSD7f4JPI+GftO6nnHDgsvw/yvbQ3S9YxJpW+pcBJ9YrVAPP/kpsS9g3XEmWWXiKFD+MBysr1UCtn+aAud3j5vYLI8GC/h3RJTqtEZsQ6bWUAJp5fjbyhQmUb+D8h4zb59VNEnjVrP8Zd+/vFu6nj70sLhHYwnjDJEAy0jTK+1vETUHfFQHEkwt1prBkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BRly6pJC8BKYVLa7Se7esZpkXw3iIPPlNqRFJpKJWa0=;
- b=Ntr8hgEwP+zHUpmue4IQBJzfJw8AVTWzWNc5FFc3WCxJ1s0d4p2CX4Wjc8iez4ht2mUfKFDrJDk7B5ZXuc7jwr1vMsSTIAJmxsYzf1KAmKKE24hAmvWJM5k9nCZCKr2LVrul9voqclzAl7Wo0EejMcAp4ZHLdUvhJ4nnb7P9Fck=
-Received: from DM6PR10MB2476.namprd10.prod.outlook.com (2603:10b6:5:ae::24) by
- IA4PR10MB8397.namprd10.prod.outlook.com (2603:10b6:208:566::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.8; Fri, 28 Aug 2026 19:10:19 +0000
-Received: from DM6PR10MB2476.namprd10.prod.outlook.com
- ([fe80::7c07:98d9:2030:e537]) by DM6PR10MB2476.namprd10.prod.outlook.com
- ([fe80::7c07:98d9:2030:e537%5]) with mapi id 15.21.0382.007; Fri, 28 Aug 2026
- 19:10:19 +0000
-Date: Fri, 28 Aug 2026 19:09:22 +0000
-Message-ID: <0508ff7039a7532b1f5eb94d6dd8aecb@oracle.com>
-From: Kris Van Hees <kris.van.hees@oracle.com>
-To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH 6/6] dtprobed: fix dof_stash write failure handling
-Content-Type: text/plain
-X-ClientProxiedBy: PH8P220CA0062.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:2d9::33) To DM6PR10MB2476.namprd10.prod.outlook.com
- (2603:10b6:5:ae::24)
+	dkim=pass (1024-bit key) header.d=github.com header.i=@github.com header.b="Un6/epCJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=github.com;
+	s=pf2023; t=1787946683;
+	bh=/dZjGzPO1L84C3gaNLt/dtEJfWBuVU1PkhSr9Qeu6bU=;
+	h=Date:From:To:Subject:List-Unsubscribe:From;
+	b=Un6/epCJk+RzkcB53l70bYtkJZybFqVmg+hIyzC/F7uceUONPSSfEdSsnGOZbegy3
+	 pLoMcDguB8uY8qMiNTlrZhlOvyzK5JJx+u6/fUOsV+StX5AO4XYt/AZ1FeVUpDExZn
+	 zVWoF4WX8gI1RiFvqVLu2KykordT1CKQI6oUkpq0=
+Received: from github.com (hubbernetes-node-f05184b.va3-iad.github.net [10.48.66.56])
+	by smtp.github.com (Postfix) with ESMTPA id 68EB9341215
+	for <dtrace@lists.linux.dev>; Fri, 28 Aug 2026 12:51:23 -0700 (PDT)
+Date: Fri, 28 Aug 2026 12:51:23 -0700
+From: Kris Van Hees <noreply@github.com>
+To: dtrace@lists.linux.dev
+Message-ID: <oracle/dtrace/push/refs/heads/dev-queue/61fea6-5a8f9f@github.com>
+Subject: [oracle/dtrace] 2a10b8: libdtrace: resolve BTF type tags when
+ importing BT...
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
 List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR10MB2476:EE_|IA4PR10MB8397:EE_
-X-MS-Office365-Filtering-Correlation-Id: 49b6738b-ef86-4812-c8e5-08df0537ff8b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|10067099003|18002099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	RW0ZAu5n81zS2lLUWoH4a/OlC+JEQBZJZy/Fc3Tco8YuI20MoYclZiKr+adTxyMBh9aO9BUWi6Pbj+SYbN/QiRMuO7lwTxHglEKLAPuUiUuI5K/wY7ssDgGkpv/5kjlkE/Jy2HV0z0jN1JTSHP/UBdVJ2AT76EexIw8AU0jZWdnmiz4q3CoQI9vdz24/PY9S3tM+ifN5iyr4XDBTRpGQTkrGNwcRHl/OUf+kflJj4NcUJ6MdWmOSgMioRdPNnFuyUEsmOVZRqYCkX3TQHjZEUcKe5ThYv1FsLRaWI3+5fhz6w2jlZkPOYKZK3oo179LqJKY1d8v1xrCoZEzGoE7xOgz+aKTkmzqsHfmdwxRfQmGoFhFm+XwF+cWlvOU/pLweant2ihcwg3fI3L1oTXj5DD+rHwEYAmCWf3KeOU7BLlRZRuUse4qlx7A5Zp9QM5EUAebZ6kKKJG0TperXSFV4Usx9RuMejw2yraxcayFsQ2GYTP4VMa63V7vwfZPy0n2n8tZxcps0/M8Y0+Ug6aDUvvKW/pL+t5apfP5+0WuhUFUDtAjZezfxXdamS1FGk6KaZhflVMH59P0tFPkgsTmQFPx0DnsBMwBdQ3L61+gPMbm1M82frrqGJ9FQPATNrtnIwv2PQm90hZW44eOBAStv7Ndk7GaeAbTBKPU/2OdV9MU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB2476.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(10067099003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?CqOUe8Px9AXqPj2w0KvL+YLcZtnVpGeskrAfyyjOWEqV2JIxufy/aQmVHRIm?=
- =?us-ascii?Q?6uAoEiXZi/eQmspl6o2zjIwdg9HnmyCrt4743TNgWo/qALnQLJ8fn8zrYhtK?=
- =?us-ascii?Q?cJYtgHj4vIcSyu6yMFMeDJCwJmcmMwL2sbw4zgvtoJbKIkamwgcwBQfRw84M?=
- =?us-ascii?Q?38UpB3NKf95DAEgDOgel6+UzVS6bvJB5jAqZSe8y4T1SoHeeL8/iS1iepPLX?=
- =?us-ascii?Q?qz5wA/LBoosDAmLMc7NiOdzYzB0LhvXh2DphS9ecr10O45TeyAQdl/D041hz?=
- =?us-ascii?Q?GT6NH6Ywe1CdfLymsLgW8ar6qj6GlXlnq+T3WoGj3dJ4EPVwN1H8db1aHApO?=
- =?us-ascii?Q?g3tdtDDl/gLcuyjL5f57Uc87JeAw6enOpbobRIF/vyy1K46ClauVoypOhnj0?=
- =?us-ascii?Q?bYoilNtBJsJFzqM4Q0K8s6wx5wWVkp5Lo53QiQtuuyR8pls/mNbjdpFrubaF?=
- =?us-ascii?Q?ajQyU0Hr23CU3l5UiV/bdmgSRqe2duy+UZgwqsdPF3QMscA/vUP0P2aQhURG?=
- =?us-ascii?Q?EVUaCOjwtvGFuJwOxaH66IFMNaVnmDevDlTglZtiWzD85qnyRCiJ5QMD4baH?=
- =?us-ascii?Q?sSFiIfQn0SP7vqSO8NVmvtbfy6rYTyFLERHDJjed/cP6zCcpPLErqoMeG1bQ?=
- =?us-ascii?Q?LkGv8mrhXiv9y+aLIPaFoSCdIOJCvtUSYxuw2Fn3nWelEHKEvRN/vqxTQemj?=
- =?us-ascii?Q?gqa4bs/vzblBzXWxWLHRAqQyt7pXA7qL0aofdzGErQz1gwkSqh77pWEZNgzD?=
- =?us-ascii?Q?YUGbGSP7KNnSClKfua2t2Bp4DolkZa7Kvi2NoJWnTbJd6Rp3Cl4PYVCefuUu?=
- =?us-ascii?Q?vJ/EjsPNZzjQ7ynX7qz9heoljyPsn/7MhLZbeH+gJzYKA7//ZoZCtzyZULCY?=
- =?us-ascii?Q?KouGnb1zyNXanHMrIHJ9uP4AGVdcl3LjAVkce8omqp4qZmRjWPnMJwnhGdQ3?=
- =?us-ascii?Q?tJZ/Rn5/4m6qrw+emsKxcFMYfC3jwcqhhm4mD6Yl6FxH6MZuBpoUWjbO2XNB?=
- =?us-ascii?Q?CzWb1nKnAxyieOluWn7D9Hip0nDQshJacn4tbtnQQlmQdeVnlRnqz6pZQsqg?=
- =?us-ascii?Q?K0bm5rEmbzLBM/Llqp++ymBbRrefFlITJNzwYmwDDcHUbLJbUMy8WyKERK0B?=
- =?us-ascii?Q?+S1RXDW6nuG7OXu8XN2NPT3lNwFyTpgSZOsLyGnq5xyQR+Gp5M486Pd/D8Tz?=
- =?us-ascii?Q?K3nnGANZT8ddNsQhVPN9gexxYkIoThLM1Qgiuvjnd1aM2p1Jms1gOMi2UFyO?=
- =?us-ascii?Q?98W/B/8PmQp7jYvBSy56jcW32ND+C8A+TyK99TEdJx9LzBnzzPt+ovU9NUVL?=
- =?us-ascii?Q?h8RGku9GWJQQP2j9IRV57GnlWOzmxjrx1yA4fKfvw9dmuj0jPy2vG7VqYpUW?=
- =?us-ascii?Q?nmRKuFC1Qs7e/fRPGDeTgHNL2o/i++pIYSCSUGC/a9ZFjfBqMpHTVhubnvZ9?=
- =?us-ascii?Q?mK1G/mZGQz+qaWJLcPTyj6wELDRoua4h6KODVXL9ULpQ6POk/zg7bBhfIohe?=
- =?us-ascii?Q?FQTRlzZghiWz0uzaghIjqDU6WYwYkPtdEEpW36FuxS8sOACwPww1+QZ0qzCq?=
- =?us-ascii?Q?MPnYHp2VTkYh0a1eX+sWd9CBY0EEmuB53EeZi2MmaS5+1KMlNtyLRVZ4qQR+?=
- =?us-ascii?Q?KEZhN4maQsUNo0c9BhK5A+tRre2VKMoZYQnjdfTy1EROt0h4a8OABype2AEp?=
- =?us-ascii?Q?7FGgCbAzcQoXOpDasQ7Ns2Dn4h73u+FWMs4kzJSJJu2xsGAJOIrJCwm40C3P?=
- =?us-ascii?Q?2F1I+L5bQ31ggtEllRO9ifvr8d8tlus=3D?=
-X-Exchange-RoutingPolicyChecked:
-	vGi1U2k4w39pwQ88OeYNOkhCX1IEpxqXv2Ma2W9Fvh0PBIXKmS+wTt0JxwzMz8OlBGu/b58vHvhycB04vdW7Hy3MBeSDAfdFhg/ecOO8jvGAtjIlhy/UkleqTYYpmTfc5MfZfwMLK4fq5WTgisC7rXPsqGy0PwtYXC0Sc2E7I+d/bwZBYy01PnLGml6YV560EpgNtn7BtkGXh6OhXv5gTZJiM/fM3uAxTQxUxwee6AV9Co2rqdXzay1YbTMEwRPbWCANW+hKKUQXQjTK2zaRujz+v8EfzNFL9tByBMqxTTIEm9EuBM8bt8O276Sc3ldu+pEsN/wkNCPrz0AsY6/S7g==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	EdOzeOKbBEe2pqDQ24TFHcigjqMovlkHNf8P0kSPm0GsKB+IyfgAiig8pQU7m3VArQFB7Id5wAw9G8XrlGKm8HcZCG1vYN3aKGe6sQLuekihDCwpTTlAo75OizMhoU3wo5gmQSX4dQrxScs0mtjqfY/tjaOmqAcMvKzZxivSrnusicfyKGIwjjOLHJcVM0uf1Jp8FFX8t9n2WsKgvq7IoM+Z4QEU6z/I/q8haujf8f9AOZGTTcS1kDbY3f6mdFllv8k4ZJ2+HaNZBoDoL+gEhlvzAUFOOLk+TCf1f6exRHKBt2+VkW7jqsBBI0g/Fyk6D/QrwF98w9uKVVYBIapwra80bjdWHzmjkWFj2NUB16rtL+hkRYoHt5K4UQqZXnMkHQN3xLvqZ/b+pcdc5CZSz8KJoGo9rPvAjO77lULeL4el9bFt30wxihXLB6SoPXL6Sw3v8bn9s6KROBW1EXo3gzEJ09anQQsG8aQO8RcaPB7q+w3S36KxDg5mqohNUxItFlEKJSZE1qVbyPDN7j8atTzgp1Sgwy+1L+5Nj/jIspXgI0scAl82YzTPcBGCwWHOWQ5C/e3yJaOkf29PDNSLctGiMn+dgs+eGrCZDAVrD24=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49b6738b-ef86-4812-c8e5-08df0537ff8b
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB2476.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2026 19:10:17.9545
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0J8zqo/gwD9ynYn2gJPHKHpqCa4mrZ6EkKDTSEwJzd01FR0IVktvZi79s0KjnTShmwgyHhpvmSiFOL2lIYqQajh4f3mWMwzepSuDaevi6So=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR10MB8397
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-28_06,2026-08-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxlogscore=999 malwarescore=0 mlxscore=0 adultscore=0 suspectscore=0
- spamscore=0 lowpriorityscore=0 bulkscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2606160000 definitions=main-2608280167
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI4MDE2NyBTYWx0ZWRfX/y9aNeoS9eOq
- ZUSgdHavinyGZmTB2Db4l5TZZE3QcPCLV5yXTNp9delYFwim2C+pI9hlfB6C6M3rKPiBxH/oAUo
- bBTSPTgj3Ilcot06Sc27i6dwXEWstOk7SnrxxOLyR+Of/lgBopbU
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI4MDE2NyBTYWx0ZWRfX0cEbAlgF5QiK
- cu2h5e1qeXwWheRz24UYydeLA7IjfAFqGOOTk9Ybby/0Nicnpzja+lxv+1y8Skv6P724NNuOZ/n
- U0HXT/Du/INtu3sZgpCbEsmBrxv3QxuZ9DOsiWwz5h8ZH0wWIokmWje4A151NXfZGrnthN1mSYw
- O4NwtiiWFGnsQI6Ln0esXwDqVPL10PUKmbr/cWNYhUGFTgyb7M+VV06ZSHFU5ZM7vocmumgqOB3
- MnhQ1iOsH6YyUMT5frYzr0nifUmq92BrluRBNUte6R1YP7JmcfnBlUCjhyny+wp9aICYdR3CliW
- gobgjSDg5sP1NCo6l2ToJxo7uL+a8fkJLzi6sQg5bkxdEZ9qRnmEt6olxXlwT7hrPFv0OK0HQuq
- K3Jt31J+Qp9YJERnw/7v72zBA3Ziogn/STg1lTqkVlimHY4vyctMlLpnmt9mD9NlPjFx5tBlBf4
- 7AP1v/4bfCtyOPRyPtQ==
-X-Proofpoint-GUID: 0daC153m7kc9THq6FB94ZjOo9lr3CFaP
-X-Authority-Analysis: v=2.4 cv=Wek8rUhX c=1 sm=1 tr=0 ts=6a91dd22 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=Sv0fKeRqtYgA:10
- a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=o5oIOnhZENCTenyL_yNV:22 a=yPCof4ZbAAAA:8 a=611DKdg8VLDS_sa-SRAA:9
-X-Proofpoint-ORIG-GUID: 0daC153m7kc9THq6FB94ZjOo9lr3CFaP
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-GitHub-Recipient-Address: dtrace@lists.linux.dev
+X-Auto-Response-Suppress: All
 
-Use ssize_t for write() results, retry interrupted writes without treating
-the negative length as progress, and unwind through the provider-close
-path if writing parsed DOF fails.  Replace the no-op assert(1) in the
-corrupt-state path with abort().
+  Branch: refs/heads/dev-queue
+  Home:   https://github.com/oracle/dtrace
+  Commit: 2a10b8325f5d0c088ed895855fcef54148d0fe38
+      https://github.com/oracle/dtrace/commit/2a10b8325f5d0c088ed895855fcef54148d0fe38
+  Author: Jacob Carlborg <doob@me.com>
+  Date:   2026-08-28 (Fri, 28 Aug 2026)
+
+  Changed paths:
+    M libdtrace/dt_btf.c
+
+  Log Message:
+  -----------
+  libdtrace: resolve BTF type tags when importing BTF into CTF
+
+Without this fix, running any DTrace commands results in:
+
+```
+dtrace: invalid probe specifier ::::
+"/usr/lib64/dtrace/6.12.0/procfs.d", line 131: operator -> cannot be
+applied to pointer to type "void"; must be applied to a struct or
+union pointer
+```
+
+The issue occurs on kernels which have BTF with type tags. The fix is
+to treat `BTF_KIND_TYPE_TAG` as a transparent modifier, resolving
+straight to `type->type`.
+
+Signed-off-by: Jacob Carlborg <doob@me.com>
+Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
+
+
+  Commit: a4130f975ba04156acbf94a41e7891665191011e
+      https://github.com/oracle/dtrace/commit/a4130f975ba04156acbf94a41e7891665191011e
+  Author: Jacob Carlborg <doob@me.com>
+  Date:   2026-08-28 (Fri, 28 Aug 2026)
+
+  Changed paths:
+    M libdtrace/io.d.in
+
+  Log Message:
+  -----------
+  libdtrace: derive io provider dev_name from the device model
+
+Without this fix, running any DTrace commands, like `dtrace -l`,
+results in:
+
+```
+dtrace: invalid probe specifier :::: "/usr/lib64/dtrace/6.12.0/io.d",
+line 134: failed to resolve vmlinux`major_names: Unknown symbol name
+```
+
+The issue is that on newer kernels the `major_names` symbols is not
+available in `kallsyms` anymore. For example, running `grep -w
+major_names /proc/kallsyms` on a newer kernel shows no results.
+Running the same command on an older kernel gives the following
+result:
+
+```
+$ grep -w major_names /proc/kallsyms
+0000000000000000 b major_names
+```
+
+The fix is to stop depending on the `major_names` symbol and instead
+derive `dev_name` from the device model (the driver name), mirroring
+the `struct buffer_head` translator.
+
+Signed-off-by: Jacob Carlborg <doob@me.com>
+Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
+
+
+  Commit: 4c4f4eec9b3a0e5147a3beab07556870e1036714
+      https://github.com/oracle/dtrace/commit/4c4f4eec9b3a0e5147a3beab07556870e1036714
+  Author: Kris Van Hees <kris.van.hees@oracle.com>
+  Date:   2026-08-28 (Fri, 28 Aug 2026)
+
+  Changed paths:
+    M libdtrace/dt_impl.h
+    M libdtrace/dt_open.c
+
+  Log Message:
+  -----------
+  libdtrace: determine (and store) non-initial PID namespace dev/ino
+
+If dtrace is executing in a non-initial PID namespace, record the dev/ino
+pair to identify it.  This can be used when performing pid/tgid lookups.
+
+Suggested-by: Jacob Carlborg <doob@me.com>
+Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
+
+
+  Commit: 3ccaaa2b58ddc9c278e1e7869cc4b9f0b511410b
+      https://github.com/oracle/dtrace/commit/3ccaaa2b58ddc9c278e1e7869cc4b9f0b511410b
+  Author: Kris Van Hees <kris.van.hees@oracle.com>
+  Date:   2026-08-28 (Fri, 28 Aug 2026)
+
+  Changed paths:
+    M libdtrace/dt_cg.c
+    M libdtrace/dt_cg.h
+
+  Log Message:
+  -----------
+  cg: provide function to retrieve pid and tgid in a PID ns agnostic way
+
+The dt_cg_ns_pid_tgid() function automatically selects the correct BPF
+helper to get the proper pid and tgid values relative to the current
+PID namespace, and stores them in %r0 using the standard BPF convention:
+(tgid << 32) | pid
+
+Suggested-by: Jacob Carlborg <doob@me.com>
+Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
+
+
+  Commit: 9361e7f00bb6f2a253800379c519ce16f5545eb4
+      https://github.com/oracle/dtrace/commit/9361e7f00bb6f2a253800379c519ce16f5545eb4
+  Author: Jacob Carlborg <doob@me.com>
+  Date:   2026-08-28 (Fri, 28 Aug 2026)
+
+  Changed paths:
+    M libdtrace/dt_prov_dtrace.c
+
+  Log Message:
+  -----------
+  libdtrace: match BEGIN/END PID in the tracer's own PID namespace
+
+Without this fix, running any probe hangs with no output,
+like `dtrace -n 'BEGIN { trace("hi"); exit(0); }'`.
+
+The issues is that the `BEGIN/END` probes are implemented as uprobes
+on DTrace's own `BEGIN_probe()/END_probe()` functions in `dt_work.c`.
+`bpf_get_current_pid_tgid()` reports the TGID in the initial PID
+namespace, which does not match `getpid()` when DTrace runs inside a
+PID namespace. Using the `--pid=host` flag when running OrbStack does
+not help, because it shares the daemon's namespace, not the kernel
+init namespace. OrbStack's own supervisor runs in a nested PID
+namespace. On bare metal `--pid=host` does reach the init namespaces
+and the bug wouldn't appear.
+
+This fix is when DTrace is in a non-initial PID namespace and the
+kernel is at least 5.7, use `bpf_get_ns_current_pid_tgid` instead of
+`bpf_get_current_pid_tgid`. `bpf_get_ns_current_pid_tgid` is
+namespace aware.
+
+Signed-off-by: Jacob Carlborg <doob@me.com>
+Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
+
+
+  Commit: 1f5618797948616c6f45a9c003b5d70d702d1c73
+      https://github.com/oracle/dtrace/commit/1f5618797948616c6f45a9c003b5d70d702d1c73
+  Author: Kris Van Hees <kris.van.hees@oracle.com>
+  Date:   2026-08-28 (Fri, 28 Aug 2026)
+
+  Changed paths:
+    A test/unittest/pidns/common.bash
+    A test/unittest/pidns/test.x
+    A test/unittest/pidns/tst.begin.sh
+    A test/unittest/pidns/tst.concurrent.sh
+    A test/unittest/pidns/tst.disasm-helper.sh
+    A test/unittest/pidns/tst.end.sh
+    A test/unittest/pidns/tst.io-dev-name.sh
+    A test/unittest/pidns/tst.io-dev-name.x
+    A test/unittest/pidns/tst.proc-create.sh
+
+  Log Message:
+  -----------
+  test: add PID namespace support tests
 
 Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
----
- dtprobed/dof_stash.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
 
-diff --git a/dtprobed/dof_stash.c b/dtprobed/dof_stash.c
-index 6e62bdf6..144cc98d 100644
---- a/dtprobed/dof_stash.c
-+++ b/dtprobed/dof_stash.c
-@@ -420,10 +420,14 @@ write_chunk(int fd, const void *buf, size_t size)
- 	char *bufptr = (char *) buf;
- 
- 	while (size > 0) {
--		size_t len;
-+		ssize_t len;
- 
--		if ((len = write(fd, bufptr, size)) < 0 && errno != EINTR)
--			return -1;
-+		if ((len = write(fd, bufptr, size)) < 0) {
-+			if (errno != EINTR)
-+				return -1;
-+			else
-+				continue;
-+		}
- 
- 		size -= len;
- 		bufptr += len;
-@@ -796,7 +800,7 @@ dof_stash_write_parsed(pid_t pid, dev_t dev, ino_t ino, dt_list_t *accum)
- 			state = accump->parsed->type;
- 
- 			if (write_chunk(parsed_fd, accump->parsed, accump->parsed->size) < 0)
--				goto err_probe_link;
-+				goto err_provider_close;
- 			break;
- 
- 		/* Error return from parser.  */
-@@ -817,7 +821,7 @@ dof_stash_write_parsed(pid_t pid, dev_t dev, ino_t ino, dt_list_t *accum)
- 			 */
- 			fuse_log(FUSE_LOG_ERR, "dtprobed: PID %i, %lx/%lx: internal error: corrupt parsed DOF: type %i\n",
- 				 pid, dev, ino, accump->parsed->type);
--			assert(1);
-+			abort();
- 		}
- 
- 		free(parsedfn);
--- 
-2.52.0
 
+  Commit: 5a8f9f419d9e8cb89bc778b0ef68e4f5f8e54f4c
+      https://github.com/oracle/dtrace/commit/5a8f9f419d9e8cb89bc778b0ef68e4f5f8e54f4c
+  Author: Kris Van Hees <kris.van.hees@oracle.com>
+  Date:   2026-08-28 (Fri, 28 Aug 2026)
+
+  Changed paths:
+    M bpf/Build
+    A bpf/bvar_ns.c
+    M libdtrace/dt_bpf.c
+    M libdtrace/dt_cg.c
+    M libdtrace/dt_state.h
+    A test/unittest/pidns/tst.builtinvar-tid-pid.sh
+
+  Log Message:
+  -----------
+  bpf: make the PID ns dev/ino pair available to runtime BPF code
+
+BPF code in generated probe programs needs to retrieve PID and TGID
+values in a PID ns aware manner if drace is running in a non-initial
+PID namespace.
+
+Provide support for PID ns aware pid and tid built-in variable.
+
+Suggested-by: Jacob Carlborg <doob@me.com>
+Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
+
+
+Compare: https://github.com/oracle/dtrace/compare/61fea621160e...5a8f9f419d9e
+
+To unsubscribe from these emails, change your notification settings at https://github.com/oracle/dtrace/settings/notifications
