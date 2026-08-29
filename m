@@ -1,475 +1,252 @@
-Received: from out-32.smtp.github.com (out-32.smtp.github.com [192.30.252.131])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E67481AA8
-	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 06:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.30.252.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787983594; cv=none; b=E+WM3XjVMk/CXQA2Z/FqmXHrev4eWHLBbR6bPgTP2uwnJ2e5FJCWhe+Lv7FF8Ei/9F3mWnutJfAZ6AK2ldLoqTScUtgm5pIiw13XvTqqv92NrwD0p7HBTK4qBPswPuvmJ0bPvbod7m/hHVzhfmwl5s0iMjFiwbpftY/11nUmac4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787983594; c=relaxed/simple;
-	bh=/iALsPqDSGexcYq5c7GxIAJUhOF8/a7QvZngq28pb0M=;
-	h=Date:From:To:Message-ID:Subject:Mime-Version:Content-Type; b=NXtVDo/ju87W9TOZhKxyYLZNHdKhvTKwl6MQ32hNLm3weyAX2eIdMmBhRqIvWPqA9hHS7C3IvIG7cWmhR7BpRYWmkZ3OzTwqoS3QY0ffhJtFQb+hYwsdm4qDDQ58+a64Z/Ix6aS6yGsPDBQEyER60XmQxAv5b+S9C7jTzAlrsss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=github.com; spf=pass smtp.mailfrom=github.com; dkim=pass (1024-bit key) header.d=github.com header.i=@github.com header.b=htoKZ7OS; arc=none smtp.client-ip=192.30.252.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=github.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=github.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BCB3F1059
+	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 12:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788004812; cv=fail; b=i7z2V8qoM+kRtY7PcNPWw3zOMivX4BqGdJYo0GcUY3W9qivUNEpY4PVjTWlGuGBdD28+v8ky9L4lZEHcw6PvhyHnygve0OxXoL0sXMN2YN2B2uBg/mgBhMBb9HPgEBQ1k06hSbO8IzsIe1NSqULLHs23Ee16EIOyD/kExwbiwfQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788004812; c=relaxed/simple;
+	bh=tzzO4KVk3RH7N1BvcwC6OiPikiLPE+xsIXdNV/D8uhw=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=uWA06VJVt5MUX8zC0y3YHkd4GxcWkYMp49zSdlLqGt/vUU0mbqJ495cx/DdNIExdWu+U325xoxndv7+2oYwU0fTryf7GvxsTK7eich/HJ6QGbN05IAdCByf9nPLJr/e5dTJgQ++c2ABp1ZLc9pUAyqB7yjIP4LZq7FzcB+eygzo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=pz3sKSSX; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=YMr11Cwc; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=github.com header.i=@github.com header.b="htoKZ7OS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=github.com;
-	s=pf2023; t=1787983591;
-	bh=HcdqPvike4FBtKiQESyZgBmtDnix4sNKHYqHAFEh8BI=;
-	h=Date:From:To:Subject:List-Unsubscribe:From;
-	b=htoKZ7OS+KIkmDW+b7N5NjEjvSJdAwErQDCXGwB3frKr6YICDKToCpsLPHkYfXpii
-	 wjFFET1Jck+L2nQYUt1pZyleOLkQ+EIL41TowM1a3/b6YcZTO/bBnP3DTiMRsHoU3q
-	 xWUtQZ+B10VE+AlJbxWJOJGME3NlTrfJK8LYqBOI=
-Received: from github.com (hubbernetes-node-b3d75a7.ac4-iad.github.net [10.52.146.31])
-	by smtp.github.com (Postfix) with ESMTPA id B2F5C321008
-	for <dtrace@lists.linux.dev>; Fri, 28 Aug 2026 23:06:31 -0700 (PDT)
-Date: Fri, 28 Aug 2026 23:06:31 -0700
-From: Kris Van Hees <noreply@github.com>
-To: dtrace@lists.linux.dev
-Message-ID: <oracle/dtrace/push/refs/heads/dev-queue/5a8f9f-9ca231@github.com>
-Subject: [oracle/dtrace] 7f1cb7: test: Adjust sync timing
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="pz3sKSSX";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="YMr11Cwc"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67TAx3le1245055
+	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 12:00:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=koyjbTcq6bFLd1IccdKiltlINS8R8IFa9HiaBGLuFmk=; b=
+	pz3sKSSXEvDrLZPTAcm1EWw2GjNExuDiNzp5JAl9LyOxB3EU8qOqpjiuIfgA1IuH
+	50hwtfPxQ64nT1fw4zcM/dBkXsEW4+GV3aelVdgEmlk6fXxhfaO3b5rVecSW8aPN
+	dqT7JZC1NyiMRTZHnty8jbFqtQpYgQlpkobUNK8cgnVSfOuYwFaqzmfOB/tR2+0T
+	/jUvjXUfiM5tMP0/SkZBOguUQP2K9Yu9V/9lsZTCEtCc1Ry8cOooZOu50bydFX1q
+	4OkA3lBS5VsmM80IS6YFdeFNxGzYSSdZr4j5VQ14B5uSv20HHBo1d86y26J7djQU
+	gS7TGpiH234EZ7l1RcJtZg==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4gbpbar80w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 12:00:10 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67TC04MQ023008
+	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 12:00:09 GMT
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012030.outbound.protection.outlook.com [52.101.48.30])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4gbnvbg6sy-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 12:00:09 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KzGYRwLVjc7tjcNf8z8tyKo18E32s51HQ1K1FueL6jcdtRUISCHqjDpAy7zD4p5DiIQAY0j9qpAGBgcinHSA6GoYp8PGt3fm60QHpo2ANUoj/Rxk7aoLf7XU5plPj3tqzr2rI/uJwm8wXugLA8HTWKSEXeZxDqkpkwKS5kp1lbDgT5YFzOuEsmHtTSCihEi/QfRkTFwJif8eRBZ9jg9NvC6wdrxkUGhGv/ynROFbJzIKoLyHf+kauVxI2n8v/rIGRaRFeaZfgy2w2Gs3GhZmNJ083mjQsEZuf9cwulcCnbpPk9qc1oGXFngz5NDdGz4ac4ILvL+KCAO5miasJLFPMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=koyjbTcq6bFLd1IccdKiltlINS8R8IFa9HiaBGLuFmk=;
+ b=RuI9jnse5QtU1YC2YBuYHvQtRudcFHtEf16YR+E/7gxA7ZxiqCd1/hOhT/V2wC1UijdmL5+lEzXj/WTVvyRtiPc4Ss+mk+yKr5MbAwS4MMsMPAFB6avZ+MeTp+cH6CWLkU38QvNCwcsDfrk1SGDmR0Z1lHWrgaIWBnYuMq19jZOudCBJFtMm45d2I41zLTGJAw/qoL3ZOzcBHqGEWbRiZcVO57GZlKDfdRgzgrb6SsWDaeMTEFeyzHC8Q8ApSVjfT85o6BmSrvkB3z7e3U6UgHbJi3JqiBypw7oMGA5+CXmueWcaCK23nYSq9dVi/iS2C45tGg3ubI4qmW/6bobLlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=koyjbTcq6bFLd1IccdKiltlINS8R8IFa9HiaBGLuFmk=;
+ b=YMr11CwcjGty2bf6dX6A5cQDoF7PobY/P63iMGOPlwXJxftVipongecc5QJQw2p5MtY2D/Icmmi2ekGECnQtlxgbWcSnLMbIdJCKhwSOeasQf2Sq9hei11OAqLIUZVTtfMIsnGj+DSE3e8jW9LU6e2FZGqXnKjz+aU4sBOE9D6I=
+Received: from BN0PR10MB4901.namprd10.prod.outlook.com (2603:10b6:408:126::19)
+ by SA6PR10MB8112.namprd10.prod.outlook.com (2603:10b6:806:43c::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.9; Sat, 29 Aug
+ 2026 11:59:52 +0000
+Received: from BN0PR10MB4901.namprd10.prod.outlook.com
+ ([fe80::19a8:41b4:f519:1b79]) by BN0PR10MB4901.namprd10.prod.outlook.com
+ ([fe80::19a8:41b4:f519:1b79%5]) with mapi id 15.21.0382.007; Sat, 29 Aug 2026
+ 11:59:52 +0000
+Message-ID: <935b20fe-2000-4d11-83b6-744eb9bc2e2d@oracle.com>
+Date: Sat, 29 Aug 2026 12:59:48 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [DTrace-devel] [PATCH 6/6] dtprobed: fix dof_stash write failure
+ handling
+To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
+        dtrace-devel@oss.oracle.com
+References: <0508ff7039a7532b1f5eb94d6dd8aecb@oracle.com>
+Content-Language: en-GB
+From: Alan Maguire <alan.maguire@oracle.com>
+In-Reply-To: <0508ff7039a7532b1f5eb94d6dd8aecb@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0368.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18e::13) To BN0PR10MB4901.namprd10.prod.outlook.com
+ (2603:10b6:408:126::19)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
 List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GitHub-Recipient-Address: dtrace@lists.linux.dev
-X-Auto-Response-Suppress: All
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN0PR10MB4901:EE_|SA6PR10MB8112:EE_
+X-MS-Office365-Filtering-Correlation-Id: 91fd8037-2762-41cd-c62f-08df05c5088a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|10067099003|22082099003|18002099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	Iz+gEOjOYFWwqtdDocvXDxzieYg84VocdyUfULAtXnBqeIzkfqp7AHFWAYSUHDLI6RnWU7pKWhm7aYsTml8f0vpxpMIuRnNyVcLHiD6+KZ1S35H13z7ntWhWhNdy/vTmBsm3vhcRF/znyyHrKA8G2JRHs457J7Dcn/TJ/EyqHK7W9rFOqB/MIj9dD9MlqVgnNsD0XPnfI9KhYmQ9i2cWSe1fXcUK+Ktymu81ScFo3tm2Lme4DWFXgpKvJxcXhSrvZfge3Z2KyvaVQnVCxHQTScyrURBwpv/jJRcweC9mmbikaYH2ZJ+gA2wscjst7DsdCdV20bk/yXOEScUYLu5ZbStgDYxNEwYiU8AX4KLTAaPnpQyucQzd565lV1pV7xVY7dI5Js4kYqmTcHqPmDTmNFEGbwss4bhXunL//4E4lIUHzpw67BLn3q5NVePtZ5z4PdTIT812abNedvnH6L6IHECpJOaI1XgUqyF9b0QEf8sSJFM0OE5pcnx0EM9o4mK59CYZjfzZGdXxG2eMFcIStHeOPODxURP3sIGZI+hCWKMQsKupis8q4dIGEiBvcLI05E/6/aoWpzJFRzsc7OHFexyMen+o9oCm1/55ORpHjnrsYMIrpFYRpkZ4UCgZl/W/ddOsWBLEDZ8Lm/oT8BMKnX8Xad93U7ed0h97jOHhqPU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB4901.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(10067099003)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WW5NcG92UGdRT1JYTnJsc0ozWkdncWlvT0xGTGR6d3I2RHg5M3NydU5JZVl4?=
+ =?utf-8?B?cGpKYzlvVERlbWFKOE9JN1ZnOW5sTXJ4ZU82WDRYb1BtNk9vbnhQRERERHpF?=
+ =?utf-8?B?OEJyUHVoanRoT0lPN3hpMkd2L050Z3FoMEQ2S05sV1JFNWRoVG1FTzZycmhE?=
+ =?utf-8?B?Ti9qM3VKREtacGJiNWxwUFNtZXVWcFdGNjRTMm1HeTVXLzlCeXJJbytvcXJi?=
+ =?utf-8?B?YlN5dE11NHhHdzZiVXdLVDcyWWRtTGRuQWlYZ0RiaDNlTjJrRzJncERLd0Zz?=
+ =?utf-8?B?L0dKOE1aRWJtNmFPY3RkcGpBaWJCR0JBR0MzNlFrMnVmNmI0Q0ZVZFl4blpR?=
+ =?utf-8?B?Z3RWK0JNbHl3U0tuMjZYRzdQMlFIU3lzU2tPMkYzNzk3UXZiS2dSUVF3K2N1?=
+ =?utf-8?B?S0RnVmRqZlorUzJJM21oc2ZqZFBNcVlNSTQyTTliQmZydS9YQjhMN3pHazRx?=
+ =?utf-8?B?Q1ZENlU5em5tZEE2MWhyR1BValZlR1F4REhabm9tTitaZ1JGQWNhR2JYUlJo?=
+ =?utf-8?B?TkFaaVdUTjUvUlA5WUUzQS9EbnpWdDdEZ0VrWitIbTNOSEJFb1RhQVU3TFZ3?=
+ =?utf-8?B?SGxibzA5bWw1M1h0WEw5R2dMOHkwTjFPQWpId0h1R3BJOEZSZHZJT0lRSUEv?=
+ =?utf-8?B?aDgwb0huT0V2M0hkNmhYckNGbmtGeXV0ZjRZMldPVEM3aGZkcTRicWxtdUc3?=
+ =?utf-8?B?a0NFdHFIdmJPblJFSkZ3WWhMNUtIVXZlMUJkOEFYSjMrclUzMmtwV0pnaHMy?=
+ =?utf-8?B?dVJ2cXo4Z00vWVd1bVZRMFN6QTBlSEIrSWlqVUZRR1VnVmRQZDVTbElMNktm?=
+ =?utf-8?B?VnRGYU1BYkFEOWIvZ1BKTnBUZGFWMGRrUWFPeDJ6T29BeEQycHowY1lhaTFz?=
+ =?utf-8?B?RFNOcXljb2JqSnlJaytqWTZsb1dBUERPUDNCK3dJZU5qamViYkJqVjBwb0Zu?=
+ =?utf-8?B?WjVNUXN4a1FOZkJWVC9wVVFVYlIzaVdSSDBPV3VOemkycndzdUpCcUc3NkVy?=
+ =?utf-8?B?Y3J6TXpGT2JzeTh2Uk9kOS93UXM3N0xqcWM1UkkxblNuaUZwMFFLVHlLSm5v?=
+ =?utf-8?B?Z3EvWnlkMjhnOUJnUnpXd2ltb1hXM09HN0kxVVZXZDVNaXBvbEtiSURaUFBz?=
+ =?utf-8?B?Tk93WFZBZlJwUmQzelFuU3B5SFBER2NWK1RycEdJSWVlODFEbzVocGRicUFK?=
+ =?utf-8?B?eGRmdEcralJyUjVjYVdHaENYSS9qVEV0YkxPOCtpbWRFMVNIdE1RRVZCajRR?=
+ =?utf-8?B?R2lGeENPYzdDcXhCVEFqT0dDbHlVdkFGSXFWSlI5bFk4MGVUWUdyREIyWmNS?=
+ =?utf-8?B?T3FJQ1BjV2lvYVVXN0c1bTJmVFJacHdMYUZKMUladUdQYUZVMmRCRTJCRTJ5?=
+ =?utf-8?B?VzJOTHhsMDZLc1JjNHlXQUZFclp6UmRDYm9LcjNlODY4ajVWbW9FYWNHSWFC?=
+ =?utf-8?B?TXhDRDR0VDhrVHZKZkFnLytNRzhxQUVESU8zQmZpaU51MEg2VDBKK2laenlK?=
+ =?utf-8?B?YmRPUm9JTUg0SmN5WlhJNjhmakM3YWR2am9UQ1dBVkJ0TjZITWhmQnVaaGhn?=
+ =?utf-8?B?NjRKdHdrN0FSTXByRGxxQnBrd1dsdmNSVDZ4WC9oa1lDYnhXU0ZDS3ZMNURU?=
+ =?utf-8?B?Mzg1UnMxdDJTeGY2ZytpVGRRbGFlQ2EwM2FzYXdLRGs4ekdTTHIvQ2ZyWnRs?=
+ =?utf-8?B?and1NlF3d1J5T3p3WWlFWFIyOEZCQmZlY3hTdHd4VWxDWmdxTnB4WnJhYTZl?=
+ =?utf-8?B?MnhDbHQ4bXFvemc1c1lBdWQ3UXFzKy9ibHgvSC8wQVg5eERrZnJweEs0bU5H?=
+ =?utf-8?B?dzNGNjdpVGpGRnF5c241WCsrNG4vRHUvUHZwN3lBcWdpTlRhRHdQVGEvbi9V?=
+ =?utf-8?B?c1VIR1RLb3c2RndkMmtBZGpIVkU5UXo0NHIyY2k3S0l2V3Fja2hTL2cxTG9v?=
+ =?utf-8?B?TkNYekIvYkpmck45NDEvcmNvcFJmNCtPZU9QajR1MWxwbVhRM0FHRk1BLzlS?=
+ =?utf-8?B?T0liVER0dW5DY29KcHlYOWRBV1Z1c1dXUVlINy8yNHFTR3hkSDZDYUd0T0I3?=
+ =?utf-8?B?T2VjaXdCeXZWbERNaW40bldDelZGTzJsYVhoQWZnUW1GZzJ6bUhhMHk0Rml3?=
+ =?utf-8?B?WndsYS92aUZDNC9UbGs5S1hiTURLdGdWNzlWRVBadWtERVlJSUZtejkwbXBl?=
+ =?utf-8?B?T3FmQlNSY0luNElFNHdITk9XcVN1OE14enlncFVRYmJjMlVYckZlOTVXRnR4?=
+ =?utf-8?B?WGhFdC82SkNZNFhBQmU5Rnh1dW5TUHlwdUM4c01EYXNMRGNiVUNNNGJWTTBY?=
+ =?utf-8?B?YVg4VFJZUUJtQ1dISHdIR2lmVzEvbDBObmVoUlNlcEFCa2JMeHNhUT09?=
+X-Exchange-RoutingPolicyChecked:
+	hTiDm1o2Jcty1RwsvEv8ilpBwWqG4sLJy3KREKuA8ED41PXiujzjKXRNu5Kd2fT+dVQM37Wu0yP89rfKMqvAmJTKZxeuqgxhln69W0utuwPHo41zftFHAMJU+fTadyi0QRbJVWFd4cbXS4MO9hcBX6DtEpn/MwCGEHXDxa/I85dtuwH7RW+CmaTL4n5dR/bNPw4HSlDE04RT0W9JBtduBM5Qw0fMpuXCdByhgGzb7EWrgVfNNXT4LibhZxt05+c+q1D/kWwVFU03QV28wjm5lByPl8+pGTCmQh9FABMxyorXLbwh0Qn5MMeLckO2s0wkj0c3sM0DKz1k2CvKdw2/QQ==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	YFuhHerDOLpA3q7EUhMUwflDkZAC6hiNLtWIOouEeERN1X3gCT7PrErDFYlQodu8vgACjFm3BpZj+BjRFNFWFL2w3cLMPRZ0L7ew7myT8AqauvPHqurQolsMrb55A/Kuu+0J3keBqLWcA4jq1w0tMVx7F8fOTojfQV8KddVJJs4mtdPiiFWFSEN86uYlG3nVHhpp2C6h0K3Ld29CRa3wRvi8haP8lEUM+ngQBVPCkj1FRccruDl6IvdAXpRxmi05VPp1oMGcv21gH38uwLbjcIXmPa2Ny2WAt6+yMyBj5XkoAOxonKM7j3DbV0pvYtgrNAOGNRO9n/oEChIT+mSybr+c1e5H+YR+UvmGJ+aqlmGRANq1TfAa0bvM9GRpU2GEdmBevF27uP7ZM0iXU3VchLZk0HC4sbApSFVc8KcJuz29K+j/Soczog5QvbwIX4fVW/rbEJRr+QHqqd4M1WhX75V3EAGoqRl92v9kejALogmg8mftAKRjxrgjEEYlTg/MMSR2pXxct6XNY+ZzdthO6XJMreNxFinVkOznr8ezIZ+4l7EfTGKArVUtznuXCcFf6Ip3SNx087QoRoCfu2LO3hCovjAfAn2q52BmudjOMnc=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91fd8037-2762-41cd-c62f-08df05c5088a
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB4901.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2026 11:59:52.1733
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QhNVFzKI0aJc6jwdAs4ODESlIjm0sXO8ERJATWA6Qsp+TiaY7cG3ocd4jXpx/ABhSsCSb0sO9cqsKUbjLo1pOQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR10MB8112
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-29_03,2026-08-27_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ lowpriorityscore=0 adultscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
+ suspectscore=0 phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2606160000 definitions=main-2608290103
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI5MDEwMiBTYWx0ZWRfX7sv4SDTugQuE
+ /Y1qoHNjCc1EDIb9ZNeJhz6SNwYOJixtSjKWBaSgGtmuFlQEgEloEwxh6JZieEPBszrvUz/9hI/
+ sXSVaQFfbJ/nPZKewUQf6mBnQdUNY8o5gD3ElC1oglmlLD3/k6hw
+X-Proofpoint-ORIG-GUID: rdk0DaLI9eTT4ZIrLWWyy8XuNAJHsQUs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI5MDEwMiBTYWx0ZWRfX+T8ezjTnJUw8
+ isZx+u1DOwnzG9CTer+jiFZ08jdvbkx/k5Qw5U1DSgussJIbbk+PnSq0UIYswfQ2XrAIBE8DLnd
+ 8eSQ26AqbDa2+ShFmDcwnnzcvG2vJCAi++TbDciiefwb2xOXnW/06BtA2GN4/tRwBsfPSqpZg6D
+ 0zeYmvkDBy/vXtjXT0XAyMpy2uVgpMb1/OuUo0YdsCcgTx5bweSNCea7TBUXfpJ97PeFo+oElhC
+ AY0x7KzbpOAv87InVN1IskVxL9HNMAmQNP5iv18qGfwhHt5TVKf6Bobm9/dVuOF56/gxWHBi/vg
+ 0HUJOBSbcsZhBafCMaewj5gUV47EOjbuW2w2AjLoYJJOEF6EkrFmTeg1kCXzfrbW7MOjmV0WPdN
+ nIzJOCH/CTifHZDl7Yh80VMHu3PZH8iCL8mGLznM2sBG4Y1phbHDRk2pHflVAccTEofSKmxZU2b
+ GeQcBFXhOVdd2HFjajQ==
+X-Authority-Analysis: v=2.4 cv=DMi/JSNb c=1 sm=1 tr=0 ts=6a92c9ca b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Sv0fKeRqtYgA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=x0eKOSpe3m1H3M0S9YoZ:22 a=yPCof4ZbAAAA:8
+ a=0vVsowvZUffegHRM0wEA:9 a=QEXdDO2ut3YA:10 a=WmVTiCyuxqgg3mnwYu6p:22
+X-Proofpoint-GUID: rdk0DaLI9eTT4ZIrLWWyy8XuNAJHsQUs
+
+On 28/08/2026 20:09, Kris Van Hees via DTrace-devel wrote:
+> 
+> Use ssize_t for write() results, retry interrupted writes without treating
+> the negative length as progress, and unwind through the provider-close
+> path if writing parsed DOF fails.  Replace the no-op assert(1) in the
+> corrupt-state path with abort().
+> 
+> Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+
+Took a while to make sense of that dof_stash_write_parsed(), but
+
+Reviewed-by: Alan Maguire <alan.maguire@oracle.com>
+
+> ---
+>  dtprobed/dof_stash.c | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/dtprobed/dof_stash.c b/dtprobed/dof_stash.c
+> index 6e62bdf6..144cc98d 100644
+> --- a/dtprobed/dof_stash.c
+> +++ b/dtprobed/dof_stash.c
+> @@ -420,10 +420,14 @@ write_chunk(int fd, const void *buf, size_t size)
+>  	char *bufptr = (char *) buf;
+>  
+>  	while (size > 0) {
+> -		size_t len;
+> +		ssize_t len;
+>  
+> -		if ((len = write(fd, bufptr, size)) < 0 && errno != EINTR)
+> -			return -1;
+> +		if ((len = write(fd, bufptr, size)) < 0) {
+> +			if (errno != EINTR)
+> +				return -1;
+> +			else
+> +				continue;
+> +		}
+>  
+>  		size -= len;
+>  		bufptr += len;
+> @@ -796,7 +800,7 @@ dof_stash_write_parsed(pid_t pid, dev_t dev, ino_t ino, dt_list_t *accum)
+>  			state = accump->parsed->type;
+>  
+>  			if (write_chunk(parsed_fd, accump->parsed, accump->parsed->size) < 0)
+> -				goto err_probe_link;
+> +				goto err_provider_close;
+>  			break;
+>  
+>  		/* Error return from parser.  */
+> @@ -817,7 +821,7 @@ dof_stash_write_parsed(pid_t pid, dev_t dev, ino_t ino, dt_list_t *accum)
+>  			 */
+>  			fuse_log(FUSE_LOG_ERR, "dtprobed: PID %i, %lx/%lx: internal error: corrupt parsed DOF: type %i\n",
+>  				 pid, dev, ino, accump->parsed->type);
+> -			assert(1);
+> +			abort();
+>  		}
+>  
+>  		free(parsedfn);
+> -- 
+> 2.52.0
+> 
+> 
+> _______________________________________________
+> DTrace-devel mailing list
+> DTrace-devel@oss.oracle.com
+> https://oss.oracle.com/mailman/listinfo/dtrace-devel
+> 
 
-  Branch: refs/heads/dev-queue
-  Home:   https://github.com/oracle/dtrace
-  Commit: 7f1cb7139a6d1d35036e395acdcc67eb64308603
-      https://github.com/oracle/dtrace/commit/7f1cb7139a6d1d35036e395acdcc67eb64308603
-  Author: Eugene Loh <eugene.loh@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    M test/unittest/usdt/tst.defer-Z-basic.sh
-    M test/unittest/usdt/tst.defer-Z.sh
-    M test/unittest/usdt/tst.defer.sh
-    M test/unittest/usdt/tst.nusdtprobes.sh
-
-  Log Message:
-  -----------
-  test: Adjust sync timing
-
-The nusdtprobes test was failing rather consistently on systems with
-very large CPU counts.
-
-The main problem was that dtrace programs with aggregations take a long
-time to start up on such systems.  In particular, gmap_create_aggs()
-tries to create an aggs_$cpu BPF map for each CPU, spending (in
-measurements on one system) about 0.004 sec for each dt_bpf_map_create()
-and 0.011 sec for each dt_bpf_map_update().  When there are hundreds of
-CPUs, the time to start the job up increases by, for example, 5-6
-seconds.  The test waits for dtrace to start up by checking "-e" on the
-output file, but the aggs_$cpu delay occurs after the file is created.
-
-Add a BEGIN clause to write to the output file.  Replace the "-e" test
-with "-s".
-
-The test has a sleep before starting a team of processes.  There is
-perhaps no reason for this wait.  Nonetheless, we leave that sleep,
-simply reducing the time to 1 second.
-
-There is also a delay between launching processes and tracing them:
-
-  x dtprobed sees newly launched processes rather quickly
-  x dtrace tries discovery 1x/second
-  x discovery is rather fast
-  x starting a newly discovered probe is ~ 0.011sec (on one system)
-
-For 40 probes, that last step is about 0.5 sec, but the total "sleep 3"
-in the test before killing the new processes is apparently sufficient.
-
-Make the corresponding "-e" to "-s" change in similar tests, even if
-they have not shown the failure pattern.
-
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
-
-
-  Commit: 8c5403644bd116b51db3539c587a948387282586
-      https://github.com/oracle/dtrace/commit/8c5403644bd116b51db3539c587a948387282586
-  Author: Eugene Loh <eugene.loh@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    M README.md
-    M doc/tutorial/1.IntroducingDTrace.md
-    M doc/tutorial/4.GoingFurtherWithDTrace.md
-    M doc/userguide/explanation/dtrace-about.md
-    M llm/README.md
-
-  Log Message:
-  -----------
-  Update github repo name from dtrace-utils to dtrace
-
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
-
-
-  Commit: 1618fe8c0a0f98bf2c0e3bc339920478e231bfe8
-      https://github.com/oracle/dtrace/commit/1618fe8c0a0f98bf2c0e3bc339920478e231bfe8
-  Author: Eugene Loh <eugene.loh@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    M README
-    M cmd/dtrace.8
-    M doc/tutorial/1.IntroducingDTrace.md
-    M doc/tutorial/2.TracingOperatingSystemBehavior.md
-    M doc/tutorial/3.TracingUserSpaceApplications.md
-    M dtprobed/dtprobed.8
-    M libdtrace/dt_prov_io.c
-    M libdtrace/dt_prov_profile.c
-    M llm/llms-dtrace-complete.txt
-    M llm/llms-dtrace-short.txt
-    M test/unittest/options/tst.strip.sh
-
-  Log Message:
-  -----------
-  Remove spurious references to Oracle
-
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
-
-
-  Commit: adeef481da07c12c009c568845bd25eb3cb30763
-      https://github.com/oracle/dtrace/commit/adeef481da07c12c009c568845bd25eb3cb30763
-  Author: Eugene Loh <eugene.loh@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    M doc/tutorial/1.IntroducingDTrace.md
-    M doc/tutorial/2.TracingOperatingSystemBehavior.md
-    M doc/tutorial/3.TracingUserSpaceApplications.md
-    M doc/userguide/explanation/dtrace-components-and-terminology.md
-    M doc/userguide/how-to/dtrace-howto-create-a-dtrace-script.md
-    M doc/userguide/how-to/dtrace-howto-list-and-enable-probes.md
-    M doc/userguide/how-to/dtrace-howto-use-predicates.md
-    M doc/userguide/reference/aggregation.md
-    M doc/userguide/reference/aggregation_stddev.md
-    M doc/userguide/reference/aggregation_sum.md
-    M doc/userguide/reference/d_program_syntax_reference_program_structure.md
-    M doc/userguide/reference/dtrace-ref-PointersandScalarArrays.md
-    M doc/userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md
-    M doc/userguide/reference/dtrace-ref-StructsandUnions.md
-    M doc/userguide/reference/dtrace-ref-TypesOperatorsandExpressions.md
-    M doc/userguide/reference/dtrace-ref-Variables.md
-    M doc/userguide/reference/dtrace_providers_dtrace.md
-    M doc/userguide/reference/dtrace_providers_fbt.md
-    M doc/userguide/reference/dtrace_providers_io.md
-    M doc/userguide/reference/dtrace_providers_proc.md
-    M doc/userguide/reference/dtrace_providers_rawfbt.md
-    M doc/userguide/reference/function_alloca.md
-    M doc/userguide/reference/function_basename.md
-    M doc/userguide/reference/function_bcopy.md
-    M doc/userguide/reference/function_clear.md
-    M doc/userguide/reference/function_denormalize.md
-    M doc/userguide/reference/function_dirname.md
-    M doc/userguide/reference/function_exit.md
-    M doc/userguide/reference/function_ftruncate.md
-    M doc/userguide/reference/function_index.md
-    M doc/userguide/reference/function_inet_ntoa.md
-    M doc/userguide/reference/function_lltostr.md
-    M doc/userguide/reference/function_normalize.md
-    M doc/userguide/reference/function_printa.md
-    M doc/userguide/reference/function_printf.md
-    M doc/userguide/reference/function_rand.md
-    M doc/userguide/reference/function_rindex.md
-    M doc/userguide/reference/function_strchr.md
-    M doc/userguide/reference/function_strjoin.md
-    M doc/userguide/reference/function_strlen.md
-    M doc/userguide/reference/function_strrchr.md
-    M doc/userguide/reference/function_strstr.md
-    M doc/userguide/reference/function_strtok.md
-    M doc/userguide/reference/function_substr.md
-    M doc/userguide/reference/function_system.md
-    M doc/userguide/reference/function_trace.md
-    M doc/userguide/reference/function_tracemem.md
-    M doc/userguide/reference/function_trunc.md
-
-  Log Message:
-  -----------
-  docs: Include provider names in probe references
-
-While probe descriptions can omit fields, implying wildcard matching,
-best practice is probably to specify at least the provider.  This helps
-reduce chances of unexpected ambiguity and can help DTrace find matching
-probes more efficiently.
-
-Change our documentation to employ and thereby illustrate this best
-practice.
-
-In descriptions of the FBT and raw FBT providers, make this point
-explicitly, since typically an FBT probe would have a raw FBT
-counterpart (and vice versa) and in all likelihood a user does not want
-both.
-
-Incidentally, in a runtime test of our test suite, there are only a few
-cases where a probe description matches both FBT and raw FBT probes.
-In test/unittest/, they are
-
-test                                      probe description
-
-dtrace-util/tst.ListProbesModuleClause.sh :vmlinux::
-dtrace-util/tst.ListProbes.sh             :::
-providers/rawfbt/tst.wildcard-provider.d  *fbt:vmlinux:do_sys_open*:entry
-regression/tst.unload-reload-oops.sh      :::
-
-These uses are perhaps reasonable for those tests.
-
-A recent user bug report was due, at least in part, to the fbt/rawfbt
-problem.
-
-Orabug: 38931437
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
-
-
-  Commit: 45ecaef5eb0e53cb6a5c70c4e0dd168880101da0
-      https://github.com/oracle/dtrace/commit/45ecaef5eb0e53cb6a5c70c4e0dd168880101da0
-  Author: Eugene Loh <eugene.loh@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    M test/unittest/aggs/tst.aggmod_full2.x
-
-  Log Message:
-  -----------
-  test: Skip tst.aggmod_full2.sh
-
-The test was only being run on older x86 systems, where it had been
-failing consistently for a long time.  Since kernels are moving from
-kallmodsyms to modules.builtin.ranges, we do not care much about such
-problems.
-
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
-
-
-  Commit: 821d91f960fa6890379e7573ec0408bd27dccd27
-      https://github.com/oracle/dtrace/commit/821d91f960fa6890379e7573ec0408bd27dccd27
-  Author: Eugene Loh <eugene.loh@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    M bpf/progenyof.S
-    A test/unittest/funcs/tst.progenyof2.sh
-
-  Log Message:
-  -----------
-  Fix progenyof to compare TGIDs
-
-Switch the BPF progenyof helper to read TASK_TGID so it matches the
-process IDs returned by ppid and expand the progenyof test to cover both
-pid and ppid.  The original tst.progenyof.d only exercised probes in the
-main DTrace thread where tid == tgid, so it never exposed the mismatch.
-
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
-
-
-  Commit: ff071bf7255937f5a99a49bb67d92cfec581d1cd
-      https://github.com/oracle/dtrace/commit/ff071bf7255937f5a99a49bb67d92cfec581d1cd
-  Author: Eugene Loh <eugene.loh@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    M libdtrace/dt_consume.c
-    R test/unittest/options/tst.F.aarch64.r
-    R test/unittest/options/tst.F.d
-    R test/unittest/options/tst.F.r.p
-    R test/unittest/options/tst.F.x86_64.r
-    R test/unittest/options/tst.flowindent.aarch64.r
-    R test/unittest/options/tst.flowindent.d
-    A test/unittest/options/tst.flowindent.r
-    R test/unittest/options/tst.flowindent.r.p
-    A test/unittest/options/tst.flowindent.sh
-    R test/unittest/options/tst.flowindent.x86_64.r
-
-  Log Message:
-  -----------
-  Fix flowindent for "return" probes with multiple statements
-
-The flowindent algorithm should change indentation based only on the
-number of levels of entry and return.  So, if an entry or return probe
-has multiple statements, the indentation should change only for the
-first statement.
-
-Such logic is used for entry probes.  Similar logic should be used for
-return probes.
-
-Add a test to cover the case of multiple statements per entry and return
-probes.  Also have it check a greater number of indentations.  Since
-the new test supersedes the old ones, remove the old tests, which
-were fickle anyhow.  The new test can still fail -- the flowindent
-algorithm is not completely robust -- so allow reinvocation in case of
-failure.  The intermittent failures of flowindent tests have long been a
-testing irritant.  Now, with reinvocation, testing shows no failures in
-100 iterations on over a dozen systems.
-
-Orabug: 39140395
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
-
-
-  Commit: 3dc196d92a7d8bbde27edb0b61ffc7dddfd395a2
-      https://github.com/oracle/dtrace/commit/3dc196d92a7d8bbde27edb0b61ffc7dddfd395a2
-  Author: Eugene Loh <eugene.loh@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    M libdtrace/dt_bpf.c
-
-  Log Message:
-  -----------
-  Check if the BPF PROG_LOAD is either -1 or else non-negative
-
-The return value is supposed to be -1 or non-negative.  The current
-check lumps 0 with -1.
-
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
-
-
-  Commit: 7a3e6f08b67856f7c5ebb71c37a59d7cdbffd0ec
-      https://github.com/oracle/dtrace/commit/7a3e6f08b67856f7c5ebb71c37a59d7cdbffd0ec
-  Author: Eugene Loh <eugene.loh@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    M libdtrace/dt_probe.h
-
-  Log Message:
-  -----------
-  Simple typo in comment
-
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
-
-
-  Commit: 23b7104ba4988aeae921a7825212fc14e8074c28
-      https://github.com/oracle/dtrace/commit/23b7104ba4988aeae921a7825212fc14e8074c28
-  Author: Eugene Loh <eugene.loh@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    A test/unittest/scalars/err.D_SYNTAX.declare-init.d
-    M test/unittest/scalars/err.D_SYNTAX.declare.d
-
-  Log Message:
-  -----------
-  test: Check declaration (without init) inside a probe
-
-We test that declaration (with init) of a variable inside a probe is not
-allowed.
-
-Check also that declaration without init inside a probe is also
-forbidden.
-
-The related test/unittest/probes/err.D_SYNTAX/err.D_SYNTAX.declare*.d
-tests are left alone.
-
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
-
-
-  Commit: d4ed9cb5fee9a0b3c70892a4bd22f7990cd31581
-      https://github.com/oracle/dtrace/commit/d4ed9cb5fee9a0b3c70892a4bd22f7990cd31581
-  Author: Eugene Loh <eugene.loh@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    M test/unittest/sched/tst.oncpu.d
-
-  Log Message:
-  -----------
-  test: Remove unnecessary "destructive" pragma
-
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
-
-
-  Commit: 3d70db58cbaa4d2ef0529b00e39fe22419e56b01
-      https://github.com/oracle/dtrace/commit/3d70db58cbaa4d2ef0529b00e39fe22419e56b01
-  Author: Kris Van Hees <kris.van.hees@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    M bpf/GNUmakefile
-
-  Log Message:
-  -----------
-  license: add overlooked license statement in bpf/GNUmakefile
-
-Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
-Reviewed-by: Eugene Loh <eugene.loh@oracle.com>
-
-
-  Commit: d35acb7a65d3e2918e85df7acc84289136f9b440
-      https://github.com/oracle/dtrace/commit/d35acb7a65d3e2918e85df7acc84289136f9b440
-  Author: Kris Van Hees <kris.van.hees@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    M libdtrace/dt_module.c
-
-  Log Message:
-  -----------
-  Fix typo in conditional
-
-Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
-Reviewed-by: Elena Zannoni <elena.zannoni@oracle.com>
-
-
-  Commit: ad6c070d405e7f50c2e74c5cb4d129797ae9a5d4
-      https://github.com/oracle/dtrace/commit/ad6c070d405e7f50c2e74c5cb4d129797ae9a5d4
-  Author: Kris Van Hees <kris.van.hees@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    M libdtrace/dt_provider.c
-
-  Log Message:
-  -----------
-  provider: only call discover for the provider implementations
-
-Since the discover() functionality is provided by the implementation
-of a provider type rather than being specific to a provider, we only
-need to loop over dt_providers[].  The discover hooks themselves should
-take care of any newly discovered probes.
-
-Suggested-by: Eugene Loh <eugene.loh@oracle.com>
-Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
-Reviewed-by: Elena Zannoni <elena.zannoni@oracle.com>
-
-
-  Commit: 9ca231baa8b761c3583aa70dd4a549148f2262ef
-      https://github.com/oracle/dtrace/commit/9ca231baa8b761c3583aa70dd4a549148f2262ef
-  Author: Kris Van Hees <kris.van.hees@oracle.com>
-  Date:   2026-08-29 (Sat, 29 Aug 2026)
-
-  Changed paths:
-    M dtrace.spec
-
-  Log Message:
-  -----------
-  spec: make dependency for fuse3 more strict
-
-The runtime dependency should only be for the fuse3 libraries.
-
-Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
-Reviewed-by: Elena Zannoni <elena.zannoni@oracle.com>
-
-
-Compare: https://github.com/oracle/dtrace/compare/5a8f9f419d9e...9ca231baa8b7
-
-To unsubscribe from these emails, change your notification settings at https://github.com/oracle/dtrace/settings/notifications
