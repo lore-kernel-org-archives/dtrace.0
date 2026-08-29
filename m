@@ -1,83 +1,84 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50A128F5
-	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 00:08:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC8728F5
+	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 00:10:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787962124; cv=fail; b=lC5808aZ3XuXxJtcNlFL5X0C5ls1jt/WnA3Z0s6rXrIo9BQDLivXFAi8sm6Ei/xH3S2CmZiOpAxik7NVUyRK7uy98Jhd/0pRNE50cRDYy658odUpW9tSluX4sbhBHvA6Lv7vIspgmaQijKm3QgL0KBLxBVa4c531r0iDnN6sxaU=
+	t=1787962229; cv=fail; b=iUa1Ab63GhTgtOh5XD/hMr+Uonqp/rwP2eQeRTIPHvbYHMcMHVwBVWuU49rJhm09JTEEzQ7nvUcwkuy7PRGLsZNgn3WnNGvP/EHwSjVgAOlgUs1+xrPGh7APGS8GJRgW4nj8eL0Jd329GnlwBM8FSzKODmc3H7688z4KJbcMZA8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787962124; c=relaxed/simple;
-	bh=AAEkkX5ZcXR5xmJrbqhz0I8aDYPvWBKU1oyl/paiXe4=;
+	s=arc-20240116; t=1787962229; c=relaxed/simple;
+	bh=bUnffSylRxdNm3QGU1yry8HgTLj9QykNlKsvb7uQT/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=lxjY9i2btBj5jI4TdbiNq2eyzlXbLI5bWxeCXLj2EElqkg78J2G3Wa2fab+u0h4qiX8ckzlJZgo4GaPaXpik9LdzvstiqpPKbkxtVX+QHOduO+LzdxNz3vgiNRKxeCnrKbSWeTJcSobxoGisYYSEMjhcF8LorCUOyegZX9A4FkU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=igWrCH02; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=x1Z0TdkT; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Y2jMnnShoFEjiS2nUx7WLjwwfHsJK7ghPz+7RuO5nKU4ttTfaDZ8Ckwxah626cz/cNX1Jx/n+ZGlmP1qCMJjwn+omPnYx+NRSXdnTPLjlRGn1p0hlGtds/FEl5BH74BiaPsSX+6j2TAHp15C8YW9ZMV1szM1fDDL0UuITjzPdyc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=WJTEnT9K; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ZfS7HxYc; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="igWrCH02";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="x1Z0TdkT"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67SHJv0X3086430
-	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 00:08:40 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="WJTEnT9K";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ZfS7HxYc"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67SHK4aB3166929
+	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 00:10:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=iBp/dSxaGFhx1hLKmuOuyb8YmCWVN2i9XmolAZNv++I=; b=
-	igWrCH02VnGXbdCqt6+SJEzZa2+Wpif++D2eah2Af1Lca6P8dXTkFq/NJUapYXEk
-	t10O9hJcD4WtTxKhqsUN0xhX/yPZdhbt6pGIidqQIYPS+jZCBssg27GzZlrZgiaQ
-	X4LxQ4wMCjLh313xABHzqDKLbKI3XW3rgIqICH5iD/5thLl7bAP39N2BXFGeMBLB
-	OIrADgH4P1+t0IFDSgpHkmbOGhs1yhVTVqKAC/CyjWXW3+VdQl4GtwvW6AH3aklf
-	AVJO7YxJ9N3zAA/CVn8nENxQtkgm1TcaZj1VLntC7IQpEFMvz6teQB/3fXdfBtnK
-	9OF/GlN2v/iMFcEtynlZ6Q==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4g726btph4-1
+	corp-2025-04-25; bh=olGwO/tcCUl4KTi1ttvdw8/ZZsUsyhbNiVbllEFgtts=; b=
+	WJTEnT9K5OTqJx6TCZTdN6af5b5S9cPkXQGoyh42q1jlWZuMwHqcwN9bmgMCRq4x
+	HgdTWhRr6KtY4aUSbsrfuq1GOgnQUojH6QAPG+3PpslV79sERelhLKK7JQmKMQ59
+	QMTHcmJd57SpcSrHea6n04TQsg+cWi5DZEhmxi5nwC1Pz+usWGb6nwxlCRc9psHP
+	ynK2gEZlLzjYmo+2p3s+hi0nKhk1+M6cAtZK3vyfqrCrkSQlL/YSbsfqX0JbLGTH
+	4m0IqLrWrM/yBKI70dywf4tVMihmZlhY0oks7GbZ9JRA41c2eFlbh22e3IqHyau2
+	3SsR4/eH4HC7/rac4dgo/A==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4g73ct2qwy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 00:08:40 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67T058tD038901
-	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 00:08:39 GMT
-Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013061.outbound.protection.outlook.com [40.93.201.61])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4g84bv5wgy-2
+	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 00:10:23 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67T0A7Xp006619
+	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 00:10:22 GMT
+Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010041.outbound.protection.outlook.com [40.93.198.41])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4g846hn728-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 00:08:39 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 00:10:22 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PuHAYIE1pF0bS5hQI6EXAhzfIkcH9KPBvvkGLL2z35A5B6VvijUOF1MUe34k85F8svAAhspTxvxL9suDtKi2omXZQT3R+t6k72l+VeDLTOtSqqJ8/aDYvRp3QFnfqA8IBmDWe0LRK+6iQK7J0OYcP1CinrIOxsnE5FC0nRGGLZeRf2WSdT0f5aeYnO8yi75qNNMuPQpHADgVY8UsP9uBrZjpRDeRQXCCAtznniua64hSNoCSU2Ak9++hTF9/K2KNnPwYwITYr6BA7HI9fmhFBmcAlP2wlWu8adIHaTk/2Sp+DnFE6qLFlFCfm9o+PPB2nV8ILN4ZHvoNz/bEbuC1Ew==
+ b=RNraO/5y/Vyyu3tKQaCIgF/I0vgmJRUhDQ3cB/LNZpOP2ox6rPp6/gDnmLkSRrvlc1Dpj26W3NYhY60Z0zRZZlG+PF1EbGm7VYQn4HwFgbvmryF51yyiznKFbjaKcByNcoSGty8ivO1E/jp/Yl8Znb5YCWAxic0O+LmFu9cOb+c8VhjlqrX7eMmctDyhfg2iK7yro0hX+39W/2U16Qi9NDgiKbWORfwWPfiKjuNUugFV/dvpjGP97O5uWXQeNhSp5IYgtAJodCDyQkawn09ohk/CRGq7OMC8V4DjL/mB3wJ6j2NWORvxayYwJUpjNjp+9Jio0a52cashhBX6deJ7Zg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iBp/dSxaGFhx1hLKmuOuyb8YmCWVN2i9XmolAZNv++I=;
- b=XWaVRNcUM6e0TBrMpLUu4mM4+KlIBzLCSegE6ZLKI8dUVtdXey1r6ZXEJ8+iAfQWfoakxTo5/oPY05Os9H2nNmS/wMr/T4z8cWngd2PjSgD8FD+binMyr4e9rhW+ZAV6IOka5AMAhDmsw0bw1KbiW+LXSBWxUxaiEvEZRvPrSd6gIhpJFf+zv2x31MiNgMAIv1YrCUEbBYpOuwT1oUno7vegPSUuC/XsyWNmAsh0KgT7/kGZ4hQaJXXIp5cWXf88xJIokMofj2RhHQwbNmShcCpJWnfL7S+5ir0v7HbhJbiECTCM75iaJcbDa+vU/HrIJHYMfZ0L83QiQXqZyEDbrQ==
+ bh=olGwO/tcCUl4KTi1ttvdw8/ZZsUsyhbNiVbllEFgtts=;
+ b=kLU4E1Q8iGS4CIgePbdIX2wHzlv5gpJBfR2hF5Nnhowy95maPRtinmd1KTxYqHQ7WF1B3v+PVZ9+3788pXuibHxwoETPOrJ0RVAR5FaWhkzGJ1NRUGZKKDREO2E1qXXgIhyzUgdAwjC2S8dyN6fItxfcpTmcM1lsEs+lWJWU3skOgdVLFlChvs70dBOtkuJ50PWKBaNmC+cfnvm3Ibj/h5ORjlbm4rJ2hGEyzb1Zj3lUYnswsZzh7P2DGVu09qKg/32VFEYmy2zxJea/BnPCSTKlWJFZvdMC2/LUy5iUEF/wajL/YC9mhFh3ffk1jD6DmaQrNnbKVX9PISRwP2hcHA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iBp/dSxaGFhx1hLKmuOuyb8YmCWVN2i9XmolAZNv++I=;
- b=x1Z0TdkTJyTVTCjwWKaPtwfQaDiPdLvB7pyve2v2hhP3YXQHQbseDWsPrbmHTE0WEAC7vzXMwXYE3cJaOHZM3AZFdSlZWnFE89icbO77ltbB0Nrz4046wlWN5Dh/HdKI28DoL8sGvD0uy2MbNECAMcBxbfXH9Go03x4W+O4kVpU=
+ bh=olGwO/tcCUl4KTi1ttvdw8/ZZsUsyhbNiVbllEFgtts=;
+ b=ZfS7HxYcZ5AcxL48vSK3PTylHsV0DejofmGAm4xY6LExt+28LoEnbIVPgxcOvzmB3qcNQcdTt5Esm/YfGl73Lx03ULOkxcSs2D5krEPANPJ2fmkIKWdpGcLeMTz/EiqxrBsaY5EHGOvsoJhVR7ZWjkjL34QjPDMCg4Hxb4KMb4o=
 Received: from DM6PR10MB2476.namprd10.prod.outlook.com (2603:10b6:5:ae::24) by
  SJ5PPF2D96878B0.namprd10.prod.outlook.com (2603:10b6:a0f:fc02::79a) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.8; Sat, 29 Aug
- 2026 00:08:34 +0000
+ 2026 00:10:18 +0000
 Received: from DM6PR10MB2476.namprd10.prod.outlook.com
  ([fe80::7c07:98d9:2030:e537]) by DM6PR10MB2476.namprd10.prod.outlook.com
  ([fe80::7c07:98d9:2030:e537%5]) with mapi id 15.21.0382.007; Sat, 29 Aug 2026
- 00:08:34 +0000
-Date: Sat, 29 Aug 2026 00:07:37 +0000
+ 00:10:18 +0000
+Date: Sat, 29 Aug 2026 00:09:22 +0000
 From: Kris Van Hees <kris.van.hees@oracle.com>
 To: eugene.loh@oracle.com
 Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH v2] Remove spurious references to Oracle
-Message-ID: <apIiya3pFd1s8g6o@kvh-deb-bpf>
-References: <20260310213639.20660-1-eugene.loh@oracle.com>
+Subject: Re: [PATCH 2/2] docs: Include provider names in probe references
+Message-ID: <apIjMgZALS5iKrlB@kvh-deb-bpf>
+References: <20260318214826.6296-1-eugene.loh@oracle.com>
+ <20260318214826.6296-2-eugene.loh@oracle.com>
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260310213639.20660-1-eugene.loh@oracle.com>
-X-ClientProxiedBy: PH7PR17CA0042.namprd17.prod.outlook.com
- (2603:10b6:510:323::21) To DM6PR10MB2476.namprd10.prod.outlook.com
+In-Reply-To: <20260318214826.6296-2-eugene.loh@oracle.com>
+X-ClientProxiedBy: CH2PR04CA0005.namprd04.prod.outlook.com
+ (2603:10b6:610:52::15) To DM6PR10MB2476.namprd10.prod.outlook.com
  (2603:10b6:5:ae::24)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -87,552 +88,1399 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM6PR10MB2476:EE_|SJ5PPF2D96878B0:EE_
-X-MS-Office365-Filtering-Correlation-Id: d3bc1110-73ca-472e-9891-08df0561aa7a
+X-MS-Office365-Filtering-Correlation-Id: 603a84e0-41ea-4787-d7ce-08df0561e866
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|10067099003|56012099006|6133799003|3023799007|22082099003|18002099003|18092099006|5023799004|13003099007;
+	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|10067099003|56012099006|4143699003|6133799003|3023799007|22082099003|18002099003|5023799004;
 X-Microsoft-Antispam-Message-Info:
-	/E579WeaZM8kizYjLwtcbMs3Qz3M6cXkYhkdWi70WqJkIpKdYYN1AVemALfvWSYYJ+7JF4Ii1wiKvr2AxWY2pPsr27B6QWun0J0rW8pjc4FHJlqNRErxpDfMY8ILCa5yNjQxWBv2e4X72el837uZD05UwdtWUkxt1+ngAOIVGjbq2c3ewGpfvKhJmKVtdzBuN575xyC3kHPDAZNYZgNpF45PTQW6d6Nzzt8So71ueRjWONN1QpfE489nqCTLUYXgqpezVz4NmK7/zXghI1xLyZzd2VScq1A1KIf+9PFmUbP4TQPHr6PZzO5UBfUb8hLumwS32ZzzUHcoNiOwa2pexCcnPt4BhorWiqyX8l+T4P0B//dyzLALsAi/OCeKoe2u987Grud8nNC7NDP6U41LSsDOgKhYo17oV54xShaxhYdk8qxs6jRFcB/d3C/x3mwro6lwaluRnj4djF2gGDFP38ZxvFf+LBr5WGvDSo/o5oXIP5GkaBQjjqlDymPHbwLKQkPYnZ/AFxdFOQbBVfDkKBZ/JPD3GziPTvUQ4ZJ5bZO2DHrCkte82dwBbMmhjwm6IM8V+vQbjb0pmBKFtGRwmpAfgYXA50R/yxkSJwOa5eLVHKDJ+8ufQPQfqv5JEl/Gawo0YB+T2LfPQDI6sTW7G/k1B8fkAKalprOPh482kkg=
+	1SuLkHQ31IZBMlct17Zl4R00ubftrZRSqil3swJKiOv/VVz01AqACetxobrtfcB0uvfLlaeR/8c1lPD9asjs8aAl63oFb0X1EhXoumPcCWmA8QyoeZq46ToMuy4mN9ojWapb8aLgQ0+Cb+0tTfqF9au5t5D2qdz0kKf1mOrtbKcpVeYKmqQtLd3lnM7B7rvV8tVVZHmS5UJJXC99C64eTCTYTGzvXErx4oV5cOFR0LfzgrxWJZNmj6SlTqmY9xFFoa30AW8sl7SkmJGIymefpIy29tK7Z04EqaVR7085ba2ulSEfGNcQ9eMNmSQoNWLstmdk+dGYKQuznBFuO6Gn7IZu1C86f++HPfivRNZrgzGGtLAXB9jzq16BN6XBh5qBKQTaepZSWX7hUzjvXrmU1T0DbG3M12MUhCSNAuy0gzpJciaV6TbVQ2yVua0zozJiR5Dsn9jCr1uDRjzCXrMhor9SHY+In2JM0dShGsQHno1O5Vc2ZFve8opadyp+SWHU3aP8Gl1RThRCX83/oWgUzhlXujoBUNAXhzKR475+F2pNfYSrBLfPkPG9ycEUGIP/wcIrL1dDlClsR8Xn6aeXoF7LLlv7U+BdVRwT7dF9ILBnVYHOP8pKV1DWm8loeKGZMm278AhddlJnXVQi9C2vkl8UCGhaIj4nbkBu0prGfiU=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB2476.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(10067099003)(56012099006)(6133799003)(3023799007)(22082099003)(18002099003)(18092099006)(5023799004)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB2476.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(10067099003)(56012099006)(4143699003)(6133799003)(3023799007)(22082099003)(18002099003)(5023799004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RGIwd1RMOHVsVElDbXIvRUtpbkZ6RUcwQ1hjZ1pkeVZGOGlaTXRTTU0vSWVm?=
- =?utf-8?B?QUluZWl4bWd6SmFWZUs4cTlyM3RON3l2Z3d6Yjh3OHd6WkhQZTFTRWxRejRL?=
- =?utf-8?B?WVhXSlpwUHpwOFlCd3hTQnhSeW5zR1hKZ29ETW16TEdzL0pPUGRBc2FtZ3Vy?=
- =?utf-8?B?QTVTeGF3WmZ4VlFKeUdJMlZXeGhYOVBWbTRGZE9JMkthenVwdG90bERVbllD?=
- =?utf-8?B?ZFVuQnNmVUU5MFptckJ3dDlzZStRbC9lazljUGw4ZC9MbVdUQUVYLzcyZVU2?=
- =?utf-8?B?RmVwV2pxVXdpK0kveDU2azdiVWkreUtTYXBKVnhhN1pyTjJUQVJpQUx0d0hD?=
- =?utf-8?B?RytxTzc3WjlPRnlHMWlsZEtjeTFtOGFTMlg0bzN6cDNTSXhhTnhlWkVSSnQ2?=
- =?utf-8?B?Y3RNeVYxcnl3cHNPWUxZYlRmUDFuOHBsL2wvVDh6UmhwbjlNRWVPV0IrS2VS?=
- =?utf-8?B?RDJRV3VsWGE4RXl1ZytTblhiMnd0allPc2cwenVSYjJSRHdobUpuT0VUVHJ5?=
- =?utf-8?B?UnZyejdNd083ODVsWUoyemUzSTl2c1FwOHZzenpTSS84Rkt1TFh5ZzEzK1k2?=
- =?utf-8?B?c3ZOQTVoUGxvcWhEYzVVUmVoa2NWVmNZVFpRMVo2UVBnclZkMnJXOUw2ZVhh?=
- =?utf-8?B?eml0aFhQc1JRRWFIZ0l2U0NXNHdKNGhZN1VmYWtPZzBKSk9RQTQ5em9CcUt3?=
- =?utf-8?B?Z0V5WnhQQTRjWnhpSHlodmkrQSthL3BROXlTa2oxaEp1NmF5T2didm1LR2E5?=
- =?utf-8?B?bXhZVU1VaWN0N3ZvRkRtUU9KVkxPbjhLcUY2R2tRQUVWblN6THJXRVBSQVho?=
- =?utf-8?B?VjZzWmhNYlVpdFgxUDFrQTMzZUwzZzNoRE9xb3FZd0VJZ1FMMXhVSE1FYlpU?=
- =?utf-8?B?ZHVLVXRrR1A1c3FFV3NobDh2aW9NZjQxMDJQa0VHTk82azBsY3N1bUJuVG4z?=
- =?utf-8?B?c1E5L0d3Z0V0ZUhuUzV5RW91S0toTHRpeklMT05zaFhwNUN4enJkeDBLTzJp?=
- =?utf-8?B?S2wxUFh0ZE1WMlZzaDRJdjlOS2N5TEdMeU12dmNKbllWSjJlN0FHQUw1dWxy?=
- =?utf-8?B?WWNpNGl4eEZVcnlsZUp5UUM1VW1vTjZVOTlDbTlsbm1jcTM5TGU3QnNCYXFy?=
- =?utf-8?B?emV0azk3SjFqc0s2c1Vsck14WkU2MmUxcm5aMjdQRzJtYUhIRVZ0MmlnQ09M?=
- =?utf-8?B?b2NUZ0lGMXJBT1llcXZVN2VGTWtvczdqWTU1ZENmbHI3MCtKejdGMFNlcHBl?=
- =?utf-8?B?bWxYOHNCVE1aaDMvQkdvTjVVeDMrVHRkNEVoRnZmejVIYjI1NjVTd29VZkc5?=
- =?utf-8?B?Z2cxd0t1TjYxNWZDdTVBS0Fmem9zTDdoczNxV1YwUVIwdmsvTGRsR3Z4amZV?=
- =?utf-8?B?c0RhZjNUOG9ZR0FtZldqeDdRRHRSSDgxRm1CVjNCU0NES1Ayc1J1Y1FIazNn?=
- =?utf-8?B?T1N5ZzBTWC84QmVpakY3Rlg5cTBPWWd4bTJxQ1VwcHc1V1hWR3RENDZZMktr?=
- =?utf-8?B?dm00NWJ5MTRMUWRFNG15aTdBaFNwWlhhdkpHaU5VY3M4clgzRFlRclMyRFVI?=
- =?utf-8?B?T0RsRmNKcnF0QUxESEY2NWk5WUIzWVpibDBpVUc0L1Bnd3EyVlY0UTdqMFVH?=
- =?utf-8?B?RzZRaVBSYmpLL0tma051SUxhaTNoT2VrYXdBUTBPS09tWEtxb3VmWS9KbVVI?=
- =?utf-8?B?V1ZUQ0xwcVZMYWFWbGR1czZyRVZZZXVSQlZUajd6K3dSdk8wZlFHNGkyNjR0?=
- =?utf-8?B?ZGpHUFpRNktrMmRqNG9yd0hXaU5pK2JGM3hnbVZWbXZyUTczaDg1bVdmZ2R3?=
- =?utf-8?B?ZzlFZVROaFlpbmlMU2hoWmFxaE9KWFhPejBXNkY1TE5sZkJrVisvSUF0ZG5i?=
- =?utf-8?B?bkpXdEFsZkpQb1hrU3EyakxBVVdNQitlZEZUU1gzQzV4MXNDYnRlQnFKZUZP?=
- =?utf-8?B?VHZiRnFXMllhaHpMZisxSzJISlpuTE9PZkJZenE3YVZITEZOR1VCRnZhNnRG?=
- =?utf-8?B?MWwzQ1hNTUtQcFpFaDM3c2tOMnRBNjYzY1JZei9LSWlzMll0eUlpNFJDZWdq?=
- =?utf-8?B?NmwrMDBDR0VzQUZIa0hjWXhrRmIxRFFodnVudjdxbmxhYkpLaWgwSldIdE93?=
- =?utf-8?B?OE9EZUoybW1BREkxUE9vNzNGNjk4bXJVaDhSK0FPS0hTSnNrRFdtemFzODZC?=
- =?utf-8?B?SENzQTF0UFRkWUhUaVRKbWFDM3FIMDk0NGltSlplQ21OM25NYVFOSS9BMlVQ?=
- =?utf-8?B?M3lUblBhV3VCRkdEU0NEN2NLOVpJMk4zRE1nL2lCSHFhM0NxY1I5Q0xMem1w?=
- =?utf-8?B?L2RBTTFMRS85SGk1SWhXTnpBQXY0MGpzVkFJVGUyYXFvNFgxZG15NkxoYVFo?=
- =?utf-8?Q?fKxeHqoOHOcm8tko=3D?=
+	=?utf-8?B?S0YzUFBHNXprSld5b2oybGZjUmVHM2x6OFVlMjZVZmxYNjV2SHN5MVlmQW1r?=
+ =?utf-8?B?ZjU3YUI0VzJiZTJaQ0F3OFdnUHBmeHpxLy9YYWVzblRubkJFMUNLSXhjQmFs?=
+ =?utf-8?B?SDFTZ2lmcHRlSlVKMXM2aHczZE9vY04xWFdHcytucFJXQlNLZVA0VDdMOU4r?=
+ =?utf-8?B?UnQ5eFV4ejF3c3VTUmRndDBRWURyOUVCcXBKT05aNGNPeDNJdGZhTE9VNHN6?=
+ =?utf-8?B?T0xycit1bFMwRUtyRFJuNE5iOGRHVWJTVW9kM3k1cEYwK1VWYlpnaC9mNFFQ?=
+ =?utf-8?B?WnNzdFlLNHgwa2JiTy9ZTHpCb1hjTEV1VW9uQ3QzZFZwSEQvVU5GQ2h1bnk4?=
+ =?utf-8?B?S1V4L0VPUExmZ25NQWp4V1U2NDZmUEx5bUg2MHZyNnFjZGFXS1g0SThDcTVN?=
+ =?utf-8?B?elRqbkhWSnNtZjc3NXh1L1AwZU1lbFRnY1dHVHNwYlA4Ry9MNy9Ga2Y4ajJG?=
+ =?utf-8?B?b1EvTEdacVVjMnFnQUMzYzA2ZENHNlNvanN4UHl2VlA3T0hOVDREd1ErY1ha?=
+ =?utf-8?B?djA3MW5SWUcxTE9YR1JkcnNhUUc5eEpQV2Jxbm9NMDFvdVJOeWhxRHpyV1BI?=
+ =?utf-8?B?MGc1NzZRNk9KS3JqczF3SGU2ZTVEVjd2dWhySE5HRVRIYnFCZlhFNHNsQ0py?=
+ =?utf-8?B?RFhWR2gxZlJtMzFYRGt3VTFoUEdvMjYxa0xiOE5GWjdIWGtIMFlwWkhIMGpL?=
+ =?utf-8?B?R2FSNlVYdTlnZktNUFREWTE2UkhyVnBlZmFQWjNKSi91SFpidG5OV05LemxL?=
+ =?utf-8?B?N01LL25sRlowVHhReWxQREFSdUJKb3R5OTVESWFJRGU5TnVqWmF1OUF0S0Rp?=
+ =?utf-8?B?M0EvSHljWGZGdnA1cGN1STFSQWlRZjROd0dra3RYeHluZnZMb3lGQzJKTUFH?=
+ =?utf-8?B?NkN6NVRPaDl1dGpCNTVSdFJQQjkrY050YXdsTXFwTmVhR3dRUkl1ZzBibW5U?=
+ =?utf-8?B?bWpnSDg2cEF6enczVzR5akp2ait6cURYcnAvUnV1NjJnclVRTXdLaUlvZC9n?=
+ =?utf-8?B?ZnRBOGVUdEplRTFsT054MXo1cFdlZ0plNERiTkl2ejNXOWpaYjl3R2xlYUxu?=
+ =?utf-8?B?VW9GbldBYnpYSTBTbUE4TVFjb1NHaDZITFBBU0ppc2Q2bk9DZlhLVWR5STlG?=
+ =?utf-8?B?enFTWWhOc3ZFdzdkaEV0R2s4Smlqd1cyUzBJSmw3Wm9TT043R2V5b1E3ZzNE?=
+ =?utf-8?B?OC9GMXFWUC9OamRQMTYrQlJXRnQyWE5aM1pVSFBBVFZkUTlGOFVkYmtrdzEr?=
+ =?utf-8?B?RHJLMXk3YmJHQWhNNUVpa0tieVZjZmJTL0twbkxDKzVBaTdMV3ZpemdyVnlC?=
+ =?utf-8?B?cHJyRk1OaWNORno3WHZoUkNqd001SkxkWmJUbGpGaGM0TmtpakJnL2o0U0ZI?=
+ =?utf-8?B?b2drWTBVOWU0YXh2Z2N4cXhBN3hVV2Uxd3JSYjIrakhOdHZHUFJJMzNZQktt?=
+ =?utf-8?B?STBuSWx4UXhJRE9ISko1dW93dkp3OEpURU1OYUNQakhBYU5uTTFNYzZBUWxG?=
+ =?utf-8?B?WUJ2czRZQ0Yyb3Q0anRUWEVteWg5KzQ4SCtiT2lNa2NpOGRwQzFXQjlFQVVs?=
+ =?utf-8?B?WEZGdDBTWEt2MDhDNGZVME5saHFVejZ2eUp6ZnNRVFZZVXpQbFBLNDlteU14?=
+ =?utf-8?B?bktqTmZ6dzY1L09Fdm9nTWZoK0JnSS9HaEt0emk2Ry9ISlJuczBvR3AzRU9Y?=
+ =?utf-8?B?UTY0SXpRd2lESXpKb1JYVE9pbFBya25hUHAva2krWStQOEZ6cUExZGpVeEFs?=
+ =?utf-8?B?L05nbVlVcFZnK21nTFI3bGtSMWo1Z1dlNk0wODdkZ002NER1YktxSlA4dGpi?=
+ =?utf-8?B?Y2Q1VnpkN3lzS1VwWm1haEhmUnBKNktpcStlcmpvcEpnQ25leS8yVzFwdlhE?=
+ =?utf-8?B?Y3BuQzVOT0dNR1VXYUgvL1kvTHRhdVQzcDZwR1VjbHJFOUxvS01ZV3BscE1n?=
+ =?utf-8?B?b1FJZEEydXNqNFVjMytGd1pjOVFoTTF0QzJ6T0FlOXFwbUd1cXVmbHFieE5i?=
+ =?utf-8?B?bUhlZjgzaHZXMWpqeVNEeDRnekJmc09vN0JSd2xyNFJEOXlHUFZkbjhjU3Rm?=
+ =?utf-8?B?VjBDR0JhS0VMZXhuVUZsanJoaXZlM2RjZml5OVJ0N3lVUzdoVGlFRHV6QzZG?=
+ =?utf-8?B?VE1zd3RHVGxxSTdJTGpFSnFYUXp2eUtLQWs2ZXlXd2RwaFJlY0FJOHhzK2xU?=
+ =?utf-8?B?T1U3eS9adm13K0VhNmY5ekxjY0haamx5YzN1YkJRNE8yS2pXOUduZGR3dzNi?=
+ =?utf-8?B?QUNBaXJna2RVNHNaQ1NTckRKY0c0M1ZnUlpuQms1RG9LbWpLRTQ0cTB3UFdu?=
+ =?utf-8?B?K1RhYjNyNS8rZzZaaVM0eTFFYlFzZkhIdzFDMVlRUTVEMkN0c3B4S1ZQemgw?=
+ =?utf-8?Q?RG0xoQ3cMsIvf0dA=3D?=
 X-Exchange-RoutingPolicyChecked:
-	L5d2YJbvhdZcMKDlj4vZbXs0wG1SiQaikHwV1JWnDMkNl98vQHkWctP7eZXooukMxOpURJtPRPYnpOq8mKsdO0x0DtHelSd4jExhUj8Dj4O6h7fbiJzP8N4oULujK0pQs8AMxA/Jb+yl6jaC8vRbU6XL+4uSgfeOVLNQONuLF60nAEO+Dz0m+8e//FSSvwRHYa3tA0EPYT/xCjHPYemuiN9/Js4JfQ3+zNOGnQFzEn0OadNbP6oAv6hoJh7qdGtMnXA7B7AKs1cYnP3hjBOA+v2ouTWt1IULiPfstxGGRfFrF1SYPjKNj/rRxgqetjKa53FRdP0LuHyuHi1vHhCttw==
+	dyy6mhga0nlzg9p0R/pKPNktUph18TuPyqbK2oKUSv/eGgFo+HhaDoO+uRdb7d2BE0I2sFXNEhU9+fN7tbzIIcwtuabY6gHU/XnZpku0qBlPgLYgpcChVzFTcUKS4mYgdKXIoezQ5/AgE1JlpB2RhQ7hQs/FdA1vt9foKqlQ+OxbO1I4JQDd5l37KIoDg1tJXY+5JR+MOCOq887vIFxL+80BvHiTLHjup0/595bax82PVG2KhZNFDN5JCrfqDJNvU4XvNPmreN9YZyARwPIGRc+yPzg7MHzTydQTgCY5YMSWb7Isc0/xle7FikeOifr5l9AMzqbkQP3i3aIYj+eJgQ==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	kK7zzm0ej+m1eV6IFgWl3j5o4PWe4gtDYuGQwhr2SVNUcHVzmhWcHTwBpCw5wO6VlJOtAyKGTt5UaSBoO7nypLQQoncCNICBxJdOIcqgT1Ap5VtQKreymvzqJz2HFgh9BMmSIOyg4lnjMb1IMOJIPlwe5Ql1dh5BswUHGObTAwY7L1YMPZa+g//fklTiGT3Pu8aL1JR0WKPqhnalL4kk6jFWnb51Ookz6JqAZwCoHJIXz0vhfG+jufSXh+Wg2f5Bq8+AcWgU+RPWcspW6cy7o2SWydwNwaUzofrBV8x6nc8Pcixa/oMAmELwEbE1Z6kDxSeJLV28Vmdp7UKujJ8UoYE1TXk2wl2tyc3JWjdRjMHUS/mijweJDCTC9R8yGbdetu051kXfvAkw6c1lotM4S3UePS/3spxkTTB5YaKUkb7VETb5tbe1wN0oDDnKmVcDi7+am5PHKKlqL99L0uLrd8ts0+vNSjCFMF53O0G5J7CNADUGr4GxUkQOOJDG3oOxcZvWamEIkME7s0QPNG52lqayGQhpb2L9j7xjdstxZmIR237CxQM2HSKJt/qGOZPHbOgbeJDJex0E9FWZrn/afVKJ7vDVZRKizhwWBRlAjTU=
+	Dnh3gTvKRgU+noGPavjb88eBoXVB/ORC7G+UvaS07W9bY+CJAyJpkAMzfkA2UyL9pSuKnlXsX8xddr8LFOox+oSlES0GK46r0Ub0f2ujhvh9R1WsAXcRQ8zBnG62LtQP2dOSoy3RO2oF2xrZu54ArxgR60QVNpe9G9pHGTbALpE2hvcbedWa3Rp9XKdp839sXniG2vvWlrtkFZEo9NHy7tzcQCU5a3IjwJjFx2F2VvCZIQxFTmGIPcn9s9Ps3d7ZUQGQHie/4XCYyy8SLvctKN5H9sgcdEBAOSOAV208FHCzERXcQx3s8jQXvKOf/EjN+QL16f1+otYiaSm3OduBlzLvrUImAx2YeSp8A2TF4Jys4sgDu8ZVzk+zWXm7CLKmD7Gp7gHtmjWocVo+1m+kD5Cr7cWh3ELKnpH3wi49131ZPt9TNWaMozi5+nX3rs7+7MXTYubout7blfZfSa+2I6NEPrgb1ZyGEBZFIrjCjX5G/BAyuQcOgltMlYl9e6tyTE6KW6EjgyYtbyZhqCmi2t4i8/h+5wVxihW59bsxfdAWMSzvnHhBrQbYnOTDkNBXRXMhaqBbxSfV9SHK+xOWCu8jgYRxz0HxLVcNWJvbh9A=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3bc1110-73ca-472e-9891-08df0561aa7a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 603a84e0-41ea-4787-d7ce-08df0561e866
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB2476.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2026 00:08:34.1637
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2026 00:10:18.0274
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L3gtEY2vvDxdCbpIq9nDumneYo8yhJvslDrAFOnqEG9VgU60v4EIlgj8t0TXQm7lWrcwESpmX5RRdy441hICz4zDDTgUihs5HWQycj/GcFQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: FUce90gF6EIq4FphUN6vkkPWESZvAvMzrP2h2/cvo5MI31r/puJvxGa1jkIRetrgHPETJVpcTz5h3kASJcrqnabqBFdpxvaZg/Z3ebOO0AY=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF2D96878B0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-28_07,2026-08-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0 malwarescore=0 suspectscore=0 adultscore=0 mlxlogscore=999
- spamscore=0 mlxscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2606160000 definitions=main-2608280210
-X-Authority-Analysis: v=2.4 cv=Q6niJY2a c=1 sm=1 tr=0 ts=6a922308 cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ adultscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0 phishscore=0
+ spamscore=0 mlxscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2606160000 definitions=main-2608290000
+X-Authority-Analysis: v=2.4 cv=D+h37PRj c=1 sm=1 tr=0 ts=6a922370 b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=Sv0fKeRqtYgA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=x4eqshVgHu-cdnggieHk:22 a=yPCof4ZbAAAA:8
- a=4USPakw9toPsW3pmUYwA:9 a=5xYgSrfLL2HhhPCI:21 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI4MDIxMCBTYWx0ZWRfX/2PVbj83RKqj
- UUdz6koZqUrwUBtYMhio7gsbREiW3cpY48mae5etpSgW7YmPRbGgZSBKGTFOFrKXdo3FRu8YSwp
- 8ZLPpv025M6OZIwsWV4s99Xhk9ksvYAU5JFFLtOOr8cZyo5xSPdXzl2cyHZAF5tzSMzkaqzLKqM
- Q6tJAbQBwsYdodi2nN8pTIicHhau87dMKaoZHPd6lYkE8D9WemZnzHLYKFrAiQdq1fzPIeLlSaG
- Gjcg3mtFFr+s4r9QQNLCI48lsa2bORnz7VTs0Ow6DEsvDmx0lNwBio2oyBW+seefUU1IOYqFLBU
- axu6YqEFdJvaL9xl16ejZEhgtUbAyKHVSSfnyn5lw0FNGB18gtPQzFYzMOHhtzsVEIqW1sdHHin
- w8ttKDJ4j8NiZDNsySqFK1p7EmKiHrremq2j64tFf4TzMYJ7D6q5+CycurCOZG5eEO1LvsouHA+
- MESSF0tMr6BrBsNDPaA==
-X-Proofpoint-GUID: IkmgH8cJ9M0-2rm-cq_3PWMTOJc9q4VB
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI4MDIxMCBTYWx0ZWRfX3+eOxAmOrxcf
- uCszVvysm3xJQpn1ZtSSp+xd+sLiQZ4ndtMrVGLUsHSWF/TCFFRk5/0My2T6Lmdy2scBCkdAReG
- DVXY+Ix5CtBDkL7t6+0zQh2wOQXooRGsVdcQMgAGjvfgwLZJRikE
-X-Proofpoint-ORIG-GUID: IkmgH8cJ9M0-2rm-cq_3PWMTOJc9q4VB
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=3I1J8UUJPc9JN9BFgKH3:22 a=yPCof4ZbAAAA:8
+ a=tAAsRsVw66YUjp4rYmYA:9 a=68dEo-z8PKyfCJsZ:21 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=WmVTiCyuxqgg3mnwYu6p:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI4MDIxMCBTYWx0ZWRfX45NiMMizcnR8
+ 8y5G4vqrgtsVKeKeKGMuntuXVIeeMXl55ts/7EA+2PwmxyV2/A+1M0moKjmxFlY30Q1za/QNUjc
+ lVuaKk+s+9R/b3dg4xBum1p2stneB3WQ9Xm4hv07/LbuvQB4WQC3
+X-Proofpoint-ORIG-GUID: LJAR1NhTk7Y5WCNwavMwaPSvAX_vhex5
+X-Proofpoint-GUID: LJAR1NhTk7Y5WCNwavMwaPSvAX_vhex5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI4MDIxMCBTYWx0ZWRfX7SvnUpJC4yrq
+ jMkd13daN0CYhcOAWI7IBdu9/sa9Q4OXsD8Iax1WjJovcYvPHbcuX/yoYCdVZZwQ0wigG1bsEFr
+ K0BzWrDLNKc502ccbPwaAWvAuwxc0gFsLIaLn0HHzWA3BZCE+x/SYb4lqBDuuWJcAXk+I1sSynE
+ QKWbETP/MrtQ1AlHkB+3cLvVBvI0AMfO0w/DnaXToZ03994nmR/2vcuiRmmwPothALXHpjieG0W
+ bAjXtxPBOn6gGlVlZUe9kbI7tu22+AiK2pvHa5A0/LbilAjigGhGr3Dg9bfgQAy1vRQvwrnEMpN
+ wxKLTvdMy+5yrEu06n8IagWwgcO//+bsQ0ug7BvhRQm97GG0SJ5kaVQTfY59DHgSCLZYReeFUS4
+ x81Uc4AXfwEV09MGnPNBJ4DtyQ80MBIctUJ4BDnBqZpM6P61KZyocgtR2rVOVkOa/JH163kt8ad
+ OpGkUl8zOeURGZaoKGw==
 
-On Tue, Mar 10, 2026 at 05:36:39PM -0400, eugene.loh@oracle.com wrote:
+On Wed, Mar 18, 2026 at 05:48:26PM -0400, eugene.loh@oracle.com wrote:
 > From: Eugene Loh <eugene.loh@oracle.com>
 > 
+> While probe descriptions can omit fields, implying wildcard matching,
+> best practice is probably to specify at least the provider.  This helps
+> reduce chances of unexpected ambiguity and can help DTrace find matching
+> probes more efficiently.
+> 
+> Change our documentation to employ and thereby illustrate this best
+> practice.
+> 
+> In descriptions of the FBT and raw FBT providers, make this point
+> explicitly, since typically an FBT probe would have a raw FBT
+> counterpart (and vice versa) and in all likelihood a user does not want
+> both.
+> 
+> Incidentally, in a runtime test of our test suite, there are only a few
+> cases where a probe description matches both FBT and raw FBT probes.
+> In test/unittest/, they are
+> 
+> test                                      probe description
+> 
+> dtrace-util/tst.ListProbesModuleClause.sh :vmlinux::
+> dtrace-util/tst.ListProbes.sh             :::
+> providers/rawfbt/tst.wildcard-provider.d  *fbt:vmlinux:do_sys_open*:entry
+> regression/tst.unload-reload-oops.sh      :::
+> 
+> These uses are perhaps reasonable for those tests.
+> 
+> A recent user bug report was due, at least in part, to the fbt/rawfbt
+> problem.
+> 
+> Orabug: 38931437
 > Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
 
 Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
 
 > ---
->  README                                        |  2 +-
->  cmd/dtrace.8                                  | 22 +++++-----
->  doc/tutorial/1.IntroducingDTrace.md           |  4 +-
->  .../2.TracingOperatingSystemBehavior.md       | 44 +++++++++----------
->  .../3.TracingUserSpaceApplications.md         | 16 +++----
->  dtprobed/dtprobed.8                           |  6 +--
->  libdtrace/dt_prov_io.c                        |  2 +-
->  libdtrace/dt_prov_profile.c                   |  2 +-
->  llm/README.md                                 |  4 +-
->  llm/llms-dtrace-complete.txt                  |  8 ++--
->  llm/llms-dtrace-short.txt                     |  8 ++--
->  test/unittest/options/tst.strip.sh            |  2 +-
->  12 files changed, 60 insertions(+), 60 deletions(-)
+>  doc/tutorial/1.IntroducingDTrace.md           | 21 ++++++------
+>  .../2.TracingOperatingSystemBehavior.md       | 34 +++++++++----------
+>  .../3.TracingUserSpaceApplications.md         |  4 +--
+>  .../dtrace-components-and-terminology.md      |  6 ++--
+>  .../dtrace-howto-create-a-dtrace-script.md    |  2 +-
+>  .../dtrace-howto-list-and-enable-probes.md    |  4 +--
+>  .../how-to/dtrace-howto-use-predicates.md     |  2 +-
+>  doc/userguide/reference/aggregation.md        |  2 +-
+>  doc/userguide/reference/aggregation_stddev.md |  2 +-
+>  doc/userguide/reference/aggregation_sum.md    |  6 ++--
+>  ...gram_syntax_reference_program_structure.md | 15 ++++----
+>  .../dtrace-ref-PointersandScalarArrays.md     |  8 ++---
+>  ...ticallyDefinedTracingofUserApplications.md |  8 ++---
+>  .../reference/dtrace-ref-StructsandUnions.md  |  6 ++--
+>  ...dtrace-ref-TypesOperatorsandExpressions.md |  4 +--
+>  .../reference/dtrace-ref-Variables.md         |  6 ++--
+>  .../reference/dtrace_providers_dtrace.md      | 28 +++++++--------
+>  .../reference/dtrace_providers_fbt.md         |  5 +++
+>  .../reference/dtrace_providers_io.md          |  8 ++---
+>  .../reference/dtrace_providers_proc.md        |  4 +--
+>  .../reference/dtrace_providers_rawfbt.md      |  5 +++
+>  doc/userguide/reference/function_alloca.md    |  2 +-
+>  doc/userguide/reference/function_basename.md  |  2 +-
+>  doc/userguide/reference/function_bcopy.md     |  2 +-
+>  doc/userguide/reference/function_clear.md     |  6 ++--
+>  .../reference/function_denormalize.md         |  4 +--
+>  doc/userguide/reference/function_dirname.md   |  2 +-
+>  doc/userguide/reference/function_exit.md      |  4 +--
+>  doc/userguide/reference/function_ftruncate.md |  6 ++--
+>  doc/userguide/reference/function_index.md     |  2 +-
+>  doc/userguide/reference/function_inet_ntoa.md |  2 +-
+>  doc/userguide/reference/function_lltostr.md   |  2 +-
+>  doc/userguide/reference/function_normalize.md |  4 +--
+>  doc/userguide/reference/function_printa.md    |  2 +-
+>  doc/userguide/reference/function_printf.md    |  2 +-
+>  doc/userguide/reference/function_rand.md      |  4 +--
+>  doc/userguide/reference/function_rindex.md    |  2 +-
+>  doc/userguide/reference/function_strchr.md    |  2 +-
+>  doc/userguide/reference/function_strjoin.md   |  2 +-
+>  doc/userguide/reference/function_strlen.md    |  2 +-
+>  doc/userguide/reference/function_strrchr.md   |  2 +-
+>  doc/userguide/reference/function_strstr.md    |  2 +-
+>  doc/userguide/reference/function_strtok.md    | 10 +++---
+>  doc/userguide/reference/function_substr.md    |  2 +-
+>  doc/userguide/reference/function_system.md    |  2 +-
+>  doc/userguide/reference/function_trace.md     |  2 +-
+>  doc/userguide/reference/function_tracemem.md  |  2 +-
+>  doc/userguide/reference/function_trunc.md     |  8 ++---
+>  48 files changed, 139 insertions(+), 125 deletions(-)
 > 
-> diff --git a/README b/README
-> index c7f704ed7..3dd487695 100644
-> --- a/README
-> +++ b/README
-> @@ -1,4 +1,4 @@
-> -Linux DTrace v2.0 for Oracle Unbreakable Enterprise Kernel 6.
-> +Linux DTrace v2.0.
->  ------------
->  
->  This is the official Linux port of the advanced tracing tool DTrace.
-> diff --git a/cmd/dtrace.8 b/cmd/dtrace.8
-> index 1f2d48a07..778d431f4 100644
-> --- a/cmd/dtrace.8
-> +++ b/cmd/dtrace.8
-> @@ -1,9 +1,9 @@
->  '\" te
->  .\" Oracle Linux DTrace.
-> -.\" Copyright (c) 2009, 2024, Oracle and/or its affiliates. All Rights Reserved.
-> +.\" Copyright (c) 2009, 2026, Oracle and/or its affiliates. All Rights Reserved.
->  .\" Licensed under the Universal Permissive License v 1.0 as shown at
->  .\" http://oss.oracle.com/licenses/upl.
-> -.TH dtrace 8 "22 Oct 2014" "Oracle Linux" "Linux Programmer's Manual"
-> +.TH DTRACE 8 "Mar 2026" "dtrace" "Linux Programmer's Manual"
->  .SH NAME
->  dtrace \- DTrace dynamic tracing compiler and tracing utility
->  .SH SYNOPSIS
-> @@ -39,7 +39,7 @@ dtrace \- DTrace dynamic tracing compiler and tracing utility
->  .LP
->  DTrace is a comprehensive dynamic tracing framework for the Linux operating system. DTrace provides a powerful infrastructure that permits administrators, developers, and service personnel to concisely answer arbitrary questions about the behavior of the operating system and user programs. 
->  .LP
-> -The \fIOracle Linux DTrace Guide\fP describes how to use DTrace to observe, debug, and tune system behavior. Refer to this book for a detailed description of DTrace features, including the bundled DTrace observability tools, instrumentation providers, and the D programming language.
-> +The \fIUsing DTrace for System Tracing\fP describes how to use DTrace to observe, debug, and tune system behavior. Refer to this book for a detailed description of DTrace features, including the bundled DTrace observability tools, instrumentation providers, and the D programming language.
->  .LP
->  The \fBdtrace\fP command provides a generic interface to the essential services provided by the DTrace facility, including:
->  .RS +4
-> @@ -57,7 +57,7 @@ Options that generate program stability reports
->  Options that modify DTrace tracing and buffering behavior and enable additional D compiler features
->  .RE
->  .LP
-> -You can use \fBdtrace\fP to create D scripts by using it in a \fB#!\fP declaration to create an interpreter file. You can also use \fBdtrace\fP to attempt to compile D programs and determine their properties without actually enabling tracing using the \fB\-e\fP option. See \fBOPTIONS\fP. See the \fIOracle Linux DTrace Guide\fP for detailed examples of how to use the \fBdtrace\fP utility to perform these tasks.
-> +You can use \fBdtrace\fP to create D scripts by using it in a \fB#!\fP declaration to create an interpreter file. You can also use \fBdtrace\fP to attempt to compile D programs and determine their properties without actually enabling tracing using the \fB\-e\fP option. See \fBOPTIONS\fP. See the \fIUsing DTrace for System Tracing\fP for detailed examples of how to use the \fBdtrace\fP utility to perform these tasks.
->  .SH OPTIONS
->  .LP
->  The arguments accepted by the \fB\-P\fP, \fB\-m\fP, \fB\-f\fP, \fB\-n\fP, and \fB\-i\fP options can include an optional D language \fIpredicate\fP enclosed in slashes \fB//\fP and optional D language \fIaction\fP statement list enclosed in braces \fB{}\fP. D program code specified on the command line must be appropriately quoted to avoid interpretation of meta-characters by the shell.
-> @@ -68,7 +68,7 @@ The following options are supported:
->  Set principal trace buffer size (\fIbufsz\fP). The trace buffer size can include any of the size suffixes \fBk\fP, \fBm\fP, \fBg\fP, or \fBt\fP. If the buffer space cannot be allocated, \fBdtrace\fP attempts to reduce the buffer size or exit depending on the setting of the \fBbufresize\fP property.
->  .TP
->  \fB\-c\fP \fIcmd\fP
-> -Run the specified command \fIcmd\fP and exit upon its completion. If more than one \fB\-c\fP option is present on the command line, \fBdtrace\fP exits when all commands have exited, reporting the exit status for each child process as it terminates. The process-ID of the first command is made available to any D programs specified on the command line or using the \fB\-s\fP option through the \fB$target\fP macro variable. Refer to the \fIOracle Linux DTrace Guide\fP for more information on macro variables.
-> +Run the specified command \fIcmd\fP and exit upon its completion. If more than one \fB\-c\fP option is present on the command line, \fBdtrace\fP exits when all commands have exited, reporting the exit status for each child process as it terminates. The process-ID of the first command is made available to any D programs specified on the command line or using the \fB\-s\fP option through the \fB$target\fP macro variable. Refer to the \fIUsing DTrace for System Tracing\fP for more information on macro variables.
->  .TP
->  \fB\-C\fP
->  Run the C preprocessor \fBcpp\fP(1) over D programs before compiling them. You can pass options to the C preprocessor using the \fB\-D\fP, \fB\-U\fP, \fB\-I\fP, and \fB\-H\fP options. You can select the degree of C standard conformance if you use the \fB\-X\fP option. For a description of the set of tokens defined by the D compiler when invoking the C preprocessor, see \fB\-X\fP.
-> @@ -116,7 +116,7 @@ Specify probe name to trace or list (\fB\-l\fP option). The corresponding argume
->  Specify the \fIoutput\fP file for the \fB\-G\fP, \fB\-h\fP, and \fB\-l\fP options, or for the traced data itself. If the \fB\-G\fP option is present and the \fB\-s\fP option's argument is of the form \fIfilename\fP\fB\&.d\fP and \fB\-o\fP is not present, the default output file is \fIfilename\fP\fB\&.o\fP. Otherwise the default output file is \fBd.out\fP.
->  .TP
->  \fB\-p\fP \fIpid\fP
-> -Grab the specified process-ID \fIpid\fP, cache its symbol tables, and exit upon its completion. If more than one \fB\-p\fP option is present on the command line, \fBdtrace\fP exits when all commands have exited, reporting the exit status for each process as it terminates. The first process-ID is made available to any D programs specified on the command line or using the \fB\-s\fP option through the \fB$target\fP macro variable. Refer to the \fIOracle Linux DTrace Guide\fP for more information on macro variables.
-> +Grab the specified process-ID \fIpid\fP, cache its symbol tables, and exit upon its completion. If more than one \fB\-p\fP option is present on the command line, \fBdtrace\fP exits when all commands have exited, reporting the exit status for each process as it terminates. The first process-ID is made available to any D programs specified on the command line or using the \fB\-s\fP option through the \fB$target\fP macro variable. Refer to the \fIUsing DTrace for System Tracing\fP for more information on macro variables.
->  .TP
->  \fB\-P\fP \fIprovider\fP \fB[[\fP\fIpredicate\fP\fB]\fP \fIaction\fP]
->  Specify provider name to trace or list (\fB\-l\fP option). The remaining probe description fields module, function, and name are left blank and match any probes regardless of the values in those fields. The \fB\-P\fP argument can be suffixed with an optional D probe clause. You can specify more than one \fB\-P\fP option on the command line at a time.
-> @@ -134,23 +134,23 @@ Show D compiler intermediate code. The D compiler produces a report of the inter
->  Undefine the specified \fIname\fP when invoking \fBcpp\fP(1) (enabled using the \fB-C\fP option). This option passes the \fB-U\fP option to each \fBcpp\fP invocation.
->  .TP
->  \fB\-v\fP
-> -Set verbose mode. If the \fB\-v\fP option is specified, \fBdtrace\fP produces a program stability report showing the minimum interface stability and dependency level for the specified D programs. DTrace stability levels are explained in further detail in the \fIOracle Linux DTrace Guide\fP.
-> +Set verbose mode. If the \fB\-v\fP option is specified, \fBdtrace\fP produces a program stability report showing the minimum interface stability and dependency level for the specified D programs. DTrace stability levels are explained in further detail in the \fIUsing DTrace for System Tracing\fP.
->  .TP
->  \fB\-V\fP
-> -Report the highest D programming interface version supported by \fBdtrace\fP. The version information is printed to \fBstdout\fP and the \fBdtrace\fP command exits. Refer to the \fIOracle Linux DTrace Guide\fP for more information about DTrace versioning features. In conjunction with \fB\-v\fP, also reports information on the version of the \fBdtrace\fP(1) tool and associated library.
-> +Report the highest D programming interface version supported by \fBdtrace\fP. The version information is printed to \fBstdout\fP and the \fBdtrace\fP command exits. Refer to the \fIUsing DTrace for System Tracing\fP for more information about DTrace versioning features. In conjunction with \fB\-v\fP, also reports information on the version of the \fBdtrace\fP(1) tool and associated library.
->  .TP
->  \fB\-w\fP
->  Permit destructive actions in D programs specified using the \fB\-s\fP, \fB\-P\fP, \fB\-m\fP, \fB\-f\fP, \fB\-n\fP, or \fB\-i\fP options. If the \fB\-w\fP option is not specified, \fBdtrace\fP does not permit the compilation or enabling of a D program that contains destructive actions.
->  .TP
->  \fB\-x\fP \fIarg\fP [\fI=val\fP]
-> -Enable or modify a DTrace runtime option or D compiler option. The list of options is found in the \fIOracle Linux DTrace Guide\fP. Boolean options are enabled by specifying their name. Options with values are set by separating the option name and value with an equals sign (\fB=\fP).
-> +Enable or modify a DTrace runtime option or D compiler option. The list of options is found in the \fIUsing DTrace for System Tracing\fP. Boolean options are enabled by specifying their name. Options with values are set by separating the option name and value with an equals sign (\fB=\fP).
->  .TP
->  \fB\-Z\fP
->  Permit probe descriptions that match zero probes. If the \fB\-Z\fP option is not specified, \fBdtrace\fP reports an error and exits if any probe descriptions specified in D program files (\fB\-s\fP option) or on the command line (\fB\-P\fP, \fB\-m\fP, \fB\-f\fP, \fB\-n\fP, or \fB\-i\fP options) contain descriptions that do not match any known probes.
->  .
->  .SH OPERANDS
->  .LP
-> -You can specify zero or more additional arguments on the \fBdtrace\fP command line to define a set of macro variables (\fB$1\fP, \fB$2\fP, and so forth). The additional arguments can be used in D programs specified using the \fB\-s\fP option or on the command line. The use of macro variables is described further in the \fIOracle Linux DTrace Guide\fP.
-> +You can specify zero or more additional arguments on the \fBdtrace\fP command line to define a set of macro variables (\fB$1\fP, \fB$2\fP, and so forth). The additional arguments can be used in D programs specified using the \fB\-s\fP option or on the command line. The use of macro variables is described further in the \fIUsing DTrace for System Tracing\fP.
->  .
->  .SH EXIT STATUS
->  .LP
-> @@ -187,7 +187,7 @@ Options set this way are overridden both by options specified via \fB\-x\fP on t
->  .BR ssh (1),
->  .BR dtprobed (1)
->  .LP
-> -.I Oracle Linux DTrace Guide
-> +.I Using DTrace for System Tracing
->  .
->  .SH USAGE
->  .LP
 > diff --git a/doc/tutorial/1.IntroducingDTrace.md b/doc/tutorial/1.IntroducingDTrace.md
-> index 3236edf82..dffca17f7 100644
+> index dffca17f7..728bb89fb 100644
 > --- a/doc/tutorial/1.IntroducingDTrace.md
 > +++ b/doc/tutorial/1.IntroducingDTrace.md
-> @@ -60,7 +60,7 @@ you can choose which method best suits your needs.
+> @@ -149,7 +149,7 @@ Here are the providers in the Linux implementation of DTrace:
+>  That is, these providers provide:
 >  
->  DTrace is a comprehensive dynamic tracing facility that was first
->  developed for use on the Solaris operating system (now known as
-> -Oracle Solaris) and subsequently ported to Oracle Linux.
-> +Oracle Solaris) and subsequently ported to Linux.
->  You can use
->  DTrace to explore the operation of your system to better
->  understand how it works, to track down performance problems across
-> @@ -126,7 +126,7 @@ For more information about using DTrace, see the
->  
->  ### About DTrace Providers
->  
-> -Here are the providers in the Oracle Linux implementation of DTrace:
-> +Here are the providers in the Linux implementation of DTrace:
+>  - `dtrace`: probes that relate to DTrace itself,
+> -    such as `BEGIN`, `ERROR`, and `END`.
+> +    such as `dtrace:::BEGIN`, `dtrace:::ERROR`, and `dtrace:::END`.
+>      You can use these probes to initialize DTrace's state before
+>      tracing begins, process its state after tracing has completed,
+>      and handle unexpected execution errors in other probes.
+> @@ -283,9 +283,9 @@ that is in a file called `hello.d`.
+>  #### Example: Simple D Program That Uses the BEGIN Probe (hello.d)
 >  
 >  ```
->             kernel       user space
+> -/* hello.d -- A simple D program that uses the BEGIN probe */
+> +/* hello.d -- A simple D program that uses the dtrace:::BEGIN probe */
+>  
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>      /* This is a C-style comment */
+>      trace("hello, world");
+> @@ -300,7 +300,7 @@ of statements enclosed in braces `{}` following the probe name.
+>  Each statement ends with a semicolon (`;`).
+>  
+>  In this example, the function `trace` directs DTrace to record the
+> -specified argument, the string ”hello, world”, when the `BEGIN` probe fires,
+> +specified argument, the string ”hello, world”, when the `dtrace:::BEGIN` probe fires,
+>  and then print it out.
+>  The function `exit()` tells DTrace to cease tracing and exit the `dtrace`
+>  command.
+> @@ -309,7 +309,8 @@ The full name of the `BEGIN` probe is `dtrace:::BEGIN`.
+>  The `dtrace` provider provides three probes: `dtrace:::BEGIN`,
+>  `dtrace:::END`, and `dtrace:::ERROR`.
+>  Because these probe names are unique to the `dtrace` provider,
+> -their names can be shortened to `BEGIN`, `END`, and `ERROR`.
+> +they are often shortened to `BEGIN`, `END`, and `ERROR`,
+> +but this guide uses the fully qualified forms to reduce ambiguity.
+>  
+>  When you have saved your program, you can run it by using the
+>  `dtrace` command with the `-s` option,
+> @@ -328,7 +329,7 @@ the default behavior of DTrace is to display information about
+>  the CPU on which the script was running when a probe fired,
+>  the ID of the probe, the name of the function that contains
+>  the probe, and the name of the probe itself.
+> -The function name is displayed as blank for `BEGIN`,
+> +The function name is displayed as blank for `dtrace:::BEGIN`,
+>  as DTrace provides this probe.
+>  
+>  You can suppress the probe information in a number of different
+> @@ -343,19 +344,19 @@ hello, world
+>  
+>  Copy the `hello.d` program to the file `goodbye.d`.
+>  Edit this file so that it traces the string "goodbye, world"
+> -and uses the `END` probe instead of `BEGIN`.
+> +and uses the `dtrace:::END` probe instead of `dtrace:::BEGIN`.
+>  When you run this new script, you need to type `Ctrl-C` to cause the
+>  probe to fire and exit `dtrace`.
+>  
+>  #### Solution to Exercise and Example: Using the END Probe
+>  
+>  The following is an example of a simple D program that
+> -demonstrates the use of the `END` probe:
+> +demonstrates the use of the `dtrace:::END` probe:
+>  
+>  ```
+> -/* goodbye.d -- Simple D program that demonstrates the END probe */
+> +/* goodbye.d -- Simple D program that demonstrates the dtrace:::END probe */
+>  
+> -END
+> +dtrace:::END
+>  {
+>    trace("goodbye, world");
+>  }
 > diff --git a/doc/tutorial/2.TracingOperatingSystemBehavior.md b/doc/tutorial/2.TracingOperatingSystemBehavior.md
-> index b3445ab6d..edfc89c01 100644
+> index edfc89c01..c6bdab1d1 100644
 > --- a/doc/tutorial/2.TracingOperatingSystemBehavior.md
 > +++ b/doc/tutorial/2.TracingOperatingSystemBehavior.md
-> @@ -9,8 +9,8 @@ investigate what is happening in the operating system.
->  The `proc` probes enable you to trace process creation and termination,
->  execution of new program images, and signal processing on a system. See
->  [Proc Provider](../userguide/reference/dtrace_providers_proc.md)
-> -in the
-> -[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
-> +in
-> +[Using DTrace for System Tracing](../userguide/index.md)
->  for a description of the `proc` probes and their arguments.
->  
->  #### Example: Monitoring the System as Programs Are Executed (execcalls.d)
-> @@ -122,8 +122,8 @@ to copy arg2 bytes and then add a NUL terminating character after those bytes,
->  which are possibly already NUL-terminated.
->  See
->  [Pointers and Address Spaces](../userguide/reference/dtrace-ref-PointersandScalarArrays.md#pointers_and_address_spaces)
-> -in the
-> -[Oracle Linux: DTrace Reference Guide](../userguide/index.md).
-> +in
-> +[Using DTrace for System Tracing](../userguide/index.md).
->  
->  ```
->  # dtrace -q -s syscalls.d
-> @@ -149,8 +149,8 @@ Use a conversion specifier such as `%-4d`.
->  
->  See
->  [printf](../userguide/reference/function_printf.md)
-> -in the
-> -[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
-> +in
-> +[Using DTrace for System Tracing](../userguide/index.md)
->  for a description of the function.
+> @@ -155,7 +155,7 @@ for a description of the function.
 >  
 >  The process ID and user ID are available as the variables
-> @@ -291,8 +291,8 @@ Replace the `trace()` call in
+>  `pid` and `uid`. Use the
+> -`BEGIN` probe to create a header for the
+> +`dtrace:::BEGIN` probe to create a header for the
+>  output.
+>  
+>  #### Solution to Exercise: Using the printf() Function to Format Output
+> @@ -163,7 +163,7 @@ output.
+>  ```
+>  /* syscalls1.d -- Modified version of syscalls.d that displays more information */
+>  
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    printf("%-7s %-4s %-16s %-16s\n","PID","UID","EXECNAME","FILENAME");
+>    mypid = pid;
+> @@ -222,7 +222,7 @@ The following is an example of the `tick.d` program.
+>  ```
+>  /* tick.d -- Perform an action at regular intervals */
+>  
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    i = 0;
+>  }
+> @@ -232,7 +232,7 @@ profile:::tick-1sec
+>    printf("i = %d\n",++i);
+>  }
+>  
+> -END
+> +dtrace:::END
+>  {
+>    trace(i);
+>  }
+> @@ -287,7 +287,7 @@ i = 5
+>  List the available `profile` provider probes.
+>  Experiment with using a different `tick` probe.
+>  Replace the `trace()` call in
+> -`END` with a `printf()` call.
+> +`dtrace:::END` with a `printf()` call.
 >  
 >  See
 >  [Profile Provider](../userguide/reference/dtrace_providers_profile.md)
-> -in the
-> -[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
-> +in
-> +[Using DTrace for System Tracing](../userguide/index.md)
->  for a description of the probes.
+> @@ -322,7 +322,7 @@ for a description of the probes.
+>  ```
+>  /* tick1.d -- Modified version of tick.d */
 >  
->  #### Solution to Exercise and Example: Using tick Probes
-> @@ -713,8 +713,8 @@ is determined by examining the `pr_pid` member of the `psinfo_t` data
->  structure that is pointed to by the `args[0]` probe argument.
->  For more information about the arguments to `proc` probes, see
->  [Proc Provider](../userguide/reference/dtrace_providers_proc.md)
-> -in the
-> -[Oracle Linux: DTrace Reference Guide](../userguide/index.md).
-> +in
-> +[Using DTrace for System Tracing](../userguide/index.md).
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    i = 0;
+>  }
+> @@ -333,13 +333,13 @@ profile:::tick-500ms
+>    printf("i = %d\n",++i);
+>  }
 >  
->  The program uses the value of the child process ID to initialize
->  globally unique associative array entries, such as `p_pid[childpid]`.
-> @@ -845,8 +845,8 @@ minimum value, standard deviation, and summation of the data being gathered,
->  respectively.
->  See
->  [Aggregations](../userguide/reference/aggregation.md)
-> -in the
-> -[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
-> +in
-> +[Using DTrace for System Tracing](../userguide/index.md)
->  for descriptions of aggregation functions.
+> -END
+> +dtrace:::END
+>  {
+>    printf("\nFinal value of i = %d\n",i);
+>  }
+>  ```
 >  
->  DTrace indexes the results of an aggregation by using a tuple
-> @@ -1107,8 +1107,8 @@ See
->  [`fds`](../userguide/reference/dtrace_builtin_variable_reference.md#dt_ref_var_fds)
->  and
->  [`fileinfo_t`](../userguide/reference/dtrace_providers_io.md#dt_ref_iofile_prov)
-> -in the
-> -[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
-> +in
-> +[Using DTrace for System Tracing](../userguide/index.md)
+> -This example uses the `tick-500ms` probe,
+> +This example uses the `profile:::tick-500ms` probe,
+>  which fires twice per second.
+>  
+>  ```
+> @@ -919,7 +919,7 @@ syscall::write:entry, syscall::read:entry, syscall::open:entry
+>  }
+>  ```
+>  
+> -The action that is associated with the `tick-100s` probe means that
+> +The action that is associated with the `profile:::tick-100s` probe means that
+>  `dtrace` exits after 100 seconds. By default, exit will print the
+>  results of the aggregation.
+>  
+> @@ -1079,7 +1079,7 @@ profile:::tick-10sec {
+>    exit(0);
+>  }
+>  
+> -END
+> +dtrace:::END
+>  {
+>    trunc(@, 5);
+>  }
+> @@ -1112,7 +1112,7 @@ in
 >  for more information.
 >  
 >  The [`trunc()`](../userguide/reference/function_trunc.md) function
-> @@ -1133,8 +1133,8 @@ number or `"total"`.
+> -in the `END` action removes all but the 5 most important keys.
+> +in the `dtrace:::END` action removes all but the 5 most important keys.
+>  Here, there are fewer than 5 keys to start with.
 >  
->    See
->    [Sched Provider](../userguide/reference/dtrace_providers_sched.md)
-> -  in the
-> -  [Oracle Linux: DTrace Reference Guide](../userguide/index.md)
-> +  in
-> +  [Using DTrace for System Tracing](../userguide/index.md)
->    for a description of the `sched:::on-cpu`
->    probe.
+>  #### Exercise: Counting Context Switches on a System
+> @@ -1122,7 +1122,7 @@ a timestamp and prints the number of context switches per CPU and
+>  the total for all CPUs once per second, together with the CPU
+>  number or `"total"`.
 >  
-> @@ -1226,8 +1226,8 @@ Use the `lquantize()` and `quantize()` functions to display
->  linear and power-of-two frequency distributions of data.
->  See
->  [Aggregations](../userguide/reference/aggregation.md)
-> -in the
-> -[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
-> +in
-> +[Using DTrace for System Tracing](../userguide/index.md)
->  for a description of aggregation functions.
+> -- Using the `BEGIN` probe, print a header for the display
+> +- Using the `dtrace:::BEGIN` probe, print a header for the display
+>    with columns labelled `Timestamp`, `CPU`, and `Ncsw`.
 >  
->  #### Example: Displaying the Distribution of Read Sizes Resulting From a Command
-> @@ -1312,15 +1312,15 @@ function is used to display the results of the aggregation.
+>  - Using the `sched:::on-cpu` probe to detect the end of a context switch,
+> @@ -1300,7 +1300,7 @@ io:::done
+>    start[args[0]->b_edev, args[0]->b_blkno] = 0;
+>  }
 >  
->  See
->  [IO Provider](../userguide/reference/dtrace_providers_io.md)
-> -in the
-> -[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
-> +in
-> +[Using DTrace for System Tracing](../userguide/index.md)
->  for a description of the arguments to the
->  `io:::start` and `io:::done` probes.
+> -END
+> +dtrace:::END
+>  {
+>    printa(" %s (%s)\n%@d\n", @);
+>  }
+> @@ -1417,7 +1417,7 @@ io:::done
+>    start[args[0]->b_edev, args[0]->b_blkno, this->iodir] = 0;
+>  }
 >  
->  See
->  [printa](../userguide/reference/function_printa.md)
-> -in the
-> -[Oracle Linux: DTrace Reference Guide](../userguide/index.md)
-> +in
-> +[Using DTrace for System Tracing](../userguide/index.md)
->  for a description of the function.
+> -END
+> +dtrace:::END
+>  {
+>    printa(" %s (%s) %s \n%@d\n", @);
+>  }
+> @@ -1506,7 +1506,7 @@ io:::done
+>    @a[this->iodir] = lquantize(blkno,0,10,1)
+>  }
 >  
->  After running the program for approximately a minute, type
+> -tick-10sec
+> +profile:::tick-10sec
+>  {
+>    printf("%Y\n",walltimestamp);
+>    /* Display the results of the aggregation */
+> @@ -1660,7 +1660,7 @@ error instead of its number for any failed system call.
+>  - Use `printf()` to display the user ID, the process ID, the
+>    program name, the error name, and the name of the system call.
+>  
+> -- Use the `BEGIN` probe to print column headings.
+> +- Use the `dtrace:::BEGIN` probe to print column headings.
+>  
+>  - Use the value of `errno` rather than `arg0` to test whether an
+>    error from the range of mapped names has occurred in a system call.
+> @@ -1677,7 +1677,7 @@ which displays error names.
+>  
+>  /* displayerrno.d -- Modified version of errno.d that displays error names */
+>  
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    printf("%-4s %-6s %-10s %-10s %s\n", "UID", "PID", "Prog", "Error", "Func");
+>  
 > diff --git a/doc/tutorial/3.TracingUserSpaceApplications.md b/doc/tutorial/3.TracingUserSpaceApplications.md
-> index 1d9bf69f2..1121a583f 100644
+> index 1121a583f..2e5fac803 100644
 > --- a/doc/tutorial/3.TracingUserSpaceApplications.md
 > +++ b/doc/tutorial/3.TracingUserSpaceApplications.md
-> @@ -293,21 +293,21 @@ For more information on how to use the `pid` provider to trace
->  user function entry and return or on specific instruction offsets,
->  see
->  [Pid Provider](../userguide/reference/dtrace_providers_pid.md)
-> -in the
-> -[Oracle Linux: DTrace Reference Guide](../userguide/index.md).
-> +in
-> +[Using DTrace for System Tracing](../userguide/index.md).
+> @@ -704,7 +704,7 @@ probes in the application:
 >  
->  ### Adding USDT Probes to an Application
+>  /* show how much time elapses between each probe */
 >  
->  In this section, we practice adding USDT probes to an application.
->  For background information and other details, see
->  [Adding USDT Probes to Application Code](../userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md#dt_ref_usdt_probe_add_prov)
-> -in the
-> -[Oracle Linux: DTrace Reference Guide](../userguide/index.md).
-> +in
-> +[Using DTrace for System Tracing](../userguide/index.md).
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    iterationCount = 0;
+>  }
+> @@ -751,7 +751,7 @@ primeget*:::query-final
+>    iterationCount++;
+>  }
 >  
->  To get started, you will need to create a `.d` file, as described in
->  [Defining USDT Providers and Probes](../userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md#dt_ref_usdtprobes_prov)
-> -in the
-> -[Oracle Linux: DTrace Reference Guide](../userguide/index.md).
-> +in
-> +[Using DTrace for System Tracing](../userguide/index.md).
+> -END
+> +dtrace:::END
+>  {
+>    trace(iterationCount);
+>  }
+> diff --git a/doc/userguide/explanation/dtrace-components-and-terminology.md b/doc/userguide/explanation/dtrace-components-and-terminology.md
+> index 9d08928ac..5e33e60bf 100644
+> --- a/doc/userguide/explanation/dtrace-components-and-terminology.md
+> +++ b/doc/userguide/explanation/dtrace-components-and-terminology.md
+> @@ -9,7 +9,7 @@ DTrace is a framework that dynamically traces data into buffers that are read by
 >  
->  >Note:
->  >
-> @@ -431,8 +431,8 @@ and a false value if the associated probe is not enabled.
->  Next, you will need to modify the `makefile` file.
->  For step-by-step instructions, See
->  [Building Applications With USDT Probes](../userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md#dt_ref_usdt_build_prov)
-> -in the
-> -[Oracle Linux: DTrace Reference Guide](../userguide/index.md).
-> +in
-> +[Using DTrace for System Tracing](../userguide/index.md).
+>  ## Probes <a id="concept_terms_probes">
 >  
->  #### Exercise: Directing makefile to Re-Create the dprime.h File
+> -DTrace works by using *probes* that identify particular instrumentation in the kernel or within a user space application, or which can be used to identify interval counters or performance event counters. Events such as when particular code is run or when a specific counter is incremented cause a probe to fire and DTrace can perform functions that are bound to the event in a program or script. For example, a probe can fire when a particular file is opened and a DTrace program can print information related to the event that can be useful for debugging or resolving an issue. Equally, at the moment that DTrace starts or ends any tracing activity, the `BEGIN` and `END` probes dedicated to these actions always fire.
+> +DTrace works by using *probes* that identify particular instrumentation in the kernel or within a user space application, or which can be used to identify interval counters or performance event counters. Events such as when particular code is run or when a specific counter is incremented cause a probe to fire and DTrace can perform functions that are bound to the event in a program or script. For example, a probe can fire when a particular file is opened and a DTrace program can print information related to the event that can be useful for debugging or resolving an issue. Equally, at the moment that DTrace starts or ends any tracing activity, the `dtrace:::BEGIN` and `dtrace:::END` probes dedicated to these actions always fire.
 >  
-> diff --git a/dtprobed/dtprobed.8 b/dtprobed/dtprobed.8
-> index 2ebe89ccc..046b2a480 100644
-> --- a/dtprobed/dtprobed.8
-> +++ b/dtprobed/dtprobed.8
-> @@ -1,9 +1,9 @@
->  '\" te
->  .\" Oracle Linux DTrace.
-> -.\" Copyright (c) 2009, 2024, Oracle and/or its affiliates. All Rights Reserved.
-> +.\" Copyright (c) 2009, 2026, Oracle and/or its affiliates. All Rights Reserved.
->  .\" Licensed under the Universal Permissive License v 1.0 as shown at
->  .\" http://oss.oracle.com/licenses/upl.
-> -.TH dtrace 8 "22 Oct 2023" "Oracle Linux" "Linux Programmer's Manual"
-> +.TH DTRACE 8 "Mar 2026" "dtrace" "Linux Programmer's Manual"
->  .SH NAME
->  dtprobed \- USDT-tracking daemon
->  .SH SYNOPSIS
-> @@ -61,4 +61,4 @@ and \fBdtprobed\fP, and can change between releases: on upgrade, \fBdtprobed\fP
->  .
->  .BR dtrace (8)
->  .LP
-> -.I Oracle Linux DTrace Guide
-> +.I Using DTrace for System Tracing
-> diff --git a/libdtrace/dt_prov_io.c b/libdtrace/dt_prov_io.c
-> index db768bb72..7e2238564 100644
-> --- a/libdtrace/dt_prov_io.c
-> +++ b/libdtrace/dt_prov_io.c
-> @@ -591,7 +591,7 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
->  done:
->  	/*
->  	 * Note: DTrace does not currently support the use of fileinfo_t with
-> -	 * io probes.  In Oracle Linux, there is no information about the file
-> +	 * io probes.  In Linux, there is no information about the file
->  	 * where the I/O request originated at the point where the io probes
->  	 * fire.
->  	 */
-> diff --git a/libdtrace/dt_prov_profile.c b/libdtrace/dt_prov_profile.c
-> index 60da094a2..de7e02120 100644
-> --- a/libdtrace/dt_prov_profile.c
-> +++ b/libdtrace/dt_prov_profile.c
-> @@ -224,7 +224,7 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
->  	 * TODO: For profile-n probes:
->  	 *     dctx->mst->argv[2] = elapsed nsecs
->  	 * The documentation does not say elapsed since when?
-> -	 * From the legacy port to Oracle Linux, in dtrace/profile_dev.c,
-> +	 * From the legacy port to Linux, in dtrace/profile_dev.c,
->  	 * in profile_prof_fn(), it appears that we have a per-CPU variable
->  	 * that tracks the expected time of the next profile probe.
->  	 * Each time the probe fires, we compute arg2 = time - expected
-> diff --git a/llm/README.md b/llm/README.md
-> index 2992bf7bc..117783f92 100644
-> --- a/llm/README.md
-> +++ b/llm/README.md
-> @@ -2,7 +2,7 @@
+>  You can list all the available probes on a system by typing the following command:
 >  
->  ## Overview
->  These files provide structured **context packs** (`llms-txt` format) for use with large language models (LLMs) such as GPT-4 or Claude.
-> -They teach the model how to write **correct, safe, and complete DTrace programs** for Oracle Linux.
-> +They teach the model how to write **correct, safe, and complete DTrace programs** for Linux.
+> @@ -49,7 +49,7 @@ Probes are made available by *providers*, which group particular kinds of instru
 >  
->  The goal is to let engineers and administrators generate working D scripts in natural language — without having to memorize the entire D language syntax.
+>  -   **name**
 >  
-> @@ -39,7 +39,7 @@ The goal is to let engineers and administrators generate working D scripts in na
+> -    The name that provides some idea of the probe's semantic meaning, such as `BEGIN` or `END`.
+> +    The name that provides some idea of the probe's semantic meaning, such as `dtrace:::BEGIN` or `dtrace:::END`.
 >  
->      -   In ChatGPT, Claude, or another interface that supports file context, click the “+” icon and upload `llms-dtrace-short.txt`.
 >  
-> -    -   The model will automatically ingest the reference and understand how to write runnable DTrace programs for Oracle Linux.
-> +    -   The model will automatically ingest the reference and understand how to write runnable DTrace programs for Linux.
+>  When referencing a probe, write all four parts of the probe description separated by colons:
+> @@ -64,7 +64,7 @@ Some probes don't have a module or function identifier when they're listed. When
+>  dtrace:::BEGIN
+>  ```
 >  
->  3.  **Start asking questions in natural language**
+> -Probes aren't required to have a module and function. The dtrace `BEGIN`, `END` and `ERROR` probes are good examples of this because these probes don't correspond to any specific instrumented program function or location. Instead, these probes are used for more abstract concepts, such as the idea of the end a tracing request. Other probes, such as those made available by the [Profile Provider](../reference/dtrace_providers_profile.md) or the [CPC Provider](../reference/dtrace_providers_cpc.md), also don't include module or function identifiers in their descriptions.
+> +Probes aren't required to have a module and function. The dtrace `dtrace:::BEGIN`, `dtrace:::END` and `dtrace:::ERROR` probes are good examples of this because these probes don't correspond to any specific instrumented program function or location. Instead, these probes are used for more abstract concepts, such as the idea of the end a tracing request. Other probes, such as those made available by the [Profile Provider](../reference/dtrace_providers_profile.md) or the [CPC Provider](../reference/dtrace_providers_cpc.md), also don't include module or function identifiers in their descriptions.
 >  
-> diff --git a/llm/llms-dtrace-complete.txt b/llm/llms-dtrace-complete.txt
-> index 818e0086f..07275cb9d 100644
-> --- a/llm/llms-dtrace-complete.txt
-> +++ b/llm/llms-dtrace-complete.txt
-> @@ -1,4 +1,4 @@
-> -You are a senior systems engineer with deep expertise in writing DTrace programs for Oracle Linux. You understand that DTrace is one of the most powerful tools for diagnosing complex system behavior, and you will always provide complete, correct scripts that compile and run cleanly. Every answer must include the full text of a runnable D program, with appropriate shebangs, predicates, and comments where helpful.
-> +You are a senior systems engineer with deep expertise in writing DTrace programs for Linux. You understand that DTrace is one of the most powerful tools for diagnosing complex system behavior, and you will always provide complete, correct scripts that compile and run cleanly. Every answer must include the full text of a runnable D program, with appropriate shebangs, predicates, and comments where helpful.
+>  ## D Programs <a id="concept_terms_programs">
 >  
->  You favor stable providers (such as syscall, proc, sched, profile, io, usdt, pid) and safe idioms that avoid invalid memory access or unnecessary output. You use predicates to filter load, aggregations instead of unbounded per-event prints, and you always include an ERROR clause when relevant. Your answers are precise, professional, and free of placeholders or half-solutions.
+> diff --git a/doc/userguide/how-to/dtrace-howto-create-a-dtrace-script.md b/doc/userguide/how-to/dtrace-howto-create-a-dtrace-script.md
+> index 949ade0bf..4b3ef39fe 100644
+> --- a/doc/userguide/how-to/dtrace-howto-create-a-dtrace-script.md
+> +++ b/doc/userguide/how-to/dtrace-howto-create-a-dtrace-script.md
+> @@ -35,7 +35,7 @@ This tutorial provides successive steps toward developing a DTrace script that y
+>        0      1                           :BEGIN   hello, world    
+>      ```
 >  
-> @@ -7,15 +7,15 @@ DO NOT RECOMMEND DANGEROUS OPERATIONS UNLESS THERE IS AN ALTERNATIVE. Do not rec
->  WARNING:  Forbidden constructs: if, else, for, while, switch, etc.
->  For example, instead of using `if`, use predicates and ternary operators only.
+> -    Note that you didn't have to press `Ctrl`+`C` to exit because you specified the `exit` function for the `BEGIN` probe in the program.
+> +    Note that you didn't have to press `Ctrl`+`C` to exit because you specified the `exit` function for the `dtrace:::BEGIN` probe in the program.
 >  
-> -Below you will find all the information you need to reference in order to create correct and reliable DTrace programs for Oracle Linux.
-> +Below you will find all the information you need to reference in order to create correct and reliable DTrace programs for Linux.
+>  3.  Open `hello.d` in the text editor and add an interpreter line to the beginning of the script.
 >  
-> -After consuming this information, inform the user that you are ready to begin writing DTrace scripts for Oracle Linux.
-> +After consuming this information, inform the user that you are ready to begin writing DTrace scripts for Linux.
+> diff --git a/doc/userguide/how-to/dtrace-howto-list-and-enable-probes.md b/doc/userguide/how-to/dtrace-howto-list-and-enable-probes.md
+> index 9325c6f1d..ef0b7c0a9 100644
+> --- a/doc/userguide/how-to/dtrace-howto-list-and-enable-probes.md
+> +++ b/doc/userguide/how-to/dtrace-howto-list-and-enable-probes.md
+> @@ -91,9 +91,9 @@ DTrace providers publish available probes to DTrace so that you can enable them
 >  
->  DTRACE (ORACLE LINUX) — LLMS.TXT FORMAT
->  PART 1: PROGRAM STRUCTURE, PROBE DESCRIPTIONS, PREDICATES, STATEMENTS
+>  3.  Enable several probes by chaining them together in a request.
 >  
->  ## GOAL
-> -Provide a compact, machine-optimized reference so an LLM can generate correct DTrace D programs for Oracle Linux.
-> +Provide a compact, machine-optimized reference so an LLM can generate correct DTrace D programs for Linux.
+> -    You can construct DTrace requests by using arbitrary numbers of probes and functions. For example, create a request using two probes by adding the `BEGIN` and `END` probes.
+> +    You can construct DTrace requests by using arbitrary numbers of probes and functions. For example, create a request using two probes by adding the `dtrace:::BEGIN` and `dtrace:::END` probes.
 >  
->  ## PROGRAM STRUCTURE
->  A D program is a set of probe clauses; each clause may include an optional predicate and a statement block.
-> diff --git a/llm/llms-dtrace-short.txt b/llm/llms-dtrace-short.txt
-> index 19d5f73e5..7430f4ba5 100644
-> --- a/llm/llms-dtrace-short.txt
-> +++ b/llm/llms-dtrace-short.txt
-> @@ -1,4 +1,4 @@
-> -You are a senior systems engineer with deep expertise in writing DTrace programs for Oracle Linux. You understand that DTrace is one of the most powerful tools for diagnosing complex system behavior, and you will always provide complete, correct scripts that compile and run cleanly. Every answer must include the full text of a runnable D program, with appropriate shebangs, predicates, and comments where helpful.
-> +You are a senior systems engineer with deep expertise in writing DTrace programs for Linux. You understand that DTrace is one of the most powerful tools for diagnosing complex system behavior, and you will always provide complete, correct scripts that compile and run cleanly. Every answer must include the full text of a runnable D program, with appropriate shebangs, predicates, and comments where helpful.
+> -    Type the following command, and then press `Ctrl`+`C` in the shell again, after you see the line of output for the `BEGIN` probe:
+> +    Type the following command, and then press `Ctrl`+`C` in the shell again, after you see the line of output for the `dtrace:::BEGIN` probe:
 >  
->  You favor stable providers (such as syscall, proc, sched, profile, io, usdt, pid) and safe idioms that avoid invalid memory access or unnecessary output. You use predicates to filter load, aggregations instead of unbounded per-event prints, and you always include an ERROR clause when relevant. Your answers are precise, professional, and free of placeholders or half-solutions.
+>      ```
+>      sudo dtrace -n dtrace:::BEGIN -n dtrace:::END 
+> diff --git a/doc/userguide/how-to/dtrace-howto-use-predicates.md b/doc/userguide/how-to/dtrace-howto-use-predicates.md
+> index d00d31a01..fce9d9121 100644
+> --- a/doc/userguide/how-to/dtrace-howto-use-predicates.md
+> +++ b/doc/userguide/how-to/dtrace-howto-use-predicates.md
+> @@ -71,7 +71,7 @@ To illustrate predicates at work, you can create a D program that implements a 1
+>      ```
 >  
-> @@ -7,15 +7,15 @@ DO NOT RECOMMEND DANGEROUS OPERATIONS UNLESS THERE IS AN ALTERNATIVE. Do not rec
->  WARNING:  Forbidden constructs: if, else, for, while, switch, etc.
->  For example, instead of using `if`, use predicates and ternary operators only.
 >  
-> -Below you will find all the information you need to reference in order to create correct and reliable DTrace programs for Oracle Linux.
-> +Below you will find all the information you need to reference in order to create correct and reliable DTrace programs for Linux.
+> -This tutorial uses the `BEGIN` probe to initialize a variable integer `i` to 10 to begin the countdown. Next, the program uses the `tick-1sec` probe to implement a timer that fires once every second. Notice that in `countdown.d`, the `tick-1sec` probe description is used in two different clauses, each with a different predicate and function list. The predicate is a logical expression surrounded by enclosing slashes `//` that appears after the probe name and before the braces `{}` that surround the clause statement list.
+> +This tutorial uses the `dtrace:::BEGIN` probe to initialize a variable integer `i` to 10 to begin the countdown. Next, the program uses the `profile:::tick-1sec` probe to implement a timer that fires once every second. Notice that in `countdown.d`, the `profile:::tick-1sec` probe description is used in two different clauses, each with a different predicate and function list. The predicate is a logical expression surrounded by enclosing slashes `//` that appears after the probe name and before the braces `{}` that surround the clause statement list.
 >  
-> -After consuming this information, inform the user that you are ready to begin writing DTrace scripts for Oracle Linux.
-> +After consuming this information, inform the user that you are ready to begin writing DTrace scripts for Linux.
+>  The first predicate tests whether `i` is greater than zero, indicating that the timer is still running:
 >  
->  DTRACE (ORACLE LINUX) — LLMS.TXT FORMAT
->  PART 1: PROGRAM STRUCTURE, PROBE DESCRIPTIONS, PREDICATES, STATEMENTS
+> diff --git a/doc/userguide/reference/aggregation.md b/doc/userguide/reference/aggregation.md
+> index 4f39f568d..55eae157e 100644
+> --- a/doc/userguide/reference/aggregation.md
+> +++ b/doc/userguide/reference/aggregation.md
+> @@ -44,7 +44,7 @@ By default, several aggregations are displayed in the order in which they're int
+>  You can override this behavior by using the [`printa`](function_printa.md) function to print the aggregations.
+>  The `printa` function also lets you precisely format the aggregation data by using a format string.
 >  
->  ## GOAL
-> -Provide a compact, machine-optimized reference so an LLM can generate correct DTrace D programs for Oracle Linux.
-> +Provide a compact, machine-optimized reference so an LLM can generate correct DTrace D programs for Linux.
+> -If an aggregation isn't formatted with a `printa` statement in a D program, the `dtrace` command snapshots the aggregation data and prints the results after tracing has completed, using the default aggregation format. If an aggregation is formatted with a `printa` statement, the default behavior is disabled. You can achieve the same results by adding the `printa(@*aggregation-name*)` statement to an `END` probe clause in a program.
+> +If an aggregation isn't formatted with a `printa` statement in a D program, the `dtrace` command snapshots the aggregation data and prints the results after tracing has completed, using the default aggregation format. If an aggregation is formatted with a `printa` statement, the default behavior is disabled. You can achieve the same results by adding the `printa(@*aggregation-name*)` statement to an `dtrace:::END` probe clause in a program.
 >  
->  ## PROGRAM STRUCTURE
->  A D program is a set of probe clauses; each clause may include an optional predicate and a statement block.
-> diff --git a/test/unittest/options/tst.strip.sh b/test/unittest/options/tst.strip.sh
-> index d25f76af3..a6762cfb9 100755
-> --- a/test/unittest/options/tst.strip.sh
-> +++ b/test/unittest/options/tst.strip.sh
-> @@ -64,7 +64,7 @@ fi
->  $objdump >& out.default.txt
+>  The default output format for the `avg`, `count`, `min`, `max`, `stddev`, and `sum` aggregating functions displays an integer decimal value corresponding to the aggregated value for each tuple. The default output format for the `quantize`, `lquantize`, and `llquantize` aggregating functions displays an ASCII histogram with the results. Aggregation tuples are printed as though `trace` had been applied to each tuple element.
 >  
->  # Check results.  One can imagine a more stringent check -- like
-> -# seeing if the string "Oracle D 2.0" appears in the default case
-> +# seeing if particular strings appear in the default case
->  # but not in the stripped case -- but here we settle for the stripped
->  # case simply being smaller than the default case.
+> diff --git a/doc/userguide/reference/aggregation_stddev.md b/doc/userguide/reference/aggregation_stddev.md
+> index 42709e9ba..2ba9f16f5 100644
+> --- a/doc/userguide/reference/aggregation_stddev.md
+> +++ b/doc/userguide/reference/aggregation_stddev.md
+> @@ -29,7 +29,7 @@ syscall::execve:return
+>    self->ts = 0;
+>  }
 >  
+> -END
+> +dtrace:::END
+>  {
+>    printf("\nSTDDEV:");
+>    printa(@execsd);
+> diff --git a/doc/userguide/reference/aggregation_sum.md b/doc/userguide/reference/aggregation_sum.md
+> index 17a75da4e..114bcd494 100644
+> --- a/doc/userguide/reference/aggregation_sum.md
+> +++ b/doc/userguide/reference/aggregation_sum.md
+> @@ -14,19 +14,19 @@ The `sum` function is an aggregation function to used to obtain the total value
+>  This example increments a variable, *i*, by 100 every 10 ms until *i* has a value of 1000. An aggregation is used to calculate the sum of values of *i*. This is equal to the expression: 0+100+200+300+400+500+600+700+800+900=4500.
+>  
+>  ```
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>          i = 0;
+>  }
+>  
+> -tick-10ms
+> +profile:::tick-10ms
+>  /i < 1000/
+>  {
+>          @a = sum(i);
+>          i += 100;
+>  }
+>  
+> -tick-10ms
+> +profile:::tick-10ms
+>  /i == 1000/
+>  {
+>          exit(0);
+> diff --git a/doc/userguide/reference/d_program_syntax_reference_program_structure.md b/doc/userguide/reference/d_program_syntax_reference_program_structure.md
+> index dc6a31a3b..ab9c3627a 100644
+> --- a/doc/userguide/reference/d_program_syntax_reference_program_structure.md
+> +++ b/doc/userguide/reference/d_program_syntax_reference_program_structure.md
+> @@ -37,13 +37,17 @@ probe descriptions
+>  
+>      -   **name**
+>  
+> -        The name that provides some idea of the probe's semantic meaning, such as `BEGIN` or `END`.
+> +        The name that provides some idea of the probe's semantic meaning, such as `dtrace:::BEGIN` or `dtrace:::END`.
+>  
+> -    DTrace recognizes a form of shorthand when referencing probes. By convention, if you don't specify all the fields of a probe description, DTrace can match a request to all the probes with matching values in the parts of the name that you do specify. For example, you can reference the probe name `BEGIN` in a script to match *any* probe with the name field `BEGIN`, regardless of the value of the provider, module, and function fields. For example, you might see a probe referenced as:
+> +    DTrace recognizes a form of shorthand when referencing probes.
+> +    By convention, if you don't specify all the fields of a probe description,
+> +    DTrace can match a request to all the probes with matching values in the parts of the name that you do specify.
+> +    For example, you can reference the probe name `BEGIN` in a script to match *any* probe with the name field `BEGIN`,
+> +    regardless of the value of the provider, module, and function fields.
+>  
+> -    ```
+> -    BEGIN
+> -    ```
+> +    Nevertheless, it is good practice to specify components, such as the provider, in a probe description anyhow.
+> +    This reduces the chances of unexpected ambiguity and can make it faster for DTrace to find probes.
+> +    In this guide, we will typically specify the provider name.
+>  
+>      If a probe is referenced in a D program and it doesn't use a full probe description, the fields are interpreted based on an order of precedence:
+>  
+> @@ -144,4 +148,3 @@ A program can be stored on the file system and can be run by the DTrace utility.
+>  A script can also include D pragma directives to set runtime and compiler options. See [DTrace Runtime and Compile-time Options Reference](dtrace_runtime_options.md) for more information on including this information in a script.
+>  
+>  **Parent topic:**[D Program Syntax Reference](../reference/d_program_syntax_reference.md)
+> -
+> diff --git a/doc/userguide/reference/dtrace-ref-PointersandScalarArrays.md b/doc/userguide/reference/dtrace-ref-PointersandScalarArrays.md
+> index 78ebfa176..5b71b09b1 100644
+> --- a/doc/userguide/reference/dtrace-ref-PointersandScalarArrays.md
+> +++ b/doc/userguide/reference/dtrace-ref-PointersandScalarArrays.md
+> @@ -38,7 +38,7 @@ Pointers are required in D because they're an intrinsic part of the OS's impleme
+>  To observe DTrace's error handling and reporting, you could write a deliberately bad D program using pointers. For example, in an editor, type the following D program and save it in a file named `badptr.d`:
+>  
+>  ```
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    x = (int *)NULL;
+>    y = *x;
+> @@ -53,7 +53,7 @@ dtrace: script '/tmp/badptr.d' matched 1 probe
+>  dtrace: error on enabled probe ID 2 (ID 1: dtrace:::BEGIN): invalid address (0x0) in action #1 at BPF pc 156
+>  ```
+>  
+> -Notice that the D program moves past the error and continues to run; the system and all observed processes remain unperturbed. You can also add an `ERROR` probe to any script to handle D errors. For details about the DTrace error mechanism, see [ERROR Probe](dtrace_providers_dtrace.md).
+> +Notice that the D program moves past the error and continues to run; the system and all observed processes remain unperturbed. You can also add an `dtrace:::ERROR` probe to any script to handle D errors. For details about the DTrace error mechanism, see [ERROR Probe](dtrace_providers_dtrace.md).
+>  
+>  ## Pointer and Array Relationship <a id="dt_ptrarel_dlang">
+>  
+> @@ -80,7 +80,7 @@ The following D fragment illustrates this property:
+>  ```
+>  int *x;
+>  
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    trace(x);
+>    trace(x + 1);
+> @@ -98,7 +98,7 @@ For example, the following D program would trace the result `2`:
+>  int *x, *y;
+>  int a[5];
+>  
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    x = &a[0];
+>    y = &a[2];
+> diff --git a/doc/userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md b/doc/userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md
+> index 1ad4f6410..196f42692 100644
+> --- a/doc/userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md
+> +++ b/doc/userguide/reference/dtrace-ref-StaticallyDefinedTracingofUserApplications.md
+> @@ -216,7 +216,7 @@ for example, when you use the D function `ustack()`. For example:
+>          sudo dtrace -c ./a.out -q -n '
+>              myprov$target:::my-put { printf("put %d %d\n", arg0, arg1); }
+>              myprov$target:::my-get { printf("get\n"); }
+> -            tick-5sec {exit(0)}'
+> +            profile:::tick-5sec {exit(0)}'
+>          ```
+>  
+>          This first example, runs the `a.out` command with the `-c` option.
+> @@ -236,7 +236,7 @@ for example, when you use the D function `ustack()`. For example:
+>          sudo dtrace -q -n '
+>                   myprov'$pid':::my-put { printf("put %d %d\n", arg0, arg1); }
+>                   myprov'$pid':::my-get { printf("get\n"); }
+> -                 tick-5sec {exit(0)}'
+> +                 profile:::tick-5sec {exit(0)}'
+>          kill $pid
+>          ```
+>  
+> @@ -251,7 +251,7 @@ for example, when you use the D function `ustack()`. For example:
+>          sudo dtrace -Z -q -n '
+>              myprov*:::my-put { printf("put %d %d\n", arg0, arg1); }
+>              myprov*:::my-get { printf("get\n"); }
+> -            tick-10sec {exit(0)}' &
+> +            profile:::tick-10sec {exit(0)}' &
+>          ./a.out &
+>          ```
+>  
+> @@ -276,7 +276,7 @@ for example, when you use the D function `ustack()`. For example:
+>      ```
+>      sudo dtrace -c ./a.out -q -n '
+>          myprov$target:::my-get { printf("get\n"); }
+> -        tick-5sec {exit(0)}'
+> +        profile:::tick-5sec {exit(0)}'
+>      ```
+>  
+>      In this case, not only does the `put` probe not fire,
+> diff --git a/doc/userguide/reference/dtrace-ref-StructsandUnions.md b/doc/userguide/reference/dtrace-ref-StructsandUnions.md
+> index ba55bcf55..ff83d32d9 100644
+> --- a/doc/userguide/reference/dtrace-ref-StructsandUnions.md
+> +++ b/doc/userguide/reference/dtrace-ref-StructsandUnions.md
+> @@ -34,7 +34,7 @@ syscall::read:return, syscall::write:return
+>    elapsed[probefunc] += timestamp - ts[probefunc];
+>  }
+>  
+> -END
+> +dtrace:::END
+>  {
+>    printf("       calls max bytes elapsed nsecs\n");
+>    printf("------ ----- --------- -------------\n");
+> @@ -95,7 +95,7 @@ syscall::read:return, syscall::write:return
+>    i[probefunc].elapsed += timestamp - i[probefunc].ts;
+>  }
+>  
+> -END
+> +dtrace:::END
+>  {
+>    printf("       calls max bytes elapsed nsecs\n");
+>    printf("------ ----- --------- -------------\n");
+> @@ -112,7 +112,7 @@ Run the program to return the results for a command. For example run the `sudo d
+>  sudo dtrace -q -s rwinfo.d -c date
+>  ```
+>  
+> -The `date` program runs and is traced until it exits and fires the `END` probe which prints the results:
+> +The `date` program runs and is traced until it exits and fires the `dtrace:::END` probe which prints the results:
+>  
+>  ```
+>   ...
+> diff --git a/doc/userguide/reference/dtrace-ref-TypesOperatorsandExpressions.md b/doc/userguide/reference/dtrace-ref-TypesOperatorsandExpressions.md
+> index ef0910b90..01fa9d26e 100644
+> --- a/doc/userguide/reference/dtrace-ref-TypesOperatorsandExpressions.md
+> +++ b/doc/userguide/reference/dtrace-ref-TypesOperatorsandExpressions.md
+> @@ -545,7 +545,7 @@ Integer modulus
+>  </td></tr><tbody></table>
+>  Arithmetic in D can only be performed on integer operands or on pointers. Arithmetic can't be performed on floating-point operands in D programs. The DTrace execution environment doesn't take any action on integer overflow or underflow. You must check for these conditions in situations where overflow and underflow can occur.
+>  
+> -However, the DTrace execution environment does automatically check for and report division by zero errors resulting from improper use of the `/` and `%` operators. If a D program contains an invalid division operation that's detectable at compile time, a compile error is returned and the compilation fails. If the invalid division operation takes place at run time, processing of the current clause is quit, and the `ERROR` probe is activated. If the D program has no clause for the `ERROR` probe, the error is printed and tracing continues. Otherwise, the actions in the clause assigned to the `ERROR` probe are processed. Errors that are detected by DTrace have no effect on other DTrace users or on the OS kernel. You therefore don't need to be concerned about causing any damage if a D program inadvertently contains one of these errors.
+> +However, the DTrace execution environment does automatically check for and report division by zero errors resulting from improper use of the `/` and `%` operators. If a D program contains an invalid division operation that's detectable at compile time, a compile error is returned and the compilation fails. If the invalid division operation takes place at run time, processing of the current clause is quit, and the `dtrace:::ERROR` probe is activated. If the D program has no clause for the `dtrace:::ERROR` probe, the error is printed and tracing continues. Otherwise, the actions in the clause assigned to the `dtrace:::ERROR` probe are processed. Errors that are detected by DTrace have no effect on other DTrace users or on the OS kernel. You therefore don't need to be concerned about causing any damage if a D program inadvertently contains one of these errors.
+>  
+>  In addition to these binary operators, the `+` and `-` operators can also be used as unary operators, and these operators have higher precedence than any of the binary arithmetic operators. The order of precedence and associativity properties for all D operators is presented in [Operator Precedence](dtrace-ref-TypesOperatorsandExpressions.md). You can control precedence by grouping expressions in parentheses \(`()`\).
+>  
+> @@ -1229,7 +1229,7 @@ For example, the following D program would trace the string "`hello`" and intege
+>  inline string hello = "hello";
+>  inline int number = 100 + 23;
+>  
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    trace(hello);
+>    trace(number);
+> diff --git a/doc/userguide/reference/dtrace-ref-Variables.md b/doc/userguide/reference/dtrace-ref-Variables.md
+> index 70e214c14..04c8afde3 100644
+> --- a/doc/userguide/reference/dtrace-ref-Variables.md
+> +++ b/doc/userguide/reference/dtrace-ref-Variables.md
+> @@ -201,7 +201,7 @@ syscall::read:entry
+>  }
+>  ```
+>  
+> -D variable declarations can't assign initial values. You can use a `BEGIN` probe clause to assign any initial values. All global variable storage is filled with zeroes by DTrace before you first reference the variable.
+> +D variable declarations can't assign initial values. You can use a `dtrace:::BEGIN` probe clause to assign any initial values. All global variable storage is filled with zeroes by DTrace before you first reference the variable.
+>  
+>  ### Thread-Local Variables
+>  
+> @@ -249,7 +249,7 @@ Clause-local variable are used to restrict the storage of a variable to the part
+>  Clause-local variables can be referenced and assigned by prefixing with `this->`:
+>  
+>  ```
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    this->secs = timestamp / 1000000000;
+>    ...
+> @@ -262,7 +262,7 @@ To declare a clause-local variable explicitly before using it, you can do so by
+>  this int x;  /* an integer clause-local variable */
+>  this char c; /* a character clause-local variable */
+>  
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    this->x = 123;
+>    this->c = 'D';
+> diff --git a/doc/userguide/reference/dtrace_providers_dtrace.md b/doc/userguide/reference/dtrace_providers_dtrace.md
+> index 8b48e93ec..9ce7424ce 100644
+> --- a/doc/userguide/reference/dtrace_providers_dtrace.md
+> +++ b/doc/userguide/reference/dtrace_providers_dtrace.md
+> @@ -9,9 +9,9 @@ Use these probes to initialize state before tracing begins, process state after
+>  
+>  ## BEGIN Probe <a id="dt_ref_begin_prov">
+>  
+> -The `BEGIN` probe fires before any other probe.
+> +The `dtrace:::BEGIN` probe fires before any other probe.
+>  
+> -No other probe fires until all `BEGIN` clauses have completed. This probe can be used to initialize any state that's needed in other probes. The following example shows how to use the `BEGIN` probe to initialize an associative array to map between `mmap()` protection bits and a textual representation:
+> +No other probe fires until all `dtrace:::BEGIN` clauses have completed. This probe can be used to initialize any state that's needed in other probes. The following example shows how to use the `dtrace:::BEGIN` probe to initialize an associative array to map between `mmap()` protection bits and a textual representation:
+>  
+>  ```
+>  dtrace:::BEGIN
+> @@ -32,13 +32,13 @@ syscall::mmap:entry
+>  }
+>  ```
+>  
+> -The `BEGIN` probe fires in an unspecified context, which means the output of `stack` or `ustack`, and the value of context-specific variables such as `execname`, are all arbitrary. These values should not be relied upon or interpreted to infer any meaningful information. No arguments are defined for the `BEGIN` probe.
+> +The `dtrace:::BEGIN` probe fires in an unspecified context, which means the output of `stack` or `ustack`, and the value of context-specific variables such as `execname`, are all arbitrary. These values should not be relied upon or interpreted to infer any meaningful information. No arguments are defined for the `dtrace:::BEGIN` probe.
+>  
+>  ## END Probe <a id="dt_ref_end_prov">
+>  
+> -The `END` probe fires after all other probes.
+> +The `dtrace:::END` probe fires after all other probes.
+>  
+> -This probe doesn't fire until all other probe clauses have completed. This probe can be used to process state that has been gathered or to format the output. The `printa` function is therefore often used in the `END` probe. The `BEGIN` and `END` probes can be used together to measure the total time that's spent tracing, for example:
+> +This probe doesn't fire until all other probe clauses have completed. This probe can be used to process state that has been gathered or to format the output. The `printa` function is therefore often used in the `dtrace:::END` probe. The `dtrace:::BEGIN` and `dtrace:::END` probes can be used together to measure the total time that's spent tracing, for example:
+>  
+>  ```
+>  dtrace:::BEGIN
+> @@ -56,25 +56,25 @@ dtrace:::END
+>  }
+>  ```
+>  
+> -As with the `BEGIN` probe, no arguments are defined for the `END` probe. The context in which the `END` probe fires is arbitrary and can't be depended upon.
+> +As with the `dtrace:::BEGIN` probe, no arguments are defined for the `dtrace:::END` probe. The context in which the `dtrace:::END` probe fires is arbitrary and can't be depended upon.
+>  
+>  
+>  
+>  **Note:**
+>  
+> -The [`exit`](function_exit.md) function causes tracing to stop and the `END` probe to fire.
+> -However, a delay exists between the invocation of the `exit` function and when the `END` probe fires.
+> +The [`exit`](function_exit.md) function causes tracing to stop and the `dtrace:::END` probe to fire.
+> +However, a delay exists between the invocation of the `exit` function and when the `dtrace:::END` probe fires.
+>  During this delay, no further probes can fire.
+> -After a probe invokes the `exit` function, the `END` probe isn't fired until DTrace determines that `exit` has been called and stops tracing.
+> +After a probe invokes the `exit` function, the `dtrace:::END` probe isn't fired until DTrace determines that `exit` has been called and stops tracing.
+>  The rate at which the exit status is checked can be set by using `statusrate` option.
+>  
+>  ## ERROR Probe <a id="dt_ref_error_prov">
+>  
+> -The `ERROR` probe fires when a runtime error occurs during the processing of a clause for a DTrace probe.
+> +The `dtrace:::ERROR` probe fires when a runtime error occurs during the processing of a clause for a DTrace probe.
+>  
+>  When a runtime error occurs, DTrace doesn't process the rest of the clause that resulted in the error. If an ERROR probe is included in the script, it's triggered immediately. After the ERROR probe is processed, tracing continues. If you want a D runtime error to stop all further tracing, you must include an `exit()` action in the clause for the ERROR probe.
+>  
+> -In the following example, a clause attempts to dereference a `NULL` pointer and causes the `ERROR` probe to fire. Save it in a file named `error.d`:
+> +In the following example, a clause attempts to dereference a `NULL` pointer and causes the `dtrace:::ERROR` probe to fire. Save it in a file named `error.d`:
+>  
+>  ```
+>  dtrace:::BEGIN
+> @@ -98,9 +98,9 @@ CPU     ID                    FUNCTION:NAME
+>  
+>  ```
+>  
+> -The output indicates that the `ERROR` probe fired and that `dtrace` reported the error. `dtrace` has its own enabling of the `ERROR` probe so that it can report errors. Using the `ERROR` probe, you can create custom error handling.
+> +The output indicates that the `dtrace:::ERROR` probe fired and that `dtrace` reported the error. `dtrace` has its own enabling of the `dtrace:::ERROR` probe so that it can report errors. Using the `dtrace:::ERROR` probe, you can create custom error handling.
+>  
+> -The arguments to the `ERROR` probe are described in the following table.
+> +The arguments to the `dtrace:::ERROR` probe are described in the following table.
+>  
+>  <table><thead><tr><th>
+>  
+> @@ -313,7 +313,7 @@ Library level fault
+>  
+>  None.
+>  </td></tr><tbody></table>
+> -If the actions that are taken in the `ERROR` probe cause an error, that error is silently dropped. The `ERROR` probe isn't recursively invoked.
+> +If the actions that are taken in the `dtrace:::ERROR` probe cause an error, that error is silently dropped. The `dtrace:::ERROR` probe isn't recursively invoked.
+>  
+>  ## dtrace Stability <a id="dt_ref_dtstability_prov">
+>  
+> diff --git a/doc/userguide/reference/dtrace_providers_fbt.md b/doc/userguide/reference/dtrace_providers_fbt.md
+> index 295a21d83..f3c32ae1c 100644
+> --- a/doc/userguide/reference/dtrace_providers_fbt.md
+> +++ b/doc/userguide/reference/dtrace_providers_fbt.md
+> @@ -13,6 +13,11 @@ An effective use of FBT probes requires knowledge of the kernel implementation.
+>  
+>  Because of the large number of FPB probes that are available, be specific about the modules and functions that you enable probes for. Performance can be impacted when the full range of FBT probes are enabled at the same time.
+>  
+> +Further, while it is generally best practice to specify the provider name explicitly,
+> +an explicit provider name is especially important for FBT (and raw FBT) probes,
+> +since an FBT probe will typically have a similarly named raw-FBT counterpart,
+> +and in all likelihood one probably does not want both probes.
+> +
+>  **Parent topic:**[DTrace Provider Reference](../reference/dtrace_providers.md)
+>  
+>  ## fbt Probes <a id="dt_ref_fbtprobes_prov">
+> diff --git a/doc/userguide/reference/dtrace_providers_io.md b/doc/userguide/reference/dtrace_providers_io.md
+> index 67c5c7d34..f3105c1e0 100644
+> --- a/doc/userguide/reference/dtrace_providers_io.md
+> +++ b/doc/userguide/reference/dtrace_providers_io.md
+> @@ -360,7 +360,7 @@ The following example script displays information for every I/O as it's issued.
+>  ```
+>  #pragma D option quiet
+>  
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    printf("%10s %2s\n", "DEVICE", "RW");
+>  }
+> @@ -390,7 +390,7 @@ You can make the example script slightly more sophisticated by using an associat
+>  ```
+>  #pragma D option quiet
+>  
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    printf("%10s %2s %7s\n", "DEVICE", "RW", "MS");
+>  }
+> @@ -423,7 +423,7 @@ io:::start
+>    @[args[1]->dev_statname, execname, pid] = sum(args[0]->b_bcount);
+>  }
+>  
+> -END
+> +dtrace:::END
+>  {
+>    printf("%10s %20s %10s %15s\n", "DEVICE", "APP", "PID", "BYTES");
+>    printa("%10s %20s %10d %15@d\n", @);
+> @@ -481,7 +481,7 @@ io:::done
+>    start[args[0]->b_edev, args[0]->b_blkno] = 0;
+>  }
+>  
+> -END
+> +dtrace:::END
+>  {
+>    printa(" %s (%s)\n%@d\n", @);
+>  }
+> diff --git a/doc/userguide/reference/dtrace_providers_proc.md b/doc/userguide/reference/dtrace_providers_proc.md
+> index 3ac8b706a..c0f679944 100644
+> --- a/doc/userguide/reference/dtrace_providers_proc.md
+> +++ b/doc/userguide/reference/dtrace_providers_proc.md
+> @@ -588,7 +588,7 @@ proc:::exec-failure
+>    self->parent = NULL;
+>  }
+>  
+> -END
+> +dtrace:::END
+>  {
+>    printf("%-20s %-20s %s\n", "WHO", "WHAT", "COUNT");
+>    printa("%-20s %-20s %@d\n", @);
+> @@ -676,7 +676,7 @@ proc:::signal-send
+>    @[execname, stringof(args[1]->pr_fname), args[2]] = count();
+>  }
+>  
+> -END
+> +dtrace:::END
+>  {
+>    printf("%20s %20s %12s %s\n",
+>        "SENDER", "RECIPIENT", "SIG", "COUNT");
+> diff --git a/doc/userguide/reference/dtrace_providers_rawfbt.md b/doc/userguide/reference/dtrace_providers_rawfbt.md
+> index 7b1fc7723..6210bebe6 100644
+> --- a/doc/userguide/reference/dtrace_providers_rawfbt.md
+> +++ b/doc/userguide/reference/dtrace_providers_rawfbt.md
+> @@ -18,6 +18,11 @@ sudo dtrace -lP rawfbt
+>  As with the `fbt` provider, there could be tens of thousands of probes,
+>  and effective use requires knowledge of the kernel implementation.
+>  
+> +And, as with the `fbt` provider, typically one should specify the provider name
+> +explicitly for `rawfbt` probes;
+> +a raw FBT probe will typically have a similarly named FBT counterpart,
+> +and in all likelihood one probably does not want both probes.
+> +
+>  **Parent topic:**[DTrace Provider Reference](../reference/dtrace_providers.md)
+>  
+>  ## rawfbt Probes <a id="dt_ref_rawfbtprobes_prov">
+> diff --git a/doc/userguide/reference/function_alloca.md b/doc/userguide/reference/function_alloca.md
+> index 5457edb7e..d9170e755 100644
+> --- a/doc/userguide/reference/function_alloca.md
+> +++ b/doc/userguide/reference/function_alloca.md
+> @@ -12,7 +12,7 @@ The `alloca` function allocates *size* bytes out of scratch memory, and returns
+>  ## How to use alloca to assign a string to an allocated memory region and then to read it out again by using the pointer
+>  
+>  ```
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>          x = (string *)alloca(sizeof(string) + 1);
+>          *x = "abc";
+> diff --git a/doc/userguide/reference/function_basename.md b/doc/userguide/reference/function_basename.md
+> index a6cd997f3..f5928dec8 100644
+> --- a/doc/userguide/reference/function_basename.md
+> +++ b/doc/userguide/reference/function_basename.md
+> @@ -12,7 +12,7 @@ The `basename` function creates a string that consists of a copy of the specifie
+>  ## How to use basename to return the last element of a path in a string
+>  
+>  ```
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>          printf("%s\n", basename("/foo/bar/baz"));
+>          printf("%s\n", basename("/foo/bar///baz/"));
+> diff --git a/doc/userguide/reference/function_bcopy.md b/doc/userguide/reference/function_bcopy.md
+> index abbe143c3..fcd43387d 100644
+> --- a/doc/userguide/reference/function_bcopy.md
+> +++ b/doc/userguide/reference/function_bcopy.md
+> @@ -14,7 +14,7 @@ The `bcopy` function copies *size* bytes from the memory that's pointed to by *s
+>  In this example, the `bcopy` function is used to copy 14 characters from the ``linux_banner` pointer into a separate memory pointer, `s`, that's allocated 14 bytes of memory. The `printf` line prints a string of the value in stored in the pointer, `s`. The string that's printed is the same as the first 14 characters stored in ``linux_banner`.
+>  
+>  ```
+> - BEGIN
+> + dtrace:::BEGIN
+>   {
+>           s = (char *)alloca(14);
+>           bcopy(`linux_banner, &s[0], 13);
+> diff --git a/doc/userguide/reference/function_clear.md b/doc/userguide/reference/function_clear.md
+> index de620b650..308e28cff 100644
+> --- a/doc/userguide/reference/function_clear.md
+> +++ b/doc/userguide/reference/function_clear.md
+> @@ -13,12 +13,12 @@ If the key is referenced after the `clear` function is run, it has a zero value.
+>  
+>  ## How to use clear to show the system call rate only for the most recent ten-second period
+>  
+> -The `clear` function is used inside the `tick-10sec` probe to clear the counter values inside the `@func` aggregation.
+> +The `clear` function is used inside the `profile:::tick-10sec` probe to clear the counter values inside the `@func` aggregation.
+>  
+>  ```
+>  #pragma D option quiet
+>  
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    last = timestamp;
+>  }
+> @@ -28,7 +28,7 @@ syscall:::entry
+>    @func[execname] = count();
+>  }
+>  
+> -tick-10sec
+> +profile:::tick-10sec
+>  {
+>    normalize(@func, (timestamp - last) / 1000000000);
+>    printa(@func);
+> diff --git a/doc/userguide/reference/function_denormalize.md b/doc/userguide/reference/function_denormalize.md
+> index 03ab659e0..b6924a33a 100644
+> --- a/doc/userguide/reference/function_denormalize.md
+> +++ b/doc/userguide/reference/function_denormalize.md
+> @@ -14,7 +14,7 @@ The `denormalize` function removes any normalization that's applied to a specifi
+>  ```
+>  #pragma D option quiet
+>  
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    start = timestamp;
+>  }
+> @@ -24,7 +24,7 @@ syscall:::entry
+>    @func[execname] = count();
+>  }
+>  
+> -END
+> +dtrace:::END
+>  {
+>    this->seconds = (timestamp - start) / 1000000000;
+>    printf("Ran for %d seconds.\n", this->seconds);
+> diff --git a/doc/userguide/reference/function_dirname.md b/doc/userguide/reference/function_dirname.md
+> index 02e949ed1..aa5a41a4a 100644
+> --- a/doc/userguide/reference/function_dirname.md
+> +++ b/doc/userguide/reference/function_dirname.md
+> @@ -12,7 +12,7 @@ The `dirname` function creates a string that consists of all but the last level
+>  ## How to use dirname to return the path up to the last element in a string
+>  
+>  ```
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>          printf("%s\n", dirname("/foo/bar/baz"));
+>          printf("%s\n", dirname("/foo/bar///baz/"));
+> diff --git a/doc/userguide/reference/function_exit.md b/doc/userguide/reference/function_exit.md
+> index db7660f7d..549be403b 100644
+> --- a/doc/userguide/reference/function_exit.md
+> +++ b/doc/userguide/reference/function_exit.md
+> @@ -9,12 +9,12 @@ void exit(int *status*)
+>  
+>  The `exit` function is used to immediately stop tracing and inform DTrace to do the following: stop tracing, perform any final processing, and call `exit()` with the specified *status* value. Because `exit` returns a status to user level, it's considered a data recording function. However, unlike other data recording functions, `exit` can't be speculatively traced. Note that because `exit` is a data recording function, it can be dropped.
+>  
+> -When `exit` is called, only those DTrace functions that are already in progress on other CPUs are completed. No new functions occur on any CPU. The only exception to this rule is the processing of the `END` probe, which is called after the DTrace has processed the `exit` function, and indicates that tracing must stop.
+> +When `exit` is called, only those DTrace functions that are already in progress on other CPUs are completed. No new functions occur on any CPU. The only exception to this rule is the processing of the `dtrace:::END` probe, which is called after the DTrace has processed the `exit` function, and indicates that tracing must stop.
+>  
+>  ## How to use exit to end all tracing and exit with an exit value
+>  
+>  ```
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    trace("hello, world");
+>    exit(0);
+> diff --git a/doc/userguide/reference/function_ftruncate.md b/doc/userguide/reference/function_ftruncate.md
+> index 95ea17d7b..67f4f8e9d 100644
+> --- a/doc/userguide/reference/function_ftruncate.md
+> +++ b/doc/userguide/reference/function_ftruncate.md
+> @@ -12,18 +12,18 @@ The `ftruncate` function is a data recording function that truncates the output
+>  ## How to use ftruncate to truncate the stdout output stream, by using a counter
+>  
+>  ```
+> -tick-10ms
+> +profile:::tick-10ms
+>  {
+>      printf("%d\n", i++);
+>  }
+>  
+> -tick-10ms
+> +profile:::tick-10ms
+>  /i == 10/
+>  {
+>      ftruncate();
+>  }
+>  
+> -tick-10ms
+> +profile:::tick-10ms
+>  /i == 20/
+>  {
+>      exit(0);
+> diff --git a/doc/userguide/reference/function_index.md b/doc/userguide/reference/function_index.md
+> index e368eb1ef..e99bddbf8 100644
+> --- a/doc/userguide/reference/function_index.md
+> +++ b/doc/userguide/reference/function_index.md
+> @@ -12,7 +12,7 @@ The `index` function finds the position of the first occurrence of a substring,
+>  ## How to use index to identify the first occurrence of a substring within a string
+>  
+>  ```
+> -BEGIN {
+> +dtrace:::BEGIN {
+>           x = "#canyoufindapenguininthisstring?";
+>           y = "penguin";
+>           printf("The penguin appears at character %3d\n", index(x, y));
+> diff --git a/doc/userguide/reference/function_inet_ntoa.md b/doc/userguide/reference/function_inet_ntoa.md
+> index 7d8993e8e..9957118c9 100644
+> --- a/doc/userguide/reference/function_inet_ntoa.md
+> +++ b/doc/userguide/reference/function_inet_ntoa.md
+> @@ -16,7 +16,7 @@ In the example, an IP address pointer is created in scratch memory and populated
+>  ```
+>   typedef vmlinux`__be32 ipaddr_t;
+>   ipaddr_t *ip4a;
+> - BEGIN
+> + dtrace:::BEGIN
+>   {
+>           ip4a = alloca(sizeof(ipaddr_t));
+>           *ip4a = 0x0100007f;
+> diff --git a/doc/userguide/reference/function_lltostr.md b/doc/userguide/reference/function_lltostr.md
+> index 60ec9b9b5..36179bec9 100644
+> --- a/doc/userguide/reference/function_lltostr.md
+> +++ b/doc/userguide/reference/function_lltostr.md
+> @@ -16,7 +16,7 @@ The example shows that the `printf` function treats the value as a string. The p
+>  ```
+>  #pragma D option strsize=7
+>  
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>      printf("%s\n", lltostr(1234567890));
+>  }
+> diff --git a/doc/userguide/reference/function_normalize.md b/doc/userguide/reference/function_normalize.md
+> index 7fec4f798..f563c4173 100644
+> --- a/doc/userguide/reference/function_normalize.md
+> +++ b/doc/userguide/reference/function_normalize.md
+> @@ -16,7 +16,7 @@ The normalize function is called against the aggregation. The time is divided to
+>  ```
+>  #pragma D option quiet
+>  
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>    start = timestamp;
+>  }
+> @@ -26,7 +26,7 @@ syscall:::entry
+>    @func[execname] = count();
+>  }
+>  
+> -END
+> +dtrace:::END
+>  {
+>    normalize(@func, (timestamp - start) / 1000000000);
+>  }
+> diff --git a/doc/userguide/reference/function_printa.md b/doc/userguide/reference/function_printa.md
+> index e81727b5a..ba031b1a5 100644
+> --- a/doc/userguide/reference/function_printa.md
+> +++ b/doc/userguide/reference/function_printa.md
+> @@ -14,7 +14,7 @@ See the `printf(1)` manual page for more information on formatting directives. N
+>  ## How to use printa to print basic formatting for different aggregations
+>  
+>  ```
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>          @a = avg(1);
+>          @b = count();
+> diff --git a/doc/userguide/reference/function_printf.md b/doc/userguide/reference/function_printf.md
+> index b375fa209..78474a985 100644
+> --- a/doc/userguide/reference/function_printf.md
+> +++ b/doc/userguide/reference/function_printf.md
+> @@ -14,7 +14,7 @@ See the `printf(1)` manual page for more information on formatting directives. N
+>  ## How to use printf to print a formatted string
+>  
+>  ```
+> -BEGIN {
+> +dtrace:::BEGIN {
+>     printf("execname is %s; priority is %d", execname, curlwpsinfo->pr_pri);
+>  }
+>  ```
+> diff --git a/doc/userguide/reference/function_rand.md b/doc/userguide/reference/function_rand.md
+> index 840c83aba..5b92a8870 100644
+> --- a/doc/userguide/reference/function_rand.md
+> +++ b/doc/userguide/reference/function_rand.md
+> @@ -14,8 +14,8 @@ The `rand` function returns a pseudo random integer. The value returned is a wea
+>  The example uses the trace function to print the generated integer in the trace output.
+>  
+>  ```
+> -BEGIN{ 
+> -   trace(rand()); 
+> +dtrace:::BEGIN{
+> +   trace(rand());
+>  }
+>  ```
+>  
+> diff --git a/doc/userguide/reference/function_rindex.md b/doc/userguide/reference/function_rindex.md
+> index 820820048..9aebf89af 100644
+> --- a/doc/userguide/reference/function_rindex.md
+> +++ b/doc/userguide/reference/function_rindex.md
+> @@ -12,7 +12,7 @@ The `rindex` function finds the position of the last occurrence of a substring,
+>  ## How to use rindex to identify the last occurrence of a substring within a string
+>  
+>  ```
+> -BEGIN {
+> +dtrace:::BEGIN {
+>           x = "#findthelastpenguininthepenguinstring!";
+>           y = "penguin";
+>           printf("The last penguin appears at character %3d\n", rindex(x, y));
+> diff --git a/doc/userguide/reference/function_strchr.md b/doc/userguide/reference/function_strchr.md
+> index 26759558c..321a6b94e 100644
+> --- a/doc/userguide/reference/function_strchr.md
+> +++ b/doc/userguide/reference/function_strchr.md
+> @@ -14,7 +14,7 @@ The returned string is allocated out of scratch memory and is therefore valid on
+>  ## How to use strchr to return a string starting at the first occurrence of a character
+>  
+>  ```
+> - BEGIN
+> + dtrace:::BEGIN
+>   {
+>           str = "fooeyfooeyfoo";
+>           c = 'y';
+> diff --git a/doc/userguide/reference/function_strjoin.md b/doc/userguide/reference/function_strjoin.md
+> index 73f94c70f..0c0a1a878 100644
+> --- a/doc/userguide/reference/function_strjoin.md
+> +++ b/doc/userguide/reference/function_strjoin.md
+> @@ -12,7 +12,7 @@ The `strjoin` function returns the concatenation of two specified strings. The r
+>  ## How to use strjoin to concatenate two strings together
+>  
+>  ```
+> -BEGIN {
+> +dtrace:::BEGIN {
+>       string1="foo";
+>       string2="bar";
+>       printf("%s",strjoin(string1,string2));
+> diff --git a/doc/userguide/reference/function_strlen.md b/doc/userguide/reference/function_strlen.md
+> index f873f47ea..aebafff9f 100644
+> --- a/doc/userguide/reference/function_strlen.md
+> +++ b/doc/userguide/reference/function_strlen.md
+> @@ -12,7 +12,7 @@ The `strlen` function returns the length of a specified string in bytes, excludi
+>  ## How to use strlen to return the length of a string
+>  
+>  ```
+> -BEGIN {
+> +dtrace:::BEGIN {
+>       string1="foo bar?";
+>       printf("%d",strlen(string1));
+>       exit(0);
+> diff --git a/doc/userguide/reference/function_strrchr.md b/doc/userguide/reference/function_strrchr.md
+> index c611ed9fa..1bcd07669 100644
+> --- a/doc/userguide/reference/function_strrchr.md
+> +++ b/doc/userguide/reference/function_strrchr.md
+> @@ -14,7 +14,7 @@ The returned string is allocated out of scratch memory and is therefore valid on
+>  ## How to use strrchr to return the pointer to the last occurrence of a character
+>  
+>  ```
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>          str = "fooeyfooeyfoo";
+>          c = 'y';
+> diff --git a/doc/userguide/reference/function_strstr.md b/doc/userguide/reference/function_strstr.md
+> index f1692bf54..66f79cc67 100644
+> --- a/doc/userguide/reference/function_strstr.md
+> +++ b/doc/userguide/reference/function_strstr.md
+> @@ -12,7 +12,7 @@ The `strstr` function returns a substring starting at the first occurrence of a
+>  ## How to use strstr to return a substring starting at the first occurrence of a substring in a string
+>  
+>  ```
+> - BEGIN {
+> + dtrace:::BEGIN {
+>       string1="foo bar?";
+>       substring=" ba";
+>       # the following line prints " bar?"
+> diff --git a/doc/userguide/reference/function_strtok.md b/doc/userguide/reference/function_strtok.md
+> index 7819e5fcf..58e22094d 100644
+> --- a/doc/userguide/reference/function_strtok.md
+> +++ b/doc/userguide/reference/function_strtok.md
+> @@ -14,29 +14,29 @@ The `strtok` function parses a string into a sequence of tokens by using a speci
+>  In this example, `strtok` is used to break a comma delimited string into tokens. Because DTrace doesn't include flow-control structures similar to while loops, you must use predicates to emulate this functionality to step through each token. The example, shows how to walk through the first two tokens generated by the string. Each predicate gets the next token and checks that it's not a NULL value, which would represent the end of the string.
+>  
+>  ```
+> -BEGIN
+> +dtrace:::BEGIN
+>   {
+>       this->str = "Carrots,Barley,Oatmeal,Corn,Beans";
+>   }
+>   
+> - BEGIN
+> + dtrace:::BEGIN
+>   /(this->field = strtok(this->str, ",")) == NULL/
+>   {
+>           exit(1);
+>   }
+>   
+> - BEGIN
+> + dtrace:::BEGIN
+>   {
+>           printf("First token: %s\n", this->field);
+>   }
+>   
+> - BEGIN
+> + dtrace:::BEGIN
+>   /(this->field = strtok(NULL, ",")) == NULL/
+>   {
+>           exit(2);
+>   }
+>   
+> - BEGIN
+> + dtrace:::BEGIN
+>   {
+>           printf("Second token: %s\n", this->field);
+>           exit(0)
+> diff --git a/doc/userguide/reference/function_substr.md b/doc/userguide/reference/function_substr.md
+> index 9fb8fc5a7..3d9f7cf54 100644
+> --- a/doc/userguide/reference/function_substr.md
+> +++ b/doc/userguide/reference/function_substr.md
+> @@ -14,7 +14,7 @@ The `substr` function returns the substring of a string, *string*, starting at t
+>  In the example, the length of the substring returned is limited to 4 characters.
+>  
+>  ```
+> - BEGIN {
+> + dtrace:::BEGIN {
+>       string1="daddyorchips";
+>       trace(substr(string1,7,4))
+>       exit(0)
+> diff --git a/doc/userguide/reference/function_system.md b/doc/userguide/reference/function_system.md
+> index f90c70d8f..bee3c2479 100644
+> --- a/doc/userguide/reference/function_system.md
+> +++ b/doc/userguide/reference/function_system.md
+> @@ -19,7 +19,7 @@ Note that the pragma lines include the destructive option to permit DTrace to ru
+>  #pragma D option destructive
+>  #pragma D option quiet
+>  
+> -tick-1sec
+> +profile:::tick-1sec
+>  {
+>  system("date")
+>  }
+> diff --git a/doc/userguide/reference/function_trace.md b/doc/userguide/reference/function_trace.md
+> index ff9e05fc5..de836f6cf 100644
+> --- a/doc/userguide/reference/function_trace.md
+> +++ b/doc/userguide/reference/function_trace.md
+> @@ -18,7 +18,7 @@ You can force the `trace` function to always use the binary format by specifying
+>  The example shows the trace function being used to return output for a built-in variable, an expression, and a string value.
+>  
+>  ```
+> -BEGIN
+> +dtrace:::BEGIN
+>  {
+>  trace(execname);
+>  trace(timestamp / 1000);
+> diff --git a/doc/userguide/reference/function_tracemem.md b/doc/userguide/reference/function_tracemem.md
+> index 1e3370c94..c9f8a7198 100644
+> --- a/doc/userguide/reference/function_tracemem.md
+> +++ b/doc/userguide/reference/function_tracemem.md
+> @@ -16,7 +16,7 @@ Limiting the data that's copied to the buffer is useful when the data that you'r
+>  The example creates a pointer to the current thread by using the built-in variable `curthread`.
+>  
+>  ```
+> -BEGIN {
+> +dtrace:::BEGIN {
+>       p = curthread;
+>       tracemem(p, 256);
+>       exit(0);
+> diff --git a/doc/userguide/reference/function_trunc.md b/doc/userguide/reference/function_trunc.md
+> index b15cf3fe5..b2506f0e1 100644
+> --- a/doc/userguide/reference/function_trunc.md
+> +++ b/doc/userguide/reference/function_trunc.md
+> @@ -16,7 +16,7 @@ By default, no keys are kept.
+>  
+>  ## How to use trunc to show the system call rate only for the most recent ten-second period
+>  
+> -The `trunc` function is used inside the `tick-10sec` probe to clear the keys inside the `@func` aggregation.
+> +The `trunc` function is used inside the `profile:::tick-10sec` probe to clear the keys inside the `@func` aggregation.
+>  
+>  ```
+>  #pragma D option quiet
+> @@ -26,7 +26,7 @@ syscall:::entry
+>    @func[execname] = count();
+>  }
+>  
+> -tick-10sec
+> +profile:::tick-10sec
+>  {
+>    printa(@func);
+>    trunc(@func);
+> @@ -39,10 +39,10 @@ retains keys and simply clears their values.
+>  If the reported aggregations have too many keys, you can use the optional,
+>  second argument to indicate how many keys to retain.
+>  For example, you could limit the reporting to the 5 most common
+> -functions by changing the `tick` probe to:
+> +functions by changing the `profile:::tick-10sec` probe to:
+>  
+>  ```
+> -tick-10sec
+> +profile:::tick-10sec
+>  {
+>    trunc(@func, 5);
+>    printa(@func);
 > -- 
 > 2.47.3
 > 
