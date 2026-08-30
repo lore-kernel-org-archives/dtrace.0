@@ -1,85 +1,86 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F853A5E89
-	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:50:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A822E7373
+	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:57:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788087014; cv=fail; b=K8ck+CrOX9hbDy1Ab8tj3MuxE1pekNdEituP9CE7P3w5Hnj3BFFhaqq/QGXbPsX+5hKzw4gzZ2v9Ts2xfqsnJQ9npE0U9qneteCYgFM4+p5F/RoCUm3MiOUb2i5b1x5RaXsv8cf6slkokqChjEewlCgDXUBwesXjTeupFM88UTY=
+	t=1788087460; cv=fail; b=nsA+Fun1gfKmjNaUkxp5Dsh4YLCnSfZXOAsXA5AF8MFtqr26DLggBi+L27Aj023brz1sOeaSRV5CJl3eoGX7n8LYVI8n+veCUB7k02cJxuoe0Gs7ti5A3HKbiBdLthvdY48SNdHBQepJFWGv2PhJpGi5YLrzM74bEsQZMinVY78=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788087014; c=relaxed/simple;
-	bh=oOTWbQENSh7eDS7iW3AbWMmNIQvz7UJX8CvQIy/HApo=;
+	s=arc-20240116; t=1788087460; c=relaxed/simple;
+	bh=Q2ChF/QsU9Am3+KZxWCGPSsEo1MHh7yZB3Z7pG9DGHU=;
 	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=NkwcKvODwOKG+dMrzrK0sWD3U0qKaDjBUO+EY5j1uzMSA5S1JWz2cAkBJOcTKTj495U6RRTXwFYVMnlYNZHxxOiVbUVTf/ZAKghf9VUPF2ZbX7hGwXZgpS7uqFdJhkHUrOXLx/OkRDwjI7IWbg7VNjIAY19BfvgrxyEcfgKSWxc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=IWvUG8NH; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=PVWObTHp; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Type:MIME-Version; b=rXwl1H5XSZTVUBDYMJqCw/MSnnPpy7LkSXpUcK6IvB/BhFhIRt10U2HA0EviGXVKmW84QQVlbpelrz6+1GFoJsIR8+BGEVqnHd0Ma+SIq0JmBbDDOGigVBF1XS7jsajjmi4hrRrWtHUm7eAT5g8Oai2G7mv48G6qZMLmieiIOt4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=jVcD7gu8; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=CZC0t+LB; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="IWvUG8NH";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="PVWObTHp"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67U9gC3C2953824
-	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:50:09 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="jVcD7gu8";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="CZC0t+LB"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67U9BSt82884777
+	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:57:37 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=xGUp9Imlk2wSq1XS14D1IsJ/SpfsbMe9nzxDYN0ooLo=; b=
-	IWvUG8NHQujadq5CzzvOCTHXuedXw6gv4+IVJSoV1sAokA1DrNFTrydJC4ITG6dO
-	FnRjW2A/IAal8gfS7fEyI4ensk2biAxMIGAXodvur5RuKo0PRhppSgcrmO4ZAiWL
-	0yEHk9pwEGDu2NGcn0o0PfpDpgWs4U6b+HW4vZr//KZG8URWFmexH7jODv7Yv7pq
-	+PNmsPbM2acd1hAAQv8SS9EQNMAz+uNx+99u2j9M5bEi79BCKx0Lb8tO2zJmdrA0
-	B8tOVpmvTCzYRZfH+M+QX5uLsl2Br+55iUt/FBlSN3BgJQx5mQH71/+MNKcZHvO7
-	3QE6ZOR6pWe9CCbdJW2y1g==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4gbq1sh7ht-1
+	corp-2025-04-25; bh=d3YahmP8XHQbBlkS8aPu8uuJsjQZZJ/c4JIanrMk8jU=; b=
+	jVcD7gu8+JTY0basArMaJi9FZSofAQOE4pM/6N7/ldrrYeGZrCgp12Jgtbt0y8+T
+	itZxFmeP9EzsMYvLszC9Lk8y1PenQqWjZFRjdcOSgu+A9ca7fNziH5LTlrFbgl9q
+	ZV78KAAOC/qhzhQrEWWFQ4GKzL7o0Z3DuzCeqvrg3KmvWgarv7Nls4BrxVhSBLEO
+	g5dtyO9mR91LcJ3kaQ7hiyG5fqK4gA7plABP5ytby1vXJATFG4EW1d4P9rIfdGLX
+	rf7hHG5/fTpw2Nvphk6McL84wpLj6yaZhxmFcXynwpr17KmFi26ZBSAIWd4fl37T
+	iwLR+jkh7+LP1urWmUq99w==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4gbp7298cw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:50:09 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67UAj1WM022286
-	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:50:08 GMT
-Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012025.outbound.protection.outlook.com [52.101.43.25])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4gbnvc3u06-2
+	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:57:36 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67UAt5w7036141
+	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:57:35 GMT
+Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11013031.outbound.protection.outlook.com [40.93.196.31])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4gbnvbuxe2-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:50:07 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:57:35 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Eavx3IdJ1m+dz2Ml0AuVyuZZY01D+VUk27pu7OiqROsI2sAqH1+AZpf1wMUPjY0/o4qLVqEwym/Ntzg4NE35afmMTb2+lnUhq0klVgtYMFS7IZhxP3q1cUqfhGYCA3Dga0zKtAzYmZoi/YIHCMKb5pVO8cwIF01JcuEbzFi3V3rV3t0dnWkQUi+ch9jHdOLAvrcfvhI6ei0bg8h56l73L/gbMF9iIJUiJ6hg8MqWEhrs7DyrWpfuBG41bcOdVLHN5jBBe20gxzN/B0y2/loYMUp4QEmMPH8k4sWOW4mq1jGgKyeSqFmz2DUL6LU3ihDlSAuOExo3PR12Y19mGgwVCA==
+ b=W2v6qvUep2c3IQp1DfGnA4u77Jx385RB5xBcKsWDo/13XzSrF6w+6V98xOU3T2pspG9eBjWAYYOCRc+fqk98+8Bj7pMO72JGbwj1g2aFerelDm9xQbHL5kKaQW2blTW+CfsMSrFPvVktKHHHq6lmCj62C8DwTAzv2lo/WKtuErCyNyvCAn3Glw3b9zxsfQ2LKGmMYEbTRAcYPlkci1pX9yR+8ny0Sak1Ofc/xZ5vZ7TIkMZcHx5mr/SNysNIn3YLZysZGCm7m1agl/VjRzmebATvolbg2XMWZw7hFMGmVnWPNdxNjnx1u6pZ1CIaxc4FBPrIyM5M8x5N2+rsQpz30g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xGUp9Imlk2wSq1XS14D1IsJ/SpfsbMe9nzxDYN0ooLo=;
- b=K5pRG4yVFJ0Q1Vcx+qlJ6zXI05MtYBdzJ2OkUbYOQa8LOwxmMEO9V5Tuj7I52wh1LFYGZ5wSlLZXHJwmKc/5PUdtLMvZuuKaJLWYYFqAmzkTzdBa7apVxXDiu5GCh5GC6xQicfKr4lVhipx39v0pBRlfL6yUbPAo3AcviVt+FpRG/IaeSDnJDhvGARAMcb5vd9x+e+4FpdkSWElCh7AYQMnnVzSOAvt5z4Kj+WF5epGvk9qUvqthJiNj7eglf1tm0YzhkJ4b0uxeIJNgpG5gPovVbrQR46Ny/bX4efw/yiWh50zceYwHelZzdcF+gwPI+Mga5Vsx5AWEbALqgQHpug==
+ bh=d3YahmP8XHQbBlkS8aPu8uuJsjQZZJ/c4JIanrMk8jU=;
+ b=B7lZKEibplEqiJ7lwSQ3PKT5OugUd9kQBWmwZ2lt10nJPumIubAsy7BaOr77GbDefAT4rklpT3I74uQE2gDrDfjbeeh5Kp65UhKd/nt7NipckM0T+Pz5BxPqSHqCam9lESJZpgEBfO1uwSron5wONBZ0A3CjLUh4Po/d1nq5k0MfgE2dCXZXXneIDh1KdYERpin8yDixYfsYaSKggBceuPahAit6UbiFSsP2LL6aTnovLEK9q+bx9wxveNCTtyhvSluEWKT1NsNKVlmTIA3LBcYsTvv1he6OM5I5Hpx3F9umz0UUahyXLnZEZUiKH2hdHPAfYAFqJvRlIMrOOUQBTQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xGUp9Imlk2wSq1XS14D1IsJ/SpfsbMe9nzxDYN0ooLo=;
- b=PVWObTHpl0tW33vAprf0HJQH2zPYtlJ2aA7pnelaBW81p5vxJVqb77LeV/PwRLBRJp61D7ab+IBJCe9JN3WntgVWuY554FsQYOxAcv7pKQFkj/1pwxjeIjZhS17nnejrqgHU/zWT9Ukm0jNru3uncDxdRMRFdSkD3ovwqmWOEY0=
+ bh=d3YahmP8XHQbBlkS8aPu8uuJsjQZZJ/c4JIanrMk8jU=;
+ b=CZC0t+LBgLR0XRN+gb2VbPbjkoTse8OsOVoFo8fMPbCiqhe8tn0K8Jvxuvkx6N0H9asrtCNHLFVWfNnVJ5Q0FgQcsBTzKOQOzPSeqkgbgEcuD6xNNHPDibHhIsxCCKlZIn4lL6rVaEEw9JqqkI6J1EMRmE089RBJ0XwvmfnSTVc=
 Received: from BN0PR10MB4901.namprd10.prod.outlook.com (2603:10b6:408:126::19)
  by CH3PR10MB7562.namprd10.prod.outlook.com (2603:10b6:610:167::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.9; Sun, 30 Aug
- 2026 10:50:04 +0000
+ 2026 10:57:32 +0000
 Received: from BN0PR10MB4901.namprd10.prod.outlook.com
  ([fe80::19a8:41b4:f519:1b79]) by BN0PR10MB4901.namprd10.prod.outlook.com
  ([fe80::19a8:41b4:f519:1b79%5]) with mapi id 15.21.0382.007; Sun, 30 Aug 2026
- 10:50:04 +0000
-Message-ID: <553f2985-7b31-405f-adfb-091f0759b823@oracle.com>
-Date: Sun, 30 Aug 2026 11:49:59 +0100
+ 10:57:31 +0000
+Message-ID: <ae73594d-d148-4327-b156-080c186c1624@oracle.com>
+Date: Sun, 30 Aug 2026 11:57:22 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] usdt_parser: fix parser pipe I/O error handling
+Subject: Re: [DTrace-devel] [PATCH 2/6] usdt_parser: harden DOF and note
+ bounds checks
 To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
         dtrace-devel@oss.oracle.com
-References: <546e942ec601bcbf992ee08c77cff42e@oracle.com>
+References: <726680d8981034c50eca4b8a174a60ca@oracle.com>
 Content-Language: en-GB
 From: Alan Maguire <alan.maguire@oracle.com>
-In-Reply-To: <546e942ec601bcbf992ee08c77cff42e@oracle.com>
+In-Reply-To: <726680d8981034c50eca4b8a174a60ca@oracle.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0135.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9e::19) To DS7PR10MB4909.namprd10.prod.outlook.com
- (2603:10b6:5:3b0::11)
+X-ClientProxiedBy: DO0P289CA0009.QATP289.PROD.OUTLOOK.COM
+ (2603:1096:790:20::17) To BN0PR10MB4901.namprd10.prod.outlook.com
+ (2603:10b6:408:126::19)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -88,336 +89,757 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BN0PR10MB4901:EE_|CH3PR10MB7562:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0ddabc91-96d5-4af6-209c-08df06847290
+X-MS-Office365-Filtering-Correlation-Id: 119c95d6-4354-40b5-64fc-08df06857d83
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|18002099003|22082099003|56012099006|3023799007|10067099003;
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|6133799003|18002099003|17002099007|22082099003|56012099006|3023799007|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	RyIgobW4d7g19rwGrS51nT1eCF32ijl1JvbtBjgLgjE0B+Nu5/Fa/NZQL0jhQe+IM3pPitQpF63FMYjJShmKZsp6aeJKvH1wJJyHCcMZ6zSnexFWdLwc5/fy9VJhtzrbCcma25QNyZMjVJ3WqKiQVlKPXjW+OhbmJMTBKaP7U8laxNAkV6Pl0oCgtJ7aiW8lCZFd4JH0BW5aCKAyglHv6gs9xKku0W7IlZXZ/lFwVpsl0KKtT8/XFGiZmaBzDsq5g1JED2MAcPhoULnZ10kDNWu1GOA1VfoKd6BVfRQq5fT+CHfCMQ9qbn66Q44gpCyDe6e7Id/XwEMQHrYSoJ+tAjsiNQOfqfvGLtlwwqds3LX5UL06hY+zr8oHBF1BruZfpcThUlR7HnZHyzAVzlo8qpZSegGCpiqvv6zP5ubQl9kuybf4SsCGlDQt3UYjpXA0lbIltbAGrA/5w9WHVJ5UUNChBARgbrecrzklC2N21XlrhG/cEUlTNCBqt1mbjuj1lXT9Rr/PH9rUnbu7rcPvRaxwV336bJBXSX1c1paNitKxuiK5vZxWBqd5v1DLkYKx89SR84q0N58DeDx55iM8POkmspquPi9MWt88GL5EY7ojOEfWRz468AKhi29kvB2rCXmGA9CbTmGGsqogdOjbyGUmn6g6x37gkgNR4d6lHio=
+	f/IBf9dm2rJQhmEpXKvSj6UIDUxwfbkLY7+klMHjO2PYq3JGLyEefKjzPZ3Dfe7T9YRXjbUgAWToawVuULE4kmCMt2EXudxUslgcFlvrq4MVC7W/8jCKy7VY0W9eb/x2WMDpYZDIKDGFJEo91Ysf1wXhsKjT9v4WxWxrcQicmVhiMNIVT5D4JpxrYX0Wtu4C+rG2Z72+/PqWvNFAshZVC2PLo+e5kEQmSMNr4Vt0LG3dj9pqxDPDzsMFjZCP9D0u9OuIngJzBpBpTTGSmhqv44sJIOUXsVKgXF47jJ8tY4JSt4uqPy7w59qjfOMsRYvuUoA0QpXTRBi+k+Jrow3NyALY4hGQs969ezx3wAIeruZLjgvFz1L4WwGgbp9akSHe2YdARIOq4Q5FoYwfTCTw3iYR0nVdUl808hTm+pJMOIDIG/Iks5DOgq4Uk+hwkT531ik4KU0/xUJlwr53LeZ45uPgZ/MlnZ9aWVF85DSu4wvaBQWlXvPo2AaC0gA8fICyOP+wd0HHI9YUWN5JDFpsqcavbDk7DbIhTmkXpo6nFPIPtDgnqfFZdQAvhiq/sPd8WibDSr19CDoBiD8eSuQwIpYZ+e3H6zuAmHFbcAAqIaaJppSEtHENBcDVetVWsqDaR/FEfX4+BmkhyvH65DksyBAoKJSzrxgvs2rZS+4ER9U=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB4901.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(18002099003)(22082099003)(56012099006)(3023799007)(10067099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB4901.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(6133799003)(18002099003)(17002099007)(22082099003)(56012099006)(3023799007)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?T2hMd244OE9LbmN4R21CMWpwdmZNQ3luR1VSOGJxRmNDdzd4bzhmak8rNUxa?=
- =?utf-8?B?bTZlSXNGQWVaYXRTN0FsUnZGVUFtVXFsUFZodHI0MHJpZWtIYzNSelpxVEZv?=
- =?utf-8?B?UHF0L0dxc2lPMWVFL1Fndzh0UExMTlpuNjBISENqZENXcmhyaGhhc1RPV3ps?=
- =?utf-8?B?aHdMR2g4VXlTekhRUFVYU2VHN0I5Uzk0MUdFQ200aFgrWGQrak1RdmpDSkhP?=
- =?utf-8?B?ZVg3T04vQk1nRmVIdndGRXJzVjlaTWlHQVVLTkRhK1Byd25wS0FZWWRPdHFx?=
- =?utf-8?B?K2gyTHhhTXAxK1NCUVJHaGtsUUhFcjRLY2oxamVJVldDUnFBYWp2cTJlZStv?=
- =?utf-8?B?czQ0Z1VsRnRtNm1JNDF3L3JoNHNyRXNTcG9QQXlpenBvcUxINFVObkRQbk5l?=
- =?utf-8?B?TllxQTlHTXRRcUhhZGo4ajh1OTBsUVF4Q25ZS0hkeGtzWDRWYTNBdkhCTFBy?=
- =?utf-8?B?Q2I1ZEJpa0VGT3NBeWNwbWR1dlVtcjFYYVpYK29CektYUWxLS3o0NmlTZUYv?=
- =?utf-8?B?bFZjYlhMN0Rmc3BWK3FmMyt6akFBQ20vS2hnUDl3MFZzT2NJN0J1UmdmL2s0?=
- =?utf-8?B?M1BoV0pTaTRRcDhWUis0R1dWRzhYQWo4dCt0a0tGd0NTVXJyU1ZJOHVIaDZN?=
- =?utf-8?B?MmZMeFJjTnliUTVWYko1bVA5S1VHNkc5cEJXSllDTm80R0RXSk1SWG5WMklT?=
- =?utf-8?B?K1N5VlJEYmlOQUJHRklPTmgvN3p5Wmk4OFB0K283UnVuZmV6V2xmTnNyZjNq?=
- =?utf-8?B?YWFnbDVQSGJyekJoZU04OHJuZDU1UW1LQ1RsSmExUDYrcmpOejZjdm5FdWw0?=
- =?utf-8?B?MnRGcVBRZ3orQnlFU2lmQ2lBL01wbGxVYWFYVlE0SGFWS1dDWUJ6MGJzNkV3?=
- =?utf-8?B?Y1VFSHlMQ3pBM3Q3MmVacXE4bGkwazdSWUxoeGpMeHZ1YVhoVUdMRGFBSDNG?=
- =?utf-8?B?ZWRsOUFXQkNKcHJZZGYxbmVtZEtOL3hkV1gyZnF3ODYyNUVKU3hPVm1ZUGox?=
- =?utf-8?B?b0NQUHlOeVcxRlFyaUhoQjhPSHIrOUd5MVZYcjIwVzdhZUdibWR3dXZZa2tl?=
- =?utf-8?B?TkhhTEFId2dVWTdzOERRaEpPdWM3WS9BY1VhZDV5OFE5V083V2RNVXhpRjJC?=
- =?utf-8?B?c3p4STJpcFVDbGJTNXB6a2ZxMjZXTGZkbTFxalVZR1Z6Y3VpVXBERFNSbVhn?=
- =?utf-8?B?ZlQ0dm1pclpvYStBZ2RsaXN1V2lidGxpdkVWdHhaWVVZQ3MwOEdlKzVab28r?=
- =?utf-8?B?b1dCaVAyd2M0RTJxQUdSdkdvUTc2c0tBSmV4M1NGcVFlYVpzb3M2ekZQSEVv?=
- =?utf-8?B?cTZDcEJEakdiWmR5MnFEWlM3Sy9KWnN4UTRmWTdEay9OcTh1NFFyL2xHelQ3?=
- =?utf-8?B?ekdLdXFXNW8rbXFDWUtnQTJCaTJoQzVCU04vWHJVV3M2YitDTW9XSjlYdXhj?=
- =?utf-8?B?SVN1MG94eTUxVXF2b0xITDA4ckQ0d3FaTVRRMXZ0Wng5Q1FzUS83c1BBTVJJ?=
- =?utf-8?B?R1p3RTJ1OS9oV0RZdnNtZU1GbDRKeHJMczZ3VjhITTF2aDFlMlRKYTRHRU1K?=
- =?utf-8?B?YWRBS2NpTTdOSmpxOE1XMkxlQzdTL0lVU3prcmJzS2VQMENkOHNDZ2liZXBR?=
- =?utf-8?B?bHNjKzVwRVJ6WkREeTh6cG5EZ0hHM01jMHRYdEQ2Q0lCa2lxQUU5Q3k1QnVl?=
- =?utf-8?B?aElCc0tHdEk1R1dNaGFrRkdiMnhjeVRGUmVMeWloM0FyckJVeUhKbjFtWEd0?=
- =?utf-8?B?RTdhZ2tSTjFlczBtRmFLZVBvSWo2TGhQemtKTDZYKzN1MUs0MGNaYUpicThu?=
- =?utf-8?B?bU10SHJ1d2xLdFJtQ0s4N0ZITFVEaG53RW9hckFGZjBBTlI1eDRhY2hLVGRY?=
- =?utf-8?B?OHM4cU1QeHBkTEZoRGc1Mm43K1E5cW5KeldTUjlrTDMrdXZ6VlpONlpmUWlP?=
- =?utf-8?B?R3RIejk5NURNT2RrVEtONGhoOWNMdEVpZ0xJNG1HNW1nMnZ6dlVTZnhmb2po?=
- =?utf-8?B?K1RSb0xrWDVFR0RhSDNwSy9CaTA1TFQwT1dYcnNEeVhLWmsrMlhJSjRSd2s1?=
- =?utf-8?B?MFZzM1VCUmdCV2NwTjFCb1R1TWw5eU9vZFF4THd1ZVJJQmZOZjVUUnpEc1pC?=
- =?utf-8?B?K2JraEw3UWZKQzFUN3BMa2crU0w4ME9UaFBTbCsvOExDd3dPVUpGejdMSjRH?=
- =?utf-8?B?ckEwZmdlS3VETzFMZjREaHpTWVdXNDlnNWNTeVdlVmtXYzJHV05ySEVyTVlF?=
- =?utf-8?B?cjBNNGZ5TGNjQkQwcXdhRkJTTmc3Sm9QTHJQTnh1YlhmZy9XaEg4VE80VkV5?=
- =?utf-8?B?U1FqYlpJYmVNaGlRTE14Sm83K1RmQ0xDaHR3RDFuT1pieldZRDh0QT09?=
+	=?utf-8?B?ZnA4TlVCaFc4NTNXQys0OEw4ZC9SY0FEM0hlR1pCRHFjQ1lFckJ3L3YvQ3F1?=
+ =?utf-8?B?L1o1OE01OG8wb1NnVEpCMW5LOTZ6dVI0VGdJTXlYMlVpc3hVOTJZMncwUkxw?=
+ =?utf-8?B?aVJSWWxUZTd4eHJwRFkwYWhta1VQejZleklyeEdpazVNOUNlcGl4c1dnUzUz?=
+ =?utf-8?B?ZWJSUmlRMGw2N29XNHBrVU9GYlJFOFVtaHU5dStQeHJrSGoyWFdQSzVNQXRK?=
+ =?utf-8?B?eEFmeDUxQS9pVTkvcjRmM2NzREJqbTZXcXdIS3RObEZneENwTVJ3UnFtRC9j?=
+ =?utf-8?B?bWE3eUJLa0t2UnY4TVZRUjIyWWJyM0lySDR1eGxuVEp3b0I5R09xQXFSemtG?=
+ =?utf-8?B?S1dvc0RudzlkME05aUZQZCtVQXpOTHhMWU1acGhpdHdqL1RaY21SSFZ2VHpO?=
+ =?utf-8?B?ejlxKzRqOWIxc1Z6cE5nTUNsS0IwM2tMY1prODZlNVBIWGNpRW5FdXhacU10?=
+ =?utf-8?B?QjFsRjkwVm41bVBVWFh0dGdJazNGWll0ZHY4a1lUSmRRd1ZoV01oUGVGVExz?=
+ =?utf-8?B?SUhrR2wzb2xCZHZ4VytBbGZNRHlIVUs2V3VnR0pvQkFzdFQ3TnlLV2Yyczhl?=
+ =?utf-8?B?bXJmMUt2UlpVNW1WSlhCUmsxdkhaeVJvMWdHbk5wakhQZThkYkVMNHA2ODlM?=
+ =?utf-8?B?NnlXbUJ0RkUzVXViTWtjalJlR0hkMlo5TXFtaW1IWUViSWFNZjlDSHFtdXdm?=
+ =?utf-8?B?WFBJdWt2UTJlZVRpa0h3UWlCMzdnV2g3MHlaOWdUN01PaTZpc21XN0tZNEwz?=
+ =?utf-8?B?S3BWZmEwaWVqTkk3a3dBZ2p2UjI0RzBqKzA0cS9pKzZDcjlOaUVuYXZYQVF4?=
+ =?utf-8?B?VHBKQTdmcFA0WTBqOUZNMHBkVUxWV1h0allLeTVkQ0RWNlMyRTNBUTllajFt?=
+ =?utf-8?B?Q2NwMEp6WWpUaDZ4Q2ZobjdsZkk5QVhON0F5U3UxUURBbHF6ck1qN2JqL1dh?=
+ =?utf-8?B?MitLZTgraEZJZTljUkNxcGJOWUpKekl6SFFXVlVUeUtVajllSENMbTl2aWF5?=
+ =?utf-8?B?NW1xZlUwemlVL29rOUYrQjZJSkZqa09BM0RlZzFmS0hpY1BuQlVlUzVRRWQ2?=
+ =?utf-8?B?eHUwalR2OHk0TVBVYXZCaGx6c0JKSzMwbVY2djN2UCs1Q3JMWHM0d0ZWYnZD?=
+ =?utf-8?B?aDVzTHM0TTIrWXMwMzhrdHNKa2w5bG9nZ1FLRjk3YnlJUkdvakVSMjZSaXFy?=
+ =?utf-8?B?UmU2K2dhWXlCZ09ER0ltTnlRQzJXbktTcGl4Qk1pZ3ZkcUcrUFFieFFVSUxk?=
+ =?utf-8?B?VU5rOVF2diszQ2lIYXhYcmZ6cTRHcGhOcHJ6dDhOK3dydzR3K3BCWWh2NWY5?=
+ =?utf-8?B?b3M0Nm5RSk40d2kvdHpqZWNheWloMGtFTVR3YkQveERnenR2UUlBbE54bXRO?=
+ =?utf-8?B?RFcxWmI0V3NQeW1INlQ4bWFnU3NIR3hRUkhzVEpLTG15dUNTUDMyenNnVFFF?=
+ =?utf-8?B?QUJURHcxMm5GQmZwdW00c3lpbXRGcXU2QldMSytOLzlPQkdvU1hxVmxBNWNR?=
+ =?utf-8?B?WHhCMWZXZlZQcFVyS1NYTVk1RFhTUGYxOVFTK3pkTlZXb1Q0Z1gvdkFNdERp?=
+ =?utf-8?B?RklSUjY4SU5UUnFhdXZVV1N0bXBJRUF2UE8yYW05eTJNc2sxbzdiaWRMZDY1?=
+ =?utf-8?B?Qit2VkZZbnVQN08zY0Eydm40Mkd2aHh6bGRwcXJZSXVkUWxsQzdJSlk3VjJJ?=
+ =?utf-8?B?eVRMMm8zaVY0VFE5eXAxazdBc3F5QXJaSVBOeG9rR3lLR0FUeGpMcmNIMEtr?=
+ =?utf-8?B?cFUxcmdLMjB5bXF4aWRLRFNKZWRtWWFYT3JjZ2xLaUJUL3lJdmNUT3RHSW1k?=
+ =?utf-8?B?V1hOalNQdjZ5dlpycFoxbWZsZ3YvSHRBNU1UR1YvM1RpT3VwWFMzR0xEM29P?=
+ =?utf-8?B?bys1RVVhckE4NE5xNytuaTVncUtoRzRnMUhldDE4a3FwYUJVbFMxa3Bkcit2?=
+ =?utf-8?B?WlV0aG51WG1zczRDNURVdTNxMFRuSC9YcVN5bmFQKzczOFY4ZlpvQnNUY0Ey?=
+ =?utf-8?B?Q0VDVHVpVXh6alVHbVRmSEZqVk0zaTVKYjdHT1lUSWpJMGM0aHZjUFRpcmJ5?=
+ =?utf-8?B?N2ZXT3JJMHYvclRubVNxRTB3MFZUb1BKS1JJQy8zMFltaEkwSFVQMFk1SlFL?=
+ =?utf-8?B?bm9jZjBvcEtzQnYrdGl2dGVUbnJPeXRROXcrRCtNc3RIVzQ3WDkyaHpCTDhm?=
+ =?utf-8?B?ODR0UTRpVC9QNTNxejBDdW9YOTlxYXVHUzBYQjgrS21pTTBOSEtSMG51Ykht?=
+ =?utf-8?B?MTFhUWpwaXhFQm9mMWpIaFNlNGMzWUlJeFExR1BNNWQyTkorSkNXMXJtRWNz?=
+ =?utf-8?B?VlY2T2xOeldOSjk1QzJMOHpRZ2RENStkb0NkaFpuSVRRVEJJNEM2Zz09?=
 X-Exchange-RoutingPolicyChecked:
-	Xl16NDi3r+hywrCon9yWRRq4ZDpEQNkCnCrZKQzRjLttGQ9rjkogOKBoR4igpsyYLenG6JE/F3M/+T8TPDE3tP76dAQC9OYS/e7w1J3WxSCtdrvFto3sKZVXSs6e6MFvxj7VVqIZ9omgm5O5jNePR6DoRbf/D60KD2Rtr8m3n8FG96la7QPBASN/XSe2JbO9l2Q0SD888Sosuq+Xc+k0qD8uNl1gNCFfzqZZNcvS+73i6MUNAZnwTSD5CyHbhOK2UVbwZjmY5oJCrYb4Tl5zNdPMnC/jpRpTibkXGvIyajk5CsLBLhPUZIPpbcY8Moi5uvC5tNJhLtElpv/CkBrkbA==
+	hPqFjwTaIrW75eLOJqrOO2eaA2Ktdu+3dELWPfs49yYB/XASBsdRXxWjpU4fPmzrgtRuqfFUyU5LgZbGUP6M76cE9RsqhQDGKZDhfAzQ0OLNNFH7iUmahU5prepT/gF7cEUbwMNSoL7NTOrW8GAYxxDXsXcvY+FhsR+1wHryVhK1HMJhU1zBlH6atZDQlPh0Zn09WMqLMWi4GgLKqjkgQ3sTJNxrTw4kxwp3/12nyc801EIHHmNejwNtnsDh/ImuG9UjjH683xOFrtLzpbY1uquQrPPWWri06teXRHb8Lyc19wbgDWJ9N1yMZ1y2atj0kkPdUIXdcvtrhInC3mdjMw==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	lmSwix8F4Ub7jl2FVTlvyr/1KaEkmZI0ugm84B2Cl3+WkyzCTmlv9Uju1gRQ+VsOqHGMWYoNXjB7ngjWN0Hy3kAabc1ooK8YPRiScJXRx3na6EVB4IXM+f6vROk5LXB3Fad9HkZgmFNj09ELv7RV5cO3C1QkYJQCVBalCUYooB186xJVsUTl0Aemk2iSjqZ3S7H6JUmpw0khsCCKdDilPJX8NWUMPomasrOCpD1bO+Q2xMZ2HWwK2Mp8jTkje5Dwip1SYlLZtrVDmB0d56vUJmhJXaqqbmLGGRpoasBo50b7emXIUifkzyBvbs9nRLxc+QTKnjwcSJUmIAVsGtxdnQ5QIlRgh96+UvVrDOJLUkqKp05v05RZA7fQERjlSqNyvol0DBk2u1miHklknbrbsxPDe4dUY4S+hxN7TREz8mve/isZQQJOa+l4SLgDDrbOsblypg8ujSSy3Wos/883/A7dKGLBs5kXSwixHUKACsZ52cHCeOEKEF613h9Yn37e6n0bTEll0cWYOxO4xcVT8IqX1qDtvvdTLgGb4JWiYyGYum0YxZ+F0XtaOe/NFds//mc1Zsazg0OrwBNqRhOEwMMqPA28g44rlbQNQfGwPxQ=
+	XEmTkvSxsQGejXU8tnQgxvQj7JPRxIjDivoQKDGwYLCUA3nGRfyXz3C24R2xj/tJfjo62t3B6HhGI6T2rbbYbhts+rjZ1lqbWdUCTtLmPCWKgHPZimP2+s4larEtHs/G1vqDvfxLL6KS+ctH4grbR1t+CgYef41qZbKCwBzC9hr6SmMj3F5TfLTObWEiH88IX2pp7d4SMDpUEaC3k6sZln2vZQWXxPk+k809yckZACTaDk3OBll4Fl+aFbtzAYjy6A1yejFO9dYrF4azp8hALupYHSkPQaxM2nJcdLV4LeA4LCow0l1vo18ZxCXKTKCrbd3qma0NTDrCa60dE7LPn8NrKSGZHUTEMlSzyolZAm1Bxao0o5IO16bqE5W9yJQoGw7+54xgkoiSXPD9BeD5exTwU9UcBEFx/3mK3U6Tm/UcL3LQOfoV9uPaMqyqx2dnIeUjZ+VdgpBRdJQPWyvRP6axRmgX30G/FE+ylQ+AhLUXaXDycewPczoFhIMp1H2ioHY1vxhEAgQF1tFWNgO3BSDcC1gCrzzfGC3Y4P0jBm0eB00X3i2VIpa6UYtyOe5KSt1CNkSW9xkksnO/RW4oU3GH8yNP/OuUfnGuxJcrss4=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ddabc91-96d5-4af6-209c-08df06847290
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB4909.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 119c95d6-4354-40b5-64fc-08df06857d83
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB4901.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2026 10:50:04.3448
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2026 10:57:31.8687
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GHq3qm+jXEfFaRM0USpcKbwsj0xqjnmnji3mp9lgjYAyKD/cqjqlHXYbUpw9DXsoQq+PTidBelyAT/fcuJ2xjg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: pZes6Yu3HgJb/pJWZfortpqoArpXURMLGDWJo7sX9khiMt61vzmBWCu5vHNTxiGMGTpKGhj/aoCUQb8DVdawfw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7562
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-30_03,2026-08-27_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- mlxscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0 bulkscore=0
- malwarescore=0 spamscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2606160000 definitions=main-2608300091
-X-Authority-Analysis: v=2.4 cv=Vp0Txe2n c=1 sm=1 tr=0 ts=6a940ae1 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ mlxscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
+ spamscore=0 malwarescore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2606160000 definitions=main-2608300092
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODMwMDA5MiBTYWx0ZWRfX/t/t8WCGTIdg
+ gVzInQbL9zaUH3/VDqfuPndAXNfV02ZSNnD+a6db+S7E261O5hvvF09ajtfIq75ZqjOAeIhKken
+ kD6jbJw+X7NGahLUBv8Ir8E4jjb6ifFGaBq3KCa952pEt2jblKBY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODMwMDA5MiBTYWx0ZWRfX1dLdHv0pFCFW
+ FNqMaST4XKLqsAzPxeHiEOf7afrmJiWXeBKtwimWg7Ot7Vj/PvQ9qM/mzmkvePwGO7nU9xd2sfO
+ iNs1PtAJpBlkDN16vxZns3NxVxV5xBqU4b40t533YPhR2ft8WDQJec54FgEOvKrvxX1zmiLgIMp
+ 9lIrl1+EyNpUNzjEla3fafoXISF1OhHuGooUAjtVr+ybX912wEaqS7TZPC9hXobmGF55Mfzq2cd
+ 3ZMUacQxxzlq7WLYG4kqWu7EAk89g3GahXwrMrOLgD1Vb8QaPkPxHajmPcbNdC5cJrGFN4L9tpC
+ DL/tPpZn84+tmaHqfDH34YJlHtQhhvkOKhJHVPVo1ZSTokdC7zs2UzJqAPAD+8KiaW/cM9fZdh6
+ SE1M/tT3JSau76bANq6q/5scUza7+cVjM1hRQQrhu+1CW98rh450Yrriy3F7ayqal7hQ9cMUHor
+ YCjHYXoAXra5uOpZr/g==
+X-Authority-Analysis: v=2.4 cv=G7os1dk5 c=1 sm=1 tr=0 ts=6a940ca0 cx=c_pps
+ a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=Sv0fKeRqtYgA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=3I1J8UUJPc9JN9BFgKH3:22 a=yPCof4ZbAAAA:8
- a=p98pJ6cXIa90VjdpBE4A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODMwMDA5MSBTYWx0ZWRfX3GnPYA797Q6G
- IcdRh/pjpJcInHr6svaMpcduNcRI3Mb1GKNHA5w50qMNMQI5utB0X5e229oI18Oh3XsPrkfHQeX
- w93C+8+XE8sGP4mf/Py+Yi8zNXUwq/d4XsDMSclKGAgyJIXv91ooVFqdNQ0xCQQlZBQAfSTV1eB
- 6rmK0UhFlsMO2OtKZ1TuokCVf/pLltcwEA8ve8m6A+ufm3hvqplnybFKLpFbeE2nr/iYLcfsYD+
- kchlGbla29erDr546nW5U5rndniIfjRKVfgP8hMdgF6sv4We0y3JDD/aM4xofEI6ZjwbD7R7z24
- R7m9/vWMSopi+df3/iJvqZEzYLlEf4aKLRWOYb/75sSBhco22psQkDXp+w7htpP02lKPmidtpcZ
- ARwXLiga19Kzw4i8BXV3hFiBvU5TXxPL0fxzyzZ7Nn6dMwKLw19RLOAfjSVYH0iHuyI2/S6YyqF
- Wt9+ijVAgMk0iqwMm4g==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODMwMDA5MSBTYWx0ZWRfXwJCz2f5GbpgZ
- xHpuqVhJaTrzrTERE4OHX55mWgSibduoTxlWxqxhn6YPljPuPzR0ErfgX0KmHouYI4vaqcG85Xb
- 2ECnOLSgY3uLiiDwKdjJwKcbmhu6gAaGXnpqg1wpRRb5aF3uR7AN
-X-Proofpoint-ORIG-GUID: wWKYoTh9ZOTQaL9f0EBuwZ_ptvrb24ox
-X-Proofpoint-GUID: wWKYoTh9ZOTQaL9f0EBuwZ_ptvrb24ox
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=o5oIOnhZENCTenyL_yNV:22 a=yPCof4ZbAAAA:8
+ a=lzEJw8WHmUrRb6AwK8UA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: 0tEShIei4i_0ckVk24HpCROxqGfRkqnG
+X-Proofpoint-ORIG-GUID: 0tEShIei4i_0ckVk24HpCROxqGfRkqnG
 
-On 28/08/2026 20:09, Kris Van Hees wrote:
-> Use ssize_t for read() and write() return values, return negative errno
-> from usdt_parser_write_one() to match its callers, and cap the reply
-> size advertised by the jailed parser before allocating host memory.
+On 28/08/2026 20:09, Kris Van Hees via DTrace-devel wrote:
+> Validate DOF section metadata before use, require ELF note strings to
+> terminate within their declared payloads, and check parsed DOF record
+> sizes before DTrace consumes them.  This keeps malformed parser input
+> or stash data from driving out-of-bounds reads in either the parser or
+> the host.
 > 
+> Orabug: 39352038
+> Orabug: 39352051
+> Orabug: 39351967
+> CVE: CVE-2026-46831
 > Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+
+LGTM,
 
 Reviewed-by: Alan Maguire <alan.maguire@oracle.com>
 
 > ---
->  dtprobed/dtprobed.c          |  8 +++-
->  libcommon/usdt_parser.c      |  2 +-
->  libcommon/usdt_parser.h      | 13 +++++-
->  libcommon/usdt_parser_host.c | 84 +++++++++++++++++++++++++++++++++---
->  4 files changed, 95 insertions(+), 12 deletions(-)
+>  include/dtrace/pid.h          |   2 +-
+>  libcommon/usdt_parser.h       |  10 ++-
+>  libcommon/usdt_parser_dof.c   |  25 +++---
+>  libcommon/usdt_parser_notes.c | 106 +++++++++++++++++++------
+>  libdtrace/dt_pid.c            | 142 ++++++++++++++++++++++++++++++----
+>  5 files changed, 233 insertions(+), 52 deletions(-)
 > 
-> diff --git a/dtprobed/dtprobed.c b/dtprobed/dtprobed.c
-> index 81b28e6d..9ce941ee 100644
-> --- a/dtprobed/dtprobed.c
-> +++ b/dtprobed/dtprobed.c
-> @@ -935,10 +935,14 @@ process_dof(pid_t pid, int out, int in, dev_t dev, ino_t inum, dev_t exec_dev,
->  	dt_list_t accum = {0};
->  
->  	do {
-> +		int parser_err;
-> +
->  		errmsg = "DOF parser write failed";
-> -		while ((errno = usdt_parser_host_write(out, dh, data)) == EAGAIN);
-> -		if (errno != 0)
-> +		while ((parser_err = usdt_parser_host_write(out, dh, data)) == -EAGAIN);
-> +		if (parser_err != 0) {
-> +			errno = parser_err < 0 ? -parser_err : parser_err;
->  			goto err;
-> +		}
->  
->  		/*
->  		 * Wait for parsed reply.  If it fails, try once more; possibly
-> diff --git a/libcommon/usdt_parser.c b/libcommon/usdt_parser.c
-> index 1dc2fffb..18808b9a 100644
-> --- a/libcommon/usdt_parser.c
-> +++ b/libcommon/usdt_parser.c
-> @@ -71,7 +71,7 @@ usdt_copyin(int in, char *buf_, size_t sz)
->  	memset(buf, 0, sz);
->  
->  	for (i = 0; i < sz; ) {
-> -		size_t ret;
-> +		ssize_t ret;
->  
->  		ret = read(in, buf + i, sz - i);
+> diff --git a/include/dtrace/pid.h b/include/dtrace/pid.h
+> index 4a239b07..88f9366c 100644
+> --- a/include/dtrace/pid.h
+> +++ b/include/dtrace/pid.h
+> @@ -45,7 +45,7 @@ typedef struct pid_probespec {
+>  	size_t pps_nargvlen;			/* (high estimate of) length of array */
+>  	char *pps_xargv;			/* array of xlated args */
+>  	size_t pps_xargvlen;			/* (high estimate of) length of array */
+> -	int8_t *pps_argmap;			/* mapped arg indexes */
+> +	uint8_t *pps_argmap;			/* mapped arg indexes */
+>  	char *pps_sargv;			/* list of arg sources */
+>  	int pps_flags;				/* flags */
 >  
 > diff --git a/libcommon/usdt_parser.h b/libcommon/usdt_parser.h
-> index 99fc3033..a8298cbf 100644
+> index b11207d1..99fc3033 100644
 > --- a/libcommon/usdt_parser.h
 > +++ b/libcommon/usdt_parser.h
-> @@ -178,6 +178,15 @@ typedef struct dof_parsed {
->  #define DIT_ARGS_NATIVE_HEADSZ	offsetof(dof_parsed_t, nargs.args)
->  #define DIT_ARGS_XLAT_HEADSZ	offsetof(dof_parsed_t, xargs.args)
->  #define DIT_ARGS_MAP_HEADSZ	offsetof(dof_parsed_t, argmap.argmap)
-> +#define DIT_BASE_HEADSZ		offsetof(dof_parsed_t, provider)
-> +#define DIT_EOF_HEADSZ		DIT_BASE_HEADSZ
-> +
-> +/*
-> + * This is the maximum message size for dof_parsed_t (header + extra data).
-> + * Parser replies are derived from one parser input block, which is already
-> + * capped at DOF_MAXSZ.
-> + */
-> +#define DIT_MAX_SIZE		DOF_MAXSZ
+> @@ -136,7 +136,7 @@ typedef struct dof_parsed {
+>  			 * Mapping from native arg index to xlated arg index.
+>  			 * xargc in length.
+>  			 */
+> -			int8_t argmap[1];
+> +			uint8_t argmap[1];
+>  		} argmap;
 >  
+>  		struct dpi_tracepoint_info {
+> @@ -171,6 +171,14 @@ typedef struct dof_parsed {
+>  	};
+>  } dof_parsed_t;
+>  
+> +#define DIT_PROVIDER_HEADSZ	offsetof(dof_parsed_t, provider.name)
+> +#define DIT_PROBE_HEADSZ	offsetof(dof_parsed_t, probe.name)
+> +#define DIT_TRACEPOINT_HEADSZ	offsetof(dof_parsed_t, tracepoint.args)
+> +#define DIT_ERR_HEADSZ		offsetof(dof_parsed_t, err.err)
+> +#define DIT_ARGS_NATIVE_HEADSZ	offsetof(dof_parsed_t, nargs.args)
+> +#define DIT_ARGS_XLAT_HEADSZ	offsetof(dof_parsed_t, xargs.args)
+> +#define DIT_ARGS_MAP_HEADSZ	offsetof(dof_parsed_t, argmap.argmap)
+> +
 >  /*
 >   * Host-side: in usdt_parser_host.c.
-> @@ -187,7 +196,7 @@ typedef struct dof_parsed {
->  /*
->   * Write the USDT definitions data to the parser pipe OUT.
->   *
-> - * Returns 0 on success or a positive errno value on error.
-> + * Returns 0 on success or a negative errno value on error.
->   */
->  int usdt_parser_host_write(int out, const dof_helper_t *dh,
->  			   const usdt_data_t *data);
-> @@ -250,7 +259,7 @@ int usdt_parse_notes(int out, dof_helper_t *dhp, usdt_data_t *data);
->  /*
->   * Write something to the parser pipe OUT.
->   *
-> - * Returns 0 on success or a positive errno value on error.
-> + * Returns 0 on success or a negative errno value on error.
->   */
->  int usdt_parser_write_one(int out, const void *buf, size_t size);
+>   * The host is the non-jailed process that talks to the jailed parser.
+> diff --git a/libcommon/usdt_parser_dof.c b/libcommon/usdt_parser_dof.c
+> index bc8e185a..e2166985 100644
+> --- a/libcommon/usdt_parser_dof.c
+> +++ b/libcommon/usdt_parser_dof.c
+> @@ -275,8 +275,8 @@ dof_slurp(int out, dof_hdr_t *dof, uint64_t ubase)
+>  		return -1;
+>  	}
 >  
-> diff --git a/libcommon/usdt_parser_host.c b/libcommon/usdt_parser_host.c
-> index 80dcf10f..939c66e7 100644
-> --- a/libcommon/usdt_parser_host.c
-> +++ b/libcommon/usdt_parser_host.c
-> @@ -18,7 +18,7 @@
->  /*
->   * Write BUF to the parser pipe OUT.
->   *
-> - * Returns 0 on success or a positive errno value on error.
-> + * Returns 0 on success or a negative errno value on error.
->   */
->  int
->  usdt_parser_write_one(int out, const void *buf_, size_t size)
-> @@ -27,7 +27,7 @@ usdt_parser_write_one(int out, const void *buf_, size_t size)
->  	char *buf = (char *) buf_;
+> -	if (dof->dofh_secsize == 0) {
+> -		usdt_error(out, EINVAL, "zero section header size");
+> +	if (dof->dofh_secsize != sizeof(dof_sec_t)) {
+> +		usdt_error(out, EINVAL, "incorrect section header size");
+>  		return -1;
+>  	}
 >  
->  	for (i = 0; i < size; ) {
-> -		size_t ret;
-> +		ssize_t ret;
+> @@ -462,7 +462,7 @@ validate_provider(int out, dof_hdr_t *dof, dof_sec_t *sec)
+>  		return -1;
+>  	}
 >  
->  		ret = write(out, buf + i, size - i);
->  		if (ret < 0) {
-> @@ -35,7 +35,7 @@ usdt_parser_write_one(int out, const void *buf_, size_t size)
->  			case EINTR:
->  				continue;
->  			default:
-> -				return errno;
-> +				return -errno;
+> -	if (prb_sec->dofs_entsize == 0 ||
+> +	if (prb_sec->dofs_entsize < sizeof(dof_probe_t) ||
+>  	    prb_sec->dofs_entsize > prb_sec->dofs_size) {
+>  		usdt_error(out, EINVAL, "invalid entry size %x, max %lx",
+>  			   prb_sec->dofs_entsize, prb_sec->dofs_size);
+> @@ -615,11 +615,11 @@ validate_provider(int out, dof_hdr_t *dof, dof_sec_t *sec)
+>  		typeidx = prb->dofpr_xargv;
+>  		typestr = strtab + prb->dofpr_xargv;
+>  		for (k = 0; k < prb->dofpr_xargc; k++) {
+> -			if (arg[prb->dofpr_argidx + k] > prb->dofpr_nargc) {
+> +			if (arg[prb->dofpr_argidx + k] >= prb->dofpr_nargc) {
+>  				usdt_error(out, EINVAL, "bad native argument index "
+>  					   "for arg %i: %i (max %i)", k,
+>  					   arg[prb->dofpr_argidx + k],
+> -					   prb->dofpr_nargc);
+> +					   prb->dofpr_nargc - 1);
+>  				return -1;
 >  			}
->  		}
 >  
-> @@ -45,10 +45,72 @@ usdt_parser_write_one(int out, const void *buf_, size_t size)
->  	return 0;
->  }
+> @@ -748,7 +748,7 @@ emit_probe(int out, dtrace_helper_probedesc_t *dhpb)
+>  	 * flags.
+>  	 */
 >  
-> +static int
-> +usdt_parser_validate_reply(dof_parsed_t *reply)
+> -	msg_size = offsetof(dof_parsed_t, probe.name) +
+> +	msg_size = DIT_PROBE_HEADSZ +
+>  		   strlen(dhpb->dthpb_mod) + 1 +
+>  		   strlen(dhpb->dthpb_func) + 1 +
+>  		   strlen(dhpb->dthpb_name) + 1;
+> @@ -786,7 +786,7 @@ emit_probe(int out, dtrace_helper_probedesc_t *dhpb)
+>  		size_t	nargs_size;
+>  
+>  		nargs_size = strings_len(dhpb->dthpb_ntypes, dhpb->dthpb_nargc);
+> -		msg_size = offsetof(dof_parsed_t, nargs.args) + nargs_size;
+> +		msg_size = DIT_ARGS_NATIVE_HEADSZ + nargs_size;
+>  
+>  		msg = malloc(msg_size);
+>  		if (!msg)
+> @@ -808,8 +808,7 @@ emit_probe(int out, dtrace_helper_probedesc_t *dhpb)
+>  
+>  			xargs_size = strings_len(dhpb->dthpb_xtypes,
+>  						 dhpb->dthpb_xargc);
+> -			msg_size = offsetof(dof_parsed_t, xargs.args) +
+> -				   xargs_size;
+> +			msg_size = DIT_ARGS_XLAT_HEADSZ + xargs_size;
+>  
+>  			msg = malloc(msg_size);
+>  			if (!msg)
+> @@ -826,9 +825,8 @@ emit_probe(int out, dtrace_helper_probedesc_t *dhpb)
+>  
+>  			/* Then the mapping table. */
+>  
+> -			map_size = dhpb->dthpb_xargc * sizeof(int8_t);
+> -			msg_size = offsetof(dof_parsed_t, argmap.argmap) +
+> -				   map_size;
+> +			map_size = dhpb->dthpb_xargc * sizeof(uint8_t);
+> +			msg_size = DIT_ARGS_MAP_HEADSZ + map_size;
+>  
+>  			msg = malloc(msg_size);
+>  			if (!msg)
+> @@ -922,8 +920,7 @@ emit_provider(int out, dof_helper_t *dhp,
+>  	}
+>  
+>  	dhpb.dthpb_prov = strtab + prov->dofpv_name;
+> -	provider_msg_size = offsetof(dof_parsed_t, provider.name) +
+> -	    strlen(dhpb.dthpb_prov) + 1;
+> +	provider_msg_size = DIT_PROVIDER_HEADSZ + strlen(dhpb.dthpb_prov) + 1;
+>  
+>  	provider_msg = malloc(provider_msg_size);
+>  	if (!provider_msg) {
+> diff --git a/libcommon/usdt_parser_notes.c b/libcommon/usdt_parser_notes.c
+> index c98c9fb0..7742024e 100644
+> --- a/libcommon/usdt_parser_notes.c
+> +++ b/libcommon/usdt_parser_notes.c
+> @@ -73,6 +73,10 @@ get_note(int out, usdt_data_t *data, ssize_t off, usdt_note_t *note)
+>  	}
+>  
+>  	note->name = (char *)data->buf + off;
+> +	if (memchr(note->name, '\0', sz) == NULL) {
+> +		usdt_error(out, EINVAL, "Unterminated name");
+> +		return -1;
+> +	}
+>  	off += ALIGN(sz, 4);
+>  
+>  	dt_dbg_usdt("ELF note '%s' (%d bytes)\n",
+> @@ -272,6 +276,25 @@ static dt_htab_ops_t pmap_htab_ops = {
+>          .next = (htab_next_fn)prb_next
+>  };
+>  
+> +/*
+> + * Return the length of string 'str' (excluding the terminating NUL, if it
+> + * terminates before the supplied 'end', and -1 otherwise.
+> + */
+> +static ssize_t
+> +cstrlen(const char *str, const char *end)
 > +{
-> +	size_t	min_size;
-> +	size_t	payload_size;
-> +	const char *payload;
+> +	const char	*p;
 > +
-> +	switch (reply->type) {
-> +	case DIT_PROVIDER:
-> +		min_size = DIT_PROVIDER_HEADSZ + 1;
-> +		payload = reply->provider.name;
-> +		break;
-> +	case DIT_PROBE:
-> +		min_size = DIT_PROBE_HEADSZ + 1;
-> +		payload = reply->probe.name;
-> +		break;
-> +	case DIT_TRACEPOINT:
-> +		min_size = DIT_TRACEPOINT_HEADSZ + 1;
-> +		payload = reply->tracepoint.args;
-> +		break;
-> +	case DIT_ERR:
-> +		min_size = DIT_ERR_HEADSZ + 1;
-> +		payload = reply->err.err;
-> +		break;
-> +	case DIT_ARGS_NATIVE:
-> +		min_size = DIT_ARGS_NATIVE_HEADSZ + 1;
-> +		payload = reply->nargs.args;
-> +		break;
-> +	case DIT_ARGS_XLAT:
-> +		min_size = DIT_ARGS_XLAT_HEADSZ + 1;
-> +		payload = reply->xargs.args;
-> +		break;
-> +	case DIT_ARGS_MAP:
-> +		min_size = DIT_ARGS_MAP_HEADSZ + 1;
-> +		payload = NULL;
-> +		break;
-> +	case DIT_EOF:
-> +		min_size = DIT_EOF_HEADSZ;
-> +		payload = NULL;
-> +		break;
-> +	default:
-> +		errno = EPROTO;
+> +	if (str >= end)
 > +		return -1;
-> +	}
 > +
-> +	if (reply->size < min_size) {
-> +		errno = EPROTO;
+> +	p = memchr(str, '\0', end - str);
+> +	if (p == NULL)
 > +		return -1;
-> +	}
 > +
-> +	if (payload == NULL)
-> +		return 0;
-> +
-> +	payload_size = reply->size - (payload - (const char *)reply);
-> +	if (memchr(payload, '\0', payload_size) == NULL) {
-> +		errno = EPROTO;
-> +		return -1;
-> +	}
-> +
-> +	return 0;
+> +	return p - str;
 > +}
 > +
 >  /*
->   * Write the DOF to the parser pipe OUT.
->   *
-> - * Returns 0 on success or a positive errno value on error.
-> + * Returns 0 on success or a negative errno value on error.
->   */
->  int
->  usdt_parser_host_write(int out, const dof_helper_t *dh, const usdt_data_t *data)
-> @@ -118,7 +180,7 @@ usdt_parser_host_read(int in, int timeout)
->  	 * longer than expected is better than no read at all.
->  	 */
->  	for (i = 0, sz = offsetof(dof_parsed_t, type); i < sz;) {
-> -		size_t ret;
-> +		ssize_t ret;
->  		struct timespec start, end;
->  		int no_adjustment = 0;
->  		long timeout_msec = timeout * MILLISEC;
-> @@ -151,10 +213,16 @@ usdt_parser_host_read(int in, int timeout)
->  		/*
->  		 * Fix up the size once it's received.  Might be large enough
->  		 * that we've done the initial size read...
-> +		 * The size is bound to avoid memory starvation.
->  		 */
->  		if (i < offsetof(dof_parsed_t, type) &&
-> -		    i + ret >= offsetof(dof_parsed_t, type))
-> +		    i + ret >= offsetof(dof_parsed_t, type)) {
->  			sz = reply->size;
-> +			if (sz < DIT_BASE_HEADSZ || sz > DIT_MAX_SIZE) {
-> +				errno = EPROTO;
-> +				goto err;
-> +			}
-> +		}
+>   * Return the cummulative string length of 'cnt' consecutive 0-terminated
+>   * strings.  If skip > 0, it indicates how many extra bytes are to be skipped
+> @@ -284,10 +307,12 @@ strarray_size(uint8_t cnt, const char *str, const char *end, size_t skip)
+>  	const char	*p = str;
 >  
->  		/* Allocate more room if needed for the reply.  */
->  		if (sz > sizeof(dof_parsed_t)) {
-> @@ -171,10 +239,12 @@ usdt_parser_host_read(int in, int timeout)
->  		i += ret;
+>  	while (cnt-- > 0) {
+> -		if (p >= end)
+> +		ssize_t	len = cstrlen(p, end);
+> +
+> +		if (len < 0 || skip > (size_t)(end - (p + len + 1)))
+>  			return -1;
+>  
+> -		p += strlen(p) + 1 + skip;
+> +		p += len + 1 + skip;
 >  	}
 >  
-> +	if (usdt_parser_validate_reply(reply) < 0)
-> +		goto err;
-> +
->  	return reply;
+>  	return p - str;
+> @@ -298,14 +323,21 @@ parse_prov_note(int out, dof_helper_t *dhp, usdt_data_t *data,
+>  		usdt_note_t *note)
+>  {
+>  	const char	*p = note->desc;
+> +	const char	*end = p + note->hdr->n_descsz;
+>  	dt_provider_t	prvt, *pvp;
+>  	const uint32_t	*vals;
+>  	uint32_t	probec;
+> +	ssize_t		len;
+>  	int		i;
 >  
->  err:
->  	free(reply);
->  	return NULL;
+> +	len = cstrlen(p, end);
+> +	if (len == -1) {
+> +		usdt_error(out, EINVAL, "Unterminated provider name");
+> +		return -1;
+> +	}
+>  	prvt.name = p;
+> -	p += ALIGN(strlen(p) + 1, 4);
+> -	if (p + 6 * sizeof(uint32_t) - note->desc > note->hdr->n_descsz) {
+> +	p += ALIGN(len + 1, 4);
+> +	if (p + 6 * sizeof(uint32_t) > end) {
+>  		usdt_error(out, EINVAL, "Incomplete note data");
+>  		return -1;
+>  	}
+> @@ -342,13 +374,18 @@ parse_prov_note(int out, dof_helper_t *dhp, usdt_data_t *data,
+>  		ssize_t		len;
+>  
+>  		p = (const char *)ALIGN((uintptr_t)p, 4);
+> +		len = cstrlen(p, end);
+> +		if (len == -1) {
+> +			usdt_error(out, EINVAL, "Unterminated probe name");
+> +			return -1;
+> +		}
+>  		prbt.prv = pvp->name;
+>  		prbt.mod = dhp->dofhp_mod;
+>  		prbt.fun = NULL;
+>  		prbt.prb = p;
+>  		prbt.off = 0;
+> -		p += strlen(p) + 1;
+> -		if (p + 2 * sizeof(uint8_t) - note->desc > note->hdr->n_descsz) {
+> +		p += len + 1;
+> +		if (p + 2 * sizeof(uint8_t) > end) {
+>  			usdt_error(out, EINVAL, "Incomplete note data");
+>  			return -1;
+>  		}
+> @@ -374,8 +411,7 @@ parse_prov_note(int out, dof_helper_t *dhp, usdt_data_t *data,
+>  		prp->ntp = 0;
+>  		prp->is_enabled = 0;
+>  		prp->nargc = argc = *(uint8_t *)p++;
+> -		len = strarray_size(argc, p, note->desc + note->hdr->n_descsz,
+> -				    0);
+> +		len = strarray_size(argc, p, end, 0);
+>  		if (len == -1) {
+>  			usdt_error(out, EINVAL, "Incomplete note data");
+>  			return -1;
+> @@ -384,7 +420,7 @@ parse_prov_note(int out, dof_helper_t *dhp, usdt_data_t *data,
+>  		prp->nargs = p;
+>  
+>  		p += len;
+> -		if (p - note->desc > note->hdr->n_descsz) {
+> +		if (p >= end) {
+>  			usdt_error(out, EINVAL, "Incomplete note data");
+>  			return -1;
+>  		}
+> @@ -411,6 +447,11 @@ parse_prov_note(int out, dof_helper_t *dhp, usdt_data_t *data,
+>  				q = stpcpy(q, p);
+>  				q++;
+>  				p += strlen(p) + 1;
+> +				if (*(uint8_t *)p >= prp->nargc) {
+> +					usdt_error(out, EINVAL,
+> +						   "bad native argument index");
+> +					return -1;
+> +				}
+>  				prp->xmap[j] = *p;
+>  				p++;
+>  			}
+> @@ -432,7 +473,9 @@ parse_usdt_note(int out, dof_helper_t *dhp, usdt_data_t *data,
+>  		usdt_note_t *note)
+>  {
+>  	const char	*p = note->desc;
+> +	const char	*end = p + note->hdr->n_descsz;
+>  	uint64_t	off, fno;
+> +	ssize_t		len;
+>  	dt_probe_t	prbt, *prp;
+>  
+>  	data = data->next;
+> @@ -441,7 +484,7 @@ parse_usdt_note(int out, dof_helper_t *dhp, usdt_data_t *data,
+>  		return -1;
+>  	}
+>  
+> -	if (p + 2 * sizeof(uint64_t) - note->desc > note->hdr->n_descsz) {
+> +	if (p + 2 * sizeof(uint64_t) >= end) {
+>  		usdt_error(out, EINVAL, "Incomplete note data");
+>  		return -1;
+>  	}
+> @@ -450,10 +493,15 @@ parse_usdt_note(int out, dof_helper_t *dhp, usdt_data_t *data,
+>  	p += sizeof(uint64_t);
+>  	fno = *(uint64_t *)p;
+>  	p += sizeof(uint64_t);
+> +	len = cstrlen(p, end);
+> +	if (len == -1) {
+> +		usdt_error(out, EINVAL, "Unterminated provider name");
+> +		return -1;
+> +	}
+>  
+>  	prbt.prv = p;
+> -	p += strlen(p) + 1;
+> -	if (p - note->desc > note->hdr->n_descsz) {
+> +	p += len + 1;
+> +	if (p >= end) {
+>  		usdt_error(out, EINVAL, "Incomplete note data");
+>  		return -1;
+>  	}
+> @@ -463,9 +511,18 @@ parse_usdt_note(int out, dof_helper_t *dhp, usdt_data_t *data,
+>  		return -1;
+>  	}
+>  	prbt.fun = (char *)data->buf + fno;
+> +	if (cstrlen(prbt.fun, (char *)data->buf + data->size) == -1) {
+> +		usdt_error(out, EINVAL, "Unterminated function name");
+> +		return -1;
+> +	}
+> +	len = cstrlen(p, end);
+> +	if (len == -1) {
+> +		usdt_error(out, EINVAL, "Unterminated probe name");
+> +		return -1;
+> +	}
+>  	prbt.prb = p;
+> -	p += strlen(p) + 1;
+> -	if (p - note->desc > note->hdr->n_descsz) {
+> +	p += len + 1;
+> +	if (p >= end) {
+>  		usdt_error(out, EINVAL, "Incomplete note data");
+>  		return -1;
+>  	}
+> @@ -510,9 +567,14 @@ parse_usdt_note(int out, dof_helper_t *dhp, usdt_data_t *data,
+>  	prp->is_enabled = (note->hdr->n_type == _USDT_EN_NOTE_TYPE ? 1 : 0);
+>  	prp->ntp = 0;
+>  	prp->sargc = *p++;
+> +	len = cstrlen(p, end);
+> +	if (len == -1) {
+> +		usdt_error(out, EINVAL, "Unterminated argument string");
+> +		return -1;
+> +	}
+>  	prp->sargs = p;
+> -	p += strlen(p) + 1;
+> -	if (p - note->desc > note->hdr->n_descsz) {
+> +	p += len + 1;
+> +	if (p > end) {
+>  		usdt_error(out, EINVAL, "Incomplete note data");
+>  		return -1;
+>  	}
+> @@ -537,22 +599,22 @@ alloc_msg(int out, dof_parsed_info_t type, size_t len)
+>  
+>  	switch (type) {
+>  	case DIT_PROVIDER:
+> -		len += offsetof(dof_parsed_t, provider.name);
+> +		len += DIT_PROVIDER_HEADSZ;
+>  		break;
+>  	case DIT_PROBE:
+> -		len += offsetof(dof_parsed_t, probe.name);
+> +		len += DIT_PROBE_HEADSZ;
+>  		break;
+>  	case DIT_ARGS_NATIVE:
+> -		len += offsetof(dof_parsed_t, nargs.args);
+> +		len += DIT_ARGS_NATIVE_HEADSZ;
+>  		break;
+>  	case DIT_ARGS_XLAT:
+> -		len += offsetof(dof_parsed_t, xargs.args);
+> +		len += DIT_ARGS_XLAT_HEADSZ;
+>  		break;
+>  	case DIT_ARGS_MAP:
+> -		len += offsetof(dof_parsed_t, argmap.argmap);
+> +		len += DIT_ARGS_MAP_HEADSZ;
+>  		break;
+>  	case DIT_TRACEPOINT:
+> -		len += offsetof(dof_parsed_t, tracepoint.args);
+> +		len += DIT_TRACEPOINT_HEADSZ;
+>  		break;
+>  	default:
+>  		usdt_error(out, EINVAL, "Unknown dof_parsed_t type: %d", type);
+> diff --git a/libdtrace/dt_pid.c b/libdtrace/dt_pid.c
+> index 7e6e5d90..e20bc82b 100644
+> --- a/libdtrace/dt_pid.c
+> +++ b/libdtrace/dt_pid.c
+> @@ -782,25 +782,93 @@ err:
 >  }
-> -
+>  
+>  /*
+> - * A quick check that a parsed DOF record read hasn't incurred a buffer overrun
+> - * and is of the type expected.
+> + * Ensure that the buffer has enough data to read the record of the expected
+> + * type.  Ensure that all records have at least 1 byte of payload data.
+>   */
+>  static int
+>  validate_dof_record(const char *path, const dof_parsed_t *parsed,
+> -		    dof_parsed_info_t expected, size_t buf_size,
+> +		    dof_parsed_info_t type, size_t headsz, size_t buf_size,
+>  		    size_t seen_size)
+>  {
+> -	if (buf_size < seen_size) {
+> +	size_t	data_size;
+> +
+> +	/* If we have read more than there is, we must always fail. */
+> +	if (buf_size < seen_size)
+> +		data_size = 0;
+> +	else
+> +		data_size = buf_size - seen_size;
+> +
+> +	if (data_size < headsz || data_size < parsed->size) {
+>  		dt_dprintf("DOF too small when adding probes (seen %zi bytes)\n",
+>  			   seen_size);
+>  		return 0;
+>  	}
+>  
+> -	if (parsed->type != expected) {
+> +	if (parsed->size < headsz + 1) {
+> +		dt_dprintf("DOF record too small: expected %zi, got %zi\n",
+> +			   headsz, parsed->size);
+> +		return 0;
+> +	}
+> +
+> +	if (parsed->type != type) {
+>  		dt_dprintf("%s format invalid: expected %i, got %i\n", path,
+> -			   expected, parsed->type);
+> +			   type, parsed->type);
+>  		return 0;
+>  	}
+> +
+> +	return 1;
+> +}
+> +
+> +/*
+> + * Validate a payload containing CNT consecutive NUL-terminated strings.
+> + */
+> +static int
+> +validate_string_payload(const char *path, const char *payload,
+> +			size_t payload_size, size_t cnt)
+> +{
+> +	const char	*p = payload;
+> +	const char	*end = payload + payload_size;
+> +	size_t		i;
+> +
+> +	for (i = 0; i < cnt; i++) {
+> +		const char	*nul;
+> +
+> +		if (p >= end) {
+> +			dt_dprintf("%s string payload too small\n", path);
+> +			return 0;
+> +		}
+> +
+> +		nul = memchr(p, '\0', end - p);
+> +		if (nul == NULL) {
+> +			dt_dprintf("%s string payload unterminated\n", path);
+> +			return 0;
+> +		}
+> +
+> +		p = nul + 1;
+> +	}
+> +
+> +	return 1;
+> +}
+> +
+> +static int
+> +validate_argmap_payload(const char *path, const uint8_t *argmap,
+> +			size_t payload_size, size_t nargc, size_t xargc)
+> +{
+> +	size_t	i;
+> +
+> +	if (payload_size < xargc * sizeof(uint8_t)) {
+> +		dt_dprintf("%s argmap payload too small\n", path);
+> +		return 0;
+> +	}
+> +
+> +	for (i = 0; i < xargc; i++) {
+> +		if (argmap[i] >= nargc) {
+> +			dt_dprintf("%s argmap entry %zi invalid: %u >= %zi\n",
+> +				   path, i, argmap[i], nargc);
+> +			return 0;
+> +		}
+> +	}
+> +
+>  	return 1;
+>  }
+>  
+> @@ -908,13 +976,13 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, pid_t pid, dt_proc_t *dpr,
+>  		char *dof_buf = NULL, *p;
+>  		struct stat s;
+>  		char *path;
+> -		size_t dof_buf_size, seen_size = 0;
+> +		size_t dof_buf_size, seen_size = 0, payload_size;
+>  		uint64_t *dof_version;
+>  		char *prv, *mod, *fun, *prb;
+>  		dof_parsed_t *provider, *probe;
+>  		ssize_t nargvlen = 0, xargvlen = 0;
+>  		char *nargv = NULL, *xargv = NULL;
+> -		int8_t *argmap = NULL;
+> +		uint8_t *argmap = NULL;
+>  
+>  		/*
+>  		 * Regular files only: in particular, skip . and ..,
+> @@ -929,7 +997,7 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, pid_t pid, dt_proc_t *dpr,
+>  			goto per_mapping_err;
+>  
+>  		dof_buf = read_file(path, &dof_buf_size);
+> -		if (dof_buf == NULL)
+> +		if (dof_buf == NULL || dof_buf_size < sizeof(uint64_t))
+>  			goto per_mapping_err;
+>  		dof_version = (uint64_t *) dof_buf;
+>  		if (*dof_version != DOF_PARSED_VERSION) {
+> @@ -945,27 +1013,50 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, pid_t pid, dt_proc_t *dpr,
+>  		 * probe.
+>  		 */
+>  		provider = (dof_parsed_t *) p;
+> -		if (!validate_dof_record(path, provider, DIT_PROVIDER, dof_buf_size,
+> +		if (!validate_dof_record(path, provider, DIT_PROVIDER,
+> +					 DIT_PROVIDER_HEADSZ, dof_buf_size,
+>  					 seen_size))
+>  			goto parse_err;
+>  
+> +		/*
+> +		 * Ensure that a validly terminated string follows the record
+> +		 * header.
+> +		 */
+>  		prv = provider->provider.name;
+> +		payload_size = provider->size - DIT_PROVIDER_HEADSZ;
+> +		if (memchr(prv, '\0', payload_size) == NULL)
+> +			goto parse_err;
+>  
+>  		p += provider->size;
+>  		seen_size += provider->size;
+>  
+>  		probe = (dof_parsed_t *) p;
+> -		if (!validate_dof_record(path, probe, DIT_PROBE, dof_buf_size,
+> +		if (!validate_dof_record(path, probe, DIT_PROBE,
+> +					 DIT_PROBE_HEADSZ, dof_buf_size,
+>  					 seen_size))
+>  			goto parse_err;
+>  
+>  		mod = probe->probe.name;
+> +		payload_size = probe->size - DIT_PROBE_HEADSZ;
+> +		if (memchr(mod, '\0', payload_size) == NULL)
+> +			goto parse_err;
+> +
+>  		fun = mod + strlen(mod) + 1;
+> +		payload_size -= strlen(mod) + 1;
+> +		if (memchr(fun, '\0', payload_size) == NULL)
+> +			goto parse_err;
+>  		prb = fun + strlen(fun) + 1;
+> +		payload_size -= strlen(fun) + 1;
+> +		if (memchr(prb, '\0', payload_size) == NULL)
+> +			goto parse_err;
+>  
+>  		p += probe->size;
+>  		seen_size += probe->size;
+>  
+> +		if (probe->probe.nargc > UINT8_MAX ||
+> +		    probe->probe.xargc > UINT8_MAX)
+> +			goto parse_err;
+> +
+>  		/*
+>  		 * Assume the order given in dof_parser.h, for simplicity.
+>  		 */
+> @@ -973,11 +1064,16 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, pid_t pid, dt_proc_t *dpr,
+>  			dof_parsed_t *args = (dof_parsed_t *) p;
+>  
+>  			if (!validate_dof_record(path, args, DIT_ARGS_NATIVE,
+> +						 DIT_ARGS_NATIVE_HEADSZ,
+>  						 dof_buf_size, seen_size))
+>  				goto parse_err;
+>  
+>  			nargv = args->nargs.args;
+> -			nargvlen = args->size - offsetof(dof_parsed_t, nargs.args);
+> +			payload_size = args->size - DIT_ARGS_NATIVE_HEADSZ;
+> +			if (!validate_string_payload(path, nargv, payload_size,
+> +						     probe->probe.nargc))
+> +				goto parse_err;
+> +			nargvlen = payload_size;
+>  			assert(nargvlen >= 0);
+>  
+>  			p += args->size;
+> @@ -987,11 +1083,16 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, pid_t pid, dt_proc_t *dpr,
+>  			dof_parsed_t *args = (dof_parsed_t *) p;
+>  
+>  			if (!validate_dof_record(path, args, DIT_ARGS_XLAT,
+> +						 DIT_ARGS_XLAT_HEADSZ,
+>  						 dof_buf_size, seen_size))
+>  				goto parse_err;
+>  
+>  			xargv = args->xargs.args;
+> -			xargvlen = args->size - offsetof(dof_parsed_t, xargs.args);
+> +			payload_size = args->size - DIT_ARGS_XLAT_HEADSZ;
+> +			if (!validate_string_payload(path, xargv, payload_size,
+> +						     probe->probe.xargc))
+> +				goto parse_err;
+> +			xargvlen = payload_size;
+>  			assert(xargvlen >= 0);
+>  
+>  			p += args->size;
+> @@ -999,10 +1100,16 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, pid_t pid, dt_proc_t *dpr,
+>  			args = (dof_parsed_t *) p;
+>  
+>  			if (!validate_dof_record(path, args, DIT_ARGS_MAP,
+> +						 DIT_ARGS_MAP_HEADSZ,
+>  						 dof_buf_size, seen_size))
+>  				goto parse_err;
+>  
+>  			argmap = args->argmap.argmap;
+> +			payload_size = args->size - DIT_ARGS_MAP_HEADSZ;
+> +			if (!validate_argmap_payload(path, argmap, payload_size,
+> +						     probe->probe.nargc,
+> +						     probe->probe.xargc))
+> +				goto parse_err;
+>  
+>  			p += args->size;
+>  			seen_size += args->size;
+> @@ -1017,6 +1124,7 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, pid_t pid, dt_proc_t *dpr,
+>  			const prmap_t *pmp;
+>  
+>  			if (!validate_dof_record(path, tp, DIT_TRACEPOINT,
+> +						 DIT_TRACEPOINT_HEADSZ,
+>  						 dof_buf_size, seen_size))
+>  				goto parse_err;
+>  
+> @@ -1073,9 +1181,15 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, pid_t pid, dt_proc_t *dpr,
+>  			if (argmap)
+>  				psp.pps_argmap = argmap;
+>  
+> -			if (tp->tracepoint.args[0] != 0)
+> +			if (tp->tracepoint.args[0] != 0) {
+>  				psp.pps_sargv = tp->tracepoint.args;
+>  
+> +				payload_size = tp->size - DIT_TRACEPOINT_HEADSZ;
+> +				if (memchr(psp.pps_sargv, '\0',
+> +					   payload_size) == NULL)
+> +					goto parse_err;
+> +			}
+> +
+>  			dt_dprintf("providing %s:%s:%s:%s for pid %d @ %lx\n",
+>  				   psp.pps_prv, psp.pps_mod, psp.pps_fun,
+>  				   psp.pps_prb, psp.pps_pid, psp.pps_off);
 > -- 
 > 2.52.0
 > 
+> 
+> _______________________________________________
+> DTrace-devel mailing list
+> DTrace-devel@oss.oracle.com
+> https://oss.oracle.com/mailman/listinfo/dtrace-devel
 > 
 
