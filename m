@@ -1,86 +1,85 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797183A7F69
-	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 17:40:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4C13939BD
+	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:41:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788025243; cv=fail; b=OIbNfodCECt3BqqvwaF6p9xwEehx4pTG0/Qumz+e0Zfg0AjNhINQNCNqim+L3McIF1SizvNj6M+uTRCBCFxJEO6I+y2G0phRpSzb0lI9gKP1kNjEqZwsysZNFWMzifMcbrXnHUrQVpG3xmnfRwh13VTId5/cVzfhADjN7zGA53E=
+	t=1788086478; cv=fail; b=qyz2qeRQ+xyQ/zxCMDWI7gPblKMINAdBpyl1p7TFEm8EzzrWv2R1psvXewqbUOFfAWNitH3a1nHwimYsebRmHM4jGk7Hoh1b/BtHlRLhstmCb6F7pki27FoJ4hu6hE/OC6Otq31mkgQZqNuUSG7vg7S43nkpDVnSAK4aXn2n6Lg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788025243; c=relaxed/simple;
-	bh=jeWU2QNORlZ9TYML6+zCJ62zIP7UcaLVjUqXfwvBJ2g=;
+	s=arc-20240116; t=1788086478; c=relaxed/simple;
+	bh=ezSetwYPVFmS6dIlpU1VJ8NmXWuJU93ZW5+hoQqrKds=;
 	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=BU/25/2NQYozwCj1haMh6yOxIe9WGK4DeSlnL9hKqC2Qp6CinyOyu/KYci2sltFWq/Q+6hsWi7nTXt4FunLjKwEuceA/JTFMzi9QVAoZtakFZ93FFRW0H9J87Grsizk8C8uw2Fi30+qBBwnf56DJcOKfwyvAOTp9Myr3rRH6Uwo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=aMi/dfyE; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=QLubyLQ3; arc=fail smtp.client-ip=205.220.165.32
+	 Content-Type:MIME-Version; b=erdtbpMdM2iYQ6QojI4Bm6EfR/xJAfhXRgP+vIacy0jAHzdCakbhtKlNk0P8uN/NkhnGDUZYD5v3Dh9mp6goGPaQ+9kGCb14IY9OUy44UwLi+8yEn+9/S49NTsOcAZCt14dl/On7lPBs+6gY5VN8H7d4Vkce5uDB1Ru/21TPXr0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=EX9UlkXU; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ToNkMvmC; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="aMi/dfyE";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="QLubyLQ3"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67THZmAG1280580
-	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 17:40:40 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="EX9UlkXU";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ToNkMvmC"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67UAGsHP3537858
+	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:41:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=nHyBdec2FiJINQQjJFg9D/MTDrnYgDsAlxvF9NIuoYw=; b=
-	aMi/dfyE0SRlQIDOfZd23vPWVzOIFx/mgkb4pPqGG7jHyrssO2xiQ25XZx5FK7fq
-	Pory4geQHJTWsbh8FRXFyb2djQSdWGJmMb9QiHkeHbiENFwL7+oRf1bG7SSPICrH
-	xfx6dACJbV2vDaFSoB8JtRgzy4YqJsXftdG6j+B23TDwZmrDLiMYe1bnTxLu6rLz
-	x2nTDW0KHLqqCPlVdKJpD94AyPn2bRK4LgQn2KwqvKQBjkUsGXyu9Opdmwd8aAIp
-	nqX6ITneqgAIUMpyGg52E5JejJBhAxAfwVuN+6ZcUtnew+3ejORaKl4eIvLl2u6n
-	7psiSmd/+rAOPhvvS1PQoQ==
+	corp-2025-04-25; bh=p5/PHNWk5ywZhPZDDMnlmbz1th2B7P88we5AaZpD5IM=; b=
+	EX9UlkXUmCjMG+s5ybeL5o30OBtzXg5IKVMY3yXPFbw7hv+ta+vo8EIJ8UCr+H0x
+	gnwy9EOulSs+DpWQmV59vipFqF+nww4h4Z30h545pmvuVfuiohcEzyOwULALAzFv
+	zY/FJKaBWlJ59Nlq5fzM6Q1bTB/+SiGYWnQM1pzp5FIUGwKOHAIqRctH/tH85Y67
+	/rUrIkn3TYlAquny2b2GETwGV2jURkGxjxAVi6W79OF3k3QJyOJWuZCAi927voBY
+	OYpycrqtBzyVLcqKfAuQjfUW5IlbpZiSS+m7TEuw4LDE/6L88QRq7/jw5H5Hd/k2
+	0ecEhPZTJW1GVLMGRs8YgA==
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4gbqyrrf2a-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4gbpbas83v-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 17:40:40 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:41:15 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67THeYn3013667
-	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 17:40:39 GMT
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010054.outbound.protection.outlook.com [52.101.61.54])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4gbnvn5fhp-1
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 67UAeVLH010361
+	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:41:14 GMT
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011021.outbound.protection.outlook.com [52.101.52.21])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4gbnvnkr89-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <dtrace@lists.linux.dev>; Sat, 29 Aug 2026 17:40:35 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Sun, 30 Aug 2026 10:41:14 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UJDR8cqxpJf4223rgkVFlW2HQR8mAPplQK0L2oOZz3/6ZUJsi9/q9EvNj4VxRYMdqhY1M3jE8bFCKex61Yxmc4oSJvpFvWpQwoMwbzBW9pRtu19xBb2fYo+QNXny6C1cYASzjmCtR/pr6XIHOuKL0yuwQgyCURSEni99WJ7lq2W8AJXMX39nCGPHFNEYQ7qJ5nI9wvsCX9y3WAxQcH6A9Zy1uEumsilUsFQl77zHqYtRDyvdtXjXrev60dmPC4UsIhOTdvqdAb6MvMV0HA+grfvkV6EcP0fL0bSmvC2AW07ACseEqWa/v6XkkhZd7mbLRBXQ4+CYpY3AsZOjNJ8Byw==
+ b=lg2ZA7DhjRv/Paru2dWRTxWiZbSn+o/oJOoi4EV1jNOSw1EBbiR+tiqDvPzf/OVyOKcOEZtH5Y/cQY5uipl40OSYtIZpHsy+DSci1br7tmsvJ9RJGJnrWJcJa5KYYqBPe1VlcxgJBrcD6qOhrE0DQASby+FO+sQ+QLRwUNOilNzgT7aZxyoTlH+NZ1sZlxYaWl542HYRZr3K1zrvLvCNzl8y63wN5oyd4zatiLDDVz3QRZfQBH3V+/vmn2AFbw2eHnhPJfaloeweGqgZRFjydyA1p1u8icHPsxNuPSwCFTiTxYXqzlgHI1a47aBHm19J7wTb4g/qpu4zxmXaRem8XQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nHyBdec2FiJINQQjJFg9D/MTDrnYgDsAlxvF9NIuoYw=;
- b=VlJ7dNF82+N+wGyjMlh3WkXDvFOuq6bnc6j4yon+iugW3OTN4l7HniajhiPl8Ch+TqZaFluYfsojYIi8d0hriKVVbAQBH1P5eGCmInOua39R6Kb8Nc+Fbf3tvjm/lyNyw0GW/yzT3Qc5Z29E/W+fNlu+WVQt4iTBXIHJIKuIGwINRRPzoFQ9yqLznukNOqKCWFS0OHNu7bdp+xD+/iw9w/S03inRsdbbjx1rO2oMGHD0qrRgqRxRrKMm3iBd+USnvjCnoTUzKw2sFYF1HPXuhl2M6+gQOfCwjTYb3oNZj5Z1ET1siIzqWVE6W88IrwFHFHtlSWkY1TeerftIUKod4Q==
+ bh=p5/PHNWk5ywZhPZDDMnlmbz1th2B7P88we5AaZpD5IM=;
+ b=MCHF7JJjn/8MljImPMUJJsxmgMhDpXf9PN+fGbELL+scEMzT1X0OIago6XUiv9pzSZVVdgwQe8AHWg1CtfXx6tp9MSgAtf9GXYPSdvq6AN9sFzqt5CImxsZGl5uGiezKe3FLuFwoOOhmuDibNDDk/eaFj1bJyd4EOf+OjnYZl18fXi9BWcIXgIjtnb9dlsA8OdVBFZUQ4pzqskDb6R6WOtpC9YmCraEp/j8WdOk9S9KALedl/yxuvO7CeiMLXw3BVTGffKBmPulW1YFohq9UmnI3ooKiVNbHRloTLQIXIym60ika3b3xk/5WS0Wy/xZ2OTYamjq8EMgdkm++YtJtBg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nHyBdec2FiJINQQjJFg9D/MTDrnYgDsAlxvF9NIuoYw=;
- b=QLubyLQ3OUCWyRYyGH0LwB4psiAxfi0IMq8GkprCYMHlF1jba/vDtGWn/arCuLAgvYpFFHh9vymWV5O0izsnixa6noMba6jaZIoITeEnJuPa6SxL+IdjzayfjwUnp6MPvh08tK0uR0Yhy2x18lWMq/BNwljOzNafXMsUOyu70Jk=
-Received: from BLAPR10MB5075.namprd10.prod.outlook.com (2603:10b6:208:322::19)
- by PH7PR10MB6156.namprd10.prod.outlook.com (2603:10b6:510:1f3::18) with
+ bh=p5/PHNWk5ywZhPZDDMnlmbz1th2B7P88we5AaZpD5IM=;
+ b=ToNkMvmC3QVpWEOBSij/h5PnMHrrqP0PntBjMgcSmdi6hJlZPqyukbGgOLA6T6/ax/j/q4SAiS3xY6KTMuJNHOZxYpcIeOEev4A0v4Mr8v+ZP3vD5CZmfg9OTgWmLWwszvwaxqxOisLjAWyRqEEuBa08pgpeDusnIq4gFBT7CaA=
+Received: from BN0PR10MB4901.namprd10.prod.outlook.com (2603:10b6:408:126::19)
+ by DS0PR10MB6872.namprd10.prod.outlook.com (2603:10b6:8:131::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.9; Sat, 29 Aug
- 2026 17:39:44 +0000
-Received: from BLAPR10MB5075.namprd10.prod.outlook.com
- ([fe80::8f5:4de9:81ce:f5c6]) by BLAPR10MB5075.namprd10.prod.outlook.com
- ([fe80::8f5:4de9:81ce:f5c6%5]) with mapi id 15.21.0382.007; Sat, 29 Aug 2026
- 17:39:43 +0000
-Message-ID: <8077115e-26f1-420d-b596-f36c8a04161f@oracle.com>
-Date: Sat, 29 Aug 2026 11:39:41 -0600
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.10; Sun, 30 Aug
+ 2026 10:41:11 +0000
+Received: from BN0PR10MB4901.namprd10.prod.outlook.com
+ ([fe80::19a8:41b4:f519:1b79]) by BN0PR10MB4901.namprd10.prod.outlook.com
+ ([fe80::19a8:41b4:f519:1b79%5]) with mapi id 15.21.0382.007; Sun, 30 Aug 2026
+ 10:41:11 +0000
+Message-ID: <5ee321c2-d2d1-4fda-b542-9e2b9a63550b@oracle.com>
+Date: Sun, 30 Aug 2026 11:41:02 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [DTrace-devel] [PATCH 1/2] Add packaging configuration for Debian
+Subject: Re: [PATCH 5/6] dtprobed: fix dof_stash resource cleanup
 To: Kris Van Hees <kris.van.hees@oracle.com>, dtrace@lists.linux.dev,
         dtrace-devel@oss.oracle.com
-References: <10554a491a4523d4a81b676828508d1e@oracle.com>
-Content-Language: en-US
-From: Elena Zannoni <elena.zannoni@oracle.com>
-Organization: Oracle USA Inc.
-In-Reply-To: <10554a491a4523d4a81b676828508d1e@oracle.com>
+References: <c330147d9064a35a28bdc2606068251a@oracle.com>
+Content-Language: en-GB
+From: Alan Maguire <alan.maguire@oracle.com>
+In-Reply-To: <c330147d9064a35a28bdc2606068251a@oracle.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CY5PR19CA0077.namprd19.prod.outlook.com
- (2603:10b6:930:69::26) To BLAPR10MB5075.namprd10.prod.outlook.com
- (2603:10b6:208:322::19)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DO0P289CA0014.QATP289.PROD.OUTLOOK.COM
+ (2603:1096:790:20::13) To BN0PR10MB4901.namprd10.prod.outlook.com
+ (2603:10b6:408:126::19)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -88,815 +87,353 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BLAPR10MB5075:EE_|PH7PR10MB6156:EE_
-X-MS-Office365-Filtering-Correlation-Id: 799aba6b-311f-4c21-8462-08df05f482ad
+X-MS-TrafficTypeDiagnostic: BN0PR10MB4901:EE_|DS0PR10MB6872:EE_
+X-MS-Office365-Filtering-Correlation-Id: fbdd9a19-284b-475f-1ef0-08df06833544
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|13003099007|6133799003|3023799007|10067099003|56012099006|5023799004|18002099003|22082099003;
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|18002099003|17002099007|22082099003|56012099006|3023799007|10067099003|5023799004;
 X-Microsoft-Antispam-Message-Info:
-	YAC5n7a3w94IjbI5s2mbPrKEPFOg95HRzxomJ1FNJsmfgQzhbJCwthfqVMwnW/x10O/TBUTJo4c52MIS8vqTCsK8y70zMOXBbGezmJXCBe7cY6N1NJAKm8BgZKEpO/29ZBAwZ/YlaH4p0nxHO8JLhygTdjtC5BPkE6iRW+bM3Qz6g8PgnBFb8U684/dZbU/GdoTF9oooglDTBxAxWLbyu1z9wzPR3cpdAO2IQfR2KOoMmfzcAqPIGeM0KC7yPBeLIFl5+1LjuUfLq7Pxv5H4BQ8RP2d3viFf6UnHnmHGIsXAzYKoQHgqGrHOwWGXY9EMOKcrUfz2cvxcGEepoSRbbO5ojjbLgJZK1vacMmyFcHK+eGIZeJOukevJIKfgms4+okHmjAETCuqOVkfDNam0IBwMaDK5Iw5QUP7sasxRjbTLRFTM4JZMP0gu35tDA/ApDczoxiWPzX7TJBdUmNsTDUsQS6y4OfYhV0Z+r3GK3258sc9MoaCCaCydbsVANEjEOkD9m7aRoKuAJnJfioGFBIHTqXx2NGnCkGGNY+LBtAvA7bAiw3eHG8nSdpFt874nz2b28MKGNVOudx9dPYLGIC26WAQP/EUoQjC0gFnbKO7OMLDySdcSWjL5d1DeNUl1
+	LO7V1hz90adjoJ4aUe94vuH+rJx8AWJUzT5nQomN20x43rOWI79TXhirI2bwfWMVHzMlONSU0gFTeIiMZEktrgIbuMWaKdJqFqgdXKUWZz20FQ19/mOPVuSS5rVdiWXndFCsNAe8IARHx3N2xB9JuLtxlfd1YF5/3a7T6B1t2K7bhb6ilQaGDpi5qMc8zsq9JWS+3s4xA8yprwIYQSFcpkMqB1z1hjKVOtnfj9Q6e9XQd6aBQ9wsiHL3wKBXT9HKAPxoPNw7CD+nVc7IrCTSZpx7N4wQ0YGPltpxpfeHOpcaeX1sw1Sgzd5euJKwKob4DP13AEL6UFXjoQlEZxQq6TsMk8f3T5isWKVyetAMjDYB1UZ0UaNumqJEWiVi13uypphjy6Z6eZpfKBOPHJT68gEmr0udKEeV177m8IKNmulxn9qhvhSTzlLFAGf9cOMlZRqPvdQjqYIviQ4m2qx/mxTK2GoY6kWWHCZnX9Ho6wAY6CpiTAWwqxxFsffAmxJJmhZqs8N/HpmRKM0UBaRaWb2CA+QguniDYDbXx6K+2tSjLKOY+Wi5HrQMqErjVoKsZJrTjDML39AbycLfeY65iskpyOw1KQh6cw+zyCdLFZ3TbKT9Rhflnt8qtzAXeXE7hGRS0QEFe+0JSVKRXMfELPKiGyMagdshqmQATP/uoOc=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB5075.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(13003099007)(6133799003)(3023799007)(10067099003)(56012099006)(5023799004)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB4901.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(18002099003)(17002099007)(22082099003)(56012099006)(3023799007)(10067099003)(5023799004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YndXM3RZdjFJOXJvQTdpRytrY3hzYWJpVXdQZXRJTEVYc3l0OHd2d2FWOTZu?=
- =?utf-8?B?dmxoaTJoNmhIN1VaaGV6ZmtUV0lxZzZoN2J1K1ZDeGFSZjFFWFFnVlpGNTkw?=
- =?utf-8?B?VnNJQXI3elVyV0xNYTMrRGpObGNQU0M2ektmTHhKaFlLNk9Nd1ZVUU5UUERs?=
- =?utf-8?B?ZkdFcEh3amQ5RUp1aVp1b2xMa3htRWZIRlZja3FvK1hpMjdHV3dMUVZxdkdj?=
- =?utf-8?B?YlpYb3V0cmJYbHMzVUg0L091bEwwWGIxOXZ4UUNSSG1PU3pzT1I1Y3dVdEVI?=
- =?utf-8?B?eW11amlmaTVHbzEvb2VZNStUbUlaaU8wbUV1UC8rQXNJZUxNdDljNVRJenZk?=
- =?utf-8?B?cVdVQkZOM2RBdHpEQ3J6WDgrSzV1TVdhbHMvdTB2M3FzNlVtYmFqa052WkxM?=
- =?utf-8?B?RUFUT013Y0pDL2xTQmtIZXk2MldLZEZIUEtGNmVQV1k3eWpMeEJ4Z09sM0ox?=
- =?utf-8?B?MC9LS3hLSlVQMVdRbmJQeC81c2xpc2JzYVpZY1JZYWd0UktGaGVPNDBEZjd1?=
- =?utf-8?B?Vy9WZkpMYmRXUk90S3B1OFIweHRPMUlzWGgyMjlQY28wbWhvM2xmR0NuNVBk?=
- =?utf-8?B?TDhBTU1pcHZSY29CbUdyaENaWUNzYzlrV2hydnpsOVdweHFlOGEwYjBlRmdo?=
- =?utf-8?B?bW1vNWFWN0JnMTBST1ZsaTVBOXNrQ1VEaWpMUDByTUhLYWkxQjVQUlJ2Znc2?=
- =?utf-8?B?V1RKV29CR2s2MzlJY2FrNkVxUXQvZ0JZMmtzUzdoWlpYRWYzbTkvcTY4VVJ0?=
- =?utf-8?B?QWlRS01QMXFYcTd3cjRISGhXT0NseldWTmF1WmVlekRjR0czMkZsMDExTGpi?=
- =?utf-8?B?b1pJbDNJMzdXcHJmbXVBb1BYSTVhYXVoajNoOHA0cktrMW1ZNE9ybnJQa3Yy?=
- =?utf-8?B?aG5uVng0OEU4eFltWDFLL01XeCs3NkQ5WS9WTmRQWWs0K2FsSERrZ1h4aGY0?=
- =?utf-8?B?UkozeEtDdElsd0lBdDd1a080YU9WTDJZWk1ZVVpXcEw2UG9obDVoOUMvZXBK?=
- =?utf-8?B?bTZmM0c2R2I2NDVHYTdQWWQ2UW0velRjalZhMHFCMXJCaVFCQ2VGUVJZUE9K?=
- =?utf-8?B?Ui8rZ2V1UDZzbmd5TW5UZS9aY2dZZVptQTBONXhWR0hsTEp4MzFpbHVTRUhV?=
- =?utf-8?B?LzQxSnhUT3c3b0RnM3Bzb2NBeVRYeUJwVWc2NEd0M0ZSU3NXZDljNWZrTGJs?=
- =?utf-8?B?clpBSDRNMEVIQ1R5UnFSS0pNWXk1WStPRS91NDFDdWx4eEdVVkdOaW9hcEww?=
- =?utf-8?B?Tnh3RzErTnRWQjVJQWdBWG03a0dWY0RCQjBPWlhORzY3bFlkR2tIcXV5UE9a?=
- =?utf-8?B?V1IwSm45M0gwa2FEUUtieFJrbTRRYlJadjBFUFlpSS9uaG10ejhOL0RWVVV6?=
- =?utf-8?B?anhNNHFwSnQrNnFBV2tJcWlMbGRTVlFReVdMSnZiaFNzN0czN2ZpVUZwYnhl?=
- =?utf-8?B?V0xvUndxdm9lQ2Fvdm8yT3N1cHQyenVOaW1Sa015Uk1ubWpvd3RHa25pajhv?=
- =?utf-8?B?Y0NSZ3VuaklmcDk3Qys0Q092QmN3Y0xuc0t1aWpPd3ZZOFRPdTFqZm53bGt0?=
- =?utf-8?B?MzRPRUJ0WUdiK0xyWVk4cVV0QkptcEdkUUh2T1VVSUtmSUw4dHU5VVJzMWpr?=
- =?utf-8?B?YTFTam5aOXN1YjVETWtEMVBPSFd6aDVjK215ZkpOUEtiak15VWY0ZUxkRUpw?=
- =?utf-8?B?d1lyaXlQVkZtNSt2OHVTMlQ5MVg0V09hczFHZWpOM1BIR1ovd256azVlb0U2?=
- =?utf-8?B?bEQ4MG5XbmR3S2RiRFF0Y0JXYzNScHl2NGFBL0IySUNwUmxkdWJoeXhOWGE3?=
- =?utf-8?B?WU1nMTB0SXlyeENyM1BqUnRWd0VqMHFsYWh2dHMrTUxqdTNPeGs0eDFWSE5m?=
- =?utf-8?B?NVY0bExhcmsySmFuTGp4TXcycFFzb1dtN2RrSllvNDROOWRXZkN6RkhORXh0?=
- =?utf-8?B?b05HOXFSSElMc3VPdkxuUSswVmxqNFViR3dYeVRXSTRiR2pwMGxDMUtJdkI0?=
- =?utf-8?B?MDlaVkE2eTNmVUQrOGtxY0dISmdWaWZWWGJrd0dJSGkzQXFuRnc2KzZscENp?=
- =?utf-8?B?dHV6cU1XeXVXQStHMkg2QzNVM2kwRk5PSWtaZEJNY1JpWHNBWGpINDFqMlpv?=
- =?utf-8?B?WjhQaDBwbUhFSXdUT0Z6RXpmMWxVVnV6SW5NcHBnL2dBbDZwb2U0dGFMTEU3?=
- =?utf-8?B?bFVQUlZ2VGE5L2VsZEY5SmdxazhnaXZRbEhIdmhqeGZFOVJyZ20wYnpjZjZT?=
- =?utf-8?B?WWhHUWRvKys5Z0lNODB5SDVpeW0xK3ZPMWFLM2JTTjRKRDdVN2ZzazNJalFU?=
- =?utf-8?B?SkNkTGtJY1dIaTBOTVdNakJuL2dUZVQ1Q2VxSmxKR2pDSHYyV1lzbnBjSERW?=
- =?utf-8?Q?hCXtZkhqwVUbX24I=3D?=
+	=?utf-8?B?d0VWTzR3VDVsNlRvaHlwTngrYVQvc0N6cEFEZVFwM1lCeGp3YzEyTWtLU0Fm?=
+ =?utf-8?B?OWxUL1RLRFJkeTdMZ0FJOVhJZDRqbGxqRWx6dTJIeU1pWHVRV0JYeTBaUm83?=
+ =?utf-8?B?QnI5WUdCa1QzS1BWb2RWSmRTMFVWQ1E3blZQa0hGUXJXdGM5Y2tLRkhZNjVF?=
+ =?utf-8?B?enluNkw1alhJUisya2FDMDdQQW1pZGZTM3ByYU5IV2t0U0srRUpRRW9Cdisy?=
+ =?utf-8?B?MkZBMU1VbEZPdTNLMURISmRncGhFbUorTjNLZXZPUUpDaVpoa3RJcldoY29a?=
+ =?utf-8?B?V2FTZjZybWZ0cjR6eTRnWGh0MXRwZURtRWQ0clNTY1RjalpSa1kxSG45bkd4?=
+ =?utf-8?B?NzQ5VEM0Q2xnTlZwbCtUYVFuRGFZak1FNzlyTTZIWGNldDgxSWp5c2VibHgr?=
+ =?utf-8?B?N3RMK0s3cElDY0oyRTN0dXhmME1yTnNsMDNkY25ZUFRhMFNIUk5OSHAyR243?=
+ =?utf-8?B?VGREMDNNb1g5ZDlvRW5waUE0ZVZTUHpwWGppR0h1eStsMWRVNEQyTmFiTzJS?=
+ =?utf-8?B?OUM0US9JMW45VmprWitWMjhkNHlRemRXZEV6aktSVFRLWC9VVm9hdHczYVFG?=
+ =?utf-8?B?cEI4bEgxVFJwUWNRS0lxdGljaTQ3UU40RkFkaFR1SGN3SDFwS0RBb2dYTEg2?=
+ =?utf-8?B?QUxsZURyTjNONU94Z2hZVVgrK3hGYStkNjlZaVZ2amlWNTRGc1ZuUnhtSVBy?=
+ =?utf-8?B?VUdLR2JNUm1tQXZPNWhUN3N3N2wyZ2ZYb0k4Qk53MGlObXBMRXU1dU4zWmti?=
+ =?utf-8?B?WkhaSUFpRjMyUGdnVjB3TjI2SW9WYlJ5QjFxOEloOEhGZ2dCT09pdjVCSUgr?=
+ =?utf-8?B?blhzVkg0U2x6aXFwcUlScDRrYlEzaWx4T1IwdHR2S3ZHenJKOVBiTDBHTW1n?=
+ =?utf-8?B?MkowYXg3TGFxekMxZDhZc0QzOGJ6cjdvV0cvczZxbmxUaGZyUHVGcWVYQ2Uw?=
+ =?utf-8?B?aWZnWCswZUZkM2VWbllqWW1SV1lEN3JFNmJneUFDRmpiTHlkR1pnRUJ0Zm9y?=
+ =?utf-8?B?S1FGV0REb1hRcUFiQm0yYjdkV0ZsZmF5aWhweVBDTnBtSVYvd1FjR2tibW1h?=
+ =?utf-8?B?M3lLbWVKOS90QkxVRFk3YTB4eTZuWU5aWDQwNUZmMWpsR05tdUxZcWdPSGNG?=
+ =?utf-8?B?QzdJN0NiTEJxSUNWUmQyN3FKNnVzeVI3eWUwZHNtK251S2xlbnlveWxpdS8r?=
+ =?utf-8?B?eXRDeDVpVDB4U3FMdXBvSnJjV0p6eW9vQ0prdWMxaVdEcktzeU95M1B2NHhq?=
+ =?utf-8?B?elhKQVA5VVdzcU85QzVDdTZ3R2xOdXc3cGpJeG50VDcvdCtyZzlIK254dC8v?=
+ =?utf-8?B?ZTliQSt1UFpTN1p4Ykd2YlAzL1NKQW5mYTMvZTB4WTV4NmFUVjZocDVCeWh5?=
+ =?utf-8?B?QXMraVlyWXJ6ZzBua2d6ZTZqVkJEelo0TUFyZWtpbENtWVoxTUdaNkxJYzUx?=
+ =?utf-8?B?d0wwbEVUUWlweC80ZmluUE80MXNKUGN4RldHdE5Qa2h0c3plOVNLRVVCOEFt?=
+ =?utf-8?B?MDBVM2IyM2NDZVJaVTg0ZVBqNUJUL3BGdkxQZmtIWWRleXNGWm5Pcy81d01n?=
+ =?utf-8?B?SjhXOW9TZUxPWStaNHFEZVo2RlhzcGlqREpkZEJneG5aT1QrakFXdlZJOWZh?=
+ =?utf-8?B?cU1KdVZIRHoxam9mUkMrVzR3dk5ybEUzWEhoRFA2OFczTWJMYjgrSDF6T1FL?=
+ =?utf-8?B?VmVHaVY4SVR1RzhjUGVFQTlVUks4TkRLL2JNOE5BbkNpcDFoNytQaUxUSUxC?=
+ =?utf-8?B?RXZmSTdUbDZ6QnBTc3pRMFdIRkdVSHdqVFNYSUMwRU1UK3FZNjA1Y3hCd1Bz?=
+ =?utf-8?B?anlnQkVuS2NaQlE0TTE2MUpGaEdhRkwrbDd3ZXJIVXd3dmNIaHdObGdMaDc4?=
+ =?utf-8?B?NXM3a2VlelN5ZG9ueUwvVUxhemFYVTRaMUMyNk1EV0lMTTdCcFVONmp2NnZw?=
+ =?utf-8?B?NzU3SUVRUXpzcHpSNFNRbVZ4d0Z0dGpMcWpIZE1lbURGWGovVC9pdEZBeEdr?=
+ =?utf-8?B?cWd0ZjY5eGFNUkxnc1VoYXduTEZPWVY5WStsS2FHRjBMTHhrS3ZKdHJjUG92?=
+ =?utf-8?B?eWFsZlV5Si9EWUFTbXlVZ0hOUHdKQTZWMEVFQWZvVmxCeG4weUZ5MEtNbkVz?=
+ =?utf-8?B?TERlTVBMRUhlZHlNL3ltWW1aTVV0eGFsNXpPdE5RWTJpUzNvcktYUTRrTzlz?=
+ =?utf-8?B?aHZGYnZMa1V6MUdMVEl6VS9tdVc0YUdqaHkwTHZBOTRhakFFczJ3UWMrL3Ew?=
+ =?utf-8?B?UDcvQVhhTTJabjJoQVV2QmJ0ZTM0SGlFWUJZMTU0c2JEd3A0UlBpTCtkVkdq?=
+ =?utf-8?B?RXNZQ3phdk4rU2JlVFBybkJmWTIzOWx1SXdJaThJMTZaRUdZY1lXUT09?=
 X-Exchange-RoutingPolicyChecked:
-	YJvmNKXPxnvmiePwJK2p5SQup7KlPM1bFr6M5AFtNEBAovcaCv0aVvZRVZsxP2wPdMo2ryeWRO5gekKZOFRiqEK/ugDKXluTYhtlglgphTf2EJ5jQnYaNWjDSbv5K/60EtZz2N+HxiCKN1xmmyzUGu8iUcHLGEch95H/Mc5WSQgNskRoO80EM7g9SE5BPVDBY3s2s5FIOVCgkUYVS2aQLzxSkIT3bZ4dqGN4vwg4f/Qil8UvyykM+FegPf78fznJg+M9buW7JMaDnv2GGV4e0NtbAfcdvh5ZzdMxGDsi+4bE6eAqMmDp0vql+mzofBuwnOkc9Bc0/Y8S5FyZU7CGFQ==
+	372Cb8fiV7VXd71zPzRYdmxRd9Gir9D39exqQz0TxMf+nMXilQOGqI6HuC8LaMJ/FyItxq+J8CBOfXpAB6r1FiYt+sQb1ZOkCKCrX4W0/95nXxh7xs39yyOgK82StM16YXywL4GUhHTWmBIdvIZWAMCxHViX5ZxQNvqakVZ5ux1il2JRRHcN0uQlRNAY+OrLEJASE0t5A3OpKCE4kcAs718uyhsIehsjHzKOajsvGiOXkn1mNUFy8JC+gBmcFAjjWWLk3qxupL/OoNFJx4qsIILYxn6pS+hzuTXerTOQ8RVSN8SJDCP1xZnmR8LP6Fhn7ew8ld08c8brCDQ/m09tag==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	iwTTZidpiXwskbmmoJiQoqQIC8KvbZ+XNemHmdh3VGhSeH8QuBhPd0y8f7BClLWJnQIe1/OGglgq7Uk3oa1DnhdODHMAhybxk0UXSrnGkLiG8ufhY9etcIDVX2/U03M1Aa5KWwFd2UEn8IA4pDNuX8Try/epyjwXHy9IXNvRhKyd3tKqMgXCOjv+BtNVIrWMv4q1o/bknq0l73X6Wf6JM9Vr4H8maQfYWINkzpmi8Qx+kPwypL+x6XfNt7uMamBpGxyJKxU8+7KAC45nHywKcie3Mvli7VYq/rHU/aWlZWCtyfnT1WLul0fPBOGXcv+HcA6yReSd+9sG7+FKEzDO0scD64fHT/KvDuqX7Sq1htx3htQlJRy7vZoLKgZHue18CKpHg4uzuOWJFK5RO57+OmdLcMdpKkc3HZ6ipxpm0AdJH5uK8NaTkAd2+z+dsronCoQxO/q9EZGKygJAoyf7EfT485jOLrpInypJ2qk9dNpv7akz10V1ovvHtI+OPXdkqvT6C2USnggO5DmGRsG+pILyy7lDHy3w5CSogEmnXtAf1wwvacTcNRHlvUq6XiTD1+r6mW/GXR9Dp0FT5CyynduEFiBWcplYJgx8dcNYI8s=
+	xnKAsL6E/5fIDy2yrHSOIASHeaGQ+XprQmchGd7pyX6BBy3NfDgnx99dmNdqiFrEV23NXJ4ztKOIx9CpeneJieATp5oRsqq54Ro/2YecExeqw/sPsyovFTphAUcMvclxdbGkcTs5jSFyorw8DdzC3XjYcdVPtYkCb/upOe140pQUta75UZvQJAsdUjKVL88/7rDIyiWYSsLKK5MVUG3NysJlVguHYhGiJNOquaclxCKj44XgQYd+Icgrkirln7LI/rCzB2uRCdcRzvT0ABOhveEfk3QA0AUCOMGfAQJm+x9Z4CwbZ0HW9ZH0RpAN0F+aswsH0w89IlT8EOXK1S/bNw55+SjluCqVCsglGh4B4X3r77js1I6iv61XLwlVZRDHFP6dimlSZdWjacn1k9DiyU+uuzd8oogK9x1HImMdq/LRMCRz6TOUgYxH/pFxNGj0vr6sWU8qIG37kDM5h6jWhu2MTAfhk2h7RWKUMRul22yVxZlZ+dhGtDGIXQ8chJAawVNH/t1D5V05O4bBmzmjpIFG1b7Owzli7h67xvYNqs4yqojT8WpcKmGaoEL50TI6hHOARIvqBKamE9+f7p6qHFPRV2sfG6/D3ew+pNstPj8=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 799aba6b-311f-4c21-8462-08df05f482ad
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5075.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fbdd9a19-284b-475f-1ef0-08df06833544
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB4901.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2026 17:39:43.7155
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2026 10:41:11.7717
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PNSQevaaq+eVFWAmcIeAZQacdVBVO5T6b4grQTr68iCQAeRyrvia6OKtHpeIBusLgiAUte1XPq0DOloYLqLx7d+HhoQP2s04hFeQEEi1Zfg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6156
+X-MS-Exchange-CrossTenant-UserPrincipalName: i0S6G8PfCC54fyZf2n7PCJPokiHd3uIY38OYFn+WFnuZHiWWnfzm1LfDA2cpyjZNGLgDBPYQCXYLtasTclo/tA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6872
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-29_05,2026-08-27_02,2025-10-01_01
+ definitions=2026-08-30_03,2026-08-27_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
  mlxscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
  mlxlogscore=999 spamscore=0 suspectscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2606160000 definitions=main-2608290153
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI5MDE1MiBTYWx0ZWRfX1swUt89lTIEz
- 4cfmQhNeLXzx4kWmrF0R+dS9tHnO3/e0dV2QmXZA/TyK4HYogyXL+PsM8uxEc7SDpbwKbgD/i0i
- 3I4rkwPiK7dfgDt/vd+hAOE7fObBWuBRQrsUeGYMJe1hxDBtczSIuzIZugr1rulySu4ENopG8bM
- gzzViQ+ULCez3teD1j5n0FKENWtUlhhj/aJhw2N5nP6IDSPyiPXx289XMJMb1ALXyxdCsxYxZvL
- 8dVnjSarKRi12xjkRpPe2vp7sdz/Z+aK5PaY1+ZYFtWBGbBYVW8X5A69eDmGf4dt+1pzyQvay8P
- VyF6LAIPQhKrFPLgYL19y11ut2Xjz9TMxdBpW5hX1EPsIRZoGstLFbhT1h7V9mognVmLHzb7wAS
- Hd5kKwdvNPGFUx1Xz3srFJ5/xphKvaDitc0a25XaSgtRxRkox0lqV51oLFUBTW4/qZkwI2Ne8Df
- I+9X/5bSErU+zsKzNe1BcfnWGWcFm4AYcVkj+Ad0=
-X-Proofpoint-ORIG-GUID: gJPaHvvD9yhxEsra_d9czxaSXFgoVQYZ
-X-Authority-Analysis: v=2.4 cv=fbCdDUQF c=1 sm=1 tr=0 ts=6a931998 b=1 cx=c_pps
+ reason=mlx scancount=1 engine=8.19.0-2606160000 definitions=main-2608300090
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODMwMDA4OSBTYWx0ZWRfXxEW6toooARCf
+ yac58pj4DRkUdVcBBVZmuLtXYFMhM6Yq70TR+GZ0H27c26GeEE1eG7drwWkCEFVd2kvIeV7sJg9
+ hYJ5I6h9gPmGU7tEX2PBDvlCYa2p7KTzvwucXM+k+C+3Gi5HO7IL
+X-Proofpoint-ORIG-GUID: jqJF-ztVz-Y2UbLiNxiffJFcr8A0EDBw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODMwMDA4OSBTYWx0ZWRfX1oFbZ33I00zC
+ ouBPFn99Vb9edDlTGoNu8oaXOQHvkWZ7GB/DtrAY/2gyIk2m2s8qKXtKeQfF9TX0CWOPnDjWzqV
+ /swnObrGlKWp10pZrgJX7sG3NqXQMd0KpaQh9yCJwFWEJev4nLC7v8Fa6Dh50B84HxMG9mJYyb7
+ kNvL6PKEJCvofDlziqbfoIEVJn4w8zxC0o3Mvx7ZoGlMG0t+kEmiDP2GMvMPegQ//I8HPyalguE
+ 27/6ovd3ISBucEygrIz/jFyauyeGdSdyUrsi0f0TQuuCTwMEjeBA7euxoH1leGe/6b95rhj+bh5
+ N+aeXtBoSew0iVZUpIUSaNxEWPlZTKjvDJntlW+GJtJPkhSreqIG3UygJDCzgdO9huS6dhTdyy9
+ MHea06+ezJusEkkiZHZwj32sHSvFcJ5WfJLFSBV5gwqO4nRoY8gOenxy6An5/qUbAUxEfE3yiXf
+ JwwyAFblMe6iZaQqKHUsjmb7dyAFXKpuB4SlKbvU=
+X-Authority-Analysis: v=2.4 cv=DMi/JSNb c=1 sm=1 tr=0 ts=6a9408cb b=1 cx=c_pps
  a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=Sv0fKeRqtYgA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=7Gl3-_t3PgB9XO-mQDs3:22 a=yPCof4ZbAAAA:8
- a=NEAV23lmAAAA:8 a=xNf9USuDAAAA:8 a=mDV3o1hIAAAA:8 a=pGLkceISAAAA:8
- a=FKPg5YRAlW6owOH49H8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:12101
-X-Proofpoint-GUID: gJPaHvvD9yhxEsra_d9czxaSXFgoVQYZ
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI5MDE1MiBTYWx0ZWRfXxHZS0drzhTEC
- gZ8vmJ8LuGB8LDi8tsnxLiEdN+K4ZCiCDo1tZI/2HX8GNzEhPlF40uaCUMPOeSKsfwZsSa6BNKW
- CZYzMCePH1lBjcS36TGHonLLrga5VMpEUNp5xf4+oQs2CmCTwwTi
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=x0eKOSpe3m1H3M0S9YoZ:22 a=yPCof4ZbAAAA:8
+ a=eL_1wEreiF7Rnd4EofsA:9 a=QEXdDO2ut3YA:10 a=5yU3S35YU4bGjq-dph-N:22
+ a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:12101
+X-Proofpoint-GUID: jqJF-ztVz-Y2UbLiNxiffJFcr8A0EDBw
 
-
-Reviewed-by: Elena Zannoni <elena.zannoni@oracle.com>
-
-On 8/29/26 7:52 AM, Kris Van Hees via DTrace-devel wrote:
- 
-> Packaging configuration files for Debian are provided in dists/debian.
-> 
-> Sample steps to build DEB packages:
-> 
->  - make dist
->  - cp dtrace-x.y.z.tar.bz2 $D/dtrace_x.y.z.orig.tar.bz2
->  - cd $D
->  - tar -jxpSf dtrace_x.y.z.orig.tar.bz2
->  - cd dtrace-x.y.z
->  - make prep-debian
->  - debuild
+On 28/08/2026 20:09, Kris Van Hees wrote:
+> Close descriptors and release parsed buffers on every path when scanning
+> and reparsing the DOF stash.  Treat any non-negative openat() return as
+> success, clean up exec-mapping and raw-data reads through common error
+> paths, and avoid leaking mapping descriptors when reparsing can be
+> skipped.
 > 
 > Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+
+Reviewed-by: Alan Maguire <alan.maguire@oracle.com>
+
 > ---
->  dists/Build                                   |  14 ++
->  dists/debian/changelog                        |  20 ++
->  dists/debian/control                          |  74 ++++++++
->  dists/debian/copyright                        | 149 +++++++++++++++
->  dists/debian/dtrace-tests.install             |   1 +
->  dists/debian/dtrace-tests.lintian-overrides   |   8 +
->  dists/debian/dtrace.docs                      |   1 +
->  dists/debian/dtrace.install                   |   1 +
->  dists/debian/dtrace.lintian-overrides         |   1 +
->  dists/debian/dtrace.manpages                  |   1 +
->  dists/debian/libdtrace2-dev.install           |   5 +
->  dists/debian/libdtrace2.install               |  12 ++
->  dists/debian/libdtrace2.lintian-overrides     |   4 +
->  dists/debian/libdtrace2.manpages              |   1 +
->  dists/debian/mkChangelog                      | 174 ++++++++++++++++++
->  dists/debian/patches/debian-configure.patch   |  17 ++
->  .../debian/patches/debian-fix-sed-path.patch  |  12 ++
->  dists/debian/patches/series                   |   3 +
->  dists/debian/rules                            |  24 +++
->  dists/debian/source/format                    |   1 +
->  20 files changed, 523 insertions(+)
->  create mode 100644 dists/Build
->  create mode 100644 dists/debian/changelog
->  create mode 100644 dists/debian/control
->  create mode 100644 dists/debian/copyright
->  create mode 100644 dists/debian/dtrace-tests.install
->  create mode 100644 dists/debian/dtrace-tests.lintian-overrides
->  create mode 100644 dists/debian/dtrace.docs
->  create mode 100644 dists/debian/dtrace.install
->  create mode 100644 dists/debian/dtrace.lintian-overrides
->  create mode 100644 dists/debian/dtrace.manpages
->  create mode 100644 dists/debian/libdtrace2-dev.install
->  create mode 100644 dists/debian/libdtrace2.install
->  create mode 100644 dists/debian/libdtrace2.lintian-overrides
->  create mode 100644 dists/debian/libdtrace2.manpages
->  create mode 100755 dists/debian/mkChangelog
->  create mode 100644 dists/debian/patches/debian-configure.patch
->  create mode 100644 dists/debian/patches/debian-fix-sed-path.patch
->  create mode 100644 dists/debian/patches/series
->  create mode 100755 dists/debian/rules
->  create mode 100644 dists/debian/source/format
+>  dtprobed/dof_stash.c | 125 +++++++++++++++++++++++++++++++------------
+>  1 file changed, 91 insertions(+), 34 deletions(-)
 > 
-> diff --git a/dists/Build b/dists/Build
-> new file mode 100644
-> index 00000000..882939c3
-> --- /dev/null
-> +++ b/dists/Build
-> @@ -0,0 +1,14 @@
-> +#
-> +# Oracle Linux DTrace.
-> +# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
-> +# Licensed under the Universal Permissive License v 1.0 as shown at
-> +# http://oss.oracle.com/licenses/upl.
+> diff --git a/dtprobed/dof_stash.c b/dtprobed/dof_stash.c
+> index 891d7a69..6e62bdf6 100644
+> --- a/dtprobed/dof_stash.c
+> +++ b/dtprobed/dof_stash.c
+> @@ -304,7 +304,8 @@ make_dof_name(dev_t dev, ino_t ino)
+>  {
+>  	char *ret;
+>  
+> -	if (asprintf(&ret, "%li-%li", (long) dev, (long) ino) < 0) {
+> +	if (asprintf(&ret, "%" PRIuMAX "-%" PRIuMAX,
+> +		     (uintmax_t)dev, (uintmax_t)ino) < 0) {
+>  		fuse_log(FUSE_LOG_ERR, "dtprobed: out of memory making DOF name\n");
+>  		return NULL;
+>  	}
+> @@ -317,12 +318,41 @@ make_dof_name(dev_t dev, ino_t ino)
+>  static int
+>  split_dof_name(const char *dof_name, dev_t *dev, ino_t *ino)
+>  {
+> -	if (sscanf(dof_name, "%li-%li", (long *) dev, (long *) ino) < 2) {
+> -		fuse_log(FUSE_LOG_ERR, "dtprobed: per-pid directory name %s unparseable\n",
+> -			 dof_name);
+> -		return -1;
+> -	}
+> +	uintmax_t	dev_val, ino_val;
+> +	dev_t		dev_tmp;
+> +	ino_t		ino_tmp;
+> +	char		*end, *ino_start;
 > +
-> +dists_DIR := $(current-dir)
+> +	if (dof_name[0] < '0' || dof_name[0] > '9')
+> +		goto err;
 > +
-> +# Prepare package building on Debian (copy ./dists/debian in ./debian.
+> +	errno = 0;
+> +	dev_val = strtoumax(dof_name, &end, 10);
+> +	if (errno != 0 || end == dof_name || *end != '-')
+> +		goto err;
 > +
-> +prep-debian::
-> +	$(call describe-target,DIST-PREP,Debian)
-> +	rm -rf debian
-> +	cp -rp $(dists_DIR)/debian .
-> diff --git a/dists/debian/changelog b/dists/debian/changelog
-> new file mode 100644
-> index 00000000..b176f3cd
-> --- /dev/null
-> +++ b/dists/debian/changelog
-> @@ -0,0 +1,20 @@
-> +dtrace (2.0.7-1) unstable; urgency=medium
+> +	ino_start = end + 1;
+> +	if (*ino_start < '0' || *ino_start > '9')
+> +		goto err;
 > +
-> +  * Fix CVE-2026-21996: divide-by-zero if section header data corruped.
-> +  * Fix CVE-2026-35233: OOB memory access.  (Closes: #1135619)
+> +	errno = 0;
+> +	ino_val = strtoumax(ino_start, &end, 10);
+> +	if (errno != 0 || end == ino_start || *end != '\0')
+> +		goto err;
 > +
-> + -- Kris Van Hees <kvanhees@gmail.com>  Tue, 12 May 2026 17:55:24 -0400
+> +	dev_tmp = (dev_t)dev_val;
+> +	ino_tmp = (ino_t)ino_val;
+> +	if ((uintmax_t)dev_tmp != dev_val || (uintmax_t)ino_tmp != ino_val)
+> +		goto err;
 > +
-> +dtrace (2.0.6-1) unstable; urgency=medium
+> +	*dev = dev_tmp;
+> +	*ino = ino_tmp;
+>  	return 0;
 > +
-> +  * Fix CVE-2026-21991: dtprobed unsafe probe description handling.
-> +  * Limit building to supported architectures. (Closes: #1129637)
-> +  * Remove unnecessary dependency ob binutils-bpf. (Closes: #1131271)
-> +
-> + -- Kris Van Hees <kvanhees@gmail.com>  Tue, 17 Mar 2026 17:53:17 -0400
-> +
-> +dtrace (2.0.5-1) unstable; urgency=medium
-> +
-> +  * Initial release. (Closes: #1128435)
-> +
-> + -- Kris Van Hees <kvanhees@gmail.com>  Fri, 20 Feb 2026 00:31:21 -0500
-> diff --git a/dists/debian/control b/dists/debian/control
-> new file mode 100644
-> index 00000000..7560dc9a
-> --- /dev/null
-> +++ b/dists/debian/control
-> @@ -0,0 +1,74 @@
-> +Source: dtrace
-> +Section: utils
-> +Priority: optional
-> +Maintainer: Kris Van Hees <kvanhees@gmail.com>
-> +Build-Depends: debhelper-compat (= 13),
-> + bison, flex, gawk, gcc-bpf (>= 14.2) , valgrind, binutils-dev (>= 2.44),
-> + login.defs, libbpf-dev (>= 1.5), libc-dev (>= 2.34), libelf-dev, libfuse3-dev,
-> + libpcap-dev, libpfm4-dev, libsystemd-dev, libz-dev
-> +Standards-Version: 4.7.4
-> +Homepage: https://github.com/oracle/dtrace/
-> +Rules-Requires-Root: no
-> +
-> +Package: dtrace
-> +Architecture: amd64 arm64
-> +Depends: ${misc:Depends}, ${shlibs:Depends}
-> +Description: Dynamic tracing for Linux (DTrace)
-> + This is the official Linux port of the advanced tracing tool DTrace.
-> + .
-> + DTrace is a high-level dynamic tracing tool for Linux, built on kernel
-> + tracing features (tracepoints, function probes (fentry/fexit), dynamic
-> + kernel probes (kprobes), dynamic userspace probes (uprobes), ... and
-> + leveraging BPF as execution engine.  It features an integrated compiler
-> + for its high-level tracing language and native support for interacting
-> + with the BPF engine, significantly reducing runtime dependencies.
-> +
-> +Package: libdtrace2
-> +Architecture: amd64 arm64
-> +Depends: ${misc:Depends}, ${shlibs:Depends},
-> + fuse3, libctf0, libelf1t64, libfuse3-4, libpcap0.8t64, libpfm4, libz1
-> +Description: Dynamic tracing for Linux (DTrace) (library)
-> + This is the official Linux port of the advanced tracing tool DTrace.
-> + .
-> + DTrace is a high-level dynamic tracing tool for Linux, built on kernel
-> + tracing features (tracepoints, function probes (fentry/fexit), dynamic
-> + kernel probes (kprobes), dynamic userspace probes (uprobes), ... and
-> + leveraging BPF as execution engine.  It features an integrated compiler
-> + for its high-level tracing language and native support for interacting
-> + with the BPF engine, significantly reducing runtime dependencies.
-> + .
-> + This package contains the shared library.
-> +
-> +Package: libdtrace2-dev
-> +Architecture: amd64 arm64
-> +Depends: ${misc:Depends},
-> + libdtrace2 (= ${binary:Version})
-> +Description: Dynamic tracing for Linux (DTrace) (development)
-> + This is the official Linux port of the advanced tracing tool DTrace.
-> + .
-> + DTrace is a high-level dynamic tracing tool for Linux, built on kernel
-> + tracing features (tracepoints, function probes (fentry/fexit), dynamic
-> + kernel probes (kprobes), dynamic userspace probes (uprobes), ... and
-> + leveraging BPF as execution engine.  It features an integrated compiler
-> + for its high-level tracing language and native support for interacting
-> + with the BPF engine, significantly reducing runtime dependencies.
-> + .
-> + This package contains the development files necessary to develop
-> + alternative implementations of the user interface for libdtrace, i.e.
-> + replacements for dtrace(1) itself.
-> +
-> +Package: dtrace-tests
-> +Architecture: amd64 arm64
-> +Depends: ${misc:Depends}, ${shlibs:Depends}, ${perl:Depends},
-> + binutils, cpp, gawk, gcc, make, pkgconf, tshark, bpftool
-> +Description: Dynamic tracing for Linux (DTrace) (testsuite)
-> + This is the official Linux port of the advanced tracing tool DTrace.
-> + .
-> + DTrace is a high-level dynamic tracing tool for Linux, built on kernel
-> + tracing features (tracepoints, function probes (fentry/fexit), dynamic
-> + kernel probes (kprobes), dynamic userspace probes (uprobes), ... and
-> + leveraging BPF as execution engine.  It features an integrated compiler
-> + for its high-level tracing language and native support for interacting
-> + with the BPF engine, significantly reducing runtime dependencies.
-> + .
-> + This package contains the testsuite.
-> diff --git a/dists/debian/copyright b/dists/debian/copyright
-> new file mode 100644
-> index 00000000..5c5553b3
-> --- /dev/null
-> +++ b/dists/debian/copyright
-> @@ -0,0 +1,149 @@
-> +Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-> +Upstream-Name: dtrace
-> +Upstream-Contact: Kris Van Hees <kris.van.hees@oracle.com>
-> +Source: https://github.com/oracle/dtrace/
-> +
-> +Files: *
-> +Copyright: Copyright (c) 2003, 2026, Oracle and/or its affiliates. All rights reserved.
-> +License: UPL-1.0
-> +
-> +Files: bpf/*
-> +Copyright: Copyright (c) 2019, 2026, Oracle and/or its affiliates.
-> +License: GPL-2
-> +
-> +Files: debian/*
-> +Copyright: Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
-> +License: UPL-1.0
-> +
-> +Files: bpf/Build bpf/GNUmakefile
-> +Copyright: Copyright (c) 2003, 2026, Oracle and/or its affiliates. All rights reserved.
-> +License: UPL-1.0
-> +
-> +Files: include/linux/bpf.h
-> +Copyright: Copyright (c) 2011-2014 PLUMgrid
-> +License: GPL-2 with Linux-syscall-note exception
-> +
-> +Files: include/linux/btf.h
-> +Copyright: Copyright (c) 2018 Facebook
-> +License: GPL-2 with Linux-syscall-note exception
-> +
-> +Files: include/sys/auxv.h include/sys/bitmap.h
-> +Copyright: Copyright (c) 1984, 1986, 1987, 1988, 1989 AT&T
-> +License: UPL-1.0
-> +
-> +Files: include/sys/glibc_internal_link.h
-> +Copyright: Copyright disclaimed (all content required for interoperability)
-> +License: LGPL-2.1+
-> +
-> +Files: libport/systemd_notify.c
-> +Copyright: Copyright disclaimed (all content required for interoperability)
-> +License: MIT-0
-> +
-> +Files: libproc/libproc.h libproc/Pcontrol.c
-> +Copyright: Copyright (c) 2003, 2025, Oracle and/or its affiliates. All rights reserved.
-> +License: UPL-1.0
-> +
-> +License: UPL-1.0
-> + The Universal Permissive License (UPL), Version 1.0
-> + .
-> + Subject to the condition set forth below, permission is hereby granted
-> + to any person obtaining a copy of this software, associated
-> + documentation and/or data (collectively the "Software"), free of charge
-> + and under any and all copyright rights in the Software, and any and all
-> + patent rights owned or freely licensable by each licensor hereunder
-> + covering either (i) the unmodified Software as contributed to or
-> + provided by such licensor, or (ii) the Larger Works (as defined below),
-> + to deal in both
-> + .
-> + (a) the Software, and
-> + (b) any piece of software and/or hardware listed in the lrgrwrks.txt
-> + file if one is included with the Software (each a “Larger Work” to which
-> + the Software is contributed by such licensors),
-> + .
-> + without restriction, including without limitation the rights to copy,
-> + create derivative works of, display, perform, and distribute the
-> + Software and make, use, sell, offer for sale, import, export, have made,
-> + and have sold the Software and the Larger Work(s), and to sublicense the
-> + foregoing rights on either these or other terms.
-> + .
-> + This license is subject to the following condition:
-> + The above copyright notice and either this complete permission notice or
-> + at a minimum a reference to the UPL must be included in all copies or
-> + substantial portions of the Software.
-> + .
-> + THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-> + OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-> + MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-> + NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-> + LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-> + OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-> + WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-> + Licensed under the Universal Permissive License v 1.0 as shown at
-> + https://oss.oracle.com/licenses/upl.
-> +
-> +License: GPL-2
-> + This program is free software; you can redistribute it
-> + and/or modify it under the terms of the GNU General Public
-> + License version 2 as published by the Free Software Foundation.
-> + .
-> + On Debian systems, the full text of the GNU General Public
-> + License version 2 can be found in the file
-> + `/usr/share/common-licenses/GPL-2'.
-> +
-> +License: GPL-2 with Linux-syscall-note exception
-> + This program is free software; you can redistribute it
-> + and/or modify it under the terms of the GNU General Public
-> + License version 2 as published by the Free Software Foundation.
-> + .
-> + On Debian systems, the full text of the GNU General Public
-> + License version 2 can be found in the file
-> + `/usr/share/common-licenses/GPL-2'.
-> + .
-> + NOTE! This copyright does *not* cover user programs that use kernel
-> + services by normal system calls - this is merely considered normal use
-> + of the kernel, and does *not* fall under the heading of "derived work".
-> + Also note that the GPL below is copyrighted by the Free Software
-> + Foundation, but the instance of code that it refers to (the Linux
-> + kernel) is copyrighted by me and others who actually wrote it.
-> + .
-> + Also note that the only valid version of the GPL as far as the kernel
-> + is concerned is _this_ particular version of the license (ie v2, not
-> + v2.2 or v3.x or whatever), unless explicitly otherwise stated.
-> +
-> +License: LGPL-2.1+
-> + This file is part of the GNU C Library.
-> + .
-> + The GNU C Library is free software; you can redistribute it and/or
-> + modify it under the terms of the GNU Lesser General Public
-> + License as published by the Free Software Foundation; either
-> + version 2.1 of the License, or (at your option) any later version.
-> + .
-> + The GNU C Library is distributed in the hope that it will be useful,
-> + but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + Lesser General Public License for more details.
-> + .
-> + You should have received a copy of the GNU Lesser General Public
-> + License along with the GNU C Library; if not, see
-> + <https://www.gnu.org/licenses/>.
-> +
-> +License: MIT-0
-> + MIT License
-> + .
-> + Permission is hereby granted, free of charge, to any person obtaining a
-> + copy of this software and associated documentation files (the "Software"),
-> + to deal in the Software without restriction, including without limitation
-> + the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> + and/or sell copies of the Software, and to permit persons to whom the
-> + Software is furnished to do so, subject to the following conditions:
-> + .
-> + The above copyright notice and this permission notice shall be included in
-> + all copies or substantial portions of the Software.
-> + .
-> + THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-> + AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-> + FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-> + DEALINGS IN THE SOFTWARE.
-> diff --git a/dists/debian/dtrace-tests.install b/dists/debian/dtrace-tests.install
-> new file mode 100644
-> index 00000000..a04ebfb9
-> --- /dev/null
-> +++ b/dists/debian/dtrace-tests.install
-> @@ -0,0 +1 @@
-> +usr//lib/${DEB_HOST_MULTIARCH}/dtrace/testsuite/
-> diff --git a/dists/debian/dtrace-tests.lintian-overrides b/dists/debian/dtrace-tests.lintian-overrides
-> new file mode 100644
-> index 00000000..22cbd6eb
-> --- /dev/null
-> +++ b/dists/debian/dtrace-tests.lintian-overrides
-> @@ -0,0 +1,8 @@
-> +dtrace-tests binary: unstripped-binary-or-object [*]
-> +dtrace-tests binary: unusual-interpreter dtrace [*.d]
-> +dtrace-tests binary: interpreter-not-absolute dtrace [*.d]
-> +dtrace-tests binary: executable-not-elf-or-script [*.d]
-> +dtrace-tests binary: relative-library-search-path RUNPATH test/triggers [*]
-> +dtrace-tests binary: statically-linked-binary [*]
-> +dtrace-tests binary: package-has-unnecessary-activation-of-ldconfig-trigger
-> +dtrace-tests binary: shared-library-lacks-prerequisites [*/dtrace/testsuite/test/triggers/libproc-dlmlib.so.0.0.0]
-> diff --git a/dists/debian/dtrace.docs b/dists/debian/dtrace.docs
-> new file mode 100644
-> index 00000000..7696583d
-> --- /dev/null
-> +++ b/dists/debian/dtrace.docs
-> @@ -0,0 +1 @@
-> +usr/share/doc/dtrace-${env:DEB_VERSION_UPSTREAM}/
-> diff --git a/dists/debian/dtrace.install b/dists/debian/dtrace.install
-> new file mode 100644
-> index 00000000..6be68ccb
-> --- /dev/null
-> +++ b/dists/debian/dtrace.install
-> @@ -0,0 +1 @@
-> +usr/sbin/dtrace
-> diff --git a/dists/debian/dtrace.lintian-overrides b/dists/debian/dtrace.lintian-overrides
-> new file mode 100644
-> index 00000000..11005f4a
-> --- /dev/null
-> +++ b/dists/debian/dtrace.lintian-overrides
-> @@ -0,0 +1 @@
-> +dtrace binary: unstripped-binary-or-object [*]
-> diff --git a/dists/debian/dtrace.manpages b/dists/debian/dtrace.manpages
-> new file mode 100644
-> index 00000000..e54b52b3
-> --- /dev/null
-> +++ b/dists/debian/dtrace.manpages
-> @@ -0,0 +1 @@
-> +usr/share/man/man8/dtrace.8
-> diff --git a/dists/debian/libdtrace2-dev.install b/dists/debian/libdtrace2-dev.install
-> new file mode 100644
-> index 00000000..b5e66db5
-> --- /dev/null
-> +++ b/dists/debian/libdtrace2-dev.install
-> @@ -0,0 +1,5 @@
-> +usr/lib/${DEB_HOST_MULTIARCH}/libdtrace.so
-> +usr/include/dtrace
-> +usr/include/dtrace.h
-> +usr/include/sys/dtrace.h
-> +usr/include/sys/dtrace_types.h
-> diff --git a/dists/debian/libdtrace2.install b/dists/debian/libdtrace2.install
-> new file mode 100644
-> index 00000000..36294de3
-> --- /dev/null
-> +++ b/dists/debian/libdtrace2.install
-> @@ -0,0 +1,12 @@
-> +usr/lib/${DEB_HOST_MULTIARCH}/dtrace/[0-9]*/
-> +usr/lib/${DEB_HOST_MULTIARCH}/dtrace/bpf_dlib.o
-> +usr/lib/${DEB_HOST_MULTIARCH}/dtrace/drti/
-> +usr/lib/${DEB_HOST_MULTIARCH}/dtrace/include/
-> +usr/lib/${DEB_HOST_MULTIARCH}/libdtrace.so.*
-> +usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/dtrace.pc
-> +usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/dtrace_sdt.pc
-> +usr/lib/systemd/system/dtprobed.service
-> +usr/lib/systemd/system/dtrace-usdt.target
-> +usr/lib/systemd/system-preset/50-dtprobed.preset
-> +usr/lib/udev/rules.d/60-dtprobed.rules
-> +usr/sbin/dtprobed
-> diff --git a/dists/debian/libdtrace2.lintian-overrides b/dists/debian/libdtrace2.lintian-overrides
-> new file mode 100644
-> index 00000000..34b4011d
-> --- /dev/null
-> +++ b/dists/debian/libdtrace2.lintian-overrides
-> @@ -0,0 +1,4 @@
-> +libdtrace2 binary: binary-from-other-architecture [*/dtrace/bpf_dlib.o]
-> +libdtrace2 binary: unstripped-binary-or-object [*]
-> +libdtrace2 binary: appstream-metadata-missing-modalias-provide usr/lib/udev/rules.d/60-dtprobed.rules
-> +libdtrace2 binary: systemd-service-file-refers-to-unusual-wantedby-target basic.target [usr/lib/systemd/system/dtprobed.service]
-> diff --git a/dists/debian/libdtrace2.manpages b/dists/debian/libdtrace2.manpages
-> new file mode 100644
-> index 00000000..fef53dc3
-> --- /dev/null
-> +++ b/dists/debian/libdtrace2.manpages
-> @@ -0,0 +1 @@
-> +usr/share/man/man8/dtprobed.8
-> diff --git a/dists/debian/mkChangelog b/dists/debian/mkChangelog
-> new file mode 100755
-> index 00000000..69958dca
-> --- /dev/null
-> +++ b/dists/debian/mkChangelog
-> @@ -0,0 +1,174 @@
-> +#!/usr/bin/awk -f
-> +
-> +#
-> +# This script can be used to convert the dtrace.spec into a Debian changelog
-> +# file.  It is intended to be invoked from the 'prep-debian' make target, but
-> +# it can be used manually as well:
-> +#	mkChangelog debian/control dtrace.spec > debian/changelog
-> +#
-> +
-> +function error(msg) {
-> +	print "E:"msg >"/dev/stderr";
-> +	err = 1;
-> +	exit(1);
-> +}
-> +
-> +BEGIN {
-> +	if (!dist)
-> +		dist = "UNRELEASED";
-> +	else if (dist != "unstable" && dist != "experimental")
-> +		error("Bad dist ("dist")");
-> +}
-> +
-> +/^Maintainer:/ {
-> +	sub(/^Maintainer: +/, "");
-> +	m_name = $0;
-> +	i = index(m_name, " <");
-> +	m_mail = substr(m_name, i + 1);
-> +	m_name = substr(m_name, 1, i - 1);
-> +
-> +	nextfile;
-> +}
-> +
-> +/^Name:/ {
-> +	pkg = $2;
-> +	next;
-> +}
-> +
-> +/^%changelog/ {
-> +	in_changelog = 1;
-> +	next;
-> +}
-> +
-> +!in_changelog {
-> +	next;
-> +}
-> +
-> +function lineWrap(p, s, line, len, l, n, m, i) {
-> +	n = length(p);
-> +	line = p;
-> +	len = n;
-> +
-> +	m = split(s, arr, / +/);
-> +	for (i = 1; i <= m; i++) {
-> +		l = length(arr[i]);
-> +		if (len + 1 + l >= 80) {
-> +			print line;
-> +			line = sprintf("%*s %s", n, "", arr[i]);
-> +			len = n + 1 + l;
-> +		} else {
-> +			line = line " " arr[i];
-> +			len += 1 + l;
+> +err:
+> +		fuse_log(FUSE_LOG_ERR, "dtprobed: cannot derive dev/ino from %s\n",
+> +			 dof_name);
+> +	return -1;
+>  }
+>  
+>  /*
+> @@ -366,22 +396,19 @@ void
+>  dof_stash_free(dt_list_t *accum)
+>  {
+>  	dof_parsed_list_t *accump;
+> -	dof_parsed_list_t *last_accump = NULL;
+> +	dof_parsed_list_t *next = NULL;
+>  
+> -	for (accump = dt_list_next(accum); accump != NULL;
+> -	     accump = dt_list_next(accump)) {
+> +	for (accump = dt_list_next(accum); accump != NULL; accump = next) {
+> +		next = dt_list_next(accump);
+>  		dt_list_delete(accum, accump);
+>  
+>  		/*
+>  		 * All parsed memory regions are terminated by an EOF, so once
+>  		 * we encounter the EOF, this region can safely be freed.
+>  		 */
+> -		if (accump->parsed->type == DIT_EOF)
+> -			free(accump->parsed);
+> -		free(last_accump);
+> -		last_accump = accump;
+> +		free(accump->parsed);
+> +		free(accump);
+>  	}
+> -	free(last_accump);
+>  }
+>  
+>  /*
+> @@ -972,7 +999,7 @@ dof_stash_execed(pid_t pid, int perpid_dir, dev_t dev, ino_t ino)
+>  {
+>  	char *exec_mapping;
+>  	size_t size;
+> -	int fd;
+> +	int fd, rc;
+>  	dev_t old_dev;
+>  	ino_t old_ino;
+>  
+> @@ -983,20 +1010,42 @@ dof_stash_execed(pid_t pid, int perpid_dir, dev_t dev, ino_t ino)
+>  	}
+>  
+>  	exec_mapping = read_file(fd, -1, &size);
+> +	close(fd);
+>  	if (exec_mapping == NULL)
+> -		goto err_close;
+> +		goto err;
+> +	{
+> +		char *nul, *tmp;
+>  
+> -	if (split_dof_name(exec_mapping, &old_dev, &old_ino) < 0) {
+> -		fuse_log(FUSE_LOG_ERR, "PID %i, exec mapping \"%s\" unparseable\n",
+> -			 pid, exec_mapping);
+> -		goto err_free;
+> +		nul = memchr(exec_mapping, '\0', size);
+> +		if (nul != NULL && nul != exec_mapping + size - 1) {
+> +			free(exec_mapping);
+> +			goto err;
 > +		}
-> +	}
-> +	delete arr;
 > +
-> +	print line;
-> +}
-> +
-> +function emitEntry(i, j, n) {
-> +	# Loop through the contributions, determining who each contribution
-> +	# should be credited to.  If there are multiple contributors, we pick
-> +	# the first one who is not the commit author (if any).
-> +	# If all contributions are from the commit author, we do not emit an
-> +	# explicit credit line.
-> +	for (i = 1; i <= lc; i++) {
-> +		gsub(/ \[Orabug[:;] [1-9][0-9]*(, [1-9][0-9]*)*\]/, "", lv[i]);
-> +		sub(/[ \t]+$/, "", lv[i]);
-> +		gsub(/  +/, " ", lv[i]);
-> +
-> +		cont = name;
-> +		if (match(lv[i], /\([^)]+\)$/) > 0) {
-> +			auth = substr(lv[i], RSTART + 1, RLENGTH - 2);
-> +			lv[i] = substr(lv[i], 1, RSTART - 1);
-> +			sub(/[ \t]+$/, "", lv[i]);
-> +			n = split(auth, arr, /, */);
-> +
-> +			# Find the first contributor not the commit author.
-> +			for (j = 1; j <= n; j++) {
-> +				if (arr[j] == name)
-> +					continue;
-> +				cont = arr[j];
-> +				break;
+> +		/*
+> +		 * Current exec-mapping files include a terminating NUL, but
+> +		 * older files do not.  Always append a terminator so the parser
+> +		 * can treat both forms as C strings.
+> +		 */
+> +		if (nul == NULL) {
+> +			tmp = realloc(exec_mapping, size + 1);
+> +			if (tmp == NULL) {
+> +				free(exec_mapping);
+> +				goto err;
 > +			}
-> +			delete arr;
+> +
+> +			exec_mapping = tmp;
+> +			exec_mapping[size] = '\0';
 > +		}
+>  	}
+> -	return !((dev == old_dev) && (ino == old_ino));
+>  
+> -err_free:
+> +	rc = split_dof_name(exec_mapping, &old_dev, &old_ino);
+>  	free(exec_mapping);
+> -err_close:
+> -	close(fd);
+> +	if (rc < 0)
+> +		goto err;
 > +
-> +		# Add to the list of contributions for this contributor.
-> +		if (cont in map)
-> +			map[cont] = map[cont] " " i;
-> +		else
-> +			map[cont] = i;
-> +	}
+> +	return !((dev == old_dev) && (ino == old_ino));
 > +
-> +	print pkg" ("vers") "dist"; urgency=medium";
+>  err:
+>  	fuse_log(FUSE_LOG_ERR, "Cannot determine if PID %i has execed; assuming not: %s\n",
+>  		 pid, strerror(errno));
+> @@ -1146,7 +1195,7 @@ dof_stash_add(pid_t pid, dev_t dev, ino_t ino, dev_t exec_dev, dev_t exec_ino,
+>  		 * already-existing file as a do-nothing condition.
+>  		 */
+>  		if (dof_stash_write_file(perpid_dir, "exec-mapping", exec_mapping,
+> -					 strlen(exec_mapping), 1) < 0) {
+> +					 strlen(exec_mapping) + 1, 1) < 0) {
+>  			free(exec_mapping);
+>  			goto err_unlink_nomsg;
+>  		}
+> @@ -1765,7 +1814,7 @@ read_raw_data(int dirfd, const char *fn, const usdt_data_t *data, int idx,
+>  	      int dummy)
+>  {
+>  	int fd;
+> -	usdt_data_t *dp;
+> +	usdt_data_t *dp = NULL;
+>  
+>  	/*
+>  	 * If the file does not exist, we assume that we have reached the last
+> @@ -1786,18 +1835,21 @@ read_raw_data(int dirfd, const char *fn, const usdt_data_t *data, int idx,
+>  	 * to this next pointer and end the block chain.
+>  	 */
+>  	if ((dp = malloc(sizeof(usdt_data_t))) == NULL)
+> -		return -1;
+> +		goto err;
+>  
+>  	dp->size = 0;
+>  	dp->base = 0;
+>  	dp->next = NULL;
+>  
+> -	if ((dp->buf = read_file(fd, -1, &dp->size)) == NULL) {
+> -		close(fd);
+> -		free(dp);
+> -		return -1;
+> +	if ((dp->buf = read_file(fd, -1, &dp->size)) == NULL)
+> +		goto err;
+> +	if (dp->size < sizeof(size_t)) {
+> +		free(dp->buf);
+> +		goto err;
+>  	}
+>  
+> +	close(fd);
 > +
-> +	# First emit contributions by people other than the commit author.
-> +	n = 0;
-> +	for (cont in map) {
-> +		if (cont == name)
-> +			continue;
+>  	/*
+>  	 * Raw data blocks are written as a base address (size_t) followed by
+>  	 * the actual data.  Set dp->base from the data just read, and adjust
+> @@ -1810,6 +1862,11 @@ read_raw_data(int dirfd, const char *fn, const usdt_data_t *data, int idx,
+>  
+>  	((usdt_data_t *)data)->next = dp;
+>  	return 1;
 > +
-> +		n++;
-> +		print "\n  [ "cont" ]";
-> +		$0 = map[cont];
-> +		for (i = 1; i <= NF; i++)
-> +			lineWrap("  *", lv[int($i)]);
-> +	}
-> +	if (n > 0)
-> +		print "\n  [ "name" ]";
-> +	else
-> +		print "";
-> +
-> +	$0 = map[name];
-> +	for (i = 1; i <= NF; i++)
-> +		lineWrap("  *", lv[int($i)]);
-> +
-> +	delete map;
-> +
-> +	if (m_name) {
-> +		name = m_name;
-> +		mail = m_mail;
-> +		m_name = m_mail = 0;
-> +	}
-> +	print "\n -- "name" "mail"  "date" 00:00:00 +0000\n";
-> +}
-> +
-> +/^\* (Sun|Mon|Tue|Wed|Thu|Fri|Sat) [A-Z][a-z][a-z] [ 0-3][0-9] / {
-> +	date = $2", "$4" "$3" "$5;
-> +	i = index($0, " - ");
-> +	vers = substr($0, i + 3);
-> +	name = substr($0, 19, i - 19);
-> +	i = index(name, " <");
-> +	mail = substr(name, i + 1);
-> +	name = substr(name, 1, i - 1);
-> +	if (name == "")
-> +		error("No name in: "$0);
-> +
-> +	lc = 0;
-> +	delete lv;
-> +
-> +	next;
-> +}
-> +
-> +/^- / {
-> +	sub(/^- +/, "");
-> +	lv[++lc] = $0;
-> +	next;
-> +}
-> +
-> +NF == 0 {
-> +	emitEntry();
-> +	date = "";
-> +	next;
-> +}
-> +
-> +{
-> +	lv[lc] = lv[lc] $0;
-> +	next;
-> +}
-> +
-> +END {
-> +	if (date && !err)
-> +		emitEntry();
-> +}
-> diff --git a/dists/debian/patches/debian-configure.patch b/dists/debian/patches/debian-configure.patch
-> new file mode 100644
-> index 00000000..f8a6a698
-> --- /dev/null
-> +++ b/dists/debian/patches/debian-configure.patch
-> @@ -0,0 +1,17 @@
-> +Description: issue a warning for unknown configure options
-> + The Debian build system specifies configure options that are not known to
-> + the DTrace configure script.  They should not cause the configure script
-> + to abort.
-> +
-> +--- dtrace-2.0.5.orig/configure
-> ++++ dtrace-2.0.5/configure
-> +@@ -188,8 +188,7 @@ for option in "$@"; do
-> +               echo "Unknown option $option" >&2
-> +               exit 1
-> +            fi;;
-> +-        *) echo "Unknown option $option" >&2
-> +-           exit 1;;
-> ++        *) echo "Unknown option $option" >&2;;
-> +     esac
-> + done
-> + 
-> diff --git a/dists/debian/patches/debian-fix-sed-path.patch b/dists/debian/patches/debian-fix-sed-path.patch
-> new file mode 100644
-> index 00000000..9a4865a2
-> --- /dev/null
-> +++ b/dists/debian/patches/debian-fix-sed-path.patch
-> @@ -0,0 +1,12 @@
-> +Description: change /usr/bin/sed into /bin/sed
-> + A new test was added in 2.0.7 that refers to /usr/bin/sed which should be
-> + changed to /bin/sed.  This patch will be applied to upstream as well.
-> +
-> +--- dtrace-2.0.5.orig/test/internals/libproc/err.bad_sh_link.r.p
-> ++++ dtrace-2.0.5/test/internals/libproc/err.bad_sh_link.r.p
-> +@@ -1,4 +1,4 @@
-> +-#!/usr/bin/sed -Ef
-> ++#!/bin/sed -Ef
-> + # Fix up DEBUG lines
-> + s/DEBUG [0-9]+:/DEBUG:/
-> + s/, [0-9]+\]/, NNN]/
-> diff --git a/dists/debian/patches/series b/dists/debian/patches/series
-> new file mode 100644
-> index 00000000..99f0cdc5
-> --- /dev/null
-> +++ b/dists/debian/patches/series
-> @@ -0,0 +1,3 @@
-> +# You must remove unused comment lines for the released package.
-> +debian-configure.patch
-> +debian-fix-sed-path.patch
-> diff --git a/dists/debian/rules b/dists/debian/rules
-> new file mode 100755
-> index 00000000..8646ac1a
-> --- /dev/null
-> +++ b/dists/debian/rules
-> @@ -0,0 +1,24 @@
-> +#!/usr/bin/make -f
-> +# You must remove unused comment lines for the released package.
-> +export DH_VERBOSE = 1
-> +export DEB_BUILD_MAINT_OPTIONS = hardening=+all
-> +export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
-> +export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
-> +
-> +include /usr/share/dpkg/pkg-info.mk
-> +
-> +export DEB_VERSION_UPSTREAM
-> +
-> +%:
-> +	dh $@
-> +
-> +override_dh_auto_configure:
-> +	dh_auto_configure -- --pkg-config-dir=\$${LIBDIR}/pkgconfig BPFC=bpf-gcc BPFLD=bpf-ld
-> +
-> +override_dh_strip:
-> +	dh_strip -Xdtrace
-> +
-> +override_dh_auto_test:
-> +
-> +override_dh_auto_install:
-> +	dh_auto_install -- install-test
-> diff --git a/dists/debian/source/format b/dists/debian/source/format
-> new file mode 100644
-> index 00000000..163aaf8d
-> --- /dev/null
-> +++ b/dists/debian/source/format
-> @@ -0,0 +1 @@
-> +3.0 (quilt)
+> +err:
+> +	close(fd);
+> +	free(dp);
+> +	return -1;
+>  }
+>  
+>  /*
+> @@ -1930,7 +1987,7 @@ reparse_dof(int out, int in,
+>  			 */
+>  			if (!force) {
+>  				if ((fd = openat(mapping_fd, "parsed/version",
+> -						 O_RDONLY | O_CLOEXEC)) == 0) {
+> +						 O_RDONLY | O_CLOEXEC)) >= 0) {
+>  					uint64_t *parsed_version;
+>  
+>  					parsed_version = read_file(fd, sizeof(uint64_t),
+> @@ -1940,6 +1997,7 @@ reparse_dof(int out, int in,
+>  					if (parsed_version != NULL &&
+>  					    *parsed_version == DOF_PARSED_VERSION) {
+>  						fuse_log(FUSE_LOG_DEBUG, "No need to reparse\n");
+> +						close(mapping_fd);
+>  						continue;
+>  					}
+>  
+> @@ -1957,8 +2015,7 @@ reparse_dof(int out, int in,
+>  			}
+>  
+>  			if (split_dof_name(mapping_ent->d_name, &dev, &ino) < 0) {
+> -				fuse_log(FUSE_LOG_ERR, "when reparsing DOF for PID %s, cannot derive dev/ino from %s: ignored\n",
+> -					 pid_ent->d_name, mapping_ent->d_name);
+> +				close(mapping_fd);
+>  				continue;
+>  			}
+>  
 > -- 
-> 2.53.0
+> 2.52.0
 > 
 > 
-> 
-> _______________________________________________
-> DTrace-devel mailing list
-> DTrace-devel@oss.oracle.com
-> https://oss.oracle.com/mailman/listinfo/dtrace-devel
 
