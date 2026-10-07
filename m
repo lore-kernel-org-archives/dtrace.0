@@ -1,85 +1,85 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43D0421234
-	for <dtrace@lists.linux.dev>; Wed,  7 Oct 2026 10:22:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167AE48595E
+	for <dtrace@lists.linux.dev>; Wed,  7 Oct 2026 10:53:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791368550; cv=fail; b=kmKhyVSBOseuGvo+YL5XKTRbcfGW8TGg5kZPRJhl6qzuH0t15SSZVU2E3asTKKn6F8m/O1zrn9yV1aB9h2Y3Kbw22stkeMyLXlJCWqiim76cQspGF90HKVM1Pylc6psRWM5+z2lBjhDCMPCFbYb8LalyV4CyZjCrVv3pbIlEYBo=
+	t=1791370433; cv=fail; b=OuHqb5WaYd04EBDbXKEyhnNg9vpMRQ3Abv4lwwd5YjEQ14LAZUQd7jEgW3tXXuPO4NkfgJARh7HUva0XuC1eWcZNZWpOOYXsDamos/pPjtTn6sr3Gk3p4S+vSVP7Qc6JsG5xKB6zQ5lpHmTN1FWqq3cfz2KLT6mBdSvYkiMtXC8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791368550; c=relaxed/simple;
-	bh=n8x6vKQ3vzl15t+6u2QEtbezYqOyDc5H96QmYpg7bXw=;
+	s=arc-20240116; t=1791370433; c=relaxed/simple;
+	bh=OVr+g2pM5PQ17C6CCqNKW5cem4qVW8LeF8yNQAaehGQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=s+b/RZs85spl7gzRvzakRVlinbA44F3P1E3pVVTpv9c7/bMpMxJz6VqvtzDVg7ZujOf1kHw5I+gqLOCZQsLHq9IF/xhAP1RR5zLEfxdF0lRDxfHyjvBN7GZG/Yt/zbRbd16WsAt8pOgXFr+a5d6NGjCthAcpLfzxFmWWKrragX8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=PSkxIEn1; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Ovj60QdJ; arc=fail smtp.client-ip=205.220.165.32
+	 Content-Disposition:In-Reply-To:MIME-Version; b=NR9wTCVIKlFbfJO07eN52tQoEin4Vc26zU/F6N6n/Y6FA9YU82nreS3hALUrIEM0CZANuHPIyohJ+sxYZyaWVIWjtRLiLR2PloJVOz5fqCeZtsGIImZlWPROgzPL2vNQ3jrGgv0SOgSbnVO9la+WjX2qesrUTD0+4Jodwr4AQ4c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=NTpjBXXE; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=hmyZeXVb; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="PSkxIEn1";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Ovj60QdJ"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="NTpjBXXE";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="hmyZeXVb"
 Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6977g9w22106062
-	for <dtrace@lists.linux.dev>; Wed, 7 Oct 2026 10:22:18 GMT
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6977g9Jc2106039
+	for <dtrace@lists.linux.dev>; Wed, 7 Oct 2026 10:53:14 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=TaqdvJytC2MQaakbf+
-	n9hAJJUAEMaiyUKIA77jIlSCQ=; b=PSkxIEn1R/L3z62AYuwgQ1jJbHMK4Kr6qb
-	xYoQcv5yqqVHK4Cv+Q+SVP8CgLpHdGnP9+s6FKKdsrWEvv5Ec3OnLef0ZTuyhJIu
-	IqQJJLAnBskOx0MOCQKMgh//rI7OrvIFX5IA2QOvQju3HCRBjtWFLD7r3ZChcPbt
-	VWOcdTm/CltbcFHQjeLTMQRS4aD3BiP/MwYVSxHNzTx/SS6FJKX2xdyRrz/K9Xkr
-	QFYg4NjviynkfLa6EEjA3YQTsQSexLZMpkUdjMpeoP/jf2vczCJcURrTzHJadwky
-	xRDLcSZnM9ipVaBlntm+OSD1Hw77qxBSdIlMIHKT3OJKA8WD12gQ==
+	:references:subject:to; s=corp-2025-04-25; bh=OfBgQg2QO1nZI8Emn3
+	F+rGw1jsZ4zJzcxJIpQYnMlsg=; b=NTpjBXXEuBABL4129Xh/4v7jyLDOZpJFYj
+	9+qtkIVSj6HwJ7Lbu8Ym/T2N9RLzmo0ir1tJ6EI0B4rmkbsGZB+SOTueoyXbOSws
+	vsfjzMk4f/jLFTN86IR7a7QPTlkzb1S6eEtsUBu6dzxxSL8Uw9b5e5rE2pF4XoPG
+	XE4oktj7yf2gyy180JuvfPVzvY9VOjxV0xq40UbXx+DcjvcvKNDaeec2afUbqDHw
+	vkD0BMqNcEwm9ntWbQlBEKeTFuY0QbYt+7/u5ulWiulnncQZxM6RXzG4rtwOPeEW
+	GLsQUtw/3cXhC5qeviXAVNL+zNTlmapWXDXDZTUVibf9hHjfxeUQ==
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4h2sk7ne7x-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4h2sk7ng2t-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Wed, 07 Oct 2026 10:22:17 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Wed, 07 Oct 2026 10:53:13 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 697ALAZ9032177
-	for <dtrace@lists.linux.dev>; Wed, 7 Oct 2026 10:22:17 GMT
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010020.outbound.protection.outlook.com [52.101.193.20])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4h4d00t407-2
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 697AaLnM031773
+	for <dtrace@lists.linux.dev>; Wed, 7 Oct 2026 10:53:13 GMT
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012044.outbound.protection.outlook.com [40.107.200.44])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4h4d00u3e9-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <dtrace@lists.linux.dev>; Wed, 07 Oct 2026 10:22:17 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Wed, 07 Oct 2026 10:53:13 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V0tfE1Zw+ZQjLZgWlxkbvmGWkywp+XenvRDhDDmMqsV3g9BGRejFXuH1yaJQQ9bNXKAjfyO+PY1JjSDp0kBRS1eMeu1FdLJIeN8UqzGDA9xEe3Ib0CWP+QH2fkTlUrBKo9ho7D8fIt07KGHhscfaMoA8Zqf82Yz8jnLCwrsEGJ++2Nsrce1bNPRY7Fe/p7qCxSCIVLrv9BO8wVDhKqGfQtwWNhI4+PQjcFUt7d5ZFwjtHqSPe6SiMxPvbv11+MY5dSUU+OUMRFm3S8i+767CzjnZMRf9BMRvNJHWN/fpNt/t8dVYkAswMMfHMYPtFpmJbVqXVEh2nBgHhoreI3tJPg==
+ b=eQP1+YmJ/Ka/hvz7U+gACkdRKbVazgmYsizEHuhiOtkuAIR2BNmeK6QwsHMz4YjN94o3J2H5ksQlpvWe12cRpfVJoW4LHxwCcwWq+bSSCRH+DaQWx0Gj+EvRz2PvzkkZmg0zXpDmhyZH7dEi9xQLB5FjW1RN+BPvqKX1gN4LNf/z4euFctmYEcIUy/UG2mtYSxGt1zcoEecJxgY0bDqe57e9t+PYkV97ckNxjAfWnEoP77vjFOP3z8Rj161MO3jnAvE0KqEGZSmwm+zxQ5Mx2cC2+8XykblUyUuLov6kFu2VFIMYX/TvyK9UdwVUU5nxMoxGOwLksWRPNNpZypVMuQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TaqdvJytC2MQaakbf+n9hAJJUAEMaiyUKIA77jIlSCQ=;
- b=xRB/WTRnO5ecajf+No5Y6idZtK5wElHqJ+4YLSNSuxltcQkG28zVNdV6J8aKt/5f4J2MgIhlEb3KYfjqWkqGSXCybqs/C+j7QN8lrgrM+QXy3TMipfO07LNzONDTJD97rHvzi19gE6vLGuhdqnDGa29wRjG4l3ik7Q23K9lXwWcRyXSmfWkjbRyeUUY4bdDYscN1f6uTjl7J3ovadoujPoBKuFJtUxBcoai6nK4CDzlZl920v5IiZOym78U0Yct7304+J0y82BFCH1nBpF64N/L0OmqW+DxQSaYosz0A3EZTeuPYAH+Uy8niQpuud5+OIButLjiovEAgx065Wg6S9w==
+ bh=OfBgQg2QO1nZI8Emn3F+rGw1jsZ4zJzcxJIpQYnMlsg=;
+ b=m160HopGJznemt2AHcSnQBAE91bDKT8jwhB6M2umWI8tOZizNmtR9jY6bC31eZSc1Nu3qiS6D8MhqMfAcSOWKUQ+APadobOwpKvPf51pG/rAL6drwFBy7B3BIp1t2XFA2HLd8JQGmyE5EMihMJ7eVHhHjF7qnQaaMvs/nCc9BrA7Mc+XRZsy0HRiLHZ4Z6zseNLepWtKhwoZZ7UZNKkUtwTqL4figRTcX38sHLwoQ7d5YECLUauZp2NlWOffX72C1U1qByArCsLBthn4Clbrdc2ktNEkRb/yNtVCvCRVrm/aE3iRoo99oC9IGlitNdjQ4eBz4Yxw7BwT6HoDC7YykQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TaqdvJytC2MQaakbf+n9hAJJUAEMaiyUKIA77jIlSCQ=;
- b=Ovj60QdJPzP0K8S8gWDuCRTtPqhxJn4RhQY2DgA9jel5dWCpYPn21nd2EK2AdV3+ye4N1nwzbtlpMZNyPfLua0OnUaG/U1pySZmASCJ1qPvZhYQpynQJHqRIyMljSdnS7Hu5g9A7WO4Rol9+/VMSm8verPsFDY3SbAn+LAjjPRM=
+ bh=OfBgQg2QO1nZI8Emn3F+rGw1jsZ4zJzcxJIpQYnMlsg=;
+ b=hmyZeXVbv3ufc1Hu+9KAQKst/jTunqBitQw00rugtQEw2YmhpYCraYV6Y7CXlKWXzkv2sm+pnz51xINYRKAh6PmxiASlBFgKR6wnR3P65OyFNZD6pc5Wzd5gD1gj5yLm91njHK0wKrdO3WpGth3aa6FyOWGlHC41jhMnOWNHzxI=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oracle.com;
 Received: from CO1PR10MB4769.namprd10.prod.outlook.com (2603:10b6:303:98::16)
- by SA6PR10MB8157.namprd10.prod.outlook.com (2603:10b6:806:438::9) with
+ by MN6PR10MB7422.namprd10.prod.outlook.com (2603:10b6:208:46d::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.6; Wed, 7 Oct 2026
- 10:22:10 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.7; Wed, 7 Oct 2026
+ 10:53:07 +0000
 Received: from CO1PR10MB4769.namprd10.prod.outlook.com
  ([fe80::ada4:9b51:3a74:3649]) by CO1PR10MB4769.namprd10.prod.outlook.com
  ([fe80::ada4:9b51:3a74:3649%5]) with mapi id 15.21.0496.008; Wed, 7 Oct 2026
- 10:22:10 +0000
-Date: Wed, 7 Oct 2026 10:20:49 +0000
+ 10:53:06 +0000
+Date: Wed, 7 Oct 2026 10:51:44 +0000
 From: Kris Van Hees <kris.van.hees@oracle.com>
 To: Alan Maguire <alan.maguire@oracle.com>
 Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH v5 03/11] libdtrace: avoid BTF probes for ranged built-in
- modules
-Message-ID: <asYdAbzPN9i-OSFN@kvh-deb-bpf>
+Subject: Re: [PATCH v5 04/11] libdtrace: Add aggregation key/value
+ computation APIs
+Message-ID: <asYkQBvaReka0y_V@kvh-deb-bpf>
 References: <20260821161100.41710-1-alan.maguire@oracle.com>
- <20260821161100.41710-4-alan.maguire@oracle.com>
+ <20260821161100.41710-5-alan.maguire@oracle.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260821161100.41710-4-alan.maguire@oracle.com>
-X-ClientProxiedBy: CH0P221CA0038.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:610:11d::24) To CO1PR10MB4769.namprd10.prod.outlook.com
+In-Reply-To: <20260821161100.41710-5-alan.maguire@oracle.com>
+X-ClientProxiedBy: PH0PR07CA0041.namprd07.prod.outlook.com
+ (2603:10b6:510:e::16) To CO1PR10MB4769.namprd10.prod.outlook.com
  (2603:10b6:303:98::16)
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
@@ -88,210 +88,774 @@ List-Subscribe: <mailto:dtrace+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4769:EE_|SA6PR10MB8157:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c8c0de4-500b-47fd-b113-08df245cd8a9
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4769:EE_|MN6PR10MB7422:EE_
+X-MS-Office365-Filtering-Correlation-Id: f23ce045-9df0-4724-3d1d-08df24612ade
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|22082099003|18002099003|10067099003|4143699003|56012099006;
+	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|6133799003|18002099003|3023799007|22082099003|10067099003|56012099006|4143699003;
 X-Microsoft-Antispam-Message-Info:
-	etWKd32ZtyLL0ZXWeZJENhkOd32CHpy1T/F3sMFMhMXOUYJ3aU/U2h6ati0CsoONwEHIx2VSuN0SryqLUJFo7IJVzeNbOcgB+pqEOZ6X4PHy6S2Zu5m7Tsy9r1s+9PR4SEUN/t2b1GoFZFSETPKIGRGfrhhcLkEb/Z29QpIlWWXyOD8t7Eu6yTIaB5Fb2bybb0rLMarqQK0Wzripg9gwkCaXH97J28bOJklKsYT44bRUOinccln6lHolbuuvNSa4BBoSCxRRji/QX1geaYcTjukwCywcD5wY+pZXXCDdlxK9qBcvIGvfu0IT8gpszq0at+wFGn2a+dbGYfGKvgSHW0oLRLtu/mdGWkhLYNDNEWitnkHtO1IuYcIKwC6wV/FidNT8TCmWcqEOt8u5eIPBXaNHyj/wZSHzyUxD09KYUqwGHhqJuehEABCF5rD5/+zFi+tTBCARunVx3NUhsZpHC/dIoO9OfUHZPOqOBk4rndHGhg1uleMXB5k0FtSFbmqJF2qLA17UXIboBScOkhOb4dI3d5y5zSPQ+XJtxadNVLnNXwX5hn/gxQjuAt5m3HZ41o7IsqS88PkjtZozceECiAg3IM7uGtNswO6F9d1PS7hYd0/kG06oSRgfKfa0G9vIzq6BUzJpfAAn2mLJUbmwBmO2AcX9TckPUQgLLUu1qUA=
+	8qZxGzmmawiLimXeRRO+KRAwBYwGlgOdHJtxNUZ1gj2u/LXLb3+1WMw9yEm1uKKJeaKJ3JnZz2Zeg3LWHA1oN5FimlbDq3M18uJ54gtyEG9mykTjhyyzxg9oGyTgii95HXlDpvO0DPBjw9oFsmvxIpTJNsr8/cSJ0B/bR6vdKUuLvcvX0/jIxl0BbqMjyWWuV6YWaxVHlxFCBOndECHXcOv0LQnfBaFZS8wBsNgXz1t8GYzKB2tDeXGCkxpQqnFa+ugvsQPYiPapO3RQPO4GgNf8kJWReBJi2tvmLyjPOpTjJWkXp5JYPhiWwkTqDOg2MIpJVFhm4o5ai/PD+VxyTh9JDyM8JrOgIEqsh9U5ff32jU6MiPmvzTXilT/U3DFwEFvO73LK4n4FoyTCsm7Lf95N5baV7QomCXNzzxfKqhCComBfFQjLIh2R/+ajkUv+Xuw43F078YFLCkks4uk/U5PNCeXTu5gA0fSXcRSsSCB0nNKAAVaeP44t6+DDW42Ki7YxKlfjItnpageOn2Sr6j8OyxapQLgUVF029oWaw4Bk6zDS/frXWuBjR7b5HhnDcquDBDOKbSvuqlQIPQ2/vkQNrwjyZD1LGunQnI8jvfd5bLTF13Q1JhS8Bx5IsdIV1WWqvdLB7MRGvQCurmafCGatZX//ZPeim7z8LpwMDEs=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4769.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(22082099003)(18002099003)(10067099003)(4143699003)(56012099006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4769.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(6133799003)(18002099003)(3023799007)(22082099003)(10067099003)(56012099006)(4143699003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?QZj4LTfecl5Iz/zsJvi0lB5+L1Cn/juKlYgbLHQ/mRWrekEyyrLnppGOV8Ye?=
- =?us-ascii?Q?w8vXjkxsfdUnthbvv/2n6AN3Nu/k4mWi9NoPxHFUfwVGCFRYkhIkdrjWgQzx?=
- =?us-ascii?Q?JRWsATNsIvPM+C8NZgVNZmLyEDvv/Kcuu53NMAXNGCKo+YG4i69MOGTnia5e?=
- =?us-ascii?Q?b/N9rFgBw0q9dsz4+L1UOc54YvWRBFCNpga4gjNxbP0JQIoyqmf7z6cL6luY?=
- =?us-ascii?Q?5W9b8dPUQ56GrJb9g6gCTE/dfnI40mQ6bZhQvxIsp+tBFiKlrC8R6epR64U/?=
- =?us-ascii?Q?bRSyHDodk8cLz1TbSRHS37R3pMxCtk8NeRCdke7oPTyW/GWGPpBTja8oMcQ0?=
- =?us-ascii?Q?6QIQarYY4to5vBTNZY+ZAAmBJsRXt8w7ac+fFSmwgJvGtGyLTy5Bmg9taoi3?=
- =?us-ascii?Q?Crs/gHTzCcw4jpI2lDddHLqGcLXpezTWiZeKbqA7Xd+Uf34yhLThYCUccqOd?=
- =?us-ascii?Q?oepTrE9t8zSs38djEIRaRUrt0+DELX9J0Jl7vlDX5Fy5ddJbAJBkRcl6BIPJ?=
- =?us-ascii?Q?9l+mTipbrbM2lnst2g9KrJcI3h1O9QCtlhIZjXRp0i7duXUF/uo+Bg3GELqu?=
- =?us-ascii?Q?wxPMbLF/pFZ4E6711Xn9CQZ29bKFpbuzYWyzIMACQcUWro8kr2vHUkBJ613N?=
- =?us-ascii?Q?IRLjW8LY3vUI5JGYOd+M14WS00SFuXRC+wsojLNF38/+GSjbDVHu0wrb9mcN?=
- =?us-ascii?Q?4FmipKP2hISYBnYMgNJQg+LLE64MjEX7o0g/uzqNOiyJtT+MixACNFSJ/qQE?=
- =?us-ascii?Q?zhk4Sd+6Hiu2U5AukyP9clY8Z3bfdVMaVBNrzxnfh6hb/zh0p/xixrSmxnM9?=
- =?us-ascii?Q?I8aq6SKRCn6twiY8bciWImnycym4pPq0e1ro66/wQ6Gbs87aTGkSpwBBllcE?=
- =?us-ascii?Q?i8c76v4cQq84IFPXU/OtpUwHDtFc7zYZn9NMCdz50Pp0vgkShd9nzbOEOrJ3?=
- =?us-ascii?Q?itnq8tyEFi+R+4nQoqW+ITYs+QSdsG4alkqRFmSKwVIu8lJdACX4VT1AMk4d?=
- =?us-ascii?Q?hsiOO+8T/nryEBcij+XN8i8M+eWJ8ZW72yThn84Khnu+MGjEHhXT3/TCp1Hb?=
- =?us-ascii?Q?KHYC23qGh+uQ8kWmGkjOOJI6L+KmGcMP/lC9slmkJ3sYVSFRmzsEd9rTQYXW?=
- =?us-ascii?Q?vmY6LGj3TLroYxpLXQh6rU9lZqp5Qu6NbOR+WayrAGr296EuhUpGnsq+Xrk6?=
- =?us-ascii?Q?Kgf4PObPXA6bQ3a9z3Ie7/T1lsggCoVn/2DWgeYRlhu5W04yMGjokejyYdTo?=
- =?us-ascii?Q?YvVB6RoL1XJaleP/xEoDtZek9jMEMbq1Achjv2KZZ4yGmrxOnsoCeLf90+N3?=
- =?us-ascii?Q?Q0iEZY+NmhUP/zb0kR1T0xrha5k0LAZfJbZN3r579aQY2/ygSQQeUhVcs2jN?=
- =?us-ascii?Q?PzqE2aokT40yA65aLZ6Y/Q+S1ip5w5YV8ZBNkrum7kl6M18XFKq+9235IueS?=
- =?us-ascii?Q?dFbwegLgwFxS2TaS45t0jaRzpQmpODlJ1oZ5RwKAFJ2G+wyBSIGcJI8o5Mfy?=
- =?us-ascii?Q?CH0lv/jNzVaiTfJOUwiUjmSrw6ppHRAVNJaYn7ihvkHI+gOx6RSs6ICysoWd?=
- =?us-ascii?Q?RGuIi7hzLS21PjvWipvw4olE1yXPmoO/fcGDGd7KvBPtn3XwGZ/UWOsw4jL8?=
- =?us-ascii?Q?BMC5K0K4LL/at+Sb3r6PW+GfoaRdUTlN3CL+3NPkhn6RQl5ade/Qbusz71H1?=
- =?us-ascii?Q?hqBGERrEh2guIe/GanQCodeWA71kSpssi6YezBCPN7/MJnXBx293MDS+PNxL?=
- =?us-ascii?Q?awdqYT4kfFw2PvyEIB3rJrJeJ8bS5nU=3D?=
+	=?us-ascii?Q?Isv3n1+BwUmiwavAF7HNAyPTjIErQIuBXHJEy35obydkX7riQd4VzknfgF9E?=
+ =?us-ascii?Q?OalX8AYTskpu69p7BOQpMHSXvZQ6Eqpbhezn1/H85Xw0nmA4D4/6c8OW0be+?=
+ =?us-ascii?Q?MXKgcoN5Qibcn4RFQGT2br/R30KnpJOoYi2K5KbNOAgTN6ykPSHh6z1dxK8E?=
+ =?us-ascii?Q?Ld/kHwQ4QW+0laG5PywwxAUy3Kmuua09nmMvTA4UeB1jMZ4C5vW3F+AjOvqP?=
+ =?us-ascii?Q?HPfZOAD8lqNje67Z5E0gQyXnDiCsVuWuf3hh9ayHuGEGRLb6Cx6UQR9VLARp?=
+ =?us-ascii?Q?5LDGpBKkwIdVrEB/EDdz/3ehAE5Oht/7OY8mdjFz/ddXZeZ1hvYKLIpbqpoe?=
+ =?us-ascii?Q?RXcNemSDeAJwrBzJ+kKY/LRx8u4vzCCax8y5G/GuUHdlAeezP4KlNmCIAJkr?=
+ =?us-ascii?Q?5a3+UQ2yx/0dEr0JG9UG0Kn4Rm6KDLxqd5A+t9l8kbz5IoyGNeyJ4CTlHKvN?=
+ =?us-ascii?Q?GIvQIn2MBgdiGnAK1MGo0ALpc7wOTZouxHkXBcPUvtRezOhfxPsYK3V9pByr?=
+ =?us-ascii?Q?h4iGv4X5V5taaBaizirU5925iBYSO0CI+kRzE0bBVcVXEVyQWeCD6P1cekFB?=
+ =?us-ascii?Q?O7tMUfmGH6JiDuWBP/eOG2hNpu5ZE2B77o6P21NIEIE9YJ28QlzJPA2goAFC?=
+ =?us-ascii?Q?NvszJWuDgwozzkr9bYHoFhYQFYP+Tunj0h7apDP8YF22dVxiMC9Or4UpdwwE?=
+ =?us-ascii?Q?cZVbByNMjTOrwjaukoj+aJIOZg7ljIM3byescI1mNs/IuoiIlb9n1KWpWHmt?=
+ =?us-ascii?Q?fLWN97pqkqKxU7e0B1sItqkgvLjeKtO1l8Qdmepz7qE8Y17DJzH/We3pRccC?=
+ =?us-ascii?Q?FpcTpNvm9EbBumgz4H9TdE0sxxSdlIbT+XPledQ8B2Xvxmy45PSTD5joMvMG?=
+ =?us-ascii?Q?4kcI09dXemGjhxWzMAgbOr8s0Z6suknFiiHsYSEPqVKWn+wKpHHnD4+ZElQy?=
+ =?us-ascii?Q?re6SLluIf9yRyWoZP6rlpFSTnmEVOIyRKcv9GPJNeFHBfKcR0HxM7LwiJhpo?=
+ =?us-ascii?Q?S1GMcVoecZRnKLgdGz3PhJXFKFphkQTl4KCyHUhRO7zFzRw8w3hjiNFkWH02?=
+ =?us-ascii?Q?98KRJmScCiXY3bi3RTiPWZC+4tADm8nkUnl7F1onHs0rD9fm7v8hzU477Hmy?=
+ =?us-ascii?Q?8G+WR56gELOOo44aV2VP/vHPdTIyeT37Lxur1+c/yrXa7lh5z8Rn3Chi6OEa?=
+ =?us-ascii?Q?m6tFgsPxjcZIwc2b2x181+7DuR1TYJPQqB9BLbgho67UOz8l/jwtFHmrThIm?=
+ =?us-ascii?Q?r4nk6WtOVeXzI9arNfHgDLdtkuwo/kfAkTuDcm2bKFBTbte/JmncbZnarhet?=
+ =?us-ascii?Q?cq+2n+ePvOPikqW/fJ9Dzi3h11OkMxvTpDNj19YmbIOyMTvhBPYiZUaJ4U10?=
+ =?us-ascii?Q?Tc+saNGTNwp5MpHmETEIbwLQZfNt7OX4WUn5Z1eatxxJHoBiqXNsj8Dtjwwu?=
+ =?us-ascii?Q?1pU7HKLHc2b0Z4YoMs6cRtVxZlF/7khq12ItT0PX4/IvuxWelvRhrPlF3Du6?=
+ =?us-ascii?Q?1xaCDpD4M2lJF68dQk2kgY7D4tLva7OJCUbpMXfKc+UdKEBGFUa8LI48/JP3?=
+ =?us-ascii?Q?bbF1/JXvn+EOvBMm7A1o9ZbzRXT8dhePDnywSKtI2NPk0P99rnkyGhzrgjUQ?=
+ =?us-ascii?Q?3m53ZZIPMeYIq4DSGnzWQ+RGgC7A4ZpWQ4bpGsqoMUYyGnnulHH9jRQsjQIk?=
+ =?us-ascii?Q?2Vy28j9Lmsgzv392Z7EnNHKd4l9Rx7q89AtWYKKAzMOXZDJ5UP0QXem+izv1?=
+ =?us-ascii?Q?e8Uj5O15s7oiA0HkrU8voOXCAHLRS9E=3D?=
 X-Exchange-RoutingPolicyChecked:
-	mbZVhue3Xbfv9yFJyMvWaEotQeMv4C2R/ztmq0W/ivnVzY6+shPLhDRwZur/5bnyiAuP6itsuAtopoxUFL5xK+8t2FUTJNjTjW8Vl/gtMGrbRRmSMQLfOuXP2Z4AJy03CtjupPDpBHGyvRO2mnwa2o3vdA+LxmSNnBl9PhXRsYyJcw/Go0tGbL/PpjQYX8ZTQtFdCDAWb8fjkIScBy9LmZPVkCrk5gQ3JrDHDPNDzPKD1gUzJGYpkBfj68zunArRf+PbeXKNbI9b7OHeifwds+FWyLfR/NX8sxsAehtrMyoXolre1wfeo1IcxGSOLXkQIJJDIP+1YR/a8M56VQnzrw==
+	DqCPgUzOOwb39kQdFMXhF3YdekDp2wa5HmXC2U0WvIujKIkXJ56UjvqnnZt9Ew525OfAswia6Iw+Z0LQs6ZZ8pHQkXurBIH8XAJSnNy6BaBzKKvFYu7hFlCC5KLM1oKlTyWnBr+UeoI5oPAk7yJbNKW8KEdUyMmGUXEsGFa2wF0Ft4Ic1bLCRAeqZNmclYVJvlu9Nfg2CHO+vhRUuo3OvskQbuI5j+EB/HQAQoN1DwrLVx13epSy3RNQz+fSS3vsmdJUZaBrlrTHOb650kFfdF0LZBX9+Pu7+Yd5SdoHc6y/r3ulN2vDHW4yr9v54gy/9zHjRl02wVUWwMENdoc9qA==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	sIKFvv/BcHoJXs+3DsS85fLYN8OteozNNuy6uOnsmSjrvvil2M1DRunhkkIjmq13srWIlvAoatHQ56WtE6y27LQeXTTp3fiLrVnh2hO0K6IC1Muf61Ty24qe+dREuamm8F1p1Os1+UqIOO3Fk3Qjj4kEu7IKIFhf0m0qaaBPBlP6PFaJLQXOyAo3Bixq6Nka6SYeGpQ91UwVc4VHp6IvInazHpyR78ufOSkEnlNL+n8TR7/H9u+raqlWdFHU7c9lNzIrhtm0/e5u4y0ADurmbS0ZnUUcLUvykZ5gq0j/vAbdu3aHJtdyKXR026v983TjnBotV+uxOGZ4AmMbswZ/gI38enbIGB2THC+sJT0oR+mcbmcjMJ6kBa/huf8h1YRRNt8+FarlLdV5ZixEaB3/RPz6xXYAGg+qGdStPUlTvYPjrShIemyRCgOrlf/OUssfmdJJkemHW3pGwAdzrDrtp24ZUnE+bVC+meE+QaY9tehwTd6qGLkiRw7sykjIPwHCHE84UnM136Hoyjc+e2ECnKmVKK5JwUFymbH9FvUsX2fyfk4owsCyXWVulgdG5iUDqGE0Qy+bMJKuM4YpIIZCSuFJHdWAJ4eBirVttsx7LQQ=
+	lzjorsm79QjNk49hBzW6y0JtmZhEKWvyxnLEbH6UXrmwmic0qtylvxNekt2K8hNsdgxBLtfG0GAVS0T/sfWa+TQnp0ZamjhAsMPQhoSyyyGcdcdF4D2BJwlJmN0so2tFbIsMGcTyeDZsXkmMXkqoU4V0jckSK4Qx3gA+KkHaZHkfBJRGLU6scHYkjov0qn4GCxrzP4pa3NqqS0ep5WfjbbLL4/ihZh8eAoaWCjNwuXHwYY9V1OOPum7iVG2crqtKU9Qs6tIJ2JBXygBhCyCMRX2oPZj/YWzigM1T23GFviLowP8zt26EIH1BvImh8TSBXM6gtnTC4hs8cboITdswThIzhfTNL4SGlR+2sx7DVA/EbAS/gnKFL4UyQCPEQOZnZ9wTUBtEX2jZ01DvCtz8329PXVgKbPdf8ZT6AUUR6NirimQILuGC70BBq6FfC4Pc28Z86VENAtjl4h7F0ynVjhJ2J2m/WVZNSfmHBFeyUCJM1Z4nFCApaccL+gSLz7Qjqv31FoPUPs74snuQgi67rjJd+5c1MtLJ7xXRYdZEuUJs2lC/DX/VZCCtjXHDQg5J6L7PFAzVbkTodguZGKTsfRzl3iu1WZZ7MsBX9cBEh1M=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c8c0de4-500b-47fd-b113-08df245cd8a9
+X-MS-Exchange-CrossTenant-Network-Message-Id: f23ce045-9df0-4724-3d1d-08df24612ade
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4769.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2026 10:22:10.1666
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2026 10:53:06.1440
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Rah4T+A8fDN0Drl3azbzLsFYjedvdVUETZYTd1MAxpuVpSNhH/v6SFfiahfxZlPgXNNWhTr23VGHJp3VnluqJUOUPajcXjvYDwQc+hz9HI8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR10MB8157
+X-MS-Exchange-CrossTenant-UserPrincipalName: MKdgbMDy2PRGrUW+whggQpGPWk3340eafwUnvmDfH7IuL9i4u5gu6R4cWX3E6FiM8JTbPE0yuTqwXA17h8fo5g5evgyw0qSdO8wgvTpRExs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR10MB7422
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-10-07_03,2026-10-06_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0 spamscore=0 mlxlogscore=953 bulkscore=0 mlxscore=0
+ malwarescore=0 spamscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
  adultscore=0 phishscore=0 lowpriorityscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2609040000 definitions=main-2610070041
-X-Authority-Analysis: v=2.4 cv=Cpsq4X4D c=1 sm=1 tr=0 ts=6ac61d59 cx=c_pps
+ reason=mlx scancount=1 engine=8.19.0-2609040000 definitions=main-2610070042
+X-Authority-Analysis: v=2.4 cv=Cpsq4X4D c=1 sm=1 tr=0 ts=6ac62499 cx=c_pps
  a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=660iZSQnnn4A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
  a=jiCTI4zE5U7BLdzWsZGv:22 a=EIcjfB9IiI4px24ztqRk:22 a=yPCof4ZbAAAA:8
- a=MenLz3yfUKRBz7TFPQQA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: 8Y8l8N2-tqEk6GSEzogNNQQntY_5zGn0
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA3MDA0MSBTYWx0ZWRfX7nZO8TAAv2UD
- wIEq0nzuQj6vVDfLegyryQ1AAE93Ia2e0Q0dEt+lSpFgq02SM+VB9tyYmoWZEl7IWibKtaBl4+9
- Qj+oF3LFvsQ+8FHVdzoEHnQgY+WtzDnzG+6kMMxequigmH7JiRWD
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA3MDA0MSBTYWx0ZWRfX63HbQs6MuFVi
- dNnx87uAd891OotrbanMjjMQvatv8NTOqlgZ26sPgtEqLuREgGBtpNpPZAMC30F/ZrpTe0xoPHZ
- Wf/ZOy9iVDwPm2SBjDCYne7E0K4vZngNMXh1wv+ki5YfzL2AbPTzduOwyzLt64DHHCOuWPb2izr
- HjQTwymxxwNTubH/sxWyWQbv0EzHEMdv0BowB2MDBFKJLttGmoMSko8RMFq2TG2dY01Sk27AqQk
- eWc0Oj2wGo41x6APMk950TOx9H1P3vfiHHUyH1VlWyG7RPMn06KnMoW1OFH/jL0JEH32YxjtOYq
- Y6StG/y6SSAUCpaGv22WL6OD8hpWk2xoLSyYjrN5C8EFbxyF9if8uEbejhU9FJ3SAuymTpD3qA7
- yqx8Ytf0WGI4/cdhEd51AEWTnTKRXmCt28sXwxBxfFAU4bYTmjT0yXINXdZ/QI338VGLdFPwx6Z
- 9fB6567FjbSa+xaotDg==
-X-Proofpoint-GUID: 8Y8l8N2-tqEk6GSEzogNNQQntY_5zGn0
+ a=jRd2sF72W0hPsBGgDRsA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: w8bJNWtUlfaqkJUzQyOuo3OOMJf652qV
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA3MDA0MyBTYWx0ZWRfX32in78ez30/H
+ TIGqXgsHvTiyoAfGU6bzDXvGqHuo9j/LOhtN9isTOvWOT2djwdWjybaASfyElbZpqz1At0VcB8L
+ rr3on9Akoz7BfvaEeFnGgme4PiS6I092j0t6pFXeYax9SrA46B73
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA3MDA0MyBTYWx0ZWRfX3WyEeDCRyF/p
+ yiZ3YChxgN25PsboFIKHHx3fWuAzWaacU9UVqBAYE5WWVLwKA00N8Eh+lH+5Q08JScHhbWIJIFA
+ 7uOduDTBj3In6EEojm/EgJux2RTUPwuZQampDj2NKqE++ApnjTksv4Wmr9XOaKjAN6KSOVI35Nn
+ 1UM0F+6xl+/gnEX5R6tfjfdv31B+XPHAQkcumE3lnUWqeEfOGiz6bN1KgSF8K+BLeiNJQHCLAQy
+ KcmE/bFNkLdGyiTq3HktQS9sN1qgZ7/8HWD975sOv1JOVsKQ/L4QudRADxhE370lKb15uu4sgCy
+ V9/99TYD17WciRHZJqs2q+0J1R/DGlTeHFu5Btu65GLX8vaZNWPinegxFBUZn+c7perk9rbNOmw
+ nWcEZu888oCy5FEcDtLSLLNoMw9fO+uHmu+rmjjL9qC6arW203k9XWWX3yrZo2LT1WYygHllY4B
+ CIr7pU2whvrt/1vFFxg==
+X-Proofpoint-GUID: w8bJNWtUlfaqkJUzQyOuo3OOMJf652qV
 
-Some questions below.
+I am lookingaand t this but there are a few issues already in terms of
+safety.  Since these are API functions, we cannot count on the caller
+ensuring safety.  E.g. dtrace_aggregate_keys() would result in an out of
+bounds memory write if keys has room for 2 keys, num_keys is 3, and
+dtagd_nkrecs >= 4.  Perhaps the function should do its own allocation
+and return the number of keys upon success instead?
 
-On Fri, Aug 21, 2026 at 05:10:51PM +0100, Alan Maguire wrote:
-> When /proc/kallsyms is used with modules.builtin.ranges, libdtrace can
-> attribute symbols linked into vmlinux to their individual built-in objects,
-> such as bitrev or atomic64_test.  This creates module objects for those
-> names.
+I would do the same for the dtrace_aggregate_value() function.
+
+On Fri, Aug 21, 2026 at 05:10:52PM +0100, Alan Maguire wrote:
+> To provide a way for consumers to emit aggregation keys
+> and compute aggregation values, provide new APIs in libdtrace:
 > 
-> These objects have no per-module BTF file under /sys/kernel/btf.  Avoid
-> probing for one when modules.builtin.ranges has identified the module as
-> built in, and use the shared vmlinux BTF directly instead.
+> int dtrace_aggregate_value(const dtrace_aggdata_t *aggdata,
+> 			   dtrace_aggvalue_t *value);
+> int dtrace_aggregate_keys(const dtrace_aggdata_t *data,
+> 			  dtrace_aggkey_t *keys, size_t num_keys);
+> void dtrace_aggregate_key_free(dtrace_aggkey_t *key);
 > 
-> Keep the existing lookup path for loadable modules and for an explicitly
-> configured BTF directory.
+> These provide a way to compute aggregation values from snapshots,
+> print them and free the representation used to print them.
+> 
+> This allows consumers like python bindings to avoid having to
+> understand aggregation internals.
 > 
 > Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 > ---
->  libdtrace/dt_btf.c    |  8 ++++++--
->  libdtrace/dt_impl.h   |  1 +
->  libdtrace/dt_module.c | 20 +++++++++++++++++++-
->  3 files changed, 26 insertions(+), 3 deletions(-)
+>  libdtrace/dt_aggregate.c | 517 +++++++++++++++++++++++++++++++++++++++
+>  libdtrace/dtrace.h       |  83 +++++++
+>  libdtrace/libdtrace.ver  |   3 +
+>  3 files changed, 603 insertions(+)
 > 
-> diff --git a/libdtrace/dt_btf.c b/libdtrace/dt_btf.c
-> index e7980969..93ecf5cd 100644
-> --- a/libdtrace/dt_btf.c
-> +++ b/libdtrace/dt_btf.c
-> @@ -915,8 +915,12 @@ dt_btf_module_ctf(dtrace_hdl_t *dtp, dt_module_t *dmp)
->  	if (!dtp->dt_shared_ctf && dtp->dt_shared_btf && btf == dtp->dt_shared_btf)
->  		dtp->dt_shared_ctf = ctf;
+> diff --git a/libdtrace/dt_aggregate.c b/libdtrace/dt_aggregate.c
+> index 1fc8294d..afc6a01a 100644
+> --- a/libdtrace/dt_aggregate.c
+> +++ b/libdtrace/dt_aggregate.c
+> @@ -13,11 +13,15 @@
+>  #include <assert.h>
+>  #include <alloca.h>
+>  #include <limits.h>
+> +#include <stdio.h>
+> +#include <string.h>
 >  
-> -	dt_dprintf("Generated %s CTF from BTF (%d types).\n", dmp->dm_name,
-> -		   btf->type_cnt);
-> +	if (btf == dtp->dt_shared_btf && strcmp(dmp->dm_name, "vmlinux") != 0)
-> +		dt_dprintf("Created %s CTF import from shared vmlinux BTF.\n",
-> +		    dmp->dm_name);
-> +	else
-> +		dt_dprintf("Generated %s CTF from BTF (%d types).\n", dmp->dm_name,
-> +		    btf->type_cnt);
->  #endif
+>  #include <libproc.h>
+>  #include <port.h>
+>  #include <dt_aggregate.h>
+>  #include <dt_bpf.h>
+> +#include <math.h>
+> +#include <limits.h>
 >  
->  	return ctf;
-> diff --git a/libdtrace/dt_impl.h b/libdtrace/dt_impl.h
-> index 7ccdc271..38c5ff0b 100644
-> --- a/libdtrace/dt_impl.h
-> +++ b/libdtrace/dt_impl.h
-> @@ -201,6 +201,7 @@ typedef struct dt_kern_path {
->  #define DT_DM_KERNEL		0x2	/* module is associated with a kernel object */
->  #define DT_DM_CTF_ARCHIVED	0x4	/* module found in a CTF archive */
->  #define DT_DM_KERN_UNLOADED	0x8	/* module not loaded into the kernel */
-> +#define DT_DM_KERN_BUILTIN	0x10	/* module is linked into vmlinux */
+>  typedef struct dt_ahashent {
+>  	struct dt_ahashent *dtahe_prev;		/* prev on hash chain */
+> @@ -44,6 +48,519 @@ struct dt_aggregate {
 >  
->  /*
->   * Why do we need (only) 4 slots?  The maximum amount of string arguments to
-> diff --git a/libdtrace/dt_module.c b/libdtrace/dt_module.c
-> index 00978911..ea6d56c3 100644
-> --- a/libdtrace/dt_module.c
-> +++ b/libdtrace/dt_module.c
-> @@ -871,6 +871,19 @@ dt_kern_module_find_btf(dtrace_hdl_t *dtp, dt_module_t *dmp)
->  	if (dtp->dt_shared_btf == NULL && strcmp(dmp->dm_name, "vmlinux") != 0)
->  		return;
+>  #define	DTRACE_AHASHSIZE	32779		/* big 'ol prime */
 >  
-> +	/*
-> +	 * modules.builtin.ranges identifies this object as linked into vmlinux.
-> +	 * Such objects cannot have a per-module BTF object, so use the shared
-> +	 * vmlinux BTF directly.  Retain the usual lookup for an explicitly
-> +	 * configured BTF directory and every other module.
-> +	 */
-> +	if (dtp->dt_btf_path == NULL && (dmp->dm_flags & DT_DM_KERN_BUILTIN)) {
-> +		dmp->dm_btf = dtp->dt_shared_btf;
-> +		dt_dprintf("Using shared vmlinux BTF for built-in module %s.\n",
-> +		    dmp->dm_name);
-> +		return;
-> +	}
-
-This does not look right to me, because if a dt_btf_path is specified, I
-would expect the handle to still provided a handle-wide shared CTF and
-BTF, even if it may be different from the system-wide shared CTF and
-BTF.  In other words, I think that sharing should be based on:
-
-System standard CTF and BTF -> dt_shared_ctf and dt_share_btf globals
-Non-standard CTF or BTF -> dtp->dt_shared_ctf and dtp->dt_shared_btf
-
-So dropping the dtp->dt_btf_path == NULL in the conditional clause above
-should be fine, right?
-
+> +static int
+> +dt_aggregate_read_signed(const char *addr, size_t size, int64_t *value)
+> +{
+> +	int8_t v8;
+> +	int16_t v16;
+> +	int32_t v32;
+> +	int64_t v64;
 > +
->  	dt_dprintf("Loading BTF for module %s.\n", dmp->dm_name);
->  
->  	/*
-> @@ -1405,6 +1418,7 @@ dt_modsym_update(dtrace_hdl_t *dtp, const char *line, dt_kasstate_t *state)
->  {
->  	dt_kallsym_t	sym;
->  	char		*modname;
-> +	int		builtin = 0;
->  
->  	if ((line[0] == '\n') || (line[0] == 0))
->  		return 0;
-> @@ -1440,8 +1454,10 @@ dt_modsym_update(dtrace_hdl_t *dtp, const char *line, dt_kasstate_t *state)
->  			char	*s;
->  
->  			s = dt_kasstate_modname(state, sym.addr, sym.name);
-> -			if (s != NULL)
-> +			if (s != NULL) {
->  				strncpy(sym.mod, s, PATH_MAX);
-> +				builtin = 1;
+> +	switch (size) {
+> +	case sizeof(v8):
+> +		memcpy(&v8, addr, sizeof(v8));
+> +		*value = v8;
+> +		return 0;
+> +	case sizeof(v16):
+> +		memcpy(&v16, addr, sizeof(v16));
+> +		*value = v16;
+> +		return 0;
+> +	case sizeof(v32):
+> +		memcpy(&v32, addr, sizeof(v32));
+> +		*value = v32;
+> +		return 0;
+> +	case sizeof(v64):
+> +		memcpy(&v64, addr, sizeof(v64));
+> +		*value = v64;
+> +		return 0;
+> +	default:
+> +		return -1;
+> +	}
+> +}
+> +
+> +static int
+> +dt_aggregate_read_unsigned(const char *addr, size_t size, uint64_t *value)
+> +{
+> +	uint8_t v8;
+> +	uint16_t v16;
+> +	uint32_t v32;
+> +	uint64_t v64;
+> +
+> +	switch (size) {
+> +	case sizeof(v8):
+> +		memcpy(&v8, addr, sizeof(v8));
+> +		*value = v8;
+> +		return 0;
+> +	case sizeof(v16):
+> +		memcpy(&v16, addr, sizeof(v16));
+> +		*value = v16;
+> +		return 0;
+> +	case sizeof(v32):
+> +		memcpy(&v32, addr, sizeof(v32));
+> +		*value = v32;
+> +		return 0;
+> +	case sizeof(v64):
+> +		memcpy(&v64, addr, sizeof(v64));
+> +		*value = v64;
+> +		return 0;
+> +	default:
+> +		return -1;
+> +	}
+> +}
+> +
+> +int
+> +dtrace_aggregate_value(const dtrace_aggdata_t *aggdata, dtrace_aggvalue_t *value)
+> +{
+> +	const dtrace_aggdesc_t *agg;
+> +	const dtrace_recdesc_t *rec;
+> +	const char *addr;
+> +	uint64_t normal;
+> +
+> +	if (aggdata == NULL || aggdata->dtada_desc == NULL ||
+> +	    aggdata->dtada_data == NULL || value == NULL)
+> +		return aggdata && aggdata->dtada_hdl ?
+> +			dt_set_errno(aggdata->dtada_hdl, EINVAL) : -1;
+> +
+> +	agg = aggdata->dtada_desc;
+> +	rec = &agg->dtagd_drecs[DT_AGGDATA_RECORD];
+> +	addr = aggdata->dtada_data + rec->dtrd_offset;
+> +	normal = agg->dtagd_normal ? agg->dtagd_normal : 1;
+> +	value->dtagv_action = rec->dtrd_action;
+> +	value->dtagv_normal = normal;
+> +	value->dtagv_bucket_count = 0;
+> +
+> +	switch (rec->dtrd_action) {
+> +	case DT_AGG_AVG: {
+> +		const int64_t *data = (const int64_t *)addr;
+> +
+> +		if (rec->dtrd_size < sizeof(*data) * 2)
+> +			return dt_set_errno(aggdata->dtada_hdl, EDT_BADAGG);
+> +		value->dtagv_kind = DTRACE_AGGVALUE_FLOAT;
+> +		value->dtagv_value.real = data[0] == 0 ? 0.0 :
+> +			(double)((long double)data[1] / normal / data[0]);
+> +		return 0;
+> +	}
+> +	case DT_AGG_STDDEV: {
+> +		uint64_t data[4];
+> +
+> +		if (rec->dtrd_size < sizeof(data))
+> +			return dt_set_errno(aggdata->dtada_hdl, EDT_BADAGG);
+> +		memcpy(data, addr, sizeof(data));
+> +		value->dtagv_kind = DTRACE_AGGVALUE_UNSIGNED;
+> +		value->dtagv_value.unsigned_integer =
+> +			data[0] == 0 ? 0 : dt_stddev(data, normal);
+> +		return 0;
+> +	}
+> +	case DT_AGG_SUM:
+> +	case DT_AGG_MIN:
+> +	case DT_AGG_MAX:
+> +		value->dtagv_kind = DTRACE_AGGVALUE_INTEGER;
+> +		if (dt_aggregate_read_signed(addr, rec->dtrd_size,
+> +					     &value->dtagv_value.integer) != 0)
+> +			return dt_set_errno(aggdata->dtada_hdl, EDT_BADAGG);
+> +		value->dtagv_value.integer /= (int64_t)normal;
+> +		return 0;
+> +	case DT_AGG_COUNT:
+> +		value->dtagv_kind = DTRACE_AGGVALUE_UNSIGNED;
+> +		if (dt_aggregate_read_unsigned(addr, rec->dtrd_size,
+> +			    &value->dtagv_value.unsigned_integer) != 0)
+> +			return dt_set_errno(aggdata->dtada_hdl, EDT_BADAGG);
+> +		value->dtagv_value.unsigned_integer /= normal;
+> +		return 0;
+> +	case DT_AGG_QUANTIZE: {
+> +		const int64_t *data = (const int64_t *)addr;
+> +		size_t i, nbins = rec->dtrd_size / sizeof(*data);
+> +
+> +		if (rec->dtrd_size % sizeof(*data) != 0 ||
+> +		    value->dtagv_buckets == NULL ||
+> +		    value->dtagv_bucket_capacity < nbins)
+> +			return dt_set_errno(aggdata->dtada_hdl, EINVAL);
+> +		for (i = 0; i < nbins; i++) {
+> +			if (data[i] < 0)
+> +				return dt_set_errno(aggdata->dtada_hdl, EDT_BADAGG);
+> +		}
+> +		for (i = 0; i < nbins; i++) {
+> +			if (data[i] == 0)
+> +				continue;
+> +			value->dtagv_buckets[value->dtagv_bucket_count].bucket =
+> +				DTRACE_QUANTIZE_BUCKETVAL((uint64_t)i);
+> +			value->dtagv_buckets[value->dtagv_bucket_count].count =
+> +				(uint64_t)(data[i] / (int64_t)normal);
+> +			if (value->dtagv_buckets[value->dtagv_bucket_count].count != 0)
+> +				value->dtagv_bucket_count++;
+> +		}
+> +		value->dtagv_kind = DTRACE_AGGVALUE_QUANTIZED;
+> +		return 0;
+> +	}
+> +	case DT_AGG_LQUANTIZE: {
+> +		uint16_t levels = DTRACE_LQUANTIZE_LEVELS(agg->dtagd_sig);
+> +		uint16_t step = DTRACE_LQUANTIZE_STEP(agg->dtagd_sig);
+> +		int32_t base = DTRACE_LQUANTIZE_BASE(agg->dtagd_sig);
+> +		size_t i, nbins = (size_t)levels + 2;
+> +		const int64_t *data = (const int64_t *)addr;
+> +
+> +		if (rec->dtrd_size != nbins * sizeof(*data) ||
+> +		    value->dtagv_buckets == NULL ||
+> +		    value->dtagv_bucket_capacity < nbins)
+> +			return dt_set_errno(aggdata->dtada_hdl, EINVAL);
+> +		for (i = 0; i < nbins; i++) {
+> +			if (data[i] < 0)
+> +				return dt_set_errno(aggdata->dtada_hdl, EDT_BADAGG);
+> +		}
+> +		for (i = 0; i < nbins; i++) {
+> +			int64_t count = data[i] / (int64_t)normal;
+> +			int64_t bucket;
+> +
+> +			if (count == 0)
+> +				continue;
+> +			if (i == 0)
+> +				bucket = base - 1;
+> +			else if (i == levels + 1)
+> +				bucket = base + (int64_t)levels * step;
+> +			else
+> +				bucket = base + (int64_t)(i - 1) * step;
+> +			value->dtagv_buckets[value->dtagv_bucket_count++] =
+> +				(dtrace_aggvalue_bucket_t){ bucket, (uint64_t)count };
+> +		}
+> +		value->dtagv_kind = DTRACE_AGGVALUE_QUANTIZED;
+> +		return 0;
+> +	}
+> +	case DT_AGG_LLQUANTIZE: {
+> +		int factor = DTRACE_LLQUANTIZE_FACTOR(agg->dtagd_sig);
+> +		int lmag = DTRACE_LLQUANTIZE_LMAG(agg->dtagd_sig);
+> +		int hmag = DTRACE_LLQUANTIZE_HMAG(agg->dtagd_sig);
+> +		int steps = DTRACE_LLQUANTIZE_STEPS(agg->dtagd_sig);
+> +		int steps_factor, bin0;
+> +		size_t i, nbins;
+> +		const int64_t *data = (const int64_t *)addr;
+> +		long double limit = (long double)INT64_MAX;
+> +
+> +		if (factor < 2 || steps < factor || lmag > hmag)
+> +			return dt_set_errno(aggdata->dtada_hdl, EDT_BADAGG);
+> +		steps_factor = steps / factor;
+> +		bin0 = 1 + (hmag - lmag + 1) * (steps - steps_factor);
+> +		nbins = (size_t)(hmag - lmag + 1) *
+> +			(steps - steps_factor) * 2 + 3;
+> +		if (!isfinite((double)powl(factor, hmag + 1)) ||
+> +		    powl(factor, hmag + 1) > limit)
+> +			return dt_set_errno(aggdata->dtada_hdl, EDT_BADAGG);
+> +
+> +		if (rec->dtrd_size != nbins * sizeof(*data) ||
+> +		    value->dtagv_buckets == NULL ||
+> +		    value->dtagv_bucket_capacity < nbins)
+> +			return dt_set_errno(aggdata->dtada_hdl, EINVAL);
+> +		for (i = 0; i < nbins; i++) {
+> +			if (data[i] < 0)
+> +				return dt_set_errno(aggdata->dtada_hdl, EDT_BADAGG);
+> +		}
+> +		for (i = 0; i < nbins; i++) {
+> +			int64_t count = data[i] / (int64_t)normal;
+> +			int64_t bucket;
+> +			int left, negative, remaining, magnitude;
+> +
+> +			if (count == 0)
+> +				continue;
+> +			if (i == 0)
+> +				bucket = -(int64_t)powl(factor, hmag + 1);
+> +			else if (i == nbins - 1)
+> +				bucket = (int64_t)powl(factor, hmag + 1);
+> +			else if (i == (size_t)bin0)
+> +				bucket = 0;
+> +			else {
+> +				left = (int)i - bin0;
+> +				negative = left < 0;
+> +				remaining = negative ? bin0 - (int)i : left;
+> +				magnitude = lmag;
+> +				if (lmag == 0 && steps > factor) {
+> +					for (int n = 2; n <= factor && remaining > 0; n++) {
+> +						remaining -= steps_factor;
+> +						if (remaining == 0) {
+> +							bucket = negative ? -n : n;
+> +							goto ll_have_bucket;
+> +						}
+> +					}
+> +					magnitude++;
+> +				}
+> +				bucket = negative ? -1 : 1;
+> +				while (magnitude <= hmag) {
+> +					int64_t scale = (int64_t)(powl(factor, magnitude + 1) /
+> +						(double)steps);
+> +					int n;
+> +
+> +					for (n = steps_factor + 1; n <= steps; n++) {
+> +						if (--remaining == 0) {
+> +							bucket = n * scale * (negative ? -1 : 1);
+> +							goto ll_have_bucket;
+> +						}
+> +					}
+> +					magnitude++;
+> +				}
+> +				bucket *= (int64_t)powl(factor, hmag + 1);
 > +			}
->  		}
->  	}
+> +ll_have_bucket:
+> +			value->dtagv_buckets[value->dtagv_bucket_count++] =
+> +				(dtrace_aggvalue_bucket_t){ bucket, (uint64_t)count };
+> +		}
+> +		value->dtagv_kind = DTRACE_AGGVALUE_QUANTIZED;
+> +		return 0;
+> +	}
+> +	default:
+> +		value->dtagv_kind = DTRACE_AGGVALUE_RAW;
+> +		value->dtagv_value.raw.data = addr;
+> +		value->dtagv_value.raw.size = rec->dtrd_size;
+> +		return 0;
+> +	}
+> +}
+> +
+> +void dtrace_aggregate_key_free(dtrace_aggkey_t *key)
+> +{
+> +	size_t i;
+> +
+> +	if (!key)
+> +		return;
+> +	switch (key->dtagk_kind) {
+> +	case DTRACE_AGGKEY_BYTES:
+> +		free(key->dtagk_value.bytes.data);
+> +		break;
+> +	case DTRACE_AGGKEY_STRING:
+> +	case DTRACE_AGGKEY_SYMBOL:
+> +	case DTRACE_AGGKEY_MODULE:
+> +		free(key->dtagk_value.name);
+> +		break;
+> +	case DTRACE_AGGKEY_ADDRESS:
+> +		break;
+> +	case DTRACE_AGGKEY_STACK:
+> +		for (i = 0; i < key->dtagk_value.stack.depth; i++)
+> +			free(key->dtagk_value.stack.frames[i]);
+> +		free(key->dtagk_value.stack.frames);
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +	memset(key, 0, sizeof(*key));
+> +}
+> +
+> +int dtrace_aggregate_keys(const dtrace_aggdata_t *data,
+> +			  dtrace_aggkey_t *keys, size_t num_keys)
+> +{
+> +	int error = EDT_NOMEM;
+> +	dtrace_hdl_t *dtp;
+> +	size_t i, n;
+> +
+> +	if (!data || !data->dtada_desc)
+> +		return data && data->dtada_hdl ?
+> +			dt_set_errno(data->dtada_hdl, EINVAL) : -1;
+> +	dtp = data->dtada_hdl;
+> +	if (data->dtada_desc->dtagd_nkrecs == 0)
+> +		return 0;
+> +	n = data->dtada_desc->dtagd_nkrecs - 1;
+> +	if (n == 0)
+> +		return 0;
+> +	if (!data->dtada_key)
+> +		return dt_set_errno(dtp, EDT_BADAGG);
+> +	if (!keys || num_keys < n)
+> +		return dt_set_errno(dtp, EINVAL);
+> +	memset(keys, 0, n * sizeof(*keys));
+> +
+> +	for (i = 0; i < n; i++) {
+> +		const dtrace_recdesc_t *rec = &data->dtada_desc->dtagd_krecs[i + 1];
+> +		char *addr = data->dtada_key + rec->dtrd_offset;
+> +		if ((size_t)rec->dtrd_offset > data->dtada_desc->dtagd_ksize ||
+> +		    rec->dtrd_size > data->dtada_desc->dtagd_ksize -
+> +		    (size_t)rec->dtrd_offset)
+> +			goto badagg;
+> +
+> +		switch (rec->dtrd_action) {
+> +		case DTRACEACT_STACK:
+> +		case DTRACEACT_USTACK:
+> +		case DTRACEACT_JSTACK: {
+> +			uint32_t depth, max, frames, j, tgid = 0;
+> +
+> +			if (rec->dtrd_size < 2 * sizeof(uint64_t) ||
+> +			    (rec->dtrd_action != DTRACEACT_STACK &&
+> +			     rec->dtrd_size < 4 * sizeof(uint64_t)))
+> +				goto badagg;
+> +			memcpy(&depth, addr, sizeof(depth));
+> +			max = rec->dtrd_size >= 2 * sizeof(uint64_t) ?
+> +				rec->dtrd_size / sizeof(uint64_t) - 2 : 0;
+> +			frames = depth < max ? depth : max;
+> +			if (rec->dtrd_action != DTRACEACT_STACK) {
+> +				memcpy(&tgid, addr + 3 * sizeof(uint32_t),
+> +				       sizeof(tgid));
+> +			}
+> +
+> +			keys[i].dtagk_kind = DTRACE_AGGKEY_STACK;
+> +			keys[i].dtagk_value.stack.frames = frames == 0 ? NULL :
+> +				calloc(frames, sizeof(char *));
+> +			keys[i].dtagk_value.stack.depth = 0;
+> +			if (frames != 0 && !keys[i].dtagk_value.stack.frames)
+> +				goto error;
+> +			for (j = 0; j < frames; j++) {
+> +				char text[PATH_MAX * 2];
+> +				uint64_t pc;
+> +				int rc;
+> +
+> +				memcpy(&pc, addr + (j + 2) * sizeof(uint64_t),
+> +				       sizeof(pc));
+> +				if (pc == 0)
+> +					break;
+> +				rc = rec->dtrd_action == DTRACEACT_STACK ?
+> +					dtrace_addr2str(dtp, pc, text,
+> +							sizeof(text)) :
+> +					dtrace_uaddr2str(dtp, tgid, pc,
+> +							 text, sizeof(text));
+> +				if (rc < 0) {
+> +					error = EDT_BADAGG;
+> +					goto error;
+> +				}
+> +				if (!(keys[i].dtagk_value.stack.frames[j] = strdup(text)))
+> +					goto error;
+> +				keys[i].dtagk_value.stack.depth++;
+> +			}
+> +			break;
+> +		}
+> +		case DTRACEACT_SYM:
+> +		case DTRACEACT_MOD: {
+> +			dtrace_syminfo_t info;
+> +			char text[PATH_MAX * 2];
+> +			uint64_t pc;
+> +
+> +			memcpy(&pc, addr, sizeof(pc));
+> +
+> +			if (dtrace_lookup_by_addr(dtp, pc,
+> +						  NULL, &info) == 0) {
+> +				snprintf(text, sizeof(text), "%s%s%s",
+> +					 info.object,
+> +					 rec->dtrd_action == DTRACEACT_SYM ? "`" : "",
+> +					 rec->dtrd_action == DTRACEACT_SYM ? info.name : "");
+> +			} else {
+> +				snprintf(text, sizeof(text), "0x%llx",
+> +					(unsigned long long)pc);
+> +			}
+> +			keys[i].dtagk_kind = rec->dtrd_action == DTRACEACT_SYM ?
+> +				DTRACE_AGGKEY_SYMBOL : DTRACE_AGGKEY_MODULE;
+> +			keys[i].dtagk_value.name = strdup(text);
+> +			if (!keys[i].dtagk_value.name)
+> +				goto error;
+> +			break;
+> +		}
+> +		case DTRACEACT_UADDR:
+> +		case DTRACEACT_USYM:
+> +		case DTRACEACT_UMOD: {
+> +			char text[PATH_MAX * 2];
+> +			uint32_t tgid;
+> +			uint64_t pc;
+> +
+> +			/*
+> +			 * The target PID occupies the first word and the address
+> +			 * the second; the record is aligned to 64 bits.
+> +			 */
+> +			if (rec->dtrd_size < 2 * sizeof(uint64_t))
+> +				goto badagg;
+> +			memcpy(&tgid, addr, sizeof(tgid));
+> +			memcpy(&pc, addr + sizeof(uint64_t), sizeof(pc));
+> +			if (rec->dtrd_action == DTRACEACT_UADDR) {
+> +				keys[i].dtagk_kind = DTRACE_AGGKEY_ADDRESS;
+> +				keys[i].dtagk_value.user_address.pid = tgid;
+> +				keys[i].dtagk_value.user_address.address = pc;
+> +				break;
+> +			}
+> +
+> +			if (dtrace_uaddr2str(dtp, tgid, pc, text,
+> +				     sizeof(text)) < 0)
+> +				goto badagg;
+> +			if (rec->dtrd_action == DTRACEACT_UMOD) {
+> +				char *tick = strchr(text, '`');
+> +				if (tick)
+> +					*tick = '\0';
+> +			}
+> +			keys[i].dtagk_kind = rec->dtrd_action == DTRACEACT_USYM ?
+> +				 DTRACE_AGGKEY_SYMBOL : DTRACE_AGGKEY_MODULE;
+> +			keys[i].dtagk_value.name = strdup(text);
+> +			if (!keys[i].dtagk_value.name)
+> +				goto error;
+> +			break;
+> +		}
+> +		default:
+> +			keys[i].dtagk_kind = DTRACE_AGGKEY_INTEGER;
+> +			switch (rec->dtrd_size) {
+> +			case 1: {
+> +				int8_t v;
+> +
+> +				memcpy(&v, addr, 1);
+> +				keys[i].dtagk_value.integer = v;
+> +				break;
+> +			}
+> +			case 2: {
+> +				int16_t v;
+> +
+> +				memcpy(&v, addr, 2);
+> +				keys[i].dtagk_value.integer = v;
+> +				break;
+> +			}
+> +			case 4: {
+> +				int32_t v;
+> +
+> +				memcpy(&v, addr, 4);
+> +				keys[i].dtagk_value.integer = v;
+> +				break;
+> +			}
+> +			case 8: {
+> +				int64_t v;
+> +
+> +				memcpy(&v, addr, 8);
+> +				keys[i].dtagk_value.integer = v;
+> +				break;
+> +			}
+> +			default: {
+> +				char *nul = memchr(addr, '\0', rec->dtrd_size);
+> +
+> +				/*
+> +				 * This is a heuristic: key descriptors do not
+> +				 * retain type information.  DTrace strings are
+> +				 * NUL-terminated and padded with zeros to their
+> +				 * fixed record size.
+> +				 */
+> +				if (nul != NULL) {
+> +					char *p;
+> +
+> +					for (p = nul + 1; p < addr + rec->dtrd_size; p++) {
+> +						if (*p != '\0')
+> +							break;
+> +					}
+> +					if (p == addr + rec->dtrd_size) {
+> +						keys[i].dtagk_kind = DTRACE_AGGKEY_STRING;
+> +						keys[i].dtagk_value.name = strndup(addr,
+> +									   rec->dtrd_size);
+> +						if (!keys[i].dtagk_value.name)
+> +							goto error;
+> +						break;
+> +					}
+> +				}
+> +				keys[i].dtagk_kind = DTRACE_AGGKEY_BYTES;
+> +				keys[i].dtagk_value.bytes.data = malloc(rec->dtrd_size);
+> +				if (!keys[i].dtagk_value.bytes.data)
+> +					goto error;
+> +				memcpy(keys[i].dtagk_value.bytes.data, addr,
+> +				       rec->dtrd_size);
+> +				keys[i].dtagk_value.bytes.size = rec->dtrd_size;
+> +				break;
+> +			}
+> +			}
+> +			break;
+> +		}
+> +	}
+> +	return (int)n;
+> +error:
+> +	for (i = 0; i < n; i++)
+> +		dtrace_aggregate_key_free(&keys[i]);
+> +	return dt_set_errno(dtp, error);
+> +badagg:
+> +	for (i = 0; i < n; i++)
+> +		dtrace_aggregate_key_free(&keys[i]);
+> +	return dt_set_errno(dtp, EDT_BADAGG);
+> +}
+> +
+>  /*
+>   * Because qsort(3C) does not allow an argument to be passed to a comparison
+>   * function, the variables that affect comparison must regrettably be global;
+> diff --git a/libdtrace/dtrace.h b/libdtrace/dtrace.h
+> index 82965fbd..a108080f 100644
+> --- a/libdtrace/dtrace.h
+> +++ b/libdtrace/dtrace.h
+> @@ -379,6 +379,89 @@ struct dtrace_aggdata {
+>  	caddr_t *dtada_percpu;			/* per CPU data, if avail */
+>  };
 >  
-> @@ -1511,6 +1527,8 @@ dt_modsym_update(dtrace_hdl_t *dtp, const char *line, dt_kasstate_t *state)
->  			if (err != 0)
->  				return err;
->  		}
-> +		if (builtin)
-> +			dmp->dm_flags |= DT_DM_KERN_BUILTIN;
->  
->  		err = dt_modsym_addsym(dtp, dmp, &sym, state);
->  		if (err != 0)
+> +typedef enum dtrace_aggvalue_kind {
+> +	DTRACE_AGGVALUE_INTEGER,
+> +	DTRACE_AGGVALUE_UNSIGNED,
+> +	DTRACE_AGGVALUE_FLOAT,
+> +	DTRACE_AGGVALUE_RAW,
+> +	DTRACE_AGGVALUE_QUANTIZED
+> +} dtrace_aggvalue_kind_t;
+> +
+> +typedef struct dtrace_aggvalue_bucket {
+> +	int64_t bucket;
+> +	uint64_t count;
+> +} dtrace_aggvalue_bucket_t;
+> +
+> +/* Quantized buckets are supplied by the caller through dtagv_buckets. */
+> +typedef struct dtrace_aggvalue {
+> +	dtrace_aggvalue_kind_t dtagv_kind;
+> +	uint16_t dtagv_action;
+> +	uint64_t dtagv_normal;
+> +	dtrace_aggvalue_bucket_t *dtagv_buckets;
+> +	size_t dtagv_bucket_capacity;
+> +	size_t dtagv_bucket_count;
+> +	union {
+> +		int64_t integer;
+> +		uint64_t unsigned_integer;
+> +		double real;
+> +		struct {
+> +			const void *data;
+> +			size_t size;
+> +		} raw;
+> +	} dtagv_value;
+> +} dtrace_aggvalue_t;
+> +
+> +typedef enum dtrace_aggkey_kind {
+> +	DTRACE_AGGKEY_INTEGER,
+> +	DTRACE_AGGKEY_STRING,
+> +	DTRACE_AGGKEY_BYTES,
+> +	DTRACE_AGGKEY_STACK,
+> +	DTRACE_AGGKEY_SYMBOL,
+> +	DTRACE_AGGKEY_MODULE,
+> +	DTRACE_AGGKEY_USER_ADDRESS,
+> +	DTRACE_AGGKEY_ADDRESS = DTRACE_AGGKEY_USER_ADDRESS
+> +} dtrace_aggkey_kind_t;
+> +
+> +typedef struct dtrace_aggkey {
+> +	dtrace_aggkey_kind_t dtagk_kind;
+> +	union {
+> +		int64_t integer;
+> +		struct {
+> +			char *data;
+> +			size_t size;
+> +		} bytes;
+> +		struct {
+> +			char **frames;
+> +			size_t depth;
+> +		} stack;
+> +		char *name;
+> +		/* User addresses include the target PID to disambiguate ASLR. */
+> +		struct {
+> +			uint32_t pid;
+> +			uint64_t address;
+> +		} user_address;
+> +	} dtagk_value;
+> +} dtrace_aggkey_t;
+> +
+> +/*
+> + * Decode all keys in an aggregation snapshot.  The caller supplies an array
+> + * with capacity for dtagd_nkrecs - 1 descriptors.  Returned strings, byte
+> + * buffers, and stack frames are owned by the caller and must be released
+> + * with dtrace_aggregate_key_free().  Zero-key aggregations return zero.
+> + */
+> +extern int dtrace_aggregate_keys(const dtrace_aggdata_t *, dtrace_aggkey_t *,
+> +				 size_t);
+> +extern void dtrace_aggregate_key_free(dtrace_aggkey_t *);
+> +
+> +/*
+> + * Decode one aggregation value.  Integer values can be signed or unsigned.
+> + * Raw data points into the snapshot and is valid only while that snapshot
+> + * remains valid.  Quantized values require a caller-provided bucket array and
+> + * capacity.
+> + */
+> +extern int dtrace_aggregate_value(const dtrace_aggdata_t *,
+> +				  dtrace_aggvalue_t *);
+> +
+>  typedef struct dtrace_print_aggdata {
+>  	dtrace_hdl_t *dtpa_dtp;			/* handle to DTrace library */
+>  	dtrace_aggid_t dtpa_id;			/* aggregation variable */
+> diff --git a/libdtrace/libdtrace.ver b/libdtrace/libdtrace.ver
+> index edbd5a1d..87d561b2 100644
+> --- a/libdtrace/libdtrace.ver
+> +++ b/libdtrace/libdtrace.ver
+> @@ -8,8 +8,11 @@ LIBDTRACE_1.0 {
+>      global:
+>  	dtrace_addr2str;
+>  	dtrace_aggregate_clear;
+> +	dtrace_aggregate_keys;
+> +	dtrace_aggregate_key_free;
+>  	dtrace_aggregate_print;
+>  	dtrace_aggregate_snap;
+> +	dtrace_aggregate_value;
+>  	dtrace_aggregate_walk;
+>  	dtrace_aggregate_walk_joined;
+>  	dtrace_aggregate_walk_keyrevsorted;
 > -- 
 > 2.43.5
 > 
