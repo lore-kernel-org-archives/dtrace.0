@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4421D7E5C
-	for <dtrace@lists.linux.dev>; Thu, 15 Oct 2026 03:54:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C529252917
+	for <dtrace@lists.linux.dev>; Thu, 15 Oct 2026 03:54:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792036452; cv=none; b=KVMhD9Hbn38msuGyep1Op6EeHfnhinKAEi590fhxMCXTsR/0n7TYlu5Y9EWY9C2fn/bFUQfDoJ3Bv6FAddc6OjC9Z24GzAWBM+LaevOB+nuAPOvdnIZ55mE72xbh1E+XaWwdS8n9huLU7sgJxPdQZaY8KL0URobFSQVfJZDxED4=
+	t=1792036452; cv=none; b=cQl8Kt+03IIB0VC70iCo/urPyRx8+6Twhe57GCSg3u9wc5EqVNeLOWQ5ddYcKsh5ITbkszRQqxIcFp0JARiIZSiWBjkayqewQmIFB4iPcaQ+VKBei9uwcNCap+QDwCo353qItp2PKQoTXfi89IOjktzZ+noYWSk8NMUAvqNCYN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1792036452; c=relaxed/simple;
-	bh=PctxFGQ0kr6qfXUIYDTFyMSLxKHP42JhYninL5RjTSM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YrCXhG2QokBSb2DLzrLtiaBkT0S0h0Z4BuBC8bicRthMjZ3tt0uD6sTF65LY3QyGhU9sxd9CyL9ZqoMZw0D2dtOq3v9iRuH7X+zaOmAKJKrFmHHnWOtpa4P1M9VzMPEWoOlTvPqcZAFPrPTvancl3sWuwPwWRaM0stt70xOk67Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SfLE6uLn; arc=none smtp.client-ip=10.30.226.201
+	bh=jJJvlFGOD7zyaP8PKItehBzxJge5Uh8UV0NujqFwbDI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Dqs61HSHW7AWqZ2nBfOV1xJ05GHjdwCWT13yFxfPyseqn2GdyyK7D8cN4mx0oNIfwPSQdqk04qrCJHBKhCgEQEDBw3giaow3sGEqfdqyNB/4BkjwBPZIcgD5fM2USSx6U1Hnz2VOL23XgjA7+uTlQt9dE9A7PgESqq0MPc0lveI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aN/PP0zW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SfLE6uLn"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DA9CBC2BD00;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aN/PP0zW"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 99B9FC2BCC7;
 	Thu, 15 Oct 2026 03:54:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1792036451;
-	bh=PctxFGQ0kr6qfXUIYDTFyMSLxKHP42JhYninL5RjTSM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=SfLE6uLnGOGc2G1kn3WfsBWVupMC785Iu/3bAKTUPUGFSiglnGzJ5cvY1eHl8LpnZ
-	 CVd5+0jm67igQxUhZq6PQqgxRXy4mE35KRwCw5+No+Utg08g34y0ZN4ZxFBEyhOwc5
-	 fDgV06+4ot5/Pu4mFFJ9uAOau3hPhbKgEzNhoLOTFhv5S4Hkt8p/Du523K3y25tk+O
-	 16TgBRq93x/zhg3UMOX9elH4i9SJEBsyk5hXNgEXGZinvlwNp6qAPRnV0z/Khi3Ial
-	 vgheQb6glL7UyEAUHeGHmLpvlT3HIJRwpZor6mMiZRQ8DW6jMgJN3ITOpnFRPQQFTA
-	 Gv5UbiHYnTWYg==
+	bh=jJJvlFGOD7zyaP8PKItehBzxJge5Uh8UV0NujqFwbDI=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=aN/PP0zWfAyBzryKA6AahDPxIjnU9BY/z6ufTwinlx7l9leHZBrqAFgS6bb3N5VgU
+	 Ne0jEY6n8B5hnSmsYM+gSojYIvG2wtLOTBLFTDIIhM3qor5m0xaJvdK97Do8+mg48w
+	 P46rIQaTLpu2IO6HQvizlowRfTmlq6PATsrXCpdRopqxc5QpgP0v8IkyylcUsGAqum
+	 Y/iJEvZ5DV0QCrGm2MPi5MOuP8IqX9CLVKsc9/zYPXWE01lhNqTVjMUmI8l+YhEr4n
+	 1kk8HqDY7qRZlPWjwo7Ey52PykKe5tKIM71ti+aTe78F0eufLwuViAl7rWHPdIOpRF
+	 49QiYuOQdaTCg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9424CC6B2F;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E595CC6B2F;
 	Thu, 15 Oct 2026 03:54:11 +0000 (UTC)
 From: Eslam Almorshdy via B4 Relay <devnull+ealmorshdy.d-matrix.ai@kernel.org>
-Date: Thu, 15 Oct 2026 03:53:44 +0000
-Subject: [PATCH 4/7] usdt: place uprobes by file offset
+Subject: [PATCH 0/7] Fix probe placement in LLVM lld-linked objects by
+ using file offsets
+Date: Thu, 15 Oct 2026 03:53:40 +0000
+Message-Id: <20261015-bug001-uprobe-file-offset-v1-0-bf4c53af8f39@d-matrix.ai>
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -40,19 +41,20 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261015-bug001-uprobe-file-offset-v1-4-bf4c53af8f39@d-matrix.ai>
-References: <20261015-bug001-uprobe-file-offset-v1-0-bf4c53af8f39@d-matrix.ai>
-In-Reply-To: <20261015-bug001-uprobe-file-offset-v1-0-bf4c53af8f39@d-matrix.ai>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQrCMBBG4auUWTuQFBvRq4iLJvlTR6QpmUaE0
+ rsbdfkt3ttIUQRKl26jgpeo5LnBHjoK93GewBKbqTe9s8YO7OtkjOW6lOzBSZ7gnJJi5XByxyH
+ CxWjO1PqlIMn7977e/tbqHwjrd0j7/gEqIlHvfQAAAA==
+X-Change-ID: 20261015-bug001-uprobe-file-offset-c7645de6dd09
 To: dtrace@lists.linux.dev
 Cc: dtrace-devel@oss.oracle.com, Kris Van Hees <kris.van.hees@oracle.com>, 
  Alan Maguire <alan.maguire@oracle.com>, 
  Eslam Almorshdy <ealmorshdy@d-matrix.ai>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792036450; l=1722;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792036450; l=3296;
  i=ealmorshdy@d-matrix.ai; s=20261015; h=from:subject:message-id;
- bh=MVfhUrCORXTWzNlqLhdWM7r7PjrLGHSXdp2ioG6pJ78=;
- b=CWKaKa6FzTcrpHb4W24ZkgDBPxqmJ8iYZEer+HICuuuEWToUTO3+gGW4X7OiWcK2ZBglvB+x8
- zrDMeMlzS8QD10jRjCCVZEzgodwzkqR7R1cnnA71U+CmF1+Li67jjWt
+ bh=jJJvlFGOD7zyaP8PKItehBzxJge5Uh8UV0NujqFwbDI=;
+ b=qors4Uq55z+RzkOZuyb41pQ/lRchGZpTXQfRgBgt20RcKwk7wxw3Y+HoTm+1UHSi18bQZH0JY
+ b6G47lt6p78DEBN0OEH5AFFIvyCXR3NCRD68MFs9/Daofh9X5BcYquL
 X-Developer-Key: i=ealmorshdy@d-matrix.ai; a=ed25519;
  pk=E4tVAIvp2rvz2CB7Re6YVMP6FiUVSxuq0TUtjGQL5NM=
 X-Endpoint-Received: by B4 Relay for ealmorshdy@d-matrix.ai/20261015 with
@@ -60,49 +62,68 @@ X-Endpoint-Received: by B4 Relay for ealmorshdy@d-matrix.ai/20261015 with
 X-Original-From: Eslam Almorshdy <ealmorshdy@d-matrix.ai>
 Reply-To: ealmorshdy@d-matrix.ai
 
-From: Eslam Almorshdy <ealmorshdy@d-matrix.ai>
+DTrace places uprobes by (inode, file offset), but computes the offset
+of pid, USDT and dtrace provider probes as the address's distance from
+the object's first segment.  The two coincide in GNU ld's default
+layout.  LLVM lld packs segments in the file, so its text segment's
+p_vaddr - p_offset is 0x1000 larger than the first segment's, and on
+lld-linked objects, every such probe is placed 0x1000 bytes past its
+target.  It then never fires, fires in other code, puts a breakpoint
+inside an instruction, or makes enabling fail with ENOTSUPP (currently
+reported as EBADF).  If libdtrace itself is linked by lld (not a
+documented build option), dtrace:::BEGIN never fires and every session
+hangs.
 
-dt_pid_create_usdt_probes_proc() converts each tracepoint address from
-dtprobed to a uprobe offset by subtracting the load address of the
-object's first segment.  That gives the address's distance from the
-first segment, not its file offset: the same mistake as in the pid
-provider, with the same effect on lld-linked executables and libraries.
-Every USDT and is-enabled probe is placed 0x1000 bytes past its site.
-In a small object, that address lies outside any executable mapping, so
-the probe never fires and is-enabled stays false; otherwise the probe
-fires in other code or makes enabling fail for the whole process
-(ENOTSUPP).
+Patch 1 keeps each mapping's file offset, which libproc already parses.
+Patches 2, 4 and 6 convert through the containing mapping in the pid,
+USDT and dtrace providers, and patches 3, 5 and 7 add a test for each;
+the three fixes depend only on patch 1.  Offsets in GNU ld objects do
+not change, and dtprobed needs no change for these objects.
 
-Convert through the mapping that contains the address instead.
+Tested on devel 61fea621, building after each fix, with libdtrace linked
+by GNU ld and by lld: each test fails before its fix and passes after,
+and the tests reject three plausible wrong fixes: subtracting a constant
+0x1000, dropping the file offset, and handling only the main executable.
+The pid/, usdt/, begin/ and end/ tests show no other change.  The whole
+series gives the same results on dev-queue 0e93872f.
 
-Assisted-by: Claude Code:claude-opus-5-5
-Signed-off-by: Eslam Almorshdy <ealmorshdy@d-matrix.ai>
+dt_cg_elf_sym_to_offset() in Alan's pending uresolve() series [1]
+computes uprobe offsets as distances from the first segment, like the
+code patch 2 replaces, so it needs the same change if both are applied.
+
+[1] https://lore.kernel.org/dtrace/20260605221217.1211791-5-alan.maguire@oracle.com/
+
 ---
- libdtrace/dt_pid.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Eslam Almorshdy (7):
+      libproc: keep the file offset of each mapping
+      pid: place uprobes by file offset
+      test: add pid probe placement test for lld-linked objects
+      usdt: place uprobes by file offset
+      test: add USDT probe placement test for lld-linked objects
+      dtrace provider: place uprobes by file offset
+      test: add dtrace provider probe placement test for lld-linked objects
 
-diff --git a/libdtrace/dt_pid.c b/libdtrace/dt_pid.c
-index 582862e4..7741e6d9 100644
---- a/libdtrace/dt_pid.c
-+++ b/libdtrace/dt_pid.c
-@@ -1087,7 +1087,14 @@ dt_pid_create_usdt_probes_proc(dtrace_hdl_t *dtp, pid_t pid, dt_proc_t *dpr,
- 			psp.pps_dev = pmp->pr_dev;
- 			psp.pps_inum = pmp->pr_inum;
- 			psp.pps_pid = dpr->dpr_pid;
--			psp.pps_off = tp->tracepoint.addr - pmp->pr_file->first_segment->pr_vaddr;
-+			/*
-+			 * uprobes are placed by file offset: convert through
-+			 * the mapping that contains the tracepoint.  That need
-+			 * not be the first segment, and its p_vaddr - p_offset
-+			 * can differ from the first segment's (LLVM lld).
-+			 */
-+			psp.pps_off = tp->tracepoint.addr - pmp->pr_vaddr +
-+				      pmp->pr_offset;
- 			psp.pps_nameoff = 0;
- 
- 			if (nargv) {
+ include/sys/sol_procfs.h                    |   1 +
+ libdtrace/dt_pid.c                          |  49 +++++++++++--
+ libdtrace/dt_prov_dtrace.c                  |  10 +--
+ libproc/Psymtab.c                           |   1 +
+ test/unittest/begin/tst.begin-end-offset.r  |   1 +
+ test/unittest/begin/tst.begin-end-offset.sh |  87 +++++++++++++++++++++++
+ test/unittest/pid/tst.lld-offset.r          |   1 +
+ test/unittest/pid/tst.lld-offset.sh         |  59 ++++++++++++++++
+ test/unittest/pid/tst.lld-offset.x          |  14 ++++
+ test/unittest/usdt/tst.lld-offset.r         |   1 +
+ test/unittest/usdt/tst.lld-offset.sh        | 104 ++++++++++++++++++++++++++++
+ test/unittest/usdt/tst.lld-offset.x         |  14 ++++
+ test/utils/Build                            |   2 +-
+ test/utils/linkers.sh                       |  21 ++++++
+ 14 files changed, 355 insertions(+), 10 deletions(-)
+---
+base-commit: 61fea621160ea4b6302874c62a723da105b44883
+change-id: 20261015-bug001-uprobe-file-offset-c7645de6dd09
 
--- 
-2.55.0
+Best regards,
+--  
+Eslam Almorshdy <ealmorshdy@d-matrix.ai>
 
 
