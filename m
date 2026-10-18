@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B514078C0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A853F5BD0
 	for <dtrace@lists.linux.dev>; Sun, 18 Oct 2026 07:46:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792309585; cv=none; b=EnW9LMnS/Qz3UQKSZebYX2QY8sXyMEGw6q5Cup24cEG/APxj2UKHboaTJT3JDZVn1U44tpnJQYcdTl5+hbIH7HppxPTsUr/5D1mvrfSXOGk//LdQxH3Y4F37T7rYzsyvBaU6kvLQgrHAEFPJEQjcpy6gMySUU0lsFCa09nFVnyQ=
+	t=1792309585; cv=none; b=BfiAudX+m1lNoLDK0J4LJCO2PmKSPOnLjl3Vkj2r4F8rp6kbvOdisijf2JrC1RGcvGgCHjoQoKvA8aoOTEDqjao8gcWmQdjfML1rpnzAw9anaYHxIdmA5WCWp9Qcef8C+R+YAhGF3+cfVBdr4yd07JbnzwOvCC0IpUzNoviGNQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1792309585; c=relaxed/simple;
-	bh=oemA1CrCTCitHnO29cpW/RkLpvxWwNdp6vJ0VeVIiB4=;
+	bh=USi8D4mkjuAWkuhSXWyJMnF02RKvaYJKMzfbd6fLU9I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=I8YlLAIHoWzSWAK3Kru+fkwGxOVoGUiAxTECOeTbNhILKo8g8APN9WPebsxQ3BYqUHDMMDB0aV0QcYb0LkNMmiBeOPlLw7hHq1XJ4BKNFeoHhgH8OhH8SMMGaJSyfUeAmOL9aXJbe4VQ6+vVZL7IqpAzoCeDLdWZytu32or32cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kU0amtfM; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=K5cDSqB7Dcwa3DCp1yDMegWw+k3UaGQNOTjkH0J/SWW1G5tdDejeZWCFjVIhj2xK2Cu3kHdlfj9rHsCxMeYMhFzy+f9be/tXtG3ISGxAhw9Fgr3lBkM71kI3t5VtbyMByuUIVH2lmEbDAj4ym9tnD69uaxAb5rk52nJfGWAvnMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=le2WuQVP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kU0amtfM"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 340F8C2BCFD;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="le2WuQVP"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3E1B3C2BD01;
 	Sun, 18 Oct 2026 07:46:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1792309585;
-	bh=oemA1CrCTCitHnO29cpW/RkLpvxWwNdp6vJ0VeVIiB4=;
+	bh=USi8D4mkjuAWkuhSXWyJMnF02RKvaYJKMzfbd6fLU9I=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=kU0amtfMhPSWLgESZ2MrBa+TNfH5AjJg9qa+q1/5nJS/RVMWiYQu4pSDCAXkEw94J
-	 PgiAuTO8mg43S+zgc87nxStfBEA4mDnho86QNTQmtbOcYLsAr6oTtp+Orc9Fv/LoNl
-	 CayhnE/V1qM+pB+RzKxW6R5b3JRptRPvOJTomiRVkX21uWbEFe797Dr4LhFIhEgBlh
-	 kqnyxmSIE75Qk1g8/jkbi7eth3kTAbiB7YEJCgUjSMZE0agZFgKRk+WcNVO+G4bMwH
-	 WeOv9pUoClZIbgLe3beGzhbYFNAenjXPEbaq+qYw6csfLyIlDRh0SlSu17n2maCBWr
-	 n/+EwxhhY43UQ==
+	b=le2WuQVP2IcBOr35nVUePDbOTrccxfe6GrMZvh+D1myuQ5cyGnfkqCbd+utOwdx+3
+	 X6hBFXlYW1Y2V/oe2KkyGK+ASwoKJZO4mBypm+Rp5IJ5cIq0Fh/aIeqTFwRj6RKv3s
+	 mTJdWS2E+DYRF623Anq95LOVrsPrrqb2IcAxSryZcufdU9mUMcn+8lE50Ci71kO9oV
+	 aD9tl63wzxl3pxo86I4Bxj8hBJ7wTLsqmn3qT5XDMVK3iK9TPk7Sz9rt/Sh67AgRXZ
+	 WjRUiWV2qsAf0yFfr0C8Zm+bZEo5IU1G3phQYVYP1Cc8DT5piI40Lcn7yR+oKBur4+
+	 nlyeVBvMLN4+w==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14C2ACCF2C9;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22E4ECCF2CC;
 	Sun, 18 Oct 2026 07:46:25 +0000 (UTC)
 From: Eslam Almorshdy via B4 Relay <devnull+ealmorshdy.d-matrix.ai@kernel.org>
-Date: Sun, 18 Oct 2026 07:46:09 +0000
-Subject: [PATCH 1/2] libproc: name objects by their mapped file when there
- is no link map
+Date: Sun, 18 Oct 2026 07:46:10 +0000
+Subject: [PATCH 2/2] test: add pid probe test for noninvasively grabbed
+ processes
 Precedence: bulk
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261018-bug005-pid-noninvasive-names-v1-1-417b0f34f0b8@d-matrix.ai>
+Message-Id: <20261018-bug005-pid-noninvasive-names-v1-2-417b0f34f0b8@d-matrix.ai>
 References: <20261018-bug005-pid-noninvasive-names-v1-0-417b0f34f0b8@d-matrix.ai>
 In-Reply-To: <20261018-bug005-pid-noninvasive-names-v1-0-417b0f34f0b8@d-matrix.ai>
 To: dtrace@lists.linux.dev
@@ -50,11 +50,11 @@ Cc: Alan Maguire <alan.maguire@oracle.com>,
  Eugene Loh <eugene.loh@oracle.com>, Nick Alcock <nick.alcock@oracle.com>, 
  Eslam Almorshdy <ealmorshdy@d-matrix.ai>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792309584; l=4573;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792309584; l=4632;
  i=ealmorshdy@d-matrix.ai; s=20261015; h=from:subject:message-id;
- bh=jLsuKRfbKhhAPOyJ+pdcKtwqpJa+0ZQwndUx8MoPuyI=;
- b=myyenk1krHapSrZTciGklBmTHcwVWStUYqq/oYQt/CKeKP7hvARMb6xIZkhRxygzxLbhmu3mm
- RgE48H0DZ8YByWN8DBvMZAC+yMR8V59+1V1WptkP4JU1CkpDKx92ysd
+ bh=jMZCa4Uii02w74ugVb10B3j58wbzlGj1aAp9FgKCVwc=;
+ b=lrPQ60FMiuAJFYQGzxLXtOyATCd+JRk73HPrgNNN7f7NR+XAm+35xyJjX1aj1hNeaaOsSoQwx
+ Z0LMIDDFnUXAVKubFNTyo3DKShewEYAErOe4FcWRR95xKeiKf/vMw+S
 X-Developer-Key: i=ealmorshdy@d-matrix.ai; a=ed25519;
  pk=E4tVAIvp2rvz2CB7Re6YVMP6FiUVSxuq0TUtjGQL5NM=
 X-Endpoint-Received: by B4 Relay for ealmorshdy@d-matrix.ai/20261015 with
@@ -64,129 +64,173 @@ Reply-To: ealmorshdy@d-matrix.ai
 
 From: Eslam Almorshdy <ealmorshdy@d-matrix.ai>
 
-Since commit 4aec5c99 ("dt_pid: pid grabs should be shortlived"),
-dtrace creates pid probes on a running process through a short-lived
-grab, which is noninvasive if the process is a system daemon, is
-already being traced or may not be ptrace()d.  pid$pid probes then
-fail.  For example, pid4242:a.out:main:entry fails with "failed to
-lookup 'main' in module 'a.out'" when dtrace runs as root in a
-container without systemd and process 4242 has no terminal.
-
-A noninvasive grab has no rtld_db, so libproc never learns ld.so's
-names for the objects in the process, and it looks objects up only by
-those names:
-
- - Pobject_iter() passes "" as every object's name, so an empty or
-   globbed module matches nothing;
- - object_to_map() matches base names only against ld.so's names, so
-   neither a.out (which dt_pid_fix_mod() turns into the executable's
-   base name) nor a library's base name is found;
- - Plmid() fails, so the module is named LMffffffffffffffff`main
-   rather than main.
-
-Name each object by the file it is mapped from, as map_iter() already
-does for the executable and Pobjname() for any object without a
-link-map name, and put every object on the base link map when there is
-no rtld_db.  Invasive grabs are unaffected: the new branches are taken
-only when the link-map name or rtld_db is missing.
+A process that is already being traced is always grabbed
+noninvasively, whether or not it counts as a system daemon.  Run a
+program as the ptrace() child of another process and check that pid$pid
+probes on a.out:target, libwork.so:work and :target fire.  Without the
+previous patch all three fail.
 
 Assisted-by: Claude Code:claude-opus-5-5
 Signed-off-by: Eslam Almorshdy <ealmorshdy@d-matrix.ai>
 ---
- libproc/Psymtab.c | 43 +++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 39 insertions(+), 4 deletions(-)
+ test/unittest/pid/tst.noninvasive.r  |   1 +
+ test/unittest/pid/tst.noninvasive.sh | 119 +++++++++++++++++++++++++++++++++++
+ test/unittest/pid/tst.noninvasive.x  |  15 +++++
+ 3 files changed, 135 insertions(+)
 
-diff --git a/libproc/Psymtab.c b/libproc/Psymtab.c
-index e648c5aa..06bbcaef 100644
---- a/libproc/Psymtab.c
-+++ b/libproc/Psymtab.c
-@@ -1673,6 +1673,25 @@ Paddr2mptr(struct ps_prochandle *P, uintptr_t addr)
- 	return &P->mappings[mpidx];
- }
- 
-+/*
-+ * The base name of an object: ld.so's name for it if we have the link map,
-+ * else the base name of the file it is mapped from (e.g. after a noninvasive
-+ * grab, which has no rtld_db).
-+ */
-+static const char *
-+file_basename(const file_info_t *fp)
-+{
-+	const char *p;
+diff --git a/test/unittest/pid/tst.noninvasive.r b/test/unittest/pid/tst.noninvasive.r
+new file mode 100644
+index 00000000..2e9ba477
+--- /dev/null
++++ b/test/unittest/pid/tst.noninvasive.r
+@@ -0,0 +1 @@
++success
+diff --git a/test/unittest/pid/tst.noninvasive.sh b/test/unittest/pid/tst.noninvasive.sh
+new file mode 100755
+index 00000000..9ef9968a
+--- /dev/null
++++ b/test/unittest/pid/tst.noninvasive.sh
+@@ -0,0 +1,119 @@
++#!/bin/bash
++#
++# Oracle Linux DTrace.
++# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
++# Licensed under the Universal Permissive License v 1.0 as shown at
++# http://oss.oracle.com/licenses/upl.
++#
++# Check that pid$PID probes named by module and function fire in a process
++# that dtrace can only grab noninvasively: here, the ptrace() child of
++# another process.
++#
++# A noninvasive grab has no rtld_db, hence no link map, which is where
++# libproc otherwise gets each object's name.  The objects must be found by
++# the files they are mapped from: the executable as a.out, a library by its
++# base name, and every object for an empty module.
++#
 +
-+	if (fp->file_lbase != NULL)
-+		return fp->file_lbase;
-+	if (fp->file_pname == NULL)
-+		return NULL;
-+	if ((p = strrchr(fp->file_pname, '/')) != NULL)
-+		return p + 1;
-+	return fp->file_pname;
++dtrace=$1
++
++DIRNAME=$tmpdir/pid-noninvasive.$$.$RANDOM
++mkdir -p $DIRNAME
++cd $DIRNAME
++
++cat > work.c <<EOT
++__attribute__((noinline)) int work(int i)
++{
++	return i * 3 + 1;
++}
++EOT
++
++cat > main.c <<EOT
++#include <unistd.h>
++
++extern int work(int);
++volatile int sink;
++
++__attribute__((noinline)) int target(int i)
++{
++	return i * 2 + 1;
 +}
 +
- /*
-  * Given a shared object name, return the map_info_t for it.  If no matching
-  * object is found, return NULL.  Normally, the link maps contain the full
-@@ -1696,6 +1715,7 @@ object_to_map(struct ps_prochandle *P, Lmid_t lmid, const char *objname)
- {
- 	map_info_t *mp;
- 	file_info_t *fp;
-+	const char *base;
- 	size_t objlen;
- 	uint_t i;
- 
-@@ -1725,7 +1745,7 @@ object_to_map(struct ps_prochandle *P, Lmid_t lmid, const char *objname)
- 		 * one; if none (unlikely), just return the mapping we matched.
- 		 */
- 		if ((fp->file_pname && strcmp(fp->file_pname, objname) == 0) ||
--		    (fp->file_lbase && strcmp(fp->file_lbase, objname) == 0) ||
-+		    ((base = file_basename(fp)) && strcmp(base, objname) == 0) ||
- 		    (fp->file_lname && strcmp(fp->file_lname, objname) == 0))
- 			return fp->file_map != -1 ? &P->mappings[fp->file_map] : mp;
- 	}
-@@ -1749,9 +1769,9 @@ object_to_map(struct ps_prochandle *P, Lmid_t lmid, const char *objname)
- 		 * If we match, return the primary text mapping, if there is
- 		 * one; if none (unlikely), just return the mapping we matched.
- 		 */
--		if (fp->file_lbase &&
--		    (strncmp(fp->file_lbase, objname, objlen) == 0) &&
--		    (fp->file_lbase[objlen] == '.'))
-+		if ((base = file_basename(fp)) != NULL &&
-+		    (strncmp(base, objname, objlen) == 0) &&
-+		    (base[objlen] == '.'))
- 			return fp->file_map != -1 ? &P->mappings[fp->file_map] : mp;
- 	}
- 
-@@ -2252,8 +2272,14 @@ Pobject_iter(struct ps_prochandle *P, proc_map_f *func, void *cd)
- 	    cnt; cnt--, fptr = dt_list_next(fptr)) {
- 		const char *lname;
- 
-+		/*
-+		 * Without the link map (noninvasive grab), name the object by
-+		 * the file it is mapped from.
-+		 */
- 		if (fptr->file_lname != NULL)
- 			lname = fptr->file_lname;
-+		else if (fptr->file_pname != NULL)
-+			lname = fptr->file_pname;
- 		else
- 			lname = "";
- 
-@@ -2331,6 +2357,15 @@ Plmid(struct ps_prochandle *P, uintptr_t addr, Lmid_t *lmidp)
- 		return 0;
- 	}
- 
-+	/*
-+	 * Without rtld_db (a noninvasive grab, or no dynamic linker) there is
-+	 * no link map: every mapped object is on the base link map.
-+	 */
-+	if (mptr != NULL && P->rap == NULL) {
-+		*lmidp = LM_ID_BASE;
-+		return 0;
-+	}
++int main(void)
++{
++	int i;
 +
- 	return -1;
- }
- 
++	for (i = 0; i < 600; i++) {
++		sink = target(i) + work(i);
++		usleep(100000);
++	}
++	return 0;
++}
++EOT
++
++# tracer PROG: run PROG as a ptrace()d child, print its pid, and resume it
++# at every stop until it exits
++cat > tracer.c <<EOT
++#include <signal.h>
++#include <stdio.h>
++#include <sys/ptrace.h>
++#include <sys/wait.h>
++#include <unistd.h>
++
++int main(int argc, char **argv)
++{
++	pid_t pid;
++	int status, sig;
++
++	if ((pid = fork()) == 0) {
++		ptrace(PTRACE_TRACEME, 0, NULL, NULL);
++		execv(argv[1], &argv[1]);
++		_exit(127);
++	}
++	printf("%d\n", pid);
++	fflush(stdout);
++	while (waitpid(pid, &status, 0) == pid && WIFSTOPPED(status)) {
++		sig = WSTOPSIG(status) == SIGTRAP ? 0 : WSTOPSIG(status);
++		ptrace(PTRACE_CONT, pid, NULL, (void *)(long)sig);
++	}
++	return 0;
++}
++EOT
++
++$CC -O0 -fPIC -shared -o libwork.so work.c &&
++$CC -O0 -o main main.c -L. -lwork -Wl,-rpath,$DIRNAME &&
++$CC -o tracer tracer.c || exit 1
++
++./tracer ./main > pid &
++tracer=$!
++for i in $(seq 50); do
++	pid=$(cat pid)
++	[ -n "$pid" ] && grep -q libwork.so /proc/$pid/maps && break
++	sleep 0.1
++done 2> /dev/null
++
++# fired PROBE: how often PROBE fired in a second, or dtrace's error
++fired() {
++	$dtrace $dt_flags -qn "$1 { n++; }" \
++	    -n 'tick-1s { printf("%d\n", n); exit(0); }' 2>&1 |
++	    awk 'NF { last = $0 } END {
++		sub(/^dtrace: (invalid probe specifier .*: )?/, "", last)
++		print last
++	    }'
++}
++
++status=0
++for spec in a.out:target libwork.so:work :target; do
++	n=$(fired "pid$pid:$spec:entry")
++	case "$n" in
++	''|*[!0-9]*|0)
++		echo "ERROR: pid\$pid:$spec:entry: got '$n', want firings"
++		status=1;;
++	esac
++done
++
++kill $pid
++wait $tracer 2> /dev/null
++
++[ $status -eq 0 ] && echo success
++exit $status
+diff --git a/test/unittest/pid/tst.noninvasive.x b/test/unittest/pid/tst.noninvasive.x
+new file mode 100755
+index 00000000..5c70ea6b
+--- /dev/null
++++ b/test/unittest/pid/tst.noninvasive.x
+@@ -0,0 +1,15 @@
++#!/bin/bash
++#
++# Oracle Linux DTrace.
++# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
++# Licensed under the Universal Permissive License v 1.0 as shown at
++# http://oss.oracle.com/licenses/upl.
++#
++# This test links its programs with $CC's default linker.
++
++if ! echo 'int main(void) { return 0; }' |
++    ${CC:-gcc} -x c -o /dev/null - > /dev/null 2>&1; then
++	echo "${CC:-gcc} cannot link"
++	exit 2
++fi
++exit 0
 
 -- 
 2.55.0
