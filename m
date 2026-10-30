@@ -1,13 +1,13 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.177.32
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793389096;
-	b=RqwEt8u8356C2yI1cTIN0w/FanH4F+oQOE/BwkBm8zD1OseKWp0k9uOYccODUOZ6IOqN
-	 e/j3s/gkRIszuwA/ZwNHNrfQClpH57pfABvEkBvB8wY3O6S0BOUPbVOnxwUQbGy9uUM8q
-	 IlggtQryzT3g2BhPxz7svKTLiQKA52Tj/bJXLrkmJvepR4koYeWQ52F0/6i88EgEIfccj
-	 zY8CkQ21iIer5+wdE8Y5lNfPYY03XObK2QDdd4j91TN4L+5ZsKW+riKzusraDuEITDxT/
-	 VtQY5JkWV75/BdXQlE8OVueYxqmjZLKInVj5bmFQSGsjg4F31JRBqsrZhHyzxKGdx5w==
+	t=1793389098;
+	b=yw1vTITzI0UfuPn7K916ABXSr1VHAWTvq79N2scYkHFIifQsdExi8l5ReaByGN+ZFINY
+	 RXpPisdJHi/i1I4NnBBlQLoJSu4QpvMiCcMHgYfU1nX3h11RZWDoD9tt9fhc8pZgtTAgF
+	 WjQbikhZSupgnDlb6Hmfzb+nuBwhe2kFfn7BLJFzsc4BP8O8P+wynmjjFR4Pm/qsZFf/F
+	 AN7FTtfJINS3L0hXqBaysy+s5FxQCoLcIKGWwtsmoGGDTbzE0Kd4ggK5Cfypy4RUqeEMd
+	 sOqXizYUlJfm/mmgoBSyg3eN1ylXBa+GDgfI4mkRbmH7kQ/xPpJTBUW0nUBNMWFupgQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793389096;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793389098;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Subject:
 	 Content-Type:X-ClientProxiedBy:MIME-Version:
@@ -28,88 +28,87 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details:
-	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID;
-	bh=36a5edNZb6oL0HdEljWer+xqo1rqb471+llnX7UEoFI=;
-	b=VlpiAMCzs6iy/I95px8FpgUqPazBX3QOTbVR9QwAHMAct5zw2VpcsmgvXwxEqQH6RL9T
-	 tQZzDnnwZxq1zF3T/f74mzudmW5sqj/9qjjV1qrK1QIsUvTM6nAtoT6908uxEacHDNH7i
-	 cBuXY2wNHQ8JJJOwMandNnNgBIFmi39ildm0p/A15VTuSlPuI/D5mllNo/J/hm61LmhTp
-	 ygeWlzTzScu2MJGzdzGOaOanwUwyileVvpkCpULG9M4T1QhOruufKbbPO0NdjYnOdiFBj
-	 lzFkAJJyZxoZ/tGlXheQ6HtYcigfMpy/SP7bqG54qBBGRO+MuAS4RdRR0R9GOopTl+w==
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID;
+	bh=q4AadjzHiUrYKRfw69cNOQWco4jowlAPyZFGT45cp0k=;
+	b=G0rJDtPoQgPacdO8T73aC8Q09wysAM78LdXe8u89eYDZUB9Kv/RR+y0SM4WrLkkRH6bk
+	 O2ph8CyYlUce9WCN+wOKK/PQ0yz16RFSncnpEJiDxjAIaa5EwYJqT+Swg7hjGoTfnHgZ2
+	 IbRmhIJ04paA5vsHhi4KtnOku3hlRHUaQcXSogha+dkVmj3AJiwJCbfYMaHvAg3bVm2jc
+	 P3beVYHlKLtFU+F3jkG8re5rAnotWF8/1tPiJ4HvEbVmY/GH90RFLWg/suN8P+bvBQ+QK
+	 d2zT0G5l9pms00bXpleUkq8wQdpJttEt0J5KZh23/NU9AH6OEavscrRWp9xqqXWgrVQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oracle.com;
 	spf=pass smtp.mailfrom=oracle.com;
-	dkim=pass header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2025-04-25 header.b=lq9aGCxZ;
-	dkim=pass header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=vWEDDSic;
+	dkim=pass header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2025-04-25 header.b=mMLn5Wny;
+	dkim=pass header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=AKm0KHen;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.177.32
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85C9606A31D
-	for <dtrace@lists.linux.dev>; Fri, 30 Oct 2026 19:38:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A85C9606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824D3606A31C
+	for <dtrace@lists.linux.dev>; Fri, 30 Oct 2026 19:38:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 824D3606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2025-04-25 header.b=lq9aGCxZ;
-	dkim=pass (1024-bit key, unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=vWEDDSic
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69UEXQtU3604484
-	for <dtrace@lists.linux.dev>; Fri, 30 Oct 2026 19:38:12 GMT
+	dkim=pass (2048-bit key, unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2025-04-25 header.b=mMLn5Wny;
+	dkim=pass (1024-bit key, unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=AKm0KHen
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69UEXrI93605863
+	for <dtrace@lists.linux.dev>; Fri, 30 Oct 2026 19:38:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	content-type:date:from:message-id:mime-version:subject:to; s=
-	corp-2025-04-25; bh=36a5edNZb6oL0HdEljWer+xqo1rqb471+llnX7UEoFI=; b=
-	lq9aGCxZiG4iUMixxB+iVzuFYdN7sBVFMq/ayRYlqYbS+7UrLTp6uuxOrvP4ttLH
-	PSyK1MfXNkefCUZjvFO+vSGUiRc3GXi1oA7Q1juXXMQLqeGLI88oEGzDyeybCOba
-	u117JIDxN/0OEOCQ7sWODHYjfuEKdCb1wjaDLzCMGzIkggnCjUlS1RQ74l6g2Mcz
-	7yP4zJ1i1cQp8z06j5n4aTmUGjOgxXN8LwXeO14zdj4bW11MIuUSiSoLf6ivQOYs
-	DOKK/xQW5QFvHfgkAR9V7Ya22OJsv2k957r/vSIAG+365DpO26tfSL+YEGol7Asl
-	+zysFj+b0KUuPZJSLoJI+A==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4hme5s1cbw-1
+	corp-2025-04-25; bh=q4AadjzHiUrYKRfw69cNOQWco4jowlAPyZFGT45cp0k=; b=
+	mMLn5WnyPs7VlZqdQgLck37nR6dXusyQ1Oy9NngWivCVm095saPd8zuz+jK7N6Oa
+	I1+jGkjm9Fq2/UFsUMw3erxzrIX+iXe/nzEqWhcenscz+si/amU4ixjjkFr1xphD
+	au0KDP1j/MO45bDXwzYKMxIDnJIHFd4wU4E/Fys9rTMYpJcyrzZvmZy+OCSaz3Rx
+	4h/WrF7FhSthYxLqOwqguuxbe9AOOcRmzAP93qFbXEbXZcJbhoIVFkWop0iqfWz8
+	iJHgPOp9FVbgl/xWTbS2L9T6KkQeo9eGGbIuemnixJYbO9aYYW8t7Dlzgv5VUo/h
+	+F3RmfIdwuOVyc6BMtT12Q==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4hme5msc2p-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK)
-	for <dtrace@lists.linux.dev>; Fri, 30 Oct 2026 19:38:12 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.11/8.18.1.11) with ESMTP id 69UHvw2R474855
-	for <dtrace@lists.linux.dev>; Fri, 30 Oct 2026 19:38:11 GMT
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010047.outbound.protection.outlook.com [52.101.56.47])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4hn01jb6vw-2
+	for <dtrace@lists.linux.dev>; Fri, 30 Oct 2026 19:38:16 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.11/8.18.1.11) with ESMTP id 69UI0btD2477302
+	for <dtrace@lists.linux.dev>; Fri, 30 Oct 2026 19:38:15 GMT
+Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010032.outbound.protection.outlook.com [40.93.198.32])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4hn04v2wfr-2
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=FAIL)
-	for <dtrace@lists.linux.dev>; Fri, 30 Oct 2026 19:38:11 +0000 (GMT)
+	for <dtrace@lists.linux.dev>; Fri, 30 Oct 2026 19:38:15 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Errq4U+TgDeeSxcnyR2ec+ZU6x3zIuNodbGvjj73hgj0IKWG+sDy6pOC565U/rD2MfRySUoKTnkklworwxULi0fSjDhBwwTlc41sOT5GD9dZ1Tcwic7bP5bmH6TMJ4t9VyZ1R0yT/zInD2p8tITnxsgkcWUngyzOj4mEy7JasNYKYfolpqaxHsk8wJFfUqrTpI/LjJXad1g/5D0GKFg7bPi9DMsvrhBlFGcNbNTIJgm8IxF4c09oaHVQuf6KKioofFqzErH0EMo9xIXyfsimELRyG+RygZ/eWZ4ZsDbMggjjMAGuWcyjiTBnvBk2FiCKu5jFnQXPEe+amD7xa3yi1Q==
+ b=JRlTB4IPqXIMzmAUMZvUHU64YESwZxcAaIeIBSlTkFBwhkAfalCcL46uK2z0vt1RRnAYNMl060zNYyerQvmrBRNiqhc1FgFvX9jmNt8WfdnQWR30wpctwsSDQd2btY8s32VWcxrM8Nit75C6H4XOl72jsnWd8CHQUwTZPa/wWlZSILKb7OJOAki0LnBYRyK8r6U5K3Wi8tD+dY+kCvN0nQoIe1dWjajP6dscOqlNA2hI7+yIkua5FdlYYIVNxJidAkydnNbmIQ5Yr7U7HWYeYUYpIq+jL9+eER8Z5cE+27yRh5II57XYfOXnOekaGbkFQCQBMtodrF0FZtxvywyyxQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=36a5edNZb6oL0HdEljWer+xqo1rqb471+llnX7UEoFI=;
- b=KfxFaoObEvoQWy5F/DLzIq9uFhNBuIwEaRdeX6ZceWK4G6prxQMhNScY9XbqmSVW8W0spwyQ5U+GZZA7NyTGfZqIs1k403O2RQA5SiCT9M0xY1L6evy1HhfkAf8NQhwAKNoALHoDzWlVvuoI64TEJ7TFp4q2vczMSZiZ0qDNGOON8zO5dUw3g2uRiJVBgOIdDZ5FQ0pdTuxaN23DAEllS/lejIF2hY+Z71vzBicp8ek8JuCuAyk/UotuC/PKb0DkBwCNQfy3y5eQHbLdlqPWJ1Vqdwz39cm91brCa+ZfWVZ+7gQbbcaY/815sFT+l2MCjww9r+QMg3a9+ytwMzKAWw==
+ bh=q4AadjzHiUrYKRfw69cNOQWco4jowlAPyZFGT45cp0k=;
+ b=OEDugm3YeEeIqh3zPWmVQEqP5aYiwAagMM7PBTGfrOk0SeDfuM587NO8GWKWDb1IGAnObPHV7ZtRjNzFVi2aNJR6uDhxVWAT6Lilw7esEDQ0v4Y0AwxVqDjDbxSx1LGFKsoIj0fjsHewfiSzjs72cXvGP74OuGDN+3m1X1FWleiM6D9CuU5gRQxtLJf7XWtqffm5DC0XBTwcWApQJW68zBk+ttUEhYMGtRSLV+U/tcVoPBlcG4EqtkyIiDgWpMd67z17NnLheAq/APV2iiACQ1VX0MKmDGQaNEyrkBLvGIUUEnkn8a1oKBmuhZdIsOr50MnZtJFsbKUp/IVw+zFOUQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=36a5edNZb6oL0HdEljWer+xqo1rqb471+llnX7UEoFI=;
- b=vWEDDSicLKI2S97ySWDKPCZHzYO2z6nQ08/Q92iMwZKZfJM9vwCB348rMg8SPc+Hzo5lMHLJkQDBJ4kQZ5Fk5ZgJspH1KYmvsrzXFqEeH090cx4o14jkvQ9S6Jzwp6c/5NyX9/R0Xcu9Rf5YUEU9Qc+jYiPRgpa1nrqs0YzN8kQ=
+ bh=q4AadjzHiUrYKRfw69cNOQWco4jowlAPyZFGT45cp0k=;
+ b=AKm0KHenUrUlMFk0Sm4gO86DjpmWaVekuiH36SXNfruUDgQrmY3K030gAS0C3teigrYE3YbN+FBp/Q4skziPqRbcqmhC23VlPawTo0Y4u5ZXAlFb7fAlPKSSL+9buHqr2t+R/kQzhr/VPSM4Ucw5Fax22ODcEBKCBYER+xvvUc4=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oracle.com;
 Received: from CO1PR10MB4769.namprd10.prod.outlook.com (2603:10b6:303:98::16)
- by SN7PR10MB7074.namprd10.prod.outlook.com with HTTP via P2P; Fri, 30 Oct
- 2026 19:38:08 +0000
+ by SABPR10MB997917.namprd10.prod.outlook.com with HTTP via P2P; Fri, 30 Oct
+ 2026 19:38:12 +0000
 Received: from CO1PR10MB4769.namprd10.prod.outlook.com
  ([fe80::ada4:9b51:3a74:3649]) by CO1PR10MB4769.namprd10.prod.outlook.com
  ([fe80::ada4:9b51:3a74:3649%5]) with mapi id 15.21.0569.009; Fri, 30 Oct 2026
- 19:38:08 +0000
-Date: Fri, 30 Oct 2026 19:36:33 +0000
-Message-ID: <031b190cb7679c63673baf89f0389b9a@oracle.com>
+ 19:38:12 +0000
+Date: Fri, 30 Oct 2026 19:36:37 +0000
+Message-ID: <155d3efad06100688e3878b86d99cdd7@oracle.com>
 From: Kris Van Hees <kris.van.hees@oracle.com>
 To: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: [PATCH 04/20] btf: deprecate dt_shared_btf and introduce btf->parent
- instead
+Subject: [PATCH 06/20] btf: convert kernel types to CTF on demand
 Content-Type: text/plain
-X-ClientProxiedBy: PH8P220CA0030.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:348::15) To CO1PR10MB4769.namprd10.prod.outlook.com
+X-ClientProxiedBy: PH8PR22CA0020.namprd22.prod.outlook.com
+ (2603:10b6:510:2d1::27) To CO1PR10MB4769.namprd10.prod.outlook.com
  (2603:10b6:303:98::16)
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -120,1550 +119,1343 @@ List-Unsubscribe: <mailto:dtrace+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:dtrace+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4769:EE_|SN7PR10MB7074:EE_
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4769:EE_|SABPR10MB997917:EE_
 X-MS-PublicTrafficType: Email
-client-request-id: 081e763c-8c3a-4a58-b55d-59efa73a6bf4
-request-id: e20ecb38-ec94-40c7-0026-08df36bd5308
-X-MS-Office365-Filtering-Correlation-Id: e20ecb38-ec94-40c7-0026-08df36bd5308
+client-request-id: 35d6ff25-4c6c-4b57-b08c-05139c9d3ff3
+request-id: a81a2cdd-5856-4398-d823-08df36bd5580
+X-MS-Office365-Filtering-Correlation-Id: a81a2cdd-5856-4398-d823-08df36bd5580
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|56012099006|261009223027099003|261026140227099003|261026130827099003|261028144727099003|261026121527099003|261026135527099003|261021121427099003|261021133027099003|261021130227099003|261022075727099003|261022105027099003|261022113327099003|261022115727099003|261021135927099003|261021123027099003|10067099003|18002099003|3023799007;
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|56012099006|261009223027099003|261026140227099003|261026130827099003|261028144727099003|261026121527099003|261026135527099003|10067099003|261021135927099003|261021130227099003|261022075727099003|261022105027099003|261022113327099003|261022115727099003|261021133027099003|261021123027099003|261021121427099003|18002099003|6133799003|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	+3MXUOjtdIAWI3hwgLRXNeR/iPcBt5MrCdgBWeVcUumfqk9/74p5qzul6ob8ZbVYlGtb/wGZI/Wu9CXGfV0etjVpbOLl5Ns/035Vd1PNTz6haWmlGM+r62NOU+z60RNxaX2L24NJqEaRcIfCf7A29qeurWKdsGc3+N8Bov5/BhxAULsx3xSqg9OCprRIprUOoZJ7jIJAwPWl/aFv+hsqkEnaUCHW9fx8M7Tg2FPM6+BMYEmXrbhGWEgSA9Aj2oj4QpZRxF4VbzgTzRtDQcly9AGkNHCLtNN0t40a/iUbKXkILqmagOw5fXn0x948ekrXQQsdKr8S2H4TNA3Ey4vBAEQCY69+1SUt56n+rWS+BtmM+1h7nief+m/rdrwbqsxobPXJI8pCWiFTowRWDi6bSqF9UVuXpndqinwPVkbhPC9TmIVlsPFOknOyRaqfm1MtJCh0bcZzGdQ00DK5kfTd9LQSsjqcYQaDv3ferTfiNAVMpOwBOcqlKEIs+uBPK6MbA+bQdqjjHRrl4BMwqIBBubG4UJ9UUEFabO1AHBi7C0doVV2+eXihvqa7PFcOOXe1oip6MQGx/1w1V8EPH1in1jO4LHFfolL2ZVQnZXPCSVavSggGS6TmRGDlEgVMHvXx/Lme709fCeKBRf45fO1Y/CRJySaXCYfJbZv7DBDSz6U=
+	W+c67E0dIdMQOsHFIgCR02+F8x/K18ILXcQZbAysDOSxDRbQWR7Y1Zyof/4I1/gT4Cdww9aNE+BFHdcZWGMvtSiQLW5PorPtSeiHVCIg1qhywHwoESwqUjHEpusaF5QkgyA+C6wIS5h04gyQlF1xX+mgMaQtojX/QFwjQ3CZ83gKiirgiXC+EtCLZa1xaAZwOh/m21sbSX8n9NtYGjPfqR9VuwKrirP2dQMpARhA+NoiiWMVQlT20+1jOit3eKkNGLdH2tMf3tMQppdjz1fIQKmQibYa5S4W+i02gerAX88ZQXXLzYjbo9Q7HOp57POyBliD4RWlX0YGJoDjFM2u52XmfEnGsrQ6JUycFTL4zjRNke7ISAcs3Ihu6G7C2lskt80GzV1aiEGXagyhIVWxrsv/n7MwD45lMlm/zYM41SDlS6yKFDUc1tZ+hUwfjwGm8XL/xArCxZIwLj1aPvitF0bGLgFcpyWlfi+en6Jibm3zzty8xkLDUEeVSxoJQRyFK5FUOrLbvGVqntAM7qGwDL8ecAWyh2moidRBcgdYAesjSqte//iOz9Wh1ICU0X7xcXARVzu+98bknm2TN8xOtjlwKv1E/76iRjxwHwA9UhM2x9jPvcaGW1iGBqLyFjFiId/u/Sf1I8VM5tZVC96wCDovJUkncNhCUgB8MZZtDxM=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(56012099006)(261009223027099003)(261026140227099003)(261026130827099003)(261028144727099003)(261026121527099003)(261026135527099003)(261021121427099003)(261021133027099003)(261021130227099003)(261022075727099003)(261022105027099003)(261022113327099003)(261022115727099003)(261021135927099003)(261021123027099003)(10067099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(56012099006)(261009223027099003)(261026140227099003)(261026130827099003)(261028144727099003)(261026121527099003)(261026135527099003)(10067099003)(261021135927099003)(261021130227099003)(261022075727099003)(261022105027099003)(261022113327099003)(261022115727099003)(261021133027099003)(261021123027099003)(261021121427099003)(18002099003)(6133799003)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ClRSrW7ajrgghTqmFcBH2tS8LVNisPKUvJCiCW7awR6VINWRZGGe3G86XZq1?=
- =?us-ascii?Q?6AWZIAkT7RCxN8HmW/xSIERRVvZ2MYVGnoi/Kv4wBpmc9k20oJiY0C+IOI0S?=
- =?us-ascii?Q?e3z8k3M45x65jy+NdsVjt12y021yRdIr58Nl7/mh22+Qz4rnBpC17O43BnUt?=
- =?us-ascii?Q?GYZU1CPFs0SDEwQywcdlvGE5FbhNRde1NCTcz8gUfZSJJGDIjcbyvthpQEET?=
- =?us-ascii?Q?pU1/Yr6bSn9WSHQ6ytPrRt7HherrS0jAj2rcMgSrbD3soXM11RYkrNQbnkn1?=
- =?us-ascii?Q?+TSvHtMGvstPGj6Ow61zXH43kNcKXDl8GCJB/O/nRks1MfFDVszs2bvW8TvW?=
- =?us-ascii?Q?rzDGgE4JsvbfDLW5yrLOv4LXWVNY/SWXAeO6+L0KzuzJVbwX9Ie3vbv7DJNB?=
- =?us-ascii?Q?f6HRgZiyKDxrQw07U+a/FpyWzooXQVtM9MgRBSGJNev2iLpqpKxvZMO4SPUt?=
- =?us-ascii?Q?v4TEfN2uu42I8Fu9wHAIjsecBUFxNEnBRp1DcZ05PtPRGErKZG8MOKLcPIHw?=
- =?us-ascii?Q?6E/u+VDRPLQisuR4b85Hru0YAOeQidP9f3OHgE/MvlxXQIle1O9Q4tv+yx/G?=
- =?us-ascii?Q?M45gTNyQ7cJSfpRv0LoOrqT+4qvW0hqDDWLcHdY+tHt17xPvkGVoGxaFS0yk?=
- =?us-ascii?Q?a/LMsryYmTb/L6/AC1bfuq+FkwstwV9KxUgoxROErOvKhJpx2BlDuJstEzck?=
- =?us-ascii?Q?TYqjU0iU64woPon3uDTVFuEIyoMZl0gCnxiRlUVgeEV3WZBYMErVgh90iYJk?=
- =?us-ascii?Q?1H7zm+UD0t4X7O6pi80vf/2iyF7parRXHmWvwYGQPPNjMYMGwX+RYu+35e2X?=
- =?us-ascii?Q?gSO4O9+7RFMsH6rvrxf+beL4SbC9dM2wylqwdzoSD73BL49gw+0vjOoKWNlI?=
- =?us-ascii?Q?lECSxu+2T0OvyiAshkHjHQgXjjG9rIx032qYVZL9JBlOzjYZE1ZyX/Nxtxfx?=
- =?us-ascii?Q?ittspUscWG3P2JlgZ1gbXKfLBQAkHhdZD86n+shbFYjE1vL/IUSatfmDCjMQ?=
- =?us-ascii?Q?iVc2rw/CBsPLILMlOpD07CMW9IWmUkxrBcR2yaLJDztCBj7SrGOWyzr51nlB?=
- =?us-ascii?Q?QLRoGavvVagVPG2XPoYPqXC4usYynE/gCXK3Uaz+//SDZqYaLN4qNqT5Q4LR?=
- =?us-ascii?Q?ns15C4TVZ2aW/Me69ma9TCanX9qsM4MAlMkvttj3pg07iMa0NeIXL+Fy+6By?=
- =?us-ascii?Q?g1Y9pmHY7TB2TE7BnX9pMkBhMdlnWxzIKJInLWNKz/PKZpJ0SM7ecsPiETP5?=
- =?us-ascii?Q?1H3DmRhM24RlHkCOoW1Umc3WnE3aidGiP5cUGFsr/AjRqY88zGxV7Id3pcEg?=
- =?us-ascii?Q?EO5Kb+bFV3/Tu6CnCJpjsHTgSk0B/mprPbTh9R44VCfY+xdYtHekvfu31IbV?=
- =?us-ascii?Q?N0Sk5NS6D62U3U0XJsh8KoKfQXmmpXXxsMWsIpZqmAEZ8VCBdg2r4/XNUITb?=
- =?us-ascii?Q?G/h+H0XkQjiaar29kKZCFc4dzwvyH9nag7PVrSC4YDsASilagPNYlGMeoj8l?=
- =?us-ascii?Q?KN6eMup7oFCTcIkK4wxY8lC7bKPG6LTZCYfGw4/bkT1+veACAC7EPmkwv94c?=
- =?us-ascii?Q?LIdNg7XK3qWwiPNKTtrC/exkhQwvAty3sgsXRXNTjF/AugSci0R7aotIFCE7?=
- =?us-ascii?Q?dRqE7UPqvTbDmao6PgV2LoH6U1cIexW9e4u+sjUhwhYgLNFZbNQpvv5iHUsX?=
- =?us-ascii?Q?YxU0ZkbdcC8euLDPF2wIOHev31MpwGtoZxdRnJ7ULG9dLGKz6R8yxtt7WCat?=
- =?us-ascii?Q?OJasdPQgjbxfFN6bywabuBBiby3fCrQ=3D?=
+	=?us-ascii?Q?cAGr36D/7ade6UQmD7IUSxQ3M9elPnKAxpXQvByvTjcaRGytvjdN1Q+IyFF2?=
+ =?us-ascii?Q?s0xQfgl14eOcqw5dTdjqDhANtjp1DnmvUJFKnrRL/PN3oGJaOOeSUvE/GPnI?=
+ =?us-ascii?Q?Tz/BsZmo/DzXWxfIA+DaFX8OA/TXc+2bZHwzqz58QbHH8oFnjWJwc9R40DfB?=
+ =?us-ascii?Q?dHd9kj8vVMsvuTCTyfnKgNeLjSy/5j9yVbOLxdTZfAu6npsy87rOc1cLMagf?=
+ =?us-ascii?Q?x0ZrS2pzB8CeeX8+lt1GsZ/MkYgpbFVmnhoXFsQdCZlYU+On8uS+fHHdhuVH?=
+ =?us-ascii?Q?Dy5HHWjeT7T5XAqhwFmfljXXz6OTYkJQr0n38HoP/EJYKyWXc2dLijMIxIOT?=
+ =?us-ascii?Q?JonHJx8hUEq/2p/hgFAqC9AlUJEK/teKpWEjyGMClFPVkrl+c37KoqTAlmsl?=
+ =?us-ascii?Q?//aQ5iTALk5YuZvKXB0P0JDAcmeDHsSjXiweINrCgL0dWvDTVMRLvrg2KpT6?=
+ =?us-ascii?Q?4QnU04ASJAA8BesXNPKbBIFZvhZRFEBcSFXSaKvB3D2wWWvW/XR8kHUzAB08?=
+ =?us-ascii?Q?WGZs2AEuE/Pdze5rpLaPnx8OjREdXK1huNG7GOqYhb8XtPmFYT/iLuUpT9MD?=
+ =?us-ascii?Q?0Q+Z+UBXYQjolkYb91t6ekA1DvCZBhAN+RiAg6rHga4Skcu+gWfjcWv2bFZz?=
+ =?us-ascii?Q?nzoRzu9H2RZLLfr7N/e7TwQzJ72ifipiQxlIFkg07lkLo6XcI+yEoco9Yqj6?=
+ =?us-ascii?Q?ypVtmIhChBVaZzALCSLDthbZutAKywnLuv0xwECqu79aEj5fdXAoonN/Jkgg?=
+ =?us-ascii?Q?GgQrxCWH0juvCkoV9OBbemmMqNeZWtbeSgTPn8cqquZ5+H5acKc2gLxg/VRg?=
+ =?us-ascii?Q?A6tZUONQ/qVxsmqnc7Mf87/Je53h/+D2E30gz+6crR7QMRgVNnf5QZpc8dRQ?=
+ =?us-ascii?Q?GP9NieZ/DMmZBdNFax6t0WQYYEqeH6ugtmrvSdSueVaLw/ZA2IBw0pd7S4cc?=
+ =?us-ascii?Q?yOMpRwLf2ex2RdJBJObq/bheYbDfi6ct9AQrnnuWPeuzX7STJYzUqJSS2vZ6?=
+ =?us-ascii?Q?9TYYQKdLpC+Ei+JNxoZr6exN92FYtuyU+6iN7GpneVOmxQ9B/jNYv0aFgaaP?=
+ =?us-ascii?Q?8UEgrfKRf391ndagq88OravWz1EG406wcZFQ57f+O3pClDYF5WkHu1KWGmg/?=
+ =?us-ascii?Q?dHkUF1owp7R8NrnMyljF1A277cDl7iW97FSP/2xdkHRx1yFc0CXtR9pnIuD2?=
+ =?us-ascii?Q?RujrjPhK3NTSVQmUZd6WpamFfBMaYAVpjY5gZL5di7b4H11sFKNSDzFi9DiV?=
+ =?us-ascii?Q?mun4vQrJtIkco2P8ZRgcFb/CdwnlYxsDB+eukEz6Hc/si0Q1hhG46weebkFH?=
+ =?us-ascii?Q?o4FjlvbfVtjdlmjr6GLCICmQKHP4I6MwTP49DDtuTEYBGumt/DXAmdJTjW0H?=
+ =?us-ascii?Q?fRE3bTSDjj1SioXqFSlpF7g2A8bE+v4hmvCit6GRk7W3PCV4SD3xOFq5fdvR?=
+ =?us-ascii?Q?e2F2EevnieXdTYrrLK65oKMpykwu60pCOraT/6Ih27TVa1cmx1cioO464Rc8?=
+ =?us-ascii?Q?iK5GTaOB+PNm7MoGoQZNovJ1CvnOlaP3z8uqaJnfm/16qRKPcQbiTDjC8JbU?=
+ =?us-ascii?Q?eUbfQU4JE9Mvh8DE7gBmjEX+ZQ9WB8sZM6q9wSGMQrKv+YQ0c8TDWV7iJKa5?=
+ =?us-ascii?Q?80BfuWKErDF2OM+n8GnL2Sa3xAES/V4pSOQIoa547ukRvZxClHlgpteYnil/?=
+ =?us-ascii?Q?nsd3BdvXauK+/d5u28x5cUuwkABMVA0vmeLKl+hhB1wve9D5pv7PnxjWO9pu?=
+ =?us-ascii?Q?DdbQ1ZvE9AIXXa/i/aTMmvdaxrt4+yE=3D?=
 X-Exchange-RoutingPolicyChecked:
-	jItzktJlRSxiBCSuAfiXQ/fy283e5qmtAr/E07SzsZGxLr2iNZk9VIpxIpEDId+nz80SCkqmHYnV0MaRwyymKtEI07JrnqsFhNRJr8wsbupExq58Y0sTEygQt3T1p8KoISODY0aqmTN1tyTC0cJFz8EV7tfLsfmLo23aAaL86THF2q9UJBRIZY1uQw1n3ENHeTBregxzYoeVSZSIRqqoAeAVv8GqHr6iPVnJCvoUN1SFlD4gWRoLfhZCdEb2cvf3Q07rPzBqQa8dIzbZZBdTHqRD7XA9YEagGl4E96d+vIzggYwHEmobeK37+hhlXF8FrxXMpqERkym11WA+Zpavhw==
+	tLZmdunjZrbgjC1pYD8GUSb7biyXraU57Nup/lOc1h2zuc4CD33Naeh7MVUN+XwKAwuZIPQFJkByxQvLoyyGh3/4VXKFiPc5XKqPOomTIryIHqyE6xcytOL45e25Onh8BaBJXGIXoeXd+mrAYMCKrOe7MvMLfexuWiUyLFo6jFey9t5GNAg7Q+A6S1+wodcMTg1st/vlxc+ESCQMnb20pQoO2GRVlzHgptV+45NXsG6++RTgz3CC04CPD2/5+WoGb3wpQdzd9kqUNXOPYyjcX0Yv+ccHCKDTLxf+lOtgKxJyIyFP/fMZzxilZe80Y3gApXVsspgz8d0o2bOOA/oiCg==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	cojCxo6zRERSQ0KMir5xVl366zC6yjEzVFMk7VsCf/s7D9k2t8OPAQz6yVBoytREPWoOvSu4mZttgaeMmg5v+efnjYtqR72Ds/kpURaZLtom7mk1kHZyx9wcfKyKwvh5w9QXNejqFneGb09vV2BtNg687NZntXI89MeUPLRsWAIaiT0581ci82qGoSUtnyMNix+Ya19Pi5Ft5MlU7CQhYiK275HCkQsyr6HB+bs7oz7yWEplJiWtyvFBrN98CK26lc4P7WkLziBT4sJnIPRvdQJ3m/vIrXRTVTRPScrAwpDpRI/OvqnOasaJZ7EW1KQb4QfB6O3gEmuFbY5KkP1e+hsV+Oqy1vgr8e/OGEs3W0AR3xKB0UMu5OkQZeoj2DNoCYpkrG6UU5KIroxMfO/HG5/HPOQ6o6G7kca3pwTIjWr9iUGvKfy4eD+WSBLs2k+G3prmNDIRyuhASMq5WvFqmoIAkipcrXvH79zSh6dPrXfwimuuPHxOeC3RAfCWKV9PVr8CHZdTkHfrHlw3egj0t0GnJ41qkrNWix5NoHoKI3YcWwxgdmXCMIf526TI0S0sObK+nVFgFK6K9pXJUtRvPhD5Qa6U1DDRdxObpSWjGrI=
+	o/zm8AmfJTbz+1G8g5iyWchBW0yGPgPhw0TUTepMLgF7sjfL/ZHN1In1SKlRcW2bQ2B0QsBCjzxVJMuTibcoQkDf9Fepnsx3L2p1TGTIDBtZiHXSO/NJT7TqpHOZBb4CTIxTrZrSQ70t3VwiBlndlkHd6la6yxzHDb3mYVHC889Xbohz6zWmFjtC+uM/0nSDa+YTBpKl8xx48rsctQJpt0otvJavNIMt79YlSPyRLXWXcWq6G+JtF9NMduPZwgr1RAnF/FOwPtDDxqLTulVrIWPKikVoa1+MTsm7mJckaSUxz8bdfZsKjvlOtCtEwG+y+p91p5s88w3UPr3iCEk0GyghneJEqnnEeC6+Z06lHDdglX/dfaULyijp+JdRdv3aYWdnFor+e7OKMkpoezTv26YDcKHDPvG2f/HAFdpwZl9EyT4sMrQqjfg2HlAC1HwnzGMGUKLcPNQTEp7uoGtKOjirhqwghzVG8BuiqyExLopVrmrR/QrHpr4fS/C7Wt0MpN5CWlEgQJXAvimDHzIogakBJzLZrDFNgkc+SZ2AKGI+kk/cgbw6Is4acUy2kdIEC6llvgH8cwjge235oUhV6iIHRsXdMFun263G+EjSE2A=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e20ecb38-ec94-40c7-0026-08df36bd5308
+X-MS-Exchange-CrossTenant-Network-Message-Id: a81a2cdd-5856-4398-d823-08df36bd5580
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4769.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 19:38:08.1125
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 19:38:12.3282
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IMdrrAzSx+22xLi5L+Zs7huWRzKfDEcbkt4ay/1MeBGYEq+IiqYH4ob0ZdiaTpjuiKEmzjmRgNI1+ZiV/+YMed8lAFPAIE1rfv7B3v+mQDA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB7074
+X-MS-Exchange-CrossTenant-UserPrincipalName: qdanEmGk1ar9vjZkdjlDxj4e9HmZpW6VLB4mBG7c3px3EoYCzkVFCX1vL9H2ScvIKeGkBUyOjoR8Dt6nH/0WGX3oqZ5kemIKAS+Oh6ktBJA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SABPR10MB997917
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-30_06,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxlogscore=999 mlxscore=0 phishscore=0 adultscore=0 suspectscore=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 classifier=spam adjust=0
+ mlxscore=0 adultscore=0 phishscore=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 bulkscore=0 lowpriorityscore=0 classifier=spam adjust=0
  reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610300078
-X-Authority-Analysis: v=2.4 cv=BdJNQbt2 c=1 sm=1 tr=0 ts=6ae4f224 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDA3OCBTYWx0ZWRfXz7Z8JUDcxc7c
+ e7Os71pFAoCbLrmjWqyNfEKswv+QxfQeHnIhhwqtxRqGqI651ELfF351ky5bf+HBXh8W9HblpFF
+ ofJVwCg/P4UXvsTmTU56XZpBw9Jils4sR4UQFAvHei5enPswLeyI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA3OCBTYWx0ZWRfX+3qXPFm1wnKs
+ 1c9PX1NrPxcRglbWuJdRi2moiuqlAmJ+dt7lD8xZ7MzwrbkLJz6Dt0pr5qlvFx4x6P45XFgRcuN
+ 6xRbb08rn/xCwEDK2iNBwYJ6o9CJx2Yhcq9whCIaOsxdAddBjgqSCiIjGPjQ0+O5n9NfJo3IQmR
+ /mFMZ1APHz/kwndkUTsgTlheupqfLCYlPWqVRjxhRyCE15rFhj/yo7nW50CERmXCUrq1ycvyz5+
+ rV5Cy9XozKQ9LR6rLTDqtG998j90YAljoLsz6PxdUT6Eflp9ai6V+gc2N9fAsDWoz/34d5rNr7m
+ A0GVe3ybpRg4JcE2oQZLoc5XVCezlwqcVvQ+OdHZTOOB2XQw/l0TEY8sGKYU3SS6r8tsy4243CY
+ QFX7aWMeOOgRCex9Qj49VjsQEfRvDe6Nwe7on80+5zYf+AXXKWgODlmXcpaSvGjWNRPM9ujLjlD
+ dk2PBmwfTr/Cud85p8Hi8BntxxZKQDcjRAU8IDSE=
+X-Authority-Analysis: v=2.4 cv=TvFzFzXh c=1 sm=1 tr=0 ts=6ae4f228 b=1 cx=c_pps
+ a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=660iZSQnnn4A:10
  a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=o5oIOnhZENCTenyL_yNV:22 a=yPCof4ZbAAAA:8 a=G2TCG6PtBmqYOme8bNAA:9
-X-Proofpoint-ORIG-GUID: vH06qa3Ekbswcs_YgL7M1XUy8ofwJb-E
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDA3OCBTYWx0ZWRfX0iD3SaZ/mpyp
- jRx7eZQ25GgJUjyKrwP58OmMGD9IfFcJ35gI20dUc3HlMdi5nhz52DbD8lBapRDoJ8Ym6NtQ0Z8
- XEu/B5TrCXhbYcpoOYMbQlpFlrP13g7d6VOgP3a0lylfkA2FHLCx
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA3OCBTYWx0ZWRfX7+GRT5D/Oa+n
- ncwQCX8TBn+/Xk4rzYkVeD5Ari04NMhgSphZtSWmpUXjo8tonnWbBc4mYYtQdsSOkzvQ8BCQ5XG
- xEq+fkji0rn7zUWK8ighWb3nxN0Q3U7CM3OFCdcgwzulkaf/XOjWDEfqdPPkj60QB7GFwESx+uE
- kVdUcWtR4ZM6DGMZeeRzx+qJRt92buOr8G53YYuAb/sxa81M59i0l9z/S+ucssH1dsV/msw9J5/
- v0a/IbgnpDBq9i0XLDJWwS6VLif2QkCdGkLtWQNsRlKo/iha1mSl5HqOF6gNZXKUnJUiP1B6/oQ
- aqenTsGRO/l8Z4wR+0bKyBXcse1pvHHgovoOw+yZFTLUwxKMl94UfN7L03CLjYDHjCQwKr4UvR2
- EQ4L7zfD2oNKXPhCu8UtrjsQK6SiLr+abi6rmpCpw4pRKaCbTHiVjwY6eK627nLKU22wEqyAB9h
- gV1vTal2zKWBLuyRl6Q==
-X-Proofpoint-GUID: vH06qa3Ekbswcs_YgL7M1XUy8ofwJb-E
+ a=3I1J8UUJPc9JN9BFgKH3:22 a=yPCof4ZbAAAA:8 a=c9ekP5DMDtyA2ba1nCQA:9
+ a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:12108
+X-Proofpoint-GUID: EeVFk0PIOKk9BNpSRFSove50usrO5IIE
+X-Proofpoint-ORIG-GUID: EeVFk0PIOKk9BNpSRFSove50usrO5IIE
 
-All module BTF (except vmlinux) share a common ancestor (the BTF data of
-the vmlinux module).  Represent this with a btf->parent reference.
+Index BTF type names while decoding, and initialize CTF dictionaries without
+converting every BTF type.  Materialize requested named types and their
+reachable dependencies through a common CTF lookup helper, including direct
+compiler and provider lookups of shared kernel types.
 
-For vmlinux, btf->parent will be NULL.
+Reserve aggregate shells before converting references so recursive typedefs
+and callback prototypes work regardless of the requested root.  Grow the
+shared parent dictionary lazily for split BTF, and roll back newly added
+CTF types and cache entries when conversion fails.  Prefer available
+aggregate definitions over forward references.
 
-Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+Advance the BTF function parameter iterator and preserve packed member
+offsets so converted prototypes and conversion retries retain their BTF
+information.
+
+Reject split conversion when archive-backed shared CTF has no matching
+BTF-to-CTF parent mapping, leaving the module to the existing CTF fallback.
+Keep this guard with lazy conversion so provider header generation also
+works when the kernel CTF archive is present.
+
+Add synthetic coverage for lazy conversion, recursive graphs, pointer
+lookups, bitfields, forwards, split and parent-only BTF, failure recovery,
+and ordinary CTF dictionaries.
 ---
- libdtrace/dt_btf.c                        | 517 +++++++++++++---------
- libdtrace/dt_btf.h                        |  19 +-
- libdtrace/dt_impl.h                       |   2 +-
- libdtrace/dt_module.c                     |  18 +-
- libdtrace/dt_open.c                       |   2 -
- libdtrace/dt_prov_fbt.c                   |  16 +-
- test/unittest/btf/test.x                  |   8 +
- test/unittest/btf/tst.elf-vmlinux.sh      |  31 ++
- test/unittest/btf/tst.elf-vmlinux.x       |   8 +
- test/unittest/btf/tst.invalid-fallback.sh |  31 ++
- test/unittest/btf/tst.invalid-fallback.x  |   8 +
- test/unittest/btf/tst.module-btf.sh       |  46 ++
- test/unittest/btf/tst.module-btf.x        |  13 +
- test/unittest/btf/tst.module-local.sh     |  63 +++
- test/unittest/btf/tst.module-local.x      |  18 +
- test/unittest/btf/tst.module-parent.sh    |  46 ++
- test/unittest/btf/tst.module-parent.x     |  13 +
- test/unittest/btf/tst.raw-vmlinux.sh      |  30 ++
- test/unittest/options/tst.ctf-only.sh     |  27 ++
- test/unittest/options/tst.ctf-only.x      |   8 +
- 20 files changed, 693 insertions(+), 231 deletions(-)
- create mode 100755 test/unittest/btf/test.x
- create mode 100755 test/unittest/btf/tst.elf-vmlinux.sh
- create mode 100755 test/unittest/btf/tst.elf-vmlinux.x
- create mode 100755 test/unittest/btf/tst.invalid-fallback.sh
- create mode 100755 test/unittest/btf/tst.invalid-fallback.x
- create mode 100755 test/unittest/btf/tst.module-btf.sh
- create mode 100755 test/unittest/btf/tst.module-btf.x
- create mode 100755 test/unittest/btf/tst.module-local.sh
- create mode 100755 test/unittest/btf/tst.module-local.x
- create mode 100755 test/unittest/btf/tst.module-parent.sh
- create mode 100755 test/unittest/btf/tst.module-parent.x
- create mode 100755 test/unittest/btf/tst.raw-vmlinux.sh
- create mode 100755 test/unittest/options/tst.ctf-only.sh
- create mode 100755 test/unittest/options/tst.ctf-only.x
+ libdtrace/dt_btf.c                   | 538 +++++++++++++++++++++++----
+ libdtrace/dt_cc.c                    |  15 +-
+ libdtrace/dt_cg.c                    |   2 +-
+ libdtrace/dt_decl.c                  |   2 +-
+ libdtrace/dt_impl.h                  |   3 +
+ libdtrace/dt_module.c                |   6 +-
+ libdtrace/dt_prov_proc.c             |   2 +-
+ libdtrace/dt_provider_tp.c           |   2 +-
+ test/internals/btf/tst.lazy-types.sh |  15 +
+ test/triggers/Build                  |  11 +-
+ test/triggers/btf-lazy-types.c       | 277 ++++++++++++++
+ test/triggers/shared-ctf.c           |   5 +
+ 12 files changed, 788 insertions(+), 90 deletions(-)
+ create mode 100755 test/internals/btf/tst.lazy-types.sh
+ create mode 100644 test/triggers/btf-lazy-types.c
 
 diff --git a/libdtrace/dt_btf.c b/libdtrace/dt_btf.c
-index dce44987..194a251c 100644
+index 039742d1..617b0128 100644
 --- a/libdtrace/dt_btf.c
 +++ b/libdtrace/dt_btf.c
-@@ -32,8 +32,8 @@ struct dt_btf {
- 	size_t		size;			/* raw BTF data size */
- 	btf_header_t	*hdr;			/* BTF header */
- 	char		*sdata;			/* string data */
--	uint32_t	ssize;			/* string data size */
--	int32_t		type_cnt;		/* number of types */
-+	const dt_btf_t	*parent;		/* parent BTF */
-+	uint32_t	type_cnt;		/* number of types */
+@@ -7,6 +7,7 @@
+ 
+ #include <assert.h>
+ #include <byteswap.h>
++#include <ctype.h>
+ #include <errno.h>
+ #include <stdio.h>
+ #include <sys/mman.h>
+@@ -36,6 +37,18 @@ struct dt_btf {
+ 	uint32_t	type_cnt;		/* number of types */
  	btf_type_t	**types;		/* type table */
  	ctf_id_t	*ctfids;		/* matching CTF type ids */
++	uint32_t	*names;			/* name hash bucket heads */
++	uint32_t	*name_next;		/* name hash chains */
++	uint8_t		*ctf_state;		/* conversion state */
++	uint32_t	*ctf_pending;		/* ids visited since snapshot */
++	uint32_t	ctf_pending_cnt;
++};
++
++enum {
++	DT_BTF_CTF_IDLE,
++	DT_BTF_CTF_BUSY,
++	DT_BTF_CTF_SHELL,
++	DT_BTF_CTF_PREPARED
  };
-@@ -71,12 +71,86 @@ dt_btf_error(dtrace_hdl_t *dtp, int eid, const char *format, ...)
- 	va_end(ap);
+ 
+ static btf_type_t	btf_void;
+@@ -146,6 +159,33 @@ dt_btf_get_string(const dt_btf_t *btf, uint32_t off)
+ 	return NULL;
  }
  
-+static btf_type_t *
-+dt_btf_type_by_id(const dt_btf_t *btf, int32_t id)
++/* Index names by BTF kind, preserving the first matching BTF id. */
++static int
++dt_btf_index_names(dtrace_hdl_t *dtp, dt_btf_t *btf)
 +{
-+	const dt_btf_t	*shared_btf;
-+	uint32_t	shared_cnt;
++	uint32_t i;
 +
-+	if (id == 0)
-+		return &btf_void;
++	btf->names = dt_calloc(dtp, btf->type_cnt, sizeof(uint32_t));
++	btf->name_next = dt_calloc(dtp, btf->type_cnt, sizeof(uint32_t));
++	if (btf->names == NULL || btf->name_next == NULL)
++		return dt_btf_set_errno(dtp, ENOMEM);
 +
-+	shared_btf = btf->parent;
-+	if (shared_btf != NULL) {
-+		shared_cnt = shared_btf->type_cnt;
-+		if (id < shared_cnt)
-+			return shared_btf->types[id];
++	for (i = btf->type_cnt - 1; i > 0; i--) {
++		btf_type_t *type = btf->types[i];
++		const char *name = dt_btf_get_string(btf, type->name_off);
++		uint32_t slot;
 +
-+		if (shared_cnt > 0)
-+			id -= shared_cnt - 1;
-+	}
-+
-+	if (id < btf->type_cnt && id > 0)
-+		return btf->types[id];
-+
-+	return NULL;
-+}
-+
-+static btf_type_t *
-+dt_btf_real_type_by_id(const dt_btf_t *btf, int32_t id)
-+{
-+	btf_type_t	*type = dt_btf_type_by_id(btf, id);
-+
-+	while (type != NULL) {
-+		switch (BTF_INFO_KIND(type->info)) {
-+		case BTF_KIND_CONST:
-+		case BTF_KIND_FUNC:
-+		case BTF_KIND_RESTRICT:
-+		case BTF_KIND_TYPE_TAG:
-+		case BTF_KIND_TYPEDEF:
-+		case BTF_KIND_VOLATILE:
-+			type = dt_btf_type_by_id(btf, type->type);
++		if (name[0] == '\0')
 +			continue;
-+		default:
-+			return type;
-+		}
++		slot = str2hval(name, BTF_INFO_KIND(type->info)) %
++		       btf->type_cnt;
++		btf->name_next[i] = btf->names[slot];
++		btf->names[slot] = i;
 +	}
 +
-+	return NULL;
-+}
-+
-+static const char *
-+dt_btf_get_string(const dt_btf_t *btf, uint32_t off)
-+{
-+	const dt_btf_t	*shared_btf;
-+	int32_t		shared_len;
-+
-+	shared_btf = btf->parent;
-+	if (shared_btf != NULL && shared_btf->hdr != NULL) {
-+		shared_len = shared_btf->hdr->str_len;
-+		if (off < shared_len)
-+			return shared_btf->sdata + off;
-+
-+		off -= shared_len;
-+	}
-+
-+	if (off < btf->hdr->str_len)
-+		return btf->sdata + off;
-+
-+	return NULL;
++	return 0;
 +}
 +
  static int
  dt_btf_validate_header(dtrace_hdl_t *dtp, dt_btf_t *btf)
  {
- 	btf_header_t	*hdr = (btf_header_t *)btf->data;
- 
--	btf->hdr = hdr;
-+	if (btf->size < sizeof(btf_header_t)) {
-+		dt_dprintf("BTF truncated header (%ld)\n", btf->size);
-+		return dt_btf_set_errno(dtp, EINVAL);
-+	}
-+
-+	hdr = (btf_header_t *)btf->data;
- 
- 	/* Validate magic number. */
- 	if (hdr->magic != BTF_MAGIC) {
-@@ -97,24 +171,39 @@ dt_btf_validate_header(dtrace_hdl_t *dtp, dt_btf_t *btf)
- 		dt_dprintf("BTF type offset misaligned (%d)\n", hdr->type_off);
+@@ -303,7 +343,7 @@ dt_btf_decode(dtrace_hdl_t *dtp, dt_btf_t *btf)
+ 	if (ptr != end)
  		return dt_btf_set_errno(dtp, EINVAL);
- 	}
--	if (hdr->type_off + hdr->type_len > hdr->str_off) {
-+	if (hdr->type_off >= btf->size - hdr->hdr_len) {
-+		dt_dprintf("BTF bad type offset (%d)\n", hdr->type_off);
-+		return dt_btf_set_errno(dtp, EINVAL);
-+	}
-+	if (hdr->str_off <= hdr->type_off ||
-+	    hdr->str_off >= btf->size - hdr->hdr_len) {
-+		dt_dprintf("BTF bad string offset (%d)\n", hdr->str_off);
-+		return dt_btf_set_errno(dtp, EINVAL);
-+	}
-+	if (hdr->type_len > hdr->str_off - hdr->type_off) {
- 		dt_dprintf("BTF bad type section length (%d)\n", hdr->type_len);
- 		return dt_btf_set_errno(dtp, EINVAL);
- 	}
--	if (hdr->hdr_len + hdr->str_off + hdr->str_len > btf->size) {
-+	if (hdr->str_len > btf->size - hdr->hdr_len - hdr->str_off) {
- 		dt_dprintf("BTF bad string section length (%d)\n",
- 			   hdr->str_len);
- 		return dt_btf_set_errno(dtp, EINVAL);
- 	}
-+	if (((char *)btf->data)[hdr->hdr_len + hdr->str_off + hdr->str_len - 1] != 0) {
-+		dt_dprintf("BTF string section is not NUL-terminated\n");
-+		return dt_btf_set_errno(dtp, EINVAL);
-+	}
-+
-+	btf->hdr = hdr;
  
- 	return 0;
+-	return 0;
++	return dt_btf_index_names(dtp, btf);
  }
  
--static size_t
-+static ssize_t
- dt_btf_type_size(const char *ptr)
- {
- 	btf_type_t	*type = (btf_type_t *)ptr;
--	size_t		size = sizeof(btf_type_t);
-+	ssize_t		size = sizeof(btf_type_t);
- 	int		vlen = BTF_INFO_VLEN(type->info);
+ /*
+@@ -459,6 +499,8 @@ dt_btf_load_file(dtrace_hdl_t *dtp, const char *fn, const dt_btf_t *parent)
  
- 	switch (BTF_INFO_KIND(type->info)) {
-@@ -164,7 +253,7 @@ dt_btf_decode(dtrace_hdl_t *dtp, dt_btf_t *btf)
- 	char		*tdata;
- 
- 	if (dt_btf_validate_header(dtp, btf) == -1)
--		return -1;
-+		return dt_btf_set_errno(dtp, EINVAL);
- 
- 	hdr = btf->hdr;
- 	btf->sdata = (char *)btf->data + hdr->hdr_len + hdr->str_off;
-@@ -175,19 +264,18 @@ dt_btf_decode(dtrace_hdl_t *dtp, dt_btf_t *btf)
- 	end = tdata + hdr->type_len;
- 	idx = 1;
- 	while (ptr + sizeof(btf_type_t) <= end) {
--		int		size = dt_btf_type_size(ptr);
-+		ssize_t		size = dt_btf_type_size(ptr);
- 		btf_type_t	*type = (btf_type_t *)ptr;
- 
--		if (size < 0)
--			return dt_btf_set_errno(dtp,  -size);
--		if (ptr + size > end)
--			return dt_btf_set_errno(dtp,  EINVAL);
--		if (dt_btf_get_string(dtp, btf, type->name_off) == NULL)
--			return dt_btf_set_errno(dtp,  EINVAL);
-+		if (size < 0 || ptr + size > end ||
-+		    dt_btf_get_string(btf, type->name_off) == NULL)
-+			return dt_btf_set_errno(dtp, EINVAL);
- 
- 		idx++;
- 		ptr += size;
+ 		dt_free(dtp, btf->data);
+ 		dt_free(dtp, btf->types);
++		dt_free(dtp, btf->names);
++		dt_free(dtp, btf->name_next);
+ 		memset(btf, 0, sizeof(*btf));
+ 		btf->parent = parent;
  	}
-+	if (ptr != end)
-+		return dt_btf_set_errno(dtp, EINVAL);
- 
- 	/* Next, populate the type offsets table. */
- 	btf->type_cnt = idx;
-@@ -198,11 +286,16 @@ dt_btf_decode(dtrace_hdl_t *dtp, dt_btf_t *btf)
- 	ptr = tdata;
- 	idx = 1;
- 	while (ptr + sizeof(btf_type_t) <= end) {
--		int	size = dt_btf_type_size(ptr);
-+		ssize_t	size = dt_btf_type_size(ptr);
-+
-+		if (size < 0)
-+			return dt_btf_set_errno(dtp, EINVAL);
- 
- 		btf->types[idx++] = (btf_type_t *)ptr;
- 		ptr += size;
- 	}
-+	if (ptr != end)
-+		return dt_btf_set_errno(dtp, EINVAL);
- 
- 	return 0;
- }
-@@ -216,11 +309,10 @@ dt_btf_decode(dtrace_hdl_t *dtp, dt_btf_t *btf)
- static dt_btf_t *
- dt_btf_load(dtrace_hdl_t *dtp, const char *fn)
- {
--	FILE		*fp;
-+	FILE		*fp = NULL;
- 	dt_btf_t	*btf = NULL;
- 	btf_header_t	hdr;
--	void		*data = NULL;
--	Elf		*elf;
-+	Elf		*elf = NULL;
- 	size_t		shstrs;
- 	Elf_Scn		*sp = NULL;
- 	int		err = 0;
-@@ -230,36 +322,45 @@ dt_btf_load(dtrace_hdl_t *dtp, const char *fn)
- 		return dt_btf_set_load_errno(dtp, ENOMEM);
- 
- 	fp = fopen(fn, "rb");
--	if (fp == NULL)
--		goto err;
-+	if (fp == NULL) {
-+		dtp->dt_btferr = errno;
-+		goto fail;
-+	}
- 
- 	/* First see whether this might be a file with raw BTF data. */
--	if (fread(&hdr, 1, sizeof(hdr), fp) < sizeof(hdr))
-+	if (fread(&hdr, 1, sizeof(hdr), fp) < sizeof(hdr)) {
-+		dtp->dt_btferr = ferror(fp) ? EIO : EINVAL;
- 		goto fail;
-+	}
- 
- 	rewind(fp);
- 	if (hdr.magic == BTF_MAGIC) {
- 		struct stat	st;
- 
--		if (fstat(fileno(fp), &st) == -1)
-+		if (fstat(fileno(fp), &st) == -1) {
-+			dtp->dt_btferr = errno;
- 			goto fail;
-+		}
- 
--		data = dt_alloc(dtp, st.st_size);
--		if (data == NULL)
-+		btf->data = dt_alloc(dtp, st.st_size);
-+		if (btf->data == NULL) {
-+			dtp->dt_btferr = ENOMEM;
- 			goto fail;
-+		}
- 
--		if (fread(data, 1, st.st_size, fp) < st.st_size)
-+		if (fread(btf->data, 1, st.st_size, fp) < st.st_size) {
-+			dtp->dt_btferr = ferror(fp) ? EIO : EINVAL;
- 			goto fail;
-+		}
- 
--		fclose(fp);
--
--		btf->data = data;
- 		btf->size = st.st_size;
- 	} else {
- 		/* Next see whether this might be an ELF file with BTF data. */
- 		elf = elf_begin(fileno(fp), ELF_C_READ_MMAP, NULL);
--		if (elf == NULL)
--			goto elf_fail_no_end;
-+		if (elf == NULL) {
-+			dtp->dt_btferr = EINVAL;
-+			goto elf_fail;
-+		}
- 		if (elf_getshdrstrndx(elf, &shstrs) == -1)
- 			goto elf_fail;
- 
-@@ -282,59 +383,78 @@ dt_btf_load(dtrace_hdl_t *dtp, const char *fn)
- 			if (edata == NULL)
- 				goto elf_fail;
- 
--			data = dt_alloc(dtp, edata->d_size);
--			if (data == NULL)
--				goto elf_fail;
-+			btf->data = dt_alloc(dtp, edata->d_size);
-+			if (btf->data == NULL) {
-+				dtp->dt_btferr = ENOMEM;
-+				goto fail;
-+			}
- 
--			memcpy(data, edata->d_buf, edata->d_size);
-+			memcpy(btf->data, edata->d_buf, edata->d_size);
- 
--			btf->data = data;
- 			btf->size = edata->d_size;
--
--			elf_end(elf);
--			fclose(fp);
--
- 			break;
- 		}
-+		if (btf->data == NULL) {
-+			dtp->dt_btferr = ENOENT;
-+			goto fail;
-+		}
- 	}
- 
-+	if (elf != NULL)
-+		elf_end(elf);
-+	fclose(fp);
- 	return btf;
- 
- elf_fail:
--	elf_end(elf);
--
--elf_fail_no_end:
-+	dtp->dt_btferr = EINVAL;
- 	err = elf_errno();
--	dt_btf_error(dtp, 0, "BTF: %s", elf_errmsg(err));
-+	dt_btf_error(dtp, 0, "ELF: %s", elf_errmsg(err));
- 
- fail:
--	fclose(fp);
--	dt_free(dtp, data);
--
--err:
--	dt_free(dtp, btf);
--	dt_btf_set_errno(dtp,  err ? err : errno);
--
-+	if (elf != NULL)
-+		elf_end(elf);
-+	if (fp != NULL)
-+		fclose(fp);
-+	dt_dprintf("Cannot open BTF file %s: %s\n", fn,
-+			   dt_btf_errmsg(dtp->dt_btferr));
-+	dt_btf_destroy(dtp, btf);
- 	return NULL;
+@@ -541,6 +583,10 @@ dt_btf_destroy(dtrace_hdl_t *dtp, dt_btf_t *btf)
+ 	dt_free(dtp, btf->data);
+ 	dt_free(dtp, btf->types);
+ 	dt_free(dtp, btf->ctfids);
++	dt_free(dtp, btf->names);
++	dt_free(dtp, btf->name_next);
++	dt_free(dtp, btf->ctf_state);
++	dt_free(dtp, btf->ctf_pending);
+ 	dt_free(dtp, btf);
  }
  
- dt_btf_t *
--dt_btf_load_file(dtrace_hdl_t *dtp, const char *fn)
-+dt_btf_load_file(dtrace_hdl_t *dtp, const char *fn, const dt_btf_t *parent)
- {
- 	dt_btf_t	*btf;
- 
-+	/*
-+	 * Missing BTF or allocation failure returns NULL; invalid data leaves
-+	 * an empty BTF.
-+	 */
- 	btf = dt_btf_load(dtp, fn);
--	if (btf == NULL) {
--		dt_dprintf("Cannot open BTF file %s: %s\n", fn,
--			   dt_btf_errmsg(dtp->dt_btferr));
-+	if (btf == NULL)
- 		return NULL;
--	}
- 
--	if (dt_btf_decode(dtp, btf) == -1) {
-+	btf->parent = parent;
-+
-+	/* Decode the loaded BTF data. */
-+	if (btf->data && dt_btf_decode(dtp, btf) == -1) {
-+		if (dtp->dt_btferr == ENOMEM) {
-+			dt_btf_destroy(dtp, btf);
-+			return NULL;
-+		}
-+
-+		/*
-+		 * Failure to decode the data leaves us with just one option:
-+		 * pretend the module has no type data beyond its parent's
-+		 * data.
-+		 */
- 		dt_dprintf("Cannot decode BTF data %s: %s\n", fn,
- 			   dt_btf_errmsg(dtp->dt_btferr));
--		dt_btf_destroy(dtp, btf);
--		return NULL;
-+
-+		dt_free(dtp, btf->data);
-+		dt_free(dtp, btf->types);
-+		memset(btf, 0, sizeof(*btf));
-+		btf->parent = parent;
- 	}
- 
- 	dt_dprintf("BTF file %s: %d types\n", fn, btf->type_cnt);
-@@ -342,6 +462,70 @@ dt_btf_load_file(dtrace_hdl_t *dtp, const char *fn)
- 	return btf;
+@@ -559,36 +605,22 @@ dt_ctf_error(dtrace_hdl_t *dtp, ctf_dict_t *ctf)
+ 	return dt_ctf_set_errno(dtp, ctf_errno(ctf));
  }
  
-+dt_btf_t *
-+dt_btf_load_module(dtrace_hdl_t *dtp, dt_module_t *dmp)
-+{
-+	char		*fn = NULL;
-+	int		rc = 0;
-+	const dt_btf_t	*parent = NULL;
++static uint32_t dt_btf_lookup_name_kind2(const dt_btf_t *, int32_t,
++					 const char *, uint32_t);
 +
-+	assert(dmp != NULL);
++static ctf_id_t dt_btf_add_to_ctf(dtrace_hdl_t *, dt_btf_t *,
++				ctf_dict_t *, uint32_t);
 +
-+	/* If already tried this for the module, return what we have. */
-+	if (dmp->dm_flags & DT_DM_BTF_LOADED)
-+		return dmp->dm_btf;
-+
-+	/*
-+	 * If the module is not vmlinux, we will use the vmlinux BTF data as the
-+	 * parent.
-+	 */
-+	if (dmp != dtp->dt_exec) {
-+		parent = dtp->dt_exec->dm_btf;
-+		/* If we do not have it yet, try to load it. */
-+		if (parent == NULL)
-+			parent = dt_btf_load_module(dtp, dtp->dt_exec);
-+		/* If loading failed, the module cannot have BTF data either. */
-+		if (parent == NULL)
-+			return NULL;
-+	}
-+
-+	/*
-+	 * Default: /sys/kernel/btf/<module>
-+	 * If "none", disable BTF.
-+	 * Otherwise: <BTF path>/<module>
-+	 */
-+	if (dtp->dt_btf_path == NULL)
-+		rc = asprintf(&fn, "/sys/kernel/btf/%s", dmp->dm_name);
-+	else if (strcmp(dtp->dt_btf_path, "none") == 0)
-+		return NULL;
-+	else
-+		rc = asprintf(&fn, "%s/%s", dtp->dt_btf_path, dmp->dm_name);
-+
-+	if (rc == -1)
-+		return dt_btf_set_load_errno(dtp, ENOMEM);
-+
-+	dmp->dm_btf = dt_btf_load_file(dtp, fn, parent);
-+	free(fn);
-+
-+	if (dmp->dm_btf == NULL) {
-+		if (dtp->dt_btferr != ENOENT)
-+			return NULL;
-+
-+		/* A missing module BTF file still inherits its parent's types. */
-+		if (parent != NULL) {
-+			dmp->dm_btf = dt_zalloc(dtp, sizeof(dt_btf_t));
-+			if (dmp->dm_btf == NULL)
-+				return dt_btf_set_load_errno(dtp, ENOMEM);
-+
-+			dmp->dm_btf->parent = parent;
-+		}
-+	}
-+
-+	dmp->dm_flags |= DT_DM_BTF_LOADED;
-+
-+	return dmp->dm_btf;
-+}
-+
- void
- dt_btf_destroy(dtrace_hdl_t *dtp, dt_btf_t *btf)
- {
-@@ -371,8 +555,9 @@ dt_ctf_error(dtrace_hdl_t *dtp, ctf_dict_t *ctf)
- 
  static ctf_id_t
- dt_btf_add_to_ctf(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
--		  int32_t type_id)
-+		  uint32_t type_id)
+-dt_btf_add_to_ctf(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
+-		  uint32_t type_id)
++dt_btf_add_type(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
++		uint32_t type_id)
  {
-+	const dt_btf_t	*shared_btf = btf->parent;
+-	const dt_btf_t	*shared_btf = btf->parent;
  	btf_type_t	*type;
  	int		kind, vlen;
  	const char	*name;
-@@ -383,11 +568,12 @@ dt_btf_add_to_ctf(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
- 	 * If we already have shared_ctf, we may be looking for a type in that
- 	 * shared_ctf.
- 	 */
--	if (dt_module_shared_ctf(dtp) && btf != dtp->dt_shared_btf) {
--		if (type_id < dtp->dt_shared_btf->type_cnt)
--			return dtp->dt_shared_btf->ctfids[type_id];
-+	if (dt_module_shared_ctf(dtp) && shared_btf != NULL) {
-+		if (type_id < shared_btf->type_cnt)
-+			return shared_btf->ctfids[type_id];
+ 	ctf_id_t	ctfid;
+ 	ctf_encoding_t	enc;
  
--		type_id -= dtp->dt_shared_btf->type_cnt - 1;
-+		if (shared_btf->type_cnt > 0)
-+			type_id -= shared_btf->type_cnt - 1;
- 	}
- 
- 	assert(type_id < btf->type_cnt);
-@@ -400,9 +586,11 @@ dt_btf_add_to_ctf(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
+-	/*
+-	 * If we already have shared_ctf, we may be looking for a type in that
+-	 * shared_ctf.
+-	 */
+-	if (dt_module_shared_ctf(dtp) && shared_btf != NULL) {
+-		if (type_id < shared_btf->type_cnt)
+-			return shared_btf->ctfids[type_id];
+-
+-		if (shared_btf->type_cnt > 0)
+-			type_id -= shared_btf->type_cnt - 1;
+-	}
+-
+-	assert(type_id < btf->type_cnt);
+-
+-	if (btf->ctfids[type_id] != CTF_ERR)
+-		return btf->ctfids[type_id];
+-
+-	assert(type_id > 0);
+-
  	type = btf->types[type_id];
  	kind = BTF_INFO_KIND(type->info);
  	vlen = BTF_INFO_VLEN(type->info);
--	name = dt_btf_get_string(dtp, btf, type->name_off);
-+	name = dt_btf_get_string(btf, type->name_off);
-+	if (name == NULL)
-+		return dt_ctf_set_errno(dtp, ECTF_NAMELEN);
+@@ -596,7 +628,7 @@ dt_btf_add_to_ctf(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
+ 	if (name == NULL)
+ 		return dt_ctf_set_errno(dtp, ECTF_NAMELEN);
  
--	if (name && name[0]) {
-+	if (name[0]) {
+-	if (name[0]) {
++	if (name[0] && btf->ctfids[type_id] == CTF_ERR) {
  		char	n[DT_TYPE_NAMELEN];
  
  		/* Do we already have this type? */
-@@ -498,7 +686,9 @@ dt_btf_add_to_ctf(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
- 			int	err;
- 			const char	*iname;
+@@ -624,7 +656,9 @@ dt_btf_add_to_ctf(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
+ 			ctfid = ctf_lookup_by_name(ctf, name);
+ 		}
  
--			iname = dt_btf_get_string(dtp, btf, item->name_off);
-+			iname = dt_btf_get_string(btf, item->name_off);
-+			if (iname == NULL)
-+				return dt_ctf_set_errno(dtp, ECTF_NAMELEN);
- 			err = ctf_add_enumerator(ctf, ctfid, iname, item->val);
+-		if (ctfid != CTF_ERR) {
++		if (ctfid != CTF_ERR &&
++		    !((kind == BTF_KIND_STRUCT || kind == BTF_KIND_UNION) &&
++		      ctf_type_kind(ctf, ctfid) == CTF_K_FORWARD)) {
+ 			btf->ctfids[type_id] = ctfid;
+ 			return ctfid;
+ 		}
+@@ -776,20 +810,14 @@ dt_btf_add_to_ctf(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
+ 		int		i;
+ 		btf_member_t	*item = (btf_member_t *)(type + 1);
+ 
+-		if (kind == BTF_KIND_STRUCT)
+-			ctfid = ctf_add_struct_sized(ctf, CTF_ADD_ROOT, name,
+-						     type->size);
+-		else
+-			ctfid = ctf_add_union_sized(ctf, CTF_ADD_ROOT, name,
+-						    type->size);
+-
+-		btf->ctfids[type_id] = ctfid;
+-		if (ctfid == CTF_ERR)
+-			return dt_ctf_error(dtp, ctf);
++		/* The preparation pass reserved this aggregate's type id. */
++		ctfid = btf->ctfids[type_id];
++		assert(ctfid != CTF_ERR);
+ 
+ 		for (i = 0; i < vlen; i++, item++) {
+ 			int		err;
+ 			ctf_id_t	mbid;
++			uint32_t	offset = item->offset;
+ 			const char	*mname;
+ 
+ 			mbid = dt_btf_add_to_ctf(dtp, btf, ctf, item->type);
+@@ -803,7 +831,7 @@ dt_btf_add_to_ctf(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
+ 				enc.cte_format = 0;
+ 				enc.cte_offset = 0;
+ 				enc.cte_bits = BTF_MEMBER_BITFIELD_SIZE(item->offset);
+-				item->offset = BTF_MEMBER_BIT_OFFSET(item->offset);
++				offset = BTF_MEMBER_BIT_OFFSET(item->offset);
+ 
+ 				if (enc.cte_bits > 0) {
+ 					int	kind;
+@@ -831,7 +859,7 @@ dt_btf_add_to_ctf(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
+ 			}
+ 
+ 			err = ctf_add_member_offset(ctf, ctfid, mname, mbid,
+-						    item->offset);
++						    offset);
  			if (err == CTF_ERR)
  				return dt_ctf_error(dtp, ctf);
-@@ -599,7 +789,9 @@ dt_btf_add_to_ctf(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
- 			mbid = dt_btf_add_to_ctf(dtp, btf, ctf, item->type);
- 			if (mbid == CTF_ERR)
- 				return CTF_ERR;
--			mname = dt_btf_get_string(dtp, btf, item->name_off);
-+			mname = dt_btf_get_string(btf, item->name_off);
-+			if (mname == NULL)
-+				return dt_ctf_set_errno(dtp, ECTF_NAMELEN);
+ 		}
+@@ -850,7 +878,7 @@ dt_btf_add_to_ctf(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
+ 		if (ctc.ctc_return == CTF_ERR)
+ 			return CTF_ERR;
  
- 			if (BTF_INFO_KFLAG(type->info)) {
- 				enc.cte_format = 0;
-@@ -741,6 +933,13 @@ dt_btf_to_ctf(dtrace_hdl_t *dtp, dt_module_t *dmp, dt_btf_t *btf)
- 	if (!btf)
- 		goto out;
+-		for (i = 0; i < vlen; i++) {
++		for (i = 0; i < vlen; i++, item++) {
+ 			argv[i] = dt_btf_add_to_ctf(dtp, btf, ctf, item->type);
+ 			if (argv[i] == CTF_ERR)
+ 				return CTF_ERR;
+@@ -902,13 +930,186 @@ dt_btf_add_to_ctf(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
+ 	assert(0);
+ }
+ 
++/* Resolve shared ids in the shared dictionary, which also grows lazily. */
++static ctf_id_t
++dt_btf_add_to_ctf(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
++		  uint32_t type_id)
++{
++	const dt_btf_t *parent = btf->parent;
++	ctf_id_t id;
++
++	if (parent != NULL && dt_module_shared_ctf(dtp) != NULL) {
++		if (type_id < parent->type_cnt)
++			return dt_btf_add_to_ctf(dtp, (dt_btf_t *)parent,
++					       dt_module_shared_ctf(dtp), type_id);
++		if (parent->type_cnt > 0)
++			type_id -= parent->type_cnt - 1;
++	}
++
++	if (type_id >= btf->type_cnt && type_id != 0)
++		return dt_ctf_set_errno(dtp, ECTF_BADID);
++	if (btf->ctfids[type_id] != CTF_ERR)
++		return btf->ctfids[type_id];
++	if (btf->ctf_state[type_id] == DT_BTF_CTF_BUSY)
++		return dt_ctf_set_errno(dtp, ECTF_CORRUPT);
++
++	btf->ctf_state[type_id] = DT_BTF_CTF_BUSY;
++	id = dt_btf_add_type(dtp, btf, ctf, type_id);
++	btf->ctf_state[type_id] = DT_BTF_CTF_IDLE;
++	if (id != CTF_ERR)
++		btf->ctfids[type_id] = id;
++	return id;
++}
++
++/*
++ * Reserve aggregate shells before converting references.  Starting at a
++ * typedef or pointer must handle the same recursive graphs as starting at
++ * the struct itself.  The pending list also journals cache changes for
++ * rollback.  SHELL denotes an aggregate whose members still need adding;
++ * PREPARED denotes a visited non-aggregate in this preparation pass.
++ */
++static int
++dt_btf_ctf_prepare(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf,
++		   uint32_t type_id)
++{
++	const dt_btf_t *parent = btf->parent;
++	btf_type_t *type;
++	uint32_t kind, vlen, i;
++
++	if (parent != NULL && dt_module_shared_ctf(dtp) != NULL) {
++		if (type_id < parent->type_cnt)
++			return dt_btf_ctf_prepare(dtp, (dt_btf_t *)parent,
++						  dt_module_shared_ctf(dtp), type_id);
++		if (parent->type_cnt > 0)
++			type_id -= parent->type_cnt - 1;
++	}
++	if (type_id >= btf->type_cnt && type_id != 0)
++		return dt_ctf_set_errno(dtp, ECTF_BADID);
++	if (btf->ctfids[type_id] != CTF_ERR || btf->ctf_state[type_id])
++		return 0;
++
++	btf->ctf_pending[btf->ctf_pending_cnt++] = type_id;
++	btf->ctf_state[type_id] = DT_BTF_CTF_PREPARED;
++	type = btf->types[type_id];
++	kind = BTF_INFO_KIND(type->info);
++	vlen = BTF_INFO_VLEN(type->info);
++
++	switch (kind) {
++	case BTF_KIND_STRUCT:
++	case BTF_KIND_UNION: {
++		const char *name = dt_btf_get_string(btf, type->name_off);
++		char n[DT_TYPE_NAMELEN];
++		ctf_id_t id = CTF_ERR;
++		btf_member_t *members = (btf_member_t *)(type + 1);
++
++		if (name[0] != '\0') {
++			snprintf(n, sizeof(n), "%s %s",
++				 kind == BTF_KIND_STRUCT ? "struct" : "union",
++				 name);
++			id = ctf_lookup_by_name(ctf, n);
++		}
++		if (id != CTF_ERR && ctf_type_kind(ctf, id) != CTF_K_FORWARD) {
++			btf->ctfids[type_id] = id;
++			return 0;
++		}
++		if (kind == BTF_KIND_STRUCT)
++			id = ctf_add_struct_sized(ctf, CTF_ADD_ROOT, name,
++						  type->size);
++		else
++			id = ctf_add_union_sized(ctf, CTF_ADD_ROOT, name,
++						 type->size);
++		if (id == CTF_ERR)
++			return dt_ctf_error(dtp, ctf);
++		btf->ctfids[type_id] = id;
++		btf->ctf_state[type_id] = DT_BTF_CTF_SHELL;
++		for (i = 0; i < vlen; i++) {
++			if (dt_btf_ctf_prepare(dtp, btf, ctf,
++					       members[i].type) < 0)
++				return -1;
++		}
++		return 0;
++	}
++	case BTF_KIND_FWD: {
++		const char *name = dt_btf_get_string(btf, type->name_off);
++		uint32_t target = dt_btf_lookup_name_kind2(btf, 0, name,
++			BTF_INFO_KFLAG(type->info) ? BTF_KIND_UNION :
++						   BTF_KIND_STRUCT);
++		uint32_t base = parent != NULL && parent->type_cnt > 0 ?
++				parent->type_cnt - 1 : 0;
++
++		/* Prefer a definition before publishing a forward type. */
++		if (target != BTF_TYPE_NONE) {
++			if (dt_btf_ctf_prepare(dtp, btf, ctf,
++					       target + base) < 0)
++				return -1;
++			btf->ctfids[type_id] = btf->ctfids[target];
++		}
++		return 0;
++	}
++	case BTF_KIND_ARRAY: {
++		btf_array_t *array = (btf_array_t *)(type + 1);
++
++		if (dt_btf_ctf_prepare(dtp, btf, ctf, array->index_type) < 0)
++			return -1;
++		return dt_btf_ctf_prepare(dtp, btf, ctf, array->type);
++	}
++	case BTF_KIND_FUNC_PROTO: {
++		btf_param_t *params = (btf_param_t *)(type + 1);
++
++		for (i = 0; i < vlen; i++) {
++			if (dt_btf_ctf_prepare(dtp, btf, ctf,
++					       params[i].type) < 0)
++				return -1;
++		}
++		/* Fall through to prepare the return type. */
++	}
++	case BTF_KIND_PTR:
++	case BTF_KIND_CONST:
++	case BTF_KIND_VOLATILE:
++	case BTF_KIND_RESTRICT:
++	case BTF_KIND_TYPEDEF:
++	case BTF_KIND_TYPE_TAG:
++		return dt_btf_ctf_prepare(dtp, btf, ctf, type->type);
++	default:
++		return 0;
++	}
++}
++
++static int
++dt_btf_ctf_finish(dtrace_hdl_t *dtp, dt_btf_t *btf, ctf_dict_t *ctf)
++{
++	uint32_t i;
++
++	for (i = 0; i < btf->ctf_pending_cnt; i++) {
++		uint32_t id = btf->ctf_pending[i];
++
++		if (btf->ctf_state[id] == DT_BTF_CTF_SHELL &&
++		    dt_btf_add_type(dtp, btf, ctf, id) == CTF_ERR)
++			return -1;
++		btf->ctf_state[id] = DT_BTF_CTF_IDLE;
++	}
++	return 0;
++}
++
+ static ctf_dict_t *
+ dt_btf_to_ctf(dtrace_hdl_t *dtp, dt_module_t *dmp, dt_btf_t *btf)
+ {
+-	int		i, base = 0;
++	uint32_t	i, count;
+ 	ctf_dict_t	*ctf;
+ 	ctf_encoding_t	enc = { CTF_INT_SIGNED, 0, 0 };
  
 +	/*
-+	 * If we were not able to read the BTF data, and we are constructing
-+	 * 'shared_ctf', we need space for the default 'void' type.
++	 * Split BTF requires the parent's BTF-to-CTF id mapping.  When shared
++	 * CTF comes from an archive, the parent BTF is not converted and its
++	 * ids cannot be used in that dictionary.  Leave the module to the
++	 * normal CTF fallback rather than mixing the two type sources.
 +	 */
-+	if (!dmp && !btf->type_cnt)
-+		btf->type_cnt = 1;
++	if (dmp != NULL && btf != NULL && btf->parent != NULL &&
++	    btf->parent->ctfids == NULL) {
++		dt_ctf_set_errno(dtp, ECTF_NOTSUP);
++		return NULL;
++	}
 +
- 	btf->ctfids = dt_calloc(dtp, btf->type_cnt, sizeof(ctf_id_t));
- 	for (i = 1; i < btf->type_cnt; i++)
+ 	ctf = ctf_create(&dtp->dt_ctferr);
+ 	if (ctf == NULL)
+ 		return NULL;
+@@ -926,8 +1127,7 @@ dt_btf_to_ctf(dtrace_hdl_t *dtp, dt_module_t *dmp, dt_btf_t *btf)
+ 		if (err == CTF_ERR ||
+ 		    ctf_parent_name_set(ctf, "shared_ctf") == CTF_ERR) {
+ 			dt_ctf_error(dtp, ctf);
+-			ctf_close(ctf);
+-			return NULL;
++			goto fail;
+ 		}
+ 
+ 		ctf_setspecific(ctf, dmp);
+@@ -946,8 +1146,16 @@ dt_btf_to_ctf(dtrace_hdl_t *dtp, dt_module_t *dmp, dt_btf_t *btf)
+ 	if (!dmp && !btf->type_cnt)
+ 		btf->type_cnt = 1;
+ 
+-	btf->ctfids = dt_calloc(dtp, btf->type_cnt, sizeof(ctf_id_t));
+-	for (i = 1; i < btf->type_cnt; i++)
++	count = btf->type_cnt ? btf->type_cnt : 1;
++	btf->ctfids = dt_calloc(dtp, count, sizeof(ctf_id_t));
++	btf->ctf_state = dt_calloc(dtp, count, sizeof(uint8_t));
++	btf->ctf_pending = dt_calloc(dtp, count, sizeof(uint32_t));
++	if (btf->ctfids == NULL || btf->ctf_state == NULL ||
++	    btf->ctf_pending == NULL) {
++		dt_set_errno(dtp, EDT_NOMEM);
++		goto fail;
++	}
++	for (i = 0; i < count; i++)
  		btf->ctfids[i] = CTF_ERR;
-@@ -758,14 +957,14 @@ dt_btf_to_ctf(dtrace_hdl_t *dtp, dt_module_t *dmp, dt_btf_t *btf)
- 		/*
- 		 * Any module other than 'vmlinux' inherits the types from
- 		 * 'vmlinux'.
--		 * Shared types are 1 through dt_shared_btf->type_cnt - 1
-+		 * Shared types are 1 through btf->parent->type_cnt - 1
- 		 * (base).
- 		 * A module's types are base through base + btf->type_cnt - 1,
- 		 * but the types are stored in the BTF types array with indexes
- 		 * 1 through btf->type_cnt - 1.
- 		 */
--		if (btf != dtp->dt_shared_btf)
--			base = dtp->dt_shared_btf->type_cnt - 1;
-+		if (btf->parent != NULL && btf->parent->type_cnt > 0)
-+			base = btf->parent->type_cnt - 1;
+ 
+ 	/*
+@@ -958,39 +1166,29 @@ dt_btf_to_ctf(dtrace_hdl_t *dtp, dt_module_t *dmp, dt_btf_t *btf)
+ 		btf->ctfids[0] = ctf_add_integer(ctf, CTF_ADD_ROOT, "void",
+ 						 &enc);
+ 		if (btf->ctfids[0] == CTF_ERR)
+-			dt_dprintf("Could not create 'void' CTF entry.\n");
+-	} else {
+-		/*
+-		 * Any module other than 'vmlinux' inherits the types from
+-		 * 'vmlinux'.
+-		 * Shared types are 1 through btf->parent->type_cnt - 1
+-		 * (base).
+-		 * A module's types are base through base + btf->type_cnt - 1,
+-		 * but the types are stored in the BTF types array with indexes
+-		 * 1 through btf->type_cnt - 1.
+-		 */
+-		if (btf->parent != NULL && btf->parent->type_cnt > 0)
+-			base = btf->parent->type_cnt - 1;
+-	}
+-
+-	for (i = 1; i < btf->type_cnt; i++) {
+-		int	type_id = i + base;
+-
+-		if (dt_btf_add_to_ctf(dtp, btf, ctf, type_id) == CTF_ERR) {
+-			dt_dprintf("BTF-to-CTF error: %s\n",
+-				   ctf_errmsg(dtp->dt_ctferr));
+-			break;
+-		}
+-	}
++			goto fail;
++	} else
++		btf->ctfids[0] = dtp->dt_exec->dm_btf->ctfids[0];
+ 
+ out:
+ 	if (ctf_update(ctf) == CTF_ERR) {
+ 		dt_ctf_error(dtp, ctf);
+-		ctf_close(ctf);
+-		return NULL;
++		goto fail;
  	}
  
- 	for (i = 1; i < btf->type_cnt; i++) {
-@@ -789,40 +988,6 @@ out:
+ 	return ctf;
++
++fail:
++	ctf_close(ctf);
++	if (btf != NULL) {
++		dt_free(dtp, btf->ctfids);
++		dt_free(dtp, btf->ctf_state);
++		dt_free(dtp, btf->ctf_pending);
++		btf->ctfids = NULL;
++		btf->ctf_state = NULL;
++		btf->ctf_pending = NULL;
++	}
++	return NULL;
  }
  #endif
  
--dt_btf_t *
--dt_btf_load_module(dtrace_hdl_t *dtp, dt_module_t *dmp)
--{
--	char		*fn = NULL;
--	int		rc = 0;
--	dt_btf_t	*btf;
--
--	if (dmp->dm_btf)
--		return dmp->dm_btf;
--
--	/*
--	 * Default: /sys/kernel/btf/<module>
--	 * If "none", disable BTF.
--	 * Otherwise: <BTF path>/<module>
--	 */
--	if (dtp->dt_btf_path == NULL)
--		rc = asprintf(&fn, "/sys/kernel/btf/%s", dmp->dm_name);
--	else if (strcmp(dtp->dt_btf_path, "none") == 0)
--		return NULL;
--	else
--		rc = asprintf(&fn, "%s/%s", dtp->dt_btf_path, dmp->dm_name);
--
--	if (rc == -1)
--		return dt_btf_set_load_errno(dtp, ENOMEM);
--
--	btf = dt_btf_load_file(dtp, fn);
--	free(fn);
--
--	if (btf && !dtp->dt_shared_btf && strcmp(dmp->dm_name, "vmlinux") == 0)
--		dtp->dt_shared_btf = btf;
--
--	return dmp->dm_btf = btf;
--}
--
- ctf_dict_t *
- dt_btf_module_ctf(dtrace_hdl_t *dtp, dt_module_t *dmp)
- {
-@@ -854,8 +1019,7 @@ dt_btf_module_ctf(dtrace_hdl_t *dtp, dt_module_t *dmp)
+@@ -1025,7 +1223,7 @@ dt_btf_module_ctf(dtrace_hdl_t *dtp, dt_module_t *dmp)
  		shared->dm_flags |= DT_DM_LOADED;
  	}
  
--	ctf = dt_btf_to_ctf(dtp, dmp,
--			    btf == dtp->dt_shared_btf ? NULL : btf);
-+	ctf = dt_btf_to_ctf(dtp, dmp, btf);
+-	ctf = dt_btf_to_ctf(dtp, dmp, btf);
++	ctf = dt_btf_to_ctf(dtp, dmp, dmp == dtp->dt_exec ? NULL : btf);
  
  	dt_dprintf("Generated %s CTF from BTF (%d types).\n", dmp->dm_name,
  		   btf->type_cnt);
-@@ -864,112 +1028,65 @@ dt_btf_module_ctf(dtrace_hdl_t *dtp, dt_module_t *dmp)
- 	return ctf;
- }
- 
--static btf_type_t *
--dt_btf_type_by_id(dtrace_hdl_t *dtp, const dt_btf_t *btf, int32_t id)
--{
--	if (id == 0)
--		return &btf_void;
--	if (id < dtp->dt_shared_btf->type_cnt)
--		return dtp->dt_shared_btf->types[id];
--
--	return btf->types[id - (dtp->dt_shared_btf->type_cnt - 1)];
--}
--
--static btf_type_t *
--dt_btf_real_type_by_id(dtrace_hdl_t *dtp, const dt_btf_t *btf, int32_t id)
-+static uint32_t
-+dt_btf_lookup_name_kind2(const dt_btf_t *btf, int32_t base, const char *name,
-+			 uint32_t kind)
+@@ -1040,17 +1238,17 @@ dt_btf_lookup_name_kind2(const dt_btf_t *btf, int32_t base, const char *name,
  {
--	btf_type_t	*type = dt_btf_type_by_id(dtp, btf, id);
--
--	do {
--		switch (BTF_INFO_KIND(type->info)) {
--		case BTF_KIND_CONST:
--		case BTF_KIND_FUNC:
--		case BTF_KIND_RESTRICT:
--		case BTF_KIND_TYPE_TAG:
--		case BTF_KIND_TYPEDEF:
--		case BTF_KIND_VOLATILE:
--			type = dt_btf_type_by_id(dtp, btf, type->type);
--		default:
--			return type;
--		}
--	} while (type != NULL);
--
--	return NULL;
--}
-+	uint32_t	i;
+ 	uint32_t	i;
  
--const char *
--dt_btf_get_string(dtrace_hdl_t *dtp, const dt_btf_t *btf, uint32_t off)
--{
--	if (dtp->dt_shared_btf == NULL)
--		goto ok;
-+	/* Look through the type data for a match. */
-+	for (i = 1; i < btf->type_cnt; i++) {
-+		const btf_type_t	*type = btf->types[i];
-+		const char		*str;
- 
--	/* Check if the offset is within the base BTF string area. */
--	if (btf == dtp->dt_shared_btf || off < dtp->dt_shared_btf->hdr->str_len)
--		return dtp->dt_shared_btf->sdata + off;
-+		if (BTF_INFO_KIND(type->info) != kind)
-+			continue;
- 
--	off -= dtp->dt_shared_btf->hdr->str_len;
--ok:
--	if (off < btf->hdr->str_len)
--		return btf->sdata + off;
-+		str = dt_btf_get_string(btf, type->name_off);
-+		if (str == NULL)
-+			continue;
-+		if (strcmp(name, str) == 0)
-+			return i + base;
-+	}
- 
--	return dt_btf_set_load_errno(dtp, EINVAL);
-+	return BTF_TYPE_NONE;
- }
- 
--int32_t
-+uint32_t
- dt_btf_lookup_name_kind(dtrace_hdl_t *dtp, dt_module_t *dmp, const char *name,
- 			uint32_t kind)
- {
--	dt_btf_t	*btf = dmp->dm_btf;
--	int32_t		i, base = 0;
-+	dt_btf_t	*btf;
-+	const dt_btf_t	*parent;
-+	int32_t		base = 0, id;
- 
- 	if (kind == BTF_KIND_UNKN)
--		return -ENOENT;
-+		return BTF_TYPE_NONE;
- 	if (strcmp(name, "void") == 0)
- 		return 0;
- 
--	/* Ensure the shared BTF is loaded. */
--	if (!dtp->dt_shared_btf)
--		dt_btf_load_module(dtp, dtp->dt_exec);
--
--	/* If the module does not have BTF data yet, try to load it. */
--	if (!btf) {
--		btf = dt_btf_load_module(dtp, dmp);
-+	/* Get BTF data for the module. */
-+	btf = dt_btf_load_module(dtp, dmp);
- 
--		/* If no BTF module data was found, use the shared BTF. */
--		if (!btf)
--			btf = dtp->dt_shared_btf;
--
--		if (!btf)
--			return -ENOENT;
--	}
-+	/* No type lookup without BTF data. */
-+	if (!btf)
-+		return BTF_TYPE_NONE;
- 
- 	/*
--	 * Any module other than 'vmlinux' inherits the types from 'vmlinux'.
--	 * The shared types are 1 through (base = dtp->dt_btf->type_cnt - 1).
--	 * A module's types are base through (base + btf->type_cnt - 1), but
--	 * the types are stored in the BTF types array with indexes 1 through
--	 * (btf->type_cnt - 1).
-+	 * BTF type data for a module is split between two BTF data source:
-+	 *   shared	[ 0 .. parent->type_cnt - 1 ]
-+	 *   local	base + [ 1 .. type_cnt ]
-+	 *   			with base = parent->type_cnt - 1
- 	 */
--	if (btf != dtp->dt_shared_btf)
--		base = dtp->dt_shared_btf->type_cnt - 1;
--
--
+-	/* Look through the type data for a match. */
 -	for (i = 1; i < btf->type_cnt; i++) {
 -		const btf_type_t	*type = btf->types[i];
 -		const char		*str;
--
--		if (BTF_INFO_KIND(type->info) != kind)
--			continue;
--
--		str = dt_btf_get_string(dtp, btf, type->name_off);
--		if (str && strcmp(name, str) == 0)
--			return i + base;
--	}
-+	parent = btf->parent;
-+	if (parent != NULL && parent->type_cnt > 0)
-+		base = parent->type_cnt - 1;
- 
--	if (base > 0)
--		return dt_btf_lookup_name_kind(dtp, dtp->dt_exec, name, kind);
-+	id = dt_btf_lookup_name_kind2(btf, base, name, kind);
-+	if (id == BTF_TYPE_NONE && parent != NULL)
-+		id = dt_btf_lookup_name_kind2(parent, 0, name, kind);
- 
--	return -ENOENT;
-+	return id;
- }
- 
- int
-@@ -1025,9 +1142,9 @@ dt_btf_module_fd(const dt_module_t *dmp)
- }
- 
- int
--dt_btf_func_argc(dtrace_hdl_t *dtp, const dt_btf_t *btf, uint32_t id)
-+dt_btf_func_argc(const dt_btf_t *btf, uint32_t id)
- {
--	btf_type_t	*type = dt_btf_real_type_by_id(dtp, btf, id);
-+	btf_type_t	*type = dt_btf_real_type_by_id(btf, id);
- 
- 	if (type == NULL)
- 		return -1;
-@@ -1039,9 +1156,9 @@ dt_btf_func_argc(dtrace_hdl_t *dtp, const dt_btf_t *btf, uint32_t id)
- }
- 
- int
--dt_btf_func_is_void(dtrace_hdl_t *dtp, const dt_btf_t *btf, uint32_t id)
-+dt_btf_func_is_void(const dt_btf_t *btf, uint32_t id)
- {
--	btf_type_t	*type = dt_btf_real_type_by_id(dtp, btf, id);
-+	btf_type_t	*type = dt_btf_real_type_by_id(btf, id);
- 
- 	if (type != NULL &&
- 	    BTF_INFO_KIND(type->info) == BTF_KIND_FUNC_PROTO && type->type == 0)
-@@ -1058,9 +1175,9 @@ dt_btf_func_is_void(dtrace_hdl_t *dtp, const dt_btf_t *btf, uint32_t id)
-  */
- #define MAX_BPF_FUNC_REG_REGS	5
- int
--dt_btf_func_is_traceable(dtrace_hdl_t *dtp, const dt_btf_t *btf, uint32_t id)
-+dt_btf_func_is_traceable(const dt_btf_t *btf, uint32_t id)
- {
--	btf_type_t	*type = dt_btf_real_type_by_id(dtp, btf, id);
-+	btf_type_t	*type = dt_btf_real_type_by_id(btf, id);
- 	int		argc;
- 
- 	/* If no prototype is found, BPF fprobes do not work. */
-@@ -1069,7 +1186,7 @@ dt_btf_func_is_traceable(dtrace_hdl_t *dtp, const dt_btf_t *btf, uint32_t id)
- 
- 	/* If the return type is a struct or union, BPF fprobes do not work. */
- 	if (type->type != 0) {
--		btf_type_t	*rtype = dt_btf_real_type_by_id(dtp, btf, type->type);
-+		btf_type_t	*rtype = dt_btf_real_type_by_id(btf, type->type);
- 
- 		if (rtype == NULL)
- 			return 0;
-@@ -1095,7 +1212,7 @@ dt_btf_func_is_traceable(dtrace_hdl_t *dtp, const dt_btf_t *btf, uint32_t id)
- 			return 0;
- 
- 		for (i = 0; i < argc; i++) {
--			type = dt_btf_real_type_by_id(dtp, btf, args[i].type);
-+			type = dt_btf_real_type_by_id(btf, args[i].type);
- 			if (type == NULL)
- 				return 0;
- 
-diff --git a/libdtrace/dt_btf.h b/libdtrace/dt_btf.h
-index 2c921a03..a581ae6d 100644
---- a/libdtrace/dt_btf.h
-+++ b/libdtrace/dt_btf.h
-@@ -1,6 +1,6 @@
- /*
-  * Oracle Linux DTrace.
-- * Copyright (c) 2023, 2025, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 2023, 2026, Oracle and/or its affiliates. All rights reserved.
-  * Licensed under the Universal Permissive License v 1.0 as shown at
-  * http://oss.oracle.com/licenses/upl.
-  */
-@@ -14,22 +14,19 @@
- extern "C" {
- #endif
- 
-+#define BTF_TYPE_NONE		0x7fffffff
++	if (btf->names == NULL || btf->type_cnt == 0)
++		return BTF_TYPE_NONE;
 +
- typedef struct dt_btf		dt_btf_t;
- typedef struct bpf_btf_info	btf_info_t;
++	i = btf->names[str2hval(name, kind) % btf->type_cnt];
++	for (; i != 0; i = btf->name_next[i]) {
++		const btf_type_t *type = btf->types[i];
++		const char *str;
  
- extern void dt_btf_destroy(dtrace_hdl_t *, dt_btf_t *);
- extern dt_btf_t *dt_btf_load_module(dtrace_hdl_t *, dt_module_t *);
- extern ctf_dict_t *dt_btf_module_ctf(dtrace_hdl_t *, dt_module_t *);
--extern const char *dt_btf_get_string(dtrace_hdl_t *, const dt_btf_t *,
--				     uint32_t);
--extern int32_t dt_btf_lookup_name_kind(dtrace_hdl_t *, dt_module_t *,
--				       const char *, uint32_t);
--extern int dt_btf_func_argc(dtrace_hdl_t *dtp, const dt_btf_t *btf,
--			    uint32_t id);
--extern int dt_btf_func_is_void(dtrace_hdl_t *dtp, const dt_btf_t *btf,
--			       uint32_t id);
--extern int dt_btf_func_is_traceable(dtrace_hdl_t *dtp, const dt_btf_t *btf,
--				    uint32_t id);
-+extern uint32_t dt_btf_lookup_name_kind(dtrace_hdl_t *, dt_module_t *,
-+					const char *, uint32_t);
-+extern int dt_btf_func_argc(const dt_btf_t *btf, uint32_t id);
-+extern int dt_btf_func_is_void(const dt_btf_t *btf, uint32_t id);
-+extern int dt_btf_func_is_traceable(const dt_btf_t *btf, uint32_t id);
- extern int dt_btf_get_module_ids(dtrace_hdl_t *);
- extern int dt_btf_module_fd(const dt_module_t *);
+ 		if (BTF_INFO_KIND(type->info) != kind)
+ 			continue;
+-
+ 		str = dt_btf_get_string(btf, type->name_off);
+-		if (str == NULL)
+-			continue;
+ 		if (strcmp(name, str) == 0)
+ 			return i + base;
+ 	}
+@@ -1058,6 +1256,192 @@ dt_btf_lookup_name_kind2(const dt_btf_t *btf, int32_t base, const char *name,
+ 	return BTF_TYPE_NONE;
+ }
+ 
++#ifdef HAVE_LIBCTF
++/* Find a CTF-visible name without converting unrelated BTF types. */
++static uint32_t
++dt_btf_named_type(const dt_btf_t *btf, const char *name)
++{
++	uint32_t id, kind, base = 0;
++	const char *tag = name;
++
++	if (btf->parent != NULL) {
++		id = dt_btf_named_type(btf->parent, name);
++		if (id != BTF_TYPE_NONE)
++			return id;
++		if (btf->parent->type_cnt > 0)
++			base = btf->parent->type_cnt - 1;
++	}
++
++	if (strncmp(name, "struct ", 7) == 0) {
++		kind = BTF_KIND_STRUCT;
++		tag += 7;
++	} else if (strncmp(name, "union ", 6) == 0) {
++		kind = BTF_KIND_UNION;
++		tag += 6;
++	} else if (strncmp(name, "enum ", 5) == 0) {
++		kind = BTF_KIND_ENUM;
++		tag += 5;
++	} else {
++		static const uint32_t kinds[] = {
++			BTF_KIND_INT, BTF_KIND_FLOAT, BTF_KIND_TYPEDEF
++		};
++		size_t i;
++
++		for (i = 0; i < sizeof(kinds) / sizeof(kinds[0]); i++) {
++			id = dt_btf_lookup_name_kind2(btf, base, name,
++						    kinds[i]);
++			if (id != BTF_TYPE_NONE)
++				return id;
++		}
++		return BTF_TYPE_NONE;
++	}
++
++	id = dt_btf_lookup_name_kind2(btf, base, tag, kind);
++	if (id != BTF_TYPE_NONE || kind == BTF_KIND_ENUM)
++		return id;
++
++	id = dt_btf_lookup_name_kind2(btf, base, tag, BTF_KIND_FWD);
++	if (id != BTF_TYPE_NONE) {
++		const btf_type_t *type = dt_btf_type_by_id(btf, id);
++
++		if (!!BTF_INFO_KFLAG(type->info) != (kind == BTF_KIND_UNION))
++			return BTF_TYPE_NONE;
++	}
++	return id;
++}
++
++/* Discard the cache entries belonging to a failed conversion transaction. */
++static void
++dt_btf_ctf_abort(dt_btf_t *btf, ctf_dict_t *ctf, ctf_snapshot_id_t snap)
++{
++	ctf_rollback(ctf, snap);
++	while (btf->ctf_pending_cnt > 0) {
++		uint32_t id = btf->ctf_pending[--btf->ctf_pending_cnt];
++
++		btf->ctfids[id] = CTF_ERR;
++		btf->ctf_state[id] = DT_BTF_CTF_IDLE;
++	}
++}
++#endif
++
++/*
++ * All CTF name lookups that can reach kernel BTF go through this helper.
++ * Existing CTF dictionaries still use libctf's normal lookup behavior.
++ */
++ctf_id_t
++dt_ctf_lookup_by_name(dtrace_hdl_t *dtp, ctf_file_t *ctf, const char *name)
++{
++#ifdef HAVE_LIBCTF
++	dt_module_t *dmp;
++	dt_btf_t *btf = NULL, *parent;
++	ctf_snapshot_id_t snap, psnap;
++	ctf_id_t id;
++	uint32_t bid;
++	char base[DT_TYPE_NAMELEN];
++	const char *p = name;
++	size_t len = 0;
++	unsigned int pointers = 0;
++
++	/* vmlinux imports shared types; convert them in the owning parent. */
++	if (dtp->dt_exec != NULL && ctf == dtp->dt_exec->dm_ctfp &&
++	    !(dtp->dt_exec->dm_flags & DT_DM_CTF_ARCHIVED) &&
++	    ctf_parent_dict(ctf) == dt_module_shared_ctf(dtp))
++		return dt_ctf_lookup_by_name(dtp, dt_module_shared_ctf(dtp),
++					     name);
++
++	if (ctf == dt_module_shared_ctf(dtp) && dtp->dt_exec != NULL)
++		btf = dtp->dt_exec->dm_btf;
++	else if ((dmp = ctf_getspecific(ctf)) != NULL &&
++		 dmp->dm_ctfp == ctf && !(dmp->dm_flags & DT_DM_CTF_ARCHIVED))
++		btf = dmp->dm_btf;
++
++	if (btf == NULL || btf->ctfids == NULL)
++		return ctf_lookup_by_name(ctf, name);
++
++	id = ctf_lookup_by_name(ctf, name);
++	if (id != CTF_ERR && ctf_type_kind(ctf, id) != CTF_K_FORWARD)
++		return id;
++
++	/* Extract the named base of libctf's qualified/pointer type syntax. */
++	while (*p != '\0') {
++		const char *word;
++		size_t n;
++
++		if (isspace((unsigned char)*p)) {
++			p++;
++			continue;
++		}
++		if (*p == '*') {
++			pointers++;
++			p++;
++			continue;
++		}
++		word = p;
++		while (*p != '\0' && !isspace((unsigned char)*p) && *p != '*')
++			p++;
++		n = p - word;
++		if ((n == 5 && strncmp(word, "const", n) == 0) ||
++		    (n == 8 && strncmp(word, "volatile", n) == 0) ||
++		    (n == 8 && strncmp(word, "restrict", n) == 0))
++			continue;
++		if (len + n + 1 >= sizeof(base))
++			return ctf_lookup_by_name(ctf, name);
++		if (len != 0)
++			base[len++] = ' ';
++		memcpy(base + len, word, n);
++		len += n;
++	}
++	base[len] = '\0';
++
++	bid = dt_btf_named_type(btf, base);
++	if (bid == BTF_TYPE_NONE)
++		return ctf_lookup_by_name(ctf, name);
++
++	parent = (dt_btf_t *)btf->parent;
++	snap = ctf_snapshot(ctf);
++	if (parent != NULL)
++		psnap = ctf_snapshot(dt_module_shared_ctf(dtp));
++
++	if (dt_btf_ctf_prepare(dtp, btf, ctf, bid) < 0)
++		goto fail;
++	id = dt_btf_add_to_ctf(dtp, btf, ctf, bid);
++	if (id == CTF_ERR)
++		goto fail;
++
++	if (parent != NULL &&
++	    dt_btf_ctf_finish(dtp, parent, dt_module_shared_ctf(dtp)) < 0)
++		goto fail;
++	if (dt_btf_ctf_finish(dtp, btf, ctf) < 0)
++		goto fail;
++
++	/* A pointer spelling may be requested before any BTF pointer to it. */
++	while (pointers-- > 0) {
++		ctf_id_t pointer = ctf_type_pointer(ctf, id);
++
++		if (pointer == CTF_ERR)
++			pointer = ctf_add_pointer(ctf, CTF_ADD_ROOT, id);
++		id = pointer;
++		if (id == CTF_ERR) {
++			dt_ctf_error(dtp, ctf);
++			goto fail;
++		}
++	}
++
++	btf->ctf_pending_cnt = 0;
++	if (parent != NULL)
++		parent->ctf_pending_cnt = 0;
++	return ctf_lookup_by_name(ctf, name);
++
++fail:
++	dt_btf_ctf_abort(btf, ctf, snap);
++	if (parent != NULL)
++		dt_btf_ctf_abort(parent, dt_module_shared_ctf(dtp), psnap);
++	return CTF_ERR;
++#else
++	return ctf_lookup_by_name(ctf, name);
++#endif
++}
++
+ uint32_t
+ dt_btf_lookup_name_kind(dtrace_hdl_t *dtp, dt_module_t *dmp, const char *name,
+ 			uint32_t kind)
+diff --git a/libdtrace/dt_cc.c b/libdtrace/dt_cc.c
+index 4b639bdd..8e235321 100644
+--- a/libdtrace/dt_cc.c
++++ b/libdtrace/dt_cc.c
+@@ -1093,7 +1093,8 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
+ 				if (!cfp)
+ 					return dt_set_errno(dtp, EDT_NOCTF);
+ 
+-				type = ctf_lookup_by_name(cfp, "struct task_struct");
++				type = dt_ctf_lookup_by_name(dtp, cfp,
++						     "struct task_struct");
+ 				if (type == CTF_ERR)
+ 					goto err_ctf;
+ 
+@@ -1129,7 +1130,8 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
+ 				if (!cfp)
+ 					return dt_set_errno(dtp, EDT_NOCTF);
+ 
+-				type = ctf_lookup_by_name(cfp, "struct mm_struct");
++				type = dt_ctf_lookup_by_name(dtp, cfp,
++						     "struct mm_struct");
+ 				if (type == CTF_ERR)
+ 					goto err_ctf;
+ 
+@@ -1155,7 +1157,8 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
+ 				if (!cfp)
+ 					return dt_set_errno(dtp, EDT_NOCTF);
+ 
+-				type = ctf_lookup_by_name(cfp, "struct mutex");
++				type = dt_ctf_lookup_by_name(dtp, cfp,
++						     "struct mutex");
+ 				if (type == CTF_ERR)
+ 					goto err_ctf;
+ 
+@@ -1185,7 +1188,8 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
+ 				if (!cfp)
+ 					return dt_set_errno(dtp, EDT_NOCTF);
+ 
+-				type = ctf_lookup_by_name(cfp, "rwlock_t");
++				type = dt_ctf_lookup_by_name(dtp, cfp,
++						     "rwlock_t");
+ 				if (type == CTF_ERR)
+ 					goto err_ctf;
+ 				rc = ctf_member_info(cfp, type, "raw_lock", &ctm);
+@@ -1193,7 +1197,8 @@ dt_link_construct(dtrace_hdl_t *dtp, const dt_probe_t *prp, dtrace_difo_t *dp,
+ 					goto err_ctf;
+ 				total_offset = ctm.ctm_offset / NBBY;
+ 
+-				type = ctf_lookup_by_name(cfp, "arch_rwlock_t");
++				type = dt_ctf_lookup_by_name(dtp, cfp,
++						     "arch_rwlock_t");
+ 				if (type == CTF_ERR)
+ 					goto err_ctf;
+ 				rc = ctf_member_info(cfp, type, "cnts", &ctm);
+diff --git a/libdtrace/dt_cg.c b/libdtrace/dt_cg.c
+index 03d114d4..ceeb119f 100644
+--- a/libdtrace/dt_cg.c
++++ b/libdtrace/dt_cg.c
+@@ -5332,7 +5332,7 @@ dt_cg_uregs(unsigned int idx, dt_node_t *dnp, dt_irlist_t *dlp, dt_regset_t *drp
+ 			ctf_file_t *cfp = dt_module_shared_ctf(yypcb->pcb_hdl);
+ 			ctf_id_t type;
+ 
+-			type = ctf_lookup_by_name(cfp, "struct pt_regs");
++			type = dt_ctf_lookup_by_name(dtp, cfp, "struct pt_regs");
+ 			if (type == CTF_ERR)
+ 				longjmp(yypcb->pcb_jmpbuf, EDT_NOCTF);
+ 
+diff --git a/libdtrace/dt_decl.c b/libdtrace/dt_decl.c
+index 5f8b1694..bed65963 100644
+--- a/libdtrace/dt_decl.c
++++ b/libdtrace/dt_decl.c
+@@ -935,7 +935,7 @@ dt_decl_type(dt_decl_t *ddp, dtrace_typeinfo_t *tip)
+ 		 * to "long" for all array types that we create on-the-fly.
+ 		 */
+ 		r.ctr_contents = tip->dtt_type;
+-		r.ctr_index = ctf_lookup_by_name(tip->dtt_ctfp, "long");
++		r.ctr_index = dt_ctf_lookup_by_name(dtp, tip->dtt_ctfp, "long");
+ 		r.ctr_nelems = ddp->dd_node ?
+ 		    (uint_t)ddp->dd_node->dn_value : 0;
  
 diff --git a/libdtrace/dt_impl.h b/libdtrace/dt_impl.h
-index 682dda82..cf04d0f6 100644
+index cf04d0f6..fcdac855 100644
 --- a/libdtrace/dt_impl.h
 +++ b/libdtrace/dt_impl.h
-@@ -202,6 +202,7 @@ typedef struct dt_kern_path {
- #define DT_DM_KERNEL		0x02	/* module is associated with a kernel object */
- #define DT_DM_CTF_ARCHIVED	0x04	/* module found in a CTF archive */
- #define DT_DM_KERN_UNLOADED	0x08	/* module not loaded into the kernel */
-+#define DT_DM_BTF_LOADED	0x10	/* module BTF data loaded */
- #define DT_DM_SHARED		0x20	/* module owns shared kernel CTF */
- #define DT_DM_KERN_SYMS		0x40	/* kernel symbols discovered and finalized */
+@@ -808,6 +808,9 @@ extern int dt_handle_setopt(dtrace_hdl_t *, dtrace_setoptdata_t *);
+ extern int dt_lib_depend_add(dtrace_hdl_t *, dt_list_t *, const char *);
+ extern dt_lib_depend_t *dt_lib_depend_lookup(dt_list_t *, const char *);
  
-@@ -311,7 +312,6 @@ struct dtrace_hdl {
- 	ctf_archive_t *dt_ctfa; /* ctf archive for the entire kernel tree */
- 	void *dt_ctfa_data;	/* backing data for dt_ctfa */
- 	char *dt_btf_path;	/* path to vmlinux.btf */
--	struct dt_btf *dt_shared_btf; /* BTF data for the kernel (shared) */
- 	dt_htab_t *dt_kernpaths; /* hash table of dt_kern_path_t's */
- 	dt_module_t *dt_exec;	/* pointer to executable module */
- 	dt_module_t *dt_cdefs;	/* pointer to C dynamic type module */
++extern ctf_id_t dt_ctf_lookup_by_name(dtrace_hdl_t *, ctf_file_t *,
++    const char *);
++
+ extern dt_pcb_t *yypcb;		/* pointer to current parser control block */
+ extern char yyintprefix;	/* int token prefix for macros (+/-) */
+ extern char yyintsuffix[4];	/* int token suffix ([uUlL]*) */
 diff --git a/libdtrace/dt_module.c b/libdtrace/dt_module.c
-index 10e54412..0b0023a3 100644
+index 0b0023a3..bd92d126 100644
 --- a/libdtrace/dt_module.c
 +++ b/libdtrace/dt_module.c
-@@ -1045,8 +1045,7 @@ dt_module_clear_elf(dt_module_t *dmp)
- static void
- dt_module_destroy(dtrace_hdl_t *dtp, dt_module_t *dmp)
- {
--	if (dmp->dm_btf != dtp->dt_shared_btf)
--		dt_btf_destroy(dtp, dmp->dm_btf);
-+	dt_btf_destroy(dtp, dmp->dm_btf);
- 	ctf_close(dmp->dm_ctfp);
- 	dt_module_clear_elf(dmp);
- 	dt_symtab_destroy(dtp, dmp->dm_kernsyms);
-@@ -1253,23 +1252,24 @@ dt_kern_module_ctf_from_btf(dtrace_hdl_t *dtp, dt_module_t *dmp)
- static void
- dt_kern_module_find_btf(dtrace_hdl_t *dtp, dt_module_t *dmp)
- {
-+	/* The vmlinux module nust already exist as dtp->dt_exec. */
-+	assert(dtp->dt_exec != NULL);
-+
- 	/*
- 	 * If there is no shared BTF data, and we're trying to load BTF data
--	 * for any module other than "vmlinux", we can conclude no module has
-+	 * for any module other than vmlinux, we can conclude no module has
- 	 * valid BTF data.
- 	 */
--	if (dtp->dt_shared_btf == NULL && strcmp(dmp->dm_name, "vmlinux") != 0)
-+	if (dtp->dt_exec->dm_btf == NULL && dmp != dtp->dt_exec)
- 		return;
+@@ -2390,7 +2390,8 @@ dtrace_lookup_by_type(dtrace_hdl_t *dtp, const char *object, const char *name,
+ 		 * 'tip' and keep going in the hope that we will locate the
+ 		 * underlying structure definition.  Otherwise just return.
+ 		 */
+-		if ((id = ctf_lookup_by_name(dmp->dm_ctfp, name)) != CTF_ERR) {
++		if ((id = dt_ctf_lookup_by_name(dtp, dmp->dm_ctfp,
++					      name)) != CTF_ERR) {
+ 			tip->dtt_object = dmp->dm_name;
+ 			tip->dtt_ctfp = dmp->dm_ctfp;
+ 			tip->dtt_type = id;
+@@ -2479,7 +2480,8 @@ dtrace_symbol_type(dtrace_hdl_t *dtp, const GElf_Sym *symp,
+ 		tip->dtt_type = idp->di_type;
+ 	} else if (dmp->dm_flags & DT_DM_KERNEL) {
+ 		tip->dtt_ctfp = dmp->dm_ctfp;
+-		tip->dtt_type = ctf_lookup_by_name(dmp->dm_ctfp, "uintptr_t");
++		tip->dtt_type = dt_ctf_lookup_by_name(dtp, dmp->dm_ctfp,
++						   "uintptr_t");
  
- 	dt_dprintf("Loading BTF for module %s.\n", dmp->dm_name);
+ 		if (tip->dtt_type == CTF_ERR)
+ 			return dt_set_errno(dtp, EDT_NOSYM);
+diff --git a/libdtrace/dt_prov_proc.c b/libdtrace/dt_prov_proc.c
+index af3105e4..47da04b7 100644
+--- a/libdtrace/dt_prov_proc.c
++++ b/libdtrace/dt_prov_proc.c
+@@ -148,7 +148,7 @@ static int trampoline(dt_pcb_t *pcb, uint_t exitlbl)
  
- 	/*
--	 * If no module specific BTF is found, we assume it is a builtin
--	 * module and we assign the shared BTF to it.  That is the fallback
--	 * anyway for type lookups in modules, so it is safe.
-+	 * If no module specific BTF is found, the kernel either does not
-+	 * provide any BTF data or something went wrong.  Neither is fatal.
- 	 */
--	if (dt_btf_load_module(dtp, dmp) == NULL)
--		dmp->dm_btf = dtp->dt_shared_btf;
-+	dt_btf_load_module(dtp, dmp);
- }
+ 		if (!cfp)
+ 			longjmp(yypcb->pcb_jmpbuf, EDT_NOCTF);
+-		type = ctf_lookup_by_name(cfp, "struct task_struct");
++		type = dt_ctf_lookup_by_name(dtp, cfp, "struct task_struct");
+ 		if (type == CTF_ERR) {
+ 			dtp->dt_ctferr = ctf_errno(cfp);
+ 			longjmp(yypcb->pcb_jmpbuf, EDT_CTF);
+diff --git a/libdtrace/dt_provider_tp.c b/libdtrace/dt_provider_tp.c
+index 93fa8417..24abc953 100644
+--- a/libdtrace/dt_provider_tp.c
++++ b/libdtrace/dt_provider_tp.c
+@@ -327,7 +327,7 @@ dt_tp_event_info(dtrace_hdl_t *dtp, FILE *f, dt_valid_arg_f *valid_arg,
+ 				ctf_id_t	type;
+ 				size_t		esize = 1;
  
- /*
-diff --git a/libdtrace/dt_open.c b/libdtrace/dt_open.c
-index 6182a5da..245ccb70 100644
---- a/libdtrace/dt_open.c
-+++ b/libdtrace/dt_open.c
-@@ -1314,8 +1314,6 @@ dtrace_close(dtrace_hdl_t *dtp)
- 	dt_htab_destroy(dtp->dt_mods);
- 	dt_htab_destroy(dtp->dt_kernpaths);
- 
--	if (dtp->dt_shared_btf != NULL)
--		dt_btf_destroy(dtp, dtp->dt_shared_btf);
- 	if (dtp->dt_ctfa != NULL)
- 		ctf_arc_close(dtp->dt_ctfa);
- 	free(dtp->dt_ctfa_data);
-diff --git a/libdtrace/dt_prov_fbt.c b/libdtrace/dt_prov_fbt.c
-index 3ae03581..8bdfc89f 100644
---- a/libdtrace/dt_prov_fbt.c
-+++ b/libdtrace/dt_prov_fbt.c
-@@ -103,11 +103,11 @@ static int provide_probe(dtrace_hdl_t *dtp, dt_module_t *dmp,
- 	 * details).
- 	 */
- 	if (prv->impl->prog_type == BPF_PROG_TYPE_TRACING) {
--		int32_t	btf_id;
-+		uint32_t	btf_id;
- 
- 		btf_id = dt_btf_lookup_name_kind(dtp, dmp, pdp->fun, BTF_KIND_FUNC);
--		if (btf_id <= 0 ||
--		    !dt_btf_func_is_traceable(dtp, dmp->dm_btf, btf_id))
-+		if (btf_id == BTF_TYPE_NONE ||
-+		    !dt_btf_func_is_traceable(dmp->dm_btf, btf_id))
- 			return -1;
- 	}
- 
-@@ -355,7 +355,7 @@ static int fprobe_probe_info(dtrace_hdl_t *dtp, const dt_probe_t *prp,
- {
- 	const dtrace_probedesc_t	*desc = prp->desc;
- 	dt_module_t			*dmp;
--	int32_t				btf_id;
-+	uint32_t			btf_id;
- 	int				i, argc = 0;
- 	dt_argdesc_t			*argv = NULL;
- 
-@@ -364,14 +364,14 @@ static int fprobe_probe_info(dtrace_hdl_t *dtp, const dt_probe_t *prp,
- 		goto done;
- 
- 	btf_id = dt_btf_lookup_name_kind(dtp, dmp, desc->fun, BTF_KIND_FUNC);
--	if (btf_id <= 0)
-+	if (btf_id == BTF_TYPE_NONE)
- 		goto done;
- 
- 	dt_tp_probe_set_id(prp, btf_id);
- 
- 	if (strcmp(desc->prb, "return") == 0) {
- 		/* Void function return probes only provide 1 argument. */
--		argc = dt_btf_func_is_void(dtp, dmp->dm_btf, btf_id) ? 1 : 2;
-+		argc = dt_btf_func_is_void(dmp->dm_btf, btf_id) ? 1 : 2;
- 
- 		argv = dt_calloc(dtp, argc, sizeof(dt_argdesc_t));
- 		if (argv == NULL)
-@@ -392,8 +392,8 @@ static int fprobe_probe_info(dtrace_hdl_t *dtp, const dt_probe_t *prp,
- 		goto done;
- 	}
- 
--	argc = dt_btf_func_argc(dtp, dmp->dm_btf, btf_id);
--	if (argc == 0)
-+	argc = dt_btf_func_argc(dmp->dm_btf, btf_id);
-+	if (argc <= 0)
- 		goto done;
- 
- 	argv = dt_calloc(dtp, argc, sizeof(dt_argdesc_t));
-diff --git a/test/unittest/btf/test.x b/test/unittest/btf/test.x
+-				type = ctf_lookup_by_name(ctfp, p);
++				type = dt_ctf_lookup_by_name(dtp, ctfp, p);
+ 				if (type != CTF_ERR)
+ 					esize = ctf_type_size(ctfp, type);
+ 				if (esize != 0)
+diff --git a/test/internals/btf/tst.lazy-types.sh b/test/internals/btf/tst.lazy-types.sh
 new file mode 100755
-index 00000000..3aad9b2a
+index 00000000..110358da
 --- /dev/null
-+++ b/test/unittest/btf/test.x
-@@ -0,0 +1,8 @@
-+#!/bin/bash
-+
-+if [ ! -r /sys/kernel/btf/vmlinux ]; then
-+	echo "No vmlinux BTF data found."
-+	exit 2
-+fi
-+
-+exit 0
-diff --git a/test/unittest/btf/tst.elf-vmlinux.sh b/test/unittest/btf/tst.elf-vmlinux.sh
-new file mode 100755
-index 00000000..f8132e74
---- /dev/null
-+++ b/test/unittest/btf/tst.elf-vmlinux.sh
-@@ -0,0 +1,31 @@
++++ b/test/internals/btf/tst.lazy-types.sh
+@@ -0,0 +1,15 @@
 +#!/bin/bash
 +#
-+# ASSERTION: The BTF loader reads a .BTF section from an ELF object.
++# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
++# Licensed under the Universal Permissive License v 1.0 as shown at
++# http://oss.oracle.com/licenses/upl.
++#
++# ASSERTION: BTF converts only requested types and their dependencies,
++#            preserving recursive types, split BTF, and failure recovery.
 +#
 +
-+dtrace=$1
-+dir=$tmpdir/btf-elf-vmlinux.$$
-+mkdir -p "$dir" || exit 1
-+
-+"${OBJCOPY:-objcopy}" --add-section \
-+	.BTF=/sys/kernel/btf/vmlinux /bin/true "$dir/vmlinux" || exit 1
-+
-+"$dtrace" $dt_flags -e -xdebug -xctfpath="$dir/missing.ctfa" \
-+	-xbtfpath="$dir" -n '
-+BEGIN
-+{
-+	this->size = sizeof(struct vmlinux`task_struct);
-+}' >"$dir/output" 2>&1
++test/triggers/btf-lazy-types
 +rc=$?
-+if [ "$rc" -ne 0 ]; then
-+	cat "$dir/output"
-+	exit 1
-+fi
-+
-+if ! grep -q "BTF file $dir/vmlinux: [1-9][0-9]* types" "$dir/output" ||
-+   ! grep -q 'Generated vmlinux CTF from BTF' "$dir/output"; then
-+	cat "$dir/output"
-+	exit 1
-+fi
-+
++echo "Result: $rc"
++[[ $rc -eq 0 ]] || exit 1
 +exit 0
-diff --git a/test/unittest/btf/tst.elf-vmlinux.x b/test/unittest/btf/tst.elf-vmlinux.x
-new file mode 100755
-index 00000000..c444fe67
+diff --git a/test/triggers/Build b/test/triggers/Build
+index 5480f423..607ea00b 100644
+--- a/test/triggers/Build
++++ b/test/triggers/Build
+@@ -25,7 +25,7 @@ EXTERNAL_TRIGGERS = $(EXTERNAL_64BIT_TRIGGERS) $(if $(NATIVE_BITNESS_ONLY),,$(EX
+ INTERNAL_64BIT_TRIGGERS = libproc-pldd libproc-consistency libproc-sleeper \
+     libproc-sleeper-pie libproc-dlmadopen libproc-lookup-by-name \
+     libproc-lookup-victim libproc-execing-bkpts libproc-execing-bkpts-victim \
+-    btf-cyclic-types shared-ctf module-discovery
++    btf-cyclic-types btf-lazy-types shared-ctf module-discovery
+ INTERNAL_32BIT_TRIGGERS := libproc-sleeper-32 libproc-sleeper-pie-32
+ INTERNAL_TRIGGERS = $(INTERNAL_64BIT_TRIGGERS) $(if $(NATIVE_BITNESS_ONLY),,$(INTERNAL_32BIT_TRIGGERS))
+ 
+@@ -132,6 +132,12 @@ btf-cyclic-types_CFLAGS := -I. -Ilibdtrace -Ilibproc -Ilibcommon \
+     -ffunction-sections -fdata-sections -Wno-pedantic
+ btf-cyclic-types_LDFLAGS := -Wl,--gc-sections
+ 
++btf-lazy-types_CFLAGS := $(btf-cyclic-types_CFLAGS)
++btf-lazy-types_LDFLAGS := -Wl,--gc-sections
++btf-lazy-types_DEPS := build-libdtrace.a build-libproc.a libcommon.a libport.a
++btf-lazy-types_LIBS := $(objdir)/build-libdtrace.a $(objdir)/build-libproc.a \
++    $(objdir)/build-libcommon.a $(objdir)/build-libport.a $(libdtrace_LIBS)
++
+ # We are using machinery from libproc directly, but libproc calls into
+ # nonpublic parts of libdtrace for various shared machinery (dt_list
+ # and so on).  Thus, we must link directly to the build libraries, since
+@@ -263,4 +269,5 @@ module-discovery_LIBS := $(objdir)/build-libdtrace.a $(objdir)/build-libproc.a \
+ # Exercise shared dictionary ownership using libdtrace's private module APIs.
+ shared-ctf_CFLAGS := -Ilibproc -Ilibdtrace -Ilibcommon -Wno-pedantic
+ shared-ctf_DEPS := build-libdtrace.a build-libproc.a libcommon.a libport.a
+-shared-ctf_LIBS := $(objdir)/build-libdtrace.a $(objdir)/build-libproc.a $(objdir)/build-libcommon.a $(objdir)/build-libport.a $(libdtrace_LIBS)
++shared-ctf_LIBS := $(objdir)/build-libdtrace.a $(objdir)/build-libproc.a \
++    $(objdir)/build-libcommon.a $(objdir)/build-libport.a $(libdtrace_LIBS)
+diff --git a/test/triggers/btf-lazy-types.c b/test/triggers/btf-lazy-types.c
+new file mode 100644
+index 00000000..40cd5081
 --- /dev/null
-+++ b/test/unittest/btf/tst.elf-vmlinux.x
-@@ -0,0 +1,8 @@
-+#!/bin/bash
++++ b/test/triggers/btf-lazy-types.c
+@@ -0,0 +1,277 @@
++/*
++ * Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
++ * Licensed under the Universal Permissive License v 1.0 as shown at
++ * http://oss.oracle.com/licenses/upl.
++ */
 +
-+if ! command -v "${OBJCOPY:-objcopy}" >/dev/null 2>&1; then
-+	echo "objcopy is needed to create an ELF BTF fixture."
-+	exit 2
-+fi
++#include "libdtrace/dt_btf.c"
 +
-+exit 0
-diff --git a/test/unittest/btf/tst.invalid-fallback.sh b/test/unittest/btf/tst.invalid-fallback.sh
-new file mode 100755
-index 00000000..58632306
---- /dev/null
-+++ b/test/unittest/btf/tst.invalid-fallback.sh
-@@ -0,0 +1,31 @@
-+#!/bin/bash
-+#
-+# ASSERTION: Invalid raw BTF is rejected and a usable CTF archive is loaded.
-+#
++#ifdef HAVE_LIBCTF
++#define CHECK(expr) do { \
++	if (!(expr)) { \
++		fprintf(stderr, "line %d: %s (CTF: %s)\n", __LINE__, #expr, \
++			ctf_errmsg(dtp.dt_ctferr)); \
++		return 1; \
++	} \
++} while (0)
 +
-+dtrace=$1
-+dir=$tmpdir/btf-invalid-fallback.$$
-+mkdir -p "$dir" || exit 1
-+
-+# Preserve the BTF magic, but truncate the file at the end of its header.
-+# This enters the raw BTF loader and fails header validation.
-+head -c 24 /sys/kernel/btf/vmlinux >"$dir/vmlinux" || exit 1
-+
-+"$dtrace" $dt_flags -e -xdebug -xbtfpath="$dir" -n '
-+BEGIN
++/* Build raw BTF, so the test also exercises decoding and the name index. */
++static dt_btf_t *
++fixture(dtrace_hdl_t *dtp, const uint32_t *types, size_t type_len,
++	const char *strings, size_t str_len, const dt_btf_t *parent)
 +{
-+	this->size = sizeof(struct vmlinux`task_struct);
-+}' >"$dir/output" 2>&1
-+rc=$?
-+if [ "$rc" -ne 0 ]; then
-+	cat "$dir/output"
-+	exit 1
-+fi
++	dt_btf_t *btf = dt_zalloc(dtp, sizeof(*btf));
++	btf_header_t hdr = {
++		.magic = BTF_MAGIC, .version = BTF_VERSION,
++		.hdr_len = sizeof(hdr), .type_len = type_len,
++		.str_off = type_len, .str_len = str_len
++	};
 +
-+if ! grep -q "Cannot decode BTF data $dir/vmlinux" "$dir/output" ||
-+   ! grep -q 'Loaded shared CTF from archive' "$dir/output"; then
-+	cat "$dir/output"
-+	exit 1
-+fi
++	if (btf == NULL)
++		return NULL;
++	btf->size = sizeof(hdr) + type_len + str_len;
++	btf->data = dt_alloc(dtp, btf->size);
++	if (btf->data == NULL)
++		goto fail;
++	memcpy(btf->data, &hdr, sizeof(hdr));
++	memcpy((char *)btf->data + sizeof(hdr), types, type_len);
++	memcpy((char *)btf->data + sizeof(hdr) + type_len, strings, str_len);
++	btf->parent = parent;
++	if (dt_btf_decode(dtp, btf) != 0)
++		goto fail;
++	return btf;
 +
-+exit 0
-diff --git a/test/unittest/btf/tst.invalid-fallback.x b/test/unittest/btf/tst.invalid-fallback.x
-new file mode 100755
-index 00000000..372dc5c0
---- /dev/null
-+++ b/test/unittest/btf/tst.invalid-fallback.x
-@@ -0,0 +1,8 @@
-+#!/bin/bash
++fail:
++	dt_btf_destroy(dtp, btf);
++	return NULL;
++}
 +
-+if [ ! -r /lib/modules/$(uname -r)/kernel/vmlinux.ctfa ]; then
-+	echo "No vmlinux CTF archive found."
-+	exit 2
-+fi
++/* String offsets are computed, rather than coupled to literal lengths. */
++static const struct {
++	char empty[1], integer[4], leaf[5], value[6], node[5], next[5];
++	char node_t[7], unused[7], bad[4], cycle[6], callback_t[11], cb[3];
++	char bits[5], local[6], parent_leaf[12], parent_only[12], bad_slice[10];
++	char target[7], target_ptr[11], local_bad[10];
++} names = {
++	"", "int", "leaf", "value", "node", "next", "node_t", "unused",
++	"bad", "cycle", "callback_t", "cb", "bits", "local", "parent_leaf",
++	"parent_only", "bad_slice", "target", "target_ptr", "local_bad"
++};
++#define NAME(n) offsetof(__typeof__(names), n)
++#define TYPE(n, k, v, t) NAME(n), ((k) << 24) | (v), (t)
 +
-+exit 0
-diff --git a/test/unittest/btf/tst.module-btf.sh b/test/unittest/btf/tst.module-btf.sh
-new file mode 100755
-index 00000000..fe1f7b54
---- /dev/null
-+++ b/test/unittest/btf/tst.module-btf.sh
-@@ -0,0 +1,46 @@
-+#!/bin/bash
-+#
-+# ASSERTION: Split module BTF loads with vmlinux as its parent and converts
-+#            into a CTF container usable for scoped parent type lookup.
-+#
-+
-+dtrace=$1
-+dir=$tmpdir/btf-module.$$
-+mkdir -p "$dir" || exit 1
-+ln -s /sys/kernel/btf/vmlinux "$dir/vmlinux" || exit 1
-+
-+module=
-+for path in /sys/kernel/btf/*; do
-+	[ "$path" = /sys/kernel/btf/vmlinux ] && continue
-+	[ -r "$path" ] || continue
-+	name=${path##*/}
-+	[[ $name =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || continue
-+	module=$name
-+	ln -s "$path" "$dir/$module" || exit 1
-+	break
-+done
-+
-+if [ -z "$module" ]; then
-+	echo "No suitable loaded kernel module with BTF data."
-+	exit 1
-+fi
-+
-+"$dtrace" $dt_flags -e -xdebug -xctfpath="$dir/missing.ctfa" \
-+	-xbtfpath="$dir" -n "
-+BEGIN
++int
++main(int argc, char **argv)
 +{
-+	this->size = sizeof(struct ${module}\`task_struct);
-+}" >"$dir/output" 2>&1
-+rc=$?
-+if [ "$rc" -ne 0 ]; then
-+	cat "$dir/output"
-+	exit 1
-+fi
++	dtrace_hdl_t dtp = { 0 };
++	dt_module_t kernel = { .dm_name = "vmlinux" };
++	dt_module_t *shared;
++	dt_module_t module = { .dm_name = "module" };
++	dt_btf_t *btf, *child;
++	ctf_file_t *ctf, *mctf, *ordinary;
++	ctf_id_t id, leaf, cb;
++	ctf_membinfo_t member;
++	ctf_funcinfo_t func;
++	ctf_id_t args[2];
++	uint32_t i;
++	const uint32_t types[] = {
++		/* 1: int; 2: leaf with one int member. */
++		TYPE(integer, BTF_KIND_INT, 0, 4), BTF_INT_SIGNED << 24 | 32,
++		TYPE(leaf, BTF_KIND_STRUCT, 1, 4), NAME(value), 1, 0,
++		/* 3: node; 4: node *; 5: typedef node_t. */
++		TYPE(node, BTF_KIND_STRUCT, 1, 8), NAME(next), 4, 0,
++		TYPE(empty, BTF_KIND_PTR, 0, 3),
++		TYPE(node_t, BTF_KIND_TYPEDEF, 0, 4),
++		/* 6: unused; 7: bad with an invalid member type. */
++		TYPE(unused, BTF_KIND_STRUCT, 0, 16),
++		TYPE(bad, BTF_KIND_STRUCT, 1, 8), NAME(value), 9999, 0,
++		/* 8: a cyclic typedef that should fail only when requested. */
++		TYPE(cycle, BTF_KIND_TYPEDEF, 0, 8),
++		/* 9: callback typedef; 10: pointer; 11: prototype. */
++		TYPE(callback_t, BTF_KIND_TYPEDEF, 0, 10),
++		TYPE(empty, BTF_KIND_PTR, 0, 11),
++		TYPE(empty, BTF_KIND_FUNC_PROTO, 2, 1),
++		NAME(empty), 12, NAME(empty), 1,
++		/* 12: callback argument with a member of the same typedef. */
++		TYPE(cb, BTF_KIND_STRUCT, 1, 8), NAME(value), 9, 0,
++		/* 13: a bitfield whose packed BTF offset must be preserved. */
++		TYPE(bits, BTF_KIND_STRUCT, 0x80000001U, 4),
++		NAME(value), 1, 3U << 24,
++		/* 14: a parent type first requested through split BTF. */
++		TYPE(parent_only, BTF_KIND_STRUCT, 1, 4), NAME(value), 1, 0,
++		/* 15: invalid bitfield base, detected while filling members. */
++		TYPE(bad_slice, BTF_KIND_STRUCT, 0x80000001U, 8),
++		NAME(value), 4, 3U << 24,
++		/* 16-19: a forward reference with an available definition. */
++		TYPE(target, BTF_KIND_FWD, 0, 0),
++		TYPE(empty, BTF_KIND_PTR, 0, 16),
++		TYPE(target_ptr, BTF_KIND_TYPEDEF, 0, 17),
++		TYPE(target, BTF_KIND_STRUCT, 1, 4), NAME(value), 1, 0
++	};
++	const uint32_t split[] = {
++		/* Parent string offsets precede split BTF string offsets. */
++		TYPE(local, BTF_KIND_STRUCT, 1, 4), NAME(parent_leaf), 14, 0,
++		/* Fail after creating a previously unconverted parent shell. */
++		TYPE(local_bad, BTF_KIND_STRUCT, 2, 8),
++		NAME(value), 19, 0, NAME(next), 9999, 32
++	};
 +
-+if ! grep -q "BTF file $dir/$module: [1-9][0-9]* types" "$dir/output" ||
-+   ! grep -q "Generated $module CTF from BTF" "$dir/output"; then
-+	cat "$dir/output"
-+	exit 1
-+fi
++	dtp.dt_exec = &kernel;
++	dtp.dt_conf.dtc_ctfmodel = CTF_MODEL_LP64;
++	shared = dt_module_create(&dtp, "shared_ctf");
++	CHECK(shared != NULL);
++	btf = fixture(&dtp, types, sizeof(types), (const char *)&names,
++		      sizeof(names), NULL);
++	CHECK(btf != NULL);
++	kernel.dm_btf = btf;
 +
-+exit 0
-diff --git a/test/unittest/btf/tst.module-btf.x b/test/unittest/btf/tst.module-btf.x
-new file mode 100755
-index 00000000..d27b0499
---- /dev/null
-+++ b/test/unittest/btf/tst.module-btf.x
-@@ -0,0 +1,13 @@
-+#!/bin/bash
++	/* Archive-backed shared CTF has no BTF-to-CTF parent id mapping. */
++	ctf = shared->dm_ctfp = ctf_create(&dtp.dt_ctferr);
++	CHECK(ctf != NULL);
++	id = ctf_add_struct_sized(ctf, CTF_ADD_ROOT, "archive_only", 16);
++	CHECK(id != CTF_ERR && ctf_update(ctf) == 0);
++	ctf_setspecific(ctf, shared);
++	kernel.dm_ctfp = dt_btf_module_ctf(&dtp, &kernel);
++	CHECK(kernel.dm_ctfp != NULL && kernel.dm_ctfp != ctf);
++	child = fixture(&dtp, split, sizeof(split), "", 1, btf);
++	CHECK(child != NULL);
++	module.dm_btf = child;
++	CHECK(dt_btf_module_ctf(&dtp, &module) == NULL);
++	CHECK(child->ctfids == NULL && btf->ctfids == NULL);
++	CHECK(dt_ctf_lookup_by_name(&dtp, ctf, "struct archive_only") == id);
++	dt_btf_destroy(&dtp, child);
 +
-+for path in /sys/kernel/btf/*; do
-+	[ "$path" = /sys/kernel/btf/vmlinux ] && continue
-+	[ -r "$path" ] || continue
-+	module=${path##*/}
-+	if [[ $module =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]]; then
-+		exit 0
-+	fi
-+done
++	/* Missing module BTF still inherits its unconverted BTF parent. */
++	child = dt_zalloc(&dtp, sizeof(*child));
++	CHECK(child != NULL);
++	child->parent = btf;
++	module.dm_btf = child;
++	CHECK(dt_btf_module_ctf(&dtp, &module) == NULL);
++	CHECK(child->ctfids == NULL && btf->ctfids == NULL);
++	CHECK(dt_ctf_lookup_by_name(&dtp, ctf, "struct archive_only") == id);
++	dt_btf_destroy(&dtp, child);
++	ctf_close(kernel.dm_ctfp);
++	ctf_close(ctf);
++	kernel.dm_ctfp = shared->dm_ctfp = NULL;
 +
-+echo "No suitable loaded kernel module with BTF data."
-+exit 2
-diff --git a/test/unittest/btf/tst.module-local.sh b/test/unittest/btf/tst.module-local.sh
-new file mode 100755
-index 00000000..74a07370
---- /dev/null
-+++ b/test/unittest/btf/tst.module-local.sh
-@@ -0,0 +1,63 @@
-+#!/bin/bash
-+#
-+# ASSERTION: A module-local BTF type converts to CTF and the module also
-+#            inherits types from its vmlinux BTF parent.
-+#
++	ctf = kernel.dm_ctfp = dt_btf_module_ctf(&dtp, &kernel);
++	CHECK(ctf != NULL && ctf != shared->dm_ctfp);
++	CHECK(ctf_parent_dict(ctf) == shared->dm_ctfp);
++	CHECK(dt_module_lookup_by_ctf(&dtp, shared->dm_ctfp) == shared);
++	for (i = 1; i < btf->type_cnt; i++)
++		CHECK(btf->ctfids[i] == CTF_ERR);
 +
-+dtrace=$1
-+dir=$tmpdir/btf-module-local.$$
-+mkdir -p "$dir" || exit 1
-+ln -s /sys/kernel/btf/vmlinux "$dir/vmlinux" || exit 1
++	leaf = dt_ctf_lookup_by_name(&dtp, ctf, "struct leaf");
++	CHECK(leaf != CTF_ERR && ctf_type_size(ctf, leaf) == 4);
++	CHECK(ctf_member_info(ctf, leaf, "value", &member) == 0);
++	CHECK(member.ctm_type == btf->ctfids[1]);
++	CHECK(btf->ctfids[2] == leaf && btf->ctfids[6] == CTF_ERR);
++	CHECK(dt_ctf_lookup_by_name(&dtp, ctf, "struct leaf") == leaf);
 +
-+module=
-+for path in /sys/kernel/btf/*; do
-+	[ "$path" = /sys/kernel/btf/vmlinux ] && continue
-+	[ -r "$path" ] || continue
-+	name=${path##*/}
-+	[[ $name =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || continue
-+	module=$name
-+	break
-+done
-+[ -n "$module" ] || exit 1
++	id = dt_ctf_lookup_by_name(&dtp, ctf, "node_t");
++	CHECK(id != CTF_ERR);
++	CHECK(ctf_type_kind(ctf, ctf_type_resolve(ctf, id)) == CTF_K_POINTER);
++	CHECK(ctf_member_info(ctf, btf->ctfids[3], "next", &member) == 0);
++	CHECK(member.ctm_type == btf->ctfids[4]);
 +
-+# BTF name offsets in split data follow the parent string table.  Build a
-+# single local struct whose name is absent from the real kernel BTF.
-+python3 - "$dir/$module" <<'PY' || exit 1
-+import struct
-+import sys
++	id = dt_ctf_lookup_by_name(&dtp, ctf, "callback_t");
++	CHECK(id != CTF_ERR);
++	cb = ctf_type_reference(ctf, ctf_type_resolve(ctf, id));
++	CHECK(ctf_func_type_info(ctf, cb, &func) == 0 && func.ctc_argc == 2);
++	CHECK(ctf_func_type_args(ctf, cb, 2, args) == 0);
++	CHECK(args[0] == btf->ctfids[12] && args[1] == btf->ctfids[1]);
 +
-+with open('/sys/kernel/btf/vmlinux', 'rb') as parent:
-+    header = parent.read(24)
-+magic, version, flags, header_len, type_off, type_len, str_off, str_len = \
-+    struct.unpack('<HBBIIIII', header)
-+if magic != 0xeb9f or version != 1:
-+    raise ValueError('unsupported parent BTF header')
++	id = dt_ctf_lookup_by_name(&dtp, ctf, "struct bits");
++	CHECK(id != CTF_ERR);
++	CHECK(ctf_member_info(ctf, id, "value", &member) == 0);
++	CHECK(member.ctm_offset == 0);
++	CHECK(((btf_member_t *)(btf->types[13] + 1))->offset ==
++	      (3U << 24));
 +
-+name = b'\0dtrace_btf_local_test\0'
-+type_data = struct.pack('<III', str_len + 1, 4 << 24, 8)
-+child_header = struct.pack('<HBBIIIII', 0xeb9f, 1, 0, 24,
-+                           0, len(type_data), len(type_data), len(name))
-+with open(sys.argv[1], 'wb') as child:
-+    child.write(child_header + type_data + name)
-+PY
++	CHECK(dt_ctf_lookup_by_name(&dtp, ctf, "struct bad") == CTF_ERR);
++	CHECK(btf->ctfids[7] == CTF_ERR);
++	CHECK(dt_ctf_lookup_by_name(&dtp, ctf, "cycle") == CTF_ERR);
++	CHECK(btf->ctfids[8] == CTF_ERR);
++	CHECK(dt_ctf_lookup_by_name(&dtp, ctf, "struct bad_slice") == CTF_ERR);
++	CHECK(btf->ctfids[15] == CTF_ERR);
++	CHECK(dt_ctf_lookup_by_name(&dtp, ctf, "struct unused") != CTF_ERR);
++	CHECK(dt_ctf_lookup_by_name(&dtp, ctf, "struct leaf") == leaf);
 +
-+"$dtrace" $dt_flags -e -xdebug -xctfpath="$dir/missing.ctfa" \
-+	-xbtfpath="$dir" -n "
-+BEGIN
-+{
-+	this->local_size = sizeof(struct ${module}\`dtrace_btf_local_test);
-+	this->parent_size = sizeof(struct ${module}\`task_struct);
-+}" >"$dir/output" 2>&1
-+rc=$?
-+if [ "$rc" -ne 0 ]; then
-+	cat "$dir/output"
-+	exit 1
-+fi
++	id = dt_ctf_lookup_by_name(&dtp, ctf, "const struct leaf **");
++	CHECK(id != CTF_ERR);
++	CHECK(ctf_type_reference(ctf, ctf_type_reference(ctf, id)) == leaf);
++	CHECK(dt_ctf_lookup_by_name(&dtp, ctf, "const struct leaf **") == id);
 +
-+if ! grep -q "BTF file $dir/$module: 2 types" "$dir/output" ||
-+   ! grep -q "Generated $module CTF from BTF (2 types)" "$dir/output"; then
-+	cat "$dir/output"
-+	exit 1
-+fi
++	child = fixture(&dtp, split, sizeof(split), "", 1, btf);
++	CHECK(child != NULL);
++	module.dm_btf = child;
++	mctf = module.dm_ctfp = dt_btf_module_ctf(&dtp, &module);
++	CHECK(mctf != NULL && child->ctfids[1] == CTF_ERR);
++	CHECK(dt_ctf_lookup_by_name(&dtp, mctf, "struct local_bad") == CTF_ERR);
++	CHECK(child->ctfids[2] == CTF_ERR && btf->ctfids[19] == CTF_ERR);
++	CHECK(btf->ctfids[14] == CTF_ERR);
++	id = dt_ctf_lookup_by_name(&dtp, mctf, "struct local");
++	CHECK(id != CTF_ERR && ctf_type_size(mctf, id) == 4);
++	CHECK(ctf_member_info(mctf, id, "parent_leaf", &member) == 0);
++	CHECK(member.ctm_type == btf->ctfids[14]);
++	CHECK(btf->ctfids[14] != CTF_ERR);
++	CHECK(dt_ctf_lookup_by_name(&dtp, mctf, "struct leaf") == leaf);
 +
-+exit 0
-diff --git a/test/unittest/btf/tst.module-local.x b/test/unittest/btf/tst.module-local.x
-new file mode 100755
-index 00000000..0d60fdcc
---- /dev/null
-+++ b/test/unittest/btf/tst.module-local.x
-@@ -0,0 +1,18 @@
-+#!/bin/bash
++	/* A parent-only module can request a previously unconverted type. */
++	ctf_close(mctf);
++	dt_btf_destroy(&dtp, child);
++	child = dt_zalloc(&dtp, sizeof(*child));
++	CHECK(child != NULL);
++	child->parent = btf;
++	module.dm_btf = child;
++	module.dm_ctfp = NULL;
++	mctf = module.dm_ctfp = dt_btf_module_ctf(&dtp, &module);
++	CHECK(mctf != NULL);
++	CHECK(dt_ctf_lookup_by_name(&dtp, mctf, "struct leaf") == leaf);
 +
-+if ! command -v python3 >/dev/null 2>&1; then
-+	echo "Python 3 is needed to generate split BTF data."
-+	exit 2
-+fi
++	id = dt_ctf_lookup_by_name(&dtp, mctf, "target_ptr");
++	CHECK(id != CTF_ERR && btf->ctfids[16] == btf->ctfids[19]);
++	CHECK(ctf_type_kind(ctf, btf->ctfids[16]) == CTF_K_STRUCT);
++	CHECK(ctf_member_info(ctf, btf->ctfids[16], "value", &member) == 0);
 +
-+for path in /sys/kernel/btf/*; do
-+	[ "$path" = /sys/kernel/btf/vmlinux ] && continue
-+	[ -r "$path" ] || continue
-+	module=${path##*/}
-+	if [[ $module =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]]; then
-+		exit 0
-+	fi
-+done
++	/* An ordinary CTF dictionary remains independent of kernel BTF. */
++	ordinary = ctf_create(&dtp.dt_ctferr);
++	CHECK(ordinary != NULL);
++	id = ctf_add_struct_sized(ordinary, CTF_ADD_ROOT, "ordinary", 16);
++	CHECK(id != CTF_ERR);
++	CHECK(dt_ctf_lookup_by_name(&dtp, ordinary, "struct ordinary") == id);
++	CHECK(dt_ctf_lookup_by_name(&dtp, ordinary, "struct leaf") == CTF_ERR);
++	ctf_close(ordinary);
 +
-+echo "No suitable loaded kernel module with BTF data."
-+exit 2
-diff --git a/test/unittest/btf/tst.module-parent.sh b/test/unittest/btf/tst.module-parent.sh
-new file mode 100755
-index 00000000..5a521362
---- /dev/null
-+++ b/test/unittest/btf/tst.module-parent.sh
-@@ -0,0 +1,46 @@
-+#!/bin/bash
-+#
-+# ASSERTION: A kernel module without its own BTF inherits vmlinux types.
-+#
++	ctf_close(mctf);
++	dt_btf_destroy(&dtp, child);
++	ctf_close(ctf);
++	ctf_close(shared->dm_ctfp);
++	shared->dm_ctfp = NULL;
++	dt_btf_destroy(&dtp, btf);
 +
-+dtrace=$1
-+dir=$tmpdir/btf-module-parent.$$
-+mkdir -p "$dir" || exit 1
-+ln -s /sys/kernel/btf/vmlinux "$dir/vmlinux" || exit 1
-+
-+module=
-+for path in /sys/kernel/btf/*; do
-+	[ "$path" = /sys/kernel/btf/vmlinux ] && continue
-+	[ -r "$path" ] || continue
-+	name=${path##*/}
-+	[[ $name =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || continue
-+	module=$name
-+	break
-+done
-+
-+if [ -z "$module" ]; then
-+	echo "No loaded kernel module with BTF data."
-+	exit 1
-+fi
-+
-+# Deliberately leave $dir/$module absent.  This exercises the inherited
-+# parent-only BTF container, including its CTF import for scoped lookup.
-+"$dtrace" $dt_flags -e -xdebug -xctfpath="$dir/missing.ctfa" \
-+	-xbtfpath="$dir" -n "
-+BEGIN
-+{
-+	this->size = sizeof(struct ${module}\`task_struct);
-+}" >"$dir/output" 2>&1
-+rc=$?
-+if [ "$rc" -ne 0 ]; then
-+	cat "$dir/output"
-+	exit 1
-+fi
-+
-+if ! grep -q "Cannot open BTF file $dir/$module:" "$dir/output" ||
-+   ! grep -q "Generated $module CTF from BTF (0 types)" "$dir/output"; then
-+	cat "$dir/output"
-+	exit 1
-+fi
-+
-+exit 0
-diff --git a/test/unittest/btf/tst.module-parent.x b/test/unittest/btf/tst.module-parent.x
-new file mode 100755
-index 00000000..d27b0499
---- /dev/null
-+++ b/test/unittest/btf/tst.module-parent.x
-@@ -0,0 +1,13 @@
-+#!/bin/bash
-+
-+for path in /sys/kernel/btf/*; do
-+	[ "$path" = /sys/kernel/btf/vmlinux ] && continue
-+	[ -r "$path" ] || continue
-+	module=${path##*/}
-+	if [[ $module =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]]; then
-+		exit 0
-+	fi
-+done
-+
-+echo "No suitable loaded kernel module with BTF data."
-+exit 2
-diff --git a/test/unittest/btf/tst.raw-vmlinux.sh b/test/unittest/btf/tst.raw-vmlinux.sh
-new file mode 100755
-index 00000000..12280ba6
---- /dev/null
-+++ b/test/unittest/btf/tst.raw-vmlinux.sh
-@@ -0,0 +1,30 @@
-+#!/bin/bash
-+#
-+# ASSERTION: Raw vmlinux BTF is loaded and converted to usable CTF when the
-+#            CTF archive is unavailable, even if the host has an archive.
-+#
-+
-+dtrace=$1
-+dir=$tmpdir/btf-raw-vmlinux.$$
-+mkdir -p "$dir" || exit 1
-+ln -s /sys/kernel/btf/vmlinux "$dir/vmlinux" || exit 1
-+
-+"$dtrace" $dt_flags -e -xdebug -xctfpath="$dir/missing.ctfa" \
-+	-xbtfpath="$dir" -n '
-+BEGIN
-+{
-+	this->size = sizeof(struct vmlinux`task_struct);
-+}' >"$dir/output" 2>&1
-+rc=$?
-+if [ "$rc" -ne 0 ]; then
-+	cat "$dir/output"
-+	exit 1
-+fi
-+
-+if ! grep -q "BTF file $dir/vmlinux: [1-9][0-9]* types" "$dir/output" ||
-+   ! grep -q 'Generated vmlinux CTF from BTF' "$dir/output"; then
-+	cat "$dir/output"
-+	exit 1
-+fi
-+
-+exit 0
-diff --git a/test/unittest/options/tst.ctf-only.sh b/test/unittest/options/tst.ctf-only.sh
-new file mode 100755
-index 00000000..8ca8a0ac
---- /dev/null
-+++ b/test/unittest/options/tst.ctf-only.sh
-@@ -0,0 +1,27 @@
-+#!/bin/bash
-+#
-+# ASSERTION: Kernel types still load from the CTF archive when BTF is disabled.
-+#
-+
-+dtrace=$1
-+dir=$tmpdir/ctf-only.$$
-+mkdir -p "$dir" || exit 1
-+
-+"$dtrace" $dt_flags -e -xdebug -xbtfpath=none -n '
-+BEGIN
-+{
-+	this->size = sizeof(struct vmlinux`task_struct);
-+}' >"$dir/output" 2>&1
-+rc=$?
-+if [ "$rc" -ne 0 ]; then
-+	cat "$dir/output"
-+	exit 1
-+fi
-+
-+if ! grep -q 'Loaded shared CTF from archive' "$dir/output" ||
-+   grep -q 'Generated vmlinux CTF from BTF' "$dir/output"; then
-+	cat "$dir/output"
-+	exit 1
-+fi
-+
-+exit 0
-diff --git a/test/unittest/options/tst.ctf-only.x b/test/unittest/options/tst.ctf-only.x
-new file mode 100755
-index 00000000..372dc5c0
---- /dev/null
-+++ b/test/unittest/options/tst.ctf-only.x
-@@ -0,0 +1,8 @@
-+#!/bin/bash
-+
-+if [ ! -r /lib/modules/$(uname -r)/kernel/vmlinux.ctfa ]; then
-+	echo "No vmlinux CTF archive found."
-+	exit 2
-+fi
-+
-+exit 0
++	/* Optional real-kernel coverage and conversion counts. */
++	if (argc > 1) {
++		btf = dt_btf_load_file(&dtp, argv[1], NULL);
++		CHECK(btf != NULL);
++		kernel.dm_btf = btf;
++		kernel.dm_ctfp = shared->dm_ctfp = NULL;
++		ctf = kernel.dm_ctfp = dt_btf_module_ctf(&dtp, &kernel);
++		CHECK(ctf != NULL);
++		CHECK(dt_ctf_lookup_by_name(&dtp, ctf,
++					    "struct task_struct") != CTF_ERR);
++		for (i = 1, cb = 0; i < btf->type_cnt; i++)
++			cb += btf->ctfids[i] != CTF_ERR;
++		printf("Converted %lu of %u BTF types\n", (unsigned long)cb,
++		       btf->type_cnt - 1);
++		ctf_close(ctf);
++		ctf_close(shared->dm_ctfp);
++		shared->dm_ctfp = NULL;
++		dt_btf_destroy(&dtp, btf);
++	}
++	dt_htab_destroy(dtp.dt_mods);
++	return 0;
++}
++#else
++int main(void) { return 0; }
++#endif
+diff --git a/test/triggers/shared-ctf.c b/test/triggers/shared-ctf.c
+index 8d06e9da..79aeeda5 100644
+--- a/test/triggers/shared-ctf.c
++++ b/test/triggers/shared-ctf.c
+@@ -189,6 +189,11 @@ check_source(const char *ctfpath, const char *btfpath, int archived,
+ 		kernel_btf = kernel->dm_btf;
+ 		CHECK(dt_module_lookup_by_ctf(dtp, ti.dtt_ctfp) == kernel);
+ 		CHECK(ctf_parent_dict(ti.dtt_ctfp) == parent);
++		if (!archived) {
++			CHECK(dtrace_lookup_by_type(dtp, "vmlinux",
++			    "const struct shared_test **", &ti) == 0);
++			CHECK(ctf_type_kind(ti.dtt_ctfp, ti.dtt_type) == CTF_K_POINTER);
++		}
+ 
+ 		if (archived) {
+ 			CHECK(dtrace_lookup_by_type(dtp, "vmlinux", "module_test_int", &ti) == 0);
 -- 
 2.52.0
 
