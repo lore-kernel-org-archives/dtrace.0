@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=81.187.191.129
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793969812;
-	b=IhXtlHz2abASQrXD/yQccJl9YD7fzN7i6R6oAD8DXRawl22PIH+kvDeRjMeGtd234IO3
-	 XmN3a7OACPQeOtDZZNLGuUMhXZgP8mq84+d/qVmFdyG23zms3wW7fUzRXTzyVXsGAIxTB
-	 RaojfNb0bwD1dBb75Wa7K4KPp5pqmse/DWoZMSLpI7nNyhB87m0JowgDXgm6eO4ICj86L
-	 RIKl+jevoHfKaJeQvKWYYqmRBe067nP6y+kK8VyO4rZYspRBijJIFzT8KkK5zHSXvtoSN
-	 BTLh2hwsMdI5DFQNKdXcE/N8OX9iWVRT6e5DiFj/mplFpq3OiFp99vsGjJORJIE55OA==
+	t=1793969986;
+	b=k5mGoK7Cje2I1UWX1T5yna5FkZf0O0yvhQx5GHeCb1KTdRQ/ViXSBcSxUrU4pyUUH/d5
+	 B/rkvf8YAzV3RJXYo1aP/IiQb0Qq2J2ehGk3cTR4vXN107Q0mdnE+i3EzMqoAs//XDh/I
+	 4YEwfeeYW9vF+r+8JZEv2elRVpnlXCkbGtct9jiihsP250RQKWW4RIroY4Oehe+FN4SCo
+	 XS4amR1FuAxfnWPeit0hG18xTclnT/fsFn+YAWmk5JXQE7KLzHHzLWkTpy9ecwgXF/Thc
+	 WeAq8lQmaqJSu6MNfmlAOnCRDVaTF4D8IIy+int/PyfpJiMxoVmyxE01jRXAx1agyvA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793969812;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793969986;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:In-Reply-To:References:
 	 Emacs:Date:Message-ID:User-Agent:MIME-Version:Content-Type:
 	 X-DCC--Metrics;
-	bh=TNCJ89CSxs0ZRzgOyjWmZekEYg3mK1tA15fhw8IFjuc=;
-	b=JWjVZAWexsT6FeIgdSRh39fxzJY/IATEsBekX2QeqHHSa3KDBdDCFUsCrEBH6AG+18Sp
-	 cLkuPGpBCx4aQqHoe96l/rybFdYdMNq2rt054BHvoeOAp7tMKDO7ijSHxoWVpHvO2EQJx
-	 eQKRBpgemnY0noS/3jRCYDFN7jWcpOkgGTkfzX2aQfMLQXbD1a8LGM1rwu5hIq6mUqgIv
-	 6d8CrlFauyC/AYK2z/O4TTC3FHUuMxWpLSUe5VUKkkvPcpcTEK7zVA6kJY5NyvazFslrV
-	 ZvfmznB6CtAPfbWamAK9PS18+odSpiujYdGAO7HaDhEi6Ds6xPaa7G8hYTRvJ6nEhLg==
+	bh=u2N6+HDBLrHv3Ztyn/cIy5PynhjMrA2ON9GWzSeLT2A=;
+	b=4uQ7MZk0wm0akEfhFMUwSmkZifG5mj112omFnJyhH8JDCbc/UeP3ma2zVuoFz6WWe69x
+	 XPSamDb4vuCs/Sv16DlVi6Cu3JrwS/frtuQZhF1BBl8skhsuWhBm6nstm3iTHuTwUNCa9
+	 i3Ew3a0Ws4tCrMfmwpPjYcP++1tgJAmgHaXH0qpYKGRKfRHlQu2mE34dPlRJYnhYDObbF
+	 prjC7hjc1SsrmkFot4TsbFk/qdwRiJJ2mzKLR+Ra6JDqfdZNfjDC0LMG87BuO64X/DRbw
+	 23YLsRE0GhQLueo0dMBjRHeO0wHEgR+fHQOoiftQ4Iy6uLZfKrfoZzrDb3Tzxj2lQOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=esperi.org.uk;
 	spf=pass smtp.mailfrom=esperi.org.uk;
@@ -25,25 +25,25 @@ Received: from mail.esperi.org.uk (icebox.esperi.org.uk [81.187.191.129])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D2C606A326
-	for <dtrace@lists.linux.dev>; Fri,  6 Nov 2026 12:56:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7D2C606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87616606A326
+	for <dtrace@lists.linux.dev>; Fri,  6 Nov 2026 12:59:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87616606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=esperi.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=esperi.org.uk
 Received: from loom (nix@sidle.srvr.nix [192.168.14.8])
-	by mail.esperi.org.uk (8.17.2/8.17.2) with ESMTPS id 6A6CulEw014709
+	by mail.esperi.org.uk (8.17.2/8.17.2) with ESMTPS id 6A6CxfPG014802
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Fri, 6 Nov 2026 12:56:48 GMT
-From: Nick Alcock <nix@esperi.org.uk>
+	Fri, 6 Nov 2026 12:59:42 GMT
+From: Nix <nix@esperi.org.uk>
 To: Kris Van Hees <kris.van.hees@oracle.com>
 Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
-Subject: Re: [PATCH 09/20] libdtrace: streamline kernel symbol parsing and
- module lookup
-In-Reply-To: <bf45a777b3fc14c2223d21c81a84fd13@oracle.com>
-References: <bf45a777b3fc14c2223d21c81a84fd13@oracle.com>
+Subject: Re: [PATCH 10/20] libdtrace: retain descriptors for cached module
+ BTF IDs
+In-Reply-To: <56247e0c69f34acca1cc8c20ffafc4bd@oracle.com>
+References: <56247e0c69f34acca1cc8c20ffafc4bd@oracle.com>
 Emacs: impress your (remaining) friends and neighbors.
-Date: Fri, 06 Nov 2026 12:56:47 +0000
-Message-ID: <87eccyt8xc.fsf@esperi.org.uk>
+Date: Fri, 06 Nov 2026 12:59:41 +0000
+Message-ID: <87a4nmt8si.fsf@esperi.org.uk>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -57,64 +57,39 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-DCC--Metrics: loom 1102; Body=3 Fuz1=3 Fuz2=3
 
-On 30 Oct 2026, Kris Van Hees told this:
+On 30 Oct 2026, Kris Van Hees outgrape:
 
-Is it really worth replacing sscanf(), which though it's a bit clunky is
-at least used by other people, with even more hand-rolled parsing code?
-The hex parser isn't too bad, but this:
+> ---
+>  libdtrace/dt_btf.c               | 79 ++++++++++++++++++++++++++++++--
+>  libdtrace/dt_impl.h              |  1 +
+>  libdtrace/dt_open.c              |  1 +
+>  test/triggers/module-discovery.c | 11 +++++
+>  4 files changed, 88 insertions(+), 4 deletions(-)
+>
+> diff --git a/libdtrace/dt_btf.c b/libdtrace/dt_btf.c
+> index 617b0128..727e5f54 100644
+> --- a/libdtrace/dt_btf.c
+> +++ b/libdtrace/dt_btf.c
+> @@ -1479,17 +1479,67 @@ dt_btf_lookup_name_kind(dtrace_hdl_t *dtp, dt_module_t *dmp, const char *name,
+>  	return id;
+>  }
+>  
+> +/*
+> + * Retain a descriptor as well as the ID: otherwise an unloaded object's ID
+> + * could be reused and a later enumeration could mistake it for a cached one.
+> + * Only IDs assigned to modules are retained, bounding descriptor use by the
+> + * number of modules discovered by this handle.
+> + */
 
-> +static int
-> +dt_modsym_parse(const char *line, int kind, dt_kallsym_t *sym)
-> +{
-> +	const char *end;
-> +	uint64_t value;
-> +	size_t len;
-> +
-> +	if (dt_modsym_hex(&line, &value) != 0)
-> +		return -1;
-> +	sym->addr = value;
-> +	sym->size = 1;
-> +	if (kind == DT_MODSYM_KALLMODSYMS) {
-> +		if (dt_modsym_hex(&line, &value) != 0 || value > SIZE_MAX)
-> +			return -1;
-> +		sym->size = value;
-> +	}
-> +	while (isspace((unsigned char)*line))
-> +		line++;
-> +	if (*line == '\0')
-> +		return -1;
-> +	sym->type = *line++;
-> +	if (!isspace((unsigned char)*line))
-> +		return -1;
-> +	while (isspace((unsigned char)*line))
-> +		line++;
-> +	len = strcspn(line, " \t\r\n");
-> +	if (len == 0 || len >= sizeof(sym->name))
-> +		return -1;
-> +	memcpy(sym->name, line, len);
-> +	sym->name[len] = '\0';
-> +	line += len;
-> +	while (isspace((unsigned char)*line))
-> +		line++;
-> +	if (*line == '\0') {
-> +		strcpy(sym->mod, "vmlinux");
-> +		return 0;
-> +	}
-> +	if (*line++ != '[' || (end = strchr(line, ']')) == NULL)
-> +		return -1;
-> +	len = end - line;
-> +	if (len == 0 || len >= sizeof(sym->mod))
-> +		return -1;
-> +	memcpy(sym->mod, line, len);
-> +	sym->mod[len] = '\0';
-> +	return 1;		/* Explicit module name(s). */
-> +}
+I suppose just not reusing IDs in general, and having them only
+increment, would end up using too many? (I can't remember under what
+circumstances they're reused, but I didn't think it was *common*.)
 
-... strikes me as exactly the sort of thing you should never ever do as
-root.
-
-Is sscanf() really noticable in profiles? (I guess it might be: we are
-calling it hundreds of thousands of times, after all...)
+How it interacts with the earlier change to never remove dt_modules when
+their corresponding kernel module is unloaded is unclear to me -- is
+this the bit that ensures that an unloaded module never gets reused (and
+instead we load a new one if the module is reloaded into the kernel), or
+what?
 
 -- 
 NULL && (void)
