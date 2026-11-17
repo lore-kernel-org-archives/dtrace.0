@@ -1,80 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1794955040;
-	b=FQEUrD9hHigp13Yako0W6j035ljVx5QOkMvE3WrQ6M4gfDRdpK2Qco2qtOJ5uDlpasRf
-	 dECbQOfNA2tIwTxMRE2I/Sc6bJKY6aoFskwRpvVkRqaQ5NhqPDNz626KnXVVS07m2q3Zi
-	 mlPTeyAhVDsk+IN5MuLe5qEXz67xhA7YBzyIwX2rIakRnQxEjfaUI6fRks0/q+0tbFYvA
-	 NwJ2+Ay1TLxLr9Yo4XMUOmPHX3g5xfbkGJQRXoMEmEHeGddSRKmWRrUsMkaoFYUh0YLtn
-	 DsZCKnVbzA93B0e6FafO0WRWxajhIBoyZwFxrbn7w29Bdug/2MvOjrFsvjHyP29zAog==
+	b=kzNIWcQ9h+q0tJHSdYx/6DhOGNA97SfTB6nZKkaZkelddIPEofsOKHiODT50o5fy37Pf
+	 FC2BvhyoFc6CaWekFJefYQyMbtX0rbb8/Vgl0W84KBPUUbNGAEVO0bY1tyDLiRsqYecms
+	 uFe55z9ycxnLTgYMAVrfzt54wKcMzjG/rYdnIAEdsFs2LjWCR7Wco+IIwYRXsAJ+DazLl
+	 Q7eNgALDd6dwHxM3gM4CUROLAbdtw4VJTGNCY+gRTrSj24FdmmxC7WPNJuVFQM5r7gq17
+	 OPY5D0WMfCGO6HhDaXst2IimeiEaZC3Gm9/fwl4xU8/OdxhQNrCKRP/INQhSvgm/olA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794955040;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=AtdXX3SBatKBHzF0bm/uLHNjZn4dnYp/QNynSHuj/Lk=;
-	b=BoRQmfW/bHiXJQtgaz8+llW5yEAoC7pCTieacSk8NTMCO/fLDe1vFYzt/ccqrJWoHsbb
-	 n4tY6E9VB1xuiKFFLZbGKKx3R1c9SEF4z8ovT833TpY/lXfQhcaIWHYemxgdEuxoGGAPN
-	 1tTGwaaghn/QgAtb8SAPjiftmulg9CJIIc/Nsi5ULPrmrT58LMQ/geOomJ2oqvDIZWFyp
-	 PCU0QkklST7pGBme2PXv4vt3mZTE9CQY051QKojrzR2LSQ5klD+tHCHZL8InCmQNTOMpM
-	 FzUhFy+4Zjh5HtvPchNDS4EljIbNSrRBqJYxtOruCSTeBdzdU+BXQhUNHZ0iWGM4lxA==
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=pthw4NRqrAiTA1dM7rdyueRWdMKQhWYN+wtpvLZG78c=;
+	b=NZTGCFc1uBfntkKxN9DMjZLFf0K2wdKNjfUdimN22YdbjcPgxc9ILB2B0dH6Lv6SBb/g
+	 1IkvspMDkop7EYDPeVcViBhW+UZipSiBjqaLmjYeEfEWpmHZMDZXt9e4qqqLiZpKyLI8m
+	 I1vq7o1K/e5WVy3pj4nTpxARW0Ygj0uVupEGe2Qifxwxjpdtb74QAqIT+R+qCE/8jqNWl
+	 FHad+sMPwuJfxRQijj638Y4e6cSo69ug8E3LbgyqyTgcRj9obd2273c68n091Gvt+TLAD
+	 0r6jJE8N5TfTOzLUKgI8zkTAljf7fN3AHtG8Sb3B5ThDARhTDXwpTHUiNVzby9IkRjQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ECh00XI1;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="lT7J/N3N";
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93998606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D612E606A330
 	for <dtrace@lists.linux.dev>; Tue, 17 Nov 2026 22:37:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ECh00XI1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lT7J/N3N
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1794955040;
-	b=MBnFDiipmTiMAI0zuIMAH+P8kxbbaOINA81fSxtMlRBvENp3n7Y7/r+FH9OTo/mlDIuW
-	 Jmb4i2wJb1kkLF5rW/FBpbdcJULUMZqZov2HyUNaCbSGEsKsnoPk4d0oRM63MrAt/oZ/T
-	 4DeIqeQb+bb1ImJ8mzA9wYaEZQnYPbKx0DUwIorJuaxBRbH2WcFSsV+xCb01PMfUDg2wi
-	 xtOFOG7EVufEQgLEQxSROBDF9JrfyPzgICUtkHuA0yske7tnZ075fXDpDYZ451nDSpUAA
-	 j78RMhB8g3mdpKubw6RpAY3A537Iw+WK0WXT4DyeqINSfiHQjcIquc9Euf6K5ZLI/9w==
+	b=Mn68ecrh/Wi4lqYL87at+2xACkwFImlG+GRUojMkJehAegyc767/34IyvkixwG5STaBH
+	 okkqKRWBlM/Yn1vLsQS6ak4vebEHIrw/IpXRIVk546kwMnIhyuSmpxItIL2gsuL1D+w60
+	 emcfW4I2VXhJo/frwbxS/nxk19wtmsepwVdG4OWOeV2hulMJQGHM+QvaSJrDikdxvpohT
+	 RyWLZKLTIosNsm3b5VdlKTcALQJyWmLbeaWMfBKV7lFIScJrGMRw2gVppcrtf1mpuJt3t
+	 JKtXXx2Wyc7Bjn8AtgkfoZ2gRZMLXJpPH9RNi0QAZdK/I4n2EgNYW2MUtF1Os1Kz6NQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1794955040;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=AtdXX3SBatKBHzF0bm/uLHNjZn4dnYp/QNynSHuj/Lk=;
-	b=3fv8cj84IyWXT5NYforao8u41af5gM+7dMUUwabR4OFbW/2hexFcoUzRl/WbMKlyQgL7
-	 g4fjfzudMvQ49QIv2VXR981cIVhcPzkCORQILY5Z4Nsbf0QyFahTUytJQjpztKTan58Ww
-	 hln+D+NfYaB16AkPddDrmQfi8+BJuVEEO90/R/RrY5HM3I5Pw2DqZWAhuLAcfR/VpO2eY
-	 mHLyDAD3/doCaUxy2YzKf9q4J5QFTJH0DFfkdwmWkKIYaLi8WBJiHbq918kcZdXPjOUXL
-	 ZQtqg6KcSr3JbHHk+2GcZB0NTjD0F3V4GTF/UUeqLFwT80NibCWYAtPQO/F33gPvqEA==
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=pthw4NRqrAiTA1dM7rdyueRWdMKQhWYN+wtpvLZG78c=;
+	b=DGaac7ysTmJe3ScniUV4+G3ZxJT/apkhHA9JbeiJKylAuLmdszeDb2u/1m4wisXThPNK
+	 eJ+xR/dUb3jzgKLmL4e7jduT6rN3g+eo0z7b6s8ZOZRKzeM+b4N5qMH5qSqztbV52T8/h
+	 TOt7YvRVivw1n/McKTphjNpxEBir1wJnrWGuyXrHaIHwfWRI7Tdus9AysqtiDJlNmAZ6r
+	 zqWUldQHzNxMcbYCYx4KOwaO7lxPAxGVg/x6VOV6JpTSwSBNqiVQD6er0Ndf5BveUJf6j
+	 WCcBiM+puZVlpDjnI81PF0FXoAHDiJTzusuwI+gyapIxLUNlBGXbjf+awcXR01oPgfA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 927251F000C5;
+	by smtp.kernel.org (Postfix) with ESMTPS id B021B1F000C7;
 	Tue, 17 Nov 2026 22:37:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794955040;
-	bh=AtdXX3SBatKBHzF0bm/uLHNjZn4dnYp/QNynSHuj/Lk=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=ECh00XI1sVk9Yoay7YslFI6y73WVUXfq5/eeMFQy8ZpEGWvs79MFQzBhJWLT6DICu
-	 OTzb8amaIr/sO9PJg3H+m+UFWhdb44eUDfTTE/RWa44bLUxJ9POf1Vii3fN+bjcOEe
-	 goKjrLTS5WSEakwvveVZH+Y2JfBkGGpviaozo0p7d8iaEdqHP2EBdPBuy8Grjez2mP
-	 NyJ0OHYaHw+oiH5HGdSBcKdMEJ7H44sBlS+mVZ01ntKN91Q1tITS9x+SglW2mO7J0x
-	 D2wVGROah+YVWNU4rfDjFkXIHEozNhrVZdNqwBboo7Gd2K/W5ZrDIZlK+XXiKoL5xd
-	 MLO/1h7rLkmKw==
+	bh=pthw4NRqrAiTA1dM7rdyueRWdMKQhWYN+wtpvLZG78c=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=lT7J/N3NbTBRjHzzA9jpUoaY9BL5b71pkGsA9/icsqhNIN1+PAcdUzjdA3hu99NZ0
+	 7fzrgdDu1vO+rmZxdd+5Hxk+SEfTdMAvtPF11FG/WKMzsv0fRv7msUQvXlvLthmTQe
+	 P5IW34lsDolYOCPCzFGWPe/OH33ffD5uaxIG6PYi0MfnfTaPIF+fEhg+5SlJefudEB
+	 997uid/C0hsR496nihxTiu/sKlui4p5XMYPdIRU1E9BZuGKOl1sP3JzoqOQYXJqVw3
+	 kjs2BcH0Pr5Ztb1Z/xQPCXnfARv0LC6OE/Pesz6iSbgy3gDgyJ/9BVnwPPxadgm4Xi
+	 qjPs5bpkjGoGg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id E7DF54AB17;
-	Tue, 17 Nov 2026 22:37:18 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 3D12A4AB1F;
+	Tue, 17 Nov 2026 22:37:19 +0000 (UTC)
 From: Eslam Almorshdy via B4 Relay <devnull+ealmorshdy.d-matrix.ai@kernel.org>
-Subject: [PATCH RFC 0/7] Fix the load bias of objects with a non-zero link
- address
-Date: Tue, 17 Nov 2026 22:36:38 +0000
-Message-Id: <20261117-b4-bug003-load-bias-v1-0-dcd0f6cde412@d-matrix.ai>
+Date: Tue, 17 Nov 2026 22:36:41 +0000
+Subject: [PATCH RFC 3/7] libproc: add Paddr_to_load_bias()
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
 List-Post: <mailto:dtrace@lists.linux.dev>
@@ -85,105 +83,95 @@ List-Owner: <mailto:dtrace+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/z2NzW7DIBCEX8Xi3JVYwGvH10h9gF6rHFhYUqokp
- GBHlaK8e50f9Tijme+7qiY1S1NTd1VVLrnlcloDvnUqfPnTXiDHNSujDSHiAOyAl73WFg7FR+D
- sG9hNYurFJo5Orc9zlZR/H9RP9fG+Vbtn2Rb+ljDfea9ZlZ9ldc6v7b9y6h5Cjf3ThrCca2GBl
- A8CJaUmM4SBXB+FYtSb6YJ3JPsmEMrxmOepI0ziySCSFu+YrDbj4AIZPxgbPeqenRtHq3a32x+
- Sw4wxCQEAAA==
-X-Change-ID: 20261117-b4-bug003-load-bias-39fb65e3fbd4
+Message-Id: <20261117-b4-bug003-load-bias-v1-3-dcd0f6cde412@d-matrix.ai>
+References: <20261117-b4-bug003-load-bias-v1-0-dcd0f6cde412@d-matrix.ai>
+In-Reply-To: <20261117-b4-bug003-load-bias-v1-0-dcd0f6cde412@d-matrix.ai>
 To: dtrace@lists.linux.dev
 Cc: Nick Alcock <nix@esperi.org.uk>, 
  Kris Van Hees <kris.van.hees@oracle.com>, 
  Eslam Almorshdy <ealmorshdy@d-matrix.ai>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794955038; l=4110;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794955038; l=2156;
  i=ealmorshdy@d-matrix.ai; s=20261015; h=from:subject:message-id;
- bh=Pm/L8RdDiVcJkkKxYV7pmW8sToU8PyX1WZDIpNGHqbo=;
- b=stfywovjVI8UUemxpK1SIeaJKN0oQJGoR7zYsSy/QFkXrTir3SDr1c8OKenM11aVF6wOdEyV2
- 9YNZ7FSSjumDI093Q0WiCEOw8VgndEyyKq7NU2dxPfHv8tKjc+wZyQb
+ bh=LDD7eY6fQEebFO9lkJUW3O43ywlFHyv32e3keoRksIE=;
+ b=AKGSJJXeziONY4nUdLvauabg4/czIbgkYDMO6ODNkfIB0E5YgB7Po9Hphn4BbCMrP/a3Uk4KN
+ GCSFu40vyoJD1VGY2US3BhxzEvQytj6fg/ZkOGaoSn1glu3XXA3fgSH
 X-Developer-Key: i=ealmorshdy@d-matrix.ai; a=ed25519;
  pk=E4tVAIvp2rvz2CB7Re6YVMP6FiUVSxuq0TUtjGQL5NM=
 X-Endpoint-Received: by B4 Relay for ealmorshdy@d-matrix.ai/20261015 with
  auth_id=1187
 X-Original-From: Eslam Almorshdy <ealmorshdy@d-matrix.ai>
 Reply-To: ealmorshdy@d-matrix.ai
+Content-Transfer-Encoding: 7bit
 
-Posted as an RFC after a chat with Kris on IRC (2026-11-17) about the
-load-bias calculations, in case it helps as a reference.  It builds on
-"Fix probe placement in LLVM lld-linked objects by using file offsets"
-[1]; no rush on this one until that series has been looked at.
+From: Eslam Almorshdy <ealmorshdy@d-matrix.ai>
 
-Several places convert link-time addresses to runtime addresses using
-the load address of the object's first mapping as the load bias.  That
-is right only for objects linked at 0.  The bias is the first mapping's
-start minus the first PT_LOAD's page-aligned p_vaddr (the gABI base
-address, ld.so's l_addr): 0 for a non-PIE executable linked at 0x400000,
-the mapping's start for a PIE linked at 0, and the difference for
-objects linked elsewhere (GNU ld -Ttext-segment, lld --image-base).
-With the first mapping's start as the bias, probes in those objects are
-not created and their functions are not named.
+Return the load bias of the object mapped at a given address, as libproc
+already computes it for symbol lookups (from ld.so's link map, or from
+the object's first mapping).  The next patch uses it to relocate
+link-time addresses given by the user.
 
-  1-2  libproc: the fallback bias, used without ld.so's link map,
-       subtracts only the low bits of p_vaddr (+ ufunc() test)
-  3    libproc: add Paddr_to_load_bias()
-  4-5  pid: use it for "-" probe addresses; this also fixes "-" probes
-       on every PIE under -p, where MA_PIC is not yet known (+ test)
-  6-7  dtprobed: subtract the first PT_LOAD's page-aligned p_vaddr from
-       the base it adds to USDT note addresses (+ test)
-
-The tests cover lld objects, hence the dependency on [1].
-
-Tested on devel 61fea621 plus v1 of [1], building after each fix: each
-test fails before its fix and passes after, and rejects a bias computed
-from the containing mapping.  pid/, usdt/, begin/, end/, noresolve/ and
-profile-n/ show no other change.  On dev-queue 0e93872f the tests also
-fail without the series and pass with it.
-
-dt_cg_elf_sym_to_offset() in Alan's pending uresolve() series [2] uses
-the fallback formula that patch 1 replaces.
-
-[1] https://lore.kernel.org/dtrace/20261015-bug001-uprobe-file-offset-v1-0-bf4c53af8f39@d-matrix.ai/
-[2] https://lore.kernel.org/dtrace/20260605221217.1211791-5-alan.maguire@oracle.com/
-
+Signed-off-by: Eslam Almorshdy <ealmorshdy@d-matrix.ai>
 ---
-Eslam Almorshdy (7):
-      libproc: fix the fallback load bias for non-zero link addresses
-      test: add ufunc() test for libraries with a non-zero link address
-      libproc: add Paddr_to_load_bias()
-      pid: use the load bias for "-" probe addresses
-      test: add pid "-" probe test for -p and non-zero link addresses
-      dtprobed: fix the USDT load bias for non-zero link addresses
-      test: add USDT test for libraries with a non-zero link address
+ libproc/Psymtab.c | 30 ++++++++++++++++++++++++++++++
+ libproc/libproc.h |  1 +
+ 2 files changed, 31 insertions(+)
 
- dtprobed/dtprobed.c                           | 27 +++++++-
- libdtrace/dt_pid.c                            | 10 ++-
- libproc/Psymtab.c                             | 42 +++++++++++-
- libproc/libproc.h                             |  1 +
- test/unittest/pid/tst.dash-loadbias.r         |  1 +
- test/unittest/pid/tst.dash-loadbias.sh        | 95 ++++++++++++++++++++++++++
- test/unittest/pid/tst.dash-loadbias.x         | 14 ++++
- test/unittest/profile-n/tst.ufunc-loadbias.r  |  1 +
- test/unittest/profile-n/tst.ufunc-loadbias.sh | 85 ++++++++++++++++++++++++
- test/unittest/profile-n/tst.ufunc-loadbias.x  | 14 ++++
- test/unittest/usdt/tst.lib-loadbias.r         |  1 +
- test/unittest/usdt/tst.lib-loadbias.sh        | 96 +++++++++++++++++++++++++++
- test/unittest/usdt/tst.lib-loadbias.x         | 14 ++++
- 13 files changed, 394 insertions(+), 7 deletions(-)
----
-base-commit: 61fea621160ea4b6302874c62a723da105b44883
-change-id: 20261117-b4-bug003-load-bias-39fb65e3fbd4
-prerequisite-change-id: 20261015-bug001-uprobe-file-offset-c7645de6dd09:v1
-prerequisite-patch-id: d5576cf337dee4c703a6e0ad59c781032fdbf3b7
-prerequisite-patch-id: 288621607351e70c6a914b04494bdd2c3921ec62
-prerequisite-patch-id: 2dc844beab8edb5e05b3b41b4a227365d62fc6ea
-prerequisite-patch-id: b4b63ab534c3ed4380f781570ec65dc2c37e4686
-prerequisite-patch-id: f3fe2289eda12cbbe9c5e2b5d5891639774d905f
-prerequisite-patch-id: a9ef84a82a3940dfb7810737c4de33471a8e80d3
-prerequisite-patch-id: 902233f2e3036f2d77e08e3139fe9d06beff48f9
+diff --git a/libproc/Psymtab.c b/libproc/Psymtab.c
+index b713e439..afabf794 100644
+--- a/libproc/Psymtab.c
++++ b/libproc/Psymtab.c
+@@ -2279,6 +2279,36 @@ Pobject_iter(struct ps_prochandle *P, proc_map_f *func, void *cd)
+ 	return 0;
+ }
+ 
++/*
++ * Given an address in the process, return in *biasp the load bias of the
++ * object mapped there: the difference between its runtime and its
++ * link-time addresses (0 for ET_EXEC objects).  Returns 0 on success, -1
++ * on failure.
++ */
++int
++Paddr_to_load_bias(struct ps_prochandle *P, uintptr_t addr, uintptr_t *biasp)
++{
++	map_info_t *mptr;
++	file_info_t *fptr;
++
++	if (P->state == PS_DEAD)
++		return -1;
++
++	Pupdate_maps(P);
++	Pupdate_lmids(P);
++
++	if ((mptr = Paddr2mptr(P, addr)) == NULL ||
++	    (fptr = mptr->map_file) == NULL)
++		return -1;
++
++	Pbuild_file_symtab(P, fptr);
++	if (fptr->file_elf == NULL)
++		return -1;
++
++	*biasp = fptr->file_dyn_base;
++	return 0;
++}
++
+ /*
+  * Given a virtual address, return the name of the underlying
+  * mapped object (file) as provided by the dynamic linker.
+diff --git a/libproc/libproc.h b/libproc/libproc.h
+index 59c73051..5cbc7423 100644
+--- a/libproc/libproc.h
++++ b/libproc/libproc.h
+@@ -256,6 +256,7 @@ typedef int proc_map_f(void *, const prmap_t *, const char *);
+ extern int Pobject_iter(struct ps_prochandle *, proc_map_f *, void *);
+ 
+ extern const prmap_t *Paddr_to_map(struct ps_prochandle *, uintptr_t);
++extern int Paddr_to_load_bias(struct ps_prochandle *, uintptr_t, uintptr_t *);
+ extern const prmap_t *Pname_to_map(struct ps_prochandle *, const char *);
+ extern const prmap_t *Plmid_to_map(struct ps_prochandle *,
+     Lmid_t, const char *);
 
-Best regards,
---  
-Eslam Almorshdy <ealmorshdy@d-matrix.ai>
+-- 
+2.55.0
 
 
