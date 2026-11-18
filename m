@@ -1,79 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794955040;
-	b=XYSJlCOBBMfswO6ZEOzsZvvnAe6OeOus8QWEzyRNmAN11U4E3ssa7obXBj0fVnPTCM10
-	 w0qjT8ao5IObR1d7WutFQwzEwpzqPNDcRMqWtemiMautDSeEeadKVE4d775vhNKgqU4da
-	 LqY+dpuj5fvfZmfprqE/2T9SKXGKQynmCIoVJc5XR6dBnX40BqQmeQVg2+AaJkzOu6qfN
-	 EHg6nEes2FWlZD8lRj0YHOdWHzmpRMiEi3aYtvX2F1MB2zL1/nPB48V6Fdk3VwTnrGHA2
-	 fXs37P/bhHWJiybhK7VUxybroO4/yRWK1M+NZr8Ip+/LjabM5in8OfhTpjdvVUMgVOg==
+	t=1795044317;
+	b=JlJnDYKutl3GTfsQp5IFnsdcSt0fkuNRk7O7FLLYit0MgXfxJqofqo1g2ErvA9eNBsAd
+	 XZoHicPowkCsV8m4Dw7DP8+Y5OKQXm3al26xjVLZ4jOMSI2B5L1nSxf1TroVWQnPZdj3C
+	 AcuW2AxlQ6qr5HDAGYqt3AoiL434Wmo+a4Eui6kZtOuZm7h5pX0ZkFXpk2HJ+FI1QhvtV
+	 rz0yZZwi457qyJRA4kkbx4jf9KqQy0EkcK+LL4Kx/I6HtRR92P9yHVLk/Ntfz/PqNb0ra
+	 U9zWRZfnalq2qA+Uq792mYNgSSLhbyj5lamQketwLSwivQfsRRdOfnwOH3RQlM0IadA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794955040;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795044317;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=5Iky65VaWfZi+Z5hcQcbpQ5mkalDKPbV0cigOrfiBao=;
-	b=j1mwWudJ12ERqtxX+R75Sfcr0ONz5NIWmc+lcaXb2cunp7UAGBUfSfLGfdXV0/1bRSdh
-	 p82X8NyDvPCymtA6Hn5Bt/Ln1FeDvNweJREg7nA1s+O1z1JRX5x1WtpCfQ6DsuU2C7LQ0
-	 C2WjYJVm5VySTpcRIhdBvHRDFR086tHsq2Jf0ifM/6vcF0aoJ+dK5rlzX3bAtxnX57XXe
-	 ogeg7XnXrIxE2MGbyDhS1Vzer0F0E8Y5Em66HjtYhqz17/dyIuWglGG6bY2YTLElQ/TOn
-	 UiyGTTN9uztonHRTdpuey7OZWOVjJG3ReAH/fDQOORXozFuzOYpPEHkOwrpGxjCQ4bQ==
+	bh=14FvhfCJ1Fa9RzFCYizF5zFdt5JEeJ1LU/ZWq5GaLHI=;
+	b=sw358Wry3oBmNdfhBXwP69lF5mJ5rmqEZw1zEJWiXS6LDL9WpwvNPAhg0IVvGz5XR2jc
+	 2mqCxvcfS62tx3+tHuok3/eRz9Tyt1dtlgLDbV3D0yC3EW8hTlAju+fMuWfHXbUeGuiXr
+	 cY2zRGouRbTHimfQ8Ok5LG8voK38W3YcQDgFt6aeVFG++A45V+3WgMsQBBtcUX5bbR3gC
+	 SYJgrmUvVcwubVXPXsnCPcoGICR5u6DUd9uxmuu5bZOHYP++wVetXS7zcBW08OLgfHkPt
+	 47ZfOOqDo56recgMRkjY8Iml0UmlxW+QtUcnEVr9eZm0ZSaS10+S3a3icgvCyfEib1Q==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kh1J4avY;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fhx1jyt0;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938E8606A31C
-	for <dtrace@lists.linux.dev>; Tue, 17 Nov 2026 22:37:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C41606A320
+	for <dtrace@lists.linux.dev>; Wed, 18 Nov 2026 23:25:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kh1J4avY
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fhx1jyt0
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794955040;
-	b=WaNJnwNp2C8lL39+ayJA1+B3MkOLrSmFtjR34JvCxl3L7IfZvY2pBrX4JsSHfcH4685K
-	 cG7Y4yPhGsGcfhXyCBzCOYrWBd0m4UbCZCXHw5of8PkRV5KZWyCxxt0YBIfdLzjrd0lZe
-	 9/VoPeMvuSp6U/GCYVcfRs4KSd+rUh6nqBtIkXA/ViF8zBGgwUiGZ8Uab0TkN0TUgvrDQ
-	 o9Sz6Qz/5vK8tC2BkGs46q1svNxukA2vnBh/vqrPcgxQj5t4Tn1axX3L7Ghl71krkAlkE
-	 /mVuzdccGt71Z2kV4kpqLXeyiB2zvqafE3PJHoC5c9oxSc7ylQpDXKCHJhVmWGJi7mQ==
+	t=1795044317;
+	b=0UGQoAsUpYfaSSJt39cTJjHx7zFuHguIaQbAKMhKSxQJoJKlSwtWrz/76Q1DmmDPRlEW
+	 7x7jHQN1DvqPMxFPBHGIXKwR97aJCRWcSEx6jNc9s7IzLBons8JuE0omXspEtbiOf/zGR
+	 9AcJOuQOxkgWqJJYtKqAEvhGe8u/6xfnZceGTtklGVadDqxKZkjZZWOadINRmXqC88Rhb
+	 Dlv5OTmxln9tiFqz0QKFyM+iKMQzAQxmtjLIJjXWBtK2rylalHSgZsmhiG31HrdgvX62x
+	 G4270ZXd3Vus7Ijtv6SzuCQNeJM7JnyfmqqXrtXyNDA2T1GGjViLsb+lwOL07KiOtcQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794955040;
+	c=relaxed/relaxed; t=1795044317;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=5Iky65VaWfZi+Z5hcQcbpQ5mkalDKPbV0cigOrfiBao=;
-	b=Nv0TpMFmt96ViuVWnwbcJvVBO7qTv3isB5Ik6HIt1IcJ7kzGnFltPTwkt6JF/cBEfC/D
-	 pF7MvPKkPRAxNHPvTd1kxvZeVfilbQI9ejhCArxb+9/xXf6vwSgo84sMCKG+JoxuqfwEV
-	 9Nz2q/CcE/bdMqmP8Kov/VuV/3dIRpq3xo61g6U7SEMu6y+83jRdKgqv5KTFXwMq0cAWZ
-	 Zdf1fIsvTsaVYANU4zQpsHQiof+ZwgdsBE/j9upJsQHiOWJ14msAcYl1hS7fsCyNZ13m0
-	 6lcJYe8DhpyGbNNeQRUzNRrayJ2gjwRex7OP2PdiVDZey8Z5UmE3fPyWuZCLVeDZi8w==
+	bh=14FvhfCJ1Fa9RzFCYizF5zFdt5JEeJ1LU/ZWq5GaLHI=;
+	b=C/H2rvbQ2LUzkaKzwAQVYxAMk5AVNB5YM+R9Jr20EnXc38t7cESklYuc/OufzvaGBABD
+	 aoQLS4XuoNQZRy6//mACaaS8FRIsUqpY72vb+MRW8LOhddiNM2KF7jx6XTsYQ/rvLY4Ba
+	 /ZPlPb1gaELR+w3aNOj+pagpglVqR//Nr9GtaWNFB+6Q8OR8jt+U2oMFTyykybDEkBBkm
+	 5SBlSb2GjJqHbG9mOARpRvw1jipF7mLaYf3jK5Bb/ZXivtBzgTWCMpA7bEL7w2MeaxeXq
+	 l4pcrt5TuK62+y3Zr+jPfrEyi05MMVMh110NZMmU/Cq7/iYZnTrN2SfSwykTvWg3MGQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 926E11F000C4;
-	Tue, 17 Nov 2026 22:37:19 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 66E801F000C5;
+	Wed, 18 Nov 2026 23:25:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794955040;
-	bh=5Iky65VaWfZi+Z5hcQcbpQ5mkalDKPbV0cigOrfiBao=;
+	s=k20260515; t=1795044316;
+	bh=14FvhfCJ1Fa9RzFCYizF5zFdt5JEeJ1LU/ZWq5GaLHI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=Kh1J4avYMbFxaOza8FLyrnY0gurCy5cyGRnHGK8dz7FY/q4Dt/MZUFeQIcogwn8mB
-	 SiMGtvcS1gYy6rcT2k682hqUaA0k3PqDBTxNOo2jIWXkKm3UFtn9qozTHK34lwcaDi
-	 3e0RIk4BBT2uVaKhxDVs71h0qjmZPR0p+U00UUqNmJ+U4CBSmozKLuFoPBE1bNpYKE
-	 SItSUWfCXZLPijg+cSHb4JR1dro0eb5wLqrXo7/eRQuKghCl6DFhAfFqtH1n9q4x/6
-	 rOVOs6dFvddi2xuQVOuQ04LLGpREd79pYorDip7FtAC5+F9nZckBvP8s93mFjCmT43
-	 PuCkn8uVeDvyg==
+	b=fhx1jyt0tPQckgt/AcU6LjSZiIUn1DMOHaSKTnxb/JQqw1KRPhZfZAq6ScXrFslds
+	 UeOX0xzRN7+09sHK8pv/ULriL1SIC1ZbFUVnfi91mibf9Onhc6AQgUred+i4EQTsNJ
+	 bjHi9zNWhDBra60jQvIWjOEbDS1vy9dWBBnO6NiA1c1mqezFlxNtQdsjRFYJT61+j+
+	 cx9KvYqqNa6qi/dfI/rChpKzNfZnXa2eyxFwAUPTOTQHDQD67mORoSZdfqTIxuvusk
+	 L3tiBtvoI39p4NLB8twqDAhV4XYJqW866CsitAUBa+BbUM90DoQnojZH9FnfU1Krqp
+	 356lGC4c3BDUQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 0E8D34AAFF;
-	Tue, 17 Nov 2026 22:37:19 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id D74B74B031;
+	Wed, 18 Nov 2026 23:25:15 +0000 (UTC)
 From: Eslam Almorshdy via B4 Relay <devnull+ealmorshdy.d-matrix.ai@kernel.org>
-Date: Tue, 17 Nov 2026 22:36:39 +0000
-Subject: [PATCH RFC 1/7] libproc: fix the fallback load bias for non-zero
- link addresses
+Date: Wed, 18 Nov 2026 23:25:04 +0000
+Subject: [PATCH 1/2] libproc: fix readlink() typo in Psystem_daemon()
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
 List-Post: <mailto:dtrace@lists.linux.dev>
@@ -84,19 +83,18 @@ List-Owner: <mailto:dtrace+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261117-b4-bug003-load-bias-v1-1-dcd0f6cde412@d-matrix.ai>
-References: <20261117-b4-bug003-load-bias-v1-0-dcd0f6cde412@d-matrix.ai>
-In-Reply-To: <20261117-b4-bug003-load-bias-v1-0-dcd0f6cde412@d-matrix.ai>
+Message-Id: <20261118-b4-bug008-daemon-readlink-v1-1-187c9eb22d11@d-matrix.ai>
+References: <20261118-b4-bug008-daemon-readlink-v1-0-187c9eb22d11@d-matrix.ai>
+In-Reply-To: <20261118-b4-bug008-daemon-readlink-v1-0-187c9eb22d11@d-matrix.ai>
 To: dtrace@lists.linux.dev
-Cc: Nick Alcock <nix@esperi.org.uk>, 
- Kris Van Hees <kris.van.hees@oracle.com>, 
- Eslam Almorshdy <ealmorshdy@d-matrix.ai>
+Cc: Kris Van Hees <kris.van.hees@oracle.com>, 
+ Nick Alcock <nix@esperi.org.uk>, Eslam Almorshdy <ealmorshdy@d-matrix.ai>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794955038; l=1852;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795044315; l=770;
  i=ealmorshdy@d-matrix.ai; s=20261015; h=from:subject:message-id;
- bh=YuYQVScNcUEIHJgrghfDwbLlI0S38/abW8No5qYGv+4=;
- b=VkDVysqBQjPQLk66cRBqdfFvkRJELYIK7EcGoP4tgZ6zpLAha32RwOgOcsR/1ToNaVWN9fhAc
- 6Z5bb9REVIrA+pmDAoEYRsN081+DVp3pKD3GRYIlAei0/z14L5ugo9U
+ bh=X9qAzd7ZDnORJhQr1VZplrx+O3JnAZBaIhpe294weXU=;
+ b=dnwZzCUec30UavyqcuxZov6GguqDxojZ616foD1WYPf0eZAznmp+MHQBo1k30qpeD7W24mpV3
+ mE945UKGEfpCItuHZOCOnbQ1qIyyr9fnwD0NFWT2LykJkjk6cGV0Nbg
 X-Developer-Key: i=ealmorshdy@d-matrix.ai; a=ed25519;
  pk=E4tVAIvp2rvz2CB7Re6YVMP6FiUVSxuq0TUtjGQL5NM=
 X-Endpoint-Received: by B4 Relay for ealmorshdy@d-matrix.ai/20261015 with
@@ -107,53 +105,27 @@ Content-Transfer-Encoding: 7bit
 
 From: Eslam Almorshdy <ealmorshdy@d-matrix.ai>
 
-When ld.so's link map is not available, Pbuild_file_symtab() computes an
-ET_DYN object's load bias as
-
-    first_segment->pr_vaddr - (p_vaddr & (p_align - 1))
-
-subtracting only the part of the first PT_LOAD's p_vaddr below its
-alignment.  The bias is the first mapping's start minus the page-aligned
-p_vaddr (the gABI base address).  The two agree only for objects linked
-at 0; for an object linked elsewhere (GNU ld -Ttext-segment, lld
---image-base) the bias is too high by the link address and every symbol
-lookup in the object fails.
-
-Subtract the page-aligned p_vaddr.
+readlink() returns the number of bytes it stored or -1, never 0, so
+the check for a regular file outside /var never ran.
 
 Signed-off-by: Eslam Almorshdy <ealmorshdy@d-matrix.ai>
 ---
- libproc/Psymtab.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ libproc/Pcontrol.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/libproc/Psymtab.c b/libproc/Psymtab.c
-index 7876e9a8..b713e439 100644
---- a/libproc/Psymtab.c
-+++ b/libproc/Psymtab.c
-@@ -1593,14 +1593,20 @@ Pbuild_file_symtab(struct ps_prochandle *P, file_info_t *fptr)
- 		goto elf_bad_noaddr;
- 	}
- 
-+	/*
-+	 * The first mapping starts at the load bias plus the first
-+	 * PT_LOAD's page-aligned p_vaddr.  Subtract all of that, not just
-+	 * the part of p_vaddr below p_align, or objects linked at a
-+	 * non-zero address (GNU ld -Ttext-segment, lld --image-base) get a
-+	 * bias that is too high by that address.
-+	 */
- 	fptr->file_dyn_base = prf->first_segment->pr_vaddr -
--	    (phdr->p_vaddr & (phdr->p_align - 1));
-+	    (phdr->p_vaddr & ~((GElf_Addr)sysconf(_SC_PAGESIZE) - 1));
- 
- 	_dprintf("setting file_dyn_base for %s to %lx, "
- 	    "from load address of %lx and phdr vaddr of %lx\n",
- 	    fptr->file_pname, (long)fptr->file_dyn_base,
--	    prf->first_segment->pr_vaddr,
--	    (phdr->p_vaddr & (phdr->p_align - 1)));
-+	    prf->first_segment->pr_vaddr, (long)phdr->p_vaddr);
- 
- ret:
- 	*jmp_pad = old_exec_jmp;
+diff --git a/libproc/Pcontrol.c b/libproc/Pcontrol.c
+index f8440d5b..ece074e0 100644
+--- a/libproc/Pcontrol.c
++++ b/libproc/Pcontrol.c
+@@ -3045,7 +3045,7 @@ Psystem_daemon(pid_t pid, uid_t useruid, const char *sysslice)
+ 		 */
+ 		memset(buf, '\0', sizeof(buf));
+ 		if (S_ISREG(s.st_mode) &&
+-		    (readlink(procname, buf, sizeof(buf)-1) == 0)) {
++		    (readlink(procname, buf, sizeof(buf)-1) > 0)) {
+ 			if((buf[0] == '/') && (strcmp(buf, "/var/") != 0))
+ 				return 0;
+ 		}
 
 -- 
 2.55.0
