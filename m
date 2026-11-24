@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=81.187.191.129
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795527796;
-	b=A1Eroxyx0xX2jRMzrWy+RkEnA9z4EgHZcI3pnefascimY0bvkWI/RFoDKRV4kMln0fZD
-	 Ed6Xj+QHfqlAnAfSI/v94orUPWKMR1heGihlMNfRZ+jgkekA8odeaK09D8eeJka5EMmKl
-	 OZQknPOVyx+MyIUF8GBPOeAu5hUGtAc5xTvyQ/+isTNnWFdVLi5+sS7/Upbee7XZW07O7
-	 kVYc4RvBcAFvu+2t6aPkPAioM/GnMNwvJXYdITcqXo2CrAcaTzckpR3JVTtEOJYqd0gox
-	 L39V/EXXehW8wMqX5hIM+hr1poC7gMEcz8zwTG53AXL11sEqzX3Rw/7bxYtuCgTgrAg==
+	t=1795528769;
+	b=qxEdTfjmnnTVyxViREWYKBQoMVdziekS1E/qeYDPpg+3hwQzU66M6QRUeahBSgcZ32jo
+	 K/SfDiB4PNRlhaJs9cdtRWhR7IKMOB1n9ymp7x3F0n+WvL/GIcOvLduWmUPJaYozC8pPV
+	 kPn1heGbO/CAZVUp6whc5KVSmW4VNXJXUw93jkRled4RWpvWF478ryYCxgszGMMuG0c9F
+	 q5aU+P+OFU/xz6mA805t+4yDTdgfqQVraOu/kGZTy0ACFRalm52XZqKPhzuQa+TTH1DUo
+	 um16rmlP7mryeoas15dxm96zoyfb6bl0xQAXPeq/66TayowX2FetERX7int0kqHSIWw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795527796;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795528769;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:In-Reply-To:References:
 	 Emacs:Date:Message-ID:User-Agent:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-DCC-wuwien-Metrics;
-	bh=9PbrJgXIqvo1FOSeIer7EAlpCsAvVePHaCbebTT9WfI=;
-	b=y71hh3VfY1mZnxAKiEb1682FzN2brLSSpN1lXtcV7zKlwNFc6A5VCbk8Z0a6aM437tEk
-	 UuIV9gBgrusuVxDSPh1R2cnB0M1qoCWipnUPfY7z20vMyzp3KHuY3Vtlex+dbVT2wNk38
-	 B/aI9mokcQMcO1ii4JqK7G3NrZf5QmBAK59sj7R432tq+wLHCl+1sCpRsUnjyy08Pwr6x
-	 0UKpXKVFjJP+5zuyHzEUKE0ZkPwI4T/D1c51Poxbo5Sa385X96L7Yf7Dy9H8MK59wFdcG
-	 o3cQelhd0FxO0xiumw2TBULAZie0VjG6AtYCBSAwV0s3x0AtbXTHBAIgiu8bFiqN72A==
+	bh=NbFgJL2tkqniqUkGRiNBhiwIiPiLrxZvhAbM0CS05Pg=;
+	b=RX96eQ8At+F8LDGvYPTB8mF08i5sJvw30cQBuQNNP0hIjYD9WNwtyI9Rq2F5IuYTG6Q6
+	 1IaoSPlaZihBiExenc6euIhuwLGtP7+QGvUDXiKYwiXT1VoxE+5iIiePnvfVAfJZtLrFb
+	 H9S4I+lfixJAxWLVj4RsFKB10A6ofD3q9KP5Hrkca0xTrRUC25azeiJjhgeljcV0c6js0
+	 KGApzHGrAwZLUMSbMMwmv/U01sGoYbQsZ2SlhgG3//d1q6MzWKyTyEd4O8zSzUnOwWyp9
+	 zLkQ6CVLhXvy7oKYR8BOsyq0uiDI9mVTQKppKcAsWIOCBPg1RIKMP/oPkUy0XwVW/sQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=esperi.org.uk;
 	spf=pass smtp.mailfrom=esperi.org.uk;
@@ -25,26 +25,26 @@ Received: from mail.esperi.org.uk (icebox.esperi.org.uk [81.187.191.129])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8806F606A327
-	for <dtrace@lists.linux.dev>; Tue, 24 Nov 2026 13:43:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8806F606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEECC606A32A
+	for <dtrace@lists.linux.dev>; Tue, 24 Nov 2026 13:59:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EEECC606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=esperi.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=esperi.org.uk
 Received: from loom (nix@sidle.srvr.nix [192.168.14.8])
-	by mail.esperi.org.uk (8.17.2/8.17.2) with ESMTPS id 6AODh6AL020279
+	by mail.esperi.org.uk (8.17.2/8.17.2) with ESMTPS id 6AODxK1O020582
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Tue, 24 Nov 2026 13:43:11 GMT
-From: Nix <nix@esperi.org.uk>
+	Tue, 24 Nov 2026 13:59:24 GMT
+From: Nick Alcock <nix@esperi.org.uk>
 To: Kris Van Hees <kris.van.hees@oracle.com>
 Cc: dtrace@lists.linux.dev, dtrace-devel@oss.oracle.com
 Subject: Re: [PATCH 15/20] libdtrace: search both ELF symbol tables for
  module symbols
-In-Reply-To: <au9MFmAqmdIFmrGJ@kvh-deb-bpf>
+In-Reply-To: <au5GMni77WoIIoMQ@oracle.com>
 References: <9a3ef30ca35af2d994b6f8a42a8e6700@oracle.com>
-	<87ik2artkr.fsf@esperi.org.uk> <au9MFmAqmdIFmrGJ@kvh-deb-bpf>
-Emacs: it's not slow --- it's stately.
-Date: Tue, 24 Nov 2026 13:43:06 +0000
-Message-ID: <87ik1mibv9.fsf@esperi.org.uk>
+	<87ik2artkr.fsf@esperi.org.uk> <au5GMni77WoIIoMQ@oracle.com>
+Emacs: featuring the world's first municipal garbage collector!
+Date: Tue, 24 Nov 2026 13:59:16 +0000
+Message-ID: <87eccaib4b.fsf@esperi.org.uk>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: dtrace@lists.linux.dev
 List-Id: <dtrace.lists.linux.dev>
@@ -59,15 +59,15 @@ Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-DCC-wuwien-Metrics: loom 1290; Body=3 Fuz1=3 Fuz2=3
 
-On 7 Nov 2026, Kris Van Hees uttered the following:
+On 6 Nov 2026, Kris Van Hees verbalised:
 
 > On Fri, Nov 06, 2026 at 01:13:40PM +0000, Nick Alcock wrote:
 >> On 30 Oct 2026, Kris Van Hees said:
 >>=20
 >> > Keep independent symbol and address indices for SHT_SYMTAB and SHT_DYN=
 SYM,
->> > loading strings through each table=E2=80=99s sh_link. Search .symtab b=
-efore .dynsym
+>> > loading strings through each table=C3=A2?Ts sh_link. Search .symtab be=
+fore .dynsym
 >> > and include dynamic-only names in module symbol iteration.
 >>=20
 >> Yet noather place where one or the other strtab was overlooked. These
@@ -83,14 +83,14 @@ low
 >> run, since it's all symtypetab stuff, and the symtypetab isn't emitted
 >> for kernel CTF.)
 >
-> So are you saying that this should be updated (and some other existing
-> code) to give preference to .dynsym for lookups, and fallback to .symtab
-> if the symbol is not found in .dynsym?
+> R-b?
 
-At the very least. libctf simply never looks in .symtab at all unless
-the appropriate bug-compat flag is turned on. For you (without easy
-access to info on whether that flag is set), it makes most sense to
-check both as you suggest.
+Yeah, I guess...
+
+Reviewed-by: Nick Alcock <nix@esperi.org.uk>
+
+... though I really wish you didn't have to, and in future maybe we can
+take this out again.
 
 --=20
 NULL && (void)
